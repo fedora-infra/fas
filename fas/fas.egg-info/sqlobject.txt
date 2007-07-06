@@ -1,0 +1,2 @@
+db_module=fas.model
+history_dir=$base/fas/sqlobject-history
