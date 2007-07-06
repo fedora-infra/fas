@@ -303,14 +303,14 @@ def main():
         else:
             #ldapConn.add_s(dn, entry)
 	    
-            print "Adding group info for " + group[1] + "."
-            #id0, name1, owner_id2, group_type3, needs_sponsor4, user_can_remove5, prerequisite_id6, joinmsg7
+            print "Adding group info for %s." % group[7]
+            #id0, owner_id1, group_type2, needs_sponsor3, user_can_remove4, prerequisite_id5, joinmsg6, name7
 
             uidLookupCursor = dbConn.cursor()
-            uidLookupCursor.execute ("SELECT username FROM person where id =" + str(group[2]) )
+            uidLookupCursor.execute ("SELECT username FROM person where id =" + str(group[1]) )
             owner = uidLookupCursor.fetchone()
-            if str(group[6]) != "None" :
-                uidLookupCursor.execute ("SELECT name FROM project_group where id =" + str(group[6]) )
+            if str(group[5]) != "None" :
+                uidLookupCursor.execute ("SELECT name FROM project_group where id =" + str(group[5]) )
 	        prereq = uidLookupCursor.fetchone()
                 print prereq
 	    else:
@@ -327,23 +327,23 @@ def main():
 
 	    #we're using the boolean type for these.  This means they need to be converted to the TRUE and FALSE strings
 
-	    if str(group[4]) == "0" :
+	    if str(group[3]) == "0" :
+		group[3]="FALSE"
+	    else:
+		group[3]="TRUE"
+
+	    if str(group[5]) == "0" :
 		group[4]="FALSE"
 	    else:
 		group[4]="TRUE"
 
-	    if str(group[5]) == "0" :
-		group[5]="FALSE"
-	    else:
-		group[5]="TRUE"
-
 		
-	    userLdif.append(["fedoraGroupNeedsSponsor",[str(group[4])]]) #need to convert to bool
-	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[5])]]) #need to convert to bool
-	    #userLdif.append(["groupPrerequisite",[str(group[6])]])
+	    userLdif.append(["fedoraGroupNeedsSponsor",[str(group[3])]]) #need to convert to bool
+	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
+	    #userLdif.append(["groupPrerequisite",[str(group[5])]])
 	    #userLdif.append(["groupPrerequisite",prereq]) not currently in the schema
-	    userLdif.append(["fedoraGroupJoinMsg",[str(group[7]) or "None" ]])
-	    ldifWriter.unparse("cn=" + str(group[1]) +",ou=FedoraGroups,dc=fedoraproject,dc=org" , userLdif )
+	    userLdif.append(["fedoraGroupJoinMsg",[str(group[6]) or "None" ]])
+	    ldifWriter.unparse("cn=" + str(group[7]) +",ou=FedoraGroups,dc=fedoraproject,dc=org" , userLdif )
 
 
     groupCursor.close()        
