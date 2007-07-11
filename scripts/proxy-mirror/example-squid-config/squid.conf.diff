@@ -1,0 +1,47 @@
+--- /tmp/squid.conf	2007-07-09 14:00:14.000000000 -0400
++++ squid.conf	2007-07-08 16:22:49.000000000 -0400
+@@ -86,7 +86,8 @@
+ #	visible on the internal address.
+ #
+ # Squid normally listens to port 3128
+-http_port 3128
++http_port 80 accel defaultsite=download.fedora.redhat.com
++cache_peer 209.132.176.220 parent 80 0 no-query originserver
+ 
+ #  TAG: https_port
+ #	Usage:  [ip:]port cert=certificate.pem [key=key.pem] [options...]
+@@ -759,7 +760,7 @@
+ #	objects.
+ #
+ #Default:
+-# cache_mem 8 MB
++ cache_mem 384 MB
+ 
+ #  TAG: cache_swap_low	(percent, 0-100)
+ #  TAG: cache_swap_high	(percent, 0-100)
+@@ -792,7 +793,7 @@
+ #	See replacement_policy below for a discussion of this policy.
+ #
+ #Default:
+-# maximum_object_size 4096 KB
++ maximum_object_size 2000000 KB
+ 
+ #  TAG: minimum_object_size	(bytes)
+ #	Objects smaller than this size will NOT be saved on disk.  The
+@@ -1014,7 +1015,7 @@
+ #	(hard coded at 1 MB).
+ #
+ #Default:
+-# cache_dir ufs /var/spool/squid 100 16 256
++ cache_dir ufs /var/spool/squid 53000 16 256
+ 
+ #  TAG: logformat
+ #	Usage:
+@@ -2541,6 +2542,7 @@
+ #http_access deny to_localhost
+ #
+ # INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
++http_access allow all
+ 
+ # Example rule allowing access from your local networks. Adapt
+ # to list your (internal) IP networks from where browsing should

@@ -1,0 +1,2 @@
+	proxy-syncd.py
+This script monitors repomd.xml of all configured yum repositories on the originating HTTP server.  If it changes, then it forces a "Pragma: no-cache" refresh of all repodata files on the proxy mirror.  This ensures that all repodata pulled from the proxy mirror is self-consistent (i.e. filelists.sqlite.bz2 matches the repomd.xml) and guards against failure conditions of yum clients.
