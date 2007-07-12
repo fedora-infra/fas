@@ -91,9 +91,9 @@ while True:
         url  = BASE1 + path + '/repodata/repomd.xml'
         hash = hash_url(url)
         if hash != DIRDICT[path]:
-            print "CHANGE %s" % url
-            print "       %s" % DIRDICT[path]
-            print "       %s" % hash
+            debug("CHANGE %s" % url)
+            debug("       %s" % DIRDICT[path])
+            debug("       %s" % hash)
             print 'REFRESHING ' + BASE2 + path
             # if hash changes, refresh repodata on proxy server
             refresh_repodata(path)
