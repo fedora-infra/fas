@@ -9,6 +9,7 @@ from fas.fasLDAP import UserGroup
 from turbogears import exception_handler
 import turbogears
 import ldap
+import time
 # from fas import json
 # import logging
 # log = logging.getLogger("fas.controllers")
@@ -52,8 +53,9 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.welcome")
     # @identity.require(identity.in_group("admin"))
     def index(self):
-        import time
         # log.debug("Happy TurboGears Controller Responding For Duty")
+        if turbogears.identity.not_anonymous():
+            turbogears.redirect('home')
         return dict(now=time.ctime())
 
     @expose(template="fas.templates.home")
@@ -61,6 +63,11 @@ class Root(controllers.RootController):
         from feeds import Koji
         builds = Koji(turbogears.identity.current.user_name)
         return dict(builds=builds)
+
+    @expose(template="fas.templates.dump", format="plain", content_type="text/plain")
+    def groupDump(self, groupName=None):
+        groups = Groups.byGroupName(groupName)
+        return dict(groups=groups, Person=Person)
 
     @expose(template="fas.templates.login")
     def login(self, forward_url=None, previous_url=None, *args, **kw):
@@ -124,13 +131,18 @@ class Root(controllers.RootController):
             groups = Groups.byGroupName(groupName, includeUnapproved=True)
         except KeyError, e:
             raise ValueError, 'Group: %s - Does not exist!' % e
-        group = Groups.groups(groupName)[groupName]
+        try:
+            group = Groups.groups(groupName)[groupName]
+        except TypeError:
+            raise ValueError, 'Group: %s - does not exist' % groupName
         userName = turbogears.identity.current.user_name
         try:
             myStatus = groups[userName].fedoraRoleStatus
         except KeyError:
             # Not in group
             myStatus = 'Not a Member'
+        except TypeError:
+            groups = {}
         try:
             me = groups[userName]
         except:
@@ -153,7 +165,6 @@ class Root(controllers.RootController):
             turbogears.flash("No Groups found matching '%s'" % search)
             groups = {}
         return dict(groups=groups, search=search, myGroups=myGroups)
-
 
     @expose(template="fas.templates.resetPassword")
     @exception_handler(errorMessage,rules="isinstance(tg_exceptions,ValueError)")
@@ -204,7 +215,7 @@ class Root(controllers.RootController):
 
     @expose(template="fas.templates.userList")
     @exception_handler(errorMessage,rules="isinstance(tg_exceptions,ValueError)")
-#    @identity.require(identity.in_group("accounts"))
+    @identity.require(identity.in_group("accounts"))
     def listUser(self, search='a*'):
         users = Person.users(search)
         try:

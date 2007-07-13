@@ -320,7 +320,7 @@ def main():
 
             #id0, name1, owner_id2, group_type3, needs_sponsor4, user_can_remove5, prerequisite_id6, joinmsg7
 	    userLdif = [["objectClass",["fedoraGroup"]] ] 
-	    userLdif.append(["cn",[str(group[1])]])
+	    userLdif.append(["cn",[str(group[7])]])
 	    userLdif.append(["fedoraGroupOwner",owner]) # need to get a cn for this not just the id
 	    #userLdif.append(["groupOwner",[str(group[2])]]) # need to get a cn for this not just the id
 	    userLdif.append(["fedoraGroupType",[str(group[3]) or "None" ]])

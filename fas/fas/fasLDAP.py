@@ -7,8 +7,19 @@ class Server:
         self.ldapConn = ldap.open(server)
         self.ldapConn.simple_bind_s(who, password)
 
+
+###############################################################################
+# Group - Contains information about a specific group, 'sysadmin' would be
+#         an example of a Group
+###############################################################################
+
 class Group:
     ''' Group abstraction class '''
+    __base = 'ou=FedoraGroups,dc=fedoraproject,dc=org'
+    __server = Server()
+    __filter = ''
+    __cn = ''
+
     def __init__(self, cn, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
         self.cn = cn
         self.fedoraGroupOwner = fedoraGroupOwner
@@ -17,7 +28,61 @@ class Group:
         self.fedoraGroupUserCanRemove = fedoraGroupUserCanRemove
         self.fedoraGroupJoinMsg = fedoraGroupJoinMsg
 
+#    def __getattr__(self, attr):
+#        if attr.startswith('_'):
+#            print 'GET %s=%s' % (attr, self.__getattr__(attr))
+#            if attr == '__filter':
+#                return self.__filter
+#        if attr == 'userName':
+#            return self.__getattr__('cn')
+#        try:
+#            attributes = []
+#            attributes.append(attr)
+#            return search(self.__base, self.__filter, attributes)[0][0][1][attr][0]
+#        except:
+#            # Should probably raise here.
+#            return None
+#
+#    def __setattr__(self, attr, value):
+#        if attr.startswith('_'):
+#            #return setattr(self.__class__, attr, value)
+#            self.__dict__[attr] = value
+#            return
+#        base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % self.__getattr__('cn')
+#
+#        if self.__getattr__(attr):
+#            modify(base, attr, value, self.__getattr__(attr))
+#        else:
+#            try:
+#                modify(base, attr, value)
+#            except:
+#                modify(base, attr, value, self.__getattr__(attr))
 
+    @classmethod 
+    def newGroup(self, cn, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
+        ''' Create a new group '''
+        attributes = { 'cn' : cn,
+                    'objectClass' : ('fedoraGroup'),
+                    'fedoraGroupOwner' : fedoraGroupOwner,
+                    'fedoraGroupType' : '1',
+                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
+                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
+                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
+                    }
+        add('cn=%s,%s' % (cn, self.__base), attributes)
+#        attributes = {
+#                    'objectClass' : ('organizationalUnit', 'top'),
+#                    'ou' : 'FedoraGroups'
+#                    }
+#        add('ou=FedoraGroups,cn=%s,%s' % (cn, self.__base), attributes)
+        return 0
+
+
+###############################################################################
+# UserGroup - Determines information about a user in a group, when they joined
+#             who their sponsor is and their approval status are examples of 
+#             things found in this group
+###############################################################################
 class UserGroup:
     ''' Individual User->Group abstraction class '''
     def __init__(self, fedoraRoleApprovalDate=None, fedoraRoleSponsor=None, cn=None, fedoraRoleCreationDate=None, objectClass=None, fedoraRoleType=None, fedoraRoleStatus='Not a Member', fedoraRoleDomain=None):
@@ -30,13 +95,18 @@ class UserGroup:
         self.fedoraRoleStatus = fedoraRoleStatus
         self.fedoraRoleDomain = fedoraRoleDomain
 
+
+###############################################################################
+# Groups - Returns actual information in a group.  This class actual queries
+#          the LDAP database.
+###############################################################################
 class Groups:
     ''' Class contains group information '''
     __userName = None
 
     @classmethod
     def byUserName(self, cn, includeUnapproved=None, unapprovedOnly=None):
-        ''' Return list of groups a certain user is in.  Excludes all non-approved groups'''
+        ''' Return list of groups a certain user is in.  Default excludes all non-approved groups'''
         server = Server()
         groups = {}
         if includeUnapproved:
@@ -70,6 +140,7 @@ class Groups:
     
     @classmethod
     def groups(self, searchExpression='*', attributes=[]):
+        ''' Return a list of available groups '''
         groups = {}
         filter = 'cn=%s' % (searchExpression)
         base = 'ou=FedoraGroups,dc=fedoraproject,dc=org'
@@ -91,6 +162,7 @@ class Groups:
 
     @classmethod
     def remove(self, groupName, userName=None):
+        ''' Remove user from a group '''
         if not userName:
             userName = self.__userName
         print "userName: %s" % userName
@@ -143,6 +215,7 @@ class Groups:
 
     @classmethod
     def byGroupName(cls, cn, includeUnapproved=None, unapprovedOnly=None):
+        ''' List users in a group.  Default does not show unapproved '''
         self = cls()
         server = Server()
         users = {}
@@ -156,19 +229,22 @@ class Groups:
         self.__attributes = ['cn']
         attributes = ['cn']
         usersDict = search(base, filter)
-        for user in usersDict:
-            userName = user[0][0].split(',')[2].split('=')[1]
+        try:
+            for user in usersDict:
+                userName = user[0][0].split(',')[2].split('=')[1]
 
-            users[userName] = UserGroup(
-                fedoraRoleApprovalDate = user[0][1]['fedoraRoleApprovalDate'][0],
-                fedoraRoleSponsor = user[0][1]['fedoraRoleSponsor'][0],
-                cn = user[0][1]['cn'][0],
-                fedoraRoleCreationDate = user[0][1]['fedoraRoleCreationDate'][0],
-                objectClass = user[0][1]['objectClass'][0],
-                fedoraRoleType = user[0][1]['fedoraRoleType'][0],
-                fedoraRoleStatus = user[0][1]['fedoraRoleStatus'][0],
-                fedoraRoleDomain = user[0][1]['fedoraRoleDomain'][0]
-            )
+                users[userName] = UserGroup(
+                    fedoraRoleApprovalDate = user[0][1]['fedoraRoleApprovalDate'][0],
+                    fedoraRoleSponsor = user[0][1]['fedoraRoleSponsor'][0],
+                    cn = user[0][1]['cn'][0],
+                    fedoraRoleCreationDate = user[0][1]['fedoraRoleCreationDate'][0],
+                    objectClass = user[0][1]['objectClass'][0],
+                    fedoraRoleType = user[0][1]['fedoraRoleType'][0],
+                    fedoraRoleStatus = user[0][1]['fedoraRoleStatus'][0],
+                    fedoraRoleDomain = user[0][1]['fedoraRoleDomain'][0]
+                )
+        except TypeError:
+            users = []
         return users
 
 class Person:
@@ -180,6 +256,7 @@ class Person:
    
     @classmethod 
     def newPerson(self, cn, givenName, mail, telephoneNumber, postalAddress):
+        ''' Create a new user '''
         import datetime
         dt = datetime.datetime.now()
         now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
@@ -283,6 +360,7 @@ class Person:
         ldapServer.simple_bind_s(who, password)
 
     def upgrade(self, group):
+        ''' Upgrade user in group '''
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (group, self.cn)
         g = Groups.byGroupName(group, includeUnapproved=True)[self.cn]
         if not g.fedoraRoleStatus.lower() == 'approved':
@@ -296,6 +374,7 @@ class Person:
             modify(base, 'fedoraRoleType', 'sponsor', g.fedoraRoleType)
 
     def downgrade(self, group):
+        ''' Downgrade user in group '''
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (group, self.cn)
         g = Groups.byGroupName(group, includeUnapproved=True)[self.cn]
         if not g.fedoraRoleStatus.lower() == 'approved':
@@ -309,6 +388,7 @@ class Person:
             modify(base, 'fedoraRoleType', 'sponsor', g.fedoraRoleType)
 
     def sponsor(self, groupName, sponsor):
+        ''' Sponsor current user '''
         import datetime
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (groupName, self.cn)
         g = Groups.byGroupName(groupName, includeUnapproved=True)[self.cn]
@@ -330,6 +410,7 @@ class Person:
         modify(base, 'fedoraRoleStatus', 'approved')
 
     def generatePassword(self,password=None,length=14,salt=''):
+        ''' Generate Password '''
         from random import Random
         import sha
         import sha
@@ -412,6 +493,7 @@ def modify(base, attribute, new, old=None, ldapServer=None):
     ldapServer.unbind_s()
 
 def search(base, filter, attributes=None, ldapServer=None):
+    ''' Basic search function '''
     if not ldapServer:
             s = Server()
             ldapServer = s.ldapConn
