@@ -1,0 +1,3 @@
+Runs dep checking against epel.  Must edit scripts to specify the location of
+RHEL4/5 or CentOS4/5
+
