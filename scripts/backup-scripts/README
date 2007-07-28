@@ -1,0 +1,4 @@
+save-mysql: requires initial editing of the script.  Please enter a valid
+            password for whoever can backup the information.  Please note,
+            excessive usage of the script with failed attempts will lock you
+            out of mysql.
