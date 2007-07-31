@@ -25,7 +25,7 @@ DIRS="""
 /core/updates/6/ppc
 """
 # All repodata files
-REPOFILES=['repomd.xml','filelists.sqlite.bz2','filelists.xml.gz','other.sqlite.bz2','other.xml.gz','primary.sqlite.bz2','primary.xml.gz','updateinfo.xml.gz']
+REPOFILES=['repomd.xml','filelists.sqlite.bz2','filelists.xml.gz','other.sqlite.bz2','other.xml.gz','primary.sqlite.bz2','primary.xml.gz','updateinfo.xml.gz','comps.xml']
 # Log File
 LOGFILE='~/repodata-syncd.log'
 
