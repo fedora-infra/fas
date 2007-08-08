@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # mmcgrath#redhat.com
 # Aug 08 2007
+# License: GPL
 from optparse import OptionParser
 import commands
 import sys
