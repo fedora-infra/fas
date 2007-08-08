@@ -1,0 +1,98 @@
+#!/usr/bin/python
+# mmcgrath#redhat.com
+# Aug 08 2007
+from optparse import OptionParser
+import commands
+import sys
+
+parser = OptionParser(version='0.1')
+parser.add_option('-t', '--temperature',
+                    dest = 'temp',
+                    default = False,
+                    action = 'store_true',
+                    help = 'Check Temperatures')
+parser.add_option('-f', '--fans',
+                    dest = 'fans',
+                    default = False,
+                    action = 'store_true',
+                    help = 'Check Fans')
+
+
+
+(opts, args) = parser.parse_args()
+
+class ipmiValue:
+    def __init__(self, param='', value='', status=''):
+        self.param = param
+        try:
+            self.value = (int(value.split(' ')[0], 10) * 9) / 5 + 32
+        except ValueError:
+            self.value = value
+        self.status = status
+
+class ipmi:
+    def __init__(self):
+        self.rawOutput = commands.getstatusoutput('/usr/bin/ipmitool sdr')[1].split('\n')
+        self.sdr = []
+        for i in self.rawOutput:
+            try:
+                param = i.split('|')[0].strip()
+                value = i.split('|')[1].strip()
+                status = i.split('|')[2].strip()
+                self.sdr.append(ipmiValue(param, value, status))
+            except IndexError:
+                print "ERROR - Invalid output from ipmi tool (is it installed?  /usr/bin/ipmitool)"
+                sys.exit(3)
+
+    def temps(self):
+        ''' Return Known Temperatures '''
+        temps = []
+        for i in self.sdr:
+            if i.param.find('Temp') != -1 and i.status.find('ns') == -1:
+                temps.append(i)
+        return temps
+
+    def fans(self):
+        ''' Return Known Fan Speeds '''
+        temps = []
+        for i in self.sdr:
+            if i.param.find('FAN') != -1 and i.status.find('ns') == -1:
+                temps.append(i)
+        return temps
+
+str = False
+exitCode = 0
+if opts.temp:
+    ok=True
+    str='Temps (F)'
+    i = ipmi()
+    for temp in i.temps():    
+        str = '%s:%s' % (str, temp.value)
+        if temp.status != 'ok':
+            ok=temp.status
+    if ok:
+        str = str + ' OK!'
+    else:
+        str = str + ' %s' % ok
+        exitCode = 2
+
+if opts.fans:
+    ok=True
+    str='Fans (RPM)'
+    i = ipmi()
+    for fan in i.fans():    
+        str = '%s:%s' % (str, fan.value)
+        if fan.status != 'ok':
+            ok=fan.status
+    if ok:
+        str = str + ' OK!'
+    else:
+        str = str + ' %s' % ok
+        exitCode = 2
+
+if str:
+    print str
+    sys.exit(0)
+else:
+    print 'Please see -h for help'
+    sys.exit(2)
