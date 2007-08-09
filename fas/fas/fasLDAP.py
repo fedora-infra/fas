@@ -20,8 +20,9 @@ class Group:
     __filter = ''
     __cn = ''
 
-    def __init__(self, cn, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
+    def __init__(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
         self.cn = cn
+        self.fedoraGroupDesc = fedoraGroupDesc
         self.fedoraGroupOwner = fedoraGroupOwner
         self.fedoraGroupType = fedoraGroupType
         self.fedoraGroupNeedsSponsor = fedoraGroupNeedsSponsor
@@ -59,10 +60,11 @@ class Group:
 #                modify(base, attr, value, self.__getattr__(attr))
 
     @classmethod 
-    def newGroup(self, cn, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
+    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
         ''' Create a new group '''
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraGroup'),
+                    'fedoraGroupDesc' : fedoraGroupDesc,
                     'fedoraGroupOwner' : fedoraGroupOwner,
                     'fedoraGroupType' : '1',
                     'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
@@ -151,6 +153,7 @@ class Groups:
                 print group
                 groups[name] = Group(
                     cn = group[0][1]['cn'][0],
+                    fedoraGroupDesc = group[0][1]['fedoraGroupDesc'][0],
                     fedoraGroupOwner = group[0][1]['fedoraGroupOwner'][0],
                     fedoraGroupType = group[0][1]['fedoraGroupType'][0],
                     fedoraGroupNeedsSponsor = group[0][1]['fedoraGroupNeedsSponsor'][0],
@@ -452,7 +455,7 @@ def delete(base, ldapServer=None):
         s = Server()
         ldapServer = s.ldapConn
 
-    ldapServer.simple_bind_s('cn=directory manager', 'test')
+    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
     print "Deleteing %s " % base
     ldapServer.delete_s(base)
 
@@ -463,7 +466,7 @@ def add(base, attributes, ldapServer=None):
         ldapServer = s.ldapConn
     attributes=[ (k,v) for k,v in attributes.items() ]
 
-    ldapServer.simple_bind_s('cn=directory manager', 'test')
+    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
     ldapServer.add_s(base, attributes)
 
 def modify(base, attribute, new, old=None, ldapServer=None):
@@ -476,7 +479,7 @@ def modify(base, attribute, new, old=None, ldapServer=None):
         ldapServer = s.ldapConn
 
     from ldap import modlist
-    ldapServer.simple_bind_s('cn=directory manager', 'test')
+    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
 
     if old == None:
         old = 'None'
@@ -500,7 +503,7 @@ def search(base, filter, attributes=None, ldapServer=None):
     scope = ldap.SCOPE_SUBTREE
     count = 0
     timeout = 2
-    ldapServer.simple_bind_s('cn=directory manager', 'test')
+    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
     result_set = []
     try:
         result_id = ldapServer.search(base, scope, filter, attributes)

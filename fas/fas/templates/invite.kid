@@ -9,15 +9,16 @@
 </head>
 <body>
 
-<h1>Invite a new community member!</h1>
+<h2>Invite a new community member!</h2>
 
-<form method='POST'>
-    To email: <input type='text' value='' name='target'/><br/>
-    From: ${user.mail}<br/>
-    Subject: Invitation to join the Fedora Team!<br/>
-    Message: Please come up with a better more inviting message.<br/>
+<form method="POST">
+  <div>
+To email: <input type='text' value='' name='target'/><br/>
+From: ${user.mail}<br/>
+Subject: Invitation to join the Fedora Team!<br/>
+Message:
 <pre>
-${user.givenName} &le;<a href='mailto: ${user.mail}'>${user.mail}</a>&ge; has invited you to join the Fedora
+${user.givenName} &lt;<a href='mailto: ${user.mail}'>${user.mail}</a>&gt; has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
 (FOSS).  ${user.givenName} thinks that you have knowledge and skills
@@ -33,8 +34,8 @@ very smart and talented people.
 
 Fedora and FOSS are changing the world -- come be a part of it!
 </pre>
-    <input type='submit'/>
+<input type="submit" value="Send" />
+</div>
 </form>
 </body>
-
 </html>

@@ -3,7 +3,7 @@ from xml.dom import minidom
 
 
 class Koji:
-    def __init__(self, userName, url='http://publictest8/koji/recentbuilds?user='):
+    def __init__(self, userName, url='http://publictest8.fedora.redhat.com/koji/recentbuilds?user='):
         buildFeed = minidom.parse(urllib.urlopen(url + userName))
         try:
             self.userLink = buildFeed.getElementsByTagName('link')[0].childNodes[0].data

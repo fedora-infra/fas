@@ -12,5 +12,6 @@ attributeTypes: ( 2.5.444.11 NAME 'fedoraGroupType' DESC 'the type of group' EQU
 attributeTypes: ( 2.5.444.12 NAME 'fedoraGroupNeedsSponsor' DESC 'boolean indicating whether or not the group needs a sponsor' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
 attributeTypes: ( 2.5.444.13 NAME 'fedoraGroupUserCanRemove' DESC 'boolean indicating whether or not the user can remove the group' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
 attributeTypes: ( 2.5.444.14 NAME 'fedoraGroupJoinMsg' DESC 'message received upon joining the group' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1000} )
+attributeTypes: ( 2.5.444.21 NAME 'fedoraGroupDesc' DESC 'group description' SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{100} )
 attributeTypes: ( 2.5.444.20 NAME 'fedoraGroupRequires' DESC 'Requisites of this Group' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
-objectClasses:	( 2.5.555.3 NAME 'fedoraGroup' DESC 'A object describing a group entry' STRUCTURAL MUST ( cn $ fedoraGroupOwner ) MAY (  fedoraGroupJoinMsg $ fedoraGroupUsercanRemove $ fedoraGroupType $ fedoraGroupNeedsSponsor $ fedoraGroupUserCanRemove $ fedoraGroupRequires ) )
+objectClasses:	( 2.5.555.3 NAME 'fedoraGroup' DESC 'A object describing a group entry' STRUCTURAL MUST ( cn $ fedoraGroupDesc $ fedoraGroupOwner ) MAY (  fedoraGroupJoinMsg $ fedoraGroupUsercanRemove $ fedoraGroupType $ fedoraGroupNeedsSponsor $ fedoraGroupUserCanRemove $ fedoraGroupRequires ) )

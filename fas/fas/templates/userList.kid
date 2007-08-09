@@ -4,35 +4,44 @@
     xmlns:mochi="MyUniqueMochiUri">
 
 <head>
- <style type="text/css">
-@import "/fas/static/css/fas.css";
-@import '/fas/static/css/sortable_tables.css';
- </style>
+  <title>Users List</title>
 </head>
 <body>
-<script src="/fas/static/javascript/sortable_tables.js" type="text/javascript"></script>
+<h2>List (${search})</h2>
 
-<h1>List (${search})</h1>
-
-<form method='GET'>
-    Search <input type='text' name='search' value='${search}' size='15'/> (Ex: "mmcg*")
+<form method="GET">
+  <p>"*" is a wildcard (Ex: "cvs*")</p>
+  <div>
+    <input type="text" value="${search}" name="search" size="15 "/>
+    <input type="submit" value="Search" />
+  </div>
 </form>
 
+<h3>Results</h3>
+<ul class="letters">
+  <li py:for="letter in 'abcdefghijklmnopqrstuvwxyz'.upper()"><a href="?search=${letter}*">${letter}</a></li>
+  <li><a href="?search=*">All</a></li>
+</ul>
+
 <table>
-    <tr>
-        <td width='10' align='center' py:for="letter in 'abcdefghijklmnopqrstuvwxyz'.upper()">
-            <a href='?search=${letter}*'>${letter}</a>
-        </td>
-        <td><a href='?search=*'>All</a></td>
-    </tr>
-</table>
-<table id='sortable_table' class='datagrid'>
     <thead>
-        <tr><th mochi:format="str">Username</th></tr>
+      <tr>
+        <th>Username</th>
+        <th>Account Status</th>
+      </tr>
     </thead>
-    <tr py:for="item in printList">
-        <td>${item} <a href="editAccount?userName=${item}">(edit)</a></td>
+    <tbody>
+<?python
+users.sort()
+?>
+    <tr py:for="user in users">
+      <td><a href="editAccount?userName=${user}">${user}</a></td>
+      <td>
+        <span py:if='claDone[user]' class="approved"> Done</span>
+        <span py:if='not claDone[user]' class="unapproved"> Done</span>
+      </td>
     </tr>
+  </tbody>
 </table>
 
 </body>

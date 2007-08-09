@@ -325,6 +325,11 @@ a
   background: url(/fas/static/images/footer-top.png) 0 0 repeat-x;
 }
 
+#footer .copy, #footer .disclaimer
+{
+    font-size: 1.5ex;
+}
+
 #footlinks
 {
   padding-top: 3px;
@@ -360,22 +365,64 @@ a
   margin: 1ex 0;
 }
 
-.flash
-{
-  float: left;
-  background: #DEE6B1 url(/fas/static/images/success.png) 10px 50% no-repeat;
-  height: 50px;
-  line-height: 50px;
-  border: 1px solid #998877;
-  padding: 0 15px 0 43px;
-  margin-top: 9px;
-}
-
 .help
 {
   background: #DEE6B1 url(/fas/static/images/help.png) 10px 50% no-repeat;
   border: 1px solid #CCBBAA;
   padding: 1.5ex 15px 1.5ex 65px;
   margin: 1ex 0;
+}
+
+.letters
+{
+  list-style: none;
+}
+
+.letters li
+{
+  display: inline;
+  margin-right: 1ex;
+}
+
+#content table
+{
+  border-collapse: collapse;
+}
+
+#content table th, #content table td
+{
+  padding: 0 2ex;
+}
+
+pre
+{
+  font-size: 3ex;
+}
+
+form ul
+{
+  list-style: none;
+}
+
+form li
+{
+  margin: 0 0 1ex;
+  text-align: left;
+  overflow: auto;
+}
+
+form li label
+{
+  float: left;
+  clear: left;
+  width: 16ex;
+  text-align: right;
+  margin: 0;
+  padding: 0 2ex 0 0;
+}
+
+form li input, form li textarea
+{
+  margin: 0;
 }
 

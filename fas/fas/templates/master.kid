@@ -2,37 +2,21 @@
 <?python import sitetemplate ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
 
-<head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title py:replace="''">Your title goes here</title>
+  <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
+    <title py:replace="''">Title</title>
+    <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
     <meta py:replace="item[:]"/>
-    <style type="text/css">
-        #pageLogin
-        {
-            font-size: 10px;
-            font-family: verdana;
-            text-align: right;
-        }
-    </style>
-    <style type="text/css" media="screen">
-@import "/fas/static/css/style.css";
-</style>
-    <script src="/fas/static/javascript/MochiKit.js" type="text/javascript"></script>
-    <script src="/fas/static/javascript/New.js" type="text/javascript"></script>
-</head>
+  </head>
 
-<body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
+  <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
     <div id="wrapper">
       <div id="head">
         <h1><a href="/">Fedora</a></h1>
-        <div py:if="tg_flash" class="flash" id='flashMessage'>
-            ${tg_flash} <a href='' onClick="squish('flashMessage'); return false;">(hide)</a>
-        </div>
         <div id="searchbox">
           <form action="" method="get">
             <label for="q">Search:</label>
-            <input type="text" name="q" id="q"/>
-            <input type="submit" value="Search"/>
+            <input type="text" name="q" id="q" />
+            <input type="submit" value="Search" />
           </form>
         </div>
       </div>
@@ -49,74 +33,50 @@
       <div id="infobar">
         <div id="authstatus">
           <span py:if="not tg.identity.anonymous">
-            <strong>Logged in: </strong>${tg.identity.user.user_name}.
+            <strong>Logged in:</strong> ${tg.identity.user.user_name}
           </span>
         </div>
         <div id="control">
           <ul>
-            <li py:if="not tg.identity.anonymous"><a href="editAccount">My Account</a></li>
-            <li py:if="not tg.identity.anonymous"><a href="logout">Log Out</a></li>
-            <li py:if="tg.identity.anonymous"><a href="login">Log In</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('viewAccount')}">My Account</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('logout')}">Log Out</a></li>
+            <li py:if="tg.identity.anonymous"><a href="${tg.url('login')}">Log In</a></li>
           </ul>
         </div>
       </div>
       <div id="main">
         <div id="sidebar">
           <ul>
-            <li class="first"><a href="listGroup">Group List</a></li>
+            <li class="first"><a href="${tg.url('listGroup')}">Group List</a></li>
             <li py:if="'accounts' in tg.identity.groups"><a href="listUser">User List</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">News</a></li>
-            <li><a href="listGroup?search=A*">Apply For a new Group</a></li>
+            <li><a href="${tg.url('listGroup', search='A*')}">Apply For a new Group</a></li>
           </ul>
         </div>
-<!--      </div>
-    </div>-->
+        <div id='content'>
+          <div py:if="tg_flash" class="flash">
+            ${tg_flash}
+          </div>
+          <div py:replace="[item.text]+item[:]" />
+        </div> <!-- End main -->
+        <div id="footer">
+          <ul id="footlinks">
+            <li class="first"><a href="/">About</a></li>
+            <li><a href="/">Contact Us</a></li>
+            <li><a href="/">Legal &amp; Privacy</a></li>
 
-
-
-
-
-
-
-
-
-<!--    <div py:if="tg.config('identity.on',False) and not 'logging_in' in locals()"
-        id="pageLogin">
-        <span py:if="tg.identity.anonymous">
-            <a href="${tg.url('/login')}">Login</a>
-        </span>
-        <span py:if="not tg.identity.anonymous">
-            Welcome ${tg.identity.user.user_name}.
-            <a href="${tg.url('/logout')}">Logout</a>
-        </span>
-    </div>-->
-<!--    <div id="header">&nbsp;</div>
-    <div id="main_content">-->
-    <div id='content'>
-        <div class="help" id='helpMessageMain' style='display: none'>
-            <div id='helpMessage'>
-                Help!  What is interesting about this piece of help is that it's really long.  I wonder if it will word wrap?  That is so f'ing beautiful.  You have NO idea.
-            </div>
-            <a href='' onClick="squish('helpMessageMain'); return false;">(hide)</a>
-
-            <script src="/fas/static/javascript/forms.js" type="text/javascript"></script>
+            <li><a href="/">Site Map</a></li>
+            <li><a href="/">Log Out</a></li>
+          </ul>
+          <p class="copy">
+          Copyright &copy; 2007 Red Hat, Inc. and others.  All Rights Reserved.
+          Please send any comments or corrections to the <a href="mailto:webmaster@fedoraproject.org">websites team</a>.
+          </p>
+          <p class="disclaimer">
+          The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content.
+          </p>
         </div>
-
-
-      <!--<div py:if="tg_flash" class="flash" id='flashMessage'>
-        ${tg_flash} <a href='' onClick="squish('flashMessage'); return false;">(hide)</a>
-      </div>-->
-
-    <div py:replace="[item.text]+item[:]"/>
-
-	<!-- End of content -->
-	</div>
-  </div> <!-- End main -->
-<div id="footer"> <img src="/static/images/under_the_hood_blue.png" alt="TurboGears under the hood" />
-  <p>TurboGears is a open source front-to-back web development
-    framework written in Python</p>
-  <p>Copyright &copy; 2006 Kevin Dangoor</p>
-</div>
-</div> <!-- End wrapper -->
-</body>
+      </div>
+    </div> <!-- End wrapper -->
+  </body>
 </html>

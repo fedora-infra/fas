@@ -21,7 +21,23 @@ class knownUser(validators.FancyValidator):
     def validate_python(self, value, state):
         p = Person.byUserName(value)
         if p.cn:
-            raise validators.Invalid("'%s' already axists" % value, value, state)
+            raise validators.Invalid("'%s' already exists" % value, value, state)
+
+class unknownUser(validators.FancyValidator):
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        p = Person.byUserName(value)
+        if not p.cn:
+            raise validators.Invalid("'%s' does not exist" % value, value, state)
+
+class unknownGroup(validators.FancyValidator):
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        g = Groups.groups(groupName)
+        if not g:
+            raise validators.Invalid("'%s' does not exist" % value, value, state)
 
 
 class newPerson(widgets.WidgetsList):
@@ -32,14 +48,38 @@ class newPerson(widgets.WidgetsList):
     telephoneNumber = widgets.TextField(label='Telephone Number', validator=validators.PhoneNumber(not_empty=True))
     postalAddress = widgets.TextArea(label='Postal Address', validator=validators.NotEmpty)
 
-newPersonForm = widgets.TableForm(fields=newPerson(), submit_text='Sign Up')
+newPersonForm = widgets.ListForm(fields=newPerson(), submit_text='Sign Up')
+
+class editPerson(widgets.WidgetsList):
+#    cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
+    userName = widgets.HiddenField(validator=validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
+    givenName = widgets.TextField(label='Full Name', validator=validators.String(not_empty=True, max=42))
+    mail = widgets.TextField(label='Email', validator=validators.Email(not_empty=True, strip=True))
+    fedoraPersonBugzillaMail = widgets.TextField(label='Bugzilla Email', validator=validators.Email(not_empty=True, strip=True))
+    fedoraPersonIrcNick = widgets.TextField(label='IRC Nick')
+    fedoraPersonKeyId = widgets.TextField(label='PGP Key')
+    telephoneNumber = widgets.TextField(label='Telephone Number', validator=validators.PhoneNumber(not_empty=True))
+    postalAddress = widgets.TextArea(label='Postal Address', validator=validators.NotEmpty)
+    description = widgets.TextArea(label='Description')
+
+editPersonForm = widgets.ListForm(fields=editPerson(), submit_text='Update')
+
+class editGroup(widgets.WidgetsList):
+    groupName = widgets.HiddenField(validator=validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3)))
+    fedoraGroupDesc = widgets.TextField(label='Description', validator=validators.NotEmpty)
+    fedoraGroupOwner = widgets.TextField(label='Group Owner', validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
+    fedoraGroupNeedsSponsor = widgets.CheckBox(label='Needs Sponsor')
+    fedoraGroupUserCanRemove = widgets.CheckBox(label='Self Removal')
+    fedoraGroupJoinMsg = widgets.TextField(label='Group Join Message')
+
+editGroupForm = widgets.ListForm(fields=editPerson(), submit_text='Update')
 
 class findUser(widgets.WidgetsList):
     userName = widgets.AutoCompleteField(label='Username', search_controller='search', search_param='userName', result_name='people')
     action = widgets.HiddenField(label='action', default='apply', validator=validators.String(not_empty=True))
     groupName = widgets.HiddenField(label='groupName', validator=validators.String(not_empty=True))
 
-searchUserForm = widgets.TableForm(fields=findUser(), submit_text='Invite')
+searchUserForm = widgets.ListForm(fields=findUser(), submit_text='Invite')
 
 
 class Root(controllers.RootController):
@@ -75,6 +115,7 @@ class Root(controllers.RootController):
         if not identity.current.anonymous \
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
+            turbogears.flash('Welcome, %s' % Person.byUserName(turbogears.identity.current.user_name).givenName)
             raise redirect(forward_url)
 
         forward_url=None
@@ -98,35 +139,67 @@ class Root(controllers.RootController):
     @expose()
     def logout(self):
         identity.current.logout()
+        turbogears.flash('You have successfully logged out.')
         raise redirect("/")
+
+    @expose(template="fas.templates.viewAccount")
+    @identity.require(identity.not_anonymous())
+    def viewAccount(self,userName=None, action=None):
+        if not userName:
+            userName = turbogears.identity.current.user_name
+        if turbogears.identity.current.user_name == userName:
+            personal = True
+        else:
+            personal = False
+        try:
+            Groups.byUserName(turbogears.identity.current.user_name)['accounts'].cn
+            admin = True
+        except KeyError:
+            admin = False
+        user = Person.byUserName(userName)
+        groups = Groups.byUserName(userName)
+        groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
+        groupdata={}
+        for g in groups:
+            groupdata[g] = Groups.groups(g)[g]
+        for g in groupsPending:
+            groupdata[g] = Groups.groups(g)[g]
+        try:
+            groups['cla_done']
+            claDone=True
+        except KeyError:
+            claDone=None
+        return dict(user=user, groups=groups, groupsPending=groupsPending, action=action, groupdata=groupdata, claDone=claDone, personal=personal, admin=admin)
 
     @expose(template="fas.templates.editAccount")
     @identity.require(identity.not_anonymous())
-    def editAccount(self,userName=None, action=None):
+    def editAccount(self, userName=None, action=None):
         if userName:
             try:
                 Groups.byUserName(turbogears.identity.current.user_name)['accounts'].cn
                 if not userName:
                     userName = turbogears.identity.current.user_name
             except KeyError:
-                turbogears.flash('You cannot view %s' % userName )
+                turbogears.flash('You cannot edit %s' % userName )
                 userName = turbogears.identity.current.user_name
         else:
                 userName = turbogears.identity.current.user_name
         user = Person.byUserName(userName)
-        groups = Groups.byUserName(userName)
-        groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
-        try:
-            groups['cla_done']
-            claDone=True
-        except KeyError:
-            claDone=None
-        return dict(user=user, groups=groups, groupsPending=groupsPending, action=action, claDone=claDone)
+        value = {'userName' : userName,
+                  'givenName' : user.givenName,
+                  'mail' : user.mail,
+                  'fedoraPersonBugzillaMail' : user.fedoraPersonBugzillaMail,
+                  'fedoraPersonIrcNick' : user.fedoraPersonIrcNick,
+                  'fedoraPersonKeyId' : user.fedoraPersonKeyId,
+                  'telephoneNumber' : user.telephoneNumber,
+                  'postalAddress' : user.postalAddress,
+                  'description' : user.description, }
+        return dict(form=editPersonForm, value=value)
 
-    @expose(template="fas.templates.editGroup")
+    @expose(template="fas.templates.viewGroup")
     @exception_handler(errorMessage,rules="isinstance(tg_exceptions,ValueError)")
     @identity.require(identity.not_anonymous())
-    def editGroup(self, groupName):
+    def viewGroup(self, groupName):
         try:
             groups = Groups.byGroupName(groupName, includeUnapproved=True)
         except KeyError, e:
@@ -151,6 +224,32 @@ class Root(controllers.RootController):
         #findUser.groupName.display(value='fff')
         value = {'groupName' : group.cn}
         return dict(groups=groups, group=group, me=me, searchUserForm=searchUserForm, value=value)
+
+    @expose(template="fas.templates.editGroup")
+    @identity.require(identity.not_anonymous())
+    def editGroup(self, groupName, action=None):
+        pass
+        userName = turbogears.identity.current.user_name
+        try:
+            Groups.byUserName(userName)['accounts'].cn
+        except KeyError:
+            try:
+                Groups.byUserName(userName)[groupName]
+                if Groups.byUserName(userName)[groupName].fedoraRoleType.lower() != 'administrator':
+                    raise KeyError
+            except KeyError:
+                turbogears.flash('You cannot edit %s' % groupName)
+                turbogears.redirect('viewGroup?groupName=%s' % groupName)
+        group = Groups.groups(groupName)[groupName]
+        #value = {'givenName' : user.givenName,
+        #          'mail' : user.mail,
+        #          'fedoraPersonBugzillaMail' : user.fedoraPersonBugzillaMail,
+        #          'fedoraPersonIrcNick' : user.fedoraPersonIrcNick,
+        #          'fedoraPersonKeyId' : user.fedoraPersonKeyId,
+        #          'telephoneNumber' : user.telephoneNumber,
+        #          'postalAddress' : user.postalAddress,
+        #          'description' : user.description, }
+        return dict(form=editGroupForm, value=value)
 
     @expose(template="fas.templates.groupList")
     @exception_handler(errorMessage,rules="isinstance(tg_exceptions,ValueError)")
@@ -208,7 +307,7 @@ class Root(controllers.RootController):
 
         if turbogears.identity.current.user_name:
             turbogears.flash("Password Changed")
-            turbogears.redirect("editAccount")
+            turbogears.redirect("viewAccount")
         else:
             turbogears.flash('Your password has been emailed to you')
             return dict()
@@ -223,33 +322,17 @@ class Root(controllers.RootController):
         except:
             turbogears.flash("No users found matching '%s'" % search)
             users = []
-        return dict(printList=users, search=search)
+        cla_done = Groups.byGroupName('cla_done')
+        claDone = {}
+        for u in users:
+            try:
+                cla_done[u]
+                claDone[u] = True
+            except KeyError:
+                claDone[u] = False
+        return dict(users=users, claDone=claDone, search=search)
 
     listUsers = listUser
-
-    @expose(template='fas.templates.edit')
-    @exception_handler(errorMessage,rules="isinstance(tg_exceptions,ValueError)")
-    @identity.require(identity.not_anonymous())
-    def editUserAttribute(self, attribute, value, userName=None):
-        try:
-            Groups.byUserName(turbogears.identity.current.user_name)['accounts'].cn
-            if not userName:
-                userName = turbogears.identity.current.user_name
-        except KeyError:
-            turbogears.flash('You cannot view %s' % userName )
-            userName = turbogears.identity.current.user_name
-
-        attribute = attribute.encode('utf8')
-        value = value.encode('utf8')
-        if attribute and value:
-            p = Person.byUserName(userName)
-            p.__setattr__(attribute, value)
-            turbogears.flash("'%s' Updated to %s" % (attribute, value))
-            if userName == turbogears.identity.current.user_name:
-                turbogears.redirect('editAccount')
-            else:
-                turbogears.redirect('editAccount?userName=%s' % userName)
-        return dict(userName=userName, attribute=attribute, value=value)
 
 #    @expose(template='fas.templates.apply')
 #    @exception_handler(errorMessage, rules="isinstance(tg_exceptions,ValueError)")
@@ -258,9 +341,9 @@ class Root(controllers.RootController):
 #        # This doesn't work
 #        turbogears.identity.current.user_name=userName
 #        turbogears.flash('Sudoed to %s' % userName)
-#        turbogears.recirect('editAccount')
+#        turbogears.recirect('viewAccount')
 
-#    @error_handler(editGroup)
+#    @error_handler(viewGroup)
 #    @validate(form=newPersonForm)
     @expose(template='fas.templates.apply')
     @identity.require(identity.not_anonymous())
@@ -276,14 +359,14 @@ class Root(controllers.RootController):
             group = Groups.groups(groupName)[groupName]
         except KeyError, e:
             turbogears.flash('Group Error: %s does not exist - %s' % (groupName, e))
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
         try:
             p = Person.byUserName(userName)
             if not p.cn:
                 raise KeyError, 'User %s, just not there' % userName
         except KeyError, e:
             turbogears.flash('User Error: %s does not exist - %s' % (userName, e))
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         g = Groups.byGroupName(groupName, includeUnapproved=True)
 
@@ -293,14 +376,14 @@ class Root(controllers.RootController):
                 Groups.apply(groupName, userName)
             except ldap.ALREADY_EXISTS:
                 turbogears.flash('%s Already in group!' % p.cn)
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             else:
                 turbogears.flash('%s Applied!' % p.cn)
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         # Some error checking for the sponsors
         if g[userName].fedoraRoleType.lower() == 'administrator' and g[sponsor].fedoraRoleType.lower() == 'sponsor':
-            raise ValueError, 'Sponsors cannot alter administrators.  End of story'
+            raise ValueError, 'Sponsors cannot alter administrators.  End of story.'
 
         try:
             userGroup = Groups.byGroupName(groupName)[userName]
@@ -315,10 +398,10 @@ class Root(controllers.RootController):
                 Groups.remove(group.cn, p.cn)
             except TypeError:
                 turbogears.flash('%s could not be removed from %s!' % (p.cn, group.cn))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             else:
                 turbogears.flash('%s removed from %s!' % (p.cn, group.cn))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             return dict()
 
         # Upgrade user in a group
@@ -329,9 +412,9 @@ class Root(controllers.RootController):
                 p.upgrade(groupName)
             except TypeError, e:
                 turbogears.flash('Cannot upgrade %s - %s!' % (p.cn, e))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             turbogears.flash('%s Upgraded!' % p.cn)
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
 
         # Downgrade user in a group
@@ -342,18 +425,18 @@ class Root(controllers.RootController):
                 p.downgrade(groupName)
             except TypeError, e:
                 turbogears.flash('Cannot downgrade %s - %s!' % (p.cn, e))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             turbogears.flash('%s Downgraded!' % p.cn)
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         # Sponsor / Approve User
         elif action == 'sponsor' or action == 'apply':
             p.sponsor(groupName, sponsor)
             turbogears.flash('%s has been sponsored!' % p.cn)
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         turbogears.flash('Invalid action: %s' % action)
-        turbogears.redirect('editGroup?groupName=%s' % group.cn)
+        turbogears.redirect('viewGroup?groupName=%s' % group.cn)
         return dict()
 
     @expose(template='fas.templates.inviteMember')
@@ -380,27 +463,27 @@ class Root(controllers.RootController):
                 turbogears.flash('Application sent for %s' % user.cn)
             except ldap.ALREADY_EXISTS, e:
                 turbogears.flash('Application Denied: %s' % e[0]['desc'])
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         if action == 'Remove' and group.fedoraGroupUserCanRemove == 'TRUE':
             try:
                 Groups.remove(group.cn, user.cn)
             except TypeError:
                 turbogears.flash('%s could not be removed from %s!' % (user.cn, group.cn))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
             else:
                 turbogears.flash('%s removed from %s!' % (user.cn, group.cn))
-                turbogears.redirect('editGroup?groupName=%s' % group.cn)
+                turbogears.redirect('viewGroup?groupName=%s' % group.cn)
         else:
             turbogears.flash('%s does not allow self removal' % group.cn)
-            turbogears.redirect('editGroup?groupName=%s' % group.cn)
+            turbogears.redirect('viewGroup?groupName=%s' % group.cn)
         return dict()
 
     @expose(template='fas.templates.signUp')
     def signUp(self):
         if turbogears.identity.not_anonymous():
             turbogears.flash('No need to sign up, You have an account!')
-            turbogears.redirect('editAccount')
+            turbogears.redirect('viewAccount')
         return dict(form=newPersonForm)
 
     @validate(form=newPersonForm)
@@ -424,37 +507,40 @@ class Root(controllers.RootController):
             turbogears.redirect('signUp')
         return dict()
 
+    @validate(form=editPersonForm)
+    @error_handler(editAccount)
+    @expose(template='fas.templates.editAccount')
+    def editAccountSubmit(self, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, userName=None, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
+        if userName:
+            try:
+                Groups.byUserName(turbogears.identity.current.user_name)['accounts'].cn
+                if not userName:
+                    userName = turbogears.identity.current.user_name
+            except KeyError:
+                turbogears.flash('You cannot view %s' % userName)
+                userName = turbogears.identity.current.user_name
+                turbogears.redirect("editAccount")
+                return dict()
+        else:
+                userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        user.__setattr__('givenName', givenName.encode('utf8'))
+        user.__setattr__('mail', mail.encode('utf8'))
+        user.__setattr__('fedoraPersonBugzillaMail', fedoraPersonBugzillaMail.encode('utf8'))
+        user.__setattr__('fedoraPersonIrcNick', fedoraPersonIrcNick.encode('utf8'))
+        user.__setattr__('fedoraPersonKeyId', fedoraPersonKeyId.encode('utf8'))
+        user.__setattr__('telephoneNumber', telephoneNumber.encode('utf8'))
+        user.__setattr__('postalAddress', postalAddress.encode('utf8'))
+        user.__setattr__('description', description.encode('utf8'))
+        turbogears.flash('Your account has been updated.')
+        turbogears.redirect("viewAccount?userName=%s" % userName)
+        return dict()
+
     @expose(format="json")
     def search(self, userName=None, groupName=None):
         people = Person.users('%s*' % userName)
         return dict(people=
                 filter(lambda item: userName in item.lower(), people))
-
-    @expose(format="json")
-    def help(self, helpID='Unknown'):
-        messages = { 
-            'Unknown' : ''' Unknown:  If you know what help should be here, please email accounts@fedoraproject.org and tell them.''',
-            'postalAddress' : ''' Postal Address: Your local mailing address.  It could be a work address or a home address.''',
-            'cn' : ''' Account Name: A unique identifier for each user.  This is your 'username' for many parts of fedora.  This will also be your @fedoraproject.org email alias.''',
-            'givenName' : ''' Real Name: This is your full name, often Firstname Lastname.''',
-            'mail' : ''' Email Address: This is your primary email address.  Notifications, aliases, password resets all get sent to this address.  Other email addresses can be added (like bugzilla address)''',
-            'fedoraPersonBugzillaMail' : ''' Bugzilla Email:  For most this is the same address as as their primary email address.''',
-            'fedoraPersonIrcNick' : ''' IRC Nick: Many fedora developers can be found on freenode.net.  Make sure your nick is registered so no one else takes it.  After you have registered, let the rest of fedora know what your nick is.''',
-            'fedoraPersonKeyId' : ''' PGP Key: PGP key's are required to verify your identity to others and to encrypt messages.  It is required in order to sign the CLA and, as such, is required to be a contributor.  In order to create and upload your key please see our howto at: <a href='http://fedoraproject.org/wiki/DocsProject/UsingGpg/CreatingKeys'>http://fedoraproject.org/wiki/DocsProject/UsingGpg/CreatingKeys</a> ''',
-            'telephoneNumber' : ''' Telephone Number: Please include a country code if outside of the united states. ''',
-            'description' : ''' Description: Just a brief comment on yourself.  Could include your website or blog. ''',
-            'password' : ''' Password: Used to access fedora resources.  Resources that don't require your password may require ssh keys ''',
-            'accountStatus' : ''' Account Status: Some accounts may be disabled because of misconduct or password expiration.  If your account is not active and you are not sure why, please contact <a href='mailto:accounts@fedoraproject.org>accounts@fedoraproject.org</a> or join #fedora-admin on <a href='http://irc.freenode.net/'>irc.freenode.net</a> ''',
-            'cla' : ''' Contributor License Agreement: This agreement is required in order to be a Fedora contributor.  The CLA can be found at: <a href='http://fedoraproject.org/wiki/Legal/Licenses/CLA'>http://fedoraproject.org/wiki/Legal/Licenses/CLA</a> ''',
-            'inviteToGroup' : ''' This will add a user to the following group.  They will initially be unapproved, just as if they had applied themselves.  An email notification will be sent. '''
-            }
-        try:
-            messages[helpID]
-        except KeyError:
-            helpID='Unknown'
-        return dict(help=messages[helpID])
-                #filter(lambda item: userName in item.lower(), people))
-
 
 
     @expose(template='fas.templates.invite')
