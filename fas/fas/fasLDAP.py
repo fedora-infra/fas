@@ -355,6 +355,8 @@ class Person:
     @classmethod
     def auth(self, who, password, ldapServer=None):
         ''' Basic Authentication Module '''
+        if not password:
+            raise AuthError
         if not ldapServer:
             s = Server()
             ldapServer = s.ldapConn

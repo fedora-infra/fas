@@ -72,7 +72,7 @@ class editGroup(widgets.WidgetsList):
     fedoraGroupUserCanRemove = widgets.CheckBox(label='Self Removal')
     fedoraGroupJoinMsg = widgets.TextField(label='Group Join Message')
 
-editGroupForm = widgets.ListForm(fields=editPerson(), submit_text='Update')
+editGroupForm = widgets.ListForm(fields=editGroup(), submit_text='Update')
 
 class findUser(widgets.WidgetsList):
     userName = widgets.AutoCompleteField(label='Username', search_controller='search', search_param='userName', result_name='people')
@@ -228,7 +228,6 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.editGroup")
     @identity.require(identity.not_anonymous())
     def editGroup(self, groupName, action=None):
-        pass
         userName = turbogears.identity.current.user_name
         try:
             Groups.byUserName(userName)['accounts'].cn
@@ -241,14 +240,14 @@ class Root(controllers.RootController):
                 turbogears.flash('You cannot edit %s' % groupName)
                 turbogears.redirect('viewGroup?groupName=%s' % groupName)
         group = Groups.groups(groupName)[groupName]
-        #value = {'givenName' : user.givenName,
-        #          'mail' : user.mail,
-        #          'fedoraPersonBugzillaMail' : user.fedoraPersonBugzillaMail,
-        #          'fedoraPersonIrcNick' : user.fedoraPersonIrcNick,
-        #          'fedoraPersonKeyId' : user.fedoraPersonKeyId,
-        #          'telephoneNumber' : user.telephoneNumber,
-        #          'postalAddress' : user.postalAddress,
-        #          'description' : user.description, }
+        value = {'groupName' : groupName,
+                  'fedoraGroupOwner' : group.fedoraGroupOwner,
+                  'fedoraGroupType' : group.fedoraGroupType,
+                  'fedoraGroupNeedsSponsor' : (group.fedoraGroupNeedsSponsor.upper() == 'TRUE'),
+                  'fedoraGroupUserCanRemove' : (group.fedoraGroupUserCanRemove.upper() == 'TRUE'),
+                  'fedoraGroupJoinMsg' : group.fedoraGroupJoinMsg,
+                  'fedoraGroupDesc' : group.fedoraGroupDesc, }
+                  #'fedoraGroupRequires' : group.fedoraGroupRequires, }
         return dict(form=editGroupForm, value=value)
 
     @expose(template="fas.templates.groupList")
@@ -357,15 +356,15 @@ class Root(controllers.RootController):
         sponsor = turbogears.identity.current.user_name
         try:
             group = Groups.groups(groupName)[groupName]
-        except KeyError, e:
-            turbogears.flash('Group Error: %s does not exist - %s' % (groupName, e))
+        except KeyError:
+            turbogears.flash('Group Error: %s does not exist.' % groupName)
             turbogears.redirect('viewGroup?groupName=%s' % group.cn)
         try:
             p = Person.byUserName(userName)
             if not p.cn:
-                raise KeyError, 'User %s, just not there' % userName
-        except KeyError, e:
-            turbogears.flash('User Error: %s does not exist - %s' % (userName, e))
+                raise KeyError, userName
+        except KeyError:
+            turbogears.flash('User Error: User %s does not exist.' % userName)
             turbogears.redirect('viewGroup?groupName=%s' % group.cn)
 
         g = Groups.byGroupName(groupName, includeUnapproved=True)
