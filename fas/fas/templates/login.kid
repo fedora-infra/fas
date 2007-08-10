@@ -1,11 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="'master.kid'">
-
   <head>
     <title>Login to the Fedora Accounts System</title>
   </head>
-
   <style type="text/css">
     #content ul
     {
@@ -13,7 +11,6 @@
       margin: 1ex 3ex;
     }
   </style>
-
   <body>
     <h2>Login</h2>
     <p>${message}</p>

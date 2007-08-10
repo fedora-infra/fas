@@ -1,0 +1,774 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-08-10 09:40\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: utf-8\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: fas/controllers.py:24
+msgid "'%s' already exists"
+msgstr ""
+
+#: fas/controllers.py:32 fas/controllers.py:40
+msgid "'%s' does not exist"
+msgstr ""
+
+#: fas/controllers.py:45 fas/controllers.py:78 fas/templates/userList.kid:th
+#: fas/templates/viewGroup.kid:th
+msgid "Username"
+msgstr ""
+
+#: fas/controllers.py:46 fas/controllers.py:56
+msgid "Full Name"
+msgstr ""
+
+#: fas/controllers.py:47
+msgid "email"
+msgstr ""
+
+#: fas/controllers.py:48 fas/controllers.py:61
+#: fas/templates/viewAccount.kid:dt
+msgid "Telephone Number"
+msgstr ""
+
+#: fas/controllers.py:49 fas/controllers.py:62
+#: fas/templates/viewAccount.kid:dt
+msgid "Postal Address"
+msgstr ""
+
+#: fas/controllers.py:51 fas/templates/login.kid:a
+msgid "Sign Up"
+msgstr ""
+
+#: fas/controllers.py:57 fas/templates/viewAccount.kid:dt
+msgid "Email"
+msgstr ""
+
+#: fas/controllers.py:58 fas/templates/viewAccount.kid:dt
+msgid "Bugzilla Email"
+msgstr ""
+
+#: fas/controllers.py:59 fas/templates/viewAccount.kid:dt
+msgid "IRC Nick"
+msgstr ""
+
+#: fas/controllers.py:60 fas/templates/viewAccount.kid:dt
+msgid "PGP Key"
+msgstr ""
+
+#: fas/controllers.py:63 fas/controllers.py:69 fas/templates/groupList.kid:th
+#: fas/templates/viewAccount.kid:dt
+msgid "Description"
+msgstr ""
+
+#: fas/controllers.py:65 fas/controllers.py:75
+msgid "Update"
+msgstr ""
+
+#: fas/controllers.py:70
+msgid "Group Owner"
+msgstr ""
+
+#: fas/controllers.py:71
+msgid "Needs Sponsor"
+msgstr ""
+
+#: fas/controllers.py:72 fas/templates/viewGroup.kid:dt
+msgid "Self Removal"
+msgstr ""
+
+#: fas/controllers.py:73
+msgid "Group Join Message"
+msgstr ""
+
+#: fas/controllers.py:82 fas/templates/viewGroup.kid:h3
+msgid "Invite"
+msgstr ""
+
+#: fas/controllers.py:118
+msgid "Welcome, %s"
+msgstr ""
+
+#: fas/controllers.py:125
+msgid "The credentials you supplied were not correct or did not grant access to this resource."
+msgstr ""
+
+#: fas/controllers.py:128
+msgid "You must provide your credentials before accessing this resource."
+msgstr ""
+
+#: fas/controllers.py:131
+msgid "Please log in."
+msgstr ""
+
+#: fas/controllers.py:142
+msgid "You have successfully logged out."
+msgstr ""
+
+#: fas/controllers.py:183 fas/controllers.py:240
+msgid "You cannot edit %s"
+msgstr ""
+
+#: fas/controllers.py:206 fas/controllers.py:210
+msgid "Group: %s - Does not exist!"
+msgstr ""
+
+#: fas/controllers.py:263
+msgid "No Groups found matching '%s'"
+msgstr ""
+
+#: fas/controllers.py:287
+msgid "Passwords do not match!"
+msgstr ""
+
+#: fas/controllers.py:290
+msgid "Password is too short.  Must be at least 8 characters long"
+msgstr ""
+
+#: fas/controllers.py:296
+msgid "username + email combo unknown."
+msgstr ""
+
+#: fas/controllers.py:299 fas/controllers.py:497
+msgid "Fedora Project Password Reset"
+msgstr ""
+
+#: fas/controllers.py:300 fas/controllers.py:498
+msgid ""
+"You have requested a password reset!  Your new password is - %s \n"
+"Please go to https://admin.fedoraproject.org/fas/ to change it"
+msgstr ""
+
+#: fas/controllers.py:308
+msgid "Password Changed"
+msgstr ""
+
+#: fas/controllers.py:311
+msgid "Your password has been emailed to you"
+msgstr ""
+
+#: fas/controllers.py:322
+msgid "No users found matching '%s'"
+msgstr ""
+
+#: fas/controllers.py:360
+msgid "Group Error: %s does not exist."
+msgstr ""
+
+#: fas/controllers.py:367
+msgid "User Error: User %s does not exist."
+msgstr ""
+
+#: fas/controllers.py:377
+msgid "%s Already in group!"
+msgstr ""
+
+#: fas/controllers.py:380
+msgid "%s Applied!"
+msgstr ""
+
+#: fas/controllers.py:385
+msgid "Sponsors cannot alter administrators.  End of story."
+msgstr ""
+
+#: fas/controllers.py:399
+msgid "%(name)s could not be removed from %(group)s!"
+msgstr ""
+
+#: fas/controllers.py:402
+msgid "%(name)s removed from %(group)s!"
+msgstr ""
+
+#: fas/controllers.py:409
+msgid "Sponsors cannot admin other sponsors"
+msgstr ""
+
+#: fas/controllers.py:413
+msgid "Cannot upgrade %(name)s - %(error)s!"
+msgstr ""
+
+#: fas/controllers.py:415
+msgid "%s Upgraded!"
+msgstr ""
+
+#: fas/controllers.py:422
+msgid "Sponsors cannot downgrade admins"
+msgstr ""
+
+#: fas/controllers.py:426
+msgid "Cannot downgrade %(name)s - %(error)s!"
+msgstr ""
+
+#: fas/controllers.py:428
+msgid "%s Downgraded!"
+msgstr ""
+
+#: fas/controllers.py:434
+msgid "%s has been sponsored!"
+msgstr ""
+
+#: fas/controllers.py:437
+msgid "Invalid action: %s"
+msgstr ""
+
+#: fas/controllers.py:446
+msgid "Invitation Sent to: \"%(name)s\" <%(email)s>"
+msgstr ""
+
+#: fas/controllers.py:448
+msgid "Please provide both an email address and the persons name."
+msgstr ""
+
+#: fas/controllers.py:462
+msgid "Application sent for %s"
+msgstr ""
+
+#: fas/controllers.py:464
+msgid "Application Denied: %s"
+msgstr ""
+
+#: fas/controllers.py:471
+msgid "%(user)s could not be removed from %(group)s!"
+msgstr ""
+
+#: fas/controllers.py:474
+msgid "%(user)s removed from %(group)s!"
+msgstr ""
+
+#: fas/controllers.py:477
+msgid "%s does not allow self removal"
+msgstr ""
+
+#: fas/controllers.py:484
+msgid "No need to sign up, You have an account!"
+msgstr ""
+
+#: fas/controllers.py:501
+msgid "Your password has been emailed to you.  Please log in with it and change your password"
+msgstr ""
+
+#: fas/controllers.py:505
+msgid "%s Already Exists, Please pick a different name"
+msgstr ""
+
+#: fas/controllers.py:519
+msgid "You cannot view %s"
+msgstr ""
+
+#: fas/controllers.py:534
+msgid "Your account has been updated."
+msgstr ""
+
+#: fas/controllers.py:552
+msgid "Come join The Fedora Project!"
+msgstr ""
+
+#: fas/controllers.py:554
+msgid ""
+"%(name)s <%(email)s> has invited you to join the Fedora Project!  We are a community of users and developers who produce a complete operating system from entirely free and open source software (FOSS).  %(name)s thinks that you have knowledge and skills that make you a great fit for the Fedora community, and that you might be interested in contributing. \n"
+"\n"
+"How could you team up with the Fedora community to use and develop your skills?  Check out http://fedoraproject.org/wiki/Join for some ideas. Our community is more than just software developers -- we also have a place for you whether you're an artist, a web site builder, a writer, or a people person.  You'll grow and learn as you work on a team with other very smart and talented people. \n"
+"\n"
+"Fedora and FOSS are changing the world -- come be a part of it!"
+msgstr ""
+
+#: fas/controllers.py:570
+msgid "Message sent to: %s"
+msgstr ""
+
+#: fas/templates/editAccount.kid:h2 fas/templates/editAccount.kid:title
+msgid "Edit Account"
+msgstr ""
+
+#: fas/templates/editGroup.kid:h2 fas/templates/editGroup.kid:title
+#: fas/templates/viewGroup.kid:title
+msgid "Edit Group"
+msgstr ""
+
+#: fas/templates/error.kid:title
+msgid "Crap!"
+msgstr ""
+
+#: fas/templates/groupList.kid:a fas/templates/userList.kid:a
+msgid "All"
+msgstr ""
+
+#: fas/templates/groupList.kid:h3
+msgid "Search Groups"
+msgstr ""
+
+#: fas/templates/groupList.kid:h3 fas/templates/userList.kid:h3
+msgid "Results"
+msgstr ""
+
+#: fas/templates/groupList.kid:p fas/templates/userList.kid:p
+msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
+msgstr ""
+
+#: fas/templates/groupList.kid:span fas/templates/viewAccount.kid:span
+#: fas/templates/viewGroup.kid:span
+msgid "Approved"
+msgstr ""
+
+#: fas/templates/groupList.kid:span fas/templates/viewGroup.kid:span
+msgid "Not a Member"
+msgstr ""
+
+#: fas/templates/groupList.kid:span fas/templates/viewGroup.kid:span
+msgid "Unapproved"
+msgstr ""
+
+#: fas/templates/groupList.kid:th
+msgid "Group"
+msgstr ""
+
+#: fas/templates/groupList.kid:th
+msgid "Status"
+msgstr ""
+
+#: fas/templates/groupList.kid:title
+msgid "Groups List"
+msgstr ""
+
+#: fas/templates/home.kid:a
+msgid "(Koji)"
+msgstr ""
+
+#: fas/templates/home.kid:h2
+msgid "Recent Builds"
+msgstr ""
+
+#: fas/templates/home.kid:th
+msgid "Build"
+msgstr ""
+
+#: fas/templates/home.kid:th
+msgid "Build Date"
+msgstr ""
+
+#: fas/templates/home.kid:title
+msgid "Fedora Accounts System"
+msgstr ""
+
+#: fas/templates/invite.kid:br
+msgid "Message:"
+msgstr ""
+
+#: fas/templates/invite.kid:br
+msgid "Subject: Invitation to join the Fedora Team!"
+msgstr ""
+
+#: fas/templates/invite.kid:div
+msgid "To email:"
+msgstr ""
+
+#: fas/templates/invite.kid:h2 fas/templates/invite.kid:title
+msgid "Invite a new community member!"
+msgstr ""
+
+#: fas/templates/invite.kid:p
+msgid "Fedora and FOSS are changing the world -- come be a part of it!"
+msgstr ""
+
+#: fas/templates/invite.kid:p
+msgid ""
+"How could you team up with the Fedora community to use and develop your\n"
+"          skills?  Check out http://fedoraproject.org/wiki/Join for some ideas.\n"
+"          Our community is more than just software developers -- we also have a\n"
+"          place for you whether you're an artist, a web site builder, a writer, or\n"
+"          a people person.  You'll grow and learn as you work on a team with other\n"
+"          very smart and talented people."
+msgstr ""
+
+#: fas/templates/login.kid:a
+msgid "Forgot Password?"
+msgstr ""
+
+#: fas/templates/login.kid:h2
+msgid "Login"
+msgstr ""
+
+#: fas/templates/login.kid:label
+msgid "Password:"
+msgstr ""
+
+#: fas/templates/login.kid:label
+msgid "User Name:"
+msgstr ""
+
+#: fas/templates/login.kid:title
+msgid "Login to the Fedora Accounts System"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "."
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "About"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Apply For a new Group"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Communicate"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Contact Us"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Download Fedora"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Fedora"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Group List"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Help/Documentation"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Join Fedora"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Learn about Fedora"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Legal & Privacy"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Log Out"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "My Account"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "News"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "Projects"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "User List"
+msgstr ""
+
+#: fas/templates/master.kid:a
+msgid "websites team"
+msgstr ""
+
+#: fas/templates/master.kid:a fas/templates/welcome.kid:a
+msgid "Log In"
+msgstr ""
+
+#: fas/templates/master.kid:label
+msgid "Search:"
+msgstr ""
+
+#: fas/templates/master.kid:p
+msgid ""
+"Copyright © 2007 Red Hat, Inc. and others.  All Rights Reserved.\n"
+"          Please send any comments or corrections to the"
+msgstr ""
+
+#: fas/templates/master.kid:p
+msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
+msgstr ""
+
+#: fas/templates/master.kid:strong
+msgid "Logged in:"
+msgstr ""
+
+#: fas/templates/master.kid:title
+msgid "Title"
+msgstr ""
+
+#: fas/templates/resetPassword.kid:h2 fas/templates/resetPassword.kid:title
+msgid "Reset Password"
+msgstr ""
+
+#: fas/templates/resetPassword.kid:label
+msgid "New Password:"
+msgstr ""
+
+#: fas/templates/resetPassword.kid:label
+msgid "Primary Email:"
+msgstr ""
+
+#: fas/templates/resetPassword.kid:label
+msgid "Username:"
+msgstr ""
+
+#: fas/templates/resetPassword.kid:label
+msgid "Verify Password:"
+msgstr ""
+
+#: fas/templates/signUp.kid:h2 fas/templates/signUp.kid:title
+msgid "Sign up for a Fedora account"
+msgstr ""
+
+#: fas/templates/userList.kid:span fas/templates/viewAccount.kid:span
+msgid "Done"
+msgstr ""
+
+#: fas/templates/userList.kid:th fas/templates/viewAccount.kid:dt
+msgid "Account Status"
+msgstr ""
+
+#: fas/templates/userList.kid:title
+msgid "Users List"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "(Create a new project)"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "(Join another project)"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "(View all pending requests...)"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "(change)"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Chewbacca D. Wookiee requests approval to join project as a"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Gaius Baltar requests approval to upgrade from"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Invite a New Member..."
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Leia Organa requests approval to upgrade from"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Manage Project Details..."
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "Manage Project Membership..."
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a
+msgid "View All Pendind Project Membership Requests..."
+msgstr ""
+
+#: fas/templates/viewAccount.kid:a fas/templates/viewGroup.kid:a
+msgid "(edit)"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Account Name"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "CLA"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Password"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Queue:"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Real Name"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Status:"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:dt
+msgid "Tools:"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:h2
+msgid "Your Fedora Account"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:h3
+msgid "Account Details"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:h3
+msgid "Your Roles"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:span
+msgid ", Active"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:span
+msgid "Not Done"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:span
+msgid "Valid"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:strong
+msgid "administrator"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:strong
+msgid "sponsor"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:strong
+msgid "to"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:strong
+msgid "user"
+msgstr ""
+
+#: fas/templates/viewAccount.kid:title
+msgid "View Account"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Approve"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Delete"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Downgrade"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Remove me"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Suspend"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a
+msgid "Upgrade"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:a fas/templates/viewGroup.kid:th
+msgid "Sponsor"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:div
+msgid "-- Error!"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Description:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Join Message:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Name:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Needs Sponsor:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Owner:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:dt
+msgid "Type:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:h2
+msgid "Members"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:h3
+msgid "Group Details"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:h3
+msgid "My Status:"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:span
+msgid "No"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:span
+msgid "Yes"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:th
+msgid "Action"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:th
+msgid "Approval"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:th
+msgid "Date Added"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:th
+msgid "Date Approved"
+msgstr ""
+
+#: fas/templates/viewGroup.kid:th
+msgid "Role Type"
+msgstr ""
+
+#: fas/templates/welcome.kid:a
+msgid "Why Join?"
+msgstr ""
+
+#: fas/templates/welcome.kid:p
+msgid "Welcome to the Fedora Accounts System 2.  This system is not yet live so feel free to play around.  Just don't expect it to work."
+msgstr ""
+
+#: fas/templates/welcome.kid:title
+msgid "Welcome to FAS2"
+msgstr ""
+

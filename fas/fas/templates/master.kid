@@ -1,13 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?python import sitetemplate ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
-
   <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
     <title py:replace="''">Title</title>
     <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
     <meta py:replace="item[:]"/>
   </head>
-
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
     <div id="wrapper">
       <div id="head">
@@ -62,14 +60,13 @@
         <div id="footer">
           <ul id="footlinks">
             <li class="first"><a href="/">About</a></li>
-            <li><a href="/">Contact Us</a></li>
-            <li><a href="/">Legal &amp; Privacy</a></li>
-
-            <li><a href="/">Site Map</a></li>
-            <li><a href="/">Log Out</a></li>
+            <li><a href="http://fedoraproject.org/wiki/Communicate">Contact Us</a></li>
+            <li><a href="http://fedoraproject.org/wiki/Legal">Legal &amp; Privacy</a></li>
+            <!--<li><a href="/">Site Map</a></li>-->
+            <li><a href="${tg.url('logout')}">Log Out</a></li>
           </ul>
           <p class="copy">
-          Copyright &copy; 2007 Red Hat, Inc. and others.  All Rights Reserved.
+          Copyright © 2007 Red Hat, Inc. and others.  All Rights Reserved.
           Please send any comments or corrections to the <a href="mailto:webmaster@fedoraproject.org">websites team</a>.
           </p>
           <p class="disclaimer">

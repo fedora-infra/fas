@@ -4,19 +4,16 @@
   <head>
     <title>Groups List</title>
   </head>
-
   <body>
     <h2>List (${search})</h2>
-
     <h3>Search Groups</h3>
     <form method="GET">
       <p>"*" is a wildcard (Ex: "cvs*")</p>
       <div>
-      <input type="text" value="${search}" name="search" size="15 "/>
-      <input type="submit" value="Search" />
-    </div>
+        <input type="text" value="${search}" name="search" size="15 "/>
+        <input type="submit" value="Search" />
+      </div>
     </form>
-
     <h3>Results</h3>
     <ul class="letters">
       <li py:for="letter in 'abcdefghijklmnopqrstuvwxyz'.upper()"><a href="?search=${letter}*">${letter}</a></li>
@@ -28,10 +25,10 @@
         <tr><th>Group</th><th>Description</th><th>Status</th></tr>
       </thead>
       <tbody>
-<?python
-keys = groups.keys()
-keys.sort()
-?>
+        <?python
+        keys = groups.keys()
+        keys.sort()
+        ?>
         <tr py:for="group in map(groups.get, keys)">
           <td><a href="${tg.url('viewGroup', groupName=group.cn)}">${group.cn}</a></td>
           <td>${group.fedoraGroupDesc}</td>
