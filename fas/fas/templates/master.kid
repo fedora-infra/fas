@@ -9,7 +9,7 @@
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
     <div id="wrapper">
       <div id="head">
-        <h1><a href="/">Fedora</a></h1>
+        <h1><a href="http://fedoraproject.org/">Fedora</a></h1>
         <div id="searchbox">
           <form action="" method="get">
             <label for="q">Search:</label>
@@ -24,7 +24,7 @@
           <li><a href="http://fedoraproject.org/get-fedora.html">Download Fedora</a></li>
           <li><a href="http://fedoraproject.org/wiki/">Projects</a></li>
           <li><a href="http://fedoraproject.org/join-fedora.html">Join Fedora</a></li>
-          <li><a href="/">Communicate</a></li>
+          <li><a href="http://fedoraproject.org/wiki/Communicate">Communicate</a></li>
           <li><a href="http://docs.fedoraproject.org/">Help/Documentation</a></li>
         </ul>
       </div>
@@ -36,19 +36,19 @@
         </div>
         <div id="control">
           <ul>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('viewAccount')}">My Account</a></li>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('logout')}">Log Out</a></li>
-            <li py:if="tg.identity.anonymous"><a href="${tg.url('login')}">Log In</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/viewAccount')}">My Account</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/logout')}">Log Out</a></li>
+            <li py:if="tg.identity.anonymous"><a href="${tg.url('/login')}">Log In</a></li>
           </ul>
         </div>
       </div>
       <div id="main">
         <div id="sidebar">
           <ul>
-            <li class="first"><a href="${tg.url('listGroup')}">Group List</a></li>
-            <li py:if="'accounts' in tg.identity.groups"><a href="listUser">User List</a></li>
+            <li class="first"><a href="${tg.url('/listGroup')}">Group List</a></li>
+            <li py:if="'accounts' in tg.identity.groups"><a href="${tg.url('/listUser')}">User List</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">News</a></li>
-            <li><a href="${tg.url('listGroup', search='A*')}">Apply For a new Group</a></li>
+            <li><a href="${tg.url('/listGroup', search='A*')}">Apply For a new Group</a></li>
           </ul>
         </div>
         <div id='content'>
@@ -63,7 +63,7 @@
             <li><a href="http://fedoraproject.org/wiki/Communicate">Contact Us</a></li>
             <li><a href="http://fedoraproject.org/wiki/Legal">Legal &amp; Privacy</a></li>
             <!--<li><a href="/">Site Map</a></li>-->
-            <li><a href="${tg.url('logout')}">Log Out</a></li>
+            <li><a href="${tg.url('/logout')}">Log Out</a></li>
           </ul>
           <p class="copy">
           Copyright © 2007 Red Hat, Inc. and others.  All Rights Reserved.

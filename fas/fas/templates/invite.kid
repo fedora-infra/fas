@@ -13,7 +13,7 @@
         Message:
         <div class="message">
           <p>
-          ${user.givenName} &lt;<a href='mailto: ${user.mail}'>${user.mail}</a>&gt; has invited you to join the Fedora
+          ${user.givenName} &lt;<a href="mailto: ${user.mail}">${user.mail}</a>&gt; has invited you to join the Fedora
           Project!  We are a community of users and developers who produce a
           complete operating system from entirely free and open source software
           (FOSS).  ${user.givenName} thinks that you have knowledge and skills

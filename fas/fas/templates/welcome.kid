@@ -15,8 +15,8 @@
     Welcome to the Fedora Accounts System 2.  This system is not yet live so feel free to play around.  Just don't expect it to work.
     </p>
     <ul>
-      <li><a href="${tg.url('login')}">Log In</a></li>
-      <li><a href="${tg.url('signUp')}">New Account</a></li>
+      <li><a href="${tg.url('/login')}">Log In</a></li>
+      <li><a href="${tg.url('/signUp')}">New Account</a></li>
       <li><a href="http://fedoraproject.org/wiki/Join">Why Join?</a></li>
     </ul>
   </body>

@@ -6,7 +6,7 @@
   <body>
     <h2 class="account" py:if="personal">Your Fedora Account</h2>
     <h2 class="account" py:if="not personal">${user.givenName}'s Fedora Account</h2>
-    <h3>Account Details <a href="${tg.url('editAccount', userName=user.cn)}" py:if="personal or admin">(edit)</a></h3>
+    <h3>Account Details <a href="${tg.url('/editAccount', userName=user.cn)}" py:if="personal or admin">(edit)</a></h3>
     <div class="userbox">
       <dl>
         <dt>Account Name</dt><dd>${user.cn}</dd>
@@ -18,7 +18,7 @@
         <dt>Telephone Number</dt><dd>${user.telephoneNumber}</dd>
         <dt>Postal Address</dt><dd>${user.postalAddress}</dd>
         <dt>Description</dt><dd>${user.description}</dd>
-        <dt>Password</dt><dd><span class="approved">Valid</span> <a href="${tg.url('resetPassword')}" py:if="personal">(change)</a></dd>
+        <dt>Password</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/resetPassword')}" py:if="personal">(change)</a></dd>
         <dt>Account Status</dt><dd><span class="approved">Approved</span>, Active</dd>
         <dt>CLA</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved"> Not Done</span></dd>
       </dl>
@@ -33,7 +33,7 @@
     ?>
     <ul class="roleslist">
       <li py:for="group in map(groups.get, keys)"><span class="team approved">${groupdata[group.cn].fedoraGroupDesc} (${group.cn})</span></li>
-      <li py:for="group in map(groupsPending.get, keysPending)"><span class="team unapproved">${groupdata[group.cn].fedoraGroupDesc} (groupsPending.cn)</span></li>
+      <li py:for="group in map(groupsPending.get, keysPending)"><span class="team unapproved">${groupdata[group.cn].fedoraGroupDesc} (${group.cn})</span></li>
     </ul>
     <ul class="actions" py:if="personal">
       <li><a href="/">(Join another project)</a></li>
@@ -51,9 +51,9 @@
         <dd>
         <ul class="tools">
           <li><a href="/">Invite a New Member...</a></li>
-          <li py:if="group.fedoraRoleType.lower() in ('administrator', 'sponsor')"><a href="${tg.url('viewGroup', groupName=group.cn)}">View All Pending Group Membership Requests...</a></li>
-          <li><a href="${tg.url('viewGroup', groupName=group.cn)}">Manage Group Membership...</a></li>
-          <li py:if="group.fedoraRoleType.lower() == 'administrator'"><a href="${tg.url('editGroup', groupName=group.cn)}">Manage Group Details...</a></li>
+          <li py:if="group.fedoraRoleType.lower() in ('administrator', 'sponsor')"><a href="${tg.url('/viewGroup', groupName=group.cn)}">View All Pending Group Membership Requests...</a></li>
+          <li><a href="${tg.url('/viewGroup', groupName=group.cn)}">Manage Group Membership...</a></li>
+          <li py:if="group.fedoraRoleType.lower() == 'administrator'"><a href="${tg.url('/editGroup', groupName=group.cn)}">Manage Group Details...</a></li>
         </ul>
         </dd>
         <div py:if="group.fedoraRoleType.lower() in ('administrator', 'sponsor')" py:strip="">

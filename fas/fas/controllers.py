@@ -45,7 +45,7 @@ class newPerson(widgets.WidgetsList):
 #    cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
     cn = widgets.TextField(label=_('Username'), validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
     givenName = widgets.TextField(label=_('Full Name'), validator=validators.String(not_empty=True, max=42))
-    mail = widgets.TextField(label=_('email'), validator=validators.Email(not_empty=True, strip=True))
+    mail = widgets.TextField(label=_('Email'), validator=validators.Email(not_empty=True, strip=True))
     telephoneNumber = widgets.TextField(label=_('Telephone Number'), validator=validators.PhoneNumber(not_empty=True))
     postalAddress = widgets.TextArea(label=_('Postal Address'), validator=validators.NotEmpty)
 

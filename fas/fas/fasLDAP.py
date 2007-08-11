@@ -457,7 +457,7 @@ def delete(base, ldapServer=None):
         s = Server()
         ldapServer = s.ldapConn
 
-    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
+    ldapServer.simple_bind_s('cn=directory manager', 'test')
     print "Deleteing %s " % base
     ldapServer.delete_s(base)
 
@@ -468,7 +468,7 @@ def add(base, attributes, ldapServer=None):
         ldapServer = s.ldapConn
     attributes=[ (k,v) for k,v in attributes.items() ]
 
-    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
+    ldapServer.simple_bind_s('cn=directory manager', 'test')
     ldapServer.add_s(base, attributes)
 
 def modify(base, attribute, new, old=None, ldapServer=None):
@@ -481,7 +481,7 @@ def modify(base, attribute, new, old=None, ldapServer=None):
         ldapServer = s.ldapConn
 
     from ldap import modlist
-    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
+    ldapServer.simple_bind_s('cn=directory manager', 'test')
 
     if old == None:
         old = 'None'
@@ -505,7 +505,7 @@ def search(base, filter, attributes=None, ldapServer=None):
     scope = ldap.SCOPE_SUBTREE
     count = 0
     timeout = 2
-    ldapServer.simple_bind_s('cn=directory manager', 'fedoraproject')
+    ldapServer.simple_bind_s('cn=directory manager', 'test')
     result_set = []
     try:
         result_id = ldapServer.search(base, scope, filter, attributes)

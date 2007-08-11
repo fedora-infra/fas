@@ -26,8 +26,8 @@
       </ul>
     </form>
     <ul>
-      <li><a href="resetPassword">Forgot Password?</a></li>
-      <li><a href="signUp">Sign Up</a></li>
+      <li><a href="${tg.url('/resetPassword')}">Forgot Password?</a></li>
+      <li><a href="${tg.url('/signUp')}">Sign Up</a></li>
     </ul>
   </body>
 </html>
