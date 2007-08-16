@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>Edit Group</title>
+  </head>
+  <body>
+    <h2>${group.fedoraGroupDesc} (${group.cn})</h2>
+    <h3>
+      My Status: 
+      <span py:if="me.fedoraRoleStatus.lower() == 'approved'" class="approved">Approved</span>
+      <span py:if="me.fedoraRoleStatus.lower() == 'unapproved'" class="unapproved">Unapproved</span>
+      <span py:if="'Not a Member' in me.fedoraRoleStatus">Not a Member</span>
+    </h3>
+    <form py:if="'Not a Member' in me.fedoraRoleStatus" action="${tg.url('/group/apply/%s/%s' % (group.cn, userName))}">
+      <div>
+        <!--<input type="text" name="requestField" value="Please let me join..." />-->
+        <input type="submit" value="Join!" />
+      </div>
+    </form>
+    <a py:if="'Not a Member' not in me.fedoraRoleStatus" href="${tg.url('/group/remove/%s/%s' % (group.cn, userName))}">Remove me</a>
+    <h3>Group Details <a href="${tg.url('/group/edit/%s' % group.cn)}">(edit)</a></h3>
+    <div class="userbox">
+      <dl>
+        <dt>Name:</dt><dd>${group.cn}</dd>
+        <dt>Description:</dt><dd>${group.fedoraGroupDesc}</dd>
+        <dt>Owner:</dt><dd>${group.fedoraGroupOwner}</dd>
+        <dt>Type:</dt><dd>${group.fedoraGroupType}</dd>
+        <dt>Needs Sponsor:</dt><dd>
+        <span py:if="group.fedoraGroupNeedsSponsor == 'TRUE'" py:strip="">Yes</span>
+        <span py:if="group.fedoraGroupNeedsSponsor == 'FALSE'" py:strip="">No</span>
+        </dd>
+        <dt>Self Removal</dt><dd>
+        <span py:if="group.fedoraGroupUserCanRemove == 'TRUE'" py:strip="">Yes</span>
+        <span py:if="group.fedoraGroupUserCanRemove == 'FALSE'" py:strip="">No</span>
+        </dd>
+        <dt>Join Message:</dt><dd>${group.fedoraGroupJoinMsg}</dd>
+      </dl>
+    </div>
+    <!--
+    TODO: Implement this :)
+    <h3 py:if='me.fedoraRoleStatus == "approved"'>Invite</h3>
+    <span py:if='me.fedoraRoleStatus == "approved"'>${form(action='modifyGroup', value=value, method='get')}</span>
+    -->
+    <h3>Members</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Sponsor</th>
+          <th>Date Added</th>
+          <th>Date Approved</th>
+          <th>Approval</th>
+          <th>Role Type</th>
+          <th py:if='me.fedoraRoleType == "administrator" or me.fedoraRoleType == "sponsor"'>Action</th>
+        </tr>
+      </thead>
+      <tr py:for="user in groups">
+        <td><a href="${tg.url('/user/view/%s' % user[0])}">${user[0]}</a></td>
+        <td py:if='not(user[1].fedoraRoleSponsor ==  "None")'><a href="%{tg.url('/user/view/%s' % user[1].fedoraRoleSponsor)}">${user[1].fedoraRoleSponsor}</a></td>
+        <td py:if='user[1].fedoraRoleSponsor == "None"'>${user[1].fedoraRoleSponsor}</td>
+        <td>${user[1].fedoraRoleCreationDate}</td>
+        <td>${user[1].fedoraRoleApprovalDate}</td>
+        <td>${user[1].fedoraRoleStatus}</td>
+        <td>${user[1].fedoraRoleType}</td>
+        <!--<td>${user[1].fedoraRoleDomain}</td>-->
+        <!-- This section includes all action items -->
+        <td py:if='me.fedoraRoleType == "administrator"'>
+          <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'" href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}">Sponsor</a>
+          <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE' and user[1].fedoraRoleStatus.lower() != 'approved'" href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}">Approve</a>
+          <a href="${tg.url('/group/remove/%s/%s' % (user[1].cn, user[0]))}">Delete</a>
+          <a href="${tg.url('/group/upgrade/%s/%s' % (user[1].cn, user[0]))}">Upgrade</a>
+          <a href="${tg.url('/group/downgrade/%s/%s' % (user[1].cn, user[0]))}">Downgrade</a> Suspend
+        </td>
+        <td py:if='me.fedoraRoleType == "sponsor" and not user[1].fedoraRoleType == "administrator"'>
+          <a href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}" py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'">Sponsor</a>
+          <a href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}" py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'">Approve</a>
+          <a href="${tg.url('/group/remove/%s/%s' % (user[1].cn, user[0]))}">Delete</a>
+          <a py:if='user[1].fedoraRoleType' href="${tg.url('/group/upgrade/%s/%s' % (user[1].cn, user[0]))}">Upgrade</a>
+          <a href="${tg.url('/group/downgrade/%s/%s' % (user[1].cn, user[0]))}">Downgrade</a> Suspend
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

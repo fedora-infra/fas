@@ -1,0 +1,253 @@
+import turbogears
+from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+
+import ldap
+
+from fas.fasLDAP import UserAccount
+from fas.fasLDAP import Person
+from fas.fasLDAP import Groups
+from fas.fasLDAP import UserGroup
+
+from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
+
+from operator import itemgetter
+
+class knownUser(validators.FancyValidator):
+      def _to_python(self, value, state):
+          return value.strip()
+      def validate_python(self, value, state):
+          p = Person.byUserName(value)
+          if p.cn:
+              raise validators.Invalid(_("'%s' already exists") % value, value, state)
+
+class unknownUser(validators.FancyValidator):
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        p = Person.byUserName(value)
+        if not p.cn:
+            raise validators.Invalid(_("'%s' does not exist") % value, value, state)
+
+class editUser(widgets.WidgetsList):
+    #    cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
+    userName = widgets.HiddenField(validator=validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
+    givenName = widgets.TextField(label=_('Full Name'), validator=validators.String(not_empty=True, max=42))
+    mail = widgets.TextField(label=_('Email'), validator=validators.Email(not_empty=True, strip=True))
+    fedoraPersonBugzillaMail = widgets.TextField(label=_('Bugzilla Email'), validator=validators.Email(not_empty=True, strip=True))
+    fedoraPersonIrcNick = widgets.TextField(label=_('IRC Nick'))
+    fedoraPersonKeyId = widgets.TextField(label=_('PGP Key'))
+    telephoneNumber = widgets.TextField(label=_('Telephone Number'), validator=validators.PhoneNumber(not_empty=True))
+    postalAddress = widgets.TextArea(label=_('Postal Address'), validator=validators.NotEmpty)
+    description = widgets.TextArea(label=_('Description'))
+    
+editUserForm = widgets.ListForm(fields=editUser(), submit_text=_('Update'))
+
+class newUser(widgets.WidgetsList):
+    #cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
+    cn = widgets.TextField(label=_('Username'), validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
+    givenName = widgets.TextField(label=_('Full Name'), validator=validators.String(not_empty=True, max=42))
+    mail = widgets.TextField(label=_('Email'), validator=validators.Email(not_empty=True, strip=True))
+    telephoneNumber = widgets.TextField(label=_('Telephone Number'), validator=validators.PhoneNumber(not_empty=True))
+    postalAddress = widgets.TextArea(label=_('Postal Address'), validator=validators.NotEmpty)
+
+newUserForm = widgets.ListForm(fields=newUser(), submit_text=_('Sign Up'))
+
+class User(controllers.Controller):
+
+    def __init__(self):
+        '''Create a User Controller.
+        '''
+
+    def index(self):
+        '''Redirect to view
+        '''
+        turbogears.redirect('view/%s' % turbogears.identity.current.user_name)
+
+    @expose(template="fas.templates.user.view")
+    @identity.require(turbogears.identity.not_anonymous())
+    def view(self, userName=None):
+        '''View a User.
+        '''
+        # TODO: Validate- check if user actually exists
+        if not userName:
+            userName = turbogears.identity.current.user_name
+        if turbogears.identity.current.user_name == userName:
+            personal = True
+        else:
+            personal = False
+        if isAdmin(turbogears.identity.current.user_name):
+            admin = True
+        else:
+            admin = False
+        user = Person.byUserName(userName)
+        groups = Groups.byUserName(userName)
+        groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
+        groupdata={}
+        for g in groups:
+            groupdata[g] = Groups.groups(g)[g]
+        for g in groupsPending:
+            groupdata[g] = Groups.groups(g)[g]
+        try:
+            groups['cla_done']
+            claDone=True
+        except KeyError:
+            claDone=None
+        groups = sorted(groups.items(), key=itemgetter(0))
+        groupsPending = sorted(groupsPending.items(), key=itemgetter(0))
+        return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, claDone=claDone, personal=personal, admin=admin)
+
+    @expose(template="fas.templates.user.edit")
+    @identity.require(turbogears.identity.not_anonymous())
+    def edit(self, userName=None):
+        '''Edit a user
+        '''
+        if not userName:
+            userName = turbogears.identity.current.user_name
+        if not canEditUser(turbogears.identity.current.user_name, userName):
+            turbogears.flash(_('You cannot edit %s') % userName )
+            userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        value = {'userName': userName,
+                 'givenName': user.givenName,
+                 'mail': user.mail,
+                 'fedoraPersonBugzillaMail': user.fedoraPersonBugzillaMail,
+                 'fedoraPersonIrcNick': user.fedoraPersonIrcNick,
+                 'fedoraPersonKeyId': user.fedoraPersonKeyId,
+                 'telephoneNumber': user.telephoneNumber,
+                 'postalAddress': user.postalAddress,
+                 'description': user.description, }
+        return dict(value=value)
+
+    #@validate(form=editUserForm)
+    @expose(template='fas.templates.editAccount')
+    def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
+        if not canEditUser(turbogears.identity.current.user_name, userName):
+            turbogears.flash(_("You do not have permission to edit '%s'", userName))
+            turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
+        user = Person.byUserName(userName)
+        user.__setattr__('givenName', givenName.encode('utf8'))
+        user.__setattr__('mail', mail.encode('utf8'))
+        user.__setattr__('fedoraPersonBugzillaMail', fedoraPersonBugzillaMail.encode('utf8'))
+        user.__setattr__('fedoraPersonIrcNick', fedoraPersonIrcNick.encode('utf8'))
+        user.__setattr__('fedoraPersonKeyId', fedoraPersonKeyId.encode('utf8'))
+        user.__setattr__('telephoneNumber', telephoneNumber.encode('utf8'))
+        user.__setattr__('postalAddress', postalAddress.encode('utf8'))
+        user.__setattr__('description', description.encode('utf8'))
+        turbogears.flash(_('Your account has been updated.'))
+        turbogears.redirect("/user/view/%s" % userName)
+        return dict()
+
+    @expose(template="fas.templates.user.list")
+    @identity.require(turbogears.identity.in_group("accounts"))
+    def list(self, search="a*"):
+        '''List users
+        '''
+        users = Person.users(search)
+        try:
+            users[0]
+        except:
+            turbogears.flash(_("No users found matching '%s'") % search)
+            users = []
+        cla_done = Groups.byGroupName('cla_done')
+        claDone = {}
+        users.sort()
+        for u in users:
+            try:
+                cla_done[u]
+                claDone[u] = True
+            except KeyError:
+                claDone[u] = False
+        return dict(users=users, claDone=claDone, search=search)
+       
+    @expose(template='fas.templates.user.new')
+    def new(self):
+        if turbogears.identity.not_anonymous():
+            turbogears.flash(_('No need to sign up, You have an account!'))
+            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+        return dict(form=newUserForm)
+
+    @validate(form=newUserForm) ## TODO: Use validate everywhere
+    @expose(template='fas.templates.new')
+    def create(self, cn, givenName, mail, telephoneNumber, postalAddress):
+        # TODO: Ensure that e-mails are unique?
+        # Also, perhaps implement a timeout- delete account
+        # if the e-mail is not verified (i.e. the person changes
+        # their password) withing X days.  
+        import turbomail
+        try:
+            Person.newPerson(cn.encode('utf8'),
+                            givenName.encode('utf8'),
+                            mail.encode('utf8'),
+                            telephoneNumber.encode('utf8'),
+                            postalAddress.encode('utf8'))
+            p = Person.byUserName(cn.encode('utf8'))
+            newpass = p.generatePassword()
+            message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
+            message.plain = _("You have created a new Fedora account!  Your new password is: %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
+            turbomail.enqueue(message)
+            p.__setattr__('userPassword', newpass['hash'])
+            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            turbogears.redirect('/login')
+        except ldap.ALREADY_EXISTS:
+            turbogears.flash(_("The username '%s' already Exists.  Please choose a different username.") % cn)
+            turbogears.redirect('/user/new')
+        return dict()
+
+    @expose(template="fas.templates.user.changepass")
+    @identity.require(turbogears.identity.not_anonymous())
+    def changepass(self):
+        return dict()
+
+    #TODO: Validate
+    @expose(template="fas.templates.user.changepass")
+    @identity.require(turbogears.identity.not_anonymous())
+    def setpass(self, currentPassword, password, passwordCheck):
+        # TODO: use @validate/check password length
+        userName = turbogears.identity.current.user_name
+        try:
+            Person.auth(userName, currentPassword)
+        except AuthError:
+            turbogears.flash('Your current password did not match.')
+            return dict()
+        p = Person.byUserName(userName)
+        newpass = p.generatePassword(password)
+        try:
+            p.__setattr__('userPassword', newpass['hash'])
+            turbogears.flash(_("Your password has been changed."))
+        except:
+            turbogears.flash(_("Your password could not be changed."))
+        return dict()
+
+    @expose(template="fas.templates.user.resetpass")
+    def resetpass(self):
+        if turbogears.identity.not_anonymous():
+            turbogears.flash(_('You are already logged in!'))
+            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+        return dict()
+            
+    # TODO: Validate
+    @expose(template="fas.templates.user.resetpass")
+    def sendpass(self, userName, mail):
+        # TODO: Do validation and check the password is long enough
+        import turbomail
+        # Logged in
+        if turbogears.identity.current.user_name:
+            turbogears.flash(_("You are already logged in."))
+            turbogears.redirect('/user/view/%s', turbogears.identity.current.user_name)
+        p = Person.byUserName(userName)
+        if userName and mail:
+            if not mail == p.mail:
+                turbogears.flash(_("username + email combo unknown."))
+                return dict()
+            newpass = p.generatePassword()
+            message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
+            message.plain = _("You have requested a password reset!  Your new password is - %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
+            turbomail.enqueue(message)
+            try:
+                p.__setattr__('userPassword', newpass['hash'])
+                turbogears.flash(_('Your new password has been emailed to you.'))
+                turbogears.redirect('/login')
+            except:
+                turbogears.flash(_('Your password could not be reset.'))
+        return dict()
+

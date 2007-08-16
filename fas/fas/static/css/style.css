@@ -407,30 +407,29 @@ pre
   font-size: 3ex;
 }
 
-form ul
+form
 {
   list-style: none;
   margin: 1ex 0!important;
 }
 
-form ul li
+form .field
 {
   margin: 0 0 1ex;
   text-align: left;
   overflow: hidden;
 }
 
-form ul label
+form .field label
 {
   float: left;
   clear: left;
   width: 16ex;
   text-align: right;
-  margin: 0;
   padding: 0 2ex 0 0;
 }
 
-form ul input, form ul textarea
+form .field input, form .field textarea
 {
   margin: 0;
 }

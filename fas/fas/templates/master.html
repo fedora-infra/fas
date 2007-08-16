@@ -1,12 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<?python import sitetemplate ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
-  <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
-    <title py:replace="''">Title</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:py="http://genshi.edgewall.org/"
+  py:strip="">
+  <head>
+    <title>${title}</title>
     <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
-    <meta py:replace="item[:]"/>
   </head>
-  <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
+  <body py:match="body" py:attrs="select('@*')">
     <div id="wrapper">
       <div id="head">
         <h1><a href="http://fedoraproject.org/">Fedora</a></h1>
@@ -36,7 +37,7 @@
         </div>
         <div id="control">
           <ul>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/viewAccount')}">My Account</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.user_name)}">My Account</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/logout')}">Log Out</a></li>
             <li py:if="tg.identity.anonymous"><a href="${tg.url('/login')}">Log In</a></li>
           </ul>
@@ -45,17 +46,17 @@
       <div id="main">
         <div id="sidebar">
           <ul>
-            <li class="first"><a href="${tg.url('/listGroup')}">Group List</a></li>
-            <li py:if="'accounts' in tg.identity.groups"><a href="${tg.url('/listUser')}">User List</a></li>
+            <li class="first"><a href="${tg.url('/group/list')}">Group List</a></li>
+            <li py:if="'accounts' in tg.identity.groups"><a href="${tg.url('/user/list')}">User List</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">News</a></li>
-            <li><a href="${tg.url('/listGroup', search='A*')}">Apply For a new Group</a></li>
+            <li><a href="${tg.url('/group/list/A*')}">Apply For a new Group</a></li>
           </ul>
         </div>
         <div id='content'>
           <div py:if="tg_flash" class="flash">
             ${tg_flash}
           </div>
-          <div py:replace="[item.text]+item[:]" />
+          <div py:replace="select('*|text()')" />
         </div> <!-- End main -->
         <div id="footer">
           <ul id="footlinks">

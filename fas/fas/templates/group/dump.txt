@@ -1,0 +1,3 @@
+#for user in groups
+${user[0].decode('utf-8')},${Person.byUserName(user[0]).mail.decode('utf-8')},${Person.byUserName(user[0]).givenName.decode('utf-8')},${user[1].fedoraRoleType.decode('utf-8')}
+#end

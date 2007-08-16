@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>Sign up for a Fedora account</title>
+  </head>
+  <body>
+    <h2>Sign up for a Fedora account</h2>
+    <form action="${tg.url('/user/create')}" method="post">
+      <div class="field">
+        <label for="cn">Username:</label>
+        <input type="text" id="cn" name="cn" />
+      </div>
+      <div class="field">
+        <label for="givenName">Full Name:</label>
+        <input type="text" id="givenName" name="givenName" />
+      </div>
+      <div class="field">
+        <label for="mail">Email</label>
+        <input type="text" id="mail" name="mail" />
+      </div>
+      <div class="field">
+        <label for="telephoneNumber">Telephone Number</label>
+        <input type="text" id="telephoneNumber" name="telephoneNumber" />
+      </div>
+      <div class="field">
+        <label for="postalAddress">Postal Address</label>
+        <input type="text" id="postalAddress" name="postalAddress" />
+      </div>
+      <div class="field">
+        <input type="submit" value="Sign up!" />
+      </div>
+    </form>
+  </body>
+</html>
