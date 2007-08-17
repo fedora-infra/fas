@@ -19,7 +19,7 @@ class knownGroup(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        g = Groups.groups(groupName)
+        g = Groups.groups(value)
         if not g:
             raise validators.Invalid(_("The group '%s' does not exist") % value, value, state)
 
@@ -28,7 +28,7 @@ class unknownGroup(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        g = Groups.groups(groupName)
+        g = Groups.groups(value)
         if g:
             raise validators.Invalid(_("The group '%s' already exists") % value, value, state)
 
