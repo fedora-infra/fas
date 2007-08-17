@@ -13,14 +13,7 @@ from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 from operator import itemgetter
 
 class knownUser(validators.FancyValidator):
-      def _to_python(self, value, state):
-          return value.strip()
-      def validate_python(self, value, state):
-          p = Person.byUserName(value)
-          if p.cn:
-              raise validators.Invalid(_("'%s' already exists") % value, value, state)
-
-class unknownUser(validators.FancyValidator):
+    '''Make sure that a user already exists'''
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
@@ -28,29 +21,41 @@ class unknownUser(validators.FancyValidator):
         if not p.cn:
             raise validators.Invalid(_("'%s' does not exist") % value, value, state)
 
-class editUser(widgets.WidgetsList):
-    #    cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
-    userName = widgets.HiddenField(validator=validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
-    givenName = widgets.TextField(label=_('Full Name'), validator=validators.String(not_empty=True, max=42))
-    mail = widgets.TextField(label=_('Email'), validator=validators.Email(not_empty=True, strip=True))
-    fedoraPersonBugzillaMail = widgets.TextField(label=_('Bugzilla Email'), validator=validators.Email(not_empty=True, strip=True))
-    fedoraPersonIrcNick = widgets.TextField(label=_('IRC Nick'))
-    fedoraPersonKeyId = widgets.TextField(label=_('PGP Key'))
-    telephoneNumber = widgets.TextField(label=_('Telephone Number'), validator=validators.PhoneNumber(not_empty=True))
-    postalAddress = widgets.TextArea(label=_('Postal Address'), validator=validators.NotEmpty)
-    description = widgets.TextArea(label=_('Description'))
+class unknownUser(validators.FancyValidator):
+    '''Make sure that a user doesn't already exist'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        p = Person.byUserName(value)
+        if p.cn:
+            raise validators.Invalid(_("'%s' already exists") % value, value, state)
+
+class editUser(validators.Schema):
+    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    givenName = validators.String(not_empty=True, max=42)
+    mail = validators.Email(not_empty=True, strip=True)
+    fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
+    #fedoraPersonKeyId- Save this one for later :)
+    telephoneNumber = validators.PhoneNumber(not_empty=True)
+    postalAddress = validators.NotEmpty
     
-editUserForm = widgets.ListForm(fields=editUser(), submit_text=_('Update'))
+class newUser(validators.Schema):
+    cn = validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    givenName = validators.String(not_empty=True, max=42)
+    mail = validators.Email(not_empty=True, strip=True)
+    fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
+    telephoneNumber = validators.PhoneNumber(not_empty=True)
+    postalAddress = validators.NotEmpty
 
-class newUser(widgets.WidgetsList):
-    #cn = widgets.TextField(label='Username', validator=validators.PlainText(not_empty=True, max=10))
-    cn = widgets.TextField(label=_('Username'), validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
-    givenName = widgets.TextField(label=_('Full Name'), validator=validators.String(not_empty=True, max=42))
-    mail = widgets.TextField(label=_('Email'), validator=validators.Email(not_empty=True, strip=True))
-    telephoneNumber = widgets.TextField(label=_('Telephone Number'), validator=validators.PhoneNumber(not_empty=True))
-    postalAddress = widgets.TextArea(label=_('Postal Address'), validator=validators.NotEmpty)
+class changePass(validators.Schema):
+    currentPassword = validators.String()
+    # TODO (after we're done with most testing): Add complexity requirements?
+    password = validators.String(min=8)
+    passwordCheck = validators.String()
+    chained_validators = [validators.FieldsMatch('password', 'passwordCheck')]
 
-newUserForm = widgets.ListForm(fields=newUser(), submit_text=_('Sign Up'))
+class userNameExists(validators.Schema):
+    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
 class User(controllers.Controller):
 
@@ -63,12 +68,13 @@ class User(controllers.Controller):
         '''
         turbogears.redirect('view/%s' % turbogears.identity.current.user_name)
 
+    @validate(validators=userNameExists())
+    @error_handler(error)
     @expose(template="fas.templates.user.view")
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, userName=None):
         '''View a User.
         '''
-        # TODO: Validate- check if user actually exists
         if not userName:
             userName = turbogears.identity.current.user_name
         if turbogears.identity.current.user_name == userName:
@@ -118,7 +124,7 @@ class User(controllers.Controller):
                  'description': user.description, }
         return dict(value=value)
 
-    #@validate(form=editUserForm)
+    @validate(validators=editUser())
     @expose(template='fas.templates.editAccount')
     def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
         if not canEditUser(turbogears.identity.current.user_name, userName):
@@ -164,9 +170,9 @@ class User(controllers.Controller):
         if turbogears.identity.not_anonymous():
             turbogears.flash(_('No need to sign up, You have an account!'))
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
-        return dict(form=newUserForm)
+        return dict()
 
-    @validate(form=newUserForm) ## TODO: Use validate everywhere
+    @validate(validators=newUser())
     @expose(template='fas.templates.new')
     def create(self, cn, givenName, mail, telephoneNumber, postalAddress):
         # TODO: Ensure that e-mails are unique?
@@ -198,11 +204,10 @@ class User(controllers.Controller):
     def changepass(self):
         return dict()
 
-    #TODO: Validate
+    @validate(validators=changePass())
     @expose(template="fas.templates.user.changepass")
     @identity.require(turbogears.identity.not_anonymous())
     def setpass(self, currentPassword, password, passwordCheck):
-        # TODO: use @validate/check password length
         userName = turbogears.identity.current.user_name
         try:
             Person.auth(userName, currentPassword)
@@ -225,15 +230,14 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
             
-    # TODO: Validate
     @expose(template="fas.templates.user.resetpass")
     def sendpass(self, userName, mail):
-        # TODO: Do validation and check the password is long enough
         import turbomail
         # Logged in
         if turbogears.identity.current.user_name:
             turbogears.flash(_("You are already logged in."))
             turbogears.redirect('/user/view/%s', turbogears.identity.current.user_name)
+            return dict()
         p = Person.byUserName(userName)
         if userName and mail:
             if not mail == p.mail:

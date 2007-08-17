@@ -12,17 +12,10 @@ from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
 from operator import itemgetter
 
-from fas.user import knownUser
+from fas.user import knownUser, userNameExists
 
 class knownGroup(validators.FancyValidator):
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        g = Groups.groups(groupName)
-        if g:
-            raise validators.Invalid(_("The group '%s' already exists") % value, value, state)
-
-class unknownGroup(validators.FancyValidator):
+    '''Make sure that a group already exists'''
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
@@ -30,32 +23,38 @@ class unknownGroup(validators.FancyValidator):
         if not g:
             raise validators.Invalid(_("The group '%s' does not exist") % value, value, state)
 
-class createGroup(widgets.WidgetsList):
-    groupName = widgets.TextField(label=_('Group Name'), validator=validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3)))
-    fedoraGroupDesc = widgets.TextField(label=_('Description'), validator=validators.NotEmpty)
-    fedoraGroupOwner = widgets.TextField(label=_('Group Owner'), validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
-    fedoraGroupNeedsSponsor = widgets.CheckBox(label=_('Needs Sponsor'))
-    fedoraGroupUserCanRemove = widgets.CheckBox(label=_('Self Removal'))
-    fedoraGroupJoinMsg = widgets.TextField(label=_('Group Join Message'))
+class unknownGroup(validators.FancyValidator):
+    '''Make sure that a group doesn't already exist'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        g = Groups.groups(groupName)
+        if g:
+            raise validators.Invalid(_("The group '%s' already exists") % value, value, state)
 
-createGroupForm = widgets.ListForm(fields=createGroup(), submit_text=_('Create'))
+class createGroup(validators.Schema):
+    groupName = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    fedoraGroupDesc = validators.NotEmpty
+    fedoraGroupOwner = validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
-class editGroup(widgets.WidgetsList):
-    groupName = widgets.HiddenField(validator=validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3)))
-    fedoraGroupDesc = widgets.TextField(label=_('Description'), validator=validators.NotEmpty)
-    fedoraGroupOwner = widgets.TextField(label=_('Group Owner'), validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3)))
-    fedoraGroupNeedsSponsor = widgets.CheckBox(label=_('Needs Sponsor'))
-    fedoraGroupUserCanRemove = widgets.CheckBox(label=_('Self Removal'))
-    fedoraGroupJoinMsg = widgets.TextField(label=_('Group Join Message'))
+class editGroup(validators.Schema):
+    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    fedoraGroupDesc = validators.NotEmpty
+    fedoraGroupOwner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
-editGroupForm = widgets.ListForm(fields=editGroup(), submit_text=_('Update'))
+class userNameGroupNameExists(validators.Schema):
+    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
-class findUser(widgets.WidgetsList): 
-    userName = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='userName', result_name='people')   
-    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
-    groupName = widgets.HiddenField(validator=validators.String(not_empty=True)) 
+class groupNameExists(validators.Schema):
+    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
 
-findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite')) 
+#class findUser(widgets.WidgetsList): 
+#    userName = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='userName', result_name='people')   
+#    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
+#    groupName = widgets.HiddenField(validator=validators.String(not_empty=True)) 
+#
+#findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite')) 
 
 class Group(controllers.Controller):
 
@@ -66,25 +65,19 @@ class Group(controllers.Controller):
         '''Perhaps show a nice explanatory message about groups here?'''
         return dict()
 
+    @validate(validators=groupNameExists())
     @expose(template="fas.templates.group.view")
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, groupName):
         '''View group'''
-        # FIXME: Cleaner checks
-        try:
-            groups = Groups.byGroupName(groupName, includeUnapproved=True)
-        except KeyError:
-            raise ValueError, _('Group: %s - Does not exist!') % groupName
-        try:
-            group = Groups.groups(groupName)[groupName]
-        except TypeError:
-            raise ValueError, _('Group: %s - Does not exist!') % groupName
+        groups = Groups.byGroupName(groupName, includeUnapproved=True)
+        group = Groups.groups(groupName)[groupName]
         userName = turbogears.identity.current.user_name
         try:
             myStatus = groups[userName].fedoraRoleStatus
         except KeyError:
             # Not in group
-            myStatus = 'Not a Member' # This has say 'Not a Member'
+            myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
         except TypeError:
             groups = {}
         try:
@@ -93,7 +86,7 @@ class Group(controllers.Controller):
             me = UserGroup()
         #searchUserForm.groupName.display('group')
         #findUser.groupName.display(value='fff')
-        value = {'groupName': group.cn}
+        value = {'groupName': groupName}
         groups = sorted(groups.items(), key=itemgetter(0))
         return dict(userName=userName, groups=groups, group=group, me=me, value=value)
 
@@ -103,7 +96,7 @@ class Group(controllers.Controller):
         '''Create a group'''
         return dict()
 
-    #@validate(form=createGroupForm)
+    @validate(validators=createGroup())
     @expose(template="fas.templates.group.new")
     @identity.require(turbogears.identity.not_anonymous())
     def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor=True, fedoraGroupUserCanRemove=True, fedoraGroupJoinMsg=""):
@@ -141,11 +134,11 @@ class Group(controllers.Controller):
                   #'fedoraGroupRequires': group.fedoraGroupRequires, }
         return dict(value=value)
 
-    #@validate(form=editGroupForm)
+    @validate(validators=editGroup())
     @expose(template="fas.templates.group.edit")
     @identity.require(turbogears.identity.not_anonymous())
     def save(self, stuff):
-        #TODO
+        #TODO: Implement this :)
         return dict()
 
     @expose(template="fas.templates.group.list")
@@ -163,6 +156,7 @@ class Group(controllers.Controller):
         return dict(groups=groups, search=search, myGroups=myGroups)
 
     # TODO: Validate
+    @validate(validators=userNameGroupNameExists())
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def apply(self, groupName, userName):
@@ -175,7 +169,7 @@ class Group(controllers.Controller):
             turbogears.flash(_('%(user)s has applied to %(group)s!') % {'user': userName, 'group': groupName})
             turbogears.redirect('/group/view/%s' % group.cn)
 
-    # TODO: Validate (user doesn't exist case)
+    @validate(validators=userNameGroupNameExists())
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def sponsor(self, groupName, userName):
@@ -197,7 +191,7 @@ class Group(controllers.Controller):
         turbogears.flash(_('%s has been sponsored!') % p.cn)
         turbogears.redirect('/group/view/%s' % groupName)
 
-    # TODO: Validate (user doesn't exist case)
+    @validate(validators=userNameGroupNameExists())
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def remove(self, groupName, userName):
@@ -222,7 +216,7 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/view/%s' % groupName)
         return dict()
 
-    # TODO: Validate (user doesn't exist case)
+    @validate(validators=userNameGroupNameExists())
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def upgrade(self, groupName, userName):
@@ -248,7 +242,7 @@ class Group(controllers.Controller):
         turbogears.flash(_('%s has been upgraded!') % userName)
         turbogears.redirect('/group/view/%s' % groupName)
 
-    # TODO: Validate (user doesn't exist case)
+    @validate(validators=userNameGroupNameExists())
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def downgrade(self, groupName, userName):
@@ -270,7 +264,7 @@ class Group(controllers.Controller):
         turbogears.flash(_('%s has been downgraded!') % p.cn)
         turbogears.redirect('/group/view/%s' % groupName)
 
-    # TODO: Validate (group doesn't exist case)
+    @validate(validators=groupNameExists())
     @expose(template="genshi-text:fas.templates.group.dump", content_type='text/plain; charset=utf-8')
     @identity.require(turbogears.identity.not_anonymous())
     def dump(self, groupName=None):
