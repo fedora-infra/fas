@@ -69,7 +69,6 @@ class User(controllers.Controller):
         turbogears.redirect('view/%s' % turbogears.identity.current.user_name)
 
     @validate(validators=userNameExists())
-    @error_handler(error)
     @expose(template="fas.templates.user.view")
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, userName=None):
