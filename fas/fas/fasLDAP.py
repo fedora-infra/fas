@@ -458,7 +458,7 @@ def delete(base, ldapServer=None):
         ldapServer = s.ldapConn
 
     ldapServer.simple_bind_s('cn=directory manager', 'test')
-    print "Deleteing %s " % base
+    print "Deleting %s " % base
     ldapServer.delete_s(base)
 
 def add(base, attributes, ldapServer=None):

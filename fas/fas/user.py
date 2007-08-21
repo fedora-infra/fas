@@ -3,6 +3,8 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 
 import ldap
 
+import fas.fasLDAP
+
 from fas.fasLDAP import UserAccount
 from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
@@ -250,7 +252,7 @@ class User(controllers.Controller):
                 p.__setattr__('userPassword', newpass['hash'])
                 turbogears.flash(_('Your new password has been emailed to you.'))
                 turbogears.redirect('/login')
-            except:
+            except: #TODO: This may be too strong and show up even if it worked.
                 turbogears.flash(_('Your password could not be reset.'))
         return dict()
 

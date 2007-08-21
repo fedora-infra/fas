@@ -3,6 +3,8 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 
 import ldap
 
+import fas.fasLDAP
+
 from fas.fasLDAP import UserAccount
 from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
@@ -21,7 +23,7 @@ class knownGroup(validators.FancyValidator):
     def validate_python(self, value, state):
         g = Groups.groups(value)
         if not g:
-            raise validators.Invalid(_("The group '%s' does not exist") % value, value, state)
+            raise validators.Invalid(_("The group '%s' does not exist.") % value, value, state)
 
 class unknownGroup(validators.FancyValidator):
     '''Make sure that a group doesn't already exist'''
@@ -30,12 +32,12 @@ class unknownGroup(validators.FancyValidator):
     def validate_python(self, value, state):
         g = Groups.groups(value)
         if g:
-            raise validators.Invalid(_("The group '%s' already exists") % value, value, state)
+            raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
 class createGroup(validators.Schema):
     groupName = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     fedoraGroupDesc = validators.NotEmpty
-    fedoraGroupOwner = validator=validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    fedoraGroupOwner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
 class editGroup(validators.Schema):
     groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
@@ -65,7 +67,15 @@ class Group(controllers.Controller):
         '''Perhaps show a nice explanatory message about groups here?'''
         return dict()
 
+    @expose(template="fas.templates.error")
+    def error(self, tg_errors=None):
+        '''Show a friendly error message'''
+        if not tg_errors:
+            turbogears.redirect('/')
+        return dict(tg_errors=tg_errors)
+
     @validate(validators=groupNameExists())
+    @error_handler(error)
     @expose(template="fas.templates.group.view")
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, groupName):
@@ -92,53 +102,80 @@ class Group(controllers.Controller):
 
     @expose(template="fas.templates.group.new")
     @identity.require(turbogears.identity.not_anonymous())
-    def new(self, groupName):
-        '''Create a group'''
-        return dict()
-
-    @validate(validators=createGroup())
-    @expose(template="fas.templates.group.new")
-    @identity.require(turbogears.identity.not_anonymous())
-    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor=True, fedoraGroupUserCanRemove=True, fedoraGroupJoinMsg=""):
+    def new(self):
+        '''Display create group form'''
         userName = turbogears.identity.current.user_name
         if not isAdmin(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
-            # TODO: Create a general access denied/error page.
+            turbogears.redirect('/')
+        return dict()
+
+    @validate(validators=createGroup())
+    @error_handler(error)
+    @expose(template="fas.templates.group.new")
+    @identity.require(turbogears.identity.not_anonymous())
+    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupJoinMsg=""):
+        '''Create a group'''
+        userName = turbogears.identity.current.user_name
+        if not isAdmin(userName):
+            turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
-            Groups.newGroup(groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg)
-            turbogears.flash(_("The group: '%s' has been created.") % groupName)
-            turbogears.redirect('/group/view/%s', groupName)
+            fas.fasLDAP.Group.newGroup(groupName.encode('utf8'),
+                                       fedoraGroupDesc.encode('utf8'),
+                                       fedoraGroupOwner.encode('utf8'),
+                                       fedoraGroupNeedsSponsor.encode('utf8'),
+                                       fedoraGroupUserCanRemove.encode('utf8'),
+                                       fedoraGroupJoinMsg.encode('utf8'),)
+
         except:
             turbogears.flash(_("The group: '%s' could not be created.") % groupName)
-        return dict()
+            return dict()
+        else:
+            try:
+                p = Person.byUserName(fedoraGroupOwner) 
+                Groups.apply(groupName, fedoraGroupOwner) # Apply...
+                p.sponsor(groupName, userName) # Approve...
+                p.upgrade(groupName) # Sponsor...
+                p.upgrade(groupName) # Admin!
+            except:
+                turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)' could not be added as a group administrator.") % {'group': groupName, 'user': fedoraGroupOwner})
+            else:
+                turbogears.flash(_("The group: '%s' has been created.") % groupName)
+            turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @expose(template="fas.templates.group.edit")
     @identity.require(turbogears.identity.not_anonymous())
     def edit(self, groupName):
-        '''Edit a group'''
-        #TODO: Handle the "no such group" case (or maybe create
-        #a generic function to check user/group existence.
+        '''Display edit group form'''
         userName = turbogears.identity.current.user_name
         if not canAdminGroup(userName, groupName):
-            turbogears.flash(_('You cannot edit %s') % groupName)
+            turbogears.flash(_("You cannot edit '%s'.") % groupName)
             turbogears.redirect('/group/view/%s' % groupName)
         group = Groups.groups(groupName)[groupName]
         value = {'groupName': groupName,
-                  'fedoraGroupOwner': group.fedoraGroupOwner,
-                  'fedoraGroupType': group.fedoraGroupType,
-                  'fedoraGroupNeedsSponsor': (group.fedoraGroupNeedsSponsor.upper() == 'TRUE'),
-                  'fedoraGroupUserCanRemove': (group.fedoraGroupUserCanRemove.upper() == 'TRUE'),
-                  'fedoraGroupJoinMsg': group.fedoraGroupJoinMsg,
-                  'fedoraGroupDesc': group.fedoraGroupDesc, }
-                  #'fedoraGroupRequires': group.fedoraGroupRequires, }
+                 'fedoraGroupDesc': group.fedoraGroupDesc,
+                 'fedoraGroupOwner': group.fedoraGroupOwner,
+                 'fedoraGroupType': group.fedoraGroupType,
+                 'fedoraGroupNeedsSponsor': (group.fedoraGroupNeedsSponsor.upper() == 'TRUE'),
+                 'fedoraGroupUserCanRemove': (group.fedoraGroupUserCanRemove.upper() == 'TRUE'),
+                 #'fedoraGroupRequires': group.fedoraGroupRequires,
+                 'fedoraGroupJoinMsg': group.fedoraGroupJoinMsg, }
         return dict(value=value)
 
     @validate(validators=editGroup())
-    @expose(template="fas.templates.group.edit")
+    @error_handler(error)
+    @expose()
     @identity.require(turbogears.identity.not_anonymous())
-    def save(self, stuff):
+    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType=1, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupJoinMsg=""):
+        '''Edit a group'''
+        userName = turbogears.identity.current.user_name
+        if not canAdminGroup(userName, groupName):
+            turbogears.flash(_("You cannot edit '%s'.") % groupName)
+            turbogears.redirect('/group/view/%s' % groupName)
         #TODO: Implement this :)
+        turbogears.redirect('/group/view/%s' % groupName)
         return dict()
 
     @expose(template="fas.templates.group.list")
@@ -157,9 +194,11 @@ class Group(controllers.Controller):
 
     # TODO: Validate
     @validate(validators=userNameGroupNameExists())
+    @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def apply(self, groupName, userName):
+        '''Apply to a group'''
         try:
             Groups.apply(groupName, userName)
         except ldap.ALREADY_EXISTS:
@@ -167,9 +206,10 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/view/%s' % groupName)
         else:
             turbogears.flash(_('%(user)s has applied to %(group)s!') % {'user': userName, 'group': groupName})
-            turbogears.redirect('/group/view/%s' % group.cn)
+            turbogears.redirect('/group/view/%s' % groupName)
 
     @validate(validators=userNameGroupNameExists())
+    @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def sponsor(self, groupName, userName):
@@ -192,6 +232,7 @@ class Group(controllers.Controller):
         turbogears.redirect('/group/view/%s' % groupName)
 
     @validate(validators=userNameGroupNameExists())
+    @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def remove(self, groupName, userName):
@@ -217,6 +258,7 @@ class Group(controllers.Controller):
         return dict()
 
     @validate(validators=userNameGroupNameExists())
+    @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def upgrade(self, groupName, userName):
@@ -243,6 +285,7 @@ class Group(controllers.Controller):
         turbogears.redirect('/group/view/%s' % groupName)
 
     @validate(validators=userNameGroupNameExists())
+    @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
     def downgrade(self, groupName, userName):
@@ -265,7 +308,8 @@ class Group(controllers.Controller):
         turbogears.redirect('/group/view/%s' % groupName)
 
     @validate(validators=groupNameExists())
-    @expose(template="genshi-text:fas.templates.group.dump", content_type='text/plain; charset=utf-8')
+    @error_handler(error)
+    @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
     @identity.require(turbogears.identity.not_anonymous())
     def dump(self, groupName=None):
         groups = Groups.byGroupName(groupName)

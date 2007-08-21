@@ -19,6 +19,8 @@ from fas.group import Group
 # import logging
 # log = logging.getLogger("fas.controllers")
 
+#TODO: Appropriate flash icons for errors, etc.
+
 class Root(controllers.RootController):
 
     user = User()

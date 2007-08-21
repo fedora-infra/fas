@@ -59,7 +59,7 @@
       </thead>
       <tr py:for="user in groups">
         <td><a href="${tg.url('/user/view/%s' % user[0])}">${user[0]}</a></td>
-        <td py:if='not(user[1].fedoraRoleSponsor ==  "None")'><a href="%{tg.url('/user/view/%s' % user[1].fedoraRoleSponsor)}">${user[1].fedoraRoleSponsor}</a></td>
+        <td py:if='not(user[1].fedoraRoleSponsor ==  "None")'><a href="${tg.url('/user/view/%s' % user[1].fedoraRoleSponsor)}">${user[1].fedoraRoleSponsor}</a></td>
         <td py:if='user[1].fedoraRoleSponsor == "None"'>${user[1].fedoraRoleSponsor}</td>
         <td>${user[1].fedoraRoleCreationDate}</td>
         <td>${user[1].fedoraRoleApprovalDate}</td>
