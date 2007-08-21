@@ -1,0 +1,22 @@
+#!/bin/bash
+
+CHECK='/usr/bin/wget -qO- http://publictest8.fedora.phx.redhat.com/koji/builds | /bin/grep -c failed.png'
+WARNING=7
+CRITICAL=15
+
+FAILURES=$(/usr/bin/wget -qO- http://publictest8.fedora.phx.redhat.com/koji/builds | /bin/grep -c failed.png)
+
+
+if [ $FAILURES -gt $CRITICAL ]
+then
+    echo "Koji: CRITICAL failed builds: $FAILURES"
+    exit 2
+elif [ $FAILURES -gt $WARNING ]
+then
+    echo "Koji: WARNING failed builds: $FAILURES"
+    exit 1
+else
+    echo "Koji: OK failed builds: $FAILURES"
+    exit 0
+fi
+
