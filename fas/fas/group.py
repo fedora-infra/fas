@@ -174,9 +174,22 @@ class Group(controllers.Controller):
         if not canAdminGroup(userName, groupName):
             turbogears.flash(_("You cannot edit '%s'.") % groupName)
             turbogears.redirect('/group/view/%s' % groupName)
-        #TODO: Implement this :)
-        turbogears.redirect('/group/view/%s' % groupName)
-        return dict()
+        # TODO: This is kind of an ugly hack.
+        base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
+        try:
+            fas.fasLDAP.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
+            fas.fasLDAP.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
+            fas.fasLDAP.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
+            fas.fasLDAP.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
+            fas.fasLDAP.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
+            fas.fasLDAP.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
+        except:
+            turbogears.flash(_('The group details could not be saved.'))
+            return dict()
+        else:
+            turbogears.flash(_('The group details have been saved.'))
+            turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @expose(template="fas.templates.group.list")
     @identity.require(turbogears.identity.not_anonymous())
@@ -192,7 +205,6 @@ class Group(controllers.Controller):
         groups = sorted(groups.items(), key=itemgetter(0))
         return dict(groups=groups, search=search, myGroups=myGroups)
 
-    # TODO: Validate
     @validate(validators=userNameGroupNameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
