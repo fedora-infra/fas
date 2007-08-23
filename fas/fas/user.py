@@ -70,7 +70,15 @@ class User(controllers.Controller):
         '''
         turbogears.redirect('view/%s' % turbogears.identity.current.user_name)
 
+    @expose(template="fas.templates.error")
+    def error(self, tg_errors=None):
+        '''Show a friendly error message'''
+        if not tg_errors:
+            turbogears.redirect('/')
+        return dict(tg_errors=tg_errors)
+
     @validate(validators=userNameExists())
+    @error_handler(error)
     @expose(template="fas.templates.user.view")
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, userName=None):
@@ -126,6 +134,7 @@ class User(controllers.Controller):
         return dict(value=value)
 
     @validate(validators=editUser())
+    @error_handler(error)
     @expose(template='fas.templates.editAccount')
     def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
         if not canEditUser(turbogears.identity.current.user_name, userName):
@@ -174,6 +183,7 @@ class User(controllers.Controller):
         return dict()
 
     @validate(validators=newUser())
+    @error_handler(error)
     @expose(template='fas.templates.new')
     def create(self, cn, givenName, mail, telephoneNumber, postalAddress):
         # TODO: Ensure that e-mails are unique?
@@ -206,6 +216,7 @@ class User(controllers.Controller):
         return dict()
 
     @validate(validators=changePass())
+    @error_handler(error)
     @expose(template="fas.templates.user.changepass")
     @identity.require(turbogears.identity.not_anonymous())
     def setpass(self, currentPassword, password, passwordCheck):
@@ -248,6 +259,7 @@ class User(controllers.Controller):
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
             message.plain = _("You have requested a password reset!  Your new password is - %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
             turbomail.enqueue(message)
+            # TODO: Make this send GPG-encrypted e-mails :)
             try:
                 p.__setattr__('userPassword', newpass['hash'])
                 turbogears.flash(_('Your new password has been emailed to you.'))
