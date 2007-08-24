@@ -15,6 +15,10 @@ from operator import itemgetter
 from fas.user import User
 from fas.group import Group
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # from fas import json
 # import logging
 # log = logging.getLogger("fas.controllers")
