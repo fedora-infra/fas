@@ -15,6 +15,8 @@ from operator import itemgetter
 from fas.user import User
 from fas.group import Group
 
+from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')

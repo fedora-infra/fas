@@ -12,8 +12,6 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
-from operator import itemgetter
-
 class knownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):
@@ -122,8 +120,6 @@ class User(controllers.Controller):
             claDone=True
         except KeyError:
             claDone=None
-        groups = sorted(groups.items(), key=itemgetter(0))
-        groupsPending = sorted(groupsPending.items(), key=itemgetter(0))
         return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, claDone=claDone, personal=personal, admin=admin)
 
     @expose(template="fas.templates.user.edit")
@@ -186,7 +182,6 @@ class User(controllers.Controller):
             users = []
         cla_done = Groups.byGroupName('cla_done')
         claDone = {}
-        users.sort()
         for u in users:
             try:
                 cla_done[u]

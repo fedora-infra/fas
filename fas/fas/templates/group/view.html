@@ -7,11 +7,12 @@
     <title>Edit Group</title>
   </head>
   <body>
+    <?python from fas import auth ?>
     <h2>${group.fedoraGroupDesc} (${group.cn})</h2>
     <h3>
       My Status: 
-      <span py:if="me.fedoraRoleStatus.lower() == 'approved'" class="approved">Approved</span>
-      <span py:if="me.fedoraRoleStatus.lower() == 'unapproved'" class="unapproved">Unapproved</span>
+      <span py:if="auth.isApproved(userName, group.cn)" class="approved">Approved</span>
+      <span py:if="not auth.isApproved(userName, group.cn)" class="unapproved">Unapproved</span>
       <span py:if="'Not a Member' in me.fedoraRoleStatus">Not a Member</span>
     </h3>
     <form py:if="'Not a Member' in me.fedoraRoleStatus" action="${tg.url('/group/apply/%s/%s' % (group.cn, userName))}">
@@ -54,32 +55,29 @@
           <th>Date Approved</th>
           <th>Approval</th>
           <th>Role Type</th>
-          <th py:if='me.fedoraRoleType == "administrator" or me.fedoraRoleType == "sponsor"'>Action</th>
+          <th py:if="auth.canSponsorGroup(userName, group.cn)">Action</th>
         </tr>
       </thead>
-      <tr py:for="user in groups">
-        <td><a href="${tg.url('/user/view/%s' % user[0])}">${user[0]}</a></td>
-        <td py:if='not(user[1].fedoraRoleSponsor ==  "None")'><a href="${tg.url('/user/view/%s' % user[1].fedoraRoleSponsor)}">${user[1].fedoraRoleSponsor}</a></td>
-        <td py:if='user[1].fedoraRoleSponsor == "None"'>${user[1].fedoraRoleSponsor}</td>
-        <td>${user[1].fedoraRoleCreationDate}</td>
-        <td>${user[1].fedoraRoleApprovalDate}</td>
-        <td>${user[1].fedoraRoleStatus}</td>
-        <td>${user[1].fedoraRoleType}</td>
-        <!--<td>${user[1].fedoraRoleDomain}</td>-->
+      <tr py:for="user in sorted(groups.keys())">
+        <td><a href="${tg.url('/user/view/%s' % user)}">${user}</a></td>
+        <td py:if='not(groups[user].fedoraRoleSponsor ==  "None")'><a href="${tg.url('/user/view/%s' % groups[user].fedoraRoleSponsor)}">${groups[user].fedoraRoleSponsor}</a></td>
+        <td py:if='groups[user].fedoraRoleSponsor == "None"'>None</td>
+        <td>${groups[user].fedoraRoleCreationDate}</td>
+        <td>${groups[user].fedoraRoleApprovalDate}</td>
+        <td>${groups[user].fedoraRoleStatus}</td>
+        <td>${groups[user].fedoraRoleType}</td>
+        <!--<td>${groups[user].fedoraRoleDomain}</td>-->
         <!-- This section includes all action items -->
-        <td py:if='me.fedoraRoleType == "administrator"'>
-          <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'" href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}">Sponsor</a>
-          <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE' and user[1].fedoraRoleStatus.lower() != 'approved'" href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}">Approve</a>
-          <a href="${tg.url('/group/remove/%s/%s' % (user[1].cn, user[0]))}">Delete</a>
-          <a href="${tg.url('/group/upgrade/%s/%s' % (user[1].cn, user[0]))}">Upgrade</a>
-          <a href="${tg.url('/group/downgrade/%s/%s' % (user[1].cn, user[0]))}">Downgrade</a> Suspend
-        </td>
-        <td py:if='me.fedoraRoleType == "sponsor" and not user[1].fedoraRoleType == "administrator"'>
-          <a href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}" py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'">Sponsor</a>
-          <a href="${tg.url('/group/sponsor/%s/%s' % (user[1].cn, user[0]))}" py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'">Approve</a>
-          <a href="${tg.url('/group/remove/%s/%s' % (user[1].cn, user[0]))}">Delete</a>
-          <a py:if='user[1].fedoraRoleType' href="${tg.url('/group/upgrade/%s/%s' % (user[1].cn, user[0]))}">Upgrade</a>
-          <a href="${tg.url('/group/downgrade/%s/%s' % (user[1].cn, user[0]))}">Downgrade</a> Suspend
+        <td py:if="auth.canSponsorGroup(userName, group.cn)">
+          <ul>
+            <li>
+            <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'" href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Sponsor</a>
+            <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE' and groups[user].fedoraRoleStatus.lower() != 'approved'" href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Approve</a>
+            </li>
+            <li><a href="${tg.url('/group/remove/%s/%s' % (groups[user].cn, user))}">Delete</a></li>
+            <li><a href="${tg.url('/group/upgrade/%s/%s' % (groups[user].cn, user))}">Upgrade</a></li>
+            <li><a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">Downgrade</a></li>
+          </ul>
         </td>
       </tr>
     </table>

@@ -42,6 +42,17 @@ def canSponsorGroup(userName, groupName, g=None):
     except:
         return False
 
+def isApproved(userName, groupName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    try:
+        if (g[groupName].fedoraRoleStatus.lower() == 'approved'):
+           return True
+        else:
+           return False
+    except:
+        return False
+
 def canEditUser(userName, editUserName):
     if userName == editUserName:
         return True

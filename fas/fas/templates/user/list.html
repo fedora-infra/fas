@@ -28,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr py:for="user in users">
+        <tr py:for="user in sorted(users)">
           <td><a href="${tg.url('/user/view/%s' % user)}">${user}</a></td>
           <td>
             <span py:if="claDone[user]" class="approved"> Done</span>

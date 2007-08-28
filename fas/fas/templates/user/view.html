@@ -7,6 +7,7 @@
     <title>View Account</title>
   </head>
   <body>
+    <?python from fas import auth ?>
     <h2 class="account" py:if="personal">Your Fedora Account</h2>
     <h2 class="account" py:if="not personal">${user.givenName}'s Fedora Account</h2>
     <h3>Account Details <a href="${tg.url('/user/edit/%s' % user.cn)}" py:if="personal or admin">(edit)</a></h3>
@@ -29,16 +30,16 @@
     <h3 py:if="personal">Your Roles</h3>
     <h3 py:if="not personal">${user.givenName}'s Roles</h3>
     <ul class="roleslist">
-      <li py:for="group in groups"><span class="team approved">${groupdata[group[0]].fedoraGroupDesc} (${group[0]})</span></li>
-      <li py:for="group in groupsPending"><span class="team unapproved">${groupdata[group[0]].fedoraGroupDesc} (${group[0]})</span></li>
+      <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
+      <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
     </ul>
     <ul class="actions" py:if="personal">
       <li><a href="/">(Join another project)</a></li>
       <li><a href="/">(Create a new project)</a></li>
     </ul>
     <ul id="rolespanel" py:if="personal">
-      <li py:for="group in groups" class="role">
-      <h4>${groupdata[group[0]].fedoraGroupDesc}</h4>, ${group[1].fedoraRoleType}
+      <li py:for="group in sorted(groups.keys())" class="role">
+      <h4>${groupdata[group].fedoraGroupDesc}</h4>, ${groups[group].fedoraRoleType}
       <dl>
         <dt>Status:</dt>
         <dd>
@@ -48,13 +49,12 @@
         <dd>
         <ul class="tools">
           <li><a href="/">Invite a New Member...</a></li>
-          <li py:if="group[1].fedoraRoleType.lower() in ('administrator', 'sponsor')"><a href="${tg.url('/group/view/%s' % group[0])}">View All Pending Group Membership Requests...</a></li>
-          <li><a href="${tg.url('/group/view/%s' % group[0])}">Manage Group Membership...</a></li>
-          <!-- Replace with canAdminGroup, etc. -->
-          <li py:if="group[1].fedoraRoleType.lower() == 'administrator'"><a href="${tg.url('/group/edit/%s' % group[0])}">Manage Group Details...</a></li>
+          <li py:if="auth.canSponsorGroup(user.cn, group)"><a href="${tg.url('/group/view/%s' % group)}">View All Pending Group Membership Requests...</a></li>
+          <li><a href="${tg.url('/group/view/%s' % group)}">Manage Group Membership...</a></li>
+          <li py:if="auth.canAdminGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">Manage Group Details...</a></li>
         </ul>
         </dd>
-        <div py:if="group[1].fedoraRoleType.lower() in ('administrator', 'sponsor')" py:strip="">
+        <div py:if="auth.canSponsorGroup(user.cn, group)" py:strip="">
           <dt>Queue:</dt>
           <dd>
           <ul class="queue">

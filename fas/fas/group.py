@@ -12,8 +12,6 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
-from operator import itemgetter
-
 from fas.user import knownUser, userNameExists
 
 class knownGroup(validators.FancyValidator):
@@ -97,7 +95,6 @@ class Group(controllers.Controller):
         #searchUserForm.groupName.display('group')
         #findUser.groupName.display(value='fff')
         value = {'groupName': groupName}
-        groups = sorted(groups.items(), key=itemgetter(0))
         return dict(userName=userName, groups=groups, group=group, me=me, value=value)
 
     @expose(template="fas.templates.group.new")
@@ -202,7 +199,6 @@ class Group(controllers.Controller):
         except:
             turbogears.flash(_("No Groups found matching '%s'") % search)
             groups = {}
-        groups = sorted(groups.items(), key=itemgetter(0))
         return dict(groups=groups, search=search, myGroups=myGroups)
 
     @validate(validators=userNameGroupNameExists())
@@ -325,6 +321,5 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     def dump(self, groupName=None):
         groups = Groups.byGroupName(groupName)
-        groups = sorted(groups.items(), key=itemgetter(0))
         return dict(groups=groups, Person=Person)
 
