@@ -23,6 +23,15 @@ class knownUser(validators.FancyValidator):
         if not p.cn:
             raise validators.Invalid(_("'%s' does not exist") % value, value, state)
 
+class nonFedoraEmail(validators.FancyValidator):
+    '''Make sure that an email address is not @fedoraproject.org'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        p = Person.byUserName(value)
+        if value.endswith('@fedoraproject.org'):
+            raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
+
 class unknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
     def _to_python(self, value, state):
@@ -35,7 +44,10 @@ class unknownUser(validators.FancyValidator):
 class editUser(validators.Schema):
     userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
     givenName = validators.String(not_empty=True, max=42)
-    mail = validators.Email(not_empty=True, strip=True)
+    mail = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        nonFedoraEmail(not_empty=True, strip=True),
+    )
     fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
     #fedoraPersonKeyId- Save this one for later :)
     telephoneNumber = validators.PhoneNumber(not_empty=True)
@@ -44,7 +56,10 @@ class editUser(validators.Schema):
 class newUser(validators.Schema):
     cn = validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3))
     givenName = validators.String(not_empty=True, max=42)
-    mail = validators.Email(not_empty=True, strip=True)
+    mail = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        nonFedoraEmail(not_empty=True, strip=True),
+    )
     fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
     telephoneNumber = validators.PhoneNumber(not_empty=True)
     postalAddress = validators.NotEmpty
