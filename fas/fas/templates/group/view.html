@@ -70,13 +70,21 @@
         <!-- This section includes all action items -->
         <td py:if="auth.canSponsorGroup(userName, group.cn)">
           <ul>
-            <li>
-            <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'" href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Sponsor</a>
-            <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE' and groups[user].fedoraRoleStatus.lower() != 'approved'" href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Approve</a>
+            <li py:if="groups[user].fedoraRoleStatus.lower() != 'approved'">
+            <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
+              href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Sponsor</a>
+            <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
+              href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">Approve</a>
             </li>
-            <li><a href="${tg.url('/group/remove/%s/%s' % (groups[user].cn, user))}">Delete</a></li>
-            <li><a href="${tg.url('/group/upgrade/%s/%s' % (groups[user].cn, user))}">Upgrade</a></li>
-            <li><a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">Downgrade</a></li>
+            <li py:if="auth.canRemoveUser(tg.identity.user.user_name, group.cn, userName)">
+            <a href="${tg.url('/group/remove/%s/%s' % (groups[user].cn, user))}">Remove</a>
+            </li>
+            <li py:if="auth.canUpgradeUser(tg.identity.user.user_name, group.cn, userName)">
+            <a href="${tg.url('/group/upgrade/%s/%s' % (groups[user].cn, user))}">Upgrade</a>
+            </li>
+            <li py:if="auth.canDowngradeUser(tg.identity.user.user_name, group.cn, userName)">
+            <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">Downgrade</a>
+            </li>
           </ul>
         </td>
       </tr>

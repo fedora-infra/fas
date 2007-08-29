@@ -10,7 +10,7 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
 
-from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
+from fas.auth import *
 
 from fas.user import knownUser, userNameExists
 
@@ -102,7 +102,7 @@ class Group(controllers.Controller):
     def new(self):
         '''Display create group form'''
         userName = turbogears.identity.current.user_name
-        if not isAdmin(userName):
+        if not canCreateGroup(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         return dict()
@@ -114,7 +114,7 @@ class Group(controllers.Controller):
     def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupJoinMsg=""):
         '''Create a group'''
         userName = turbogears.identity.current.user_name
-        if not isAdmin(userName):
+        if not canCreateGroup(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
@@ -168,24 +168,24 @@ class Group(controllers.Controller):
     def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType=1, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupJoinMsg=""):
         '''Edit a group'''
         userName = turbogears.identity.current.user_name
-        if not canAdminGroup(userName, groupName):
+        if not canEditGroup(userName, groupName):
             turbogears.flash(_("You cannot edit '%s'.") % groupName)
             turbogears.redirect('/group/view/%s' % groupName)
         # TODO: This is kind of an ugly hack.
-        base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
-        try:
-            fas.fasLDAP.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
-            fas.fasLDAP.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
-            fas.fasLDAP.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
-            fas.fasLDAP.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
-            fas.fasLDAP.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
-            fas.fasLDAP.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
-        except:
-            turbogears.flash(_('The group details could not be saved.'))
-            return dict()
         else:
-            turbogears.flash(_('The group details have been saved.'))
-            turbogears.redirect('/group/view/%s' % groupName)
+            base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
+            try:
+                fas.fasLDAP.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
+                fas.fasLDAP.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
+                fas.fasLDAP.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
+                fas.fasLDAP.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
+                fas.fasLDAP.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
+                fas.fasLDAP.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
+            except:
+                turbogears.flash(_('The group details could not be saved.'))
+            else:
+                turbogears.flash(_('The group details have been saved.'))
+                turbogears.redirect('/group/view/%s' % groupName)
             return dict()
 
     @expose(template="fas.templates.group.list")
@@ -205,16 +205,27 @@ class Group(controllers.Controller):
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     @identity.require(turbogears.identity.not_anonymous())
-    def apply(self, groupName, userName):
+    def apply(self, groupName, userName=None):
         '''Apply to a group'''
-        try:
-            Groups.apply(groupName, userName)
-        except ldap.ALREADY_EXISTS:
-            turbogears.flash(_('%(user)s is already in %(group)s!') % {'user': userName, 'group': groupName})
+        applicant = turbogears.identity.current.user_name
+        if not userName:
+            userName = applicant
+        if not canApplyGroup(applicant, groupName, userName):
+            turbogears.flash(_('You cannot apply %(user)s for %(group)s!') % \
+                {'user': userName, 'group': groupName})
             turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
         else:
-            turbogears.flash(_('%(user)s has applied to %(group)s!') % {'user': userName, 'group': groupName})
-            turbogears.redirect('/group/view/%s' % groupName)
+            try:
+                Groups.apply(groupName, userName)
+            except ldap.ALREADY_EXISTS:
+                turbogears.flash(_('%(user)s has already applied to %(group)s!') % \
+                    {'user': userName, 'group': groupName})
+            else:
+                turbogears.flash(_('%(user)s has applied to %(group)s!') % \
+                    {'user': userName, 'group': groupName})
+                turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @validate(validators=userNameGroupNameExists())
     @error_handler(error)
@@ -223,21 +234,24 @@ class Group(controllers.Controller):
     def sponsor(self, groupName, userName):
         '''Sponsor user'''
         sponsor = turbogears.identity.current.user_name
-        if not canSponsorGroup(sponsor, groupName):
-            turbogears.flash(_("You are not a sponsor for '%s'") % groupName)
+        if not canSponsorUser(sponsor, groupName, userName):
+            turbogears.flash(_("You cannot sponsor '%s'") % userName)
             turbogears.redirect('/group/view/%s' % groupName)
-        try:
-            group = Groups.groups(groupName)[groupName]
-        except KeyError:
-            turbogears.flash(_('Group Error: %s does not exist.') % groupName)
-            # The following line is kind of pointless- any suggestions?
-            turbogears.redirect('/group/view/%s' % groupName)
-        p = Person.byUserName(userName)
-        g = Groups.byGroupName(groupName, includeUnapproved=True)
-        # TODO: Check if the person actually applied to the group.
-        p.sponsor(groupName, sponsor)
-        turbogears.flash(_('%s has been sponsored!') % p.cn)
-        turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
+        else:
+            p = Person.byUserName(userName)
+            # TODO: Check if the person actually applied to the group.
+            # (or should this be done in auth.py or fasLDAP.py?)
+            # this will probably give a 500 now if the user didn't apply
+            try:
+                p.sponsor(groupName, sponsor)
+            except:
+                turbogears.flash(_("'%s' could not be sponsored!") % p.cn)
+                turbogears.redirect('/group/view/%s' % groupName)
+            else:
+                turbogears.flash(_("'%s' has been sponsored!") % p.cn)
+                turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @validate(validators=userNameGroupNameExists())
     @error_handler(error)
@@ -247,23 +261,22 @@ class Group(controllers.Controller):
         '''Remove user from group'''
         # TODO: Add confirmation?
         sponsor = turbogears.identity.current.user_name
-        if not canSponsorGroup(sponsor, groupName) \
-            and sponsor != userName: # Users can remove themselves
-            turbogears.flash(_("You are not a sponsor for '%s'") % groupName)
+        if not canRemoveUser(sponsor, groupName, userName):
+            turbogears.flash(_("You cannot remove '%s'.") % userName)
             turbogears.redirect('/group/view/%s' % groupName)
-        if canAdminGroup(userName, groupName) \
-            and (not canAdminGroup(sponsor, groupName)):
-            turbogears.flash(_('Sponsors cannot remove administrators.') % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        try:
-            Groups.remove(groupName, userName)
-        except TypeError:
-            turbogears.flash(_('%(name)s could not be removed from %(group)s!') % {'name': userName, 'group': groupName})
-            turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
         else:
-            turbogears.flash(_('%(name)s has been removed from %(group)s!') % {'name': userName, 'group': groupName})
-            turbogears.redirect('/group/view/%s' % groupName)
-        return dict()
+            try:
+                Groups.remove(groupName, userName)
+            except:
+                turbogears.flash(_('%(name)s could not be removed from %(group)s!') % \
+                    {'name': userName, 'group': groupName})
+                turbogears.redirect('/group/view/%s' % groupName)
+            else:
+                turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
+                    {'name': userName, 'group': groupName})
+                turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @validate(validators=userNameGroupNameExists())
     @error_handler(error)
@@ -272,25 +285,21 @@ class Group(controllers.Controller):
     def upgrade(self, groupName, userName):
         '''Upgrade user in group'''
         sponsor = turbogears.identity.current.user_name
-        if not canSponsorGroup(sponsor, groupName):
-            turbogears.flash(_("You are not a sponsor for '%s'") % groupName)
+        if not canUpgradeUser(sponsor, groupName, userName):
+            turbogears.flash(_("You cannot upgrade '%s'") % userName)
             turbogears.redirect('/group/view/%s' % groupName)
-        # This is already checked in fasLDAP.py
-        #if canAdminGroup(userName, groupName):
-        #    turbogears.flash(_('Group administators cannot be upgraded any further.'))
-        #    turbogears.redirect('/group/view/%s' % groupName)
-        elif canSponsorGroup(userName, groupName) \
-            and (not canAdminGroup(sponsor, groupName)):
-            turbogears.flash(_('Sponsors cannot upgrade other sponsors.') % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        p = Person.byUserName(userName)
-        try:
-            p.upgrade(groupName)
-        except:
-            turbogears.flash(_('%(name)s could not be upgraded!') % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        turbogears.flash(_('%s has been upgraded!') % userName)
-        turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
+        else:
+            p = Person.byUserName(userName)
+            try:
+                p.upgrade(groupName)
+            except:
+                turbogears.flash(_('%(name)s could not be upgraded!') % userName)
+                turbogears.redirect('/group/view/%s' % groupName)
+            else:
+                turbogears.flash(_('%s has been upgraded!') % userName)
+                turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @validate(validators=userNameGroupNameExists())
     @error_handler(error)
@@ -299,21 +308,21 @@ class Group(controllers.Controller):
     def downgrade(self, groupName, userName):
         '''Upgrade user in group'''
         sponsor = turbogears.identity.current.user_name
-        if not canSponsorGroup(sponsor, groupName):
-            turbogears.flash(_("You are not a sponsor for '%s'") % groupName)
+        if not canDowngradeUser(sponsor, groupName, userName):
+            turbogears.flash(_("You cannot downgrade '%s'") % userName)
             turbogears.redirect('/group/view/%s' % groupName)
-        if canAdminGroup(userName, groupName) \
-            and (not canAdminGroup(sponsor, groupName)):
-            turbogears.flash(_('Sponsors cannot downgrade group administrators.') % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        p = Person.byUserName(userName)
-        try:
-            p.upgrade(groupName)
-        except:
-            turbogears.flash(_('%(name)s could not be downgraded!') % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        turbogears.flash(_('%s has been downgraded!') % p.cn)
-        turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
+        else:
+            p = Person.byUserName(userName)
+            try:
+                p.upgrade(groupName)
+            except:
+                turbogears.flash(_('%(name)s could not be downgraded!') % userName)
+                turbogears.redirect('/group/view/%s' % groupName)
+            else:
+                turbogears.flash(_('%s has been downgraded!') % p.cn)
+                turbogears.redirect('/group/view/%s' % groupName)
+            return dict()
 
     @validate(validators=groupNameExists())
     @error_handler(error)

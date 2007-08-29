@@ -51,7 +51,7 @@
           <li><a href="/">Invite a New Member...</a></li>
           <li py:if="auth.canSponsorGroup(user.cn, group)"><a href="${tg.url('/group/view/%s' % group)}">View All Pending Group Membership Requests...</a></li>
           <li><a href="${tg.url('/group/view/%s' % group)}">Manage Group Membership...</a></li>
-          <li py:if="auth.canAdminGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">Manage Group Details...</a></li>
+          <li py:if="auth.canEditGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">Manage Group Details...</a></li>
         </ul>
         </dd>
         <div py:if="auth.canSponsorGroup(user.cn, group)" py:strip="">

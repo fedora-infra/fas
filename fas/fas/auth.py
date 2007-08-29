@@ -53,11 +53,93 @@ def isApproved(userName, groupName, g=None):
     except:
         return False
 
-def canEditUser(userName, editUserName):
+def canEditUser(userName, editUserName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
     if userName == editUserName:
         return True
-    elif isAdmin(userName):
+    elif isAdmin(userName, g):
         return True
     else:
         return False
 
+def canCreateGroup(userName, groupName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    if isAdmin(userName, g):
+        return True
+    else:
+        return False
+
+def canEditGroup(userName, groupName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    if canAdminGroup(userName, groupName):
+        return True
+    else:
+        return False
+
+def canApplyGroup(userName, groupName, applyUserName, g=None):
+    # This is where we could make groups depend on other ones.
+    if not g:
+        g = Groups.byUserName(userName)
+    # A user can apply themselves, and FAS admins can apply other people.
+    if (userName == applyUserName) or \
+        isAdmin(userName, g):
+        return True
+    else:
+        return False
+
+def canSponsorUser(userName, groupName, sponsorUserName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    # This is just here in case we want to add more complex checks in the future 
+    if canSponsorGroup(userName, groupName, g):
+        return True
+    else:
+        return False
+
+def canRemoveUser(userName, groupName, removeUserName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    group = Groups.groups(groupName)[groupName]
+    # Only administrators can remove administrators.
+    if canAdminGroup(removeUserName, groupName) and \
+        not canAdminGroup(userName, groupName, g):
+        return False
+    # A user can remove themself from a group if fedoraGroupUserCanRemove is TRUE
+    # Otherwise, a sponsor can remove sponsors/users.
+    elif ((userName == removeUserName) and (group.fedoraGroupUserCanRemove.lower() == 'TRUE')) or \
+        canSponsorGroup(userName, groupName, g):
+        return True
+    else:
+        return False
+
+def canUpgradeUser(userName, groupName, sponsorUserName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    # Group admins can upgrade anybody (fasLDAP.py has the checks to prevent
+    # upgrading admins, etc.
+    if canAdminGroup(userName, groupName, g):
+        return True
+    # Sponsors can only upgrade non-sponsors (i.e. normal users) fasLDAP.py
+    # ensures that sponsorUserName is at least an approved user.
+    elif canSponsorGroup(userName, groupName, g) and \
+        not canSponsorGroup(sponsorUserName, groupName):
+        return True
+    else:
+        return False
+
+def canDowngradeUser(userName, groupName, sponsorUserName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    # Group admins can downgrade anybody.
+    if canAdminGroup(userName, groupName, g):
+        return True
+    # Sponsors can only downgrade sponsors.  (fasLDAP.py won't let you
+    # downgrade a normal user already)
+    elif canSponsorGroup(userName, groupName, g) and \
+        not canAdminGroup(sponsorUserName, groupName):
+        return True
+    else:
+        return False

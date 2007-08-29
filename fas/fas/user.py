@@ -10,7 +10,7 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
 
-from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
+from fas.auth import *
 
 class knownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
