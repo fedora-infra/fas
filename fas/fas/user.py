@@ -52,6 +52,7 @@ class editUser(validators.Schema):
     postalAddress = validators.NotEmpty
     
 class newUser(validators.Schema):
+    # TODO: Implement blacklisted usernames.  
     cn = validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3))
     givenName = validators.String(not_empty=True, max=42)
     mail = validators.All(
