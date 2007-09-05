@@ -405,7 +405,7 @@ def main():
 	    roleLdif.append(["fedoraRoleCreationDate",[str(role[7]) or "None" ]])
 	    roleLdif.append(["fedoraRoleApprovalDate",[str(role[8])]])
 
-	    ldifWriter.unparse("cn=" + group[0] + "+fedoraRoleType=" + str(role[2]) + ",ou=Roles,cn=" + username[0] + ",ou=People,dc=fedoraproject,dc=org" , roleLdif )
+	    ldifWriter.unparse("cn=" + group[0] + ",ou=Roles,cn=" + username[0] + ",ou=People,dc=fedoraproject,dc=org" , roleLdif )
 
     roleCursor.close()
       
