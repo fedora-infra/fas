@@ -162,7 +162,7 @@ class User(controllers.Controller):
             user.__setattr__('postalAddress', postalAddress.encode('utf8'))
             user.__setattr__('description', description.encode('utf8'))
         except:
-            turbogears.flash(_('Your account  details could not be saved.'))
+            turbogears.flash(_('Your account details could not be saved.'))
             return dict()
         else:
             turbogears.flash(_('Your account details have been saved.'))
@@ -278,8 +278,9 @@ class User(controllers.Controller):
             try:
                 p.__setattr__('userPassword', newpass['hash'])
                 turbogears.flash(_('Your new password has been emailed to you.'))
-                turbogears.redirect('/login')
-            except: #TODO: This may be too strong and show up even if it worked.
+                # This is causing an exception which causes the password could not be reset error.
+#                turbogears.redirect('/login')  
+            except:
                 turbogears.flash(_('Your password could not be reset.'))
         return dict()
 
