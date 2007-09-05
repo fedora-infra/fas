@@ -13,15 +13,15 @@
     <h3>Account Details <a href="${tg.url('/user/edit/%s' % user.cn)}" py:if="personal or admin">(edit)</a></h3>
     <div class="userbox">
       <dl>
-        <dt>Account Name</dt><dd>${user.cn}</dd>
-        <dt>Real Name</dt><dd>${user.givenName}</dd>
-        <dt>Email</dt><dd>${user.mail}</dd>
-        <dt>Bugzilla Email</dt><dd>${user.fedoraPersonBugzillaMail}</dd>
-        <dt>IRC Nick</dt><dd>${user.fedoraPersonIrcNick}</dd>
-        <dt>PGP Key</dt><dd>${user.fedoraPersonKeyId}</dd>
-        <dt>Telephone Number</dt><dd>${user.telephoneNumber}</dd>
-        <dt>Postal Address</dt><dd>${user.postalAddress}</dd>
-        <dt>Description</dt><dd>${user.description}</dd>
+        <dt>Account Name</dt><dd>${user.cn}&nbsp;</dd>
+        <dt>Real Name</dt><dd>${user.givenName}&nbsp;</dd>
+        <dt>Email</dt><dd>${user.mail}&nbsp;</dd>
+        <dt>Bugzilla Email</dt><dd>${user.fedoraPersonBugzillaMail}&nbsp;</dd>
+        <dt>IRC Nick</dt><dd>${user.fedoraPersonIrcNick}&nbsp;</dd>
+        <dt>PGP Key</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
+        <dt>Telephone Number</dt><dd>${user.telephoneNumber}&nbsp;</dd>
+        <dt>Postal Address</dt><dd>${user.postalAddress}&nbsp;</dd>
+        <dt>Description</dt><dd>${user.description}&nbsp;</dd>
         <dt>Password</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>Account Status</dt><dd><span class="approved">Approved</span>, Active</dd>
         <dt>CLA</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved"> Not Done</span></dd>
