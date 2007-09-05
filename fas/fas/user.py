@@ -280,8 +280,10 @@ class User(controllers.Controller):
                 p.__setattr__('userPassword', newpass['hash'])
                 turbogears.flash(_('Your new password has been emailed to you.'))
                 # This is causing an exception which causes the password could not be reset error.
-#                turbogears.redirect('/login')  
+                #turbogears.redirect('/login')  
             except:
                 turbogears.flash(_('Your password could not be reset.'))
+            else:
+                turbogears.redirect('/login')  
         return dict()
 
