@@ -6,7 +6,7 @@ started by running the start-fas.py script.
 
 LDAP Dump / restore:
 ldapsearch -x -D 'cn=directory manager' -b 'dc=fedoraproject,dc=org' "objectclass=*" \* aci > LDAPDump
-ldapadd -x -D 'cn=directory manager' -f LDAPDump -W
+ldapadd -c -x -D 'cn=directory manager' -f LDAPDump -W
 
 
 Add to top of LDIF if pulling from Postgres:
