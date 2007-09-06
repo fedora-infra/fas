@@ -29,6 +29,16 @@ class Group:
         self.fedoraGroupUserCanRemove = fedoraGroupUserCanRemove
         self.fedoraGroupJoinMsg = fedoraGroupJoinMsg
 
+    def __json__(self):
+        return {'cn': self.cn,
+                'fedoraGroupDesc': self.fedoraGroupDesc,
+                'fedoraGroupOwner': self.fedoraGroupOwner,
+                'fedoraGroupType': self.fedoraGroupType,
+                'fedoraGroupNeedsSponsor': self.fedoraGroupNeedsSponsor,
+                'fedoraGroupUserCanRemove': self.fedoraGroupUserCanRemove,
+                'fedoraGroupJoinMsg': self.fedoraGroupJoinMsg
+        }
+
 #    def __getattr__(self, attr):
 #        if attr.startswith('_'):
 #            print 'GET %s=%s' % (attr, self.__getattr__(attr))

@@ -2,6 +2,7 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 
 import ldap
+import cherrypy
 
 import fas.fasLDAP
 
@@ -64,6 +65,10 @@ class Group(controllers.Controller):
     def index(self):
         '''Perhaps show a nice explanatory message about groups here?'''
         return dict()
+
+    def jsonRequest(self):
+        return 'tg_format' in cherrypy.request.params and \
+                cherrypy.request.params['tg_format'] == 'json'
 
     @expose(template="fas.templates.error")
     def error(self, tg_errors=None):
@@ -188,8 +193,8 @@ class Group(controllers.Controller):
                 turbogears.redirect('/group/view/%s' % groupName)
             return dict()
 
-    @expose(template="fas.templates.group.list")
-    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="fas.templates.group.list", allow_json=True)
+    #@identity.require(turbogears.identity.not_anonymous())
     def list(self, search='*'):
         groups = Groups.groups(search)
         userName = turbogears.identity.current.user_name
@@ -199,6 +204,8 @@ class Group(controllers.Controller):
         except:
             turbogears.flash(_("No Groups found matching '%s'") % search)
             groups = {}
+        if self.jsonRequest():
+            return ({'groups': groups})
         return dict(groups=groups, search=search, myGroups=myGroups)
 
     @validate(validators=userNameGroupNameExists())
