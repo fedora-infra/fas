@@ -59,7 +59,7 @@ class newUser(validators.Schema):
         validators.Email(not_empty=True, strip=True),
         nonFedoraEmail(not_empty=True, strip=True),
     )
-    fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
+    fedoraPersonBugzillaMail = validators.Email(strip=True)
     telephoneNumber = validators.PhoneNumber(not_empty=True)
     postalAddress = validators.NotEmpty
 
@@ -201,11 +201,11 @@ class User(controllers.Controller):
     @validate(validators=newUser())
     @error_handler(error)
     @expose(template='fas.templates.new')
-    def create(self, cn, givenName, mail, telephoneNumber, postalAddress):
-        # TODO: Ensure that e-mails are unique?
-        # Also, perhaps implement a timeout- delete account
-        # if the e-mail is not verified (i.e. the person changes
-        # their password) withing X days.  
+    def create(self, cn, givenName, mail, telephoneNumber, postalAddress, fedoraPersonBugzillaMail=''):
+        # TODO: Ensure that e-mails are unique.
+        #       Also, perhaps implement a timeout- delete account
+        #           if the e-mail is not verified (i.e. the person changes
+        #           their password) withing X days.  
         import turbomail
         try:
             Person.newPerson(cn.encode('utf8'),

@@ -293,6 +293,9 @@ class Group(controllers.Controller):
             p = Person.byUserName(userName)
             try:
                 p.upgrade(groupName)
+            except TypeError, e:
+                turbogears.flash(e)
+                turbogears.redirect('/group/view/%s' % groupName)
             except:
                 turbogears.flash(_('%(name)s could not be upgraded!') % {'name' : userName})
                 turbogears.redirect('/group/view/%s' % groupName)
@@ -316,6 +319,9 @@ class Group(controllers.Controller):
             p = Person.byUserName(userName)
             try:
                 p.downgrade(groupName)
+            except TypeError, e:
+                turbogears.flash(e)
+                turbogears.redirect('/group/view/%s' % groupName)
             except:
                 turbogears.flash(_('%(name)s could not be downgraded!') % {'name': userName})
                 turbogears.redirect('/group/view/%s' % groupName)

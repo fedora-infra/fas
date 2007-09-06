@@ -34,7 +34,7 @@
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
     </ul>
     <ul class="actions" py:if="personal">
-      <li><a href="/">(Join another project)</a></li>
+      <li><a href="${tg.url('/group/list/A*')}">(Join another project)</a></li>
       <li><a href="/">(Create a new project)</a></li>
     </ul>
     <ul id="rolespanel" py:if="personal">
