@@ -340,6 +340,7 @@ def main():
 		
 	    userLdif.append(["fedoraGroupNeedsSponsor",[str(group[3])]]) #need to convert to bool
 	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
+	    userLdif.append(["fedoraGroupDesc",[str('Please fill out a Group Description')]]) #need to convert to bool
 	    #userLdif.append(["groupPrerequisite",[str(group[5])]])
 	    #userLdif.append(["groupPrerequisite",prereq]) not currently in the schema
 	    userLdif.append(["fedoraGroupJoinMsg",[str(group[6]) or "None" ]])
