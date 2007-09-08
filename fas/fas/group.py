@@ -194,7 +194,7 @@ class Group(controllers.Controller):
             return dict()
 
     @expose(template="fas.templates.group.list", allow_json=True)
-    #@identity.require(turbogears.identity.not_anonymous())
+    @identity.require(turbogears.identity.not_anonymous())
     def list(self, search='*'):
         groups = Groups.groups(search)
         userName = turbogears.identity.current.user_name
