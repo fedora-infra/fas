@@ -29,15 +29,15 @@
       </thead>
       <tbody>
         <tr py:for="group in sorted(groups.keys())">
-        <div py:if="auth.canViewGroup(tg.identity.user.user_name, groups[group].cn)" py:strip="">
-          <td><a href="${tg.url('/group/view/%s' % groups[group].cn)}">${groups[group].cn}</a></td>
+        <div py:if="auth.canViewGroup(tg.identity.user.user_name, group)" py:strip="">
+          <td><a href="${tg.url('/group/view/%s' % group)}">${group}</a></td>
           <td>${groups[group].fedoraGroupDesc}</td>
           <td>
-            <a py:if="groups[group].cn in myGroups" href="${tg.url('/group/view/%s' % groups[group].cn)}">
-              <span class="approved" py:if="myGroups[groups[group].cn].fedoraRoleStatus.lower() == 'approved'">Approved</span>
-              <span class="unapproved" py:if="myGroups[groups[group].cn].fedoraRoleStatus.lower() == 'unapproved'">Unapproved</span>
+            <a py:if="group in myGroups" href="${tg.url('/group/view/%s' % group)}">
+              <span class="approved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'approved'">Approved</span>
+              <span class="unapproved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'unapproved'">Unapproved</span>
             </a>
-            <a py:if="groups[group].cn not in myGroups" href="${tg.url('/group/apply/%s/%s' % (groups[group].cn, tg.identity.user.user_name))}"><span>Apply</span></a>
+            <a py:if="group not in myGroups" href="${tg.url('/group/apply/%s/%s' % (group, tg.identity.user.user_name))}"><span>Apply</span></a>
           </td>
         </div>
         </tr>

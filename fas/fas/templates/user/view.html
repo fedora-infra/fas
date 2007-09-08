@@ -39,6 +39,7 @@
     </ul>
     <ul id="rolespanel" py:if="personal">
       <li py:for="group in sorted(groups.keys())" class="role">
+      <div py:if="auth.canViewGroup(user.cn, group)" py:strip="">
       <h4>${groupdata[group].fedoraGroupDesc}</h4>, ${groups[group].fedoraRoleType}
       <dl>
         <dt>Status:</dt>
@@ -65,6 +66,7 @@
           </dd>
         </div>
       </dl>
+      </div>
       </li>
     </ul>
   </body>
