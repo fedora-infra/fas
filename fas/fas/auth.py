@@ -5,6 +5,8 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
 
+import re
+
 ADMINGROUP = config.get('admingroup')
 
 def isAdmin(userName, g=None):
@@ -78,6 +80,20 @@ def canEditGroup(userName, groupName, g=None):
         return True
     else:
         return False
+
+def canViewGroup(userName, groupName, g=None):
+    # If the group matched by privileged_view_groups, then
+    # only people that can admin the group can view it
+    privilegedViewGroups = config.get('privileged_view_groups')
+    if re.compile(privilegedViewGroups).match(groupName):
+        if not g:
+            g = Groups.byUserName(userName)
+        if canAdminGroup(userName, groupName):
+            return True
+        else:
+            return False
+    else:
+        return True
 
 def canApplyGroup(userName, groupName, applyUserName, g=None):
     # This is where we could make groups depend on other ones.

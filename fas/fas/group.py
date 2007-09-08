@@ -83,24 +83,30 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     def view(self, groupName):
         '''View group'''
-        groups = Groups.byGroupName(groupName, includeUnapproved=True)
-        group = Groups.groups(groupName)[groupName]
         userName = turbogears.identity.current.user_name
-        try:
-            myStatus = groups[userName].fedoraRoleStatus
-        except KeyError:
-            # Not in group
-            myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
-        except TypeError:
-            groups = {}
-        try:
-            me = groups[userName]
-        except:
-            me = UserGroup()
-        #searchUserForm.groupName.display('group')
-        #findUser.groupName.display(value='fff')
-        value = {'groupName': groupName}
-        return dict(userName=userName, groups=groups, group=group, me=me, value=value)
+        if not canViewGroup(userName, groupName):
+            turbogears.flash(_("You cannot view '%s'") % groupName)
+            turbogears.redirect('/group/list')
+            return dict()
+        else:
+            groups = Groups.byGroupName(groupName, includeUnapproved=True)
+            group = Groups.groups(groupName)[groupName]
+            userName = turbogears.identity.current.user_name
+            try:
+                myStatus = groups[userName].fedoraRoleStatus
+            except KeyError:
+                # Not in group
+                myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
+            except TypeError:
+                groups = {}
+            try:
+                me = groups[userName]
+            except:
+                me = UserGroup()
+            #searchUserForm.groupName.display('group')
+            #findUser.groupName.display(value='fff')
+            value = {'groupName': groupName}
+            return dict(userName=userName, groups=groups, group=group, me=me, value=value)
 
     @expose(template="fas.templates.group.new")
     @identity.require(turbogears.identity.not_anonymous())
@@ -341,7 +347,13 @@ class Group(controllers.Controller):
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
     @identity.require(turbogears.identity.not_anonymous())
-    def dump(self, groupName=None):
-        groups = Groups.byGroupName(groupName)
-        return dict(groups=groups, Person=Person)
+    def dump(self, groupName):
+        userName = turbogears.identity.current.user_name
+        if not canViewGroup(userName, groupName):
+            turbogears.flash(_("You cannot view '%s'") % groupName)
+            turbogears.redirect('/group/list')
+            return dict()
+        else:
+            groups = Groups.byGroupName(groupName)
+            return dict(groups=groups, Person=Person)
 
