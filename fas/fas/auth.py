@@ -63,7 +63,7 @@ def canEditUser(userName, editUserName, g=None):
     else:
         return False
 
-def canCreateGroup(userName, groupName, g=None):
+def canCreateGroup(userName, g=None):
     if not g:
         g = Groups.byUserName(userName)
     if isAdmin(userName, g):
