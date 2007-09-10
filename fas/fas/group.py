@@ -255,9 +255,6 @@ class Group(controllers.Controller):
             return dict()
         else:
             p = Person.byUserName(userName)
-            # TODO: Check if the person actually applied to the group.
-            # (or should this be done in auth.py or fasLDAP.py?)
-            # this will probably give a 500 now if the user didn't apply
             try:
                 p.sponsor(groupName, sponsor)
             except:

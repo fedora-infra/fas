@@ -19,7 +19,6 @@ def isAdmin(userName, g=None):
         return False
     
 def canAdminGroup(userName, groupName, g=None):
-    # TODO: Allow the group owner to admin a group.
     if not g:
         g = Groups.byUserName(userName)
     group = Groups.groups(groupName)[groupName]

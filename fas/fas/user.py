@@ -12,6 +12,8 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
+import re
+
 class knownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):
@@ -19,7 +21,7 @@ class knownUser(validators.FancyValidator):
     def validate_python(self, value, state):
         p = Person.byUserName(value)
         if not p.cn:
-            raise validators.Invalid(_("'%s' does not exist") % value, value, state)
+            raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
 
 class nonFedoraEmail(validators.FancyValidator):
     '''Make sure that an email address is not @fedoraproject.org'''
@@ -37,7 +39,16 @@ class unknownUser(validators.FancyValidator):
     def validate_python(self, value, state):
         p = Person.byUserName(value)
         if p.cn:
-            raise validators.Invalid(_("'%s' already exists") % value, value, state)
+            raise validators.Invalid(_("'%s' already exists.") % value, value, state)
+
+class userNameAllowed(validators.FancyValidator):
+    '''Make sure that a username isn't blacklisted'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        username_blacklist = config.get('username_blacklist')
+        if re.compile(username_blacklist).match(value):
+          raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
 class editUser(validators.Schema):
     userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
@@ -52,8 +63,11 @@ class editUser(validators.Schema):
     postalAddress = validators.NotEmpty
     
 class newUser(validators.Schema):
-    # TODO: Implement blacklisted usernames.  
-    cn = validators.All(unknownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    cn = validators.All(
+        unknownUser(not_empty=True, max=10),
+        userNameAllowed(not_empty=True),
+        validators.String(max=32, min=3),
+    )
     givenName = validators.String(not_empty=True, max=42)
     mail = validators.All(
         validators.Email(not_empty=True, strip=True),
@@ -210,7 +224,7 @@ class User(controllers.Controller):
     @error_handler(error)
     @expose(template='fas.templates.new')
     def create(self, cn, givenName, mail, telephoneNumber, postalAddress, fedoraPersonBugzillaMail=''):
-        # TODO: Ensure that e-mails are unique.
+        # TODO: Ensure that e-mails are unique- this should probably be done in the LDAP schema.
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.  
