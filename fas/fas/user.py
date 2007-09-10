@@ -147,28 +147,36 @@ class User(controllers.Controller):
 
     @validate(validators=editUser())
     @error_handler(error)
-    @expose(template='fas.templates.editAccount')
+    @expose(template='fas.templates.user.edit')
     def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
         if not canEditUser(turbogears.identity.current.user_name, userName):
-            turbogears.flash(_("You do not have permission to edit '%s'", userName))
+            turbogears.flash(_("You do not have permission to edit '%s'" % userName))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
-        user = Person.byUserName(userName)
         try:
-            user.__setattr__('givenName', givenName.encode('utf8'))
-            user.__setattr__('mail', mail.encode('utf8'))
-            user.__setattr__('fedoraPersonBugzillaMail', fedoraPersonBugzillaMail.encode('utf8'))
-            user.__setattr__('fedoraPersonIrcNick', fedoraPersonIrcNick.encode('utf8'))
-            user.__setattr__('fedoraPersonKeyId', fedoraPersonKeyId.encode('utf8'))
-            user.__setattr__('telephoneNumber', telephoneNumber.encode('utf8'))
-            user.__setattr__('postalAddress', postalAddress.encode('utf8'))
-            user.__setattr__('description', description.encode('utf8'))
+            user = Person.byUserName(userName)
+            user.givenName = givenName.encode('utf8')
+            user.mail = mail.encode('utf8')
+            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail.encode('utf8')
+            user.fedoraPersonIrcNick = fedoraPersonIrcNick.encode('utf8')
+            user.fedoraPersonKeyId = fedoraPersonKeyId.encode('utf8')
+            user.telephoneNumber = telephoneNumber.encode('utf8')
+            user.postalAddress = postalAddress.encode('utf8')
+            user.description = description.encode('utf8')
         except:
             turbogears.flash(_('Your account details could not be saved.'))
-            return dict()
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % userName)
-            return dict()
+        value = {'userName': userName,
+                 'givenName': givenName,
+                 'mail': mail,
+                 'fedoraPersonBugzillaMail': fedoraPersonBugzillaMail,
+                 'fedoraPersonIrcNick': fedoraPersonIrcNick,
+                 'fedoraPersonKeyId': fedoraPersonKeyId,
+                 'telephoneNumber': telephoneNumber,
+                 'postalAddress': postalAddress,
+                 'description': description, }
+        return dict(value=value)
 
     @expose(template="fas.templates.user.list")
     @identity.require(turbogears.identity.in_group("accounts"))
@@ -218,7 +226,7 @@ class User(controllers.Controller):
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
             message.plain = _("You have created a new Fedora account!  Your new password is: %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
             turbomail.enqueue(message)
-            p.__setattr__('userPassword', newpass['hash'])
+            p.userPassword = newpass['hash']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/login')
         except ldap.ALREADY_EXISTS:
@@ -245,7 +253,7 @@ class User(controllers.Controller):
         p = Person.byUserName(userName)
         newpass = p.generatePassword(password)
         try:
-            p.__setattr__('userPassword', newpass['hash'])
+            p.userPassword = newpass['hash']
             turbogears.flash(_("Your password has been changed."))
         except:
             turbogears.flash(_("Your password could not be changed."))
@@ -277,7 +285,7 @@ class User(controllers.Controller):
             turbomail.enqueue(message)
             # TODO: Make this send GPG-encrypted e-mails :)
             try:
-                p.__setattr__('userPassword', newpass['hash'])
+                p.userPassword = newpass['hash']
                 turbogears.flash(_('Your new password has been emailed to you.'))
                 # This is causing an exception which causes the password could not be reset error.
                 #turbogears.redirect('/login')  

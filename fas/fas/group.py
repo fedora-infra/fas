@@ -185,13 +185,15 @@ class Group(controllers.Controller):
         # TODO: This is kind of an ugly hack.
         else:
             base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
+            server = fas.fasLDAP.Server()
+            server.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
+            server.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
+            server.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
+            server.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
+            server.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
+            server.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
             try:
-                fas.fasLDAP.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
-                fas.fasLDAP.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
-                fas.fasLDAP.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
-                fas.fasLDAP.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
-                fas.fasLDAP.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
-                fas.fasLDAP.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
+                1
             except:
                 turbogears.flash(_('The group details could not be saved.'))
             else:
