@@ -22,8 +22,10 @@ def canAdminGroup(userName, groupName, g=None):
     # TODO: Allow the group owner to admin a group.
     if not g:
         g = Groups.byUserName(userName)
+    group = Groups.groups(groupName)[groupName]
     try:
         if isAdmin(userName, g) or \
+            (group.fedoraGroupOwner == userName) or \
            (g[groupName].fedoraRoleType.lower() == 'administrator'):
            return True
         else:
