@@ -33,10 +33,9 @@ class Root(controllers.RootController):
     group = Group()
 
     @expose(template="fas.templates.welcome")
-    # @identity.require(identity.in_group("admin"))
     def index(self):
         if turbogears.identity.not_anonymous():
-            turbogears.redirect('home')
+            turbogears.redirect('/home')
         return dict(now=time.ctime())
 
     @expose(template="fas.templates.home")
@@ -102,22 +101,21 @@ class Root(controllers.RootController):
         user = Person.byUserName(turbogears.identity.current.user_name)
         if target:
             message = turbomail.Message(user.mail, target, _('Come join The Fedora Project!'))
-#            message.plain = "Please come join the fedora project!  Someone thinks your skills and abilities may be able to help our project.  If your interested please go to http://fedoraproject.org/wiki/HelpWanted"
-            message.plain = _("%(name)s <%(email)s> has invited you to join the Fedora \
-Project!  We are a community of users and developers who produce a \
-complete operating system from entirely free and open source software \
-(FOSS).  %(name)s thinks that you have knowledge and skills \
-that make you a great fit for the Fedora community, and that you might \
-be interested in contributing. \n\
-\n\
-How could you team up with the Fedora community to use and develop your \
-skills?  Check out http://fedoraproject.org/wiki/Join for some ideas. \
-Our community is more than just software developers -- we also have a \
-place for you whether you're an artist, a web site builder, a writer, or \
-a people person.  You'll grow and learn as you work on a team with other \
-very smart and talented people. \n\
-\n\
-Fedora and FOSS are changing the world -- come be a part of it!") % {'name': user.givenName, 'email': user.mail}
+            message.plain = _('''%(name)s <%(email)s> has invited you to join the Fedora
+Project!  We are a community of users and developers who produce a
+complete operating system from entirely free and open source software
+(FOSS).  %(name)s thinks that you have knowledge and skills
+that make you a great fit for the Fedora community, and that you might
+be interested in contributing.
+
+How could you team up with the Fedora community to use and develop your
+skills?  Check out http://fedoraproject.org/wiki/Join for some ideas.
+Our community is more than just software developers -- we also have a
+place for you whether you're an artist, a web site builder, a writer, or
+a people person.  You'll grow and learn as you work on a team with other
+very smart and talented people. 
+
+Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': user.givenName, 'email': user.mail}
             turbomail.enqueue(message)
             turbogears.flash(_('Message sent to: %s') % target)
         return dict(target=target, user=user)
