@@ -87,6 +87,10 @@ class changePass(validators.Schema):
 class userNameExists(validators.Schema):
     userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
+
+class userNameExists(validators.Schema):
+    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+
 class User(controllers.Controller):
 
     def __init__(self):
@@ -137,8 +141,10 @@ class User(controllers.Controller):
             claDone=None
         return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, claDone=claDone, personal=personal, admin=admin)
 
-    @expose(template="fas.templates.user.edit")
     @identity.require(turbogears.identity.not_anonymous())
+    @validate(validators=userNameExists())
+    @error_handler(error)
+    @expose(template="fas.templates.user.edit")
     def edit(self, userName=None):
         '''Edit a user
         '''
@@ -159,6 +165,7 @@ class User(controllers.Controller):
                  'description': user.description, }
         return dict(value=value)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editUser())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
@@ -192,8 +199,8 @@ class User(controllers.Controller):
                  'description': description, }
         return dict(value=value)
 
+    @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
     @expose(template="fas.templates.user.list")
-    @identity.require(turbogears.identity.in_group("accounts"))
     def list(self, search="a*"):
         '''List users
         '''
@@ -248,15 +255,15 @@ class User(controllers.Controller):
             turbogears.redirect('/user/new')
         return dict()
 
-    @expose(template="fas.templates.user.changepass")
     @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="fas.templates.user.changepass")
     def changepass(self):
         return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=changePass())
     @error_handler(error)
     @expose(template="fas.templates.user.changepass")
-    @identity.require(turbogears.identity.not_anonymous())
     def setpass(self, currentPassword, password, passwordCheck):
         userName = turbogears.identity.current.user_name
         try:

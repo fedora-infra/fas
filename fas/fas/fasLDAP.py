@@ -60,13 +60,15 @@ class Server(object):
         ''' Modify an attribute, requires write access '''
         if new in (old, 'None'):
             return None
-        if old == None:
-            old = 'None'
 
-        o = { attribute : old }
-        n = { attribute : new }
-        ldif = ldap.modlist.modifyModlist(o, n)
+        #o = { attribute : old }
+        #n = { attribute : new }
 
+        ldif = []
+        ldif.append((ldap.MOD_DELETE,attribute,None))
+        ldif.append((ldap.MOD_ADD,attribute,new))
+
+        #ldif = ldap.modlist.modifyModlist(o, n, ignore_oldexistent=1)
         # commit
         self.ldapConn.modify_s(base, ldif)
 
@@ -103,13 +105,14 @@ class Group(object):
     __server = Server()
     __base = 'ou=FedoraGroups,dc=fedoraproject,dc=org'
 
-    def __init__(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
+    def __init__(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
         self.cn = cn
         self.fedoraGroupDesc = fedoraGroupDesc
         self.fedoraGroupOwner = fedoraGroupOwner
         self.fedoraGroupType = fedoraGroupType
         self.fedoraGroupNeedsSponsor = fedoraGroupNeedsSponsor
         self.fedoraGroupUserCanRemove = fedoraGroupUserCanRemove
+        self.fedoraGroupRequires = fedoraGroupRequires
         self.fedoraGroupJoinMsg = fedoraGroupJoinMsg
 
     def __json__(self):
@@ -119,11 +122,12 @@ class Group(object):
                 'fedoraGroupType': self.fedoraGroupType,
                 'fedoraGroupNeedsSponsor': self.fedoraGroupNeedsSponsor,
                 'fedoraGroupUserCanRemove': self.fedoraGroupUserCanRemove,
+                'fedoraGroupRequires': self.fedoraGroupRequires,
                 'fedoraGroupJoinMsg': self.fedoraGroupJoinMsg
         }
 
     @classmethod 
-    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupJoinMsg):
+    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
         ''' Create a new group '''
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraGroup'),
@@ -132,6 +136,7 @@ class Group(object):
                     'fedoraGroupType' : '1',
                     'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
                     'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
+                    'fedoraGroupRequires' : fedoraGroupRequires,
                     'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
                     }
 
@@ -225,6 +230,7 @@ class Groups(object):
                     fedoraGroupType = group[0][1]['fedoraGroupType'][0],
                     fedoraGroupNeedsSponsor = group[0][1]['fedoraGroupNeedsSponsor'][0],
                     fedoraGroupUserCanRemove = group[0][1]['fedoraGroupUserCanRemove'][0],
+                    fedoraGroupRequires = group[0][1]['fedoraGroupRequires'][0],
                     fedoraGroupJoinMsg = group[0][1]['fedoraGroupJoinMsg'][0])
         else:
             return None
@@ -426,9 +432,13 @@ class Person(object):
         if not ldapServer:
             s = Server()
             ldapServer = s.ldapConn
-
         who = 'cn=%s,ou=People,dc=fedoraproject,dc=org' % who
-        ldapServer.simple_bind_s(who, password)
+        try:
+            ldapServer.simple_bind_s(who, password)
+        except NO_SUCH_OBJECT:
+            raise AuthError
+        except INVALID_CREDENTIALS:
+            raise AuthError
 
     def upgrade(self, group):
         ''' Upgrade user in group '''

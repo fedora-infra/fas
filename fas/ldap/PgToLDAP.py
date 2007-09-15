@@ -342,6 +342,7 @@ def main():
 	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
 	    userLdif.append(["fedoraGroupDesc",[str('Please fill out a Group Description')]]) #need to convert to bool
 	    #userLdif.append(["groupPrerequisite",[str(group[5])]])
+	    userLdif.append(["fedoraGroupRequires",[str(group[5])]]) # <- Hope this is added properly - Ricky
 	    #userLdif.append(["groupPrerequisite",prereq]) not currently in the schema
 	    userLdif.append(["fedoraGroupJoinMsg",[str(group[6]) or "None" ]])
 	    ldifWriter.unparse("cn=" + str(group[7]) +",ou=FedoraGroups,dc=fedoraproject,dc=org" , userLdif )

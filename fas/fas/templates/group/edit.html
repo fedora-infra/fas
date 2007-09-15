@@ -28,6 +28,10 @@
         <input py:if="not value['fedoraGroupUserCanRemove']" type="checkbox" id="fedoraGroupUserCanRemove" name="fedoraGroupUserCanRemove" value="TRUE" />
       </div>
       <div class="field">
+        <label for="fedoraGroupRequires">Must Belong To:</label>
+        <input type="text" id="fedoraGroupRequires" name="fedoraGroupRequires" value="${value['fedoraGroupRequires']}" />
+      </div>
+      <div class="field">
         <label for="fedoraGroupJoinMsg">Group Join Message:</label>
         <input type="text" id="fedoraGroupJoinMsg" name="fedoraGroupJoinMsg" value="${value['fedoraGroupJoinMsg']}" />
       </div>

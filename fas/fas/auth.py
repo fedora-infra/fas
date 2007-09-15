@@ -89,7 +89,7 @@ def canViewGroup(userName, groupName, g=None):
     if re.compile(privilegedViewGroups).match(groupName):
         if not g:
             g = Groups.byUserName(userName)
-        if canAdminGroup(userName, groupName):
+        if canAdminGroup(userName, groupName, g):
             return True
         else:
             return False
@@ -97,9 +97,18 @@ def canViewGroup(userName, groupName, g=None):
         return True
 
 def canApplyGroup(userName, groupName, applyUserName, g=None):
-    # This is where we could make groups depend on other ones.
     if not g:
         g = Groups.byUserName(userName)
+    # User must satisfy all dependencies to join.
+    # This is bypassed for people already in the group and for the
+    # owner of the group (when they initially make it).
+    group = Groups.groups(groupName)[groupName]
+    requirements = group.fedoraGroupRequires.split()
+    for req in requirements:
+        try:
+            g[req].cn
+        except KeyError:
+            return False
     # A user can apply themselves, and FAS admins can apply other people.
     if (userName == applyUserName) or \
         isAdmin(userName, g):
