@@ -435,9 +435,7 @@ class Person(object):
         who = 'cn=%s,ou=People,dc=fedoraproject,dc=org' % who
         try:
             ldapServer.simple_bind_s(who, password)
-        except NO_SUCH_OBJECT:
-            raise AuthError
-        except INVALID_CREDENTIALS:
+        except:
             raise AuthError
 
     def upgrade(self, group):
