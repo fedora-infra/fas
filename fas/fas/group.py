@@ -74,6 +74,7 @@ class Group(controllers.Controller):
     def __init__(self):
         '''Create a Group Controller.'''
 
+    @identity.require(turbogears.identity.not_anonymous())
     def index(self):
         '''Perhaps show a nice explanatory message about groups here?'''
         return dict()

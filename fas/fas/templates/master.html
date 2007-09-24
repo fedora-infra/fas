@@ -47,7 +47,9 @@
         <div id="sidebar">
           <ul>
             <li class="first"><a href="${tg.url('/group/list')}">Group List</a></li>
+            <!-- TODO: Make these use auth.py -->
             <li py:if="'accounts' in tg.identity.groups"><a href="${tg.url('/user/list')}">User List</a></li>
+            <li py:if="'accounts' in tg.identity.groups"><a href="${tg.url('/group/new')}">New Group</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">News</a></li>
             <li><a href="${tg.url('/group/list/A*')}">Apply For a new Group</a></li>
           </ul>

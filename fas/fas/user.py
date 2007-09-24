@@ -12,6 +12,8 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
+from textwrap import dedent
+
 import re
 
 class knownUser(validators.FancyValidator):
@@ -97,6 +99,7 @@ class User(controllers.Controller):
         '''Create a User Controller.
         '''
 
+    @identity.require(turbogears.identity.not_anonymous())
     def index(self):
         '''Redirect to view
         '''
@@ -109,10 +112,10 @@ class User(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=userNameExists())
     @error_handler(error)
     @expose(template="fas.templates.user.view")
-    @identity.require(turbogears.identity.not_anonymous())
     def view(self, userName=None):
         '''View a User.
         '''
@@ -245,7 +248,12 @@ class User(controllers.Controller):
             p = Person.byUserName(cn.encode('utf8'))
             newpass = p.generatePassword()
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
-            message.plain = _("You have created a new Fedora account!  Your new password is: %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
+            message.plain = _(dedent('''
+                 You have created a new Fedora account!
+                 Your new password is: %s
+
+                 Please go to https://admin.fedoraproject.org/fas/ to change it.
+                 ''') % newpass['pass'])
             turbomail.enqueue(message)
             p.userPassword = newpass['hash']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
@@ -302,7 +310,12 @@ class User(controllers.Controller):
                 return dict()
             newpass = p.generatePassword()
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
-            message.plain = _("You have requested a password reset!  Your new password is - %s \nPlease go to https://admin.fedoraproject.org/fas/ to change it") % newpass['pass']
+            message.plain = _(dedent('''
+                You have requested a password reset!
+                Your new password is - %s
+                
+                Please go to https://admin.fedoraproject.org/fas/ to change it.
+                ''')) % newpass['pass']
             turbomail.enqueue(message)
             # TODO: Make this send GPG-encrypted e-mails :)
             try:
