@@ -58,7 +58,10 @@ class Server(object):
 
     def modify(self, base, attribute, new, old=None):
         ''' Modify an attribute, requires write access '''
-        if new in (old, 'None'):
+        if new == None:
+            return None
+        new = str(new).encode('utf8')
+        if new == old:
             return None
 
         #o = { attribute : old }

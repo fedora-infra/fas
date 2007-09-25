@@ -135,21 +135,20 @@ class Group(controllers.Controller):
     @validate(validators=createGroup())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
-    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
+    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
         '''Create a group'''
         userName = turbogears.identity.current.user_name
         if not canCreateGroup(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
-            fas.fasLDAP.Group.newGroup(groupName.encode('utf8'),
-                                       fedoraGroupDesc.encode('utf8'),
-                                       fedoraGroupOwner.encode('utf8'),
-                                       fedoraGroupNeedsSponsor.encode('utf8'),
-                                       fedoraGroupUserCanRemove.encode('utf8'),
-                                       fedoraGroupRequires.encode('utf8'),
-                                       fedoraGroupJoinMsg.encode('utf8'),)
-
+            fas.fasLDAP.Group.newGroup(groupName,
+                                       fedoraGroupDesc,
+                                       fedoraGroupOwner,
+                                       fedoraGroupNeedsSponsor,
+                                       fedoraGroupUserCanRemove,
+                                       fedoraGroupRequires,
+                                       fedoraGroupJoinMsg)
         except:
             turbogears.flash(_("The group: '%s' could not be created.") % groupName)
             return dict()
@@ -202,17 +201,16 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/view/%s' % groupName)
         # TODO: This is kind of an ugly hack.
         else:
-            base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
-            server = fas.fasLDAP.Server()
-            server.modify(base, 'fedoraGroupDesc', fedoraGroupDesc.encode('utf8'))
-            server.modify(base, 'fedoraGroupOwner', fedoraGroupOwner.encode('utf8'))
-            server.modify(base, 'fedoraGroupType', str(fedoraGroupType).encode('utf8'))
-            server.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor.encode('utf8'))
-            server.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove.encode('utf8'))
-            server.modify(base, 'fedoraGroupRequires', fedoraGroupRequires.encode('utf8'))
-            server.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg.encode('utf8'))
             try:
-                1
+                base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
+                server = fas.fasLDAP.Server()
+                server.modify(base, 'fedoraGroupDesc', fedoraGroupDesc)
+                server.modify(base, 'fedoraGroupOwner', fedoraGroupOwner)
+                server.modify(base, 'fedoraGroupType', fedoraGroupType)
+                server.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor)
+                server.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove)
+                server.modify(base, 'fedoraGroupRequires', fedoraGroupRequires)
+                server.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg)
             except:
                 turbogears.flash(_('The group details could not be saved.'))
             else:

@@ -178,14 +178,14 @@ class User(controllers.Controller):
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
         try:
             user = Person.byUserName(userName)
-            user.givenName = givenName.encode('utf8')
-            user.mail = mail.encode('utf8')
-            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail.encode('utf8')
-            user.fedoraPersonIrcNick = fedoraPersonIrcNick.encode('utf8')
-            user.fedoraPersonKeyId = fedoraPersonKeyId.encode('utf8')
-            user.telephoneNumber = telephoneNumber.encode('utf8')
-            user.postalAddress = postalAddress.encode('utf8')
-            user.description = description.encode('utf8')
+            user.givenName = givenName
+            user.mail = mail
+            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
+            user.fedoraPersonIrcNick = fedoraPersonIrcNick
+            user.fedoraPersonKeyId = fedoraPersonKeyId
+            user.telephoneNumber = telephoneNumber
+            user.postalAddress = postalAddress
+            user.description = description
         except:
             turbogears.flash(_('Your account details could not be saved.'))
         else:
@@ -240,12 +240,12 @@ class User(controllers.Controller):
         #           their password) withing X days.  
         import turbomail
         try:
-            Person.newPerson(cn.encode('utf8'),
-                            givenName.encode('utf8'),
-                            mail.encode('utf8'),
-                            telephoneNumber.encode('utf8'),
-                            postalAddress.encode('utf8'))
-            p = Person.byUserName(cn.encode('utf8'))
+            Person.newPerson(cn,
+                             givenName,
+                             mail,
+                             telephoneNumber,
+                             postalAddress,)
+            p = Person.byUserName(cn)
             newpass = p.generatePassword()
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
