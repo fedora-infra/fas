@@ -332,7 +332,6 @@ class User(controllers.Controller):
                     return dict()
             else:
                 message.plain = email;
-            print message.plain
             turbomail.enqueue(message)
             try:
                 p.userPassword = newpass['hash']

@@ -50,7 +50,6 @@ class Server(object):
     def add(self, base, attributes):
         ''' Add a new group record to LDAP instance '''
         attributes=[ (str(k).encode('utf8'), str(v).encode('utf8')) for k,v in attributes.items() ]
-        print str(k).encode('utf8')
         self.ldapConn.add_s(base, attributes)
 
     def delete(self, base):
