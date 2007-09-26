@@ -116,10 +116,7 @@ class Group(controllers.Controller):
                 me = groups[userName]
             except:
                 me = UserGroup()
-            #searchUserForm.groupName.display('group')
-            #findUser.groupName.display(value='fff')
-            value = {'groupName': groupName}
-            return dict(userName=userName, groups=groups, group=group, me=me, value=value)
+            return dict(userName=userName, groups=groups, group=group, me=me)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
@@ -141,7 +138,7 @@ class Group(controllers.Controller):
         if not canCreateGroup(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
-        try:
+        if 1:
             fas.fasLDAP.Group.newGroup(groupName,
                                        fedoraGroupDesc,
                                        fedoraGroupOwner,
@@ -149,6 +146,8 @@ class Group(controllers.Controller):
                                        fedoraGroupUserCanRemove,
                                        fedoraGroupRequires,
                                        fedoraGroupJoinMsg)
+        try:
+            1
         except:
             turbogears.flash(_("The group: '%s' could not be created.") % groupName)
             return dict()
@@ -177,15 +176,7 @@ class Group(controllers.Controller):
             turbogears.flash(_("You cannot edit '%s'.") % groupName)
             turbogears.redirect('/group/view/%s' % groupName)
         group = Groups.groups(groupName)[groupName]
-        value = {'groupName': groupName,
-                 'fedoraGroupDesc': group.fedoraGroupDesc,
-                 'fedoraGroupOwner': group.fedoraGroupOwner,
-                 'fedoraGroupType': group.fedoraGroupType,
-                 'fedoraGroupNeedsSponsor': (group.fedoraGroupNeedsSponsor.upper() == 'TRUE'),
-                 'fedoraGroupUserCanRemove': (group.fedoraGroupUserCanRemove.upper() == 'TRUE'),
-                 'fedoraGroupRequires': group.fedoraGroupRequires,
-                 'fedoraGroupJoinMsg': group.fedoraGroupJoinMsg, }
-        return dict(value=value)
+        return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editGroup())

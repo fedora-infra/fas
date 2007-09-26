@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>Fedora Accounts System</title>
+  </head>
+  <body>
+    <!-- Click-through CLA -->
+    <h2>Contributor License Agreement</h2>
+
+    <div py:if="type == 'click'" py:strip=''>
+      <xi:include href="cla.html" />
+      <form action="${tg.url('/cla/click')}" method="post">
+        <div>
+          If you agree to these terms and conditions, type "I agree" here: <input type="text" id="agree" name="agree" /><br />
+          Full Name: ${user.givenName}<br />
+          E-mail: ${user.mail}<br />
+          Date: ${date}<br />
+          <input type="submit" value="Submit CLA" />
+        </div>
+      </form>
+    </div>
+    <div py:if="type == 'sign'" py:strip=''>
+      <p>
+      Use the below link to download/save the CLA as fedora-icla-${user.cn}.txt, and run:
+      <pre>gpg -as fedora-icla-${user.cn}.txt</pre>
+      After, upload fedora-icla-${user.cn}.txt.asc in the form below.
+      </p>
+      <p>
+      <a href="${tg.url('/cla/download')}">Download the CLA text file here!</a>
+      </p>
+
+      <form action="${tg.url('/cla/sign')}" method="post" enctype="multipart/form-data">
+        <div>
+          <label for="signature">Signed CLA:</label> <input type="file" id="signature" name="signature" /><br />
+          <input type="submit" value="Submit CLA" />
+        </div>
+      </form>
+    </div>
+
+  </body>
+</html>

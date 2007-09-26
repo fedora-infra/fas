@@ -8,39 +8,39 @@
   </head>
   <body>
     <h2>Edit Account</h2>
-    <form action="${tg.url('/user/save/%s' % value['userName'])}" method="post">
+    <form action="${tg.url('/user/save/%s' % userName)}" method="post">
       <div class="field">
         <label for="givenName">Full Name:</label>
-        <input type="text" id="givenName" name="givenName" value="${value['givenName']}" />
+        <input type="text" id="givenName" name="givenName" value="${user.givenName}" />
       </div>
       <div class="field">
         <label for="mail">Email:</label>
-        <input type="text" id="mail" name="mail" value="${value['mail']}" />
+        <input type="text" id="mail" name="mail" value="${user.mail}" />
       </div>
       <div class="field">
         <label for="fedoraPersonBugzillaMail">Bugzilla Email:</label>
-        <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${value['fedoraPersonBugzillaMail']}" />
+        <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${user.fedoraPersonBugzillaMail}" />
       </div>
       <div class="field">
         <label for="fedoraPersonIrcNick">IRC Nick:</label>
-        <input type="text" id="fedoraPersonIrcNick" name="fedoraPersonIrcNick" value="${value['fedoraPersonIrcNick']}" />
+        <input type="text" id="fedoraPersonIrcNick" name="fedoraPersonIrcNick" value="${user.fedoraPersonIrcNick}" />
       </div>
       <div class="field">
         <label for="fedoraPersonKeyId">PGP Key:</label>
-        <input type="text" id="fedoraPersonKeyId" name="fedoraPersonKeyId" value="${value['fedoraPersonKeyId']}" />
+        <input type="text" id="fedoraPersonKeyId" name="fedoraPersonKeyId" value="${user.fedoraPersonKeyId}" />
       </div>
       <div class="field">
         <label for="telephoneNumber">Telephone Number:</label>
-        <input type="text" id="telephoneNumber" name="telephoneNumber" value="${value['telephoneNumber']}" />
+        <input type="text" id="telephoneNumber" name="telephoneNumber" value="${user.telephoneNumber}" />
       </div>
       <div class="field">
         <label for="postalAddress">Postal Address:</label>
-        <input type="text" id="postalAddress" name="postalAddress" value="${value['postalAddress']}" />
+        <input type="text" id="postalAddress" name="postalAddress" value="${user.postalAddress}" />
       </div>
       <div class="field">
         <label for="description ">Description:</label>
 <textarea id="description" name="description">
-${value['description']}
+${user.description}
 </textarea>
       </div>
       <div class="field">

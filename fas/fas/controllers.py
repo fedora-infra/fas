@@ -14,9 +14,11 @@ from operator import itemgetter
 
 from fas.user import User
 from fas.group import Group
+from fas.cla import CLA
 
 from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
+import os
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -26,11 +28,15 @@ sys.setdefaultencoding('utf-8')
 # log = logging.getLogger("fas.controllers")
 
 #TODO: Appropriate flash icons for errors, etc.
+# mmcgrath wonders if it will be handy to expose an encrypted mailer with fas over json for our apps
 
 class Root(controllers.RootController):
 
     user = User()
     group = Group()
+    cla = CLA()
+
+    os.environ['GNUPGHOME'] = config.get('gpghome')
 
     @expose(template="fas.templates.welcome")
     def index(self):

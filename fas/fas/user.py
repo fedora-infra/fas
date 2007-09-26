@@ -157,16 +157,7 @@ class User(controllers.Controller):
             turbogears.flash(_('You cannot edit %s') % userName )
             userName = turbogears.identity.current.user_name
         user = Person.byUserName(userName)
-        value = {'userName': userName,
-                 'givenName': user.givenName,
-                 'mail': user.mail,
-                 'fedoraPersonBugzillaMail': user.fedoraPersonBugzillaMail,
-                 'fedoraPersonIrcNick': user.fedoraPersonIrcNick,
-                 'fedoraPersonKeyId': user.fedoraPersonKeyId,
-                 'telephoneNumber': user.telephoneNumber,
-                 'postalAddress': user.postalAddress,
-                 'description': user.description, }
-        return dict(value=value)
+        return dict(userName=userName, user=user)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editUser())

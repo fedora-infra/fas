@@ -335,7 +335,7 @@ a
 
 #footer .copy, #footer .disclaimer
 {
-    font-size: 1.5ex;
+  font-size: 1.5ex;
 }
 
 #footlinks
@@ -440,3 +440,31 @@ form .field input, form .field textarea
   font-size: 3ex;
   font-family: monospace;
 }
+
+#cla
+{
+  border: 1px solid #AAAAAA;
+  background: #EEEEEE;
+  padding: 2ex;
+}
+
+#cla p
+{
+  margin: 2ex 0;
+}
+
+#cla ol {
+  list-style-type: decimal;
+  margin-left: 3ex;
+}
+
+#cla ol ol
+{
+  list-style: upper-alpha;
+}
+
+#cla ol li
+{
+  margin: 2ex 0;
+}
+

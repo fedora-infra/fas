@@ -49,7 +49,8 @@ class Server(object):
 
     def add(self, base, attributes):
         ''' Add a new group record to LDAP instance '''
-        attributes=[ (k,v) for k,v in attributes.items() ]
+        attributes=[ (str(k).encode('utf8'), str(v).encode('utf8')) for k,v in attributes.items() ]
+        print str(k).encode('utf8')
         self.ldapConn.add_s(base, attributes)
 
     def delete(self, base):
@@ -280,7 +281,7 @@ class Groups(object):
                                         dt.second,
                                         dt.microsecond)
 
-        attributes = { 'cn' : groupName.encode('utf8'),
+        attributes = { 'cn' : groupName,
                     'fedoraRoleApprovaldate' : 'NotApproved',
                     'fedoraRoleCreationDate' : now,
                     'fedoraRoleDomain' : 'None',
