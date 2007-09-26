@@ -5,6 +5,7 @@ import ldap
 import cherrypy
 
 import mx.DateTime
+import re
 import gpgme
 import StringIO
 
@@ -66,7 +67,7 @@ class CLA(controllers.Controller):
     def sign(self, signature):
         '''Sign CLA'''
         userName = turbogears.identity.current.user_name
-        groupName = 'cla_sign' # TODO: Make this value configurable.
+        groupName = config.get('cla_sign_group')
         ctx = gpgme.Context()
         data = StringIO.StringIO(signature.file.read())
         plaintext = StringIO.StringIO()
@@ -120,7 +121,7 @@ class CLA(controllers.Controller):
     def click(self, agree):
         '''Click-through CLA'''
         userName = turbogears.identity.current.user_name
-        groupName = 'cla_click' # TODO: Make this value configurable.
+        groupName = config.get('cla_click_group')
         if agree.lower() == 'i agree':
             try:
                 p = Person.byUserName(userName)
