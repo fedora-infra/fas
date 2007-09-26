@@ -104,11 +104,9 @@ class CLA(controllers.Controller):
             return dict()
 
         # Everything is correct.
-        if 1:
+        try:
             Groups.apply(groupName, userName) # Apply...
             user.sponsor(groupName, userName) # Approve...
-        try:
-            1
         except:
             turbogears.flash(_("You could not be added to the '%s' group.") % groupName)
             return dict()
