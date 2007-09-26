@@ -138,7 +138,7 @@ class Group(controllers.Controller):
         if not canCreateGroup(userName):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
-        if 1:
+        try:
             fas.fasLDAP.Group.newGroup(groupName,
                                        fedoraGroupDesc,
                                        fedoraGroupOwner,
@@ -146,8 +146,6 @@ class Group(controllers.Controller):
                                        fedoraGroupUserCanRemove,
                                        fedoraGroupRequires,
                                        fedoraGroupJoinMsg)
-        try:
-            1
         except:
             turbogears.flash(_("The group: '%s' could not be created.") % groupName)
             return dict()
