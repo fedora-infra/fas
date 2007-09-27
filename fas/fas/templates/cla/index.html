@@ -9,14 +9,14 @@
   <body>
     <h2>Fedora Contributor License Agreement</h2>
     <p>
-    Explanatory text goes here.
+    There are two ways to sign the CLA...  <a href="http://fedoraproject.org/wiki/Legal/CLAAcceptanceHierarchies">CLA Acceptance Hierarchies</a>
     </p>
     <ul py:if="not signedCLA">
       <li><a href="${tg.url('/cla/view/sign')}">Signed CLA</a></li>
       <li py:if="not clickedCLA"><a href="${tg.url('/cla/view/click')}">Click-through CLA</a></li>
     </ul>
     <p py:if="signedCLA">
-    Congratulations, you have already sucessfully signed the CLA.  
+    Congratulations, you have already sucessfully signed the <a href="${tg.url('/cla/view')}">CLA</a>.  
     </p>
   </body>
 </html>
