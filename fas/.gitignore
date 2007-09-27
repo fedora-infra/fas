@@ -1,5 +1,4 @@
 *~
-#*#
 *.mo
 random_seed
 pubring.gpg
@@ -8,3 +7,4 @@ trustdb.gpg
 fas.log
 *.pyc
 *.pyo
+*.swp
