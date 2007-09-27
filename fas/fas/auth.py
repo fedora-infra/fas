@@ -66,8 +66,8 @@ def signedCLAPrivs(userName, g=None):
 def clickedCLAPrivs(userName, g=None):
     if not g:
         g = Groups.byUserName(userName)
-    if signedCLA(userName, g) or \
-       isApproved(userName, config.get('cla_sign_group'), g):
+    if signedCLAPrivs(userName, g) or \
+       isApproved(userName, config.get('cla_click_group'), g):
         return True
     else:
         return False

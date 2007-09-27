@@ -49,7 +49,7 @@ class Server(object):
 
     def add(self, base, attributes):
         ''' Add a new group record to LDAP instance '''
-        attributes=[ (str(k).encode('utf8'), str(v).encode('utf8')) for k,v in attributes.items() ]
+        attributes=[ (k, v) for k,v in attributes.items() ]
         self.ldapConn.add_s(base, attributes)
 
     def delete(self, base):
@@ -134,13 +134,13 @@ class Group(object):
         ''' Create a new group '''
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraGroup'),
-                    'fedoraGroupDesc' : fedoraGroupDesc,
-                    'fedoraGroupOwner' : fedoraGroupOwner,
+                    'fedoraGroupDesc' : str(fedoraGroupDesc).encode('utf8'),
+                    'fedoraGroupOwner' : str(fedoraGroupOwner).encode('utf8'),
                     'fedoraGroupType' : '1',
-                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
-                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
-                    'fedoraGroupRequires' : fedoraGroupRequires,
-                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
+                    'fedoraGroupNeedsSponsor' : str(fedoraGroupNeedsSponsor).encode('utf8'),
+                    'fedoraGroupUserCanRemove' : str(fedoraGroupUserCanRemove).encode('utf8'),
+                    'fedoraGroupRequires' : str(fedoraGroupRequires).encode('utf8'),
+                    'fedoraGroupJoinMsg' : str(fedoraGroupJoinMsg).encode('utf8'),
                     }
 
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
@@ -282,7 +282,7 @@ class Groups(object):
 
         attributes = { 'cn' : groupName,
                     'fedoraRoleApprovaldate' : 'NotApproved',
-                    'fedoraRoleCreationDate' : now,
+                    'fedoraRoleCreationDate' : str(now).encode('utf8'),
                     'fedoraRoleDomain' : 'None',
                     'fedoraRoleSponsor' : 'None',
                     'fedoraRoleStatus' : 'unapproved',
@@ -345,20 +345,20 @@ class Person(object):
                                         dt.microsecond)
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraPerson', 'inetOrgPerson', 'organizationalPerson', 'person', 'top'),
-                    'displayName' : cn,
-                    'sn' : cn,
-                    'cn' : cn,
+                    'displayName' : str(cn).encode('utf8'),
+                    'sn' : str(cn).encode('utf8'),
+                    'cn' : str(cn).encode('utf8'),
                     'fedoraPersonSshKey' : '',
                     'facsimileTelephoneNumber' : '',
                     'fedoraPersonApprovalStatus' : 'approved',
-                    'givenName' : givenName,
-                    'mail' : mail,
+                    'givenName' : str(givenName).encode('utf8'),
+                    'mail' : str(mail).encode('utf8'),
                     'fedoraPersonKeyId' : '',
                     'description' : '',
-                    'fedoraPersonCreationDate' : now,
-                    'telephoneNumber' : telephoneNumber,
-                    'fedoraPersonBugzillaMail' : mail,
-                    'postalAddress' : postalAddress,
+                    'fedoraPersonCreationDate' : str(now).encode('utf8'),
+                    'telephoneNumber' : str(telephoneNumber).encode('utf8'),
+                    'fedoraPersonBugzillaMail' : str(mail).encode('utf8'),
+                    'postalAddress' : str(postalAddress).encode('utf8'),
                     'fedoraPersonIrcNick' : '',
                     'userPassword' : 'Disabled'
                     }

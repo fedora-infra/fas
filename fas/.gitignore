@@ -1,6 +1,7 @@
 *~
 #*#
 *.mo
+random_seed
 pubring.gpg
 secring.gpg
 trustdb.gpg

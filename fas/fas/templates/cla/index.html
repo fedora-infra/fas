@@ -11,9 +11,12 @@
     <p>
     Explanatory text goes here.
     </p>
-    <ul>
+    <ul py:if="not signedCLA">
       <li><a href="${tg.url('/cla/view/sign')}">Signed CLA</a></li>
-      <li><a href="${tg.url('/cla/view/click')}">Click-through CLA</a></li>
+      <li py:if="not clickedCLA"><a href="${tg.url('/cla/view/click')}">Click-through CLA</a></li>
     </ul>
+    <p py:if="signedCLA">
+    Congratulations, you have already sucessfully signed the CLA.  
+    </p>
   </body>
 </html>
