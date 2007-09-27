@@ -7,13 +7,12 @@ from fas.fasLDAP import UserGroup
 
 import re
 
-ADMINGROUP = config.get('admingroup')
-
 def isAdmin(userName, g=None):
+    admingroup = config.get('admingroup')
     if not g:
         g = Groups.byUserName(userName)
     try:
-        g[ADMINGROUP].cn
+        g[admingroup].cn
         return True
     except KeyError:
         return False
@@ -54,6 +53,23 @@ def isApproved(userName, groupName, g=None):
         else:
            return False
     except:
+        return False
+
+def signedCLAPrivs(userName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    if isApproved(userName, config.get('cla_sign_group'), g):
+        return True
+    else:
+        return False
+
+def clickedCLAPrivs(userName, g=None):
+    if not g:
+        g = Groups.byUserName(userName)
+    if signedCLAPrivs(userName, g) or \
+       isApproved(userName, config.get('cla_click_group'), g):
+        return True
+    else:
         return False
 
 def canEditUser(userName, editUserName, g=None):

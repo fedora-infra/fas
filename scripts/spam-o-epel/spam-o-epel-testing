@@ -1,0 +1,310 @@
+#!/usr/bin/python
+
+import os
+import shutil
+from stat import *
+import string
+import sys
+import tempfile
+import re
+from optparse import OptionParser
+from yum.constants import *
+from yum.misc import getCacheDir
+import urllib
+import koji
+
+# HAAACK
+import imp
+sys.modules['repoclosure'] = imp.load_source("repoclosure","/usr/bin/repoclosure")
+import repoclosure
+
+owners = {}
+deps = {}
+
+kojihost = "http://koji.fedoraproject.org/kojihub"
+
+myPackages = {}
+url = urllib.urlopen('http://cvs-int/viewcvs/*checkout*/owners/owners.epel.list')
+for p in url:
+    if p.startswith('#'):
+        continue
+    myPackages[p.split('|')[1]] = p.split('|')[3]
+
+def generateConfig(distdir, arch):
+    if not os.path.exists(os.path.join(distdir, arch)):
+        return None
+    if arch == 'source' or arch == 'SRPMS':
+        return None
+    if os.path.exists(os.path.join(distdir, arch, "os")):
+        subdir = "os"
+    else:
+        subdir = ""
+    if not os.path.exists(os.path.join(distdir, arch, subdir, "repodata", "repomd.xml")):
+        return None
+
+    (fd, conffile) = tempfile.mkstemp()
+    if distdir.find('5') != -1:
+        confheader = """
+[main]
+debuglevel=2
+logfile=/var/log/yum.log
+pkgpolicy=newest
+distroverpkg=fedora-release
+reposdir=/dev/null
+keepcache=0
+
+[EPEL-5]
+name=EPEL - 5
+baseurl=file:///pub/epel/testing/5/%s/
+enabled=1
+
+[RHEL5-Server]
+name=RHEL - 5 (Server)
+baseurl=file:///epel/RHEL5/%s/Server/
+enabled=1
+
+[RHEL5-Client]
+name=RHEL - 5 (Client)
+baseurl=file:///epel/RHEL5/%s/Client/
+enabled=1
+
+[epel-%s]
+name=EPEL - %s
+baseurl=file://%s/%s/%s
+enabled=1
+
+""" % (arch, arch, arch, arch, arch, distdir, arch, subdir)
+    elif distdir.find('4') != -1:
+        confheader = """
+[main]
+debuglevel=2
+logfile=/var/log/yum.log
+pkgpolicy=newest
+distroverpkg=fedora-release
+reposdir=/dev/null
+keepcache=0
+
+[EPEL-4]
+name=EPEL - 4
+baseurl=file:///pub/epel/testing/4/%s/
+enabled=1
+
+[RHEL4]
+name=RHEL - 4
+baseurl=file:///epel/RHEL4/en/os/RPMS/%s/
+enabled=1
+
+#[RHEL5-Client]
+#name=RHEL - 5 (Client)
+#baseurl=file:///epel/RHEL5/%s/Client/
+#enabled=1
+
+[epel-%s]
+name=EPEL - %s
+baseurl=file://%s/%s/%s
+enabled=1
+
+""" % (arch, arch, arch, arch, distdir, arch, subdir)
+    os.write(fd,confheader)
+    os.close(fd)
+    return conffile
+
+
+def libmunge(match):
+    if match.groups()[1].isdigit():
+        return "%s%d" % (match.groups()[0],int(match.groups()[1])+1)
+    else:
+        return "%s%s" % (match.groups()[0],match.groups()[1])
+
+def getOwner(pkg):
+    if pkg == None:
+        return None
+#    session = koji.ClientSession(kojihost, {})
+    try:
+#        p = session.listPackages(tagID = "dist-rawhide", pkgID = pkg, inherited = True)
+        p = myPackages[pkg]
+    except:
+        return None
+    if p:
+        #return "%s@fedoraproject.org" % (p[0]['owner_name'],)
+        return p
+    else:
+        return None
+
+def addOwner(list, pkg):
+    if list.get(pkg):
+        return True
+
+    if list.has_key(pkg):
+        return False
+
+    f = getOwner(pkg)
+    list[pkg] = f
+    if f:
+        return True
+    return False
+
+def getSrcPkg(pkg):
+    if pkg.arch == 'src':
+      return pkg.name
+    srpm = pkg.returnSimple('sourcerpm')
+    if not srpm:
+        return None
+    srcpkg = string.join(srpm.split('-')[:-2],'-')
+    return srcpkg
+
+def printableReq(pkg, dep):
+    (n, f, v) = dep
+    req = '%s' % n
+    if f:
+        flag = LETTERFLAGS[f]
+        req = '%s %s' % (req, flag)
+    if v:
+        req = '%s %s' % (req, v)
+    return "%s requires %s" % (pkg, req,)
+
+def assignBlame(resolver, dep, guilty):
+    def __addpackages(sack):
+        for package in sack.returnPackages():
+            p = getSrcPkg(package)
+            if addOwner(guilty, p):
+                list.append(p)
+    
+    # Given a dep, find potential responsible parties
+
+    list = []
+    
+    # The dep itself
+    if addOwner(guilty, dep):
+        list.append(dep)
+
+    # Something that provides the dep
+    __addpackages(resolver.whatProvides(dep, None, None))
+
+    # Libraries: check for variant in soname
+    if re.match("lib.*\.so\.[0-9]+",dep):
+        new = re.sub("(lib.*\.so\.)([0-9])+",libmunge,dep)
+        __addpackages(resolver.whatProvides(new, None, None))
+        libname = dep.split('.')[0]
+        __addpackages(resolver.whatProvides(libname, None, None))
+
+    return list
+
+def generateSpam(pkgname, sendmail = True):
+
+    package = deps[pkgname]
+    guilty = owners[pkgname]
+    conspirators = []
+
+    for s in package.keys():
+        subpackage = package[s]
+        for arch in subpackage.keys():
+            brokendeps = subpackage[arch]
+            for dep in brokendeps:
+                for blame in dep[2]:
+                    party = owners[blame]
+                    if party != guilty and party not in conspirators:
+                        conspirators.append(party)
+
+    foo = """
+
+%s has broken dependencies in the EPEL:
+""" % (pkgname,)
+
+    for s in package.keys():
+        subpackage = package[s]
+        for arch in subpackage.keys():
+            foo = foo + "On %s:\n" % (arch)
+            brokendeps = subpackage[arch]
+            for dep in brokendeps:
+                foo = foo + "\t%s\n" % printableReq(dep[0],dep[1])
+
+    foo = foo + "Please resolve this as soon as possible.\n\n"
+
+    command = '/bin/mail -s "Broken dependencies: %s" %s' % (pkgname, guilty)
+    if conspirators:
+        command = command + " -c %s" % (string.join(conspirators,","),)
+
+    if sendmail:
+        mailer = os.popen(command, 'w')
+        mailer.write(foo)
+        mailer.close()
+    else:
+        print """
+To: %s
+Cc: %s
+Subject: Broken dependencies: %s
+
+""" % (guilty, string.join(conspirators,','), pkgname)
+
+        print foo
+
+def doit(dir, mail=True):
+    for arch in os.listdir(dir):
+        conffile = generateConfig(dir, arch)
+        if not conffile:
+            continue
+        if arch == 'i386':
+            carch = 'i686'
+        elif arch == 'ppc':
+            carch = 'ppc64'
+        elif arch == 'sparc':
+            carch = 'sparc64v'
+        else:
+            carch = arch
+        my = repoclosure.RepoClosure(config = conffile, arch = [carch])
+        cachedir = getCacheDir()
+        my.repos.setCacheDir(cachedir)
+        my.readMetadata()
+        baddeps = my.getBrokenDeps(newest = False)
+        pkgs = baddeps.keys()
+        tmplist = [(x.returnSimple('name'), x) for x in pkgs]
+        tmplist.sort()
+        pkgs = [x for (key, x) in tmplist]
+        if len(pkgs) > 0:
+            print "Broken deps for %s" % (arch,)
+            print "----------------------------------------------------------"
+        for pkg in pkgs:
+            srcpkg = getSrcPkg(pkg)
+
+            addOwner(owners, srcpkg)
+
+            if not deps.has_key(srcpkg):
+                deps[srcpkg] = {}
+
+            pkgid = "%s-%s" % (pkg.name, pkg.printVer())
+
+            if not deps[srcpkg].has_key(pkgid):
+                deps[srcpkg][pkgid] = {}
+
+            broken = []
+            for (n, f, v) in baddeps[pkg]:
+                print "\t%s" % printableReq(pkg, (n, f, v))
+
+                blamelist = assignBlame(my, n, owners)
+
+                broken.append( (pkg, (n, f, v), blamelist) )
+
+            deps[srcpkg][pkgid][arch] = broken
+
+        print "\n\n"
+        os.unlink(conffile)
+        shutil.rmtree(cachedir, ignore_errors = True)
+
+    pkglist = deps.keys()
+    for pkg in pkglist:
+        generateSpam(pkg, mail)
+
+if __name__ == '__main__':
+
+    parser = OptionParser("usage: %prog [options] <directory>")
+    parser.add_option("--nomail", action="store_true")
+    (options, args) = parser.parse_args(sys.argv[1:])
+    if len(args) != 1:
+        parser.error("incorrect number of arguments")
+        sys.exit(1)
+    if options.nomail:
+        mail = False
+    else:
+        mail = True
+    doit(args[0], mail)

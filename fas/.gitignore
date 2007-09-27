@@ -1,9 +1,10 @@
 *~
-#*#
 *.mo
+random_seed
 pubring.gpg
 secring.gpg
 trustdb.gpg
 fas.log
 *.pyc
 *.pyo
+*.swp

@@ -3,6 +3,11 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 
 import ldap
 
+import os
+import re
+import gpgme
+import StringIO
+
 import fas.fasLDAP
 
 from fas.fasLDAP import UserAccount
@@ -13,8 +18,6 @@ from fas.fasLDAP import UserGroup
 from fas.auth import *
 
 from textwrap import dedent
-
-import re
 
 class knownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
@@ -287,7 +290,7 @@ class User(controllers.Controller):
         return dict()
             
     @expose(template="fas.templates.user.resetpass")
-    def sendpass(self, userName, mail):
+    def sendpass(self, userName, mail, encrypted=False):
         import turbomail
         # Logged in
         if turbogears.identity.current.user_name:
@@ -301,19 +304,38 @@ class User(controllers.Controller):
                 return dict()
             newpass = p.generatePassword()
             message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
-            message.plain = _(dedent('''
+            email = _(dedent('''
                 You have requested a password reset!
                 Your new password is - %s
                 
                 Please go to https://admin.fedoraproject.org/fas/ to change it.
                 ''')) % newpass['pass']
+            if encrypted:
+                try:
+                    plaintext = StringIO.StringIO(email)
+                    ciphertext = StringIO.StringIO()
+                    ctx = gpgme.Context()
+                    ctx.armor = True
+                    signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
+                    ctx.signers = [signer]
+                    recipient = ctx.get_key(re.sub('\s', '', p.fedoraPersonKeyId))
+                    def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
+                        os.write(fd, '%s\n' % config.get('gpg_passphrase'))
+                    ctx.passphrase_cb = passphrase_cb
+                    ctx.encrypt_sign([recipient],
+                        gpgme.ENCRYPT_ALWAYS_TRUST,
+                        plaintext,
+                        ciphertext)
+                    message.plain = ciphertext.getvalue()
+                except:
+                    turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
+                    return dict()
+            else:
+                message.plain = email;
             turbomail.enqueue(message)
-            # TODO: Make this send GPG-encrypted e-mails :)
             try:
                 p.userPassword = newpass['hash']
                 turbogears.flash(_('Your new password has been emailed to you.'))
-                # This is causing an exception which causes the password could not be reset error.
-                #turbogears.redirect('/login')  
             except:
                 turbogears.flash(_('Your password could not be reset.'))
             else:

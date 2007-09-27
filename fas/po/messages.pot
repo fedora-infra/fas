@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2007-08-23 16:12-0700\n"
+"POT-Creation-Date: 2007-09-26 20:45-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,282 +17,386 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.8.1\n"
 
-#: fas/controllers.py:49
+#: fas/cla.py:55 fas/cla.py:159
+msgid ""
+"You have already signed the CLA, so it is unnecessary to complete the "
+"Click-through CLA."
+msgstr ""
+
+#: fas/cla.py:59 fas/cla.py:163
+msgid "You have already completed the Click-through CLA."
+msgstr ""
+
+#: fas/cla.py:64 fas/cla.py:90
+msgid "You have already signed the CLA."
+msgstr ""
+
+#: fas/cla.py:102
+#, python-format
+msgid "Your signature could not be verified: '%s'."
+msgstr ""
+
+#: fas/cla.py:110
+msgid ""
+"Your signature's fingerprint did not match the fingerprint registered in "
+"FAS."
+msgstr ""
+
+#: fas/cla.py:120
+msgid "Your key did not match your email."
+msgstr ""
+
+#: fas/cla.py:127
+msgid "The GPG-signed part of the message did not contain a signed CLA."
+msgstr ""
+
+#: fas/cla.py:131
+msgid "The text \"I agree\" was not found in the CLA."
+msgstr ""
+
+#: fas/cla.py:140 fas/cla.py:173
+#, python-format
+msgid "You could not be added to the '%s' group."
+msgstr ""
+
+#: fas/cla.py:148
+#, python-format
+msgid "You have successfully signed the CLA.  You are now in the '%s' group."
+msgstr ""
+
+#: fas/cla.py:177
+#, python-format
+msgid ""
+"You have successfully agreed to the click-through CLA.  You are now in "
+"the '%s' group."
+msgstr ""
+
+#: fas/cla.py:181
+msgid "You have not agreed to the click-through CLA."
+msgstr ""
+
+#: fas/controllers.py:60
 #, python-format
 msgid "Welcome, %s"
 msgstr ""
 
-#: fas/controllers.py:57
+#: fas/controllers.py:68
 msgid ""
 "The credentials you supplied were not correct or did not grant access to "
 "this resource."
 msgstr ""
 
-#: fas/controllers.py:60
+#: fas/controllers.py:71
 msgid "You must provide your credentials before accessing this resource."
 msgstr ""
 
-#: fas/controllers.py:62
+#: fas/controllers.py:73
 msgid "Please log in."
 msgstr ""
 
-#: fas/controllers.py:73
+#: fas/controllers.py:84
 msgid "You have successfully logged out."
 msgstr ""
 
-#: fas/controllers.py:81
+#: fas/controllers.py:92
 #, python-format
 msgid "Invitation Sent to: \"%(name)s\" <%(email)s>"
 msgstr ""
 
-#: fas/controllers.py:83
+#: fas/controllers.py:94
 msgid "Please provide both an email address and the persons name."
 msgstr ""
 
-#: fas/controllers.py:98
+#: fas/controllers.py:109
 msgid "Come join The Fedora Project!"
 msgstr ""
 
-#: fas/controllers.py:114
+#: fas/controllers.py:124
 #, python-format
 msgid ""
-"%(name)s <%(email)s> has invited you to join the Fedora Project!  We are "
-"a community of users and developers who produce a complete operating "
-"system from entirely free and open source software (FOSS).  %(name)s "
-"thinks that you have knowledge and skills that make you a great fit for "
-"the Fedora community, and that you might be interested in contributing."
-" \n"
+"%(name)s <%(email)s> has invited you to join the Fedora\n"
+"Project!  We are a community of users and developers who produce a\n"
+"complete operating system from entirely free and open source software\n"
+"(FOSS).  %(name)s thinks that you have knowledge and skills\n"
+"that make you a great fit for the Fedora community, and that you might\n"
+"be interested in contributing.\n"
 "\n"
-"How could you team up with the Fedora community to use and develop your "
-"skills?  Check out http://fedoraproject.org/wiki/Join for some ideas. Our"
-" community is more than just software developers -- we also have a place "
-"for you whether you're an artist, a web site builder, a writer, or a "
-"people person.  You'll grow and learn as you work on a team with other "
+"How could you team up with the Fedora community to use and develop your\n"
+"skills?  Check out http://fedoraproject.org/wiki/Join for some ideas.\n"
+"Our community is more than just software developers -- we also have a\n"
+"place for you whether you're an artist, a web site builder, a writer, or\n"
+"a people person.  You'll grow and learn as you work on a team with other\n"
 "very smart and talented people. \n"
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
 
-#: fas/controllers.py:116
+#: fas/controllers.py:126
 #, python-format
 msgid "Message sent to: %s"
 msgstr ""
 
-#: fas/group.py:26
+#: fas/group.py:25
 #, python-format
 msgid "The group '%s' does not exist."
 msgstr ""
 
 #: fas/group.py:35
 #, python-format
+msgid "The required group '%s' does not exist."
+msgstr ""
+
+#: fas/group.py:44
+#, python-format
 msgid "The group '%s' already exists."
 msgstr ""
 
-#: fas/group.py:109 fas/group.py:121
+#: fas/group.py:101 fas/group.py:358
+#, python-format
+msgid "You cannot view '%s'"
+msgstr ""
+
+#: fas/group.py:127 fas/group.py:139
 msgid "Only FAS adminstrators can create groups."
 msgstr ""
 
-#: fas/group.py:132
+#: fas/group.py:150
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr ""
 
-#: fas/group.py:142
+#: fas/group.py:160
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)' could not be added"
 " as a group administrator."
 msgstr ""
 
-#: fas/group.py:144
+#: fas/group.py:162
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr ""
 
-#: fas/group.py:154 fas/group.py:175
+#: fas/group.py:174 fas/group.py:189
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr ""
 
-#: fas/group.py:187
+#: fas/group.py:204
 msgid "The group details could not be saved."
 msgstr ""
 
-#: fas/group.py:190
+#: fas/group.py:206
 msgid "The group details have been saved."
 msgstr ""
 
-#: fas/group.py:203
+#: fas/group.py:219
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr ""
 
-#: fas/group.py:217
+#: fas/group.py:235
 #, python-format
-msgid "%(user)s is already in %(group)s!"
-msgstr ""
-
-#: fas/group.py:220
-#, python-format
-msgid "%(user)s has applied to %(group)s!"
-msgstr ""
-
-#: fas/group.py:231 fas/group.py:256 fas/group.py:280 fas/group.py:307
-#, python-format
-msgid "You are not a sponsor for '%s'"
-msgstr ""
-
-#: fas/group.py:236
-#, python-format
-msgid "Group Error: %s does not exist."
+msgid "%(user)s could not apply to %(group)s!"
 msgstr ""
 
 #: fas/group.py:243
 #, python-format
-msgid "%s has been sponsored!"
+msgid "%(user)s has already applied to %(group)s!"
 msgstr ""
 
-#: fas/group.py:260
-msgid "Sponsors cannot remove administrators."
+#: fas/group.py:246
+#, python-format
+msgid "%(user)s has applied to %(group)s!"
 msgstr ""
 
-#: fas/group.py:265
+#: fas/group.py:259
+#, python-format
+msgid "You cannot sponsor '%s'"
+msgstr ""
+
+#: fas/group.py:267
+#, python-format
+msgid "'%s' could not be sponsored!"
+msgstr ""
+
+#: fas/group.py:270
+#, python-format
+msgid "'%s' has been sponsored!"
+msgstr ""
+
+#: fas/group.py:283
+#, python-format
+msgid "You cannot remove '%s'."
+msgstr ""
+
+#: fas/group.py:290
 #, python-format
 msgid "%(name)s could not be removed from %(group)s!"
 msgstr ""
 
-#: fas/group.py:268
+#: fas/group.py:294
 #, python-format
 msgid "%(name)s has been removed from %(group)s!"
 msgstr ""
 
-#: fas/group.py:288
-msgid "Sponsors cannot upgrade other sponsors."
+#: fas/group.py:307
+#, python-format
+msgid "You cannot upgrade '%s'"
 msgstr ""
 
-#: fas/group.py:294
+#: fas/group.py:318
 #, python-format
 msgid "%(name)s could not be upgraded!"
 msgstr ""
 
-#: fas/group.py:296
+#: fas/group.py:321
 #, python-format
 msgid "%s has been upgraded!"
 msgstr ""
 
-#: fas/group.py:311
-msgid "Sponsors cannot downgrade group administrators."
+#: fas/group.py:333
+#, python-format
+msgid "You cannot downgrade '%s'"
 msgstr ""
 
-#: fas/group.py:317
+#: fas/group.py:344
 #, python-format
 msgid "%(name)s could not be downgraded!"
 msgstr ""
 
-#: fas/group.py:319
+#: fas/group.py:347
 #, python-format
 msgid "%s has been downgraded!"
 msgstr ""
 
-#: fas/user.py:24
+#: fas/user.py:29
 #, python-format
-msgid "'%s' does not exist"
+msgid "'%s' does not exist."
 msgstr ""
 
-#: fas/user.py:33
-#, python-format
-msgid "'%s' already exists"
+#: fas/user.py:38
+msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr ""
 
-#: fas/user.py:122
+#: fas/user.py:47
+#, python-format
+msgid "'%s' already exists."
+msgstr ""
+
+#: fas/user.py:56
+#, python-format
+msgid "'%s' is an illegal username."
+msgstr ""
+
+#: fas/user.py:160
 #, python-format
 msgid "You cannot edit %s"
 msgstr ""
 
-#: fas/user.py:141
+#: fas/user.py:171
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr ""
 
-#: fas/user.py:154
-msgid "Your account  details could not be saved."
-msgstr ""
-
-#: fas/user.py:157
-msgid "Your account details have been saved."
-msgstr ""
-
-#: fas/user.py:170
-#, python-format
-msgid "No users found matching '%s'"
+#: fas/user.py:184
+msgid "Your account details could not be saved."
 msgstr ""
 
 #: fas/user.py:186
-msgid "No need to sign up, You have an account!"
-msgstr ""
-
-#: fas/user.py:207 fas/user.py:264
-msgid "Fedora Project Password Reset"
+msgid "Your account details have been saved."
 msgstr ""
 
 #: fas/user.py:208
 #, python-format
-msgid ""
-"You have created a new Fedora account!  Your new password is: %s \n"
-"Please go to https://admin.fedoraproject.org/fas/ to change it"
+msgid "No users found matching '%s'"
 msgstr ""
 
-#: fas/user.py:211
+#: fas/user.py:223
+msgid "No need to sign up, You have an account!"
+msgstr ""
+
+#: fas/user.py:244 fas/user.py:306
+msgid "Fedora Project Password Reset"
+msgstr ""
+
+#: fas/user.py:250
+#, python-format
+msgid ""
+"\n"
+"                 You have created a new Fedora account!\n"
+"                 Your new password is: %s\n"
+"\n"
+"                 Please go to https://admin.fedoraproject.org/fas/ to "
+"change it.\n"
+"                 "
+msgstr ""
+
+#: fas/user.py:253
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
 
-#: fas/user.py:214
+#: fas/user.py:256
 #, python-format
 msgid "The username '%s' already Exists.  Please choose a different username."
 msgstr ""
 
-#: fas/user.py:238
+#: fas/user.py:280
 msgid "Your password has been changed."
 msgstr ""
 
-#: fas/user.py:240
+#: fas/user.py:282
 msgid "Your password could not be changed."
 msgstr ""
 
-#: fas/user.py:246
+#: fas/user.py:288
 msgid "You are already logged in!"
 msgstr ""
 
-#: fas/user.py:255
+#: fas/user.py:297
 msgid "You are already logged in."
 msgstr ""
 
-#: fas/user.py:261
+#: fas/user.py:303
 msgid "username + email combo unknown."
 msgstr ""
 
-#: fas/user.py:265
+#: fas/user.py:312
 #, python-format
 msgid ""
-"You have requested a password reset!  Your new password is - %s \n"
-"Please go to https://admin.fedoraproject.org/fas/ to change it"
+"\n"
+"                You have requested a password reset!\n"
+"                Your new password is - %s\n"
+"                \n"
+"                Please go to https://admin.fedoraproject.org/fas/ to "
+"change it.\n"
+"                "
 msgstr ""
 
-#: fas/user.py:270
+#: fas/user.py:331
+msgid ""
+"Your password reset email could not be encrypted.  Your password has not "
+"been changed."
+msgstr ""
+
+#: fas/user.py:338
 msgid "Your new password has been emailed to you."
 msgstr ""
 
-#: fas/user.py:273
+#: fas/user.py:340
 msgid "Your password could not be reset."
 msgstr ""
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
+#: fas/templates/cla/click.html:7 fas/templates/cla/index.html:7
+#: fas/templates/cla/sign.html:7 fas/templates/cla/view.html:7
 msgid "Fedora Accounts System"
 msgstr ""
 
-#: fas/templates/error.html:8 fas/templates/welcome.html:8
+#: fas/templates/error.html:8 fas/templates/login.html:8
+#: fas/templates/welcome.html:8
 msgid ""
 "#content ul\n"
 "      {\n"
@@ -385,15 +489,6 @@ msgstr ""
 msgid "Login to the Fedora Accounts System"
 msgstr ""
 
-#: fas/templates/login.html:9
-msgid ""
-"#content ul\n"
-"    {\n"
-"      list-style: square;\n"
-"      margin: 1ex 3ex;\n"
-"    }"
-msgstr ""
-
 #: fas/templates/login.html:17
 msgid "Login"
 msgstr ""
@@ -454,7 +549,7 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: fas/templates/master.html:41 fas/templates/master.html:67
+#: fas/templates/master.html:41 fas/templates/master.html:71
 msgid "Log Out"
 msgstr ""
 
@@ -466,41 +561,45 @@ msgstr ""
 msgid "Group List"
 msgstr ""
 
-#: fas/templates/master.html:50
+#: fas/templates/master.html:52
 msgid "User List"
 msgstr ""
 
-#: fas/templates/master.html:51
-msgid "News"
+#: fas/templates/master.html:53
+msgid "New Group"
 msgstr ""
 
-#: fas/templates/master.html:52
+#: fas/templates/master.html:55
 msgid "Apply For a new Group"
 msgstr ""
 
-#: fas/templates/master.html:63
+#: fas/templates/master.html:56
+msgid "News"
+msgstr ""
+
+#: fas/templates/master.html:67
 msgid "About"
 msgstr ""
 
-#: fas/templates/master.html:64
+#: fas/templates/master.html:68
 msgid "Contact Us"
 msgstr ""
 
-#: fas/templates/master.html:65
+#: fas/templates/master.html:69
 msgid "Legal & Privacy"
 msgstr ""
 
-#: fas/templates/master.html:69
+#: fas/templates/master.html:73
 msgid ""
 "Copyright © 2007 Red Hat, Inc. and others.  All Rights Reserved.\n"
 "          Please send any comments or corrections to the"
 msgstr ""
 
-#: fas/templates/master.html:71
+#: fas/templates/master.html:75
 msgid "websites team"
 msgstr ""
 
-#: fas/templates/master.html:73
+#: fas/templates/master.html:77
 msgid ""
 "The Fedora Project is maintained and driven by the community and "
 "sponsored by Red Hat.  This is a community maintained site.  Red Hat is "
@@ -525,13 +624,278 @@ msgstr ""
 msgid "Why Join?"
 msgstr ""
 
-#: fas/templates/group/edit.html:7 fas/templates/group/edit.html:10
-#: fas/templates/group/view.html:7
+#: fas/templates/cla/cla.txt:1
+msgid ""
+"The Fedora Project\n"
+" Individual Contributor License Agreement (CLA)\n"
+" http://www.fedora.redhat.com/licenses/\n"
+"\n"
+"    Thank you for your interest in The Fedora Project (the\n"
+"    \"Project\"). In order to clarify the intellectual property license\n"
+"    granted with Contributions from any person or entity, Red hat,\n"
+"    Inc. (\"Red Hat\"), as maintainer of the Project, must have a\n"
+"    Contributor License Agreement (CLA) on file that has been signed\n"
+"    by each Contributor, indicating agreement to the license terms\n"
+"    below. This license is for Your protection as a Contributor as\n"
+"    well as the protection of the Project and its users; it does not\n"
+"    change your rights to use your own Contributions for any other\n"
+"    purpose.\n"
+"\n"
+"    If you have not already done so, please complete an original signed\n"
+"    Agreement. Use black ink, and hand-print or type the items other than"
+"\n"
+"    the signature. Send the completed Agreement to\n"
+"\n"
+"\t    Fedora Project, c/o Red Hat, Inc.,\n"
+"\t    Attn: Legal Affairs\n"
+"\t    1801 Varsity Drive\n"
+"\t    Raleigh, North Carolina, 27606 U.S.A.\n"
+"\n"
+"   If necessary, you may send it by facsimile to the Project at\n"
+"   +1-919-754-3704 or e-mail a signed pdf copy of the document to\n"
+"   fedora-legal@redhat.com. Please read this document carefully before\n"
+"   signing and keep a copy for your records.\n"
+"\n"
+"    Full name:"
+msgstr ""
+
+#: fas/templates/cla/cla.txt:30
+msgid "E-Mail:"
+msgstr ""
+
+#: fas/templates/cla/cla.txt:30
+msgid "Address:"
+msgstr ""
+
+#: fas/templates/cla/cla.txt:32
+msgid "Telephone:"
+msgstr ""
+
+#: fas/templates/cla/cla.txt:34
+#, python-format
+msgid ""
+"Facsimile: %(facsimile)s\n"
+"\n"
+"    You and the Project hereby accept and agree to the following terms "
+"and conditions:\n"
+"\n"
+"    1. Contributors and Contributions.\n"
+"\n"
+"       A. The Project and any individual or legal entity that\n"
+"       voluntarily submits to the Project a Contribution are\n"
+"       collectively addressed herein as \"Contributors\". For legal\n"
+"       entities, the entity making a Contribution and all other\n"
+"       entities that control, are controlled by, or are under common\n"
+"       control with that entity are considered to be a single\n"
+"       Contributor. For the purposes of this definition, \"control\"\n"
+"       means (i) the power, direct or indirect, to cause the direction\n"
+"       or management of such entity, whether by contract or otherwise,\n"
+"       or (ii) ownership of fifty percent (50%) or more of the\n"
+"       outstanding shares, or (iii) beneficial ownership of such\n"
+"       entity.\n"
+"\n"
+"       B. A \"Contribution\" is any original work, including any\n"
+"       modification or addition to an existing work, that has been\n"
+"       submitted for inclusion in, or documentation of, any of the\n"
+"       products owned or managed by the Project, where such work\n"
+"       originates from that particular Contributor or from some entity\n"
+"       acting on behalf of that Contributor.\n"
+"\n"
+"       C. A Contribution is \"submitted\" when any form of electronic,\n"
+"       verbal, or written communication is sent to the Project,\n"
+"       including but not limited to communication on electronic\n"
+"       mailing lists, source code control systems, and issue tracking\n"
+"       systems that are managed by, or on behalf of, the Project for\n"
+"       the purpose of discussing or improving software or\n"
+"       documentation of the Project, but excluding communication that\n"
+"       is conspicuously marked or otherwise designated in writing by\n"
+"       you as \"Not a Contribution.\"\n"
+"\n"
+"       D. Any Contribution submitted by you to the Project shall be\n"
+"       under the terms and conditions of this License, without any\n"
+"       additional terms or conditions, unless you explicitly state\n"
+"       otherwise in the submission.\n"
+"\n"
+"    2. Contributor Grant of License. You hereby grant to Red Hat,\n"
+"       Inc., on behalf of the Project, and to recipients of software\n"
+"       distributed by the Project:\n"
+"\n"
+"       (a) a perpetual, non-exclusive, worldwide, fully paid-up,\n"
+"       royalty free, irrevocable copyright license to reproduce,\n"
+"       prepare derivative works of, publicly display, publicly\n"
+"       perform, sublicense, and distribute your Contribution and such\n"
+"       derivative works; and,\n"
+"\n"
+"       (b) a perpetual, non-exclusive, worldwide, fully paid-up,\n"
+"       royalty free, irrevocable (subject to Section 3) patent license\n"
+"       to make, have made, use, offer to sell, sell, import, and\n"
+"       otherwise transfer your Contribution and derivative works\n"
+"       thereof, where such license applies only to those patent claims\n"
+"       licensable by you that are necessarily infringed by your\n"
+"       Contribution alone or by combination of your Contribution with\n"
+"       the work to which you submitted the Contribution.  Except for\n"
+"       the license granted in this section, you reserve all right,\n"
+"       title and interest in and to your Contributions.\n"
+"\n"
+"    3. Reciprocity. As of the date any such litigation is filed, your\n"
+"       patent grant shall immediately terminate with respect to any\n"
+"       party that institutes patent litigation against you (including\n"
+"       a cross-claim or counterclaim in a lawsuit) alleging that your\n"
+"       Contribution, or the work to which you have contributed,\n"
+"       constitutes direct or contributory patent infringement.\n"
+"\n"
+"    4. You represent that you are legally entitled to grant the above\n"
+"       license. If your employer(s) has rights to intellectual\n"
+"       property that you create that includes your Contributions, you\n"
+"       represent that you have received permission to make\n"
+"       Contributions on behalf of that employer, that your employer\n"
+"       has waived such rights for your Contributions to the Project,\n"
+"       or that your employer has executed a separate Corporate CLA\n"
+"       with the Project.\n"
+"\n"
+"    5. You represent that each of your Contributions is your original\n"
+"       creation (see section 7 for submissions on behalf of others).\n"
+"       You represent that your Contribution submission(s) include\n"
+"       complete details of any third-party license or other\n"
+"       restriction (including, but not limited to, related copyright,\n"
+"       atents and trademarks) of which you are personally aware and\n"
+"       which are associated with any part of your Contribution.\n"
+"\n"
+"    6. You are not expected to provide support for your Contributions,\n"
+"       except to the extent you desire to provide support. You may\n"
+"       provide support for free, for a fee, or not at all. Your\n"
+"       Contributions are provided on an \"AS IS\" BASIS, WITHOUT\n"
+"       WARRANTIES OR CONDITIONS OF ANY KIND, either express or\n"
+"       implied, including, without limitation, any warranties or\n"
+"       conditions of NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR\n"
+"       A PARTICULAR PURPOSE.\n"
+"\n"
+"    7. Should you wish to submit work that is not your original\n"
+"       creation, you may submit it to the Project separately from any\n"
+"       Contribution, identifying the complete details of its source\n"
+"       and of any license or other restriction (including, but not\n"
+"       limited to, related patents, trademarks, and license\n"
+"       agreements) of which you are personally aware, and\n"
+"       conspicuously marking the work as \"Submitted on behalf of a\n"
+"       third-party: [named here]\".\n"
+"\n"
+"    8. You agree to notify the Project of any facts or circumstances\n"
+"       of which you become aware that would make these representations\n"
+"       inaccurate in any respect.\n"
+"\n"
+"    9. The Project is under no obligations to accept and include every "
+"contribution.\n"
+"\n"
+"\n"
+" \n"
+"\n"
+"\n"
+"    If you agree to these terms and conditions, type \"I agree\" here: \n"
+"    Enter your full name here: \n"
+"    E-mail:"
+msgstr ""
+
+#: fas/templates/cla/cla.txt:152 fas/templates/cla/click.html:17
+#: fas/templates/cla/view.html:22
+msgid "Date:"
+msgstr ""
+
+#: fas/templates/cla/click.html:11 fas/templates/cla/sign.html:11
+#: fas/templates/cla/view.html:11
+msgid "Contributor License Agreement"
+msgstr ""
+
+#: fas/templates/cla/click.html:14 fas/templates/cla/view.html:19
+msgid "If you agree to these terms and conditions, type \"I agree\" here:"
+msgstr ""
+
+#: fas/templates/cla/click.html:15 fas/templates/cla/view.html:20
+#: fas/templates/user/edit.html:13 fas/templates/user/new.html:17
+msgid "Full Name:"
+msgstr ""
+
+#: fas/templates/cla/click.html:16 fas/templates/cla/view.html:21
+msgid "E-mail:"
+msgstr ""
+
+#: fas/templates/cla/index.html:10
+msgid "Fedora Contributor License Agreement"
+msgstr ""
+
+#: fas/templates/cla/index.html:11
+msgid "There are two ways to sign the CLA..."
+msgstr ""
+
+#: fas/templates/cla/index.html:12
+msgid "CLA Acceptance Hierarchies"
+msgstr ""
+
+#: fas/templates/cla/index.html:15
+msgid "Signed CLA"
+msgstr ""
+
+#: fas/templates/cla/index.html:16
+msgid "Click-through CLA"
+msgstr ""
+
+#: fas/templates/cla/index.html:18
+msgid "Congratulations, you have already sucessfully signed the"
+msgstr ""
+
+#: fas/templates/cla/index.html:19 fas/templates/user/view.html:27
+msgid "CLA"
+msgstr ""
+
+#: fas/templates/cla/sign.html:12 fas/templates/cla/view.html:29
+msgid "Use the below link to download/save the CLA as fedora-icla-"
+msgstr ""
+
+#: fas/templates/cla/sign.html:13
+msgid ".txt, run gpg -as fedora-icla-"
+msgstr ""
+
+#: fas/templates/cla/sign.html:13
+msgid ".txt, and upload fedora-icla-"
+msgstr ""
+
+#: fas/templates/cla/sign.html:13 fas/templates/cla/view.html:32
+msgid ".txt.asc in the form below."
+msgstr ""
+
+#: fas/templates/cla/sign.html:15 fas/templates/cla/view.html:35
+msgid "Download the CLA text file here!"
+msgstr ""
+
+#: fas/templates/cla/sign.html:19 fas/templates/cla/view.html:40
+msgid "Signed CLA:"
+msgstr ""
+
+#: fas/templates/cla/view.html:30
+msgid ".txt, and run:"
+msgstr ""
+
+#: fas/templates/cla/view.html:31
+msgid "gpg -as fedora-icla-"
+msgstr ""
+
+#: fas/templates/cla/view.html:31
+msgid ".txt"
+msgstr ""
+
+#: fas/templates/cla/view.html:31
+msgid "After, upload fedora-icla-"
+msgstr ""
+
+#: fas/templates/group/edit.html:7 fas/templates/group/view.html:7
 msgid "Edit Group"
 msgstr ""
 
+#: fas/templates/group/edit.html:10
+msgid "Edit Group:"
+msgstr ""
+
 #: fas/templates/group/edit.html:13 fas/templates/group/new.html:17
-#: fas/templates/group/view.html:28 fas/templates/user/edit.html:41
+#: fas/templates/group/view.html:29 fas/templates/user/edit.html:41
 msgid "Description:"
 msgstr ""
 
@@ -540,7 +904,7 @@ msgid "Group Owner:"
 msgstr ""
 
 #: fas/templates/group/edit.html:21 fas/templates/group/new.html:25
-#: fas/templates/group/view.html:31
+#: fas/templates/group/view.html:32
 msgid "Needs Sponsor:"
 msgstr ""
 
@@ -548,7 +912,11 @@ msgstr ""
 msgid "Self Removal:"
 msgstr ""
 
-#: fas/templates/group/edit.html:31
+#: fas/templates/group/edit.html:31 fas/templates/group/new.html:33
+msgid "Must Belong To:"
+msgstr ""
+
+#: fas/templates/group/edit.html:35
 msgid "Group Join Message:"
 msgstr ""
 
@@ -556,49 +924,49 @@ msgstr ""
 msgid "Groups List"
 msgstr ""
 
-#: fas/templates/group/list.html:10 fas/templates/user/list.html:10
+#: fas/templates/group/list.html:11 fas/templates/user/list.html:10
 msgid "List ("
 msgstr ""
 
-#: fas/templates/group/list.html:11
+#: fas/templates/group/list.html:12
 msgid "Search Groups"
 msgstr ""
 
-#: fas/templates/group/list.html:13 fas/templates/user/list.html:12
+#: fas/templates/group/list.html:14 fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
 msgstr ""
 
-#: fas/templates/group/list.html:19 fas/templates/user/list.html:18
+#: fas/templates/group/list.html:20 fas/templates/user/list.html:18
 msgid "Results"
 msgstr ""
 
-#: fas/templates/group/list.html:22 fas/templates/user/list.html:21
+#: fas/templates/group/list.html:23 fas/templates/user/list.html:21
 msgid "All"
 msgstr ""
 
-#: fas/templates/group/list.html:27
+#: fas/templates/group/list.html:28
 msgid "Group"
 msgstr ""
 
-#: fas/templates/group/list.html:27 fas/templates/user/view.html:23
+#: fas/templates/group/list.html:28 fas/templates/user/view.html:24
 msgid "Description"
 msgstr ""
 
-#: fas/templates/group/list.html:27
+#: fas/templates/group/list.html:28
 msgid "Status"
 msgstr ""
 
-#: fas/templates/group/list.html:35 fas/templates/group/view.html:13
-#: fas/templates/user/view.html:25 fas/templates/user/view.html:45
+#: fas/templates/group/list.html:37 fas/templates/group/view.html:14
+#: fas/templates/user/view.html:26 fas/templates/user/view.html:47
 msgid "Approved"
 msgstr ""
 
-#: fas/templates/group/list.html:36 fas/templates/group/view.html:14
+#: fas/templates/group/list.html:38 fas/templates/group/view.html:15
 msgid "Unapproved"
 msgstr ""
 
-#: fas/templates/group/list.html:38 fas/templates/group/view.html:15
-msgid "Not a Member"
+#: fas/templates/group/list.html:40
+msgid "Apply"
 msgstr ""
 
 #: fas/templates/group/new.html:7 fas/templates/group/new.html:10
@@ -609,101 +977,104 @@ msgstr ""
 msgid "Group Name:"
 msgstr ""
 
-#: fas/templates/group/new.html:33 fas/templates/group/view.html:39
+#: fas/templates/group/new.html:37 fas/templates/group/view.html:40
 msgid "Join Message:"
 msgstr ""
 
-#: fas/templates/group/view.html:11
+#: fas/templates/group/view.html:12
 msgid "My Status:"
 msgstr ""
 
-#: fas/templates/group/view.html:23
-msgid "Remove me"
+#: fas/templates/group/view.html:16
+msgid "Not a Member"
 msgstr ""
 
 #: fas/templates/group/view.html:24
+msgid "Remove me"
+msgstr ""
+
+#: fas/templates/group/view.html:25
 msgid "Group Details"
 msgstr ""
 
-#: fas/templates/group/view.html:24 fas/templates/user/view.html:12
+#: fas/templates/group/view.html:25 fas/templates/user/view.html:13
 msgid "(edit)"
 msgstr ""
 
-#: fas/templates/group/view.html:27
+#: fas/templates/group/view.html:28
 msgid "Name:"
 msgstr ""
 
-#: fas/templates/group/view.html:29
+#: fas/templates/group/view.html:30
 msgid "Owner:"
 msgstr ""
 
-#: fas/templates/group/view.html:30
+#: fas/templates/group/view.html:31
 msgid "Type:"
 msgstr ""
 
-#: fas/templates/group/view.html:32 fas/templates/group/view.html:36
+#: fas/templates/group/view.html:33 fas/templates/group/view.html:37
 msgid "Yes"
 msgstr ""
 
-#: fas/templates/group/view.html:33 fas/templates/group/view.html:37
+#: fas/templates/group/view.html:34 fas/templates/group/view.html:38
 msgid "No"
 msgstr ""
 
-#: fas/templates/group/view.html:35
+#: fas/templates/group/view.html:36
 msgid "Self Removal"
 msgstr ""
 
-#: fas/templates/group/view.html:47
+#: fas/templates/group/view.html:48
 msgid "Members"
 msgstr ""
 
-#: fas/templates/group/view.html:51 fas/templates/user/list.html:26
+#: fas/templates/group/view.html:52 fas/templates/user/list.html:26
 msgid "Username"
 msgstr ""
 
-#: fas/templates/group/view.html:52 fas/templates/group/view.html:71
-#: fas/templates/group/view.html:78
+#: fas/templates/group/view.html:53 fas/templates/group/view.html:75
 msgid "Sponsor"
 msgstr ""
 
-#: fas/templates/group/view.html:53
+#: fas/templates/group/view.html:54
 msgid "Date Added"
 msgstr ""
 
-#: fas/templates/group/view.html:54
+#: fas/templates/group/view.html:55
 msgid "Date Approved"
 msgstr ""
 
-#: fas/templates/group/view.html:55
+#: fas/templates/group/view.html:56
 msgid "Approval"
 msgstr ""
 
-#: fas/templates/group/view.html:56
+#: fas/templates/group/view.html:57
 msgid "Role Type"
 msgstr ""
 
-#: fas/templates/group/view.html:57
+#: fas/templates/group/view.html:58
 msgid "Action"
 msgstr ""
 
-#: fas/templates/group/view.html:72 fas/templates/group/view.html:79
+#: fas/templates/group/view.html:64
+msgid "None"
+msgstr ""
+
+#: fas/templates/group/view.html:77
 msgid "Approve"
 msgstr ""
 
-#: fas/templates/group/view.html:73 fas/templates/group/view.html:80
-msgid "Delete"
+#: fas/templates/group/view.html:80
+msgid "Remove"
 msgstr ""
 
-#: fas/templates/group/view.html:74 fas/templates/group/view.html:81
+#: fas/templates/group/view.html:83
 msgid "Upgrade"
 msgstr ""
 
-#: fas/templates/group/view.html:75 fas/templates/group/view.html:82
+#: fas/templates/group/view.html:86
 msgid "Downgrade"
-msgstr ""
-
-#: fas/templates/group/view.html:75 fas/templates/group/view.html:82
-msgid "Suspend"
 msgstr ""
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
@@ -724,10 +1095,6 @@ msgstr ""
 
 #: fas/templates/user/edit.html:7 fas/templates/user/edit.html:10
 msgid "Edit Account"
-msgstr ""
-
-#: fas/templates/user/edit.html:13 fas/templates/user/new.html:17
-msgid "Full Name:"
 msgstr ""
 
 #: fas/templates/user/edit.html:17
@@ -758,13 +1125,16 @@ msgstr ""
 msgid "Users List"
 msgstr ""
 
-#: fas/templates/user/list.html:27 fas/templates/user/view.html:25
+#: fas/templates/user/list.html:27 fas/templates/user/view.html:26
 msgid "Account Status"
 msgstr ""
 
-#: fas/templates/user/list.html:34 fas/templates/user/list.html:35
-#: fas/templates/user/view.html:26
-msgid "Done"
+#: fas/templates/user/list.html:34
+msgid "CLA Done"
+msgstr ""
+
+#: fas/templates/user/list.html:35
+msgid "CLA Not Done"
 msgstr ""
 
 #: fas/templates/user/new.html:7 fas/templates/user/new.html:10
@@ -775,15 +1145,15 @@ msgstr ""
 msgid "Username:"
 msgstr ""
 
-#: fas/templates/user/new.html:21 fas/templates/user/view.html:17
+#: fas/templates/user/new.html:21 fas/templates/user/view.html:18
 msgid "Email"
 msgstr ""
 
-#: fas/templates/user/new.html:25 fas/templates/user/view.html:21
+#: fas/templates/user/new.html:29 fas/templates/user/view.html:22
 msgid "Telephone Number"
 msgstr ""
 
-#: fas/templates/user/new.html:29 fas/templates/user/view.html:22
+#: fas/templates/user/new.html:33 fas/templates/user/view.html:23
 msgid "Postal Address"
 msgstr ""
 
@@ -795,136 +1165,140 @@ msgstr ""
 msgid "Primary Email:"
 msgstr ""
 
+#: fas/templates/user/resetpass.html:15
+msgid "Encrypt/Sign password reset email"
+msgstr ""
+
 #: fas/templates/user/view.html:7
 msgid "View Account"
 msgstr ""
 
-#: fas/templates/user/view.html:10
+#: fas/templates/user/view.html:11
 msgid "Your Fedora Account"
 msgstr ""
 
-#: fas/templates/user/view.html:11
+#: fas/templates/user/view.html:12
 msgid "'s Fedora Account"
 msgstr ""
 
-#: fas/templates/user/view.html:12
+#: fas/templates/user/view.html:13
 msgid "Account Details"
 msgstr ""
 
-#: fas/templates/user/view.html:15
+#: fas/templates/user/view.html:16
 msgid "Account Name"
 msgstr ""
 
-#: fas/templates/user/view.html:16
+#: fas/templates/user/view.html:17
 msgid "Real Name"
 msgstr ""
 
-#: fas/templates/user/view.html:18
+#: fas/templates/user/view.html:19
 msgid "Bugzilla Email"
 msgstr ""
 
-#: fas/templates/user/view.html:19
+#: fas/templates/user/view.html:20
 msgid "IRC Nick"
 msgstr ""
 
-#: fas/templates/user/view.html:20
+#: fas/templates/user/view.html:21
 msgid "PGP Key"
 msgstr ""
 
-#: fas/templates/user/view.html:24
+#: fas/templates/user/view.html:25
 msgid "Password"
 msgstr ""
 
-#: fas/templates/user/view.html:24
+#: fas/templates/user/view.html:25
 msgid "Valid"
 msgstr ""
 
-#: fas/templates/user/view.html:24
+#: fas/templates/user/view.html:25
 msgid "(change)"
 msgstr ""
 
-#: fas/templates/user/view.html:25 fas/templates/user/view.html:45
+#: fas/templates/user/view.html:26 fas/templates/user/view.html:47
 msgid ", Active"
 msgstr ""
 
-#: fas/templates/user/view.html:26
-msgid "CLA"
+#: fas/templates/user/view.html:27
+msgid "Done"
 msgstr ""
 
-#: fas/templates/user/view.html:26
+#: fas/templates/user/view.html:27
 msgid "Not Done"
 msgstr ""
 
-#: fas/templates/user/view.html:29
+#: fas/templates/user/view.html:30
 msgid "Your Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:30
+#: fas/templates/user/view.html:31
 msgid "'s Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:36
+#: fas/templates/user/view.html:37
 msgid "(Join another project)"
 msgstr ""
 
-#: fas/templates/user/view.html:37
+#: fas/templates/user/view.html:38
 msgid "(Create a new project)"
 msgstr ""
 
-#: fas/templates/user/view.html:43
+#: fas/templates/user/view.html:45
 msgid "Status:"
 msgstr ""
 
-#: fas/templates/user/view.html:47
+#: fas/templates/user/view.html:49
 msgid "Tools:"
 msgstr ""
 
-#: fas/templates/user/view.html:50
+#: fas/templates/user/view.html:52
 msgid "Invite a New Member..."
 msgstr ""
 
-#: fas/templates/user/view.html:51
+#: fas/templates/user/view.html:53
 msgid "View All Pending Group Membership Requests..."
 msgstr ""
 
-#: fas/templates/user/view.html:52
+#: fas/templates/user/view.html:54
 msgid "Manage Group Membership..."
 msgstr ""
 
-#: fas/templates/user/view.html:54
+#: fas/templates/user/view.html:55
 msgid "Manage Group Details..."
 msgstr ""
 
-#: fas/templates/user/view.html:58
+#: fas/templates/user/view.html:59
 msgid "Queue:"
 msgstr ""
 
-#: fas/templates/user/view.html:61
+#: fas/templates/user/view.html:62
 msgid "Chewbacca D. Wookiee requests approval to join project as a"
 msgstr ""
 
-#: fas/templates/user/view.html:61 fas/templates/user/view.html:62
-#: fas/templates/user/view.html:63
+#: fas/templates/user/view.html:62 fas/templates/user/view.html:63
+#: fas/templates/user/view.html:64
 msgid "user"
 msgstr ""
 
-#: fas/templates/user/view.html:62
+#: fas/templates/user/view.html:63
 msgid "Gaius Baltar requests approval to upgrade from"
 msgstr ""
 
-#: fas/templates/user/view.html:62 fas/templates/user/view.html:63
+#: fas/templates/user/view.html:63 fas/templates/user/view.html:64
 msgid "to"
 msgstr ""
 
-#: fas/templates/user/view.html:62
+#: fas/templates/user/view.html:63
 msgid "sponsor"
 msgstr ""
 
-#: fas/templates/user/view.html:63
+#: fas/templates/user/view.html:64
 msgid "Leia Organa requests approval to upgrade from"
 msgstr ""
 
-#: fas/templates/user/view.html:63
+#: fas/templates/user/view.html:64
 msgid "administrator"
 msgstr ""
 
