@@ -60,7 +60,7 @@ class Server(object):
         ''' Modify an attribute, requires write access '''
         if new == None:
             return None
-        new = str(new).encode('utf8')
+        new = str(new)
         if new == old:
             return None
 
@@ -134,13 +134,13 @@ class Group(object):
         ''' Create a new group '''
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraGroup'),
-                    'fedoraGroupDesc' : str(fedoraGroupDesc).encode('utf8'),
-                    'fedoraGroupOwner' : str(fedoraGroupOwner).encode('utf8'),
+                    'fedoraGroupDesc' : fedoraGroupDesc,
+                    'fedoraGroupOwner' : fedoraGroupOwner,
                     'fedoraGroupType' : '1',
-                    'fedoraGroupNeedsSponsor' : str(fedoraGroupNeedsSponsor).encode('utf8'),
-                    'fedoraGroupUserCanRemove' : str(fedoraGroupUserCanRemove).encode('utf8'),
-                    'fedoraGroupRequires' : str(fedoraGroupRequires).encode('utf8'),
-                    'fedoraGroupJoinMsg' : str(fedoraGroupJoinMsg).encode('utf8'),
+                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
+                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
+                    'fedoraGroupRequires' : fedoraGroupRequires,
+                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
                     }
 
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
@@ -203,14 +203,14 @@ class Groups(object):
         for group in groupsDict:
             cn = group[0][1]['cn'][0]
             groups[cn] = UserGroup(
-                fedoraRoleApprovalDate = group[0][1]['fedoraRoleApprovalDate'][0],
-                fedoraRoleSponsor = group[0][1]['fedoraRoleSponsor'][0],
-                cn = group[0][1]['cn'][0],
-                fedoraRoleCreationDate = group[0][1]['fedoraRoleCreationDate'][0],
-                objectClass = group[0][1]['objectClass'][0],
-                fedoraRoleType = group[0][1]['fedoraRoleType'][0],
-                fedoraRoleStatus = group[0][1]['fedoraRoleStatus'][0],
-                fedoraRoleDomain = group[0][1]['fedoraRoleDomain'][0]
+                fedoraRoleApprovalDate = group[0][1]['fedoraRoleApprovalDate'][0].decode('utf8'),
+                fedoraRoleSponsor = group[0][1]['fedoraRoleSponsor'][0].decode('utf8'),
+                cn = group[0][1]['cn'][0].decode('utf8'),
+                fedoraRoleCreationDate = group[0][1]['fedoraRoleCreationDate'][0].decode('utf8'),
+                objectClass = group[0][1]['objectClass'][0].decode('utf8'),
+                fedoraRoleType = group[0][1]['fedoraRoleType'][0].decode('utf8'),
+                fedoraRoleStatus = group[0][1]['fedoraRoleStatus'][0].decode('utf8'),
+                fedoraRoleDomain = group[0][1]['fedoraRoleDomain'][0].decode('utf8'),
                         )
         ### FIXME: userName shouldn't be shared this way
         self.__userName = cn
@@ -225,16 +225,16 @@ class Groups(object):
         groupsDict = self.__server.search(base, ldapFilter, attributes)
         if groupsDict:
             for group in groupsDict:
-                name = group[0][1]['cn'][0]
+                name = group[0][1]['cn'][0].decode('utf8')
                 groups[name] = Group(
-                    cn = group[0][1]['cn'][0],
-                    fedoraGroupDesc = group[0][1]['fedoraGroupDesc'][0],
-                    fedoraGroupOwner = group[0][1]['fedoraGroupOwner'][0],
-                    fedoraGroupType = group[0][1]['fedoraGroupType'][0],
-                    fedoraGroupNeedsSponsor = group[0][1]['fedoraGroupNeedsSponsor'][0],
-                    fedoraGroupUserCanRemove = group[0][1]['fedoraGroupUserCanRemove'][0],
-                    fedoraGroupRequires = group[0][1]['fedoraGroupRequires'][0],
-                    fedoraGroupJoinMsg = group[0][1]['fedoraGroupJoinMsg'][0])
+                    cn = group[0][1]['cn'][0].decode('utf8'),
+                    fedoraGroupDesc = group[0][1]['fedoraGroupDesc'][0].decode('utf8'),
+                    fedoraGroupOwner = group[0][1]['fedoraGroupOwner'][0].decode('utf8'),
+                    fedoraGroupType = group[0][1]['fedoraGroupType'][0].decode('utf8'),
+                    fedoraGroupNeedsSponsor = group[0][1]['fedoraGroupNeedsSponsor'][0].decode('utf8'),
+                    fedoraGroupUserCanRemove = group[0][1]['fedoraGroupUserCanRemove'][0].decode('utf8'),
+                    fedoraGroupRequires = group[0][1]['fedoraGroupRequires'][0].decode('utf8'),
+                    fedoraGroupJoinMsg = group[0][1]['fedoraGroupJoinMsg'][0].decode('utf8'))
         else:
             return None
         return groups
@@ -282,7 +282,7 @@ class Groups(object):
 
         attributes = { 'cn' : groupName,
                     'fedoraRoleApprovaldate' : 'NotApproved',
-                    'fedoraRoleCreationDate' : str(now).encode('utf8'),
+                    'fedoraRoleCreationDate' : str(now),
                     'fedoraRoleDomain' : 'None',
                     'fedoraRoleSponsor' : 'None',
                     'fedoraRoleStatus' : 'unapproved',
@@ -310,14 +310,14 @@ class Groups(object):
                 userName = user[0][0].split(',')[2].split('=')[1]
 
                 users[userName] = UserGroup(
-                    fedoraRoleApprovalDate = user[0][1]['fedoraRoleApprovalDate'][0],
-                    fedoraRoleSponsor = user[0][1]['fedoraRoleSponsor'][0],
-                    cn = user[0][1]['cn'][0],
-                    fedoraRoleCreationDate = user[0][1]['fedoraRoleCreationDate'][0],
-                    objectClass = user[0][1]['objectClass'][0],
-                    fedoraRoleType = user[0][1]['fedoraRoleType'][0],
-                    fedoraRoleStatus = user[0][1]['fedoraRoleStatus'][0],
-                    fedoraRoleDomain = user[0][1]['fedoraRoleDomain'][0]
+                    fedoraRoleApprovalDate = user[0][1]['fedoraRoleApprovalDate'][0].decode('utf8'),
+                    fedoraRoleSponsor = user[0][1]['fedoraRoleSponsor'][0].decode('utf8'),
+                    cn = user[0][1]['cn'][0].decode('utf8'),
+                    fedoraRoleCreationDate = user[0][1]['fedoraRoleCreationDate'][0].decode('utf8'),
+                    objectClass = user[0][1]['objectClass'][0].decode('utf8'),
+                    fedoraRoleType = user[0][1]['fedoraRoleType'][0].decode('utf8'),
+                    fedoraRoleStatus = user[0][1]['fedoraRoleStatus'][0].decode('utf8'),
+                    fedoraRoleDomain = user[0][1]['fedoraRoleDomain'][0].decode('utf8'),
                 )
         except TypeError:
             users = []
@@ -345,20 +345,20 @@ class Person(object):
                                         dt.microsecond)
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraPerson', 'inetOrgPerson', 'organizationalPerson', 'person', 'top'),
-                    'displayName' : str(cn).encode('utf8'),
-                    'sn' : str(cn).encode('utf8'),
-                    'cn' : str(cn).encode('utf8'),
+                    'displayName' : cn,
+                    'sn' : cn,
+                    'cn' : cn,
                     'fedoraPersonSshKey' : '',
                     'facsimileTelephoneNumber' : '',
                     'fedoraPersonApprovalStatus' : 'approved',
-                    'givenName' : str(givenName).encode('utf8'),
-                    'mail' : str(mail).encode('utf8'),
+                    'givenName' : givenName,
+                    'mail' : mail,
                     'fedoraPersonKeyId' : '',
                     'description' : '',
-                    'fedoraPersonCreationDate' : str(now).encode('utf8'),
-                    'telephoneNumber' : str(telephoneNumber).encode('utf8'),
-                    'fedoraPersonBugzillaMail' : str(mail).encode('utf8'),
-                    'postalAddress' : str(postalAddress).encode('utf8'),
+                    'fedoraPersonCreationDate' : str(now),
+                    'telephoneNumber' : telephoneNumber,
+                    'fedoraPersonBugzillaMail' : mail,
+                    'postalAddress' : postalAddress,
                     'fedoraPersonIrcNick' : '',
                     'userPassword' : 'Disabled'
                     }
@@ -381,7 +381,7 @@ class Person(object):
         try:
             attributes = []
             attributes.append(attr)
-            return self.__server.search(self.__base, self.__filter, attributes)[0][0][1][attr][0]
+            return self.__server.search(self.__base, self.__filter, attributes)[0][0][1][attr][0].decode('utf8')
         except:
             # Should probably raise here.
             return None
@@ -410,7 +410,7 @@ class Person(object):
         usersDict = self.__server.search(self.__base, ldapFilter, attributes)
         if usersDict:
             for user in usersDict:
-                users.append(user[0][1]['cn'][0])
+                users.append(user[0][1]['cn'][0].decode('utf8'))
         else:
             return None
         return users
