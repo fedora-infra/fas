@@ -332,11 +332,13 @@ def main():
 	    else:
 		group[3]="TRUE"
 
-	    if str(group[5]) == "0" :
+	    if str(group[4]) == "0" :
 		group[4]="FALSE"
 	    else:
 		group[4]="TRUE"
 
+        if group[5] == None:
+            group[5] = ""
 		
 	    userLdif.append(["fedoraGroupNeedsSponsor",[str(group[3])]]) #need to convert to bool
 	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
