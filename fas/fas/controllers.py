@@ -15,6 +15,7 @@ from operator import itemgetter
 from fas.user import User
 from fas.group import Group
 from fas.cla import CLA
+from fas.openid_fas import OpenID
 
 from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
@@ -35,6 +36,7 @@ class Root(controllers.RootController):
     user = User()
     group = Group()
     cla = CLA()
+    openid = OpenID()
 
     os.environ['GNUPGHOME'] = config.get('gpghome')
 

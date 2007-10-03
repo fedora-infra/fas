@@ -183,7 +183,7 @@ class Group(controllers.Controller):
     def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType=1, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
         '''Edit a group'''
         userName = turbogears.identity.current.user_name
-        if fedoraGroupRequires == None:
+        if fedoraGroupRequires is None:
             fedoraGroupRequires = ""
         if not canEditGroup(userName, groupName):
             turbogears.flash(_("You cannot edit '%s'.") % groupName)
