@@ -1,0 +1,26 @@
+If you have a better installation or one that is proven to work.  Also please
+let us know if there is a better or more efficient way to do what we're trying
+to do here.  Technologies change over time, keep us up to date ;)
+
+Alias /repo/pkgs/ /repo/pkgs/
+
+   <Directory /repo/pkgs/>
+       SSLVerifyClient optional
+       SSLVerifyDepth 1
+       SSLOptions +StrictRequire +StdEnvVars +OptRenegotiate
+        # require that the access comes from internal or that
+        # the client auth cert was created by us and signed by us
+       SSLRequire ( %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
+                  and %{SSL_CLIENT_S_DN_O} eq "Fedora Project" \
+                  and %{SSL_CLIENT_I_DN_O} eq "Fedora Project" \
+                  and %{SSL_CLIENT_I_DN_OU} eq "Upload Files" )
+   </Directory>
+
+   <Location "/repo/pkgs/upload.cgi">
+       SetHandler cgi-script
+        Options ExecCGI
+        Order Allow,Deny
+        Allow from all
+        SSLRequireSSL
+    </Location>
+
