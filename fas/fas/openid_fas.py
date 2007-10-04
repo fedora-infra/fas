@@ -43,12 +43,20 @@ class OpenID(controllers.Controller):
         '''Perform OpenID auth'''
         openid_server = self.openid_server
         openid_query = {}
-        for key in query['openid'].keys():
-            openid_key = OPENID_PREFIX + key
-            openid_query[openid_key] = query['openid'][key]
-        openid_request = openid_server.decodeRequest(openid_query)
+        openid_request = None
+        if query.has_key('openid'):
+            try:
+                for key in query['openid'].keys():
+                    openid_key = OPENID_PREFIX + key
+                    openid_query[openid_key] = query['openid'][key]
+                openid_request = openid_server.decodeRequest(openid_query)
+            except KeyError:
+                turbogears.flash(_('The OpenID request could not be decoded.'))
+        elif session.has_key('openid_request'):
+            openid_request = session['openid_request']
         if openid_request is None:
             turbogears.redirect('/openid/about')
+            return dict()
         else:
             openid_response = None
             session['openid_request'] = openid_request
@@ -63,7 +71,8 @@ class OpenID(controllers.Controller):
                 elif openid_request.immediate:
                     openid_response = openid_request.answer(False, server_url=config.get('base_url') + turbogears.url('/openid/server'))
                 else:
-                    turbogears.redirect('/login', forward_url=turbogears.url('/openid/server', query))
+                    turbogears.redirect('/openid/login')
+                    return dict()
             else:
                 openid_response = openid_server.handleRequest(openid_request)
             web_response = openid_server.encodeResponse(openid_response)
@@ -71,6 +80,15 @@ class OpenID(controllers.Controller):
                 cherrypy.response.headers[name] = value;
             cherrypy.response.status = web_response.code
             return dict(body=web_response.body)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose()
+    def login(self):
+        '''This exists only to make the user login and then redirect to /openid/server'''
+        userName = turbogears.identity.current.user_name;
+        turbogears.redirect('/openid/server')
+        return dict()
+
 
     @expose(template="fas.templates.openid.id")
     @validate(validators=userNameExists())
