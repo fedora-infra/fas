@@ -9,9 +9,13 @@
   </head>
   <body>
     <h2>User ${user.cn}</h2>
-    <p>
-    I'm ${user.cn}!<br />
-    My name is ${user.givenName}!
-    </p>
+    <div class="userbox">
+      <dl>
+        <dt>Username:</dt>
+        <dd> ${user.cn}</dd>
+        <dt>Name:</dt>
+        <dd>${user.givenName}</dd>
+      </dl>
+    </div>
   </body>
 </html>
