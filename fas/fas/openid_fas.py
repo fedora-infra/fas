@@ -44,12 +44,17 @@ class OpenID(controllers.Controller):
         openid_server = self.openid_server
         openid_query = {}
         openid_request = None
+        if not session.has_key('openid_trusted'):
+            session['openid_trusted'] = []
+        if query.has_key('url') and query.has_key('trusted') and query['trusted'] == 'allow':
+            session['openid_trusted'].append(query['url'])
         if query.has_key('openid'):
             try:
                 for key in query['openid'].keys():
                     openid_key = OPENID_PREFIX + key
                     openid_query[openid_key] = query['openid'][key]
                 openid_request = openid_server.decodeRequest(openid_query)
+                session['openid_request'] = openid_request
             except KeyError:
                 turbogears.flash(_('The OpenID request could not be decoded.'))
         elif session.has_key('openid_request'):
@@ -59,15 +64,21 @@ class OpenID(controllers.Controller):
             return dict()
         else:
             openid_response = None
-            session['openid_request'] = openid_request
             if openid_request.mode in BROWSER_REQUEST_MODES:
                 userName = turbogears.identity.current.user_name;
                 url = None
                 if userName is not None:
                     url = config.get('base_url') + turbogears.url('/openid/id/%s' % userName)
                 if openid_request.identity == url:
-                    # TODO: Check openid_request.trust_root
-                    openid_response = openid_request.answer(True)
+                    if openid_request.trust_root in session['openid_trusted']:
+                        openid_response = openid_request.answer(True)
+                    elif openid_request.immediate:
+                        openid_response = openid_request.answer(False, server_url=config.get('base_url') + turbogears.url('/openid/server'))
+                    else:
+                        if query.has_key('url') and not query.has_key('allow'):
+                            openid_response = openid_request.answer(False, server_url=config.get('base_url') + turbogears.url('/openid/server'))
+                        else:
+                            turbogears.redirect('/openid/trusted', url=openid_request.trust_root)
                 elif openid_request.immediate:
                     openid_response = openid_request.answer(False, server_url=config.get('base_url') + turbogears.url('/openid/server'))
                 else:
@@ -80,6 +91,12 @@ class OpenID(controllers.Controller):
                 cherrypy.response.headers[name] = value;
             cherrypy.response.status = web_response.code
             return dict(body=web_response.body)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="fas.templates.openid.trusted")
+    def trusted(self, url):
+        '''Ask the user if they trust a site for OpenID authentication'''
+        return dict(url=url)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose()
