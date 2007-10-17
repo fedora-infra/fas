@@ -342,3 +342,33 @@ class User(controllers.Controller):
                 turbogears.redirect('/login')  
         return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
+    def gencert(self):
+      from fas.openssl_fas import *
+      user = Person.byUserName(turbogears.identity.current.user_name)
+
+      pkey = createKeyPair(TYPE_RSA, 1024);
+
+      digest = config.get('openssl_digest')
+      expire = config.get('openssl_expire')
+      cafile = config.get('openssl_ca_file')
+
+      cakey = retrieve_key_from_file(cafile)
+      cacert = retrieve_cert_from_file(cafile)
+
+      req = createCertRequest(pkey, digest=digest,
+          C=config.get('openssl_c'),
+          ST=config.get('openssl_st'),
+          L=config.get('openssl_l'),
+          O=config.get('openssl_o'),
+          OU=config.get('openssl_ou'),
+          CN=user.cn,
+          emailAddress=user.mail,
+          )
+
+      cert = createCertificate(req, (cacert, cakey), 0, (0, expire), digest='md5')
+      certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+      keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+      return dict(cert=certdump, key=keydump)
+
