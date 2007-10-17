@@ -241,7 +241,7 @@ class User(controllers.Controller):
                              postalAddress,)
             p = Person.byUserName(cn)
             newpass = p.generatePassword()
-            message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
+            message = turbomail.Message(config.get('accounts_mail'), p.mail, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
                  You have created a new Fedora account!
                  Your new password is: %s
@@ -303,7 +303,7 @@ class User(controllers.Controller):
                 turbogears.flash(_("username + email combo unknown."))
                 return dict()
             newpass = p.generatePassword()
-            message = turbomail.Message('accounts@fedoraproject.org', p.mail, _('Fedora Project Password Reset'))
+            message = turbomail.Message(config.get('accounts_mail'), p.mail, _('Fedora Project Password Reset'))
             email = _(dedent('''
                 You have requested a password reset!
                 Your new password is - %s

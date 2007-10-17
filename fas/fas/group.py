@@ -15,6 +15,8 @@ from fas.auth import *
 
 from fas.user import knownUser, userNameExists
 
+from textwrap import dedent
+
 class knownGroup(validators.FancyValidator):
     '''Make sure that a group already exists'''
     def _to_python(self, value, state):
@@ -157,7 +159,7 @@ class Group(controllers.Controller):
                 p.upgrade(groupName) # Sponsor...
                 p.upgrade(groupName) # Admin!
             except:
-                turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)' could not be added as a group administrator.") % {'group': groupName, 'user': fedoraGroupOwner})
+                turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': groupName, 'user': fedoraGroupOwner})
             else:
                 turbogears.flash(_("The group: '%s' has been created.") % groupName)
             turbogears.redirect('/group/view/%s' % groupName)
@@ -243,6 +245,20 @@ class Group(controllers.Controller):
                 turbogears.flash(_('%(user)s has already applied to %(group)s!') % \
                     {'user': userName, 'group': groupName})
             else:
+                import turbomail
+                message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % groupName, \
+                    "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': userName, 'group': groupName})
+                user = Person.byUserName(userName)
+                name = user.givenName
+                email = user.mail
+                url = config.get('base_url') + turbogears.url('/group/edit/%s' % groupName)
+                message.plain = dedent('''
+                    Fedora user %(user)s, aka %(name)s <%(email)s> has requested
+                    membership in the web group and needs a sponsor.
+    
+                    Please go to %(url)s to take action.  
+                    ''') % {'user': userName, 'name': name, 'email': email, 'url': url}
+                turbomail.enqueue(message)
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
                     {'user': userName, 'group': groupName})
                 turbogears.redirect('/group/view/%s' % groupName)
@@ -267,6 +283,21 @@ class Group(controllers.Controller):
                 turbogears.flash(_("'%s' could not be sponsored!") % p.cn)
                 turbogears.redirect('/group/view/%s' % groupName)
             else:
+                user = Person.byUserName(sponsor)
+                group = Groups.groups(groupName)[groupName]
+                import turbomail
+                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been sponsored" % groupName)
+                user = Person.byUserName(userName)
+                name = user.givenName
+                email = user.mail
+                message.plain = dedent('''
+                    %(name)s <%(email)s> has sponsored you for membership in the %(group)s
+                    group of the Fedora account system. If applicable, this change should
+                    propagate into the e-mail aliases and CVS repository within an hour.
+
+                    %(joinmsg)s
+                    ''') % {'group': groupName, 'name': name, 'email': email, 'joinmsg': group.fedoraGroupJoinMsg}
+                turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % p.cn)
                 turbogears.redirect('/group/view/%s' % groupName)
             return dict()
@@ -291,6 +322,19 @@ class Group(controllers.Controller):
                     {'name': userName, 'group': groupName})
                 turbogears.redirect('/group/view/%s' % groupName)
             else:
+                user = Person.byUserName(sponsor)
+                import turbomail
+                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been removed" % groupName)
+                user = Person.byUserName(userName)
+                name = user.givenName
+                email = user.mail
+                message.plain = dedent('''
+                    %(name)s <%(email)s> has removed you from the '%(group)s'
+                    group of the Fedora Accounts System This change is effective
+                    immediately for new operations, and should propagate into the e-mail
+                    aliases within an hour.
+                    ''') % {'group': groupName, 'name': name, 'email': email}
+                turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
                     {'name': userName, 'group': groupName})
                 turbogears.redirect('/group/view/%s' % groupName)
@@ -318,6 +362,22 @@ class Group(controllers.Controller):
                 turbogears.flash(_('%(name)s could not be upgraded!') % {'name' : userName})
                 turbogears.redirect('/group/view/%s' % groupName)
             else:
+                user = Person.byUserName(sponsor)
+                group = Groups.groups(groupName)[groupName]
+                import turbomail
+                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been upgraded" % groupName)
+                user = Person.byUserName(userName)
+                name = user.givenName
+                email = user.mail
+                g = Groups.byUserName(userName)
+                status = g[groupName].fedoraRoleType.lower()
+                message.plain = dedent('''
+                    %(name)s <%(email)s> has upgraded you to %(status)s status in the
+                    '%(group)s' group of the Fedora Accounts System This change is
+                    effective immediately for new operations, and should propagate
+                    into the e-mail aliases within an hour.
+                    ''') % {'group': groupName, 'name': name, 'email': email, 'status': status}
+                turbomail.enqueue(message)
                 turbogears.flash(_('%s has been upgraded!') % userName)
                 turbogears.redirect('/group/view/%s' % groupName)
             return dict()
@@ -344,6 +404,22 @@ class Group(controllers.Controller):
                 turbogears.flash(_('%(name)s could not be downgraded!') % {'name': userName})
                 turbogears.redirect('/group/view/%s' % groupName)
             else:
+                user = Person.byUserName(sponsor)
+                group = Groups.groups(groupName)[groupName]
+                import turbomail
+                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been downgraded" % groupName)
+                user = Person.byUserName(userName)
+                name = user.givenName
+                email = user.mail
+                g = Groups.byUserName(userName)
+                status = g[groupName].fedoraRoleType.lower()
+                message.plain = dedent('''
+                    %(name)s <%(email)s> has downgraded you to %(status)s status in the
+                    '%(group)s' group of the Fedora Accounts System This change is
+                    effective immediately for new operations, and should propagate
+                    into the e-mail aliases within an hour.
+                    ''') % {'group': groupName, 'name': name, 'email': email, 'status': status}
+                turbomail.enqueue(message)
                 turbogears.flash(_('%s has been downgraded!') % p.cn)
                 turbogears.redirect('/group/view/%s' % groupName)
             return dict()
