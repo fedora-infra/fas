@@ -347,6 +347,7 @@ class User(controllers.Controller):
     def gencert(self):
       from fas.openssl_fas import *
       user = Person.byUserName(turbogears.identity.current.user_name)
+      user.fedoraPersonCertSerial = int(user.fedoraPersonCertSerial) + 1
 
       pkey = createKeyPair(TYPE_RSA, 1024);
 
@@ -367,7 +368,7 @@ class User(controllers.Controller):
           emailAddress=user.mail,
           )
 
-      cert = createCertificate(req, (cacert, cakey), 0, (0, expire), digest='md5')
+      cert = createCertificate(req, (cacert, cakey), int(user.fedoraPersonCertSerial), (0, expire), digest='md5')
       certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)

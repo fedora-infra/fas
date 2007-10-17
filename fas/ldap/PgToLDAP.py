@@ -241,6 +241,7 @@ def main():
 	    userLdif.append(["cn",[str(user[1])]])
 	    userLdif.append(["givenName",[str(user[3])]])
 	    userLdif.append(["fedoraPersonKeyId",[str(user[4])]])
+	    userLdif.append(["fedoraPersonCertSerial",'-1'])
 	    userLdif.append(["fedoraPersonSshKey",[str(user[5])]])
 	    userLdif.append(["userPassword",[encode_SSHA_password(str(user[6]))]])
 	    userLdif.append(["postalAddress",[str(user[8])]])

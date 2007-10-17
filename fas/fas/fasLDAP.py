@@ -354,6 +354,7 @@ class Person(object):
                     'givenName' : givenName,
                     'mail' : mail,
                     'fedoraPersonKeyId' : '',
+                    'fedoraPersonCertSerial' : -1,
                     'description' : '',
                     'fedoraPersonCreationDate' : str(now),
                     'telephoneNumber' : telephoneNumber,
