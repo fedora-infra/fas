@@ -55,13 +55,16 @@
           <li py:if="auth.canEditGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">Manage Group Details...</a></li>
         </ul>
         </dd>
-        <div py:if="auth.canSponsorGroup(user.cn, group)" py:strip="">
-          <dt>Queue:</dt>
+        <div py:if="auth.canSponsorGroup(user.cn, group) and groupUnapproved[group] != []" py:strip="">
+          <dt>Queue (last five):</dt>
           <dd>
           <ul class="queue">
+            <li py:for="user in groupUnapproved[group][:5]">${user[0]} requests approval to join ${group}</li>
+            <!--
             <li><a href="/">Chewbacca D. Wookiee requests approval to join project as a <strong>user</strong></a></li>
             <li><a href="/">Gaius Baltar requests approval to upgrade from <strong>user</strong> to <strong>sponsor</strong></a></li>
             <li><a href="/">Leia Organa requests approval to upgrade from <strong>user</strong> to <strong>administrator</strong></a></li>
+            -->
           </ul>
           </dd>
         </div>

@@ -136,8 +136,14 @@ class User(controllers.Controller):
         groups = Groups.byUserName(userName)
         groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
         groupdata={}
+        groupUnapproved={}
         for g in groups:
             groupdata[g] = Groups.groups(g)[g]
+            unapproved = Groups.byGroupName(g, unapprovedOnly=True)
+            unapproved = [(v,k) for k,v in unapproved.items()]
+            unapproved.sort(date_compare)
+            unapproved.reverse()
+            groupUnapproved[g] = [(k,v) for v,k in unapproved]
         for g in groupsPending:
             groupdata[g] = Groups.groups(g)[g]
         try:
@@ -145,7 +151,7 @@ class User(controllers.Controller):
             claDone=True
         except KeyError:
             claDone=None
-        return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, claDone=claDone, personal=personal, admin=admin)
+        return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, groupUnapproved=groupUnapproved, claDone=claDone, personal=personal, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=userNameExists())
@@ -372,4 +378,12 @@ class User(controllers.Controller):
       certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)
+
+def date_compare(x, y):
+    if x[0].fedoraRoleCreationDate > y[0].fedoraRoleCreationDate:
+        return 1
+    elif x[0].fedoraRoleCreationDate == y[0].fedoraRoleCreationDate:
+        return 0
+    else:
+        return -1
 

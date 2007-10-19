@@ -320,7 +320,7 @@ class Groups(object):
                     fedoraRoleDomain = user[0][1]['fedoraRoleDomain'][0].decode('utf8'),
                 )
         except TypeError:
-            users = []
+            users = {}
         return users
 
 class Person(object):
