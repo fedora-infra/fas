@@ -1,0 +1,543 @@
+#!/usr/bin/python
+#
+# convert -delay 5 `ls -rt *.png` animation.gif
+import sys
+import getopt
+import GeoIP
+import pickle
+from pylab import *
+from time import ctime
+import matplotlib
+from matplotlib.numerix import ma
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.toolkits.basemap import Basemap
+from matplotlib.colors import LogNorm
+from matplotlib.ticker import LogFormatterMathtext as JefFormatter
+import os.path as path
+
+gi = GeoIP.open("/usr/share/GeoIP/GeoLiteCity.dat", GeoIP.GEOIP_MEMORY_CACHE)
+
+# turn interactive mode on for dynamic updates.  If you aren't in
+# interactive mode, you'll need to use a GUI event handler/timer.
+#p.ion()
+#alphas = p.arange(0,1,0.01)
+#x = 2*p.pi*alphas
+#print x.shape
+#lines=[]
+#for i in xrange(len(alphas)):
+#  lines.append(p.scatter([x[i]], [p.sin(x[i])],alpha=alphas[i],edgecolor=(0,0,0,0)))
+#
+#for i in xrange(len(alphas)):
+#  for j in xrange(len(lines)):
+#    a=lines[j].get_alpha()
+#    lines[j].set_alpha(a+0.1 % 1)  # update the data
+#  p.draw()                         # redraw the canvas
+
+class saved_frame_data:
+    def __init__(self,filename=None):
+      self.Z=None
+      self.C=None
+      self.total_clients=None
+      self.epoch=None
+      self.next_epoch=None
+      self.initial_epoch=None
+      self.framenum=None
+      self.lat_pixels=None
+      self.lon_pixels=None
+      self.lon_smooth=None
+      self.lat_smooth=None
+      if filename != None : self.gather(filename)
+
+    def gather(self,filename): 
+      print "Gathering data from pickle file:",filename
+      try: 
+        output = open(filename, 'rb')
+        tmp=pickle.load(output)
+        output.close()
+        self.Z=tmp.Z
+        self.C=tmp.C
+        self.total_clients=tmp.total_clients
+        self.epoch=tmp.epoch
+        self.next_epoch=tmp.next_epoch
+        self.initial_epoch=tmp.initial_epoch
+        self.framenum=tmp.framenum
+        self.lat_pixels=tmp.lat_pixels
+        self.lat_smooth=tmp.lat_smooth
+        self.lon_pixels=tmp.lon_pixels
+        self.lon_smooth=tmp.lon_smooth
+        print "Done Gathering Data for epoch",self.epoch
+      except:
+        print "File not found"
+
+    def dump(self,filename): 
+      print "Pickling epoch:",self.epoch
+      output = open(filename, 'wb')
+      pickle.dump(self, output)
+      output.close()
+      print "Done Pickling"
+
+
+def draw_client_animation(clients=None,r={}):
+    iplist={}
+    lons={}
+    lats={}
+    Zdict={}
+    Cdict={}
+    Tdict={}
+    offset=0
+    total=0
+    Z=ma.zeros((0,0))
+    C={}
+    if frame_data.epoch is not None:
+      if frame_data.Z is not None:  
+        Zdict[frame_data.epoch]=frame_data.Z 
+        Z=frame_data.Z
+      if frame_data.C is not None:  
+        Cdict[frame_data.epoch]=frame_data.C
+        C=frame_data.C 
+      if frame_data.total_clients is not None:  
+        Tdict[frame_data.epoch]=frame_data.total_clients
+        total=frame_data.total_clients 
+      if frame_data.framenum is not None:  offset=frame_data.framenum+1 
+
+    for client in clients.keys():
+      if clients[client]['epoch'] >= min_epoch :
+        client_hour=int((clients[client]['epoch']-min_epoch)/3600)
+        if not iplist.has_key(client_hour): iplist[client_hour]=set([]) 
+        iplist[client_hour].add(client) 
+#    cummulative_iplist={}
+    for hour in xrange(frame_hours):
+      current_hour_epoch=min_epoch+3600*hour
+      previous_hour_epoch=min_epoch+3600*(hour-1)
+      next_hour_epoch=min_epoch+3600*(hour+1)
+      print "Processing epoch: %d hour %d out of %d" % (current_hour_epoch,hour,frame_hours)
+      framefilename=make_path(outdir,frame_prefix+"%06d" % (int(offset+hour),)+"."+frame_filetype) 
+      print framefilename
+#      if not cummulative_iplist.has_key(hour): cummulative_iplist[hour]=set([]) 
+      m = Basemap(llcrnrlon=r['ll_lon'],llcrnrlat=r['ll_lat'],urcrnrlon=r['ur_lon'],urcrnrlat=r['ur_lat'],\
+                resolution='l',projection='cyl')
+#      for h in xrange(hour+1):
+#        print h, len(iplist[h])
+#        if iplist.has_key(h): cummulative_iplist[hour].update(iplist[h]) 
+      if iplist.has_key(hour):
+        if Zdict.has_key(previous_hour_epoch):
+#          print "Previous hour found",previous_hour_epoch,current_hour_epoch,next_hour_epoch
+          Z,C=parse_iplist(iplist[hour],m,clients,oldZ=Zdict[previous_hour_epoch],oldC=Cdict[previous_hour_epoch])
+          total=Tdict[previous_hour_epoch]+len(iplist[hour])
+        else: 
+#          print "Previous hour not found",previous_hour_epoch,current_hour_epoch,next_hour_epoch
+          Z,C=parse_iplist(iplist[hour],m,clients,oldZ=None,oldC=None)
+          total=len(iplist[hour])
+        Zdict[current_hour_epoch]=Z
+        Cdict[current_hour_epoch]=C
+        Tdict[current_hour_epoch]=total
+#        print hour,total,Tdict[current_hour_epoch]
+        frame_data.Z=Z
+        frame_data.C=C
+        frame_data.framenum=int(hour+offset)
+        frame_data.epoch=current_hour_epoch
+        frame_data.next_epoch=next_hour_epoch
+        frame_data.total_clients=total
+        if frame_data.initial_epoch is None: frame_data.initial_epoch=current_hour_epoch
+        if pickle_frames: frame_data.dump(datafile)
+
+      if iplist.has_key(hour):
+        if not lons.has_key(hour): lons[hour]=[]
+        for ip in iplist[hour]: 
+          lons[hour].append(clients[ip]['lon'])
+        if not lats.has_key(hour): lats[hour]=[]
+        for ip in iplist[hour]: 
+          lats[hour].append(clients[ip]['lat'])
+
+      dpi=100
+      dimx=800/dpi
+      dimy=400/dpi
+
+      if plot_frames :
+        Zm = where(Z <= 0.,1.e10,Z)
+        Zm = ma.masked_values(Zm, 1.e10)
+        fig=figure(1,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
+        clf()
+        ax=fig.add_axes([0.05,0.1,0.8,0.8],axisbg=(0.05,0.65,0.05))
+        canvas = FigureCanvas(fig)
+        # draw coasts and fill continents.
+        m.drawcoastlines(linewidth=0.5)
+        m.drawcountries(linewidth=0.5)
+        m.drawlsmask([100,100,100,0],[100,210,210,255])
+        palette = cm.YlOrRd
+#        print len(lats),len(lons),Z.shape
+
+#        imaxes=fig.add_axes([0.05,0.1,0.8,0.8])
+        m.imshow(Zm,palette,extent=(m.xmin,m.xmax,m.ymin,m.ymax), norm=LogNorm(),interpolation='gaussian')
+        if lons.has_key(hour)  :s=m.scatter(lons[hour],lats[hour],s=5,c='b',edgecolor=(0,0,0,0),alpha=0.8)
+        if lons.has_key(hour-1):s=m.scatter(lons[hour-1],lats[hour-1],s=5,c='b',edgecolor=(0,0,0,0),alpha=0.5)
+        if lons.has_key(hour-2):s=m.scatter(lons[hour-2],lats[hour-2],s=5,c='b',edgecolor=(0,0,0,0),alpha=0.2)
+
+        l,b,w,h = ax.get_position() 
+        cax = axes([l+w+0.005, b, 0.03, h])
+        colorbar(cax=cax,format=JefFormatter()) # draw colorbar
+        figtext(l+w+0.1,0.5,"Client Density: clients per km^2",va="center",ha="center",rotation="vertical",fontsize=10)
+        figtext(0.05,0.05,footer,backgroundcolor='white',fontsize="smaller",va="bottom")
+        figtext(0.05,0.95,header,backgroundcolor='white',fontsize="smaller",va="top")
+        figtext(0.055,0.11,"Time: %s\n to : %s" % (ctime(current_hour_epoch),ctime(next_hour_epoch))\
+          ,backgroundcolor='white',fontsize="smaller",va="bottom")
+        figtext(0.541,0.11,"Total Clients: %-12d\nsince %s " % (total,ctime(frame_data.initial_epoch))\
+          ,backgroundcolor='white',fontsize="smaller",va="bottom")
+        canvas.print_figure(framefilename, dpi=100,facecolor='white',edgecolor='white')
+
+
+    P=parse_population(m,populationfile)
+# Current Density Map
+    if len(Z) > 0 :
+      Zm = where(Z <= 0.,1.e10,Z)
+      Zm = ma.masked_values(Zm, 1.e10)
+      if not pickle_frames: frame_data.dump(datafile)
+      latestfilename=make_path(outdir,"current_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      print latestfilename
+      fig=figure(2,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
+      clf()
+      ax=fig.add_axes([0.05,0.1,0.8,0.8],axisbg=(0.05,0.65,0.05))
+      canvas = FigureCanvas(fig)
+      # draw coasts and fill continents.
+      m.drawcoastlines(linewidth=0.5)
+      m.drawcountries(linewidth=0.5)
+      m.drawlsmask([100,100,100,0],[100,210,210,255])
+      palette = cm.YlOrRd
+#      print len(lats),len(lons),Z.shape
+#      imaxes=fig.add_axes([0.05,0.1,0.8,0.8])
+      m.imshow(Zm,palette,extent=(m.xmin,m.xmax,m.ymin,m.ymax), norm=LogNorm(),interpolation='gaussian')
+
+      l,b,w,h = ax.get_position() 
+      cax = axes([l+w+0.005, b, 0.03, h])
+      colorbar(cax=cax,format=JefFormatter()) # draw colorbar
+      figtext(l+w+0.1,0.5,"Client Density: clients per km^2",va="center",ha="center",rotation="vertical",fontsize=10)
+      figtext(0.055,0.11,"Time: %s\n   to  : %s" % (ctime(frame_data.initial_epoch),ctime(next_hour_epoch))\
+          ,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.05,footer,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.95,header,backgroundcolor='white',fontsize="smaller",va="top")
+      figtext(0.541,0.11,"Total Clients: %-12d\nsince %s " % (total,ctime(frame_data.initial_epoch))\
+        ,backgroundcolor='white',fontsize="smaller",va="bottom")
+      canvas.print_figure(latestfilename, dpi=100,facecolor='white',edgecolor='white')
+
+
+    if len(P) > 0 :
+      Pm = where(P <= 0.,1.e10,P)
+      Pm = ma.masked_values(Pm, 1.e10)
+#      Pm=log10(Pm)
+      if not pickle_frames: frame_data.dump(datafile)
+      popframefilename=make_path(outdir,"population_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      print popframefilename
+      fig=figure(3,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
+      clf()
+      ax=fig.add_axes([0.05,0.1,0.8,0.8],axisbg=(0.05,0.65,0.05))
+      canvas = FigureCanvas(fig)
+      # draw coasts and fill continents.
+      m.drawcoastlines(linewidth=0.5)
+      m.drawcountries(linewidth=0.5)
+      m.drawlsmask([100,100,100,0],[100,210,210,255])
+      palette = cm.cool
+#      print len(lats),len(lons),Z.shape
+#      imaxes=fig.add_axes([0.05,0.1,0.8,0.8])
+      m.imshow(Pm,palette,extent=(m.xmin,m.xmax,m.ymax,m.ymin), norm=LogNorm(),interpolation='gaussian')
+#      imshow(Pm)
+
+      l,b,w,h = ax.get_position() 
+      cax = axes([l+w+0.005, b, 0.03, h])
+      colorbar(cax=cax,format=JefFormatter()) # draw colorbar
+      figtext(l+w+0.1,0.5,"Pop Density 2005: pop per km^2",va="center",ha="center",rotation="vertical",fontsize=10)
+      figtext(0.055,0.11,"Time: %s\n   to  : %s" % (ctime(frame_data.initial_epoch),ctime(next_hour_epoch))\
+          ,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.05,footer,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.95,header,backgroundcolor='white',fontsize="smaller",va="top")
+      canvas.print_figure(popframefilename, dpi=100,facecolor='white',edgecolor='white')
+
+    if len(P) > 0 and len (Z) > 0 :
+      PZm = Zm/Pm
+#      Pm = ma.masked_values(Pm, 1.e10)
+#      Pm=log10(Pm)
+      if not pickle_frames: frame_data.dump(datafile)
+      popframefilename=make_path(outdir,"clientpop_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      print popframefilename
+      fig=figure(4,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
+      clf()
+      ax=fig.add_axes([0.05,0.1,0.8,0.8],axisbg=(0.05,0.65,0.05))
+      canvas = FigureCanvas(fig)
+      # draw coasts and fill continents.
+      m.drawcoastlines(linewidth=0.5)
+      m.drawcountries(linewidth=0.5)
+      m.drawlsmask([100,100,100,0],[100,210,210,255])
+      palette = cm.spring
+#      print len(lats),len(lons),Z.shape
+#      imaxes=fig.add_axes([0.05,0.1,0.8,0.8])
+      m.imshow(PZm,palette,extent=(m.xmin,m.xmax,m.ymax,m.ymin), vmin=1E-6, vmax=1E-3, norm=LogNorm(),interpolation='gaussian')
+#      imshow(PZm)
+
+      l,b,w,h = ax.get_position() 
+      cax = axes([l+w+0.005, b, 0.03, h])
+      colorbar(cax=cax,format=JefFormatter()) # draw colorbar
+      figtext(l+w+0.1,0.5,"Clients per Capita",va="center",ha="center",rotation="vertical",fontsize=10)
+      figtext(0.055,0.11,"Time: %s\n   to  : %s" % (ctime(frame_data.initial_epoch),ctime(next_hour_epoch))\
+          ,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.05,footer,backgroundcolor='white',fontsize="smaller",va="bottom")
+      figtext(0.05,0.95,header,backgroundcolor='white',fontsize="smaller",va="top")
+      canvas.print_figure(popframefilename, dpi=100,facecolor='white',edgecolor='white')
+
+    if stats :
+      for country,count in C.items():
+        print country," :: ",count
+
+def parse_iplist(iplist,m,clients,oldZ=None,oldC=None,latpixels=180,lonpixels=360,lat_smooth=1,lon_smooth=1):
+    rad_deg=pi/180.0
+    r0=6378.1
+    latscale=(m.ymax-m.ymin)/latpixels
+    lonscale=(m.xmax-m.xmin)/lonpixels
+    lat_array=arange(m.ymin,m.ymax+latscale,latscale)
+    lon_array=arange(m.xmin,m.xmax+lonscale,lonscale)
+    maxlat=len(lat_array)-1
+    maxlon=len(lon_array)-1
+    Z=zeros((len(lat_array),len(lon_array)),dtype='float')
+    if oldC is None : seen_countries={}
+    else: seen_countries=oldC
+    f = open(inputfile, 'r')
+    for ip in iplist:
+#            print clients[ip].keys()
+            country_code=clients[ip]['cc']
+#           Deal with client
+            if stats == True:
+                if seen_countries.has_key(country_code) : seen_countries[country_code]+=1
+                else : seen_countries[country_code]=1
+            lat=clients[ip]['lat']
+            lon=clients[ip]['lon']
+            if ( lat == 0.0 ) and ( lon == 0.0 ) : 
+#              print "Lat/Lon 0.0:",country_code
+              lat = -89.0
+            i_lat=int(float((lat-lat_array[0]))/float(latscale)) 
+            i_lon=int(float((lon-lon_array[0]))/float(lonscale)) 
+            for i in xrange(-int(lat_smooth),int(lat_smooth+1),1):
+              for j in xrange(-int(lon_smooth),int(lon_smooth+1),1):
+                if ( i_lat+i >= 0 ) and (i_lat+i < maxlat) : 
+                  if ( i_lon+j >= 0) and ( i_lon+j < maxlon) :
+                    Z[i_lat+i,i_lon+j]+=1.0
+    f.close()
+# End of file, now do summary density calculation
+    for i in xrange(len(lat_array)):
+      area=r0*r0*rad_deg*lonscale*abs( sin(rad_deg*(lat_array[i]-latscale/2.0) )-sin(rad_deg*(lat_array[i]+latscale/2.0) ) )
+      for j in xrange(len(lon_array)):
+        if area == 0.0 : Z[i,j]=0.0
+        else: Z[i,j]=Z[i,j]/area/(2.0*lon_smooth+1)/(2.0*lat_smooth+1)
+#    Lon,Lat=meshgrid(lon_array,lat_array)
+#    X,Y=m(Lon,Lat)
+    if oldZ is not None: 
+#      print type(oldZ),type(Z)
+#      oldZ.unmask()
+      Z=oldZ+Z
+    return Z,seen_countries
+
+      
+def parse_population(m,populationfile=None,latpixels=180,lonpixels=360,lat_smooth=1,lon_smooth=1):
+    rad_deg=pi/180.0
+    r0=6378.1
+    latscale=(m.ymax-m.ymin)/latpixels
+    lonscale=(m.xmax-m.xmin)/lonpixels
+    lat_array=arange(m.ymin,m.ymax+latscale,latscale)
+    lon_array=arange(m.xmin,m.xmax+lonscale,lonscale)
+    maxlat=len(lat_array)-1
+    maxlon=len(lon_array)-1
+    P=zeros((len(lat_array),len(lon_array)),dtype='float')
+
+    if not (populationfile is None):
+      try:
+        pop_latstep=0.5
+        pop_latmin=-58.0
+        pop_lonstep=0.5
+        pop_lonmin=-180.0
+        pop_data=load(populationfile,skiprows=6)
+        print pop_data.shape,P.shape
+        pop_latlen,pop_lonlen=pop_data.shape
+        pop_latmax=pop_latmin+pop_latstep*pop_latlen
+        pop_lonmax=pop_lonmin+pop_lonstep*pop_lonlen
+        for i in xrange(pop_latlen):
+          pop_lat=pop_latmax-float(pop_latstep)*float(i)
+          pop_lat_index=int(float(pop_lat-lat_array[0])/float(latscale))
+          for j in xrange(pop_lonlen):
+            pop_lon=pop_lonmin+float(pop_lonstep)*float(j)
+            pop_lon_index=int(float(pop_lon-lon_array[0])/float(lonscale))
+            if pop_data[i,j] > P[pop_lat_index,pop_lon_index] : P[pop_lat_index,pop_lon_index]=pop_data[i,j]
+        print "Success processing population file"
+      except:
+        print "error processing population file"
+
+    return P
+
+def parse_file(min_epoch=None):
+    clients={}
+    if min_epoch is None : min_epoch=float('inf')
+    max_epoch=int(0)
+    if not (inputfile is None):
+      try:
+        f = open(inputfile, 'r')
+        for line in f:
+          epoch=int(line.strip().split()[0].strip())
+          ip=line.strip().split()[1].strip()
+          gir=None
+          try:
+            gir = gi.record_by_addr(ip)
+          except:
+            continue  
+          if not clients.has_key(ip): 
+            clients[ip]={}
+            clients[ip]['epoch']=epoch
+            if gir != None:
+              clients[ip]['cc']=str(gir['country_code'])
+              clients[ip]['lat']=gir['latitude'] 
+              clients[ip]['lon']=gir['longitude']
+            else :
+              clients[ip]['cc']='AP'
+              clients[ip]['lat']=0.0
+              clients[ip]['lon']=0.0
+
+          if epoch < clients[ip]['epoch'] : clients[ip]['epoch']=epoch 
+          if epoch < min_epoch : min_epoch=epoch
+          if epoch > max_epoch : max_epoch=epoch
+        f.close()
+      except:
+        print "Error parsing inputfile %s" % inputfile
+        sys.exit(2)
+    return clients,min_epoch,max_epoch
+
+
+def parse_regions(region=None):
+    r={} 
+    if region is None:
+      r={'name':'World','ll_lat':-90,'ur_lat':90,'ll_lon':-180,'ur_lon':180}
+    else:  
+      if not (regionsfile is None):
+        try:
+          f = open(regionsfile, 'r')
+          for line in f:
+            if region==line.strip().split(":")[0].strip():
+              r['name']=line.strip().split(":")[0].strip()
+              r['ll_lat']=float(line.strip().split(":")[1])
+              r['ur_lat']=float(line.strip().split(":")[2])
+              r['ll_lon']=float(line.strip().split(":")[3])
+              r['ur_lon']=float(line.strip().split(":")[4])
+              break
+          f.close()
+        except:
+          print "Error parsing regionsfile %s" % regionsfile
+          sys.exit(2)
+    return r
+
+def make_path(dirstub,filename):
+    head,tail=path.split(path.expanduser(path.expandvars(dirstub)))
+    finalpath=path.join(head,path.expanduser(path.expandvars(filename)))
+    return path.normpath(finalpath)
+
+def usage():
+  print "%s --header=header --footer=footer --input=inputfile --output=outputfile --indir=indir" % sys.argv[0] +\
+         " --region=region --regionsfile=regionsfile --outdir=outdir -v"
+
+def main():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h:f:i:o:v:r:s",\
+          ["help","verbose","stats","list-regions","indir=",\
+          "outdir=","input=","output=","footer=","header=","region=","regionsfile=",\
+          "frame_prefix=","frame_filetype=","datafile=","min_epoch="])
+    except getopt.GetoptError:
+        # print help information and exit:
+        usage()
+        sys.exit(2)
+    global header, footer, inputfile,populationfile,outputfile,indir,outdir, stats, verbose,datafile
+    global frame_prefix,frame_filetype,fade_hours,frame_hours,min_epoch,max_epoch
+    global frame_data,plot_frames,pickle_frames
+
+    plot_frames=True
+    pickle_frames=True
+    verbose = False
+    stats = False
+    listregions=False
+    regionsfile=None
+    inputfile=None
+    populationfile=None
+    outputfile=None
+    datafile=None
+    region=None
+    header=""
+    footer=""
+    indir='./'
+    outdir='./animation-frames/'
+    frame_prefix=None
+    frame_filetype='png'
+    min_epoch=None
+    arg_epoch=None
+    latpixels=180
+    lonpixels=360
+    lat_smooth=1
+    lon_smooth=1
+
+
+    for o, a in opts:
+        if o in ("-h","--header"):
+            header = a
+        if o in ("-f","--footer"):
+            footer = a
+        if o in ("-i","--input"):
+            inputfile = a
+        if o in ("-o","--output"):
+            outputfile = a
+        if o == "--indir":
+            indir = a
+        if o == "--outdir":
+            outdir = a
+        if o == "--regionsfile":
+            regionsfile = a
+        if o in ("-r","--region"):
+            region = a
+        if o in ("--min_epoch"):
+            arg_epoch=a
+        if o in ("-v","--verbose"):
+            verbose = True
+        if o in ("-s","--stats"):
+            stats = True
+        if o in ("--help"):
+            usage()
+            sys.exit()
+        if o in ("--list-regions"):
+            listregions=True
+
+    if outputfile is None : outputfile = 'clientmap.png'
+    if inputfile is None : inputfile = 'ips-with-epoch.txt'
+    if populationfile is None : populationfile = 'glds05ag30.asc'
+    if regionsfile is None : regionsfile = 'regions.txt'
+
+    if frame_prefix is None : frame_prefix='frame_'
+    if datafile is None : datafile = 'saved_data.pickle'
+
+    outputfile=make_path(outdir,outputfile)
+    datafile=make_path(outdir,datafile)
+    inputfile=make_path(indir,inputfile)
+    populationfile=make_path(indir,populationfile)
+    regionsfile=make_path(indir,regionsfile)
+    print outputfile
+    print datafile
+    print inputfile
+    print populationfile
+    print regionsfile
+
+    frame_data=saved_frame_data()
+    frame_data.gather(datafile)
+    
+    clients,min_epoch,max_epoch=parse_file(min_epoch)
+    if arg_epoch is not None: min_epoch=arg_epoch
+    if frame_data.next_epoch is not None: min_epoch=frame_data.next_epoch
+    r=parse_regions(region)
+    fade_hours=3
+    frame_hours=(max_epoch-min_epoch)/3600+1+fade_hours
+    print min_epoch,max_epoch,frame_hours
+    draw_client_animation(clients,r)
+
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+

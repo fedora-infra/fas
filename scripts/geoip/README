@@ -1,1 +1,61 @@
 GPL, initially created by mdomsch and adapted by |DrJef|
+
+Example Usage of python animated_clients.py.txt
+
+python animated_clients.py.txt --indir=./example_input/ --outdir=./example_output/ --header="Header string" --footer="Footer string"
+
+This script is still somewhat fragile and does not yet do all the path 
+and file existance checking that it should. To use the example 
+invocation you will need to make sure that the indir and outdir 
+locations exists.
+
+indir is used to hold file inputs that the script needs.
+The example invocation requires that indir holds:
+  ips-with-epoch.txt : file with ip clients and epoch timestamp
+  glds05ag30.asc  : population density data
+  regions.txt : region definitions
+
+indir defaults to ./
+
+if the file saved_data.pickle exists in outdir, this file will be loaded 
+in an attempt to create image frames based on previous timestamp 
+imformatin stored in the pickle file. This allows you to generate 
+additional frames in a sequence without parsing the full ip log on each 
+run.  For example, you can run this script daily, using ip client 
+information from the end of previous day stored in the pickle file. 
+Run in this manner, the script will generate 24 new frames daily using 
+only daily ip client logs for each day.
+
+
+outdir defaults to ./animation-frames/
+you must make sure outdir exists.
+
+outdir holds:
+  the sequence of generated frame images with prefix frame_
+  the pickle file saved_data.pickle, which stores previous frame data
+  summary client_per_capita: clientpop_<epoch>.png  
+  population density: population_<epoch>.png
+  summary of client density: current_<epoch>.png
+
+<epoch> is the most recent epoch associate with a the script.
+
+
+Gridder Population Data Citation:
+
+Center for International Earth Science Information Network (CIESIN), Columbia 
+University; United Nations Food and Agriculture Programme (FAO); and Centro 
+Internacional de Agricultura Tropical (CIAT). 2005. Gridded Population of the 
+World: Future Estimates (GPWFE). Palisades, NY: Socioeconomic Data and Applications 
+Center (SEDAC), Columbia University. Available at 
+http://sedac.ciesin.columbia.edu/gpw. (download date: 2007-10-19).
+
+ARCHIVE CONTENTS This archive contains the low-resolution vesion of the 
+UN-adjusted population density grids in ASCII format. The raster data 
+are at 0.5 degrees (30 arc-minutes) resolution. This archive contains 
+the following grid(s): 
+
+ds05ag30 : population densities in 2005, adjusted to match UN totals, 
+persons per square km
+
+
+
