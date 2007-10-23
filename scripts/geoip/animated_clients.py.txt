@@ -192,7 +192,7 @@ def draw_client_animation(clients=None,r={}):
       Zm = where(Z <= 0.,1.e10,Z)
       Zm = ma.masked_values(Zm, 1.e10)
       if not pickle_frames: frame_data.dump(datafile)
-      latestfilename=make_path(outdir,"current_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      latestfilename=make_path(outdir,"latest_client_density" + "."+frame_filetype) 
       print latestfilename
       fig=figure(2,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
       clf()
@@ -225,7 +225,7 @@ def draw_client_animation(clients=None,r={}):
       Pm = ma.masked_values(Pm, 1.e10)
 #      Pm=log10(Pm)
       if not pickle_frames: frame_data.dump(datafile)
-      popframefilename=make_path(outdir,"population_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      popframefilename=make_path(outdir,"population_density" + "."+frame_filetype) 
       print popframefilename
       fig=figure(3,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
       clf()
@@ -251,12 +251,12 @@ def draw_client_animation(clients=None,r={}):
       figtext(0.05,0.95,header,backgroundcolor='white',fontsize="smaller",va="top")
       canvas.print_figure(popframefilename, dpi=100,facecolor='white',edgecolor='white')
 
-    if len(P) > 0 and len (Z) > 0 :
+    if (len(P) > 0) and (len (Z) > 0) :
       PZm = Zm/Pm
 #      Pm = ma.masked_values(Pm, 1.e10)
 #      Pm=log10(Pm)
       if not pickle_frames: frame_data.dump(datafile)
-      popframefilename=make_path(outdir,"clientpop_%d" % (current_hour_epoch,)+ "."+frame_filetype) 
+      popframefilename=make_path(outdir,"latest_client_per_capita" + "."+frame_filetype) 
       print popframefilename
       fig=figure(4,figsize=(dimx,dimy), dpi=dpi, frameon=True, facecolor='blue',edgecolor='white')
       clf()
@@ -341,33 +341,36 @@ def parse_population(m,populationfile=None,latpixels=180,lonpixels=360,lat_smoot
     lonscale=(m.xmax-m.xmin)/lonpixels
     lat_array=arange(m.ymin,m.ymax+latscale,latscale)
     lon_array=arange(m.xmin,m.xmax+lonscale,lonscale)
-    maxlat=len(lat_array)-1
-    maxlon=len(lon_array)-1
-    P=zeros((len(lat_array),len(lon_array)),dtype='float')
 
     if not (populationfile is None):
+      P=zeros((len(lat_array),len(lon_array)),dtype='float')
+      pop_latstep=0.5
+      pop_latmin=-58.0
+      pop_lonstep=0.5
+      pop_lonmin=-180.0
       try:
-        pop_latstep=0.5
-        pop_latmin=-58.0
-        pop_lonstep=0.5
-        pop_lonmin=-180.0
         pop_data=load(populationfile,skiprows=6)
-        print pop_data.shape,P.shape
-        pop_latlen,pop_lonlen=pop_data.shape
-        pop_latmax=pop_latmin+pop_latstep*pop_latlen
-        pop_lonmax=pop_lonmin+pop_lonstep*pop_lonlen
-        for i in xrange(pop_latlen):
-          pop_lat=pop_latmax-float(pop_latstep)*float(i)
-          pop_lat_index=int(float(pop_lat-lat_array[0])/float(latscale))
-          for j in xrange(pop_lonlen):
-            pop_lon=pop_lonmin+float(pop_lonstep)*float(j)
-            pop_lon_index=int(float(pop_lon-lon_array[0])/float(lonscale))
-            if pop_data[i,j] > P[pop_lat_index,pop_lon_index] : P[pop_lat_index,pop_lon_index]=pop_data[i,j]
         print "Success processing population file"
       except:
         print "error processing population file"
+        P=zeros((0,0))
+        return P
 
-    return P
+      print pop_data.shape,P.shape
+      pop_latlen,pop_lonlen=pop_data.shape
+      pop_latmax=pop_latmin+pop_latstep*pop_latlen
+      pop_lonmax=pop_lonmin+pop_lonstep*pop_lonlen
+      for i in xrange(pop_latlen):
+        pop_lat=pop_latmax-float(pop_latstep)*float(i)
+        pop_lat_index=int(float(pop_lat-lat_array[0])/float(latscale))
+        for j in xrange(pop_lonlen):
+          pop_lon=pop_lonmin+float(pop_lonstep)*float(j)
+          pop_lon_index=int(float(pop_lon-lon_array[0])/float(lonscale))
+          if (pop_lat_index > 0) and (pop_lat_index < len(lat_array)):
+            if (pop_lon_index > 0) and (pop_lon_index < len(lon_array)):
+              if pop_data[i,j] > P[pop_lat_index,pop_lon_index] : P[pop_lat_index,pop_lon_index]=pop_data[i,j]
+      return P
+    else : return zeros((0,0))
 
 def parse_file(min_epoch=None):
     clients={}
@@ -433,6 +436,17 @@ def make_path(dirstub,filename):
     finalpath=path.join(head,path.expanduser(path.expandvars(filename)))
     return path.normpath(finalpath)
 
+def list_regions():
+    if not (regionsfile is None):
+      try:
+        f = open(regionsfile, 'r')
+        for line in f:
+            print line.strip().split(":")[0].strip()
+        f.close()
+      except:
+        print "Error parsing regionsfile %s" % regionsfile
+        sys.exit(2)
+
 def usage():
   print "%s --header=header --footer=footer --input=inputfile --output=outputfile --indir=indir" % sys.argv[0] +\
          " --region=region --regionsfile=regionsfile --outdir=outdir -v"
@@ -447,7 +461,8 @@ def main():
         # print help information and exit:
         usage()
         sys.exit(2)
-    global header, footer, inputfile,populationfile,outputfile,indir,outdir, stats, verbose,datafile
+    global header, footer, inputfile,populationfile,outputfile,regionsfile
+    global indir,outdir, stats, verbose,datafile
     global frame_prefix,frame_filetype,fade_hours,frame_hours,min_epoch,max_epoch
     global frame_data,plot_frames,pickle_frames
 
@@ -518,6 +533,12 @@ def main():
     inputfile=make_path(indir,inputfile)
     populationfile=make_path(indir,populationfile)
     regionsfile=make_path(indir,regionsfile)
+
+    if listregions:
+      list_regions()
+      sys.exit()
+
+
     print outputfile
     print datafile
     print inputfile
