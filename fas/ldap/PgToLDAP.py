@@ -224,6 +224,10 @@ def main():
         user = userCursor.fetchone()
         if user == None:
             break
+
+        date = str(user[12]).split('.')[0]
+        timestamp = time.strftime('%s', time.strptime(date, "%Y-%m-%d %H:%M:%S"))
+
         # TODO: Create method createLdapUserEntry(user)
         #(dn, entry) = createLdapUserEntry(user)
         if options.outType == "ldif":
@@ -241,14 +245,14 @@ def main():
 	    userLdif.append(["cn",[str(user[1])]])
 	    userLdif.append(["givenName",[str(user[3])]])
 	    userLdif.append(["fedoraPersonKeyId",[str(user[4])]])
-	    userLdif.append(["fedoraPersonCertSerial",'-1'])
+	    userLdif.append(["fedoraPersonCertSerial",['-1']])
 	    userLdif.append(["fedoraPersonSshKey",[str(user[5])]])
 	    userLdif.append(["userPassword",[encode_SSHA_password(str(user[6]))]])
 	    userLdif.append(["postalAddress",[str(user[8])]])
 	    userLdif.append(["telephoneNumber",[str(user[9])]])
 	    userLdif.append(["fax",[str(user[10]) or "None"]])
 	    userLdif.append(["o",[str(user[11]) or "None" ]]) # affiliation is set to the o -- another stretch ??
-	    userLdif.append(["fedoraPersonCreationDate",[str(user[12])]])
+	    userLdif.append(["fedoraPersonCreationDate",[str(timestamp)]])
 	    userLdif.append(["fedoraPersonApprovalStatus",[str(user[13])]])
 	    userLdif.append(["description",[str(user[14])]]) #this one may be a streach -- original field was internal comments
 	    userLdif.append(["fedoraPersonIrcNick",[str(user[16])]])
@@ -369,6 +373,16 @@ def main():
         role = roleCursor.fetchone()
         if role == None:
             break
+        date1 = str(role[7]).split('.')[0]
+        date2 = str(role[8]).split('.')[0]
+        try:
+            timestamp1 = time.strftime('%s', time.strptime(date1, "%Y-%m-%d %H:%M:%S"))
+        except:
+            timestamp1 = "None"
+        try:
+            timestamp2 = time.strftime('%s', time.strptime(date2, "%Y-%m-%d %H:%M:%S"))
+        except:
+            timestamp2 = "None"
         # TODO: Create method createLdapRoleEntry(group)
         #(dn, entry) = createLdapGroupRole(group)
         if options.outType == "ldif":
@@ -407,8 +421,8 @@ def main():
 	    roleLdif.append(["fedoraRoleDomain",[str(role[3]) or "None" ]])
 	    roleLdif.append(["fedoraRoleStatus",[str(role[4])]])
 	    roleLdif.append(["fedoraRoleSponsor",sponsor])
-	    roleLdif.append(["fedoraRoleCreationDate",[str(role[7]) or "None" ]])
-	    roleLdif.append(["fedoraRoleApprovalDate",[str(role[8])]])
+	    roleLdif.append(["fedoraRoleCreationDate",[str(timestamp1)]])
+	    roleLdif.append(["fedoraRoleApprovalDate",[str(timestamp2)]])
 
 	    ldifWriter.unparse("cn=" + group[0] + ",ou=Roles,cn=" + username[0] + ",ou=People,dc=fedoraproject,dc=org" , roleLdif )
 
