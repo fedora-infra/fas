@@ -26,7 +26,7 @@ python-fedora, python module to interact with Fedora Infrastructure Services
 
 import ldap
 from ldap import modlist
-from datetime import datetime
+import time
 from random import Random
 import sha
 from base64 import b64encode
@@ -271,14 +271,7 @@ class Groups(object):
         except TypeError:
             raise TypeError, 'Group "%s" does not exist' % groupName
 
-        dt = datetime.utcnow()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
+        now = time.time()
 
         attributes = { 'cn' : groupName,
                     'fedoraRoleApprovaldate' : 'NotApproved',
@@ -335,14 +328,7 @@ class Person(object):
     @classmethod 
     def newPerson(self, cn, givenName, mail, telephoneNumber, postalAddress):
         ''' Create a new user '''
-        dt = datetime.utcnow()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
+        now = time.time()
         attributes = { 'cn' : cn,
                     'objectClass' : ('fedoraPerson', 'inetOrgPerson', 'organizationalPerson', 'person', 'top'),
                     'displayName' : cn,
@@ -475,14 +461,7 @@ class Person(object):
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (groupName, self.cn)
         g = Groups.byGroupName(groupName, includeUnapproved=True)[self.cn]
         group = Groups.groups(groupName)[groupName]
-        dt = datetime.utcnow()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
+        now = time.time()
         self.__server.modify(base, 'fedoraRoleApprovalDate', now)
         if group.fedoraGroupNeedsSponsor.lower() == 'true':
             self.__server.modify(base, 'fedoraRoleSponsor', sponsor)
