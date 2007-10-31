@@ -117,7 +117,7 @@ that make you a great fit for the Fedora community, and that you might
 be interested in contributing.
 
 How could you team up with the Fedora community to use and develop your
-skills?  Check out http://fedoraproject.org/wiki/Join for some ideas.
+skills?  Check out http://fedoraproject.org/join-fedora for some ideas.
 Our community is more than just software developers -- we also have a
 place for you whether you're an artist, a web site builder, a writer, or
 a people person.  You'll grow and learn as you work on a team with other
@@ -128,6 +128,3 @@ Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': u
             turbogears.flash(_('Message sent to: %s') % target)
         return dict(target=target, user=user)
 
-def relativeUser(realUser, sudoUser):
-    ''' Takes user and sees if they are allow to sudo for remote group'''
-    p = Person.byUserName('realUser')
