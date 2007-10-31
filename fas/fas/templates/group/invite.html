@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
-  <xi:include href="master.html" />
+  <xi:include href="../master.html" />
   <head>
     <title>Invite a new community member!</title>
   </head>
   <body>
     <h2>Invite a new community member!</h2>
-    <form method="post">
+    <form method="post" action="${tg.url('/group/sendinvite/%s') % group}">
       <div>
         To email: <input type="text" value="" name="target" /><br />
         From: ${user.mail}<br />

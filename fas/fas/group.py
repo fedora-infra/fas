@@ -64,6 +64,10 @@ class userNameGroupNameExists(validators.Schema):
 class groupNameExists(validators.Schema):
     groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
 
+class groupInvite(validators.Schema):
+    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    target = validators.Email(not_empty=True, strip=True),
+
 #class findUser(widgets.WidgetsList): 
 #    userName = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='userName', result_name='people')   
 #    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
@@ -430,4 +434,46 @@ class Group(controllers.Controller):
         else:
             groups = Groups.byGroupName(groupName)
             return dict(groups=groups, Person=Person)
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=groupNameExists())
+    @error_handler(error)
+    @expose(template='fas.templates.group.invite')
+    def invite(self, groupName):
+        userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        return dict(user=user, group=groupName)
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=groupNameExists())
+    @error_handler(error)
+    @expose(template='fas.templates.group.invite')
+    def sendinvite(self, groupName, target=None):
+        import turbomail
+        userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        if isApproved(userName, groupName):
+            message = turbomail.Message(user.mail, target, _('Come join The Fedora Project!'))
+            message.plain = _(dedent('''
+                %(name)s <%(email)s> has invited you to join the Fedora
+                Project!  We are a community of users and developers who produce a
+                complete operating system from entirely free and open source software
+                (FOSS).  %(name)s thinks that you have knowledge and skills
+                that make you a great fit for the Fedora community, and that you might
+                be interested in contributing.
+
+                How could you team up with the Fedora community to use and develop your
+                skills?  Check out http://fedoraproject.org/join-fedora for some ideas.
+                Our community is more than just software developers -- we also have a
+                place for you whether you're an artist, a web site builder, a writer, or
+                a people person.  You'll grow and learn as you work on a team with other
+                very smart and talented people.
+
+                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': user.givenName, 'email': user.mail}
+            turbomail.enqueue(message)
+            turbogears.flash(_('Message sent to: %s') % target)
+            turbogears.redirect('/group/view/%s' % groupName)
+        else:
+            turbogears.flash(_("You are not in the '%s' group.") % groupName)
+        return dict(target=target, user=user)
 

@@ -379,6 +379,12 @@ class User(controllers.Controller):
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)
 
+    @expose(format="json")
+    def search(self, userName=None, groupName=None):
+        people = Person.users('%s*' % userName)
+        return dict(people=
+                filter(lambda item: userName in item.lower(), people))
+
 def date_compare(x, y):
     if x[0].fedoraRoleCreationDate > y[0].fedoraRoleCreationDate:
         return 1
