@@ -26,7 +26,7 @@ python-fedora, python module to interact with Fedora Infrastructure Services
 
 import ldap
 from ldap import modlist
-import datetime
+from datetime import datetime
 from random import Random
 import sha
 from base64 import b64encode
@@ -271,7 +271,7 @@ class Groups(object):
         except TypeError:
             raise TypeError, 'Group "%s" does not exist' % groupName
 
-        dt = datetime.datetime.now()
+        dt = datetime.utcnow()
         now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
                                         dt.month,
                                         dt.day,
@@ -335,7 +335,7 @@ class Person(object):
     @classmethod 
     def newPerson(self, cn, givenName, mail, telephoneNumber, postalAddress):
         ''' Create a new user '''
-        dt = datetime.datetime.now()
+        dt = datetime.utcnow()
         now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
                                         dt.month,
                                         dt.day,
@@ -475,7 +475,7 @@ class Person(object):
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (groupName, self.cn)
         g = Groups.byGroupName(groupName, includeUnapproved=True)[self.cn]
         group = Groups.groups(groupName)[groupName]
-        dt = datetime.datetime.now()
+        dt = datetime.utcnow()
         now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
                                         dt.month,
                                         dt.day,

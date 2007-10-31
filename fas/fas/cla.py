@@ -4,7 +4,7 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 import ldap
 import cherrypy
 
-import mx.DateTime
+from datetime import datetime
 import re
 import gpgme
 import StringIO
@@ -69,7 +69,7 @@ class CLA(controllers.Controller):
             return dict()
         userName = turbogears.identity.current.user_name
         user = Person.byUserName(userName)
-        return dict(type=type, user=user, date=str(mx.DateTime.now()))
+        return dict(type=type, user=user, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
@@ -78,7 +78,7 @@ class CLA(controllers.Controller):
         '''Download CLA'''
         userName = turbogears.identity.current.user_name
         user = Person.byUserName(userName)
-        return dict(user=user, date=str(mx.DateTime.now()))
+        return dict(user=user, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
