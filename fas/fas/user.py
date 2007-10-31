@@ -143,7 +143,7 @@ class User(controllers.Controller):
             unapproved = [(v,k) for k,v in unapproved.items()]
             unapproved.sort(date_compare)
             unapproved.reverse()
-            groupUnapproved[g] = [(k,v) for v,k in unapproved]
+            groupUnapproved[g] = [(Person.byUserName(k).givenName,v) for v,k in unapproved]
         for g in groupsPending:
             groupdata[g] = Groups.groups(g)[g]
         try:

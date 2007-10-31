@@ -4,7 +4,7 @@
   xmlns:py="http://genshi.edgewall.org/"
   py:strip="">
   <head py:match="head" py:attrs="select('@*')">
-    <!--<link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />-->
+    <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
     <meta py:replace="select('*|text()')" />
   </head>
   <body py:match="body" py:attrs="select('@*')">

@@ -324,6 +324,11 @@ a
   background: url(/fas/static/images/queue.png) 0 50% no-repeat;
 }
 
+#rolespanel .queue strong
+{
+  color: #222222;
+}
+
 #footer
 {
   font-size: 1.6ex;

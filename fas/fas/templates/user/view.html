@@ -56,10 +56,10 @@
         </ul>
         </dd>
         <div py:if="auth.canSponsorGroup(user.cn, group) and groupUnapproved[group] != []" py:strip="">
-          <dt>Queue (last five):</dt>
+          <dt>Queue:</dt>
           <dd>
           <ul class="queue">
-            <li py:for="user in groupUnapproved[group][:5]">${user[0]} requests approval to join ${group}</li>
+            <li py:for="user in groupUnapproved[group][:5]"><strong>${user[0]}</strong> requests approval to join <strong>${group}</strong></li>
             <!--
             <li><a href="/">Chewbacca D. Wookiee requests approval to join project as a <strong>user</strong></a></li>
             <li><a href="/">Gaius Baltar requests approval to upgrade from <strong>user</strong> to <strong>sponsor</strong></a></li>
