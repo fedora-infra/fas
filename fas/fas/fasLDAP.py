@@ -42,7 +42,7 @@ class Server(object):
         # from the fedora-db-access file.
         server = server or 'localhost'
         who = who or 'cn=directory manager'
-        password = password or 'test'
+        password = password or 'fedoraproject'
 
         self.ldapConn = ldap.open(server)
         self.ldapConn.simple_bind_s(who, password)
