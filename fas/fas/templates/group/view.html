@@ -62,7 +62,10 @@
         <td><a href="${tg.url('/user/view/%s' % user)}">${user}</a></td>
         <td py:if='not(groups[user].fedoraRoleSponsor ==  "None")'><a href="${tg.url('/user/view/%s' % groups[user].fedoraRoleSponsor)}">${groups[user].fedoraRoleSponsor}</a></td>
         <td py:if='groups[user].fedoraRoleSponsor == "None"'>None</td>
-        <td>${groups[user].fedoraRoleCreationDate}</td>
+        <?python
+        from datetime import datetime
+        ?>
+        <td>${datetime.utcfromtimestamp(groups[user].fedoraRoleCreationDate).ctime()}</td>
         <td>${groups[user].fedoraRoleApprovalDate}</td>
         <td>${groups[user].fedoraRoleStatus}</td>
         <td>${groups[user].fedoraRoleType}</td>

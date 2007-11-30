@@ -13,18 +13,18 @@
     <h3>Account Details <a href="${tg.url('/user/edit/%s' % user.cn)}" py:if="personal or admin">(edit)</a></h3>
     <div class="userbox">
       <dl>
-        <dt>Account Name</dt><dd>${user.cn}&nbsp;</dd>
-        <dt>Real Name</dt><dd>${user.givenName}&nbsp;</dd>
-        <dt>Email</dt><dd>${user.mail}&nbsp;</dd>
-        <dt>Bugzilla Email</dt><dd>${user.fedoraPersonBugzillaMail}&nbsp;</dd>
-        <dt>IRC Nick</dt><dd>${user.fedoraPersonIrcNick}&nbsp;</dd>
-        <dt>PGP Key</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
-        <dt>Telephone Number</dt><dd>${user.telephoneNumber}&nbsp;</dd>
-        <dt>Postal Address</dt><dd>${user.postalAddress}&nbsp;</dd>
-        <dt>Description</dt><dd>${user.description}&nbsp;</dd>
-        <dt>Password</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
-        <dt>Account Status</dt><dd><span class="approved">Approved</span>, Active</dd>
-        <dt>CLA</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved"> Not Done</span></dd>
+        <dt>Account Name:</dt><dd>${user.cn}&nbsp;</dd>
+        <dt>Real Name:</dt><dd>${user.givenName}&nbsp;</dd>
+        <dt>Email:</dt><dd>${user.mail}&nbsp;</dd>
+        <dt>Bugzilla Email:</dt><dd>${user.fedoraPersonBugzillaMail}&nbsp;</dd>
+        <dt>IRC Nick:</dt><dd>${user.fedoraPersonIrcNick}&nbsp;</dd>
+        <dt>PGP Key:</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
+        <dt>Telephone Number:</dt><dd>${user.telephoneNumber}&nbsp;</dd>
+        <dt>Postal Address:</dt><dd>${user.postalAddress}&nbsp;</dd>
+        <dt>Description:</dt><dd>${user.description}&nbsp;</dd>
+        <dt>Password:</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
+        <dt>Account Status:</dt><dd><span class="approved">Approved</span>, Active</dd>
+        <dt>CLA:</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved">Not Done (<a href="${tg.url('/cla')}">Sign it</a>!)</span></dd>
       </dl>
     </div>
     <h3 py:if="personal">Your Roles</h3>
@@ -33,14 +33,16 @@
       <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
     </ul>
+    <!--
     <ul class="actions" py:if="personal">
       <li><a href="${tg.url('/group/list/A*')}">(Join another project)</a></li>
       <li><a href="/">(Create a new project)</a></li>
     </ul>
+    -->
     <ul id="rolespanel" py:if="personal">
       <li py:for="group in sorted(groups.keys())" class="role">
       <div py:if="auth.canViewGroup(user.cn, group)" py:strip="">
-      <h4>${groupdata[group].fedoraGroupDesc}</h4>, ${groups[group].fedoraRoleType}
+      <h4>${groupdata[group].fedoraGroupDesc}</h4> (${groups[group].fedoraRoleType})
       <dl>
         <dt>Status:</dt>
         <dd>

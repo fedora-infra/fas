@@ -13,6 +13,11 @@
         <tr><th>Build</th><th>Build Date</th></tr>
       </thead>
       <!--<tr><td>Koji</td><td><a href="${builds.userLink}">Build Info</a></td></tr>-->
+      <tr py:if="not builds.builds" style="text-align: center;">
+        <td colspan="2">
+          None
+        </td>
+      </tr>
       <tr py:for="build in builds.builds">
         <td>
           <span py:if="'complete' in builds.builds[build]['title']" class="approved"><a href="${build}">${builds.builds[build]['title']}</a></span>
