@@ -119,18 +119,18 @@ def openLdifFile(filename):
         print "Opening output file %s" % filename
     try:
         #ldifWriter = ldif.LDIFWriter(ldap.initialize('ldap://localhost:1390'),filename)
-	fileHandel = open (filename,'w')
+        fileHandel = open (filename,'w')
 
-   	#  |  __init__(self, output_file, base64_attrs=None, cols=76, line_sep='\n')
-	#  |      output_file
-	#  |          file object for output
-	#  |      base64_attrs
-	#  |          list of attribute types to be base64-encoded in any case
-	#  |      cols
-   	#  |          Specifies how many columns a line may have before it's
+       #  |  __init__(self, output_file, base64_attrs=None, cols=76, line_sep='\n')
+    #  |      output_file
+    #  |          file object for output
+    #  |      base64_attrs
+    #  |          list of attribute types to be base64-encoded in any case
+    #  |      cols
+       #  |          Specifies how many columns a line may have before it's
         #  |          folded into many lines.
-	#  |      line_sep
-	#  |          String used as line separator
+    #  |      line_sep
+    #  |          String used as line separator
 
 
 
@@ -215,7 +215,7 @@ def main():
         userCursor = dbConn.cursor()
         userCursor.execute ("SELECT * FROM person")
 
-	#id, username, email 2, human_name 3, gpg_keyid 4, ssh_key 5, password 6, comments 7,  postal_address 8, telephone 9, facsimile 10, affiliation 11, creation 12, approval_status 13, internal_comments 14, wiki_prefs 15, ircnick 16
+    #id, username, email 2, human_name 3, gpg_keyid 4, ssh_key 5, password 6, comments 7,  postal_address 8, telephone 9, facsimile 10, affiliation 11, creation 12, approval_status 13, internal_comments 14, wiki_prefs 15, ircnick 16
     except:
         print "Error selecting users from db"
         raise
@@ -233,50 +233,50 @@ def main():
         if options.outType == "ldif":
             ldifWriter.unparse(dn, entry)
         else:
-		
+        
 
             print "Adding ldif info for " + user[3] + "."
 
-	    #userLdif = [["objectClass",["fedoraPerson","organizationalUnit"]] , [ "displayName",[ user[1] ] ] ] 
-	    userLdif = [["objectClass",["fedoraPerson"]] , [ "displayName",[ user[1] ] ] ] 
-	    userLdif.append(["mail",[str(user[2])]])
-	    userLdif.append(["sn",[str(user[1])]])
-	    userLdif.append(["fedoraPersonBugzillaMail",[str(user[2])]])
-	    userLdif.append(["cn",[str(user[1])]])
-	    userLdif.append(["givenName",[str(user[3])]])
-	    userLdif.append(["fedoraPersonKeyId",[str(user[4])]])
-	    userLdif.append(["fedoraPersonCertSerial",['-1']])
-	    userLdif.append(["fedoraPersonSshKey",[str(user[5])]])
-	    userLdif.append(["userPassword",[encode_SSHA_password(str(user[6]))]])
-	    userLdif.append(["postalAddress",[str(user[8])]])
-	    userLdif.append(["telephoneNumber",[str(user[9])]])
-	    userLdif.append(["fax",[str(user[10]) or "None"]])
-	    userLdif.append(["o",[str(user[11]) or "None" ]]) # affiliation is set to the o -- another stretch ??
-	    userLdif.append(["fedoraPersonCreationDate",[str(timestamp)]])
-	    userLdif.append(["fedoraPersonApprovalStatus",[str(user[13])]])
-	    userLdif.append(["description",[str(user[14])]]) #this one may be a streach -- original field was internal comments
-	    userLdif.append(["fedoraPersonIrcNick",[str(user[16])]])
-	    #userLdif.append(["ou",["Roles"]]) Adding an OU instead
-	   
-	    print userLdif
-	    #for userKey in userLdif.keys():
-		#print "Key Name -> " + userKey 
-		#print ":::Key Value::: " 
-		#print userLdif[userKey]
-		#ldifWriter.unparse("dc=fedoraproject,dc=org cn=" + user[3] , { userKey : [str(userLdif[userKey])] } )
+        #userLdif = [["objectClass",["fedoraPerson","organizationalUnit"]] , [ "displayName",[ user[1] ] ] ] 
+        userLdif = [["objectClass",["fedoraPerson"]] , [ "displayName",[ user[1] ] ] ] 
+        userLdif.append(["mail",[str(user[2])]])
+        userLdif.append(["sn",[str(user[1])]])
+        userLdif.append(["fedoraPersonBugzillaMail",[str(user[2])]])
+        userLdif.append(["cn",[str(user[1])]])
+        userLdif.append(["givenName",[str(user[3])]])
+        userLdif.append(["fedoraPersonKeyId",[str(user[4])]])
+        userLdif.append(["fedoraPersonCertSerial",['-1']])
+        userLdif.append(["fedoraPersonSshKey",[str(user[5])]])
+        userLdif.append(["userPassword",[encode_SSHA_password(str(user[6]))]])
+        userLdif.append(["postalAddress",[str(user[8])]])
+        userLdif.append(["telephoneNumber",[str(user[9])]])
+        userLdif.append(["fax",[str(user[10]) or "None"]])
+        userLdif.append(["o",[str(user[11]) or "None" ]]) # affiliation is set to the o -- another stretch ??
+        userLdif.append(["fedoraPersonCreationDate",[str(timestamp)]])
+        userLdif.append(["fedoraPersonApprovalStatus",[str(user[13])]])
+        userLdif.append(["description",[str(user[14])]]) #this one may be a streach -- original field was internal comments
+        userLdif.append(["fedoraPersonIrcNick",[str(user[16])]])
+        #userLdif.append(["ou",["Roles"]]) Adding an OU instead
+       
+        print userLdif
+        #for userKey in userLdif.keys():
+        #print "Key Name -> " + userKey 
+        #print ":::Key Value::: " 
+        #print userLdif[userKey]
+        #ldifWriter.unparse("dc=fedoraproject,dc=org cn=" + user[3] , { userKey : [str(userLdif[userKey])] } )
 
-	    #print userLdif.keys()
-	    #print userLdif.values()
-	    ldifWriter.unparse("cn=" + str(user[1]) +",ou=People,dc=fedoraproject,dc=org" , userLdif )
+        #print userLdif.keys()
+        #print userLdif.values()
+        ldifWriter.unparse("cn=" + str(user[1]) +",ou=People,dc=fedoraproject,dc=org" , userLdif )
 
-	    roleOuLdif = [["objectClass",["organizationalUnit"]] , [ "ou",[ "Roles" ] ] ] 
-	    ldifWriter.unparse("ou=Roles,cn=" + str(user[1]) +",ou=People,dc=fedoraproject,dc=org" , roleOuLdif )		
+        roleOuLdif = [["objectClass",["organizationalUnit"]] , [ "ou",[ "Roles" ] ] ] 
+        ldifWriter.unparse("ou=Roles,cn=" + str(user[1]) +",ou=People,dc=fedoraproject,dc=org" , roleOuLdif )        
 
-	    #ldifWriter.unparse("dc=fedoraproject,dc=org, cn=" + user[3] , [ ['ano',['domini']],['uances',['od']] ])
+        #ldifWriter.unparse("dc=fedoraproject,dc=org, cn=" + user[3] , [ ['ano',['domini']],['uances',['od']] ])
 
-	    #time.sleep (2)
-	
-        		
+        #time.sleep (2)
+    
+                
             #ldapConn.add_s(dn, entry)
 
     userCursor.close()
@@ -307,7 +307,7 @@ def main():
             ldifWriter.unparse(dn, entry)
         else:
             #ldapConn.add_s(dn, entry)
-	    
+        
             print "Adding group info for %s." % group[7]
             #id0, owner_id1, group_type2, needs_sponsor3, user_can_remove4, prerequisite_id5, joinmsg6, name7
 
@@ -316,43 +316,43 @@ def main():
             owner = uidLookupCursor.fetchone()
             if str(group[5]) != "None" :
                 uidLookupCursor.execute ("SELECT name FROM project_group where id =" + str(group[5]) )
-	        prereq = uidLookupCursor.fetchone()
+                prereq = uidLookupCursor.fetchone()
                 print prereq
-	    else:
-		prereq=["None"]
-	    print owner
+            else:
+                prereq=["None"]
 
+        print owner
 
             #id0, name1, owner_id2, group_type3, needs_sponsor4, user_can_remove5, prerequisite_id6, joinmsg7
-	    userLdif = [["objectClass",["fedoraGroup"]] ] 
-	    userLdif.append(["cn",[str(group[7])]])
-	    userLdif.append(["fedoraGroupOwner",owner]) # need to get a cn for this not just the id
-	    #userLdif.append(["groupOwner",[str(group[2])]]) # need to get a cn for this not just the id
-	    userLdif.append(["fedoraGroupType",[str(group[3]) or "None" ]])
+        userLdif = [["objectClass",["fedoraGroup"]] ] 
+        userLdif.append(["cn",[str(group[7])]])
+        userLdif.append(["fedoraGroupOwner",owner]) # need to get a cn for this not just the id
+        #userLdif.append(["groupOwner",[str(group[2])]]) # need to get a cn for this not just the id
+        userLdif.append(["fedoraGroupType",[str(group[3]) or "None" ]])
 
-	    #we're using the boolean type for these.  This means they need to be converted to the TRUE and FALSE strings
+        #we're using the boolean type for these.  This means they need to be converted to the TRUE and FALSE strings
 
-	    if str(group[3]) == "0" :
-		group[3]="FALSE"
-	    else:
-		group[3]="TRUE"
+        if str(group[3]) == "0" :
+            group[3]="FALSE"
+        else:
+            group[3]="TRUE"
 
-	    if str(group[4]) == "0" :
-		group[4]="FALSE"
-	    else:
-		group[4]="TRUE"
+        if str(group[4]) == "0" :
+            group[4]="FALSE"
+        else:
+            group[4]="TRUE"
 
         if group[5] == None:
             group[5] = ""
-		
-	    userLdif.append(["fedoraGroupNeedsSponsor",[str(group[3])]]) #need to convert to bool
-	    userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
-	    userLdif.append(["fedoraGroupDesc",[str('Please fill out a Group Description')]]) #need to convert to bool
-	    #userLdif.append(["groupPrerequisite",[str(group[5])]])
-	    userLdif.append(["fedoraGroupRequires",[str(group[5])]]) # <- Hope this is added properly - Ricky
-	    #userLdif.append(["groupPrerequisite",prereq]) not currently in the schema
-	    userLdif.append(["fedoraGroupJoinMsg",[str(group[6]) or "None" ]])
-	    ldifWriter.unparse("cn=" + str(group[7]) +",ou=FedoraGroups,dc=fedoraproject,dc=org" , userLdif )
+        
+        userLdif.append(["fedoraGroupNeedsSponsor",[str(group[3])]]) #need to convert to bool
+        userLdif.append(["fedoraGroupUserCanRemove",[str(group[4])]]) #need to convert to bool
+        userLdif.append(["fedoraGroupDesc",[str('Please fill out a Group Description')]]) #need to convert to bool
+        #userLdif.append(["groupPrerequisite",[str(group[5])]])
+        userLdif.append(["fedoraGroupRequires",[str(group[5])]]) # <- Hope this is added properly - Ricky
+        #userLdif.append(["groupPrerequisite",prereq]) not currently in the schema
+        userLdif.append(["fedoraGroupJoinMsg",[str(group[6]) or "None" ]])
+        ldifWriter.unparse("cn=" + str(group[7]) +",ou=FedoraGroups,dc=fedoraproject,dc=org" , userLdif )
 
 
     groupCursor.close()        
@@ -364,7 +364,7 @@ def main():
             print "Selecting all roles from Postgres Database"
         roleCursor = dbConn.cursor()
         roleCursor.execute ("SELECT * FROM role")
-	#person_id, project_group_id, role_type, role_domain, role_status, internal_comments, sponsor_id (Points to a person), creation (TIMESTAMP), approval (TIMESTAMP)
+    #person_id, project_group_id, role_type, role_domain, role_status, internal_comments, sponsor_id (Points to a person), creation (TIMESTAMP), approval (TIMESTAMP)
     except:
         print "Error selecting roles from db"
         raise
@@ -392,7 +392,7 @@ def main():
             #person_id0, group_project_id1, role_type2, role_domain3, role_status4, internal_comments5, sponsor_id6, creation7, approval8
 
 
-	    uidRoleCursor = dbConn.cursor()
+            uidRoleCursor = dbConn.cursor()
             uidRoleCursor.execute ("SELECT username FROM person where id =" + str(role[0]) )
             username = uidRoleCursor.fetchone()
             uidRoleCursor.execute ("SELECT name FROM project_group where id =" + str(role[1]) )
@@ -400,31 +400,31 @@ def main():
             if str(role[6]) != "None" :
                 uidRoleCursor.execute ("SELECT username FROM person where id =" + str(role[6]) )
                 sponsor = uidRoleCursor.fetchone()
-	    else:
-		sponsor = ["None"]
+            else:
+                sponsor = ["None"]
 
             print "Adding " + str(role[4]) + " role info for " + group[0] + " for user " + username[0] + "."
             #if str(group[6]) != "None" :
             #    uidLookupCursor.execute ("SELECT name FROM project_group where id =" + str(group[6]) )
-	    #    prereq = uidLookupCursor.fetchone()
+        #    prereq = uidLookupCursor.fetchone()
             #    print prereq
-	    #else:
-	    #	prereq=["None"]
-	    #print owner 
+        #else:
+        #    prereq=["None"]
+        #print owner 
 
   #person_id0, group_project_id1, role_type2, role_domain3, role_status4, internal_comments5, sponsor_id6, creation7, approval8
 
-            roleLdif = [["objectClass",["fedoraRole"]] ] 
-	    #roleLdif.append(["cn",[str(group[0]) + str(role[2])]]) #Fix me
-	    roleLdif.append(["cn",[str(group[0])]]) #Fix me
-	    roleLdif.append(["fedoraRoleType",[str(role[2])]])
-	    roleLdif.append(["fedoraRoleDomain",[str(role[3]) or "None" ]])
-	    roleLdif.append(["fedoraRoleStatus",[str(role[4])]])
-	    roleLdif.append(["fedoraRoleSponsor",sponsor])
-	    roleLdif.append(["fedoraRoleCreationDate",[str(timestamp1)]])
-	    roleLdif.append(["fedoraRoleApprovalDate",[str(timestamp2)]])
+        roleLdif = [["objectClass",["fedoraRole"]] ] 
+        #roleLdif.append(["cn",[str(group[0]) + str(role[2])]]) #Fix me
+        roleLdif.append(["cn",[str(group[0])]]) #Fix me
+        roleLdif.append(["fedoraRoleType",[str(role[2])]])
+        roleLdif.append(["fedoraRoleDomain",[str(role[3]) or "None" ]])
+        roleLdif.append(["fedoraRoleStatus",[str(role[4])]])
+        roleLdif.append(["fedoraRoleSponsor",sponsor])
+        roleLdif.append(["fedoraRoleCreationDate",[str(timestamp1)]])
+        roleLdif.append(["fedoraRoleApprovalDate",[str(timestamp2)]])
 
-	    ldifWriter.unparse("cn=" + group[0] + ",ou=Roles,cn=" + username[0] + ",ou=People,dc=fedoraproject,dc=org" , roleLdif )
+        ldifWriter.unparse("cn=" + group[0] + ",ou=Roles,cn=" + username[0] + ",ou=People,dc=fedoraproject,dc=org" , roleLdif )
 
     roleCursor.close()
       
