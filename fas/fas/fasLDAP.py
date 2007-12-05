@@ -323,7 +323,7 @@ class Groups(object):
 
         now = time.time()
 
-        attributes = { 'cn' : groupName,
+        attributes = { 'cn' : groupName.encode('utf-8'),
                     'fedoraRoleApprovaldate' : 'None',
                     'fedoraRoleCreationDate' : str(now),
                     'fedoraRoleDomain' : 'None',
