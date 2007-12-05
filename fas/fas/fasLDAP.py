@@ -324,7 +324,7 @@ class Groups(object):
         now = time.time()
 
         attributes = { 'cn' : groupName,
-                    'fedoraRoleApprovaldate' : 'NotApproved',
+                    'fedoraRoleApprovaldate' : 'None',
                     'fedoraRoleCreationDate' : str(now),
                     'fedoraRoleDomain' : 'None',
                     'fedoraRoleSponsor' : 'None',
@@ -397,7 +397,8 @@ class Person(object):
                     'fedoraPersonBugzillaMail' : mail.encode('utf-8'),
                     'postalAddress' : postalAddress.encode('utf-8'),
                     'fedoraPersonIrcNick' : '',
-                    'userPassword' : 'Disabled'
+                    'userPassword' : 'Disabled',
+                    'fedoraPersonTimeZone' : 'UTC',
                     }
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
         attributes = {

@@ -122,7 +122,8 @@ class Group(controllers.Controller):
                 me = groups[userName]
             except:
                 me = UserGroup()
-            return dict(userName=userName, groups=groups, group=group, me=me)
+            u = Person.byUserName(userName) 
+            return dict(userName=userName, u=u, groups=groups, group=group, me=me)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")

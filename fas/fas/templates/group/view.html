@@ -64,10 +64,11 @@
         <td py:if='groups[user].fedoraRoleSponsor == "None"'>None</td>
         <?python
         from datetime import datetime
+        from pytz import timezone
         ?>
-        <td>${datetime.fromtimestamp(float(groups[user].fedoraRoleCreationDate))}</td>
+        <td>${datetime.fromtimestamp(float(groups[user].fedoraRoleCreationDate), timezone(u.fedoraPersonTimeZone))}</td>
         <td py:if="groups[user].fedoraRoleApprovalDate.lower() == 'none'">${groups[user].fedoraRoleApprovalDate}</td>
-        <td py:if="groups[user].fedoraRoleApprovalDate.lower() != 'none'">${datetime.fromtimestamp(float(groups[user].fedoraRoleApprovalDate))}</td>
+        <td py:if="groups[user].fedoraRoleApprovalDate.lower() != 'none'">${datetime.fromtimestamp(float(groups[user].fedoraRoleApprovalDate), timezone(u.fedoraPersonTimeZone))}</td>
         <td>${groups[user].fedoraRoleStatus}</td>
         <td>${groups[user].fedoraRoleType}</td>
         <!--<td>${groups[user].fedoraRoleDomain}</td>-->

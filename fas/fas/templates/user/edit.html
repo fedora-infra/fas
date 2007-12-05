@@ -38,6 +38,15 @@
         <input type="text" id="postalAddress" name="postalAddress" value="${user.postalAddress}" />
       </div>
       <div class="field">
+        <label for="fedoraPersonTimeZone">Time Zone:</label>
+        <select id="fedoraPersonTimeZone" name="fedoraPersonTimeZone">
+          <?python
+          from pytz import common_timezones
+          ?>
+          <option py:for="tz in common_timezones" value="${tz}" py:attrs="{'selected': user.fedoraPersonTimeZone == tz and 'selected' or None}">${tz}</option>
+        </select>
+      </div>
+      <div class="field">
         <label for="description ">Description:</label>
 <textarea id="description" name="description">
 ${user.description}

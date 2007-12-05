@@ -255,6 +255,7 @@ def main():
         userLdif.append(["fedoraPersonCreationDate",[str(timestamp)]])
         userLdif.append(["fedoraPersonApprovalStatus",[str(user[13])]])
         userLdif.append(["description",[str(user[14])]]) #this one may be a streach -- original field was internal comments
+        userLdif.append(["fedoraPersonTimeZone",["UTC"]])
         userLdif.append(["fedoraPersonIrcNick",[str(user[16])]])
         #userLdif.append(["ou",["Roles"]]) Adding an OU instead
        

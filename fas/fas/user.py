@@ -172,7 +172,7 @@ class User(controllers.Controller):
     @validate(validators=editUser())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
+    def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description='', fedoraPersonTimeZone='UTC'):
         if not canEditUser(turbogears.identity.current.user_name, userName):
             turbogears.flash(_("You do not have permission to edit '%s'" % userName))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
@@ -187,6 +187,7 @@ class User(controllers.Controller):
             user.telephoneNumber = telephoneNumber
             user.postalAddress = postalAddress
             user.description = description
+            user.fedoraPersonTimeZone = fedoraPersonTimeZone
         except:
             turbogears.flash(_('Your account details could not be saved.'))
         else:
