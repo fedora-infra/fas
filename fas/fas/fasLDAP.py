@@ -110,7 +110,7 @@ class Server(object):
         ''' Modify an attribute, requires write access '''
         if new is None:
             return None
-        new = str(new)
+        new = unicode(new).encode('utf-8')
         if new == old:
             return None
 
@@ -180,17 +180,17 @@ class Group(object):
         }
 
     @classmethod 
-    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
+    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
         ''' Create a new group '''
-        attributes = { 'cn' : cn,
+        attributes = { 'cn' : cn.encode('utf-8'),
                     'objectClass' : ('fedoraGroup'),
-                    'fedoraGroupDesc' : fedoraGroupDesc,
-                    'fedoraGroupOwner' : fedoraGroupOwner,
-                    'fedoraGroupType' : '1',
-                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
-                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
-                    'fedoraGroupRequires' : fedoraGroupRequires,
-                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
+                    'fedoraGroupDesc' : fedoraGroupDesc.encode('utf-8'),
+                    'fedoraGroupOwner' : fedoraGroupOwner.encode('utf-8'),
+                    'fedoraGroupType' : fedoraGroupType.encode('utf-8'),
+                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor.encode('utf-8'),
+                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove.encode('utf-8'),
+                    'fedoraGroupRequires' : fedoraGroupRequires.encode('utf-8'),
+                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg.encode('utf-8'),
                     }
 
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
@@ -379,23 +379,23 @@ class Person(object):
     def newPerson(self, cn, givenName, mail, telephoneNumber, postalAddress):
         ''' Create a new user '''
         now = time.time()
-        attributes = { 'cn' : cn,
+        attributes = { 'cn' : cn.encode('utf-8'),
                     'objectClass' : ('fedoraPerson', 'inetOrgPerson', 'organizationalPerson', 'person', 'top'),
-                    'displayName' : cn,
-                    'sn' : cn,
-                    'cn' : cn,
+                    'displayName' : cn.encode('utf-8'),
+                    'sn' : cn.encode('utf-8'),
+                    'cn' : cn.encode('utf-8'),
                     'fedoraPersonSshKey' : '',
                     'facsimileTelephoneNumber' : '',
                     'fedoraPersonApprovalStatus' : 'approved',
-                    'givenName' : givenName,
-                    'mail' : mail,
+                    'givenName' : givenName.encode('utf-8'),
+                    'mail' : mail.encode('utf-8'),
                     'fedoraPersonKeyId' : '',
                     'fedoraPersonCertSerial' : -1,
                     'description' : '',
                     'fedoraPersonCreationDate' : str(now),
-                    'telephoneNumber' : telephoneNumber,
-                    'fedoraPersonBugzillaMail' : mail,
-                    'postalAddress' : postalAddress,
+                    'telephoneNumber' : telephoneNumber.encode('utf-8'),
+                    'fedoraPersonBugzillaMail' : mail.encode('utf-8'),
+                    'postalAddress' : postalAddress.encode('utf-8'),
                     'fedoraPersonIrcNick' : '',
                     'userPassword' : 'Disabled'
                     }

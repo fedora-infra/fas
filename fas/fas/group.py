@@ -138,7 +138,7 @@ class Group(controllers.Controller):
     @validate(validators=createGroup())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
-    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
+    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
         '''Create a group'''
         userName = turbogears.identity.current.user_name
         if not canCreateGroup(userName):
@@ -148,6 +148,7 @@ class Group(controllers.Controller):
             fas.fasLDAP.Group.newGroup(groupName,
                                        fedoraGroupDesc,
                                        fedoraGroupOwner,
+                                       fedoraGroupType,
                                        fedoraGroupNeedsSponsor,
                                        fedoraGroupUserCanRemove,
                                        fedoraGroupRequires,
@@ -186,7 +187,7 @@ class Group(controllers.Controller):
     @validate(validators=editGroup())
     @error_handler(error)
     @expose()
-    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType=1, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
+    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
         '''Edit a group'''
         userName = turbogears.identity.current.user_name
         if fedoraGroupRequires is None:

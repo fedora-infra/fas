@@ -66,8 +66,8 @@
         from datetime import datetime
         ?>
         <td>${datetime.utcfromtimestamp(float(groups[user].fedoraRoleCreationDate)).ctime()}</td>
-        <td py:if="groups[user].fedoraRoleApprovalDate.lower() == 'none'">None</td>
-        <td py:if="groups[user].fedoraRoleApprovalDate.lower() != 'none'">${datetime.utcfromtimestamp(float(groups[user].fedoraRoleApprovalDate)).ctime()}</td>
+        <td py:if="groups[user].fedoraRoleApprovalDate.lower() == 'notapproved'">N/A</td>
+        <td py:if="groups[user].fedoraRoleApprovalDate.lower() != 'notapproved'">${datetime.utcfromtimestamp(float(groups[user].fedoraRoleApprovalDate)).ctime()}</td>
         <td>${groups[user].fedoraRoleStatus}</td>
         <td>${groups[user].fedoraRoleType}</td>
         <!--<td>${groups[user].fedoraRoleDomain}</td>-->

@@ -176,8 +176,9 @@ class User(controllers.Controller):
         if not canEditUser(turbogears.identity.current.user_name, userName):
             turbogears.flash(_("You do not have permission to edit '%s'" % userName))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
+            return dict()
+        user = Person.byUserName(userName)
         try:
-            user = Person.byUserName(userName)
             user.givenName = givenName
             user.mail = mail
             user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
@@ -191,16 +192,7 @@ class User(controllers.Controller):
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % userName)
-        value = {'userName': userName,
-                 'givenName': givenName,
-                 'mail': mail,
-                 'fedoraPersonBugzillaMail': fedoraPersonBugzillaMail,
-                 'fedoraPersonIrcNick': fedoraPersonIrcNick,
-                 'fedoraPersonKeyId': fedoraPersonKeyId,
-                 'telephoneNumber': telephoneNumber,
-                 'postalAddress': postalAddress,
-                 'description': description, }
-        return dict(value=value)
+        return dict(userName=userName, user=user)
 
     @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
     @expose(template="fas.templates.user.list")
