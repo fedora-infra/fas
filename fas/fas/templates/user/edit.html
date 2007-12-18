@@ -35,7 +35,7 @@
       </div>
       <div class="field">
         <label for="postalAddress">Postal Address:</label>
-        <input type="text" id="postalAddress" name="postalAddress" value="${user.postalAddress}" />
+	<textarea id="postalAddress" name="postalAddress">${user.postalAddress}</textarea>
       </div>
       <div class="field">
         <label for="fedoraPersonTimeZone">Time Zone:</label>
@@ -48,9 +48,7 @@
       </div>
       <div class="field">
         <label for="description ">Description:</label>
-<textarea id="description" name="description">
-${user.description}
-</textarea>
+	  <textarea id="description" name="description">${user.description}</textarea>
       </div>
       <div class="field">
         <input type="submit" value="Save!" />
