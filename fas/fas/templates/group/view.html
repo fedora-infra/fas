@@ -18,7 +18,7 @@
     <form py:if="'Not a Member' in me.fedoraRoleStatus" action="${tg.url('/group/apply/%s/%s' % (group.cn, userName))}">
       <div>
         <!--<input type="text" name="requestField" value="Please let me join..." />-->
-        <input type="submit" value="Join!" />
+        <input type="submit" value="Apply!" />
       </div>
     </form>
     <a py:if="'Not a Member' not in me.fedoraRoleStatus" href="${tg.url('/group/remove/%s/%s' % (group.cn, userName))}">Remove me</a>
