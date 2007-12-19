@@ -21,7 +21,7 @@
         <dt>PGP Key:</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
         <dt>Telephone Number:</dt><dd>${user.telephoneNumber}</dd>
         <dt>Postal Address:</dt><dd>${user.postalAddress}</dd>
-        <dt>Description:</dt><dd>${user.description}i&nbsp;</dd>
+        <dt>Description:</dt><dd>${user.description}&nbsp;</dd>
         <dt>Password:</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>Account Status:</dt><dd><span class="approved">Approved</span>, Active</dd>
         <dt>CLA:</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved">Not Done (<a href="${tg.url('/cla')}">Sign it</a>!)</span></dd>
