@@ -11,7 +11,10 @@ attributetypes: ( 2.5.444.17 NAME 'fedoraPersonCreationDate' DESC 'date entry wa
 attributeTypes: ( 2.5.444.18 NAME 'fedoraPersonApprovalStatus' DESC 'users approval status' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
 attributeTypes: ( 2.5.444.19 NAME 'fedoraPersonKeyId' DESC 'users GPG key ID' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
 attributeTypes: ( 2.5.444.22 NAME 'fedoraPersonCertSerial' DESC 'users SSL cert serial' EQUALITY IntegerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE )
-attributeTypes: ( 2.5.444.23 NAME 'fedoraPersonTimeZone' DESC 'time zone of the user' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{100} )
+attributeTypes: ( 2.5.444.23 NAME 'fedoraPersonTimeZone' DESC 'time zone of the user' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.24 NAME 'fedoraPersonEmailConfirm' DESC 'user email confirmation' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.25 NAME 'fedoraPersonEmailCode' DESC 'user email code' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+
 # fedoraPerson
 # The fedoraPerson represents people who are a member of the fedora project
 # in some way.  It is a structural class and inherits
