@@ -239,9 +239,9 @@ class Group(controllers.Controller):
         applicant = turbogears.identity.current.user_name
         if not userName:
             userName = applicant
-        if not canApplyGroup(applicant, groupName, userName):
-            turbogears.flash(_('%(user)s could not apply to %(group)s!') % \
-                {'user': userName, 'group': groupName})
+        if not canApplyGroup(applicant, groupName, userName)['status']:
+            turbogears.flash(_('%(user)s could not apply to %(group)s! This group requires membership in %(requires)s') % \
+                {'user': userName, 'group': groupName, 'requires': canApplyGroup(applicant, groupName, userName)['requires']})
             turbogears.redirect('/group/view/%s' % groupName)
             return dict()
         else:
