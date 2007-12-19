@@ -60,6 +60,8 @@ class Root(controllers.RootController):
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
             turbogears.flash(_('Welcome, %s') % Person.byUserName(turbogears.identity.current.user_name).givenName)
+            if not forward_url:
+                forward_url = config.get('base_url_filter.base_url') + '/'
             raise redirect(forward_url)
 
         forward_url=None
@@ -84,4 +86,4 @@ class Root(controllers.RootController):
     def logout(self):
         identity.current.logout()
         turbogears.flash(_('You have successfully logged out.'))
-        raise redirect("/")
+        raise redirect(request.headers.get("Referer", "/"))
