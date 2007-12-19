@@ -390,7 +390,7 @@ class Person(object):
                     'givenName' : givenName.encode('utf-8'),
                     'mail' : mail.encode('utf-8'),
                     'fedoraPersonKeyId' : '',
-                    'fedoraPersonCertSerial' : -1,
+                    'fedoraPersonCertSerial' : '-1',
                     'description' : '',
                     'fedoraPersonCreationDate' : str(now),
                     'telephoneNumber' : telephoneNumber.encode('utf-8'),
