@@ -7,7 +7,7 @@
     <title>Edit Account</title>
   </head>
   <body>
-    <h2>Edit Account</h2>
+    <h2>Edit Account (${userName})</h2>
     <form action="${tg.url('/user/save/%s' % userName)}" method="post">
       <div class="field">
         <label for="givenName">Full Name:</label>
@@ -52,6 +52,7 @@
       </div>
       <div class="field">
         <input type="submit" value="Save!" />
+	<a href="${tg.url('/user/view/%s' % userName)}">Cancel</a>
       </div>
     </form>
   </body>
