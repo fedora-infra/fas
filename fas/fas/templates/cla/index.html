@@ -4,19 +4,19 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Fedora Accounts System</title>
+    <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
-    <h2>Fedora Contributor License Agreement</h2>
+    <h2>${_('Fedora Contributor License Agreement')}</h2>
     <p>
-    There are two ways to sign the CLA.  Most users will want to do a signed CLA as it will promote them to a full contributor in Fedora.  The click-through CLA only grants partial access but may be preferred for those with special legal considerations.  See:  <a href="http://fedoraproject.org/wiki/Legal/CLAAcceptanceHierarchies">CLA Acceptance Hierarchies</a> for more information.
+    ${Markup(_('There are two ways to sign the CLA.  Most users will want to do a signed CLA as it will promote them to a full contributor in Fedora.  The click-through CLA only grants partial access but may be preferred for those with special legal considerations.  See:  &lt;a href="http://fedoraproject.org/wiki/Legal/CLAAcceptanceHierarchies"&gt;CLA Acceptance Hierarchies&lt;/a&gt; for more information.'))}
     </p>
     <ul py:if="not signedCLA">
-      <li><a href="${tg.url('/cla/view/sign')}">Signed CLA</a></li>
-      <li py:if="not clickedCLA"><a href="${tg.url('/cla/view/click')}">Click-through CLA</a></li>
+      <li><a href="${tg.url('/cla/view/sign')}">${_('Signed CLA')}</a></li>
+      <li py:if="not clickedCLA"><a href="${tg.url('/cla/view/click')}">${_('Click-through CLA')}</a></li>
     </ul>
     <p py:if="signedCLA">
-    Congratulations, you have already sucessfully signed the <a href="${tg.url('/cla/view')}">CLA</a>.  
+    ${Markup(_('You have already sucessfully signed the &lt;a href="%s"&gt;CLA&lt;/a&gt;.') % tg.url('/cla/view'))}
     </p>
   </body>
 </html>

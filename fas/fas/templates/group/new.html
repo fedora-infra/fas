@@ -4,45 +4,45 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Create a new FAS Group</title>
+    <title>${_('Create a new FAS Group')}</title>
   </head>
   <body>
-    <h2>Create a new FAS Group</h2>
+    <h2>${_('Create a new FAS Group')}</h2>
     <form action="${tg.url('/group/create')}" method="post">
       <div class="field">
-        <label for="groupName">Group Name:</label>
+        <label for="groupName"${_('Group Name:')}/label>
         <input type="text" id="groupName" name="groupName" />
       </div>
       <div class="field">
-        <label for="fedoraGroupDesc">Description:</label>
+        <label for="fedoraGroupDesc"${_('Description:')}/label>
         <input type="text" id="fedoraGroupDesc" name="fedoraGroupDesc" />
       </div>
       <div class="field">
-        <label for="fedoraGroupOwner">Group Owner:</label>
+        <label for="fedoraGroupOwner"${_('Group Owner:')}/label>
         <input type="text" id="fedoraGroupOwner" name="fedoraGroupOwner" />
       </div>
       <div class="field">
-        <label for="fedoraGroupType">Group Type:</label>
+        <label for="fedoraGroupType"${_('Group Type:')}/label>
         <input type="text" id="fedoraGroupType" name="fedoraGroupType" value="tracking" />
       </div>
       <div class="field">
-        <label for="fedoraGroupNeedsSponsor">Needs Sponsor:</label>
+        <label for="fedoraGroupNeedsSponsor"${_('Needs Sponsor:')}/label>
         <input type="checkbox" id="fedoraGroupNeedsSponsor" name="fedoraGroupNeedsSponsor" value="TRUE" checked="checked" />
       </div>
       <div class="field">
-        <label for="fedoraGroupUserCanRemove">Self Removal:</label>
+        <label for="fedoraGroupUserCanRemove"${_('Self Removal:')}/label>
         <input type="checkbox" id="fedoraGroupUserCanRemove" name="fedoraGroupUserCanRemove" value="TRUE" checked="checked" />
       </div>
       <div class="field">
-        <label for="fedoraGroupRequires">Must Belong To:</label>
+        <label for="fedoraGroupRequires"${_('Must Belong To:')}/label>
         <input type="text" id="fedoraGroupRequires" name="fedoraGroupRequires" value="cla_done" />
       </div>
       <div class="field">
-        <label for="fedoraGroupJoinMsg">Join Message:</label>
+        <label for="fedoraGroupJoinMsg"${_('Join Message:')}/label>
         <textarea id="fedoraGroupJoinMsg" name="fedoraGroupJoinMsg"></textarea>
       </div>
       <div class="field">
-        <input type="submit" value="Create!" />
+        <input type="submit" value="${_('Create!')}" />
       </div>
     </form>
   </body>

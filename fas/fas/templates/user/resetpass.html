@@ -4,16 +4,16 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Reset Password</title>
+    <title>${_('Reset Password')}</title>
   </head>
   <body>
-    <h2>Reset Password</h2>
+    <h2>${_('Reset Password')}</h2>
     <form action="${tg.url('/user/sendpass')}" method="post">
       <ul>
-        <div class="field"><label for="userName">Username:</label> <input type="text" id="userName" name="userName" /></div>
-        <div class="field"><label for="mail">Primary Email:</label> <input type="text" id="mail" name="mail" /></div>
-        <div class="field"><input type="checkbox" id="encrypted" name="encrypted" /> <label style="width: auto; float: none; margin-left: 1ex;" for="encrypted">Encrypt/Sign password reset email</label></div>
-        <div class="field"><input type="submit" value="Reset Password" /></div>
+        <div class="field"><label for="userName">${_('Username:')}</label> <input type="text" id="userName" name="userName" /></div>
+        <div class="field"><label for="mail">${_('Primary Email:')}</label> <input type="text" id="mail" name="mail" /></div>
+        <div class="field"><input type="checkbox" id="encrypted" name="encrypted" /> <label style="width: auto; float: none; margin-left: 1ex;" for="encrypted">${_('Encrypt/Sign password reset email')}</label></div>
+        <div class="field"><input type="submit" value="${_('Reset Password')}" /></div>
       </ul>
     </form>
   </body>

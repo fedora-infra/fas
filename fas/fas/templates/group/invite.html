@@ -4,16 +4,17 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Invite a new community member!</title>
+    <title>${_('Invite a new community member!')}</title>
   </head>
   <body>
-    <h2>Invite a new community member!</h2>
+    <h2>${_('Invite a new community member!')}</h2>
     <form method="post" action="${tg.url('/group/sendinvite/%s') % group}">
       <div>
-        To email: <input type="text" value="" name="target" /><br />
-        From: ${user.mail}<br />
-        Subject: Invitation to join the Fedora Team!<br />
-        Message:
+        <!--TODO: Make the email translatable -->
+        ${_('To email:')} <input type="text" value="" name="target" /><br />
+        ${_('From:)} ${user.mail}<br />
+        ${_('Subject:')} Invitation to join the Fedora Team!<br />
+        ${_('Message:')}
         <div class="message">
           <p>
           ${user.givenName} &lt;<a href="mailto: ${user.mail}">${user.mail}</a>&gt; has invited you to join the Fedora
@@ -35,7 +36,7 @@
           Fedora and FOSS are changing the world -- come be a part of it!
           </p>
         </div>
-        <input type="submit" value="Send" />
+        <input type="submit" value="${_('Send!')}" />
       </div>
     </form>
   </body>

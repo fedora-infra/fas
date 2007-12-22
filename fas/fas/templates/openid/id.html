@@ -4,16 +4,16 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Fedora Accounts System</title>
+    <title>${_('Fedora Accounts System')}</title>
     <link rel="openid.server" href="${server}" />
   </head>
   <body>
-    <h2>User ${user.cn}</h2>
+    <h2>${_('User %s') % user.cn}</h2>
     <div class="userbox">
       <dl>
-        <dt>Username:</dt>
-        <dd> ${user.cn}</dd>
-        <dt>Name:</dt>
+        <dt>${_('Username:')}</dt>
+        <dd>${user.cn}</dd>
+        <dt>${_('Name:')}</dt>
         <dd>${user.givenName}</dd>
       </dl>
     </div>

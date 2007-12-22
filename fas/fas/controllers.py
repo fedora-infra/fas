@@ -24,6 +24,11 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+def add_custom_stdvars(vars):
+    return vars.update({"gettext": _})
+
+turbogears.view.variable_providers.append(add_custom_stdvars)
+
 # from fas import json
 # import logging
 # log = logging.getLogger("fas.controllers")
