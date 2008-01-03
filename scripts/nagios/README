@@ -1,1 +1,2 @@
 check_ipmi - Checks fan and temperature on a box with ipmi support
+check_koji - Check for failed koji builds and warn when in a critical range
