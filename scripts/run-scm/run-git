@@ -7,6 +7,7 @@ commands = {
     "git-upload-pack": "/usr/bin/git-upload-pack",
     "bzr": "/usr/bin/run-bzr",
     "hg": "/usr/bin/run-hg",
+    "mtn": "/usr/bin/run-mtn",
     "svnserve": "/usr/bin/run-svnserve",
     "scp": "/usr/bin/scp",
 }
@@ -43,7 +44,7 @@ if __name__ == '__main__':
             newargs = []
             newargs.append(allargs[0])
             newargs.append(allargs[1])
-            newargs.append("/srv/web/releases/%s/" % allargs[2])
+            newargs.append("/dev/null/%s/" % allargs[2])
             os.execv(cmd, [cmd] + newargs[1:])
             sys.exit(1)
     else:
