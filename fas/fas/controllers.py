@@ -54,9 +54,7 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.home")
     @identity.require(identity.not_anonymous())
     def home(self):
-        from feeds import Koji
-        builds = Koji(turbogears.identity.current.user_name)
-        return dict(builds=builds)
+        return dict()
 
     @expose(template="fas.templates.login")
     def login(self, forward_url=None, previous_url=None, *args, **kw):

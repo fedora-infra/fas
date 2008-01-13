@@ -7,24 +7,5 @@
     <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
-    <h2 py:if="'userID' in builds.userLink" class="accounts">${_('Recent Builds')} <a href="${builds.userLink}">${_('(Koji)')}</a></h2>
-    <table py:if="'userID' in builds.userLink">
-      <thead>
-        <tr><th>${_('Build')}</th><th>${_('Build Date')}</th></tr>
-      </thead>
-      <!--<tr><td>${_('Koji')}</td><td><a href="${builds.userLink}">${_('Build Info')}</a></td></tr>-->
-      <tr py:if="not builds.builds" style="text-align: center;">
-        <td colspan="2">
-          ${_('None')}
-        </td>
-      </tr>
-      <tr py:for="build in builds.builds">
-        <td>
-          <span py:if="'complete' in builds.builds[build]['title']" class="approved"><a href="${build}">${builds.builds[build]['title']}</a></span>
-          <span py:if="'failed' in builds.builds[build]['title']" class="unapproved"><a href="${build}">${builds.builds[build]['title']}</a></span>
-        </td>
-        <td>${builds.builds[build]['pubDate']}</td>
-      </tr>
-    </table>
   </body>
 </html>

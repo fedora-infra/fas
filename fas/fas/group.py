@@ -96,6 +96,22 @@ class Group(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    @expose(format="json")
+    def exportShellAccounts(self):
+        ''' Replaces old "exportShellAccounts.py" '''
+        userList = Groups.byGroupName('sysadmin-main')
+        user = Person.byUserName('mmcgrath').givenName
+        users = {}
+        for user in userList.keys():
+            u = Person.byUserName(user)
+            users[user] = {
+                'userName' : u.cn,
+                'password' : u.userPassword,
+                'sshKey' : u.fedoraPersonSshKey,
+            }
+        groups = Groups.groups('*')
+        return dict(users=users, groups=groups)
+
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=groupNameExists())
     @error_handler(error)
