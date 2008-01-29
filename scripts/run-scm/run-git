@@ -37,14 +37,20 @@ if __name__ == '__main__':
         allargs = [thearg]
     elif basecmd in ('scp'):
         thearg = ' '.join(allargs[1:])
+        firstLetter = allargs[2][0]
+        secondLetter = allargs[2][1]
+        uploadTarget = "/srv/web/releases/%s/%s/%s/" % (firstLetter, secondLetter, allargs[2])
         if thearg.find('/') != -1:
             print "scp yourfile-1.2.tar.gz scm.fedorahosted.org:$YOURPROJECT # No trailing /"
             sys.exit(4)
+        elif not os.path.isdir(uploadTarget):
+            print "http://fedorahosted.org/releases/%s/%s/%s does not exist!" % (firstLetter, secondLetter, allargs[2])
+            sys.exit(5)
         else:
             newargs = []
             newargs.append(allargs[0])
             newargs.append(allargs[1])
-            newargs.append("/srv/web/releases/%s/" % allargs[2])
+            newargs.append(uploadTarget)
             os.execv(cmd, [cmd] + newargs[1:])
             sys.exit(1)
     else:
