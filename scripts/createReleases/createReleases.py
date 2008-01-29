@@ -12,13 +12,16 @@ dirs = ['/git/',
 for dir in dirs:
     projects = os.listdir(dir)
     for project in projects:
+	# strip off the .git
+	firstLetter = project[0]
+	secondLetter = project[1]
         path = "%s%s" % (dir, project)
-        release = "/srv/web/releases/%s" % project
+	releaseName = project.replace('.git', '')
+        release = "/srv/web/releases/%s/%s/%s" % (firstLetter, secondLetter, releaseName)
         if not os.path.islink(path):
             stat = os.lstat(path)
-            print "%s %s" % (project, stat.st_gid)
             if not os.path.isdir(release):
                 os.makedirs(release)
             if os.lstat(release).st_gid != stat.st_gid:
                 os.chown(release, -1, stat.st_gid)
-commands.getoutput('/usr/bin/find /srv/web/releases -type d | xargs /bin/chmod -R 2775')
+		os.chmod(release, 02775)
