@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import commands
 
 dirs = ['/git/',
     '/hg/',
@@ -20,4 +21,4 @@ for dir in dirs:
                 os.makedirs(release)
             if os.lstat(release).st_gid != stat.st_gid:
                 os.chown(release, -1, stat.st_gid)
-
+commands.getoutput('/usr/bin/find /srv/web/releases -type d | xargs /bin/chmod -R 2775')
