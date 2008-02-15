@@ -4,15 +4,16 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Fedora Accounts System</title>
+    <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
-    <h2>Fedora Project OpenID Provider</h2>
+    <h2>${_('Fedora Project OpenID Provider')}</h2>
     <form action="${tg.url('/openid/server')}">
       <div>
         <input type="hidden" id="url" name="url" value="${url}" />
-        <input type="checkbox" id="trusted" name="trusted" value="allow" /> <label for="trusted">Allow <strong>${url}</strong> to authenticate to your OpenID identity?</label><br />
-        <input type="submit" value="Submit" />
+        <input type="checkbox" id="trusted" name="trusted" value="allow" />
+        <label for="trusted">${Markup(_('Allow &lt;strong&gt;%s&lt;/strong&gt; to authenticate to your OpenID identity?') % url)}</label><br />
+        <input type="submit" value="${_('Submit'}" />
       </div>
     </form>
   </body>

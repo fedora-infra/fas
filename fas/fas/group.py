@@ -64,6 +64,10 @@ class userNameGroupNameExists(validators.Schema):
 class groupNameExists(validators.Schema):
     groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
 
+class groupInvite(validators.Schema):
+    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    target = validators.Email(not_empty=True, strip=True),
+
 #class findUser(widgets.WidgetsList): 
 #    userName = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='userName', result_name='people')   
 #    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
@@ -92,6 +96,22 @@ class Group(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    @expose(format="json")
+    def exportShellAccounts(self):
+        ''' Replaces old "exportShellAccounts.py" '''
+        userList = Groups.byGroupName('sysadmin-main')
+        user = Person.byUserName('mmcgrath').givenName
+        users = {}
+        for user in userList.keys():
+            u = Person.byUserName(user)
+            users[user] = {
+                'userName' : u.cn,
+                'password' : u.userPassword,
+                'sshKey' : u.fedoraPersonSshKey,
+            }
+        groups = Groups.groups('*')
+        return dict(users=users, groups=groups)
+
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=groupNameExists())
     @error_handler(error)
@@ -118,7 +138,8 @@ class Group(controllers.Controller):
                 me = groups[userName]
             except:
                 me = UserGroup()
-            return dict(userName=userName, groups=groups, group=group, me=me)
+            u = Person.byUserName(userName) 
+            return dict(userName=userName, u=u, groups=groups, group=group, me=me)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
@@ -134,7 +155,7 @@ class Group(controllers.Controller):
     @validate(validators=createGroup())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
-    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
+    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
         '''Create a group'''
         userName = turbogears.identity.current.user_name
         if not canCreateGroup(userName):
@@ -144,6 +165,7 @@ class Group(controllers.Controller):
             fas.fasLDAP.Group.newGroup(groupName,
                                        fedoraGroupDesc,
                                        fedoraGroupOwner,
+                                       fedoraGroupType,
                                        fedoraGroupNeedsSponsor,
                                        fedoraGroupUserCanRemove,
                                        fedoraGroupRequires,
@@ -182,7 +204,7 @@ class Group(controllers.Controller):
     @validate(validators=editGroup())
     @error_handler(error)
     @expose()
-    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType=1, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
+    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
         '''Edit a group'''
         userName = turbogears.identity.current.user_name
         if fedoraGroupRequires is None:
@@ -233,9 +255,9 @@ class Group(controllers.Controller):
         applicant = turbogears.identity.current.user_name
         if not userName:
             userName = applicant
-        if not canApplyGroup(applicant, groupName, userName):
-            turbogears.flash(_('%(user)s could not apply to %(group)s!') % \
-                {'user': userName, 'group': groupName})
+        if not canApplyGroup(applicant, groupName, userName)['status']:
+            turbogears.flash(_('%(user)s could not apply to %(group)s! This group requires membership in %(requires)s') % \
+                {'user': userName, 'group': groupName, 'requires': canApplyGroup(applicant, groupName, userName)['requires']})
             turbogears.redirect('/group/view/%s' % groupName)
             return dict()
         else:
@@ -287,16 +309,13 @@ class Group(controllers.Controller):
                 group = Groups.groups(groupName)[groupName]
                 import turbomail
                 message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been sponsored" % groupName)
-                user = Person.byUserName(userName)
-                name = user.givenName
-                email = user.mail
                 message.plain = dedent('''
                     %(name)s <%(email)s> has sponsored you for membership in the %(group)s
                     group of the Fedora account system. If applicable, this change should
                     propagate into the e-mail aliases and CVS repository within an hour.
 
                     %(joinmsg)s
-                    ''') % {'group': groupName, 'name': name, 'email': email, 'joinmsg': group.fedoraGroupJoinMsg}
+                    ''') % {'group': groupName, 'name': user.givenName, 'email': user.mail, 'joinmsg': group.fedoraGroupJoinMsg}
                 turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % p.cn)
                 turbogears.redirect('/group/view/%s' % groupName)
@@ -322,18 +341,16 @@ class Group(controllers.Controller):
                     {'name': userName, 'group': groupName})
                 turbogears.redirect('/group/view/%s' % groupName)
             else:
-                user = Person.byUserName(sponsor)
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been removed" % groupName)
+                sponsor = Person.byUserName(sponsor)
                 user = Person.byUserName(userName)
-                name = user.givenName
-                email = user.mail
+                message = turbomail.Message(config.get('accounts_mail'), user.mail, "Your Fedora '%s' membership has been removed" % groupName)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has removed you from the '%(group)s'
                     group of the Fedora Accounts System This change is effective
                     immediately for new operations, and should propagate into the e-mail
                     aliases within an hour.
-                    ''') % {'group': groupName, 'name': name, 'email': email}
+                    ''') % {'group': groupName, 'name': sponsor.name, 'email': sponsor.mail}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
                     {'name': userName, 'group': groupName})
@@ -367,8 +384,6 @@ class Group(controllers.Controller):
                 import turbomail
                 message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been upgraded" % groupName)
                 user = Person.byUserName(userName)
-                name = user.givenName
-                email = user.mail
                 g = Groups.byUserName(userName)
                 status = g[groupName].fedoraRoleType.lower()
                 message.plain = dedent('''
@@ -376,7 +391,7 @@ class Group(controllers.Controller):
                     '%(group)s' group of the Fedora Accounts System This change is
                     effective immediately for new operations, and should propagate
                     into the e-mail aliases within an hour.
-                    ''') % {'group': groupName, 'name': name, 'email': email, 'status': status}
+                    ''') % {'group': groupName, 'name': user.givenName, 'email': user.mail, 'status': status}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%s has been upgraded!') % userName)
                 turbogears.redirect('/group/view/%s' % groupName)
@@ -437,4 +452,46 @@ class Group(controllers.Controller):
         else:
             groups = Groups.byGroupName(groupName)
             return dict(groups=groups, Person=Person)
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=groupNameExists())
+    @error_handler(error)
+    @expose(template='fas.templates.group.invite')
+    def invite(self, groupName):
+        userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        return dict(user=user, group=groupName)
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=groupNameExists())
+    @error_handler(error)
+    @expose(template='fas.templates.group.invite')
+    def sendinvite(self, groupName, target=None):
+        import turbomail
+        userName = turbogears.identity.current.user_name
+        user = Person.byUserName(userName)
+        if isApproved(userName, groupName):
+            message = turbomail.Message(user.mail, target, _('Come join The Fedora Project!'))
+            message.plain = _(dedent('''
+                %(name)s <%(email)s> has invited you to join the Fedora
+                Project!  We are a community of users and developers who produce a
+                complete operating system from entirely free and open source software
+                (FOSS).  %(name)s thinks that you have knowledge and skills
+                that make you a great fit for the Fedora community, and that you might
+                be interested in contributing.
+
+                How could you team up with the Fedora community to use and develop your
+                skills?  Check out http://fedoraproject.org/join-fedora for some ideas.
+                Our community is more than just software developers -- we also have a
+                place for you whether you're an artist, a web site builder, a writer, or
+                a people person.  You'll grow and learn as you work on a team with other
+                very smart and talented people.
+
+                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': user.givenName, 'email': user.mail}
+            turbomail.enqueue(message)
+            turbogears.flash(_('Message sent to: %s') % target)
+            turbogears.redirect('/group/view/%s' % groupName)
+        else:
+            turbogears.flash(_("You are not in the '%s' group.") % groupName)
+        return dict(target=target, user=user)
 

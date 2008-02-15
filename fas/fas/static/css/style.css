@@ -225,7 +225,7 @@ a
 
 .userbox dd
 {
-  margin-left: 22ex;
+  margin-left: 24ex;
 }
 
 .account
@@ -322,6 +322,11 @@ a
 {
   padding-left: 22px;
   background: url(/fas/static/images/queue.png) 0 50% no-repeat;
+}
+
+#rolespanel .queue strong
+{
+  color: #222222;
 }
 
 #footer

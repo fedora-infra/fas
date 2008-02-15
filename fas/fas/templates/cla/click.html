@@ -4,19 +4,19 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Fedora Accounts System</title>
+    <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
     <!-- Click-through CLA -->
-    <h2>Contributor License Agreement</h2>
+    <h2>${_('Contributor License Agreement')}</h2>
     <xi:include href="cla.html" />
     <form action="${tg.url('/cla/click/%s' % userName)}" method="post">
       <div>
-        If you agree to these terms and conditions, type "I agree" here: <input type="text" id="agree" name="agree" /><br />
-        Full Name: ${user.givenName}<br />
-        E-mail: ${user.mail}<br />
-        Date: ${date}<br />
-        <input type="submit" value="Submit CLA" />
+        ${_('If you agree to these terms and conditions, type "I agree" here:')} <input type="text" id="agree" name="agree" /><br />
+        ${_('Full Name:')} ${user.givenName}<br />
+        ${_('E-mail:')} ${user.mail}<br />
+        ${_('Date:')} ${date}<br />
+        <input type="submit" value="${_('Submit CLA')}" />
       </div>
     </form>
   </body>

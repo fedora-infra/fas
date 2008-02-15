@@ -4,73 +4,72 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>View Account</title>
+    <title>${_('View Account')}</title>
   </head>
   <body>
     <?python from fas import auth ?>
-    <h2 class="account" py:if="personal">Your Fedora Account</h2>
-    <h2 class="account" py:if="not personal">${user.givenName}'s Fedora Account</h2>
-    <h3>Account Details <a href="${tg.url('/user/edit/%s' % user.cn)}" py:if="personal or admin">(edit)</a></h3>
+    <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
+    <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % user.givenName}</h2>
+    <h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % user.cn)}" py:if="personal or admin">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
-        <dt>Account Name</dt><dd>${user.cn}&nbsp;</dd>
-        <dt>Real Name</dt><dd>${user.givenName}&nbsp;</dd>
-        <dt>Email</dt><dd>${user.mail}&nbsp;</dd>
-        <dt>Bugzilla Email</dt><dd>${user.fedoraPersonBugzillaMail}&nbsp;</dd>
-        <dt>IRC Nick</dt><dd>${user.fedoraPersonIrcNick}&nbsp;</dd>
-        <dt>PGP Key</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
-        <dt>Telephone Number</dt><dd>${user.telephoneNumber}&nbsp;</dd>
-        <dt>Postal Address</dt><dd>${user.postalAddress}&nbsp;</dd>
-        <dt>Description</dt><dd>${user.description}&nbsp;</dd>
-        <dt>Password</dt><dd><span class="approved">Valid</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
-        <dt>Account Status</dt><dd><span class="approved">Approved</span>, Active</dd>
-        <dt>CLA</dt><dd><span py:if="claDone" class="approved">Done</span><span py:if="not claDone" class="unapproved"> Not Done</span></dd>
+        <dt>${_('Account Name:')}</dt><dd>${user.cn}</dd>
+        <dt>${_('Real Name:')}</dt><dd>${user.givenName}</dd>
+        <dt>${_('Email:')}</dt><dd>${user.mail}</dd>
+        <dt>${_('Bugzilla Email:')}</dt><dd>${user.fedoraPersonBugzillaMail}</dd>
+        <dt>${_('IRC Nick:')}</dt><dd>${user.fedoraPersonIrcNick}&nbsp;</dd>
+        <dt>${_('PGP Key:')}</dt><dd>${user.fedoraPersonKeyId}&nbsp;</dd>
+        <dt>${_('Telephone Number:')}</dt><dd>${user.telephoneNumber}</dd>
+        <dt>${_('Postal Address:')}</dt><dd>${user.postalAddress}</dd>
+        <dt>${_('Description:')}</dt><dd>${user.description}&nbsp;</dd>
+        <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
+        <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Approved')}</span></dd>
+        <dt>${_('CLA:')}</dt><dd><span py:if="claDone" class="approved">${_('Done')}</span><span py:if="not claDone" class="unapproved">${_('Not Done (&lt;a href="%s"&gt;Sign it&lt;/a&gt;!)') % tg.url('/cla')}</span></dd>
       </dl>
     </div>
-    <h3 py:if="personal">Your Roles</h3>
-    <h3 py:if="not personal">${user.givenName}'s Roles</h3>
+    <h3 py:if="personal">${_('Your Roles')}</h3>
+    <h3 py:if="not personal">${_('%s\'s Roles') % user.givenName}</h3>
     <ul class="roleslist">
       <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
     </ul>
+    <!--
     <ul class="actions" py:if="personal">
-      <li><a href="${tg.url('/group/list/A*')}">(Join another project)</a></li>
-      <li><a href="/">(Create a new project)</a></li>
+      <li><a href="${tg.url('/group/list/A*')}">${_('(Join another project)')}</a></li>
+      <li><a href="/">${_('(Create a new project)')}</a></li>
     </ul>
+    -->
     <ul id="rolespanel" py:if="personal">
-      <li py:for="group in sorted(groups.keys())" class="role">
-      <div py:if="auth.canViewGroup(user.cn, group)" py:strip="">
-      <h4>${groupdata[group].fedoraGroupDesc}</h4>, ${groups[group].fedoraRoleType}
+      <div py:for="group in sorted(groups.keys())" py:strip="">
+      <li py:if="auth.canViewGroup(user.cn, group)" class="role">
+      <h4>${groupdata[group].fedoraGroupDesc}</h4> (${groups[group].fedoraRoleType})
       <dl>
-        <dt>Status:</dt>
+        <dt>${_('Status:')}</dt>
         <dd>
-        <span class="approved">Approved</span>, Active
+        <span class="approved">${_('Approved')}</span>
         </dd>
-        <dt>Tools:</dt>
+        <dt>${_('Tools:')}</dt>
         <dd>
         <ul class="tools">
-          <li><a href="/">Invite a New Member...</a></li>
-          <li py:if="auth.canSponsorGroup(user.cn, group)"><a href="${tg.url('/group/view/%s' % group)}">View All Pending Group Membership Requests...</a></li>
-          <li><a href="${tg.url('/group/view/%s' % group)}">Manage Group Membership...</a></li>
-          <li py:if="auth.canEditGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">Manage Group Details...</a></li>
+          <li><a href="${tg.url('/group/view/%s' % group)}">${_('View Group')}</a></li>
+          <li><a href="${tg.url('/group/invite/%s' % group)}">${_('Invite a New Member...')}</a></li>
+          <li py:if="auth.canSponsorGroup(user.cn, group)"><a href="${tg.url('/group/view/%s' % group)}">${_('Manage Group Membership...')}</a></li>
+          <li py:if="auth.canEditGroup(user.cn, group)"><a href="${tg.url('/group/edit/%s' % group)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
         <div py:if="auth.canSponsorGroup(user.cn, group) and groupUnapproved[group] != []" py:strip="">
-          <dt>Queue (last five):</dt>
+          <dt>${_('Queue:')}</dt>
           <dd>
           <ul class="queue">
-            <li py:for="user in groupUnapproved[group][:5]">${user[0]} requests approval to join ${group}</li>
-            <!--
-            <li><a href="/">Chewbacca D. Wookiee requests approval to join project as a <strong>user</strong></a></li>
-            <li><a href="/">Gaius Baltar requests approval to upgrade from <strong>user</strong> to <strong>sponsor</strong></a></li>
-            <li><a href="/">Leia Organa requests approval to upgrade from <strong>user</strong> to <strong>administrator</strong></a></li>
-            -->
+            <li py:for="user in groupUnapproved[group][:5]">
+            ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': user[0], 'group': group})}
+            </li>
           </ul>
           </dd>
         </div>
       </dl>
-      </div>
       </li>
+      </div>
     </ul>
   </body>
 </html>

@@ -4,39 +4,39 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Edit Group</title>
+    <title>${_('Edit Group')}</title>
   </head>
   <body>
-    <h2>Edit Group: ${group.cn}</h2>
+    <h2>${_('Edit Group: %s') % group.cn}</h2>
     <form action="${tg.url('/group/save/%s' % group.cn)}" method="post">
       <div class="field">
-        <label for="fedoraGroupDesc">Description:</label>
+        <label for="fedoraGroupDesc"${_('Description:')}/label>
         <input type="text" id="fedoraGroupDesc" name="fedoraGroupDesc" value="${group.fedoraGroupDesc}" />
       </div>
       <div class="field">
-        <label for="fedoraGroupOwner">Group Owner:</label>
+        <label for="fedoraGroupOwner"${_('Group Owner:')}/label>
         <input type="text" id="fedoraGroupOwner" name="fedoraGroupOwner" value="${group.fedoraGroupOwner}" />
       </div>
       <div class="field">
-        <label for="fedoraGroupNeedsSponsor">Needs Sponsor:</label>
+        <label for="fedoraGroupNeedsSponsor"${_('Needs Sponsor:')}/label>
         <input py:if="group.fedoraGroupNeedsSponsor" type="checkbox" id="fedoraGroupNeedsSponsor" name="fedoraGroupNeedsSponsor" value="TRUE" checked="checked" />
         <input py:if="not group.fedoraGroupNeedsSponsor" type="checkbox" id="fedoraGroupNeedsSponsor" name="fedoraGroupNeedsSponsor" value="TRUE" />
       </div>
       <div class="field">
-        <label for="fedoraGroupUserCanRemove">Self Removal:</label>
+        <label for="fedoraGroupUserCanRemove"${_('Self Removal:')}/label>
         <input py:if="group.fedoraGroupUserCanRemove" type="checkbox" id="fedoraGroupUserCanRemove" name="fedoraGroupUserCanRemove" value="TRUE" checked="checked" />
         <input py:if="not group.fedoraGroupUserCanRemove" type="checkbox" id="fedoraGroupUserCanRemove" name="fedoraGroupUserCanRemove" value="TRUE" />
       </div>
       <div class="field">
-        <label for="fedoraGroupRequires">Must Belong To:</label>
+        <label for="fedoraGroupRequires"${_('Must Belong To:')}/label>
         <input type="text" id="fedoraGroupRequires" name="fedoraGroupRequires" value="${group.fedoraGroupRequires}" />
       </div>
       <div class="field">
-        <label for="fedoraGroupJoinMsg">Group Join Message:</label>
-        <input type="text" id="fedoraGroupJoinMsg" name="fedoraGroupJoinMsg" value="${group.fedoraGroupJoinMsg}" />
+        <label for="fedoraGroupJoinMsg"${_('Group Join Message:')}/label>
+        <textarea id="fedoraGroupJoinMsg" name="fedoraGroupJoinMsg">${group.fedoraGroupJoinMsg}</textarea>
       </div>
       <div class="field">
-        <input type="submit" value="Save!" />
+        <input type="submit" value="${_('Save!')}" />
       </div>
     </form>
   </body>

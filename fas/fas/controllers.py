@@ -24,6 +24,11 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+def add_custom_stdvars(vars):
+    return vars.update({"gettext": _})
+
+turbogears.view.variable_providers.append(add_custom_stdvars)
+
 # from fas import json
 # import logging
 # log = logging.getLogger("fas.controllers")
@@ -49,9 +54,7 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.home")
     @identity.require(identity.not_anonymous())
     def home(self):
-        from feeds import Koji
-        builds = Koji(turbogears.identity.current.user_name)
-        return dict(builds=builds)
+        return dict()
 
     @expose(template="fas.templates.login")
     def login(self, forward_url=None, previous_url=None, *args, **kw):
@@ -60,6 +63,8 @@ class Root(controllers.RootController):
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
             turbogears.flash(_('Welcome, %s') % Person.byUserName(turbogears.identity.current.user_name).givenName)
+            if not forward_url:
+                forward_url = config.get('base_url_filter.base_url') + '/'
             raise redirect(forward_url)
 
         forward_url=None
@@ -84,50 +89,4 @@ class Root(controllers.RootController):
     def logout(self):
         identity.current.logout()
         turbogears.flash(_('You have successfully logged out.'))
-        raise redirect("/")
-
-    ## TODO: Invitation cleanup- move out and validate!
-    @expose(template='fas.templates.inviteMember')
-    @identity.require(identity.not_anonymous())
-    def inviteMember(self, name=None, email=None, skills=None):
-        if name and email:
-            turbogears.flash(_('Invitation Sent to: "%(name)s" <%(email)s>') % {'name': name, 'email': email})
-        if name or email:#FIXME
-            turbogears.flash(_('Please provide both an email address and the persons name.'))
-        return dict()
-
-    @expose(format="json")
-    def search(self, userName=None, groupName=None):
-        people = Person.users('%s*' % userName)
-        return dict(people=
-                filter(lambda item: userName in item.lower(), people))
-
-    @expose(template='fas.templates.invite')
-    @identity.require(identity.not_anonymous())
-    def invite(self, target=None):
-        import turbomail
-        user = Person.byUserName(turbogears.identity.current.user_name)
-        if target:
-            message = turbomail.Message(user.mail, target, _('Come join The Fedora Project!'))
-            message.plain = _('''%(name)s <%(email)s> has invited you to join the Fedora
-Project!  We are a community of users and developers who produce a
-complete operating system from entirely free and open source software
-(FOSS).  %(name)s thinks that you have knowledge and skills
-that make you a great fit for the Fedora community, and that you might
-be interested in contributing.
-
-How could you team up with the Fedora community to use and develop your
-skills?  Check out http://fedoraproject.org/wiki/Join for some ideas.
-Our community is more than just software developers -- we also have a
-place for you whether you're an artist, a web site builder, a writer, or
-a people person.  You'll grow and learn as you work on a team with other
-very smart and talented people. 
-
-Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': user.givenName, 'email': user.mail}
-            turbomail.enqueue(message)
-            turbogears.flash(_('Message sent to: %s') % target)
-        return dict(target=target, user=user)
-
-def relativeUser(realUser, sudoUser):
-    ''' Takes user and sees if they are allow to sudo for remote group'''
-    p = Person.byUserName('realUser')
+        raise redirect(request.headers.get("Referer", "/"))

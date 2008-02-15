@@ -4,20 +4,20 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Fedora Accounts System</title>
+    <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
     <!-- Signed CLA -->
-    <h2>Contributor License Agreement</h2>
+    <h2>${_('Contributor License Agreement')}</h2>
     <p>
-    Use the below link to download/save the CLA as fedora-icla-${tg.identity.user.user_name}.txt, run gpg -as fedora-icla-${tg.identity.user.user_name}.txt, and upload fedora-icla-${tg.identity.user.user_name}.txt.asc in the form below.
+    ${_('Use the below link to download/save the CLA as fedora-icla-%(user)s.txt, run gpg -as fedora-icla-${tg.identity.user.user_name}.txt, and upload fedora-icla-%(user)s.txt.asc in the form below.') % {'user': tg.identity.user.user_name}}
     </p>
-    <a href="${tg.url('/cla/download')}">Download the CLA text file here!</a>
+    <a href="${tg.url('/cla/download')}">${_('Download the CLA text file here!')}</a>
 
     <form action="${tg.url('/cla/sign')}" method="post" enctype="multipart/form-data">
       <div>
-        <label for="signature">Signed CLA:</label> <input type="file" id="signature" name="signature" /><br />
-        <input type="submit" value="Submit CLA" />
+        <label for="signature">${_('Signed CLA:')}</label> <input type="file" id="signature" name="signature" /><br />
+        <input type="submit" value="${_('Submit CLA')}" />
       </div>
     </form>
   </body>

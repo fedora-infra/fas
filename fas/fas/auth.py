@@ -124,7 +124,7 @@ def canApplyGroup(userName, groupName, applyUserName, g=None):
         try:
             g[req].cn
         except KeyError:
-            return False
+            return { 'status': False, 'requires': req }
     # A user can apply themselves, and FAS admins can apply other people.
     if (userName == applyUserName) or \
         isAdmin(userName, g):

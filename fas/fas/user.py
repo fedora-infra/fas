@@ -143,7 +143,7 @@ class User(controllers.Controller):
             unapproved = [(v,k) for k,v in unapproved.items()]
             unapproved.sort(date_compare)
             unapproved.reverse()
-            groupUnapproved[g] = [(k,v) for v,k in unapproved]
+            groupUnapproved[g] = [(Person.byUserName(k).givenName,v) for v,k in unapproved]
         for g in groupsPending:
             groupdata[g] = Groups.groups(g)[g]
         try:
@@ -172,12 +172,13 @@ class User(controllers.Controller):
     @validate(validators=editUser())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description=''):
+    def save(self, userName, givenName, mail, fedoraPersonBugzillaMail, telephoneNumber, postalAddress, fedoraPersonIrcNick='', fedoraPersonKeyId='', description='', fedoraPersonTimeZone='UTC'):
         if not canEditUser(turbogears.identity.current.user_name, userName):
             turbogears.flash(_("You do not have permission to edit '%s'" % userName))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
+            return dict()
+        user = Person.byUserName(userName)
         try:
-            user = Person.byUserName(userName)
             user.givenName = givenName
             user.mail = mail
             user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
@@ -186,21 +187,13 @@ class User(controllers.Controller):
             user.telephoneNumber = telephoneNumber
             user.postalAddress = postalAddress
             user.description = description
+            user.fedoraPersonTimeZone = fedoraPersonTimeZone
         except:
             turbogears.flash(_('Your account details could not be saved.'))
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % userName)
-        value = {'userName': userName,
-                 'givenName': givenName,
-                 'mail': mail,
-                 'fedoraPersonBugzillaMail': fedoraPersonBugzillaMail,
-                 'fedoraPersonIrcNick': fedoraPersonIrcNick,
-                 'fedoraPersonKeyId': fedoraPersonKeyId,
-                 'telephoneNumber': telephoneNumber,
-                 'postalAddress': postalAddress,
-                 'description': description, }
-        return dict(value=value)
+        return dict(userName=userName, user=user)
 
     @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
     @expose(template="fas.templates.user.list")
@@ -378,6 +371,12 @@ class User(controllers.Controller):
       certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)
+
+    @expose(format="json")
+    def search(self, userName=None, groupName=None):
+        people = Person.users('%s*' % userName)
+        return dict(people=
+                filter(lambda item: userName in item.lower(), people))
 
 def date_compare(x, y):
     if x[0].fedoraRoleCreationDate > y[0].fedoraRoleCreationDate:

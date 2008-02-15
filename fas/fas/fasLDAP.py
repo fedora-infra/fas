@@ -26,31 +26,81 @@ python-fedora, python module to interact with Fedora Infrastructure Services
 
 import ldap
 from ldap import modlist
-import datetime
+import time
 from random import Random
 import sha
 from base64 import b64encode
 import sys
-    
+import os
+
+dbName = 'fastest'
 
 class AuthError(Exception):
     pass
 
+def retrieve_db_info(dbKey):
+    '''Retrieve information to connect to the db from the filesystem.
+    
+    Arguments:
+    :dbKey: The string identifying the database entry in the config file.
+
+    Returns: A dictionary containing the values to use in connecting to the
+      database.
+
+    Exceptions:
+    :IOError: Returned if the config file is not on the system.
+    :AuthError: Returned if there is no record found for dbKey in the
+      config file.
+    '''
+    # Open a filehandle to the config file
+    if os.environ.has_key('HOME') and os.path.isfile(
+            os.path.join(os.environ.get('HOME'), '.fedora-db-access')):
+        fh = file(os.path.join(
+            os.environ.get('HOME'), '.fedora-db-access'), 'r')
+    elif os.path.isfile('/etc/sysconfig/fedora-db-access'):
+        fh = file('/etc/sysconfig/fedora-db-access', 'r')
+    else:
+        raise IOError, 'fedora-db-access file does not exist.'
+
+    # Read the file until we get the information for the requested db
+    dbInfo = None
+    for line in fh.readlines():
+        if not line:
+            break
+        line = line.strip()
+        if not line or line[0] == '#':
+            continue
+        pieces = line.split(None, 1)
+        if len(pieces) < 2:
+            continue
+        if pieces[0] == dbKey:
+            dbInfo = eval(pieces[1])
+            break
+
+    if fh:
+        fh.close()
+    if not dbInfo:
+        raise AuthError, 'Authentication source "%s" not configured' % (dbKey,)
+    return dbInfo
+
 class Server(object):
     def __init__(self, server=None, who=None, password=None):
-        ### FIXME: Before deploy, get the default server, user, and password
-        # from the fedora-db-access file.
-        server = server or 'localhost'
-        who = who or 'cn=directory manager'
-        password = password or 'test'
+        try:
+            dbInfo = retrieve_db_info(dbName)
+        except IOError:
+            raise AuthError, 'Authentication config file fedora-db-access is' \
+                    ' not available'
+        server = server or dbInfo['host'] or 'localhost'
+        who = 'cn=%s' % (who or dbInfo['user'])
+        # Some db connections have no password
+        password = password or dbInfo.get('password')
 
         self.ldapConn = ldap.open(server)
         self.ldapConn.simple_bind_s(who, password)
 
     def add(self, base, attributes):
         ''' Add a new group record to LDAP instance '''
-        attributes=[ (k, v) for k,v in attributes.items() ]
-        self.ldapConn.add_s(base, attributes)
+        self.ldapConn.add_s(base, attributes.items())
 
     def delete(self, base):
         ''' Delete target base '''
@@ -60,7 +110,7 @@ class Server(object):
         ''' Modify an attribute, requires write access '''
         if new is None:
             return None
-        new = str(new)
+        new = unicode(new).encode('utf-8')
         if new == old:
             return None
 
@@ -130,17 +180,17 @@ class Group(object):
         }
 
     @classmethod 
-    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
+    def newGroup(self, cn, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor, fedoraGroupUserCanRemove, fedoraGroupRequires, fedoraGroupJoinMsg):
         ''' Create a new group '''
-        attributes = { 'cn' : cn,
+        attributes = { 'cn' : cn.encode('utf-8'),
                     'objectClass' : ('fedoraGroup'),
-                    'fedoraGroupDesc' : fedoraGroupDesc,
-                    'fedoraGroupOwner' : fedoraGroupOwner,
-                    'fedoraGroupType' : '1',
-                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor,
-                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove,
-                    'fedoraGroupRequires' : fedoraGroupRequires,
-                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg,
+                    'fedoraGroupDesc' : fedoraGroupDesc.encode('utf-8'),
+                    'fedoraGroupOwner' : fedoraGroupOwner.encode('utf-8'),
+                    'fedoraGroupType' : fedoraGroupType.encode('utf-8'),
+                    'fedoraGroupNeedsSponsor' : fedoraGroupNeedsSponsor.encode('utf-8'),
+                    'fedoraGroupUserCanRemove' : fedoraGroupUserCanRemove.encode('utf-8'),
+                    'fedoraGroupRequires' : fedoraGroupRequires.encode('utf-8'),
+                    'fedoraGroupJoinMsg' : fedoraGroupJoinMsg.encode('utf-8'),
                     }
 
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
@@ -271,17 +321,10 @@ class Groups(object):
         except TypeError:
             raise TypeError, 'Group "%s" does not exist' % groupName
 
-        dt = datetime.datetime.now()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
+        now = time.time()
 
-        attributes = { 'cn' : groupName,
-                    'fedoraRoleApprovaldate' : 'NotApproved',
+        attributes = { 'cn' : groupName.encode('utf-8'),
+                    'fedoraRoleApprovaldate' : 'None',
                     'fedoraRoleCreationDate' : str(now),
                     'fedoraRoleDomain' : 'None',
                     'fedoraRoleSponsor' : 'None',
@@ -335,33 +378,27 @@ class Person(object):
     @classmethod 
     def newPerson(self, cn, givenName, mail, telephoneNumber, postalAddress):
         ''' Create a new user '''
-        dt = datetime.datetime.now()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
-        attributes = { 'cn' : cn,
+        now = time.time()
+        attributes = { 'cn' : cn.encode('utf-8'),
                     'objectClass' : ('fedoraPerson', 'inetOrgPerson', 'organizationalPerson', 'person', 'top'),
-                    'displayName' : cn,
-                    'sn' : cn,
-                    'cn' : cn,
+                    'displayName' : cn.encode('utf-8'),
+                    'sn' : cn.encode('utf-8'),
+                    'cn' : cn.encode('utf-8'),
                     'fedoraPersonSshKey' : '',
                     'facsimileTelephoneNumber' : '',
                     'fedoraPersonApprovalStatus' : 'approved',
-                    'givenName' : givenName,
-                    'mail' : mail,
+                    'givenName' : givenName.encode('utf-8'),
+                    'mail' : mail.encode('utf-8'),
                     'fedoraPersonKeyId' : '',
-                    'fedoraPersonCertSerial' : -1,
+                    'fedoraPersonCertSerial' : '-1',
                     'description' : '',
                     'fedoraPersonCreationDate' : str(now),
-                    'telephoneNumber' : telephoneNumber,
-                    'fedoraPersonBugzillaMail' : mail,
-                    'postalAddress' : postalAddress,
+                    'telephoneNumber' : telephoneNumber.encode('utf-8'),
+                    'fedoraPersonBugzillaMail' : mail.encode('utf-8'),
+                    'postalAddress' : postalAddress.encode('utf-8'),
                     'fedoraPersonIrcNick' : '',
-                    'userPassword' : 'Disabled'
+                    'userPassword' : 'Disabled',
+                    'fedoraPersonTimeZone' : 'UTC',
                     }
         self.__server.add('cn=%s,%s' % (cn, self.__base), attributes)
         attributes = {
@@ -475,14 +512,7 @@ class Person(object):
         base = 'cn=%s,ou=Roles,cn=%s,ou=People,dc=fedoraproject,dc=org' % (groupName, self.cn)
         g = Groups.byGroupName(groupName, includeUnapproved=True)[self.cn]
         group = Groups.groups(groupName)[groupName]
-        dt = datetime.datetime.now()
-        now = '%.2i-%.2i-%.2i %.2i:%.2i:%.2i.%.2i' % (dt.year,
-                                        dt.month,
-                                        dt.day,
-                                        dt.hour,
-                                        dt.minute,
-                                        dt.second,
-                                        dt.microsecond)
+        now = time.time()
         self.__server.modify(base, 'fedoraRoleApprovalDate', now)
         if group.fedoraGroupNeedsSponsor.lower() == 'true':
             self.__server.modify(base, 'fedoraRoleSponsor', sponsor)

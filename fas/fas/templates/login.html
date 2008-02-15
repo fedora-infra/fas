@@ -4,7 +4,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="master.html" />
   <head>
-    <title>Login to the Fedora Accounts System</title>
+    <title>${_('Login to the Fedora Accounts System')}</title>
     <style type="text/css">
       #content ul
       {
@@ -14,20 +14,20 @@
     </style>
   </head>
   <body>
-    <h2>Login</h2>
+    <h2>${_('Login')}</h2>
     <p>${message}</p>
     <form action="${previous_url}" method="post">
-      <div class="field"><label for="user_name">User Name:</label> <input type="text" id="user_name" name="user_name" /></div>
-      <div class="field"><label for="password">Password:</label> <input type="password" id="password" name="password" /></div>
+      <div class="field"><label for="user_name">${_('User Name:')}</label> <input type="text" id="user_name" name="user_name" /></div>
+      <div class="field"><label for="password">${_('Password:')}</label> <input type="password" id="password" name="password" /></div>
       <div class="field">
-        <input type="submit" name="login" value="Login" />
+        <input type="submit" name="login" value="${_('Login')}" />
         <input py:if="forward_url" type="hidden" name="forward_url" value="${tg.url(forward_url)}" />
         <input py:for="name,value in original_parameters.items()" type="hidden" name="${name}" value="${value}" />
       </div>
     </form>
     <ul>
-      <li><a href="${tg.url('/user/resetpass')}">Forgot Password?</a></li>
-      <li><a href="${tg.url('/user/new')}">Sign Up</a></li>
+      <li><a href="${tg.url('/user/resetpass')}">${_('Forgot Password?')}</a></li>
+      <li><a href="${tg.url('/user/new')}">${_('Sign Up')}</a></li>
     </ul>
   </body>
 </html>
