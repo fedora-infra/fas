@@ -17,105 +17,105 @@ CREATE SEQUENCE group_seq;
 SELECT setval('group_seq', 100000);
 
 CREATE TABLE people (
-	id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
-	username VARCHAR(32) UNIQUE NOT NULL,
-	human_name TEXT NOT NULL,
-	-- TODO: Switch to this?
-	-- Also, app would be responsible for eliminating spaces and
-	-- uppercasing
-	-- gpg_fingerprint varchar(40),
-	gpg_keyid VARCHAR(17),
-	ssh_key TEXT,
-	password VARCHAR(127) NOT NULL,
-	comments TEXT,
-	postal_address TEXT,
-	telephone TEXT,
-	facsimile TEXT,
-	affiliation TEXT,
-	certificate_serial integer default nextval('cert_seq'),
-	creation TIMESTAMP DEFAULT NOW(),
-	approval_status TEXT DEFAULT 'unapproved',
-	internal_comments TEXT,
-	ircnick TEXT,
-	last_seen TIMESTAMP DEFAULT NOW(),
-	status TEXT,
-	status_change TIMESTAMP DEFAULT NOW(),
-	check (status in ('active', 'vacation', 'inactive', 'pinged')),
-	check (gpg_keyid ~ '^[0-9A-F]{17}$')
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
+    username VARCHAR(32) UNIQUE NOT NULL,
+    human_name TEXT NOT NULL,
+    -- TODO: Switch to this?
+    -- Also, app would be responsible for eliminating spaces and
+    -- uppercasing
+    -- gpg_fingerprint varchar(40),
+    gpg_keyid VARCHAR(17),
+    ssh_key TEXT,
+    password VARCHAR(127) NOT NULL,
+    comments TEXT,
+    postal_address TEXT,
+    telephone TEXT,
+    facsimile TEXT,
+    affiliation TEXT,
+    certificate_serial integer default nextval('cert_seq'),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval_status TEXT DEFAULT 'unapproved',
+    internal_comments TEXT,
+    ircnick TEXT,
+    last_seen TIMESTAMP DEFAULT NOW(),
+    status TEXT,
+    status_change TIMESTAMP DEFAULT NOW(),
+    check (status in ('active', 'vacation', 'inactive', 'pinged')),
+    check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 
 CREATE TABLE configs (
-	id SERIAL PRIMARY KEY,
-	person_id integer references people(id),
-	application text not null,
-	attribute text not null,
-	-- The value should be a simple value or a json string.
-	-- Please create more config keys rather than abusing this with
-	-- large datastructures.
-	value TEXT,
-	check (application in ('asterisk', 'moin', 'myfedora'))
+    id SERIAL PRIMARY KEY,
+    person_id integer references people(id),
+    application text not null,
+    attribute text not null,
+    -- The value should be a simple value or a json string.
+    -- Please create more config keys rather than abusing this with
+    -- large datastructures.
+    value TEXT,
+    check (application in ('asterisk', 'moin', 'myfedora'))
 );
 
 CREATE TABLE groups (
-	id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
-	name VARCHAR(32) UNIQUE NOT NULL,
-	owner_id INTEGER NOT NULL REFERENCES people(id),
-	group_type VARCHAR(16),
-	needs_sponsor INTEGER DEFAULT 0,
-	user_can_remove INTEGER DEFAULT 1,
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
+    name VARCHAR(32) UNIQUE NOT NULL,
+    owner_id INTEGER NOT NULL REFERENCES people(id),
+    group_type VARCHAR(16),
+    needs_sponsor INTEGER DEFAULT 0,
+    user_can_remove INTEGER DEFAULT 1,
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
     check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
-          'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
+    'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
 
 create table person_emails (
-      email text not null unique,
-      person_id integer references people(id) not null,
-      purpose text not null,
-      primary key (person_id, email),
-      check (purpose in ('bugzilla', 'primary', 'cla')),
-      check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
-      unique (person_id, purpose)
+    email text not null unique,
+    person_id integer references people(id) not null,
+    purpose text not null,
+    primary key (person_id, email),
+    check (purpose in ('bugzilla', 'primary', 'cla')),
+    check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
+    unique (person_id, purpose)
 );
 
 create table group_emails (
-      email text not null unique,
-      group_id integer references groups(id) not null,
-      purpose text not null,
-      primary key (group_id, email),
-      check (purpose in ('bugzilla', 'primary', 'cla')),
-      unique (group_id, purpose)
+    email text not null unique,
+    group_id integer references groups(id) not null,
+    purpose text not null,
+    primary key (group_id, email),
+    check (purpose in ('bugzilla', 'primary', 'cla')),
+    unique (group_id, purpose)
 );
 
 CREATE TABLE group_roles (
-      member_id INTEGER NOT NULL REFERENCES groups(id),
-      group_id INTEGER NOT NULL REFERENCES groups(id),
-      role_type text NOT NULL,
-      role_status text DEFAULT 'unapproved',
-      internal_comments text,
-      sponsor_id INTEGER REFERENCES people(id),
-      creation TIMESTAMP DEFAULT NOW(),
-      approval TIMESTAMP DEFAULT NOW(),
-      UNIQUE (member_id, group_id),
-      check (role_status in ('approved', 'unapproved')),
-      check (role_type in ('user', 'administrator', 'sponsor'))
+    member_id INTEGER NOT NULL REFERENCES groups(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    role_type text NOT NULL,
+    role_status text DEFAULT 'unapproved',
+    internal_comments text,
+    sponsor_id INTEGER REFERENCES people(id),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval TIMESTAMP DEFAULT NOW(),
+    UNIQUE (member_id, group_id),
+    check (role_status in ('approved', 'unapproved')),
+    check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
 CREATE TABLE person_roles (
-	person_id INTEGER NOT NULL REFERENCES people(id),
-	group_id INTEGER NOT NULL REFERENCES groups(id),
+    person_id INTEGER NOT NULL REFERENCES people(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
 --    role_type is something like "user", "administrator", etc.
 --    role_status tells us whether this has been approved or not
-	role_type text NOT NULL,
-	role_status text DEFAULT 'unapproved',
-	internal_comments text,
-	sponsor_id INTEGER REFERENCES people(id),
-	creation TIMESTAMP DEFAULT NOW(),
-      approval TIMESTAMP DEFAULT NOW(),
-	UNIQUE (person_id, group_id),
-	check (role_status in ('approved', 'unapproved')),
-	check (role_type in ('user', 'administrator', 'sponsor'))
+    role_type text NOT NULL,
+    role_status text DEFAULT 'unapproved',
+    internal_comments text,
+    sponsor_id INTEGER REFERENCES people(id),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval TIMESTAMP DEFAULT NOW(),
+    UNIQUE (person_id, group_id),
+    check (role_status in ('approved', 'unapproved')),
+    check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
 -- action r == remove
