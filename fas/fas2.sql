@@ -2,8 +2,8 @@ create database fas2 encoding = 'UTF8';
 \c fas2
 
 create trusted procedural language plpgsql
-  handler plpgsql_call_handler
-  validator plpgsql_validator;
+    handler plpgsql_call_handler
+    validator plpgsql_validator;
 
 CREATE SEQUENCE cert_seq;
 SELECT setval('cert_seq', 1);
@@ -63,56 +63,56 @@ CREATE TABLE groups (
 	group_type VARCHAR(16),
 	needs_sponsor INTEGER DEFAULT 0,
 	user_can_remove INTEGER DEFAULT 1,
-  prerequisite_id INTEGER REFERENCES groups(id),
-  joinmsg TEXT NULL DEFAULT '',
-  check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
-        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
+    prerequisite_id INTEGER REFERENCES groups(id),
+    joinmsg TEXT NULL DEFAULT '',
+    check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
+          'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
 
 create table person_emails (
-    email text not null unique,
-    person_id integer references people(id) not null,
-    purpose text not null,
-    primary key (person_id, email),
-    check (purpose in ('bugzilla', 'primary', 'cla')),
-    check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
-    unique (person_id, purpose)
+      email text not null unique,
+      person_id integer references people(id) not null,
+      purpose text not null,
+      primary key (person_id, email),
+      check (purpose in ('bugzilla', 'primary', 'cla')),
+      check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
+      unique (person_id, purpose)
 );
 
 create table group_emails (
-    email text not null unique,
-    group_id integer references groups(id) not null,
-    purpose text not null,
-    primary key (group_id, email),
-    check (purpose in ('bugzilla', 'primary', 'cla')),
-    unique (group_id, purpose)
+      email text not null unique,
+      group_id integer references groups(id) not null,
+      purpose text not null,
+      primary key (group_id, email),
+      check (purpose in ('bugzilla', 'primary', 'cla')),
+      unique (group_id, purpose)
 );
 
 CREATE TABLE group_roles (
-    member_id INTEGER NOT NULL REFERENCES groups(id),
-    group_id INTEGER NOT NULL REFERENCES groups(id),
-    role_type text NOT NULL,
-    role_status text DEFAULT 'unapproved',
-    internal_comments text,
-    sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
-    UNIQUE (member_id, group_id),
-    check (role_status in ('approved', 'unapproved')),
-    check (role_type in ('user', 'administrator', 'sponsor'))
+      member_id INTEGER NOT NULL REFERENCES groups(id),
+      group_id INTEGER NOT NULL REFERENCES groups(id),
+      role_type text NOT NULL,
+      role_status text DEFAULT 'unapproved',
+      internal_comments text,
+      sponsor_id INTEGER REFERENCES people(id),
+      creation TIMESTAMP DEFAULT NOW(),
+      approval TIMESTAMP DEFAULT NOW(),
+      UNIQUE (member_id, group_id),
+      check (role_status in ('approved', 'unapproved')),
+      check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
 CREATE TABLE person_roles (
 	person_id INTEGER NOT NULL REFERENCES people(id),
 	group_id INTEGER NOT NULL REFERENCES groups(id),
---  role_type is something like "user", "administrator", etc.
---  role_status tells us whether this has been approved or not
+--    role_type is something like "user", "administrator", etc.
+--    role_status tells us whether this has been approved or not
 	role_type text NOT NULL,
 	role_status text DEFAULT 'unapproved',
 	internal_comments text,
 	sponsor_id INTEGER REFERENCES people(id),
 	creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
+      approval TIMESTAMP DEFAULT NOW(),
 	UNIQUE (person_id, group_id),
 	check (role_status in ('approved', 'unapproved')),
 	check (role_type in ('user', 'administrator', 'sponsor'))
@@ -121,12 +121,12 @@ CREATE TABLE person_roles (
 -- action r == remove
 -- action a == add
 create table bugzilla_queue (
-  email text not null,
-  group_id int references groups(id) not null,
-  person_id int references people(id) not null,
-  action char(1) not null,
-  primary key (email, group_id),
-  check (action ~ '[ar]')
+    email text not null,
+    group_id int references groups(id) not null,
+    person_id int references people(id) not null,
+    action char(1) not null,
+    primary key (email, group_id),
+    check (action ~ '[ar]')
 );
 
 create or replace function bugzilla_sync() returns trigger AS $bz_sync$
