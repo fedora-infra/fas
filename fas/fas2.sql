@@ -6,91 +6,89 @@ create trusted procedural language plpgsql
   validator plpgsql_validator;
 
 CREATE SEQUENCE cert_seq;
-SELECT setval(cert_seq, 1);
+SELECT setval('cert_seq', 1);
 
 CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
-SELECT setval('person_seq', XXXXXX);
+SELECT setval('person_seq', 1111);
 
 CREATE SEQUENCE group_seq;
 -- TODO: Set this to start where our last group_id is
-SELECT setval('group_seq', XXXXX);
+SELECT setval('group_seq', 1222);
 
 CREATE TABLE person (
-	id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
-	username VARCHAR(32) UNIQUE NOT NULL,
-	human_name TEXT NOT NULL,
-	-- TODO: Switch to this?
-	-- Also, app would be responsible for eliminating spaces and
-	-- uppercasing
-	-- gpg_fingerprint varchar(40),
-	gpg_keyid VARCHAR(17),
-	ssh_key TEXT,
-	password VARCHAR(127) NOT NULL,
-	comments TEXT,
-	postal_address TEXT,
-	telephone TEXT,
-	facsimile TEXT,
-	affiliation TEXT,
-	certificate_serial integer nextval('cert_seq'),
-	creation TIMESTAMP DEFAULT NOW(),
-	approval_status TEXT DEFAULT 'unapproved',
-	internal_comments TEXT,
-	ircnick TEXT,
-	last_seen TIMESTAMP DEFAULT NOW(),
-	status TEXT,
-	status_change TIMESTAMP DEFAULT NOW(),
-	check status in ('active', 'vacation', 'inactive', 'pinged'),
-	check gpg_key_id ~ '^[0-9A-F]{17}$'
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
+    username VARCHAR(32) UNIQUE NOT NULL,
+    human_name TEXT NOT NULL,
+    -- TODO: Switch to this?
+    -- Also, app would be responsible for eliminating spaces and
+    -- uppercasing
+    -- gpg_fingerprint varchar(40),
+    gpg_keyid VARCHAR(17),
+    ssh_key TEXT,
+    password VARCHAR(127) NOT NULL,
+    comments TEXT,
+    postal_address TEXT,
+    telephone TEXT,
+    facsimile TEXT,
+    affiliation TEXT,
+    certificate_serial INTEGER DEFAULT nextval('cert_seq'),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval_status TEXT DEFAULT 'unapproved',
+    internal_comments TEXT,
+    ircnick TEXT,
+    status TEXT,
+    check ( status in ('active', 'vacation', 'inactive')),
+    check ( gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 
 CREATE TABLE configs (
-	id SERIAL PRIMARY KEY,
-	person_id integer references person(id),
-	application text not null,
-	attribute text not null,
-	-- The value should be a simple value or a json string.
-	-- Please create more config keys rather than abusing this with
-	-- large datastructures.
-	value text,
-	check application in ('asterisk', 'moin', 'myfedora')
+    id SERIAL PRIMARY KEY,
+    person_id integer references person(id),
+    application text not null,
+    attribute text not null,
+    -- The value should be a simple value or a json string.
+    -- Please create more config keys rather than abusing this with
+    -- large datastructures.
+    value text,
+    check ( application in ('asterisk', 'moin', 'myfedora'))
 );
 
-CREATE TABLE group (
-	id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
-	name VARCHAR(32) UNIQUE NOT NULL,
-	owner_id INTEGER NOT NULL REFERENCES person (id),
-	group_type VARCHAR(16),
-	needs_sponsor INTEGER DEFAULT 0,
-	user_can_remove INTEGER DEFAULT 1,
-    prerequisite_id INTEGER REFERENCES project_group (id)
+CREATE TABLE groups (
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
+    name VARCHAR(32) UNIQUE NOT NULL,
+    owner_id INTEGER NOT NULL REFERENCES person (id),
+    group_type VARCHAR(16),
+    needs_sponsor INTEGER DEFAULT 0,
+    user_can_remove INTEGER DEFAULT 1,
+    prerequisite_id INTEGER REFERENCES groups (id),
     joinmsg TEXT NULL DEFAULT '',
-    check group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
-        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user') 
+    check ( group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
+        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user') )
 );
 
 create table person_email (
-    email text not null unique,
-    group_id references person(id) not null,
+    email text UNIQUE NOT NULL,
+    group_id INTEGER references person(id) not null,
     purpose text not null,
     primary key (group_id, email),
-    check purpose in ('bugzilla', 'primary', 'cla'),
-    check email ~ (^[a-zA-Z0-9.]@[a-zA-Z0-9.]\.[a-zA-Z]$),
+    check ( purpose in ('bugzilla', 'primary', 'cla') ),
+--    check ( email ~ "^[a-zA-Z0-9.]@[a-zA-Z0-9.]\.[a-zA-Z]$"),
     unique (group_id, purpose)
 );
 
 create table group_email (
     email text not null unique,
-    group_id references group(id) not null,
+    group_id INTEGER references groups(id) not null,
     purpose text not null,
     primary key (group_id, email),
-    check purpose in ('bugzilla', 'primary', 'cla'),
+    check ( purpose in ('bugzilla', 'primary', 'cla') ),
     unique (group_id, purpose)
 );
 
 CREATE TABLE group_role (
-    member_id INTEGER NOT NULL REFERENCES group(id),
-    group_id INTEGER NOT NULL REFERENCES group(id),
+    member_id INTEGER NOT NULL REFERENCES groups(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
     role_type text NOT NULL,
     role_status text DEFAULT 'unapproved',
     internal_comments text,
@@ -98,37 +96,38 @@ CREATE TABLE group_role (
     creation TIMESTAMP DEFAULT NOW(),
     approval TIMESTAMP DEFAULT NOW(),
     UNIQUE (member_id, group_id),
-	check role_status in ('approved', 'unapproved'),
-	check role_type in ('user', 'administrator', 'sponsor')    
+    check ( role_status in ('approved', 'unapproved') ),
+    check ( role_type in ('user', 'administrator', 'sponsor') )
 );
 
 CREATE TABLE person_role (
-	person_id INTEGER NOT NULL REFERENCES person (id),
-	group_id INTEGER NOT NULL REFERENCES group (id),
+    person_id INTEGER NOT NULL REFERENCES person (id),
+    group_id INTEGER NOT NULL REFERENCES groups (id),
 --  role_type is something like "user", "administrator", etc.
 --  role_status tells us whether this has been approved or not
-	role_type text NOT NULL,
-	role_status text DEFAULT 'unapproved',
-	internal_comments text,
-	sponsor_id INTEGER REFERENCES person(id),
-	creation TIMESTAMP DEFAULT NOW(),
+    role_type text NOT NULL,
+    role_status text DEFAULT 'unapproved',
+    internal_comments text,
+    sponsor_id INTEGER REFERENCES person(id),
+    creation TIMESTAMP DEFAULT NOW(),
     approval TIMESTAMP DEFAULT NOW(),
-	UNIQUE (person_id, group_id),
-	check role_status in ('approved', 'unapproved'),
-	check role_type in ('user', 'administrator', 'sponsor')
+    UNIQUE (person_id, group_id),
+    check ( role_status in ('approved', 'unapproved') ),
+    check ( role_type in ('user', 'administrator', 'sponsor') )
 );
 
 -- action r == remove
 -- action a == add
 create table bugzilla_queue (
   email text not null,
-  project_group_id int references project_group(id) not null,
+  project_group_id int references groups(id) not null,
   person_id int references person(id) not null,
   action char(1) not null,
   primary key (email, project_group_id),
   check (action ~ '[ar]')
 );
 
+/*
 create or replace function bugzilla_sync() returns trigger AS $bz_sync$
 DECLARE
   newaction char(1);
@@ -164,12 +163,12 @@ create trigger role_bugzilla_sync before update or insert or delete
 create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
 BEGIN
   if OLD.email = NEW.email then
-    We only care if the email has been changed
+    -- We only care if the email has been changed
     return NEW;
   end if;
 
   if p.id is not Null from person as p, role as r, project_group as g where p.id = OLD.id and g.name = 'fedorabugs' and r.role_status = 'approved' and r.project_group_id = g.id and r.person_id = p.id then
-    Person belongs to the bugzilla changing group
+    -- Person belongs to the bugzilla changing group
     Remove old email
     if b.email is not Null from bugzilla_queue as b where b.email = OLD.email then
       update bugzilla_queue set action = 'r' where email = OLD.email;
@@ -191,4 +190,6 @@ create trigger email_bugzilla_sync before update
  on person
  for each row execute procedure bugzilla_sync_email();
 
-GRANT ALL ON TABLE person, project_group, role, id_seq, bugzilla_queue TO GROUP fedora;
+*/
+
+--GRANT ALL ON TABLE person, groups, person_role, group_role, cert_seq, person_seq, bugzilla_queue TO GROUP fedora;
