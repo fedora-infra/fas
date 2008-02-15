@@ -2,19 +2,19 @@ create database fas2 encoding = 'UTF8';
 \c fas2
 
 create trusted procedural language plpgsql
-    handler plpgsql_call_handler
-    validator plpgsql_validator;
+  handler plpgsql_call_handler
+  validator plpgsql_validator;
 
 CREATE SEQUENCE cert_seq;
 SELECT setval('cert_seq', 1);
 
 CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
-SELECT setval('person_seq', 100000);
+SELECT setval('person_seq', 1111);
 
 CREATE SEQUENCE group_seq;
 -- TODO: Set this to start where our last group_id is
-SELECT setval('group_seq', 100000);
+SELECT setval('group_seq', 1222);
 
 CREATE TABLE people (
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
@@ -32,7 +32,7 @@ CREATE TABLE people (
     telephone TEXT,
     facsimile TEXT,
     affiliation TEXT,
-    certificate_serial integer default nextval('cert_seq'),
+    certificate_serial INTEGER DEFAULT nextval('cert_seq'),
     creation TIMESTAMP DEFAULT NOW(),
     approval_status TEXT DEFAULT 'unapproved',
     internal_comments TEXT,
@@ -47,8 +47,8 @@ CREATE TABLE people (
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
     person_id integer references people(id),
-    application text not null,
-    attribute text not null,
+    application TEXT not null,
+    attribute TEXT not null,
     -- The value should be a simple value or a json string.
     -- Please create more config keys rather than abusing this with
     -- large datastructures.
@@ -66,11 +66,11 @@ CREATE TABLE groups (
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
     check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
-    'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
+        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
 
 create table person_emails (
-    email text not null unique,
+    email text UNIQUE NOT NULL,
     person_id integer references people(id) not null,
     purpose text not null,
     primary key (person_id, email),
@@ -81,7 +81,7 @@ create table person_emails (
 
 create table group_emails (
     email text not null unique,
-    group_id integer references groups(id) not null,
+    group_id INTEGER references groups(id) not null,
     purpose text not null,
     primary key (group_id, email),
     check (purpose in ('bugzilla', 'primary', 'cla')),
@@ -105,8 +105,8 @@ CREATE TABLE group_roles (
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
     group_id INTEGER NOT NULL REFERENCES groups(id),
---    role_type is something like "user", "administrator", etc.
---    role_status tells us whether this has been approved or not
+    --  role_type is something like "user", "administrator", etc.
+    --  role_status tells us whether this has been approved or not
     role_type text NOT NULL,
     role_status text DEFAULT 'unapproved',
     internal_comments text,
@@ -122,9 +122,9 @@ CREATE TABLE person_roles (
 -- action a == add
 create table bugzilla_queue (
     email text not null,
-    group_id int references groups(id) not null,
-    person_id int references people(id) not null,
-    action char(1) not null,
+    group_id INTEGER references groups(id) not null,
+    person_id INTEGER references people(id) not null,
+    action CHAR(1) not null,
     primary key (email, group_id),
     check (action ~ '[ar]')
 );
