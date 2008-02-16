@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>${_('Edit Account')}</title>
+  </head>
+  <body>
+    <h2>${_('Edit Account (%s)') % userName}</h2>
+    <form action="${tg.url('/user/save/%s' % userName)}" method="post">
+      <div class="field">
+        <label for="givenName">${_('Full Name'):}</label>
+        <input type="text" id="givenName" name="givenName" value="${user.givenName}" />
+      </div>
+      <div class="field">
+        <label for="mail">${_('Email'):}</label>
+        <input type="text" id="mail" name="mail" value="${user.mail}" />
+      </div>
+      <div class="field">
+        <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email'):}</label>
+        <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${user.fedoraPersonBugzillaMail}" />
+      </div>
+      <div class="field">
+        <label for="fedoraPersonIrcNick">${_('IRC Nick'):}</label>
+        <input type="text" id="fedoraPersonIrcNick" name="fedoraPersonIrcNick" value="${user.fedoraPersonIrcNick}" />
+      </div>
+      <div class="field">
+        <label for="fedoraPersonKeyId">${_('PGP Key'):}</label>
+        <input type="text" id="fedoraPersonKeyId" name="fedoraPersonKeyId" value="${user.fedoraPersonKeyId}" />
+      </div>
+      <div class="field">
+        <label for="telephoneNumber">${_('Telephone Number'):}</label>
+        <input type="text" id="telephoneNumber" name="telephoneNumber" value="${user.telephoneNumber}" />
+      </div>
+      <div class="field">
+        <label for="postalAddress">${_('Postal Address'):}</label>
+	<textarea id="postalAddress" name="postalAddress">${user.postalAddress}</textarea>
+      </div>
+      <div class="field">
+        <label for="fedoraPersonTimeZone">${_('Time Zone'):}</label>
+        <select id="fedoraPersonTimeZone" name="fedoraPersonTimeZone">
+          <?python
+          from pytz import common_timezones
+          ?>
+          <option py:for="tz in common_timezones" value="${tz}" py:attrs="{'selected': user.fedoraPersonTimeZone == tz and 'selected' or None}">${tz}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="description ">${_('Description'):}</label>
+	  <textarea id="description" name="description">${user.description}</textarea>
+      </div>
+      <div class="field">
+        <input type="submit" value="${_('Save!')}" />
+        <a href="${tg.url('/user/view/%s' % userName)}">${_('Cancel')}</a>
+      </div>
+    </form>
+  </body>
+</html>

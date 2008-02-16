@@ -1,0 +1,22 @@
+#this is the fedoraPerson shema file for use with the Account system
+#it is based on the inetOrgPerson shema, but has some spicific
+#attribues added onto it for use by the Account system
+#for now this is the contents
+#sshkey bugzillaemail ircNick approvalStatus creationDate
+dn: cn=schema
+attributeTypes: ( 2.5.444.8 NAME 'fedoraPersonSshKey' DESC 'ssh key for this member' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{4096} SINGLE-VALUE)
+attributeTypes: ( 2.5.444.9 NAME 'fedoraPersonBugzillaMail' DESC 'members preferred bugzilla email address' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+attributeTypes: ( 2.5.444.16 NAME 'fedoraPersonIrcNick' DESC 'irc nick of the user on freenode' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{100} )
+attributetypes: ( 2.5.444.17 NAME 'fedoraPersonCreationDate' DESC 'date entry was created' EQUALITY caseIgnoreIA5Match SUBSTR caseIgnoreIA5SubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
+attributeTypes: ( 2.5.444.18 NAME 'fedoraPersonApprovalStatus' DESC 'users approval status' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.19 NAME 'fedoraPersonKeyId' DESC 'users GPG key ID' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.22 NAME 'fedoraPersonCertSerial' DESC 'users SSL cert serial' EQUALITY IntegerMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE )
+attributeTypes: ( 2.5.444.23 NAME 'fedoraPersonTimeZone' DESC 'time zone of the user' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.24 NAME 'fedoraPersonEmailConfirm' DESC 'user email confirmation' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+attributeTypes: ( 2.5.444.25 NAME 'fedoraPersonEmailCode' DESC 'user email code' EQUALITY caseIgnoreMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{50} )
+
+# fedoraPerson
+# The fedoraPerson represents people who are a member of the fedora project
+# in some way.  It is a structural class and inherits
+# from the inetOrgPerson class
+objectClasses:	( 2.5.555.1 NAME 'fedoraPerson' DESC 'A member of the fedoraproject group' SUP inetOrgPerson STRUCTURAL MUST ( fedoraPersonSshKey $ mail $ fedoraPersonCreationDate $ fedoraPersonTimeZone ) MAY  (fedoraPersonIrcNick $ fedoraPersonApprovalStatus $ fedoraPersonBugzillaMail $ fedoraPersonKeyId $ fedoraPersonCertSerial ) )

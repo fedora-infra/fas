@@ -1,0 +1,3 @@
+#for user in sorted(groups.keys())
+${user},${Person.byUserName(user).mail},${Person.byUserName(user).givenName},${groups[user].fedoraRoleType}
+#end
