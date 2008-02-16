@@ -17,8 +17,11 @@ CREATE SEQUENCE group_seq;
 SELECT setval('group_seq', 1222);
 
 CREATE TABLE people (
+    -- tg_user::user_id
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
+    -- tg_user::user_name
     username VARCHAR(32) UNIQUE NOT NULL,
+    -- tg_user::display_name
     human_name TEXT NOT NULL,
     -- TODO: Switch to this?
     -- Also, app would be responsible for eliminating spaces and
@@ -26,6 +29,7 @@ CREATE TABLE people (
     -- gpg_fingerprint varchar(40),
     gpg_keyid VARCHAR(17),
     ssh_key TEXT,
+    -- tg_user::password
     password VARCHAR(127) NOT NULL,
     comments TEXT,
     postal_address TEXT,
@@ -33,6 +37,7 @@ CREATE TABLE people (
     facsimile TEXT,
     affiliation TEXT,
     certificate_serial INTEGER DEFAULT nextval('cert_seq'),
+    -- tg_user::created
     creation TIMESTAMP DEFAULT NOW(),
     approval_status TEXT DEFAULT 'unapproved',
     internal_comments TEXT,
@@ -42,6 +47,34 @@ CREATE TABLE people (
     status_change TIMESTAMP DEFAULT NOW(),
     check (status in ('active', 'vacation', 'inactive', 'pinged')),
     check (gpg_keyid ~ '^[0-9A-F]{17}$')
+);
+
+-- tg_user::email_address needs to use one of these.
+-- We want to make sure that the user always has a primary email address.
+CREATE TABLE person_emails (
+    email text UNIQUE NOT NULL,
+    person_id integer references people(id) not null,
+    purpose text not null,
+    primary key (person_id, email),
+    check (purpose in ('bugzilla', 'primary', 'cla')),
+    check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
+    unique (person_id, purpose)
+);
+
+CREATE TABLE person_roles (
+    person_id INTEGER NOT NULL REFERENCES people(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    --  role_type is something like "user", "administrator", etc.
+    --  role_status tells us whether this has been approved or not
+    role_type text NOT NULL,
+    role_status text DEFAULT 'unapproved',
+    internal_comments text,
+    sponsor_id INTEGER REFERENCES people(id),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval TIMESTAMP DEFAULT NOW(),
+    UNIQUE (person_id, group_id),
+    check (role_status in ('approved', 'unapproved')),
+    check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
 CREATE TABLE configs (
@@ -57,26 +90,22 @@ CREATE TABLE configs (
 );
 
 CREATE TABLE groups (
+    -- tg_group::group_id
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
+    -- tg_group::group_name
     name VARCHAR(32) UNIQUE NOT NULL,
+    -- tg_group::display_name
+    display_name TEXT,
     owner_id INTEGER NOT NULL REFERENCES people(id),
     group_type VARCHAR(16),
     needs_sponsor INTEGER DEFAULT 0,
     user_can_remove INTEGER DEFAULT 1,
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
+    -- tg_group::created
+    creation TIMESTAMP DEFAULT NOW(),
     check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
         'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
-);
-
-create table person_emails (
-    email text UNIQUE NOT NULL,
-    person_id integer references people(id) not null,
-    purpose text not null,
-    primary key (person_id, email),
-    check (purpose in ('bugzilla', 'primary', 'cla')),
-    check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
-    unique (person_id, purpose)
 );
 
 create table group_emails (
@@ -102,22 +131,6 @@ CREATE TABLE group_roles (
     check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
-CREATE TABLE person_roles (
-    person_id INTEGER NOT NULL REFERENCES people(id),
-    group_id INTEGER NOT NULL REFERENCES groups(id),
-    --  role_type is something like "user", "administrator", etc.
-    --  role_status tells us whether this has been approved or not
-    role_type text NOT NULL,
-    role_status text DEFAULT 'unapproved',
-    internal_comments text,
-    sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
-    UNIQUE (person_id, group_id),
-    check (role_status in ('approved', 'unapproved')),
-    check (role_type in ('user', 'administrator', 'sponsor'))
-);
-
 -- action r == remove
 -- action a == add
 create table bugzilla_queue (
@@ -127,6 +140,20 @@ create table bugzilla_queue (
     action CHAR(1) not null,
     primary key (email, group_id),
     check (action ~ '[ar]')
+);
+
+--
+-- turbogears session tables
+--
+create table visit (
+    visit_key CHAR(40) primary key,
+    created TIMESTAMP not null default now(),
+    expiry TIMESTAMP
+);
+
+create table visit_identity (
+    visit_key CHAR(40) primary key references visit(visit_key),
+    user_id INTEGER references people(id)
 );
 
 create or replace function bugzilla_sync() returns trigger AS $bz_sync$
