@@ -61,22 +61,6 @@ CREATE TABLE person_emails (
     unique (person_id, purpose)
 );
 
-CREATE TABLE person_roles (
-    person_id INTEGER NOT NULL REFERENCES people(id),
-    group_id INTEGER NOT NULL REFERENCES groups(id),
-    --  role_type is something like "user", "administrator", etc.
-    --  role_status tells us whether this has been approved or not
-    role_type text NOT NULL,
-    role_status text DEFAULT 'unapproved',
-    internal_comments text,
-    sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
-    UNIQUE (person_id, group_id),
-    check (role_status in ('approved', 'unapproved')),
-    check (role_type in ('user', 'administrator', 'sponsor'))
-);
-
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
     person_id integer references people(id),
@@ -115,6 +99,22 @@ create table group_emails (
     primary key (group_id, email),
     check (purpose in ('bugzilla', 'primary', 'cla')),
     unique (group_id, purpose)
+);
+
+CREATE TABLE person_roles (
+    person_id INTEGER NOT NULL REFERENCES people(id),
+    group_id INTEGER NOT NULL REFERENCES groups(id),
+    --  role_type is something like "user", "administrator", etc.
+    --  role_status tells us whether this has been approved or not
+    role_type text NOT NULL,
+    role_status text DEFAULT 'unapproved',
+    internal_comments text,
+    sponsor_id INTEGER REFERENCES people(id),
+    creation TIMESTAMP DEFAULT NOW(),
+    approval TIMESTAMP DEFAULT NOW(),
+    UNIQUE (person_id, group_id),
+    check (role_status in ('approved', 'unapproved')),
+    check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
 CREATE TABLE group_roles (
@@ -218,4 +218,11 @@ create trigger email_bugzilla_sync before update
  on people
  for each row execute procedure bugzilla_sync_email();
 
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, cert_seq, person_seq, group_seq TO GROUP fedora;
+-- For Fas to connect to the database
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, cert_seq, person_seq, group_seq, visit, visit_identity TO GROUP fedora;
+
+-- For other services to connect to the necessary session tables
+GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
+-- For now other services would have to connect to the db to get auth
+-- information so we need to allow select access on all these tables :-(
+GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, configs TO GROUP apache;
