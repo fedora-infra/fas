@@ -62,6 +62,9 @@ CREATE TABLE people (
     last_seen TIMESTAMP DEFAULT NOW(),
     status TEXT,
     status_change TIMESTAMP DEFAULT NOW(),
+    locale TEXT not null DEFAULT NOW(),
+    latitude INTEGER,
+    longitude INTEGER,
     check (status in ('active', 'vacation', 'inactive', 'pinged')),
     check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
