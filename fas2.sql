@@ -76,8 +76,7 @@ CREATE TABLE person_emails (
     person_id integer references people(id) not null,
     purpose text not null,
     primary key (person_id, email),
-    check (purpose in ('bugzilla', 'primary', 'cla')),
-    check (email ~ '^[a-zA-Z0-9.]@[a-zA-Z0-9.][.][a-zA-Z]$'),
+    check (purpose in ('bugzilla', 'primary', 'cla', 'pending')),
     unique (person_id, purpose)
 );
 
@@ -117,7 +116,7 @@ create table group_emails (
     group_id INTEGER references groups(id) not null,
     purpose text not null,
     primary key (group_id, email),
-    check (purpose in ('bugzilla', 'primary', 'cla')),
+    check (purpose in ('bugzilla', 'primary', 'mailing list')),
     unique (group_id, purpose)
 );
 
