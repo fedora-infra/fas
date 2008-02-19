@@ -187,34 +187,34 @@ class VisitIdentity(SABase):
 #
 mapper(People, PeopleTable)
 mapper(PersonEmails, PersonEmailsTable, properties = {
-    person: relation(People, backref = 'emails',
+    'person': relation(People, backref = 'emails',
         collection_class = column_mapped_collection(
             PersonEmailsTable.c.purpose))
     })
 mapper(PersonRoles, PersonRolesTable, properties = {
-    member: relation(People, backref = 'roles'),
-    group: relation(Groups, backref='roles')
+    'member': relation(People, backref = 'roles'),
+    'group': relation(Groups, backref='roles')
     })
 mapper(Configs, ConfigsTable, properties = {
-    person: relation(People, backref = 'configs')
+    'person': relation(People, backref = 'configs')
     })
 mapper(Groups, GroupsTable)
 mapper(GroupEmails, GroupEmailsTable, properties = {
-    group: relation(Group, backref = 'emails',
+    'group': relation(Groups, backref = 'emails',
         collection_class = column_mapped_collection(
             GroupEmailsTable.c.purpose))
     })
 # GroupRoles are complex because the group is a member of a group and thus
 # is referencing the same table.
 mapper(GroupRoles, GroupRolesTable, properties = {
-    member: relation(Groups, backref = 'group_roles',
+    'member': relation(Groups, backref = 'group_roles',
         primaryjoin = GroupsTable.c.id==GroupRolesTable.c.member_id),
-    group: relation(Groups, backref = 'group_members',
+    'group': relation(Groups, backref = 'group_members',
         primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id)
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
-    group: relation(Groups, backref = 'pending'),
-    person: relation(People, backref = 'pending')
+    'group': relation(Groups, backref = 'pending'),
+    'person': relation(People, backref = 'pending')
     })
 
 # TurboGears Identity
