@@ -19,7 +19,7 @@
 #
 
 '''
-Model for the 
+Model for the Fedora Account System
 '''
 from datetime import datetime
 from turbogears.database import metadata, mapper
