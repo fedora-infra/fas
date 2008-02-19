@@ -93,8 +93,7 @@ class SABase(object):
                 pass
         return props
 
-@jsonify.when("isinstance(obj, sqlalchemy.orm.query.Query)" \
-        " or isinstance(obj, sqlalchemy.ext.selectresults.SelectResults)")
+@jsonify.when("isinstance(obj, sqlalchemy.orm.query.Query)")
 def jsonify_sa_select_results(obj):
     '''Transform selectresults into lists.
     
@@ -107,7 +106,7 @@ def jsonify_sa_select_results(obj):
             element.jsonProps = obj.jsonProps
     return list(obj)
 
-@jsonify.when("isinstance(obj, sqlalchemy.orm.attributes.InstrumentedList)")
+@jsonify.when("isinstance(obj, sqlalchemy.orm.attributes.InstrumentedAttribute)")
 def jsonify_salist(obj):
     '''Transform SQLAlchemy InstrumentedLists into json.
     
