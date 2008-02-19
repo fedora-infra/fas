@@ -131,7 +131,7 @@ CREATE TABLE person_roles (
     sponsor_id INTEGER REFERENCES people(id),
     creation TIMESTAMP DEFAULT NOW(),
     approval TIMESTAMP DEFAULT NOW(),
-    UNIQUE (person_id, group_id),
+    primary key (person_id, group_id),
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
 );
@@ -145,7 +145,7 @@ CREATE TABLE group_roles (
     sponsor_id INTEGER REFERENCES people(id),
     creation TIMESTAMP DEFAULT NOW(),
     approval TIMESTAMP DEFAULT NOW(),
-    UNIQUE (member_id, group_id),
+    primary key (member_id, group_id),
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
 );
