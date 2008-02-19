@@ -22,7 +22,7 @@
 Model for the Fedora Account System
 '''
 from datetime import datetime
-from turbogears.database import metadata, mapper
+from turbogears.database import metadata, mapper, get_engine
 # import some basic SQLAlchemy classes for declaring the data model
 # (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
 from sqlalchemy import Table, Column, ForeignKey
@@ -41,6 +41,9 @@ from turbogears import identity
 from fas.json import SABase
 # Soon we'll use this instead:
 #from fedora.tg.json import SABase
+
+# Bind us to the database defined in the config file.
+get_engine()
 
 #
 # Tables Mapped from the DB
@@ -127,7 +130,6 @@ class User(object):
 
     password = property(_get_password, _set_password)
 '''
-
 class PersonEmails(SABase):
     '''Map a person to an email address.'''
     pass
