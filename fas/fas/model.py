@@ -27,7 +27,6 @@ from turbogears.database import metadata, mapper
 # (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
 from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy.orm import relation
-from sqlalchemy.ext.assignmapper import assign_mapper
 # import some datatypes for table columns from SQLAlchemy
 # (see http://www.sqlalchemy.org/docs/04/types.html for more)
 from sqlalchemy import String, Unicode, Integer, DateTime
@@ -184,7 +183,7 @@ class VisitIdentity(SABase):
 #
 # set up mappers between tables and classes
 #
-assign_mapper(People, PeopleTable)
+mapper(People, PeopleTable)
 mapper(PersonEmails, PersonEmailsTable, properties = {
     person: relation(People, backref = 'emails',
         collection_class = column_mapped_collection(
