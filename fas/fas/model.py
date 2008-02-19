@@ -192,7 +192,8 @@ mapper(PersonEmails, PersonEmailsTable, properties = {
             PersonEmailsTable.c.purpose))
     })
 mapper(PersonRoles, PersonRolesTable, properties = {
-    'member': relation(People, backref = 'roles'),
+    'member': relation(People, backref = 'roles',
+        primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
     'group': relation(Groups, backref='roles')
     })
 mapper(Configs, ConfigsTable, properties = {
@@ -214,7 +215,8 @@ mapper(GroupRoles, GroupRolesTable, properties = {
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
     'group': relation(Groups, backref = 'pending'),
-    'person': relation(People, backref = 'pending')
+    'person': relation(People, backref = 'pending',
+        primaryjoin=BugzillaQueueTable.c.person_id==PeopleTable.c.id)
     })
 
 # TurboGears Identity
