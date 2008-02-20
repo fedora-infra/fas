@@ -85,18 +85,19 @@ def retrieve_db_info(dbKey):
 
 class Server(object):
     def __init__(self, server=None, who=None, password=None):
-        try:
-            dbInfo = retrieve_db_info(dbName)
-        except IOError:
-            raise AuthError, 'Authentication config file fedora-db-access is' \
-                    ' not available'
-        server = server or dbInfo['host'] or 'localhost'
-        who = 'cn=%s' % (who or dbInfo['user'])
-        # Some db connections have no password
-        password = password or dbInfo.get('password')
+        pass
+        #try:
+            #dbInfo = retrieve_db_info(dbName)
+        #except IOError:
+            #raise AuthError, 'Authentication config file fedora-db-access is' \
+                    #' not available'
+        #server = server or dbInfo['host'] or 'localhost'
+        #who = 'cn=%s' % (who or dbInfo['user'])
+        ## Some db connections have no password
+        #password = password or dbInfo.get('password')
 
-        self.ldapConn = ldap.open(server)
-        self.ldapConn.simple_bind_s(who, password)
+        #self.ldapConn = ldap.open(server)
+        #self.ldapConn.simple_bind_s(who, password)
 
     def add(self, base, attributes):
         ''' Add a new group record to LDAP instance '''
