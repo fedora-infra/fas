@@ -2,24 +2,26 @@ from turbogears import config
 
 from fas.fasLDAP import UserAccount
 from fas.fasLDAP import Person
-from fas.fasLDAP import Groups
+#from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
+
+from fas.model import Groups
 
 import re
 
 def isAdmin(userName, g=None):
     admingroup = config.get('admingroup')
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_name(admingroup)
     try:
-        g[admingroup].cn
+        g.people[0].by_username(userName)
         return True
     except KeyError:
         return False
     
 def canAdminGroup(userName, groupName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     group = Groups.groups(groupName)[groupName]
     try:
         if isAdmin(userName, g) or \
@@ -33,7 +35,7 @@ def canAdminGroup(userName, groupName, g=None):
 
 def canSponsorGroup(userName, groupName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     try:
         if isAdmin(userName, g) or \
            canAdminGroup(userName, groupName, g) or \
@@ -46,7 +48,7 @@ def canSponsorGroup(userName, groupName, g=None):
 
 def isApproved(userName, groupName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     try:
         if (g[groupName].fedoraRoleStatus.lower() == 'approved'):
            return True
@@ -57,7 +59,7 @@ def isApproved(userName, groupName, g=None):
 
 def signedCLAPrivs(userName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     if isApproved(userName, config.get('cla_sign_group'), g):
         return True
     else:
@@ -65,7 +67,7 @@ def signedCLAPrivs(userName, g=None):
 
 def clickedCLAPrivs(userName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     if signedCLAPrivs(userName, g) or \
        isApproved(userName, config.get('cla_click_group'), g):
         return True
@@ -73,8 +75,8 @@ def clickedCLAPrivs(userName, g=None):
         return False
 
 def canEditUser(userName, editUserName, g=None):
-    if not g:
-        g = Groups.byUserName(userName)
+#    if not g:
+#        g = Groups.by_usname(userName)
     if userName == editUserName:
         return True
     elif isAdmin(userName, g):
@@ -84,7 +86,7 @@ def canEditUser(userName, editUserName, g=None):
 
 def canCreateGroup(userName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     if isAdmin(userName, g):
         return True
     else:
@@ -92,7 +94,7 @@ def canCreateGroup(userName, g=None):
 
 def canEditGroup(userName, groupName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     if canAdminGroup(userName, groupName):
         return True
     else:
@@ -104,7 +106,7 @@ def canViewGroup(userName, groupName, g=None):
     privilegedViewGroups = config.get('privileged_view_groups')
     if re.compile(privilegedViewGroups).match(groupName):
         if not g:
-            g = Groups.byUserName(userName)
+            g = Groups.by_username(userName)
         if canAdminGroup(userName, groupName, g):
             return True
         else:
@@ -114,7 +116,7 @@ def canViewGroup(userName, groupName, g=None):
 
 def canApplyGroup(userName, groupName, applyUserName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     # User must satisfy all dependencies to join.
     # This is bypassed for people already in the group and for the
     # owner of the group (when they initially make it).
@@ -134,7 +136,7 @@ def canApplyGroup(userName, groupName, applyUserName, g=None):
 
 def canSponsorUser(userName, groupName, sponsorUserName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     # This is just here in case we want to add more complex checks in the future 
     if canSponsorGroup(userName, groupName, g):
         return True
@@ -143,7 +145,7 @@ def canSponsorUser(userName, groupName, sponsorUserName, g=None):
 
 def canRemoveUser(userName, groupName, removeUserName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     group = Groups.groups(groupName)[groupName]
     # Only administrators can remove administrators.
     if canAdminGroup(removeUserName, groupName) and \
@@ -159,7 +161,7 @@ def canRemoveUser(userName, groupName, removeUserName, g=None):
 
 def canUpgradeUser(userName, groupName, sponsorUserName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     # Group admins can upgrade anybody (fasLDAP.py has the checks to prevent
     # upgrading admins, etc.
     if canAdminGroup(userName, groupName, g):
@@ -174,7 +176,7 @@ def canUpgradeUser(userName, groupName, sponsorUserName, g=None):
 
 def canDowngradeUser(userName, groupName, sponsorUserName, g=None):
     if not g:
-        g = Groups.byUserName(userName)
+        g = Groups.by_username(userName)
     # Group admins can downgrade anybody.
     if canAdminGroup(userName, groupName, g):
         return True

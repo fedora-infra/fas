@@ -86,6 +86,7 @@ class People(SABase):
         A class method that can be used to search users
         based on their email addresses since it is unique.
         '''
+        # Note: Need to figure out how to filter this one at some point
         return cls.query.filter_by(email_address=email).first()
 
     by_email_address = classmethod(by_email_address)
@@ -141,7 +142,15 @@ class Configs(SABase):
 
 class Groups(SABase):
     '''Group that people can belong to.'''
-    pass
+    def by_name(cls, name):
+        '''
+        A class method that permits to search groups
+        based on their name attribute.
+        '''
+        return cls.query.filter_by(name=name).one()
+
+    by_name = classmethod(by_name)
+
     # People in the group
     people = association_proxy('roles', 'member')
     # Groups in the group
