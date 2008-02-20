@@ -80,7 +80,28 @@ visit_identity_table = Table('visit_identity', metadata,
 
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
-    pass
+    
+    def by_email_address(cls, email):
+        '''
+        A class method that can be used to search users
+        based on their email addresses since it is unique.
+        '''
+        return cls.query.filter_by(email_address=email).first()
+
+    by_email_address = classmethod(by_email_address)
+
+    def by_username(cls, username):
+        '''
+        A class method that permits to search users
+        based on their username attribute.
+        '''
+        return cls.query.filter_by(username=username).one()
+
+    by_username = classmethod(by_username)
+
+    def __repr__(cls):
+        return "User(%s,%s)" % (cls.username, cls.human_name)
+
     memberships = association_proxy('roles', 'group')
 
 # It's possible we want to merge this into the People class
@@ -90,31 +111,6 @@ class User(object):
     Reasonably basic User definition.
     Probably would want additional attributes.
     """
-    def permissions(self):
-        perms = set()
-        for g in self.groups:
-            perms |= set(g.permissions)
-        return perms
-    permissions = property(permissions)
-
-    def by_email_address(cls, email):
-        """
-        A class method that can be used to search users
-        based on their email addresses since it is unique.
-        """
-        return cls.query.filter_by(email_address=email).first()
-
-    by_email_address = classmethod(by_email_address)
-
-    def by_user_name(cls, username):
-        """
-        A class method that permits to search users
-        based on their user_name attribute.
-        """
-        return cls.query.filter_by(user_name=username).first()
-
-    by_user_name = classmethod(by_user_name)
-
     def _set_password(self, password):
         """
         encrypts password on the fly using the encryption
@@ -129,6 +125,7 @@ class User(object):
         return self._password
 
     password = property(_get_password, _set_password)
+
 '''
 class PersonEmails(SABase):
     '''Map a person to an email address.'''
