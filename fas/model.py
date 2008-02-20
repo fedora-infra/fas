@@ -86,7 +86,7 @@ class People(SABase):
         A class method that can be used to search users
         based on their email addresses since it is unique.
         '''
-        return cls.query.filter_by(email_address=email).first()
+        return cls.query.join('emails').filter_by(email=email).first()
 
     by_email_address = classmethod(by_email_address)
 
@@ -141,7 +141,15 @@ class Configs(SABase):
 
 class Groups(SABase):
     '''Group that people can belong to.'''
-    pass
+    def by_name(cls, name):
+        '''
+        A class method that permits to search groups
+        based on their name attribute.
+        '''
+        return cls.query.filter_by(name=name).one()
+
+    by_name = classmethod(by_name)
+
     # People in the group
     people = association_proxy('roles', 'member')
     # Groups in the group
@@ -182,12 +190,12 @@ class VisitIdentity(SABase):
 #
 # set up mappers between tables and classes
 #
-mapper(People, PeopleTable)
-mapper(PersonEmails, PersonEmailsTable, properties = {
-    'person': relation(People, backref = 'emails',
+mapper(People, PeopleTable, properties = {
+    'emails': relation(PersonEmails, backref = 'person',
         collection_class = column_mapped_collection(
             PersonEmailsTable.c.purpose))
     })
+mapper(PersonEmails, PersonEmailsTable)
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles',
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
@@ -196,12 +204,14 @@ mapper(PersonRoles, PersonRolesTable, properties = {
 mapper(Configs, ConfigsTable, properties = {
     'person': relation(People, backref = 'configs')
     })
-mapper(Groups, GroupsTable)
-mapper(GroupEmails, GroupEmailsTable, properties = {
-    'group': relation(Groups, backref = 'emails',
+mapper(Groups, GroupsTable, properties = {
+    'owner': relation(People, uselist=False,
+        primaryjoin = GroupsTable.c.owner_id==PeopleTable.c.id),
+    'emails': relation(GroupEmails, backref = 'group',
         collection_class = column_mapped_collection(
             GroupEmailsTable.c.purpose))
     })
+mapper(GroupEmails, GroupEmailsTable)
 # GroupRoles are complex because the group is a member of a group and thus
 # is referencing the same table.
 mapper(GroupRoles, GroupRolesTable, properties = {
