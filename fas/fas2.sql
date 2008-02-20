@@ -13,7 +13,8 @@
 -- General Public License and may only be used or replicated with the express
 -- permission of Red Hat, Inc.
 --
--- Red Hat Author(s): Toshio Kuratomi <tkuratom@redhat.com>
+-- Author(s): Toshio Kuratomi <tkuratom@redhat.com>
+--            Ricky Zhou <ricky@fedoraproject.org>
 --
 create database fas2 encoding = 'UTF8';
 \c fas2
@@ -21,9 +22,6 @@ create database fas2 encoding = 'UTF8';
 create trusted procedural language plpgsql
   handler plpgsql_call_handler
   validator plpgsql_validator;
-
-CREATE SEQUENCE cert_seq;
-SELECT setval('cert_seq', 1);
 
 CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
@@ -48,23 +46,25 @@ CREATE TABLE people (
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
+    passwordtoken text null,
     comments TEXT,
     postal_address TEXT,
     telephone TEXT,
     facsimile TEXT,
     affiliation TEXT,
-    certificate_serial INTEGER DEFAULT nextval('cert_seq'),
+    certificate_serial INTEGER DEFAULT 1,
     -- tg_user::created
     creation TIMESTAMP DEFAULT NOW(),
-    approval_status TEXT DEFAULT 'unapproved',
+    --approval_status TEXT DEFAULT 'unapproved',
     internal_comments TEXT,
     ircnick TEXT,
     last_seen TIMESTAMP DEFAULT NOW(),
     status TEXT,
     status_change TIMESTAMP DEFAULT NOW(),
-    locale TEXT not null DEFAULT NOW(),
-    latitude INTEGER,
-    longitude INTEGER,
+    locale TEXT not null DEFAULT 'C',
+    timezone TEXT null DEFAULT 'UTC',
+    latitude numeric,
+    longitude numeric,
     check (status in ('active', 'vacation', 'inactive', 'pinged')),
     check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
@@ -76,6 +76,7 @@ CREATE TABLE person_emails (
     person_id integer references people(id) not null,
     purpose text not null,
     primary key (person_id, email),
+    validtoken text null,
     check (purpose in ('bugzilla', 'primary', 'cla', 'pending')),
     unique (person_id, purpose)
 );
@@ -89,7 +90,8 @@ CREATE TABLE configs (
     -- Please create more config keys rather than abusing this with
     -- large datastructures.
     value TEXT,
-    check (application in ('asterisk', 'moin', 'myfedora'))
+    check (application in ('asterisk', 'moin', 'myfedora' ,'openid'))
+    -- Might end up removing openid, depending on how far we take the provider
 );
 
 CREATE TABLE groups (
@@ -130,7 +132,7 @@ CREATE TABLE person_roles (
     internal_comments text,
     sponsor_id INTEGER REFERENCES people(id),
     creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
+    approval TIMESTAMP DEFAULT NULL,
     primary key (person_id, group_id),
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
