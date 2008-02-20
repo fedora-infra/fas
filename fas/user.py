@@ -15,6 +15,8 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
 
+from fas.model import People
+
 from fas.auth import *
 
 from textwrap import dedent
@@ -24,8 +26,9 @@ class knownUser(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        p = Person.byUserName(value)
-        if not p.cn:
+        try:
+            p = People.by_username(value)
+        except InvalidRequestError:
             raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
 
 class nonFedoraEmail(validators.FancyValidator):
@@ -160,12 +163,14 @@ class User(controllers.Controller):
     def edit(self, userName=None):
         '''Edit a user
         '''
+        print "User: %s" % userName
         if not userName:
-            userName = turbogears.identity.current.user_name
+            userName = turbogears.identity.current.username
         if not canEditUser(turbogears.identity.current.user_name, userName):
             turbogears.flash(_('You cannot edit %s') % userName )
-            userName = turbogears.identity.current.user_name
-        user = Person.byUserName(userName)
+            userName = turbogears.identity.current.username
+        user = People.by_username(userName)
+        
         return dict(userName=userName, user=user)
 
     @identity.require(turbogears.identity.not_anonymous())
