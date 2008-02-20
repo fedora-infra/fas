@@ -35,12 +35,12 @@
       <div id="infobar">
         <div id="authstatus">
           <span py:if="not tg.identity.anonymous">
-            <strong>${_('Logged in:')}</strong> ${tg.identity.user.user_name}
+            <strong>${_('Logged in:')}</strong> ${tg.identity.user.username}
           </span>
         </div>
         <div id="control">
           <ul>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.user_name)}">${_('My Account')}</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/logout')}">${_('Log Out')}</a></li>
             <li py:if="tg.identity.anonymous"><a href="${tg.url('/login')}">${_('Log In')}</a></li>
           </ul>
