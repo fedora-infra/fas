@@ -26,7 +26,7 @@ System.
 
 
 from sqlalchemy.orm import class_mapper
-from turbogears import config
+from turbogears import config, identity
 from turbogears.identity.saprovider import SqlAlchemyIdentity, \
         SqlAlchemyIdentityProvider
 from turbogears.database import session
@@ -148,7 +148,7 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
             groups: a set of group IDs
             permissions: a set of permission IDs
         '''
-        user = user_class.query.filter_by(user_name=user_name).first()
+        user = user_class.query.filter_by(username=user_name).first()
         if not user:
             log.warning("No such user: %s", user_name)
             return None
@@ -156,7 +156,7 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
             log.info("Passwords don't match for user: %s", user_name)
             return None
 
-        log.info("associating user (%s) with visit (%s)", user.user_name,
+        log.info("associating user (%s) with visit (%s)", user.username,
                   visit_key)
         # Link the user to the visit
         link = visit_identity_class.query.filter_by(visit_key=visit_key).first()
