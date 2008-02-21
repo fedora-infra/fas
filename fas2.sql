@@ -163,6 +163,14 @@ create table bugzilla_queue (
     check (action ~ '[ar]')
 );
 
+-- Log changes to the account system
+create table log (
+    id serial primary key,
+    author INTEGER references people(id) not null,
+    changetime TIMESTAMP default NOW(),
+    description TEXT
+);
+
 --
 -- turbogears session tables
 --
@@ -240,7 +248,7 @@ create trigger email_bugzilla_sync before update
  for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, cert_seq, person_seq, group_seq, visit, visit_identity TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, group_seq, visit, visit_identity TO GROUP fedora;
 
 -- For other services to connect to the necessary session tables
 GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
