@@ -163,6 +163,14 @@ create table bugzilla_queue (
     check (action ~ '[ar]')
 );
 
+-- Log changes to the account system
+create table log (
+    id serial primary key,
+    author INTEGER references people(id) not null,
+    changetime TIMESTAMP default NOW(),
+    description TEXT
+);
+
 --
 -- turbogears session tables
 --
