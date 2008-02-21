@@ -6,46 +6,69 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import UserGroup
 
 from fas.model import Groups
+from fas.model import PersonRoles
+from fas.model import People
 
+from sqlalchemy.exceptions import *
 import re
 
 def isAdmin(userName, g=None):
+    p = People.by_username(userName)
     admingroup = config.get('admingroup')
     if not g:
-        g = Groups.by_name(admingroup)
-    try:
-        g.people[0].by_username(userName)
+        try:
+            g = Groups.by_name(admingroup)
+        except InvalidRequestError:
+            print '%s - Your admin group, could not be found!' % admingroup
+            return False
+    if g in p.memberships:
         return True
-    except KeyError:
+    else:
         return False
     
 def canAdminGroup(userName, groupName, g=None):
+    p = People.by_username(userName)
     if not g:
-        g = Groups.by_username(userName)
-    group = Groups.groups(groupName)[groupName]
+        g = Groups.by_name(groupName)
+#    group = Groups.groups(groupName)[groupName]
     try:
         if isAdmin(userName, g) or \
-            (group.fedoraGroupOwner == userName) or \
-           (g[groupName].fedoraRoleType.lower() == 'administrator'):
-           return True
+                (g.owner_id == p.id):
+            return True
         else:
-           return False
+            try:
+                r = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id)[0]
+            except IndexError:
+                ''' Not in the group '''
+                return False
+            if r.role_status == 'approved' and r.role_type == 'administrator':
+                return True
+        return False
     except:
         return False
 
 def canSponsorGroup(userName, groupName, g=None):
+    p = People.by_username(userName)
+    print "GROUPNAME %s " % groupName
     if not g:
-        g = Groups.by_username(userName)
+            g = Groups.by_name(groupName)
+            
+#    group = Groups.groups(groupName)[groupName]
     try:
         if isAdmin(userName, g) or \
-           canAdminGroup(userName, groupName, g) or \
-           (g[groupName].fedoraRoleType.lower() == 'sponsor'):
-           return True
+                (g.owner_id == p.id):
+            return True
         else:
-           return False
+            try:
+                r = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id)[0]
+            except IndexError:
+                ''' Not in the group '''
+                return False
+            if r.role_status == 'approved' and r.role_type == 'sponsor':
+                return True
+        return False
     except:
         return False
-
 def isApproved(userName, groupName, g=None):
     if not g:
         g = Groups.by_username(userName)
