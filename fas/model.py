@@ -199,7 +199,9 @@ mapper(PersonEmails, PersonEmailsTable)
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles',
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
-    'group': relation(Groups, backref='roles')
+    'group': relation(Groups, backref='roles'),
+    'sponsor': relation(People, uselist=False,
+        primaryjoin = PersonRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(Configs, ConfigsTable, properties = {
     'person': relation(People, backref = 'configs')
@@ -218,7 +220,9 @@ mapper(GroupRoles, GroupRolesTable, properties = {
     'member': relation(Groups, backref = 'group_roles',
         primaryjoin = GroupsTable.c.id==GroupRolesTable.c.member_id),
     'group': relation(Groups, backref = 'group_members',
-        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id)
+        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id),
+    'sponsor': relation(People, uselist=False,
+        primaryjoin = GroupRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
     'group': relation(Groups, backref = 'pending'),
@@ -230,3 +234,4 @@ mapper(BugzillaQueue, BugzillaQueueTable, properties = {
 mapper(Visit, visits_table)
 mapper(VisitIdentity, visit_identity_table,
         properties=dict(users=relation(People, backref='visit_identity')))
+
