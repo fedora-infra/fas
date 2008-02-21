@@ -15,11 +15,19 @@ from fas.fasLDAP import Person
 from fas.fasLDAP import Groups
 from fas.fasLDAP import UserGroup
 
+from turbogears.database import session
+
 from fas.model import People
+from fas.model import PersonEmails
 
 from fas.auth import *
 
 from textwrap import dedent
+
+from random import Random
+import sha
+from base64 import b64encode
+
 
 class knownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
@@ -59,16 +67,16 @@ class userNameAllowed(validators.FancyValidator):
           raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
 class editUser(validators.Schema):
-    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    userName = validators.All(knownUser(not_empty=True, max=32), validators.String(max=32, min=3))
     givenName = validators.String(not_empty=True, max=42)
     mail = validators.All(
-        validators.Email(not_empty=True, strip=True),
-        nonFedoraEmail(not_empty=True, strip=True),
+        validators.Email(not_empty=True, strip=True, max=128),
+        nonFedoraEmail(not_empty=True, strip=True, max=128),
     )
-    fedoraPersonBugzillaMail = validators.Email(not_empty=True, strip=True)
+    fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
-    telephoneNumber = validators.PhoneNumber(not_empty=True)
-    postalAddress = validators.NotEmpty
+    telephoneNumber = validators.PhoneNumber(max=24)
+    postalAddress = validators.String(max=512)
     
 class newUser(validators.Schema):
     cn = validators.All(
@@ -82,8 +90,8 @@ class newUser(validators.Schema):
         nonFedoraEmail(not_empty=True, strip=True),
     )
     fedoraPersonBugzillaMail = validators.Email(strip=True)
-    telephoneNumber = validators.PhoneNumber(not_empty=True)
-    postalAddress = validators.NotEmpty
+    telephoneNumber = validators.PhoneNumber()
+    postalAddress = validators.String(max=512)
 
 class changePass(validators.Schema):
     currentPassword = validators.String()
@@ -93,11 +101,31 @@ class changePass(validators.Schema):
     chained_validators = [validators.FieldsMatch('password', 'passwordCheck')]
 
 class userNameExists(validators.Schema):
-    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    userName = validators.All(knownUser(max=10), validators.String(max=32, min=3))
+    
+def generatePassword(password=None,length=14,salt=''):
+    ''' Generate Password '''
+    secret = {} # contains both hash and password
 
+    if not password:
+        rand = Random() 
+        password = ''
+        # Exclude 0,O and l,1
+        righthand = '23456qwertasdfgzxcvbQWERTASDFGZXCVB'
+        lefthand = '789yuiophjknmYUIPHJKLNM'
+        for i in range(length):
+            if i%2:
+                password = password + rand.choice(lefthand)
+            else:
+                password = password + rand.choice(righthand)
+    
+#    ctx = sha.new(password)
+#    ctx.update(salt)
+#    secret['hash'] = "{SSHA}%s" % b64encode(ctx.digest() + salt)
+    secret['pass'] = password
 
-class userNameExists(validators.Schema):
-    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    return secret
+
 
 class User(controllers.Controller):
 
@@ -135,7 +163,7 @@ class User(controllers.Controller):
             admin = True
         else:
             admin = False
-        user = Person.byUserName(userName)
+        user = People.by_username(userName)
         groups = Groups.byUserName(userName)
         groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
         groupdata={}
@@ -157,15 +185,14 @@ class User(controllers.Controller):
         return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, groupUnapproved=groupUnapproved, claDone=claDone, personal=personal, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameExists())
-    @error_handler(error)
+#    @validate(validators=userNameExists())
+#    @error_handler(error)
     @expose(template="fas.templates.user.edit")
     def edit(self, userName=None):
         '''Edit a user
         '''
-        print "User: %s" % userName
         if not userName:
-            userName = turbogears.identity.current.username
+            userName = turbogears.identity.current.user_name
         if not canEditUser(turbogears.identity.current.user_name, userName):
             turbogears.flash(_('You cannot edit %s') % userName )
             userName = turbogears.identity.current.username
@@ -182,19 +209,19 @@ class User(controllers.Controller):
             turbogears.flash(_("You do not have permission to edit '%s'" % userName))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
             return dict()
-        user = Person.byUserName(userName)
+        user = People.by_username(userName)
         try:
-            user.givenName = givenName
-            user.mail = mail
-            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
-            user.fedoraPersonIrcNick = fedoraPersonIrcNick
-            user.fedoraPersonKeyId = fedoraPersonKeyId
+            user.human_name = givenName
+#            user.email = mail
+#            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
+            user.ircnick = fedoraPersonIrcNick
+            user.gpg_keyid = fedoraPersonKeyId
             user.telephoneNumber = telephoneNumber
-            user.postalAddress = postalAddress
-            user.description = description
-            user.fedoraPersonTimeZone = fedoraPersonTimeZone
-        except:
-            turbogears.flash(_('Your account details could not be saved.'))
+            user.postal_address = postalAddress
+            user.comments = description
+            user.timezone = fedoraPersonTimeZone
+        except e:
+            turbogears.flash(_('Your account details could not be saved: %s' % e))
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % userName)
@@ -228,8 +255,8 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
-    @validate(validators=newUser())
-    @error_handler(error)
+#    @validate(validators=newUser())
+#    @error_handler(error)
     @expose(template='fas.templates.new')
     def create(self, cn, givenName, mail, telephoneNumber, postalAddress, fedoraPersonBugzillaMail=''):
         # TODO: Ensure that e-mails are unique- this should probably be done in the LDAP schema.
@@ -238,14 +265,20 @@ class User(controllers.Controller):
         #           their password) withing X days.  
         import turbomail
         try:
-            Person.newPerson(cn,
-                             givenName,
-                             mail,
-                             telephoneNumber,
-                             postalAddress,)
-            p = Person.byUserName(cn)
-            newpass = p.generatePassword()
-            message = turbomail.Message(config.get('accounts_mail'), p.mail, _('Fedora Project Password Reset'))
+            p = People(username = cn,
+                        human_name = givenName,
+                        telephone = telephoneNumber,
+                        password = '*')
+            p.emails['primary'] = PersonEmails(email=mail, purpose='primary')
+            session.flush()
+            #Person.newPerson(cn,
+                             #givenName,
+                             #mail,
+                             #telephoneNumber,
+                             #postalAddress,)
+            p = People.by_username(cn)
+            newpass = generatePassword()
+            message = turbomail.Message(config.get('accounts_mail'), p.emails['primary'].email, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
                  You have created a new Fedora account!
                  Your new password is: %s
@@ -253,10 +286,10 @@ class User(controllers.Controller):
                  Please go to https://admin.fedoraproject.org/fas/ to change it.
                  ''') % newpass['pass'])
             turbomail.enqueue(message)
-            p.userPassword = newpass['hash']
+            p.password = newpass['pass']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/login')
-        except ldap.ALREADY_EXISTS:
+        except:
             turbogears.flash(_("The username '%s' already Exists.  Please choose a different username.") % cn)
             turbogears.redirect('/user/new')
         return dict()
