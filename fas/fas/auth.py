@@ -75,7 +75,7 @@ def isApproved(username, groupname):
     '''
     Returns True if the user is an approved member of a group
     '''
-    person = People.by_username('username')
+    person = People.by_username(username)
     group = Groups.by_name(groupname)
     try:
         role = PersonRoles.query.filter_by(group_id=group.id, person_id=person.id).one()
