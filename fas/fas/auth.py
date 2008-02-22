@@ -82,6 +82,8 @@ def isApproved(username, groupname):
     except IndexError:
         ''' Not in the group '''
         return False
+    except InvalidRequestError:
+        return False
     if role.role_status == 'approved':
         return True
     else:
