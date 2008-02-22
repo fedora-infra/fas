@@ -15,8 +15,8 @@
       <dl>
         <dt>${_('Account Name:')}</dt><dd>${user.username}</dd>
         <dt>${_('Real Name:')}</dt><dd>${user.human_name}</dd>
-        <dt>${_('Email:')}</dt><dd>${user.username}</dd>
-        <dt>${_('Bugzilla Email:')}</dt><dd>${user.username}</dd>
+        <dt>${_('Email:')}</dt><dd>${user.emails['primary'].email}</dd>
+        <!--<dt>${_('Bugzilla Email:')}</dt><dd>${user.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${user.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${user.gpg_keyid}&nbsp;</dd>
         <dt>${_('Telephone Number:')}</dt><dd>${user.telephone}</dd>

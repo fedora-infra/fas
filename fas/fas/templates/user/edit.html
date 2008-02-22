@@ -13,16 +13,15 @@
         <label for="human_name">${_('Full Name')}:</label>
         <input type="text" id="human_name" name="human_name" value="${user.human_name}" />
       </div>
-      <!-- Need to figure out what the interface should be for emails.
+      <!--Need to figure out what the interface should be for emails. -->
       <div class="field">
         <label for="mail">${_('Email')}:</label>
-        <input type="text" id="mail" name="mail" value="${user.username}" />
+        <input type="text" id="email" name="email" value="${user.emails['primary'].email}" />
       </div>
-      <div class="field">
+<!--      <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email')}:</label>
         <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${user.username}" />
-      </div>
-      -->
+      </div> -->
       <div class="field">
         <label for="ircnick">${_('IRC Nick')}:</label>
         <input type="text" id="ircnick" name="ircnick" value="${user.ircnick}" />

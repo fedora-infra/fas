@@ -205,7 +205,7 @@ class User(controllers.Controller):
     @validate(validators=editUser())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, username, human_name, telephone, postal_address, ircnick='', gpg_keyid='', comments='', timezone='UTC'):
+    def save(self, username, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', timezone='UTC'):
         if not canEditUser(turbogears.identity.current.user_name, username):
             turbogears.flash(_("You do not have permission to edit '%s'" % username))
             turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
@@ -213,15 +213,17 @@ class User(controllers.Controller):
         user = People.by_username(username)
         try:
             user.human_name = human_name
-#            user.email = mail
-#            user.fedoraPersonBugzillaMail = fedoraPersonBugzillaMail
+            user.emails['primary'] = None
+            #session.flush()
+            user.emails['primary'] = PersonEmails(email=email, purpose='primary')
+#            user.emails['bugzilla'] = PersonEmails(primary=bugzilla)
             user.ircnick = ircnick
-            user.gpg_keyid = gpg_keyid
+#            user.gpg_keyid = gpg_keyid
             user.telephone = telephone
             user.postal_address = postal_address
             user.comments = comments
             user.timezone = timezone
-        except e:
+        except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s' % e))
         else:
             turbogears.flash(_('Your account details have been saved.'))
