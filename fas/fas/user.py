@@ -213,9 +213,7 @@ class User(controllers.Controller):
         user = People.by_username(username)
         try:
             user.human_name = human_name
-            user.emails['primary'] = None
-            #session.flush()
-            user.emails['primary'] = PersonEmails(email=email, purpose='primary')
+            user.emails['primary'].email = email
 #            user.emails['bugzilla'] = PersonEmails(primary=bugzilla)
             user.ircnick = ircnick
 #            user.gpg_keyid = gpg_keyid
