@@ -7,12 +7,13 @@
     <title>${_('Edit Account')}</title>
   </head>
   <body>
-    <h2>${_('Edit Account (%s)') % userName}</h2>
-    <form action="${tg.url('/user/save/%s' % userName)}" method="post">
+    <h2>${_('Edit Account (%s)') % user.username}</h2>
+    <form action="${tg.url('/user/save/%s' % user.username)}" method="post">
       <div class="field">
-        <label for="givenName">${_('Full Name')}:</label>
-        <input type="text" id="givenName" name="givenName" value="${user.human_name}" />
+        <label for="human_name">${_('Full Name')}:</label>
+        <input type="text" id="human_name" name="human_name" value="${user.human_name}" />
       </div>
+      <!-- Need to figure out what the interface should be for emails.
       <div class="field">
         <label for="mail">${_('Email')}:</label>
         <input type="text" id="mail" name="mail" value="${user.username}" />
@@ -21,38 +22,39 @@
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email')}:</label>
         <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${user.username}" />
       </div>
+      -->
       <div class="field">
-        <label for="fedoraPersonIrcNick">${_('IRC Nick')}:</label>
-        <input type="text" id="fedoraPersonIrcNick" name="fedoraPersonIrcNick" value="${user.ircnick}" />
+        <label for="ircnick">${_('IRC Nick')}:</label>
+        <input type="text" id="ircnick" name="ircnick" value="${user.ircnick}" />
       </div>
       <div class="field">
-        <label for="fedoraPersonKeyId">${_('PGP Key')}:</label>
-        <input type="text" id="fedoraPersonKeyId" name="fedoraPersonKeyId" value="${user.gpg_keyid}" />
+        <label for="gpg_keyid">${_('PGP Key')}:</label>
+        <input type="text" id="gpg_keyid" name="gpg_keyid" value="${user.gpg_keyid}" />
       </div>
       <div class="field">
-        <label for="telephoneNumber">${_('Telephone Number')}:</label>
-        <input type="text" id="telephoneNumber" name="telephoneNumber" value="${user.telephone}" />
+        <label for="telephone">${_('Telephone Number')}:</label>
+        <input type="text" id="telephone" name="telephone" value="${user.telephone}" />
       </div>
       <div class="field">
-        <label for="postalAddress">${_('Postal Address')}:</label>
-	<textarea id="postalAddress" name="postalAddress">${user.postal_address}</textarea>
+        <label for="postal_address">${_('Postal Address')}:</label>
+	<textarea id="postal_address" name="postal_address">${user.postal_address}</textarea>
       </div>
       <div class="field">
-        <label for="fedoraPersonTimeZone">${_('Time Zone')}:</label>
-        <select id="fedoraPersonTimeZone" name="fedoraPersonTimeZone">
+        <label for="timezone">${_('Time Zone')}:</label>
+        <select id="timezone" name="timezone">
           <?python
           from pytz import common_timezones
           ?>
-          <option py:for="tz in common_timezones" value="${tz}" py:attrs="{'selected': user.locale == tz and 'selected' or None}">${tz}</option>
+          <option py:for="tz in common_timezones" value="${tz}" py:attrs="{'selected': user.timezone == tz and 'selected' or None}">${tz}</option>
         </select>
       </div>
       <div class="field">
-        <label for="description ">${_('Description')}:</label>
-	  <textarea id="description" name="description">${user.comments}</textarea>
+        <label for="comments ">${_('Description')}:</label>
+	  <textarea id="comments" name="comments">${user.comments}</textarea>
       </div>
       <div class="field">
         <input type="submit" value="${_('Save!')}" />
-        <a href="${tg.url('/user/view/%s' % userName)}">${_('Cancel')}</a>
+        <a href="${tg.url('/user/view/%s' % user.username)}">${_('Cancel')}</a>
       </div>
     </form>
   </body>

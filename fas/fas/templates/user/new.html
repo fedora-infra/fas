@@ -10,28 +10,30 @@
     <h2>${_('Sign up for a Fedora account')}</h2>
     <form action="${tg.url('/user/create')}" method="post">
       <div class="field">
-        <label for="cn">${_('Username:')}</label>
-        <input type="text" id="cn" name="cn" />
+        <label for="username">${_('Username:')}</label>
+        <input type="text" id="username" name="username" />
       </div>
       <div class="field">
-        <label for="givenName">${_('Full Name:')}</label>
-        <input type="text" id="givenName" name="givenName" />
+        <label for="human_name">${_('Full Name:')}</label>
+        <input type="text" id="human_name" name="human_name" />
       </div>
       <div class="field">
         <label for="mail">${_('Email:')}</label>
         <input type="text" id="mail" name="mail" />
       </div>
-<!--      <div class="field">
+      <!--
+      <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email:')}</label>
         <input type="text" id="mail" name="fedoraPersonBugzillaMail" />
-      </div>-->
+      </div>
+      -->
       <div class="field">
-        <label for="telephoneNumber">${_('Telephone Number:')}</label>
-        <input type="text" id="telephoneNumber" name="telephoneNumber" />
+        <label for="telephone">${_('Telephone Number:')}</label>
+        <input type="text" id="telephone" name="telephone" />
       </div>
       <div class="field">
-        <label for="postalAddress">${_('Postal Address:')}</label>
-        <textarea id="postalAddress" name="postalAddress"></textarea>
+        <label for="postal_address">${_('Postal Address:')}</label>
+        <textarea id="postal_address" name="postal_address"></textarea>
       </div>
       <div class="field">
         <input type="submit" value="${_('Sign up!')}" />
