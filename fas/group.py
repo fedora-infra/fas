@@ -17,6 +17,8 @@ from fas.user import knownUser, userNameExists
 
 from textwrap import dedent
 
+import re
+
 class knownGroup(validators.FancyValidator):
     '''Make sure that a group already exists'''
     def _to_python(self, value, state):
@@ -234,17 +236,15 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.list", allow_json=True)
     def list(self, search='*'):
-        groups = Groups.groups(search)
-        userName = turbogears.identity.current.user_name
-        myGroups = Groups.byUserName(userName)
-        try:
-            groups.keys()
-        except:
+        re_search = re.sub(r'\*', r'%', search)
+        groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
+        p = People.by_username(turbogears.identity.current.user_name)
+        if groups.count() <= 0:
             turbogears.flash(_("No Groups found matching '%s'") % search)
             groups = {}
         if self.jsonRequest():
             return ({'groups': groups})
-        return dict(groups=groups, search=search, myGroups=myGroups)
+        return dict(groups=groups, search=search, p=p)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=userNameGroupNameExists())
