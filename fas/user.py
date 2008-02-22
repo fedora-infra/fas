@@ -93,7 +93,7 @@ class changePass(validators.Schema):
     # TODO (after we're done with most testing): Add complexity requirements?
     password = validators.String(min=8)
     passwordcheck = validators.String()
-    chained_validators = [validators.FieldsMatch('password', 'passwordCheck')]
+    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 class userNameExists(validators.Schema):
     userName = validators.All(knownUser(max=10), validators.String(max=32, min=3))
@@ -292,16 +292,13 @@ class User(controllers.Controller):
     @error_handler(error)
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck):
-        userName = turbogears.identity.current.user_name
-        try:
-            Person.auth(username, currentpassword)
-        except AuthError:
-            turbogears.flash('Your current password did not match.')
+        p  = People.by_username(turbogears.identity.current.user_name)
+        if not p.password == currentpassword:
+            turbogears.flash('Your current password did not match')
             return dict()
-        p = People.by_username(username)
         newpass = generatePassword(password)
         try:
-            p.password = newpass['hash']
+            p.password = newpass['pass']
             turbogears.flash(_("Your password has been changed."))
         except:
             turbogears.flash(_("Your password could not be changed."))
