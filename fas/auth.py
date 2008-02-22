@@ -75,13 +75,14 @@ def isApproved(username, groupname):
     '''
     Returns True if the user is an approved member of a group
     '''
-    g = Groups.by_name(groupname)
+    person = People.by_username('username')
+    group = Groups.by_name(groupname)
     try:
-        r = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id).one()
+        role = PersonRoles.query.filter_by(group_id=group.id, person_id=person.id).one()
     except IndexError:
         ''' Not in the group '''
         return False
-    if r.role_status == 'approved':
+    if role.role_status == 'approved':
         return True
     else:
         return False
