@@ -62,7 +62,7 @@ class Root(controllers.RootController):
         if not identity.current.anonymous \
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
-            turbogears.flash(_('Welcome, %s') % Person.byUserName(turbogears.identity.current.user_name).givenName)
+            turbogears.flash(_('Welcome, %s') % Person.by_username(turbogears.identity.current.user_name).human_name)
             if not forward_url:
                 forward_url = config.get('base_url_filter.base_url') + '/'
             raise redirect(forward_url)
