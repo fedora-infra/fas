@@ -29,8 +29,11 @@ def isAdmin(userName, g=None):
 def canAdminGroup(userName, groupName, g=None):
     p = People.by_username(userName)
     if not g:
-        g = Groups.by_name(groupName)
-#    group = Groups.groups(groupName)[groupName]
+        try:
+            g = Groups.by_name(groupName)
+        except InvalidRequestError:
+            print '%s - Your admin group, could not be found!' % admingroup
+            return False
     try:
         if isAdmin(userName, g) or \
                 (g.owner_id == p.id):
@@ -116,8 +119,14 @@ def canCreateGroup(userName, g=None):
         return False
 
 def canEditGroup(userName, groupName, g=None):
+    p = People.by_username('mmcgrath')
+    print 'GROUPNAME = %s' % groupName
     if not g:
-        g = Groups.by_username(userName)
+        try:
+            g = Groups.by_name(groupName)
+        except InvalidRequestError:
+            print '%s - Your admin group, could not be found!' % admingroup
+            return False
     if canAdminGroup(userName, groupName):
         return True
     else:

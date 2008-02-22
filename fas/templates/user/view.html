@@ -55,10 +55,10 @@
           <li><a href="${tg.url('/group/view/%s' % group)}">${_('View Group')}</a></li>
           <li><a href="${tg.url('/group/invite/%s' % group)}">${_('Invite a New Member...')}</a></li>
           <li py:if="auth.canSponsorGroup(user.username, group.name)"><a href="${tg.url('/group/view/%s' % group)}">${_('Manage Group Membership...')}</a></li>
-          <li py:if="auth.canEditGroup(user.username, group)"><a href="${tg.url('/group/edit/%s' % group)}">${_('Manage Group Details...')}</a></li>
+          <li py:if="auth.canEditGroup(user.username, group.name, g=group)"><a href="${tg.url('/group/edit/%s' % group)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
-        <div py:if="auth.canSponsorGroup(user.cn, group) and groupUnapproved[group] != []" py:strip="">
+<!--        <div py:if="auth.canSponsorGroup(user.username, group.name) and groupUnapproved[group] != []" py:strip="">
           <dt>${_('Queue:')}</dt>
           <dd>
           <ul class="queue">
@@ -67,7 +67,7 @@
             </li>
           </ul>
           </dd>
-        </div>
+        </div>-->
       </dl>
       </li>
       </div>
