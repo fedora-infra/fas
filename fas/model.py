@@ -35,6 +35,7 @@ from sqlalchemy import String, Unicode, Integer, DateTime
 from sqlalchemy.orm.collections import column_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy import select, and_
 
 from turbogears import identity
 
@@ -57,6 +58,17 @@ GroupsTable = Table('groups', metadata, autoload=True)
 GroupEmailsTable = Table('group_emails', metadata, autoload=True)
 GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
+LogTable = Table('log', metadata, autoload=True)
+
+#
+# Selects for filtering roles
+#
+ApprovedRolesSelect = PersonRolesTable.select(and_(
+    PeopleTable.c.id==PersonRolesTable.c.person_id,
+    PersonRolesTable.c.role_status=='approved')).alias('approved')
+UnApprovedRolesSelect = PersonRolesTable.select(and_(
+    PeopleTable.c.id==PersonRolesTable.c.person_id,
+    PersonRolesTable.c.role_status!='approved')).alias('unapproved')
 
 # The identity schema -- These must follow some conventions that TG
 # understands and are shared with other Fedora services via the python-fedora
@@ -103,6 +115,8 @@ class People(SABase):
         return "User(%s,%s)" % (cls.username, cls.human_name)
 
     memberships = association_proxy('roles', 'group')
+    approved_memberships = association_proxy('approved_roles', 'group')
+    unapproved_memberships = association_proxy('unapproved_roles', 'group')
 
 # It's possible we want to merge this into the People class
 '''
@@ -169,6 +183,27 @@ class BugzillaQueue(SABase):
     '''Queued up changes that need to be applied to bugzilla.'''
     pass
 
+class Log(SABase):
+    '''Write simple logs of changesto the database.'''
+    pass
+
+#
+# Classes for mapping arbitrary selectables (This is similar to a view in
+# python rather than in the db
+#
+
+class ApprovedRoles(PersonRoles):
+    '''Only display roles that are approved.'''
+    pass
+
+class UnApprovedRoles(PersonRoles):
+    '''Only show Roles that are not approved.'''
+    pass
+
+#
+# Classes for the SQLAlchemy Visit Manager
+#
+
 class Visit(SABase):
     '''Track how many people are visiting the website.
     
@@ -178,7 +213,6 @@ class Visit(SABase):
     def lookup_visit(cls, visit_key):
         return cls.query.get(visit_key)
     lookup_visit = classmethod(lookup_visit)
-
 
 class VisitIdentity(SABase):
     '''Associate a user with a visit cookie.
@@ -190,16 +224,26 @@ class VisitIdentity(SABase):
 #
 # set up mappers between tables and classes
 #
+
+#
+# mappers for filtering roles
+#
+mapper(ApprovedRoles, ApprovedRolesSelect)
+mapper(UnApprovedRoles, UnApprovedRolesSelect)
+
 mapper(People, PeopleTable, properties = {
     'emails': relation(PersonEmails, backref = 'person',
         collection_class = column_mapped_collection(
-            PersonEmailsTable.c.purpose))
+            PersonEmailsTable.c.purpose)),
+    'approved_roles': relation(ApprovedRoles, backref='member')
     })
 mapper(PersonEmails, PersonEmailsTable)
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles',
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
-    'group': relation(Groups, backref='roles')
+    'group': relation(Groups, backref='roles'),
+    'sponsor': relation(People, uselist=False,
+    	primaryjoin = PersonRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(Configs, ConfigsTable, properties = {
     'person': relation(People, backref = 'configs')
@@ -218,12 +262,18 @@ mapper(GroupRoles, GroupRolesTable, properties = {
     'member': relation(Groups, backref = 'group_roles',
         primaryjoin = GroupsTable.c.id==GroupRolesTable.c.member_id),
     'group': relation(Groups, backref = 'group_members',
-        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id)
+        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id),
+    'sponsor': relation(People, uselist=False,
+    	primaryjoin = GroupRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
     'group': relation(Groups, backref = 'pending'),
     'person': relation(People, backref = 'pending',
         primaryjoin=BugzillaQueueTable.c.person_id==PeopleTable.c.id)
+    })
+mapper(Log, LogTable, properties = {
+    ### TODO: test to be sure SQLAlchemy only loads the backref on demand
+    'author': relation(People, backref='changes')
     })
 
 # TurboGears Identity

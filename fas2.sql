@@ -166,7 +166,7 @@ create table bugzilla_queue (
 -- Log changes to the account system
 create table log (
     id serial primary key,
-    author INTEGER references people(id) not null,
+    author_id INTEGER references people(id) not null,
     changetime TIMESTAMP default NOW(),
     description TEXT
 );
