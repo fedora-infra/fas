@@ -111,6 +111,17 @@ class People(SABase):
 
     by_username = classmethod(by_username)
 
+    # If we're going to do logging here, we'll have to pass the person that did the applying.
+    def apply(cls, group):
+        '''
+        Apply a person to a group
+        '''
+        role = PersonRoles()
+        role.role_status = 'unapproved'
+        role.role_type = 'user'
+        role.member = cls
+        role.group = group
+
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
 
@@ -147,7 +158,8 @@ class PersonEmails(SABase):
 
 class PersonRoles(SABase):
     '''Record people that are members of groups.'''
-    pass
+    def __repr__(cls):
+        return "PersonRole(%s,%s,%s)" % (cls.member.username, cls.role_type, cls.role_status)
 
 class Configs(SABase):
     '''Configs for applications that a Fedora Contributor uses.'''
@@ -163,6 +175,48 @@ class Groups(SABase):
         return cls.query.filter_by(name=name).one()
 
     by_name = classmethod(by_name)
+
+    def sponsor_person(cls, sponsor, target):
+        # If we want to do logging, this might be the place.
+        # Hope group=cls works...
+        role = PersonRoles.query.filter_by(group=cls, member=target).one()
+        if role.role_status != 'approved':
+            role.role_status = 'approved'
+            role.sponsor = sponsor
+        else:
+            pass
+            # The user was already sponsored.  Throw some sort of error?
+
+    def upgrade_person(cls, sponsor, target):
+        role = PersonRoles.query.filter_by(group=cls, member=target).one()
+        if role.role_type == 'administrator':
+            # raise some error.
+            pass
+        elif role.role_type == 'sponsor':
+            role.role_type = 'administrator'
+        elif role.role_type == 'user':
+            role.role_type = 'sponsor'
+
+    def downgrade_person(cls, sponsor, target):
+        role = PersonRoles.query.filter_by(group=cls, member=target).one()
+        if role.role_type == 'administrator':
+            role.role_type = 'sponsor'
+        elif role.role_type == 'sponsor':
+            role.role_type = 'user'
+        elif role.role_type == 'user':
+            # raise some error.
+            pass
+
+    def remove_person(cls, sponsor, target):
+        role = PersonRoles.query.filter_by(group=cls, member=target).one()
+        try:
+            session.delete(role)
+        except:
+            pass
+            # Handle somehow.
+
+    def __repr__(cls):
+        return "Group(%s,%s)" % (cls.name, cls.display_name)
 
     # People in the group
     people = association_proxy('roles', 'member')
@@ -253,7 +307,9 @@ mapper(Groups, GroupsTable, properties = {
         primaryjoin = GroupsTable.c.owner_id==PeopleTable.c.id),
     'emails': relation(GroupEmails, backref = 'group',
         collection_class = column_mapped_collection(
-            GroupEmailsTable.c.purpose))
+            GroupEmailsTable.c.purpose)),
+    'prerequisite': relation(Groups, uselist=False,
+        primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
     })
 mapper(GroupEmails, GroupEmailsTable)
 # GroupRoles are complex because the group is a member of a group and thus
@@ -280,4 +336,5 @@ mapper(Log, LogTable, properties = {
 mapper(Visit, visits_table)
 mapper(VisitIdentity, visit_identity_table,
         properties=dict(users=relation(People, backref='visit_identity')))
+
 
