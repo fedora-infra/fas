@@ -1,11 +1,11 @@
 from turbogears import controllers, expose, config
-# from model import *
+from model import *
 from turbogears import identity, redirect, widgets, validate, validators, error_handler
 from cherrypy import request, response
-from fas.fasLDAP import UserAccount
-from fas.fasLDAP import Person
-from fas.fasLDAP import Groups
-from fas.fasLDAP import UserGroup
+#from fas.fasLDAP import UserAccount
+#from fas.fasLDAP import Person
+#from fas.fasLDAP import Groups
+##from fas.fasLDAP import UserGroup
 from turbogears import exception_handler
 import turbogears
 import ldap
