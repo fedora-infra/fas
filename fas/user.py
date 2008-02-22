@@ -43,10 +43,15 @@ class unknownUser(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        p = People.by_username(value)
-        if p.username:
-            raise validators.Invalid(_("'%s' already exists.") % value, value, state)
-
+        try:
+            p = People.by_username(value)
+        except InvalidRequestError:
+            return
+        except:
+            raise validators.Invalid(_("Error: Could not create - '%s'") % value, value, state)
+        
+        raise validators.Invalid(_("'%s' already exists.") % value, value, state)
+            
 class userNameAllowed(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     def _to_python(self, value, state):
@@ -75,10 +80,10 @@ class newUser(validators.Schema):
         validators.String(max=32, min=3),
     )
     human_name = validators.String(not_empty=True, max=42)
-    #mail = validators.All(
-    #    validators.Email(not_empty=True, strip=True),
-    #    nonFedoraEmail(not_empty=True, strip=True),
-    #)
+    email = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        nonFedoraEmail(not_empty=True, strip=True),
+    )
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     telephone = validators.PhoneNumber()
     postal_address = validators.String(max=512)
@@ -243,11 +248,11 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
-#    @validate(validators=newUser())
-#    @error_handler(error)
+    @validate(validators=newUser())
+    @error_handler(error)
     @expose(template='fas.templates.new')
     # Kill mail for now.
-    def create(self, username, real_name, email, telephone, postal_address):
+    def create(self, username, human_name, email, telephone, postal_address):
         # TODO: Ensure that e-mails are unique- this should probably be done in the LDAP schema.
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
@@ -258,10 +263,8 @@ class User(controllers.Controller):
                 human_name=human_name,
                 telephone=telephone,
                 password='*')
-            p.emails['primary'] = PersonEmails(email=mail, purpose='primary')
-            session.flush()
+            p.emails['primary'] = PersonEmails(email=email, purpose='primary')
 
-            p = People.by_username(cn)
             newpass = generatePassword()
             message = turbomail.Message(config.get('accounts_mail'), p.emails['primary'].email, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
@@ -274,8 +277,8 @@ class User(controllers.Controller):
             p.password = newpass['pass']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/login')
-        except:
-            turbogears.flash(_("The username '%s' already Exists.  Please choose a different username.") % cn)
+        except KeyError:
+            turbogears.flash(_("The username '%s' already Exists.  Please choose a different username.") % username)
             turbogears.redirect('/user/new')
         return dict()
 
