@@ -24,8 +24,9 @@ class knownGroup(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        g = Groups.groups(value)
-        if not g:
+        try:
+            g = Groups.by_name(value)
+        except InvalidRequestError:
             raise validators.Invalid(_("The group '%s' does not exist.") % value, value, state)
 
 class groupsExist(validators.FancyValidator):
@@ -120,28 +121,29 @@ class Group(controllers.Controller):
     @expose(template="fas.templates.group.view")
     def view(self, groupName):
         '''View group'''
-        userName = turbogears.identity.current.user_name
-        if not canViewGroup(userName, groupName):
+        person = People.by_username(turbogears.identity.current.user_name)
+        if not canViewGroup(person.username, groupName):
             turbogears.flash(_("You cannot view '%s'") % groupName)
             turbogears.redirect('/group/list')
             return dict()
         else:
-            groups = Groups.byGroupName(groupName, includeUnapproved=True)
-            group = Groups.groups(groupName)[groupName]
-            userName = turbogears.identity.current.user_name
-            try:
-                myStatus = groups[userName].fedoraRoleStatus
-            except KeyError:
-                # Not in group
-                myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
-            except TypeError:
-                groups = {}
-            try:
-                me = groups[userName]
-            except:
-                me = UserGroup()
-            u = Person.byUserName(userName) 
-            return dict(userName=userName, u=u, groups=groups, group=group, me=me)
+            group = Groups.by_name(groupName)
+#            group = Groups.groups(groupName)[groupName]
+#            userName = turbogears.identity.current.user_name
+            #try:
+                #myStatus = groups[userName].fedoraRoleStatus
+            #except KeyError:
+                ## Not in group
+                #myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
+            #except TypeError:
+                #groups = {}
+            #try:
+                #me = groups[userName]
+            #except:
+                #me = UserGroup()
+            #u = Person.byUserName(userName) 
+#            return dict(userName=userName, u=u, groups=groups, group=group, me=me)
+            return dict(person=person, group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
