@@ -236,7 +236,7 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.list", allow_json=True)
     def list(self, search='*'):
-        re_search = re.sub(r'\*', r'%', search)
+        re_search = re.sub(r'\*', r'%', search).lower()
         groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
         p = People.by_username(turbogears.identity.current.user_name)
         if groups.count() <= 0:
