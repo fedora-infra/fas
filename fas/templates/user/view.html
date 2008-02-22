@@ -20,8 +20,8 @@
         <dt>${_('IRC Nick:')}</dt><dd>${user.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${user.gpg_keyid}&nbsp;</dd>
         <dt>${_('Telephone Number:')}</dt><dd>${user.telephone}</dd>
-        <dt>${_('Postal Address:')}</dt><dd>${user.postal_address}</dd>
-        <dt>${_('Description:')}</dt><dd>${user.comments}&nbsp;</dd>
+        <dt>${_('Postal Address:')}</dt><dd>${user.postal_address}&nbsp;</dd>
+        <dt>${_('Comments:')}</dt><dd>${user.comments}&nbsp;</dd>
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Approved')}</span></dd>
         <dt>${_('CLA:')}</dt><dd><span py:if="claDone" class="approved">${_('Done')}</span><span py:if="not claDone" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla')}">${_('Sign it!')}</a>)</span></dd>
