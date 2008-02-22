@@ -356,7 +356,7 @@ class User(controllers.Controller):
                 message.plain = mail;
             turbomail.enqueue(message)
             try:
-                p.password = newpass['hash']
+                p.password = newpass['pass']
                 turbogears.flash(_('Your new password has been emailed to you.'))
             except:
                 turbogears.flash(_('Your password could not be reset.'))
