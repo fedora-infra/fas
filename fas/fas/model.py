@@ -112,7 +112,7 @@ class People(SABase):
     by_username = classmethod(by_username)
 
     # If we're going to do logging here, we'll have to pass the person that did the applying.
-    def apply(cls, group):
+    def apply(cls, group, requestor):
         '''
         Apply a person to a group
         '''

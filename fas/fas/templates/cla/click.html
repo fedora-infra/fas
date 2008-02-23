@@ -12,7 +12,7 @@
     <xi:include href="cla.html" />
     <form action="${tg.url('/cla/click/%s' % userName)}" method="post">
       <div>
-        ${_('If you agree to these terms and conditions, type "I agree" here:')} <input type="text" id="agree" name="agree" /><br />
+        ${_('If you agree to these terms and conditions, type "%s" here:') % 'I agree'} <input type="text" id="agree" name="agree" /><br />
         ${_('Full Name:')} ${user.givenName}<br />
         ${_('E-mail:')} ${user.mail}<br />
         ${_('Date:')} ${date}<br />
