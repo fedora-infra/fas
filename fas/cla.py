@@ -18,7 +18,7 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
-from fas.user import knownUser, usernameExists
+from fas.user import knownUser, userNameExists
 
 class CLA(controllers.Controller):
 
