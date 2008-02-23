@@ -1,5 +1,6 @@
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears.database import session
 
 import ldap
 import cherrypy
@@ -42,14 +43,14 @@ class createGroup(validators.Schema):
     name = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     display_name = validators.NotEmpty
     owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    prerequisites = knownGroup
+    prerequisite = knownGroup
     #group_type = something
 
 class editGroup(validators.Schema):
-    name = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     display_name = validators.NotEmpty
     owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    prerequisites = knownGroup
+    prerequisite = knownGroup
     #group_type = something
 
 class usernameGroupnameExists(validators.Schema):
@@ -140,7 +141,7 @@ class Group(controllers.Controller):
     @validate(validators=createGroup())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
-    def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prequisite='', join_msg=''):
+    def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
         '''Create a group'''
         username = turbogears.identity.current.user_name
         groupname = name
@@ -161,7 +162,7 @@ class Group(controllers.Controller):
             if prerequisite:
                 prerequisite = Groups.by_name(prerequisite)
                 group.prerequisite = prerequisite
-            group.join_msg = join_msg
+            group.joinmsg = joinmsg
             # Log here
             session.flush()
         except:
@@ -199,9 +200,8 @@ class Group(controllers.Controller):
     @validate(validators=editGroup())
     @error_handler(error)
     @expose()
-    def save(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prequisite='', join_msg=''):
+    def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
         '''Edit a group'''
-        groupname = name
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         group = Groups.by_name(groupname)
@@ -220,7 +220,7 @@ class Group(controllers.Controller):
                 if prerequisite:
                     prerequisite = Groups.by_name(prerequisite)
                     group.prerequisite = prerequisite
-                group.join_msg = join_msg
+                group.joinmsg = joinmsg
                 # Log here
                 session.flush()
             except:
@@ -318,7 +318,7 @@ class Group(controllers.Controller):
                     propagate into the e-mail aliases and CVS repository within an hour.
 
                     %(joinmsg)s
-                    ''') % {'group': group.name, 'name': user.human_name, 'email': user.emails['primary'].email, 'joinmsg': group.join_msg}
+                    ''') % {'group': group.name, 'name': user.human_name, 'email': user.emails['primary'].email, 'joinmsg': group.joinmsg}
                 turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % person.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)

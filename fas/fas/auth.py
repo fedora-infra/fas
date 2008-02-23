@@ -31,27 +31,24 @@ def canAdminGroup(person, group):
     '''
     Returns True if the user is allowed to act as an admin for a group
     '''
-    try:
-        if isAdmin(username) or (group.owner == person):
+    if isAdmin(person) or (group.owner == person):
+        return True
+    else:
+        try:
+            role = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id).one()
+        except IndexError:
+            ''' Not in the group '''
+            return False
+        if r.role_status == 'approved' and r.role_type == 'administrator':
             return True
-        else:
-            try:
-                role = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id).one()
-            except IndexError:
-                ''' Not in the group '''
-                return False
-            if r.role_status == 'approved' and r.role_type == 'administrator':
-                return True
-        return False
-    except:
-        return False
+    return False
 
 def canSponsorGroup(person, group):
     '''
     Returns True if the user is allowed to act as a sponsor for a group
     '''
     try:
-        if isAdmin(person, group) or \
+        if isAdmin(person) or \
             group.owner == person:
             return True
         else:
@@ -85,7 +82,8 @@ def signedCLAPrivs(person):
     '''
     Returns True if the user has completed the GPG-signed CLA
     '''
-    if isApproved(person, config.get('cla_sign_group')):
+    cla_sign_group = Groups.by_name(config.get('cla_sign_group'))
+    if isApproved(person, cla_sign_group):
         return True
     else:
         return False
@@ -94,8 +92,9 @@ def clickedCLAPrivs(person):
     '''
     Returns True if the user has completed the click-through CLA
     '''
+    cla_click_group = Groups.by_name(config.get('cla_click_group'))
     if signedCLAPrivs(person) or \
-       isApproved(person, config.get('cla_click_group')):
+        isApproved(person, cla_click_group):
         return True
     else:
         return False

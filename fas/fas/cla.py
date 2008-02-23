@@ -1,5 +1,6 @@
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears.database import session
 
 import ldap
 import cherrypy
@@ -29,8 +30,10 @@ class CLA(controllers.Controller):
     def index(self):
         '''Display an explanatory message about the Click-through and Signed CLAs (with links)'''
         username = turbogears.identity.current.user_name
-        signedCLA = signedCLAPrivs(username)
-        clickedCLA = clickedCLAPrivs(username)
+        person = People.by_username(username)
+
+        signedCLA = signedCLAPrivs(person)
+        clickedCLA = clickedCLAPrivs(person)
         return dict(signedCLA=signedCLA, clickedCLA=clickedCLA)
 
     def jsonRequest(self):
@@ -77,7 +80,7 @@ class CLA(controllers.Controller):
     def download(self, type=None):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
-        person = Person.by_username(username)
+        person = People.by_username(username)
         return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -86,7 +89,7 @@ class CLA(controllers.Controller):
     def sign(self, signature):
         '''Sign CLA'''
         username = turbogears.identity.current.user_name
-        person = Person.by_username(username)
+        person = People.by_username(username)
 
         if signedCLAPrivs(person):
             turbogears.flash(_('You have already signed the CLA.'))
@@ -161,7 +164,7 @@ class CLA(controllers.Controller):
     def click(self, agree):
         '''Click-through CLA'''
         username = turbogears.identity.current.user_name
-        person = Person.by_username(username)
+        person = People.by_username(username)
 
         if signedCLAPrivs(person):
             turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
@@ -176,7 +179,9 @@ class CLA(controllers.Controller):
         if agree.lower() == 'i agree':
             try:
                 person.apply(group, person) # Apply...
+                session.flush()
                 group.sponsor_person(person, person) # Approve...
+                session.flush()
             except:
                 turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
                 turbogears.redirect('/cla/view/click')

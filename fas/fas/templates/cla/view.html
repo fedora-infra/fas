@@ -18,8 +18,8 @@
       <form action="${tg.url('/cla/click')}" method="post">
         <div>
           ${_('If you agree to these terms and conditions, type "%s" here:') % 'I agree'} <input type="text" id="agree" name="agree" /><br />
-          ${_('Full Name:')} ${user.human_name}<br />
-          ${_('E-mail:')} ${user.emails['primary'].email}<br />
+          ${_('Full Name:')} ${person.human_name}<br />
+          ${_('E-mail:')} ${person.emails['primary'].email}<br />
           ${_('Date:')} ${date}<br />
           <input type="submit" value="${_('Submit CLA')}" />
         </div>
@@ -27,9 +27,7 @@
     </div>
     <div py:if="type == 'sign'" py:strip=''>
       <p>
-      ${_('Use the below link to download/save the CLA as fedora-icla-${user.cn}.txt, and run:
-      &lt;pre&gt;gpg -as fedora-icla-${user.username}.txt&lt;/pre&gt;
-      After, upload fedora-icla-${user.username}.txt.asc in the form below.')}
+      ${Markup(_('Use the below link to download/save the CLA as fedora-icla-%(username)s.txt, and run: &lt;pre&gt;gpg -as fedora-icla-%(username)s.txt&lt;/pre&gt; After, upload fedora-icla-%(username)s.txt.asc in the form below.') % {'username': person.username})}
       </p>
       <p>
       <a href="${tg.url('/cla/download')}">${_('Download the CLA text file here!')}</a>
