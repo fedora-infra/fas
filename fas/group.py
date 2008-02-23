@@ -6,14 +6,14 @@ import cherrypy
 
 import fas.fasLDAP
 
-from fas.fasLDAP import UserAccount
-from fas.fasLDAP import Person
-from fas.fasLDAP import Groups
-from fas.fasLDAP import UserGroup
+#from fas.fasLDAP import UserAccount
+#from fas.fasLDAP import Person
+#from fas.fasLDAP import Groups
+#from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
-from fas.user import knownUser, userNameExists
+from fas.user import knownUser, usernameExists
 
 from textwrap import dedent
 
@@ -29,16 +29,6 @@ class knownGroup(validators.FancyValidator):
         except InvalidRequestError:
             raise validators.Invalid(_("The group '%s' does not exist.") % value, value, state)
 
-class groupsExist(validators.FancyValidator):
-    '''Make sure that required groups already exist'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        for group in value.split():
-            g = Groups.groups(group)
-            if not g:
-                raise validators.Invalid(_("The required group '%s' does not exist.") % value, value, state)
-
 class unknownGroup(validators.FancyValidator):
     '''Make sure that a group doesn't already exist'''
     def _to_python(self, value, state):
@@ -49,32 +39,34 @@ class unknownGroup(validators.FancyValidator):
             raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
 class createGroup(validators.Schema):
-    groupName = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
-    fedoraGroupDesc = validators.NotEmpty
-    fedoraGroupOwner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    fedoraGroupRequires = groupsExist
+    name = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    display_name = validators.NotEmpty
+    owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    prerequisites = knownGroup
+    #group_type = something
 
 class editGroup(validators.Schema):
-    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
-    fedoraGroupDesc = validators.NotEmpty
-    fedoraGroupOwner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    fedoraGroupRequires = groupsExist
+    name = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    display_name = validators.NotEmpty
+    owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    prerequisites = knownGroup
+    #group_type = something
 
-class userNameGroupNameExists(validators.Schema):
-    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
-    userName = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+class usernameGroupnameExists(validators.Schema):
+    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    username = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
-class groupNameExists(validators.Schema):
-    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+class groupnameExists(validators.Schema):
+    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
 
 class groupInvite(validators.Schema):
-    groupName = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     target = validators.Email(not_empty=True, strip=True),
 
 #class findUser(widgets.WidgetsList): 
-#    userName = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='userName', result_name='people')   
+#    username = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='username', result_name='people')   
 #    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
-#    groupName = widgets.HiddenField(validator=validators.String(not_empty=True)) 
+#    groupname = widgets.HiddenField(validator=validators.String(not_empty=True)) 
 #
 #findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite')) 
 
@@ -102,55 +94,44 @@ class Group(controllers.Controller):
     @expose(format="json")
     def exportShellAccounts(self):
         ''' Replaces old "exportShellAccounts.py" '''
-        userList = Groups.byGroupName('sysadmin-main')
-        user = Person.byUserName('mmcgrath').givenName
+        # TODO: Restrict access to this.
+        group = Groups.by_name('sysadmin-main')
         users = {}
-        for user in userList.keys():
-            u = Person.byUserName(user)
-            users[user] = {
-                'userName' : u.cn,
-                'password' : u.userPassword,
-                'sshKey' : u.fedoraPersonSshKey,
-            }
-        groups = Groups.groups('*')
+        for role in userlist.roles:
+            if role.status == 'approved':
+                person = role.member
+                users[person.username] = {
+                    'password' : u.password,
+                    'ssh_key' : u.ssh_key,
+                }
+        groups = Groups.query.all()
         return dict(users=users, groups=groups)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupNameExists())
+    @validate(validators=groupnameExists())
     @error_handler(error)
     @expose(template="fas.templates.group.view")
-    def view(self, groupName):
+    def view(self, groupname):
         '''View group'''
-        person = People.by_username(turbogears.identity.current.user_name)
-        if not canViewGroup(person.username, groupName):
-            turbogears.flash(_("You cannot view '%s'") % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if not canViewGroup(person, group):
+            turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
         else:
-            group = Groups.by_name(groupName)
-#            group = Groups.groups(groupName)[groupName]
-#            userName = turbogears.identity.current.user_name
-            #try:
-                #myStatus = groups[userName].fedoraRoleStatus
-            #except KeyError:
-                ## Not in group
-                #myStatus = 'Not a Member' # This _has_ to stay 'Not a Member'
-            #except TypeError:
-                #groups = {}
-            #try:
-                #me = groups[userName]
-            #except:
-                #me = UserGroup()
-            #u = Person.byUserName(userName) 
-#            return dict(userName=userName, u=u, groups=groups, group=group, me=me)
             return dict(person=person, group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
     def new(self):
         '''Display create group form'''
-        userName = turbogears.identity.current.user_name
-        if not canCreateGroup(userName):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
+        if not canCreateGroup(person):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         return dict()
@@ -159,321 +140,347 @@ class Group(controllers.Controller):
     @validate(validators=createGroup())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
-    def create(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor='FALSE', fedoraGroupUserCanRemove='FALSE', fedoraGroupRequires='', fedoraGroupJoinMsg=''):
+    def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prequisite='', join_msg=''):
         '''Create a group'''
-        userName = turbogears.identity.current.user_name
-        if not canCreateGroup(userName):
+        username = turbogears.identity.current.user_name
+        groupname = name
+        person = People.by_username(username)
+
+        if not canCreateGroup(username):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
-            fas.fasLDAP.Group.newGroup(groupName,
-                                       fedoraGroupDesc,
-                                       fedoraGroupOwner,
-                                       fedoraGroupType,
-                                       fedoraGroupNeedsSponsor,
-                                       fedoraGroupUserCanRemove,
-                                       fedoraGroupRequires,
-                                       fedoraGroupJoinMsg)
+            owner = People.by_username(owner)
+            group = Group()
+            group.name = name
+            group.display_name = display_name
+            group.owner = owner
+            group.group_type = group_type
+            group.needs_sponsor = needs_sponsor
+            group.user_can_remove = user_can_remove
+            if prerequisite:
+                prerequisite = Groups.by_name(prerequisite)
+                group.prerequisite = prerequisite
+            group.join_msg = join_msg
+            # Log here
+            session.flush()
         except:
-            turbogears.flash(_("The group: '%s' could not be created.") % groupName)
+            turbogears.flash(_("The group: '%s' could not be created.") % groupname)
             return dict()
         else:
             try:
-                p = Person.byUserName(fedoraGroupOwner) 
-                Groups.apply(groupName, fedoraGroupOwner) # Apply...
-                p.sponsor(groupName, userName) # Approve...
-                p.upgrade(groupName) # Sponsor...
-                p.upgrade(groupName) # Admin!
+                owner.apply(group, person) # Apply...
+                group.sponsor_person(person, owner) # Approve...
+                group.upgrade_person(person, owner) # Sponsor...
+                group.upgrade_person(person, owner) # Admin!
             except:
-                turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': groupName, 'user': fedoraGroupOwner})
+                turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': group.name, 'user': owner.username})
             else:
-                turbogears.flash(_("The group: '%s' has been created.") % groupName)
-            turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_("The group: '%s' has been created.") % group.name)
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupNameExists())
+    @validate(validators=groupnameExists())
     @error_handler(error)
     @expose(template="fas.templates.group.edit")
-    def edit(self, groupName):
+    def edit(self, groupname):
         '''Display edit group form'''
-        userName = turbogears.identity.current.user_name
-        if not canAdminGroup(userName, groupName):
-            turbogears.flash(_("You cannot edit '%s'.") % groupName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        group = Groups.groups(groupName)[groupName]
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if not canAdminGroup(person, group):
+            turbogears.flash(_("You cannot edit '%s'.") % group.name)
+            turbogears.redirect('/group/view/%s' % group.name)
         return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editGroup())
     @error_handler(error)
     @expose()
-    def save(self, groupName, fedoraGroupDesc, fedoraGroupOwner, fedoraGroupType, fedoraGroupNeedsSponsor="FALSE", fedoraGroupUserCanRemove="FALSE", fedoraGroupRequires="", fedoraGroupJoinMsg=""):
+    def save(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prequisite='', join_msg=''):
         '''Edit a group'''
-        userName = turbogears.identity.current.user_name
-        if fedoraGroupRequires is None:
-            fedoraGroupRequires = ""
-        if not canEditGroup(userName, groupName):
-            turbogears.flash(_("You cannot edit '%s'.") % groupName)
-            turbogears.redirect('/group/view/%s' % groupName)
-        # TODO: This is kind of an ugly hack.
+        groupname = name
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if not canEditGroup(person, group):
+            turbogears.flash(_("You cannot edit '%s'.") % group.name)
+            turbogears.redirect('/group/view/%s' % group.name)
         else:
             try:
-                base = 'cn=%s,ou=FedoraGroups,dc=fedoraproject,dc=org' % groupName
-                server = fas.fasLDAP.Server()
-                server.modify(base, 'fedoraGroupDesc', fedoraGroupDesc)
-                server.modify(base, 'fedoraGroupOwner', fedoraGroupOwner)
-                server.modify(base, 'fedoraGroupType', fedoraGroupType)
-                server.modify(base, 'fedoraGroupNeedsSponsor', fedoraGroupNeedsSponsor)
-                server.modify(base, 'fedoraGroupUserCanRemove', fedoraGroupUserCanRemove)
-                server.modify(base, 'fedoraGroupRequires', fedoraGroupRequires)
-                server.modify(base, 'fedoraGroupJoinMsg', fedoraGroupJoinMsg)
+                owner = People.by_username(owner)
+                group.display_name = display_name
+                group.owner = owner
+                group.group_type = group_type
+                group.needs_sponsor = needs_sponsor
+                group.user_can_remove = user_can_remove
+                if prerequisite:
+                    prerequisite = Groups.by_name(prerequisite)
+                    group.prerequisite = prerequisite
+                group.join_msg = join_msg
+                # Log here
+                session.flush()
             except:
                 turbogears.flash(_('The group details could not be saved.'))
             else:
                 turbogears.flash(_('The group details have been saved.'))
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.redirect('/group/view/%s' % groupname)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.list", allow_json=True)
     def list(self, search='*'):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
         re_search = re.sub(r'\*', r'%', search).lower()
         groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
-        p = People.by_username(turbogears.identity.current.user_name)
         if groups.count() <= 0:
             turbogears.flash(_("No Groups found matching '%s'") % search)
             groups = {}
         if self.jsonRequest():
             return ({'groups': groups})
-        return dict(groups=groups, search=search, p=p)
+        return dict(groups=groups, search=search, person=person)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameGroupNameExists())
+    @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def apply(self, groupName, userName=None):
+    def apply(self, groupname, targetname=None):
         '''Apply to a group'''
-        applicant = turbogears.identity.current.user_name
-        if not userName:
-            userName = applicant
-        if not canApplyGroup(applicant, groupName, userName)['status']:
-            turbogears.flash(_('%(user)s could not apply to %(group)s! This group requires membership in %(requires)s') % \
-                {'user': userName, 'group': groupName, 'requires': canApplyGroup(applicant, groupName, userName)['requires']})
-            turbogears.redirect('/group/view/%s' % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        if not targetname:
+            target = person
+        else:
+            target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if not canApplyGroup(person, group, target):
+            turbogears.flash(_('%(user)s could not apply to %(group)s.') % \
+                {'user': target.username, 'group': group.name })
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
             try:
-                Groups.apply(groupName, userName)
-            except ldap.ALREADY_EXISTS:
+                target.apply(group, person)
+            except: # TODO: More specific exception here.
                 turbogears.flash(_('%(user)s has already applied to %(group)s!') % \
-                    {'user': userName, 'group': groupName})
+                    {'user': target.username, 'group': group.name})
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % groupName, \
-                    "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': userName, 'group': groupName})
-                user = Person.byUserName(userName)
-                name = user.givenName
-                email = user.mail
-                url = config.get('base_url') + turbogears.url('/group/edit/%s' % groupName)
+                # TODO: CC to right place, put a bit more thought into how to most elegantly do this
+                message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % group.name, \
+                    "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
+                url = config.get('base_url') + turbogears.url('/group/edit/%s' % groupname)
                 message.plain = dedent('''
                     Fedora user %(user)s, aka %(name)s <%(email)s> has requested
-                    membership in the web group and needs a sponsor.
+                    membership for %(applicant) (%(applicant_name)) in the %(group) group and needs a sponsor.
     
                     Please go to %(url)s to take action.  
-                    ''') % {'user': userName, 'name': name, 'email': email, 'url': url}
+                    ''') % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.emails['primary'].email, 'url': url}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
-                    {'user': userName, 'group': groupName})
-                turbogears.redirect('/group/view/%s' % groupName)
+                    {'user': target.username, 'group': group.name})
+                turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameGroupNameExists())
+    @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def sponsor(self, groupName, userName):
+    def sponsor(self, groupname, targetname):
         '''Sponsor user'''
-        sponsor = turbogears.identity.current.user_name
-        if not canSponsorUser(sponsor, groupName, userName):
-            turbogears.flash(_("You cannot sponsor '%s'") % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if not canSponsorUser(sponsor, group, target):
+            turbogears.flash(_("You cannot sponsor '%s'") % target.username)
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
-            p = Person.byUserName(userName)
             try:
-                p.sponsor(groupName, sponsor)
+                group.sponsor_person(person, target)
             except:
-                turbogears.flash(_("'%s' could not be sponsored!") % p.cn)
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_("'%s' could not be sponsored!") % target.username)
+                turbogears.redirect('/group/view/%s' % group.name)
             else:
-                user = Person.byUserName(sponsor)
-                group = Groups.groups(groupName)[groupName]
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been sponsored" % groupName)
+                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been sponsored" % group.name)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has sponsored you for membership in the %(group)s
                     group of the Fedora account system. If applicable, this change should
                     propagate into the e-mail aliases and CVS repository within an hour.
 
                     %(joinmsg)s
-                    ''') % {'group': groupName, 'name': user.givenName, 'email': user.mail, 'joinmsg': group.fedoraGroupJoinMsg}
+                    ''') % {'group': group.name, 'name': user.human_name, 'email': user.emails['primary'].email, 'joinmsg': group.join_msg}
                 turbomail.enqueue(message)
-                turbogears.flash(_("'%s' has been sponsored!") % p.cn)
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_("'%s' has been sponsored!") % person.human_name)
+                turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameGroupNameExists())
+    @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def remove(self, groupName, userName):
+    def remove(self, groupname, targetname):
         '''Remove user from group'''
         # TODO: Add confirmation?
-        sponsor = turbogears.identity.current.user_name
-        if not canRemoveUser(sponsor, groupName, userName):
-            turbogears.flash(_("You cannot remove '%s'.") % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if not canRemoveUser(person, group, target):
+            turbogears.flash(_("You cannot remove '%s'.") % target.username)
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
             try:
-                Groups.remove(groupName, userName)
+                group.remove_person(person, target)
             except:
                 turbogears.flash(_('%(name)s could not be removed from %(group)s!') % \
-                    {'name': userName, 'group': groupName})
-                turbogears.redirect('/group/view/%s' % groupName)
+                    {'name': target.username, 'group': group.name})
+                turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                sponsor = Person.byUserName(sponsor)
-                user = Person.byUserName(userName)
-                message = turbomail.Message(config.get('accounts_mail'), user.mail, "Your Fedora '%s' membership has been removed" % groupName)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has removed you from the '%(group)s'
                     group of the Fedora Accounts System This change is effective
                     immediately for new operations, and should propagate into the e-mail
                     aliases within an hour.
-                    ''') % {'group': groupName, 'name': sponsor.name, 'email': sponsor.mail}
+                    ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
-                    {'name': userName, 'group': groupName})
-                turbogears.redirect('/group/view/%s' % groupName)
+                    {'name': target.username, 'group': group.name})
+                turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameGroupNameExists())
+    @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def upgrade(self, groupName, userName):
+    def upgrade(self, groupname, targetname):
         '''Upgrade user in group'''
-        sponsor = turbogears.identity.current.user_name
-        if not canUpgradeUser(sponsor, groupName, userName):
-            turbogears.flash(_("You cannot upgrade '%s'") % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if not canUpgradeUser(person, group, target):
+            turbogears.flash(_("You cannot upgrade '%s'") % target.username)
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
-            p = Person.byUserName(userName)
             try:
-                p.upgrade(groupName)
+                group.upgrade_person(person, target)
             except TypeError, e:
                 turbogears.flash(e)
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.redirect('/group/view/%s' % group.name)
             except:
-                turbogears.flash(_('%(name)s could not be upgraded!') % {'name' : userName})
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_('%(name)s could not be upgraded!') % {'name' : target.username})
+                turbogears.redirect('/group/view/%s' % group.name)
             else:
-                user = Person.byUserName(sponsor)
-                group = Groups.groups(groupName)[groupName]
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been upgraded" % groupName)
-                user = Person.byUserName(userName)
-                g = Groups.byUserName(userName)
-                status = g[groupName].fedoraRoleType.lower()
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been upgraded" % group.name)
+                user = Person.byUsername(username)
+                g = Groups.byUsername(username)
+                # Should we make upgrade_person return this?
+                role = PersonRoles.query.filter_by(group=group, member=target).one()
+                status = role.role_type
                 message.plain = dedent('''
                     %(name)s <%(email)s> has upgraded you to %(status)s status in the
                     '%(group)s' group of the Fedora Accounts System This change is
                     effective immediately for new operations, and should propagate
                     into the e-mail aliases within an hour.
-                    ''') % {'group': groupName, 'name': user.givenName, 'email': user.mail, 'status': status}
+                    ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'status': status}
                 turbomail.enqueue(message)
-                turbogears.flash(_('%s has been upgraded!') % userName)
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_('%s has been upgraded!') % person.username)
+                turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameGroupNameExists())
+    @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def downgrade(self, groupName, userName):
+    def downgrade(self, groupname, username):
         '''Upgrade user in group'''
-        sponsor = turbogears.identity.current.user_name
-        if not canDowngradeUser(sponsor, groupName, userName):
-            turbogears.flash(_("You cannot downgrade '%s'") % userName)
-            turbogears.redirect('/group/view/%s' % groupName)
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if not canDowngradeUser(person, group, target):
+            turbogears.flash(_("You cannot downgrade '%s'") % target.username)
+            turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
-            p = Person.byUserName(userName)
             try:
-                p.downgrade(groupName)
-            except TypeError, e:
-                turbogears.flash(e)
-                turbogears.redirect('/group/view/%s' % groupName)
+                group.downgrade_person(person, target)
             except:
-                turbogears.flash(_('%(name)s could not be downgraded!') % {'name': userName})
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_('%(username)s could not be downgraded!') % {'username': target.username})
+                turbogears.redirect('/group/view/%s' % group.name)
             else:
-                user = Person.byUserName(sponsor)
-                group = Groups.groups(groupName)[groupName]
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been downgraded" % groupName)
-                user = Person.byUserName(userName)
-                name = user.givenName
-                email = user.mail
-                g = Groups.byUserName(userName)
-                status = g[groupName].fedoraRoleType.lower()
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been downgraded" % group.name)
+                role = PersonRoles.query.filter_by(group=group, member=target).one()
+                status = role.role_type
                 message.plain = dedent('''
                     %(name)s <%(email)s> has downgraded you to %(status)s status in the
                     '%(group)s' group of the Fedora Accounts System This change is
                     effective immediately for new operations, and should propagate
                     into the e-mail aliases within an hour.
-                    ''') % {'group': groupName, 'name': name, 'email': email, 'status': status}
+                    ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'status': status}
                 turbomail.enqueue(message)
-                turbogears.flash(_('%s has been downgraded!') % p.cn)
-                turbogears.redirect('/group/view/%s' % groupName)
+                turbogears.flash(_('%s has been downgraded!') % target.username)
+                turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupNameExists())
+    @validate(validators=groupnameExists())
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
-    def dump(self, groupName):
-        userName = turbogears.identity.current.user_name
-        if not canViewGroup(userName, groupName):
-            turbogears.flash(_("You cannot view '%s'") % groupName)
+    def dump(self, groupname):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if not canViewGroup(person, group):
+            turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
         else:
-            groups = Groups.byGroupName(groupName)
-            return dict(groups=groups, Person=Person)
+            return dict(groups=groups)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=groupNameExists())
+    @validate(validators=groupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.invite')
-    def invite(self, groupName):
-        userName = turbogears.identity.current.user_name
-        user = Person.byUserName(userName)
-        return dict(user=user, group=groupName)
+    def invite(self, groupname):
+        username = turbogears.identity.current.user_name
+        person = Person.byUsername(username)
+        group = Groups.by_name(groupname)
+
+        return dict(person=person, group=group)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=groupNameExists())
+    @validate(validators=groupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.invite')
-    def sendinvite(self, groupName, target=None):
+    def sendinvite(self, groupname, target):
         import turbomail
-        userName = turbogears.identity.current.user_name
-        user = Person.byUserName(userName)
-        if isApproved(userName, groupName):
-            message = turbomail.Message(user.mail, target, _('Come join The Fedora Project!'))
+        username = turbogears.identity.current.user_name
+        person = Person.byUsername(username)
+        group = Groups.by_name(groupname)
+
+        if isApproved(person, group):
+            message = turbomail.Message(person.emails['primary'].email, target, _('Come join The Fedora Project!'))
             message.plain = _(dedent('''
                 %(name)s <%(email)s> has invited you to join the Fedora
                 Project!  We are a community of users and developers who produce a
@@ -489,11 +496,11 @@ class Group(controllers.Controller):
                 a people person.  You'll grow and learn as you work on a team with other
                 very smart and talented people.
 
-                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': user.givenName, 'email': user.mail}
+                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': user.human_name, 'email': user.emails['primary'].email}
             turbomail.enqueue(message)
             turbogears.flash(_('Message sent to: %s') % target)
-            turbogears.redirect('/group/view/%s' % groupName)
+            turbogears.redirect('/group/view/%s' % group.name)
         else:
-            turbogears.flash(_("You are not in the '%s' group.") % groupName)
-        return dict(target=target, user=user)
+            turbogears.flash(_("You are not in the '%s' group.") % group.name)
+        return dict(target=target, person=person)
 

@@ -52,7 +52,7 @@ class unknownUser(validators.FancyValidator):
         
         raise validators.Invalid(_("'%s' already exists.") % value, value, state)
             
-class userNameAllowed(validators.FancyValidator):
+class usernameAllowed(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     def _to_python(self, value, state):
         return value.strip()
@@ -76,7 +76,7 @@ class editUser(validators.Schema):
 class newUser(validators.Schema):
     username = validators.All(
         unknownUser(not_empty=True, max=10),
-        userNameAllowed(not_empty=True),
+        usernameAllowed(not_empty=True),
         validators.String(max=32, min=3),
     )
     human_name = validators.String(not_empty=True, max=42)
@@ -95,8 +95,8 @@ class changePass(validators.Schema):
     passwordcheck = validators.String()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
-class userNameExists(validators.Schema):
-    userName = validators.All(knownUser(max=10), validators.String(max=32, min=3))
+class usernameExists(validators.Schema):
+    username = validators.All(knownUser(max=10), validators.String(max=32, min=3))
     
 def generatePassword(password=None,length=14,salt=''):
     ''' Generate Password '''
@@ -142,91 +142,83 @@ class User(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=userNameExists())
+    @validate(validators=usernameExists())
     @error_handler(error)
     @expose(template="fas.templates.user.view")
-    def view(self, userName=None):
+    def view(self, username=None):
         '''View a User.
-        '''
-        if not userName:
-            userName = turbogears.identity.current.user_name
-        if turbogears.identity.current.user_name == userName:
-            personal = True
-        else:
-            personal = False
-        if isAdmin(turbogears.identity.current.user_name):
-            admin = True
-        else:
-            admin = False
-        user = People.by_username(userName)
-        groups = []
-        for group in user.roles:
-            groups.append(Groups.by_name(group.group.name))
-#        groupsPending = Groups.byUserName(userName, unapprovedOnly=True)
-        groupsPending = []
-        groupdata={}
-        groupUnapproved={}
-        #for g in groups:
-            #groupdata[g] = Groups.groups(g)[g]
-            #unapproved = Groups.byGroupName(g, unapprovedOnly=True)
-            #unapproved = [(v,k) for k,v in unapproved.items()]
-            #unapproved.sort(date_compare)
-            #unapproved.reverse()
-            #groupUnapproved[g] = [(Person.byUserName(k).givenName,v) for v,k in unapproved]
-#        for g in groupsPending:
-#            groupdata[g] = Groups.groups(g)[g]
-        try:
-            g = Groups.by_name('cla_done')
-            if g in user.memberships:
-                claDone=True
-            else:
-                claDone=False
-        except InvalidRequestError:
-            claDone=None
-        return dict(user=user, groups=groups, groupsPending=groupsPending, groupdata=groupdata, groupUnapproved=groupUnapproved, claDone=claDone, personal=personal, admin=admin)
-
-    @identity.require(turbogears.identity.not_anonymous())
-#    @validate(validators=userNameExists())
-#    @error_handler(error)
-    @expose(template="fas.templates.user.edit")
-    def edit(self, username=None):
-        '''Edit a user
         '''
         if not username:
             username = turbogears.identity.current.user_name
-        if not canEditUser(turbogears.identity.current.user_name, username):
-            turbogears.flash(_('You cannot edit %s') % username )
+        person = People.by_username(username)
+        if turbogears.identity.current.user_name == username:
+            personal = True
+        else:
+            personal = False
+        if isAdmin(person):
+            admin = True
+        else:
+            admin = False
+        groups = []
+        # Possibly extract this info in view (person.roles[n].group gives the group)
+        for group in person.roles:
+            groups.append(Groups.by_name(group.group.name))
+        cla = None
+        if clickedCLAPrivs(person):
+            cla = 'clicked'
+        if signedCLAPrivs(person):
+            cla = 'signed'
+        return dict(person=person, groups=groups, cla=cla, personal=personal, admin=admin)
+
+    @identity.require(turbogears.identity.not_anonymous())
+#    @validate(validators=usernameExists())
+#    @error_handler(error)
+    @expose(template="fas.templates.user.edit")
+    def edit(self, targetname=None):
+        '''Edit a user
+        '''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
+        if target:
+            target = People.by_username(target)
+        else:
+            target = person
+        if not canEditUser(person, target):
+            turbogears.flash(_('You cannot edit %s') % target.username )
             username = turbogears.identity.current.username
-        user = People.by_username(username)
-    
-        return dict(user=user)
+        return dict(target=target)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editUser())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, username, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', timezone='UTC'):
-        if not canEditUser(turbogears.identity.current.user_name, username):
-            turbogears.flash(_("You do not have permission to edit '%s'" % username))
-            turbogears.redirect('/user/edit/%s', turbogears.identity.current.user_name)
+    def save(self, targetname, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', timezone='UTC'):
+        username = turbogears.identity.current.user_name
+        target = targetname
+        person = People.by_username(username)
+        target = People.by_username(target)
+
+        if not canEditUser(person, target):
+            turbogears.flash(_("You do not have permission to edit '%s'" % target.username))
+            turbogears.redirect('/user/edit/%s', target.username)
             return dict()
-        user = People.by_username(username)
         try:
-            user.human_name = human_name
-            user.emails['primary'].email = email
-#            user.emails['bugzilla'] = PersonEmails(primary=bugzilla)
-            user.ircnick = ircnick
-#            user.gpg_keyid = gpg_keyid
-            user.telephone = telephone
-            user.postal_address = postal_address
-            user.comments = comments
-            user.timezone = timezone
+            target.human_name = human_name
+            target.emails['primary'].email = email
+#            target.emails['bugzilla'] = PersonEmails(primary=bugzilla)
+            target.ircnick = ircnick
+#            target.gpg_keyid = gpg_keyid
+            target.telephone = telephone
+            target.postal_address = postal_address
+            target.comments = comments
+            target.timezone = timezone
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s' % e))
         else:
             turbogears.flash(_('Your account details have been saved.'))
-            turbogears.redirect("/user/view/%s" % username)
-        return dict(user=user)
+            turbogears.redirect("/user/view/%s" % target.username)
+        return dict(target=target)
 
     @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
     @expose(template="fas.templates.user.list")
@@ -251,7 +243,6 @@ class User(controllers.Controller):
     @validate(validators=newUser())
     @error_handler(error)
     @expose(template='fas.templates.new')
-    # Kill mail for now.
     def create(self, username, human_name, email, telephone, postal_address):
         # TODO: Ensure that e-mails are unique- this should probably be done in the LDAP schema.
         #       Also, perhaps implement a timeout- delete account
@@ -259,14 +250,14 @@ class User(controllers.Controller):
         #           their password) withing X days.  
         import turbomail
         try:
-            p = People(username=username,
-                human_name=human_name,
-                telephone=telephone,
-                password='*')
-            p.emails['primary'] = PersonEmails(email=email, purpose='primary')
-
+            person = People()
+            person.username = username
+            person.human_name = human_name
+            person.telephone = telephone
+            person.password = '*'
+            person.emails['primary'] = PersonEmails(email=email, purpose='primary')
             newpass = generatePassword()
-            message = turbomail.Message(config.get('accounts_mail'), p.emails['primary'].email, _('Fedora Project Password Reset'))
+            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
                  You have created a new Fedora account!
                  Your new password is: %s
@@ -274,7 +265,7 @@ class User(controllers.Controller):
                  Please go to https://admin.fedoraproject.org/fas/ to change it.
                  ''') % newpass['pass'])
             turbomail.enqueue(message)
-            p.password = newpass['pass']
+            person.password = newpass['pass']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/login')
         except KeyError:
@@ -292,13 +283,16 @@ class User(controllers.Controller):
     @error_handler(error)
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck):
-        p  = People.by_username(turbogears.identity.current.user_name)
-        if not p.password == currentpassword:
+        username = turbogears.identity.current.user_name
+        person  = People.by_username(username)
+
+        # TODO: Auth method (complete with salted hash)
+        if not person.password == currentpassword:
             turbogears.flash('Your current password did not match')
             return dict()
         newpass = generatePassword(password)
         try:
-            p.password = newpass['pass']
+            person.password = newpass['pass']
             turbogears.flash(_("Your password has been changed."))
         except:
             turbogears.flash(_("Your password could not be changed."))
@@ -319,9 +313,9 @@ class User(controllers.Controller):
             turbogears.flash(_("You are already logged in."))
             turbogears.redirect('/user/view/%s', turbogears.identity.current.user_name)
             return dict()
-        p = People.by_username(username)
+        person = People.by_username(username)
         if username and email:
-            if not email == p.emails['primary'].email:
+            if not email == person.emails['primary'].email:
                 turbogears.flash(_("username + email combo unknown."))
                 return dict()
             newpass = generatePassword()
@@ -356,7 +350,7 @@ class User(controllers.Controller):
                 message.plain = mail;
             turbomail.enqueue(message)
             try:
-                p.password = newpass['pass']
+                person.password = newpass['pass']
                 turbogears.flash(_('Your new password has been emailed to you.'))
             except:
                 turbogears.flash(_('Your password could not be reset.'))
@@ -368,8 +362,10 @@ class User(controllers.Controller):
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
     def gencert(self):
       from fas.openssl_fas import *
-      user = Person.by_username(turbogears.identity.current.user_name)
-      user.certificate_serial = int(user.certificate_serial) + 1
+      username = turbogears.identity.current.user_name
+      person = Person.by_username(username)
+
+      person.certificate_serial = person.certificate_serial + 1
 
       pkey = createKeyPair(TYPE_RSA, 1024);
 
@@ -387,10 +383,10 @@ class User(controllers.Controller):
           O=config.get('openssl_o'),
           OU=config.get('openssl_ou'),
           CN=user.cn,
-          emailAddress=user.mail,
+          emailAddress=person.mail,
           )
 
-      cert = createCertificate(req, (cacert, cakey), int(user.certificate_serial), (0, expire), digest='md5')
+      cert = createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
       certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)

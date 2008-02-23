@@ -178,7 +178,7 @@ class Groups(SABase):
 
     def sponsor_person(cls, sponsor, target):
         # If we want to do logging, this might be the place.
-        # Hope group=cls works...
+        # TODO: Find out how to log timestamp
         role = PersonRoles.query.filter_by(group=cls, member=target).one()
         if role.role_status != 'approved':
             role.role_status = 'approved'

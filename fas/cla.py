@@ -18,7 +18,7 @@ from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
-from fas.user import knownUser, userNameExists
+from fas.user import knownUser, usernameExists
 
 class CLA(controllers.Controller):
 
@@ -50,26 +50,26 @@ class CLA(controllers.Controller):
     def view(self, type=None):
         '''View CLA'''
         username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
         if type == 'click':
-            if signedCLAPrivs(username):
+            if signedCLAPrivs(person):
                 turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
                 turbogears.redirect('/cla')
                 return dict()
-            if clickedCLAPrivs(username):
+            if clickedCLAPrivs(person):
                 turbogears.flash(_('You have already completed the Click-through CLA.'))
                 turbogears.redirect('/cla')
                 return dict()
         elif type == 'sign':
-            if signedCLAPrivs(username):
+            if signedCLAPrivs(person):
                 turbogears.flash(_('You have already signed the CLA.'))
                 turbogears.redirect('/cla')
                 return dict()
         elif type != None:
             turbogears.redirect('/cla')
             return dict()
-        username = turbogears.identity.current.user_name
-        user = Person.by_username(username)
-        return dict(type=type, user=user, date=datetime.utcnow().ctime())
+        return dict(type=type, person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
@@ -77,8 +77,8 @@ class CLA(controllers.Controller):
     def download(self, type=None):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
-        user = Person.by_username(username)
-        return dict(user=user, date=datetime.utcnow().ctime())
+        person = Person.by_username(username)
+        return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
@@ -86,17 +86,19 @@ class CLA(controllers.Controller):
     def sign(self, signature):
         '''Sign CLA'''
         username = turbogears.identity.current.user_name
-        if signedCLAPrivs(username):
+        person = Person.by_username(username)
+
+        if signedCLAPrivs(person):
             turbogears.flash(_('You have already signed the CLA.'))
             turbogears.redirect('/cla')
             return dict()
         groupname = config.get('cla_sign_group')
         group = Groups.by_name(groupname)
+
         ctx = gpgme.Context()
         data = StringIO.StringIO(signature.file.read())
         plaintext = StringIO.StringIO()
         verified = False
-        person = Person.by_username(username)
         try:
             sigs = ctx.verify(data, None, plaintext)
         except gpgme.GpgmeError, e:
@@ -129,6 +131,7 @@ class CLA(controllers.Controller):
             turbogears.flash(_('The GPG-signed part of the message did not contain a signed CLA.'))
             turbogears.redirect('/cla/view/sign')
             return dict()
+
         if re.compile('If you agree to these terms and conditions, type "I agree" here: I agree', re.IGNORECASE).match(cla):
             turbogears.flash(_('The text "I agree" was not found in the CLA.'))
             turbogears.redirect('/cla/view/sign')
@@ -139,7 +142,7 @@ class CLA(controllers.Controller):
             person.apply(group, person) # Apply...
             group.sponsor_person(person, person) # Approve...
         except:
-            turbogears.flash(_("You could not be added to the '%s' group.") % groupname)
+            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
             turbogears.redirect('/cla/view/sign')
             return dict()
         else:
@@ -148,7 +151,7 @@ class CLA(controllers.Controller):
                 clickgroup.remove_person(person, person)
             except:
                 pass
-            turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % groupname)
+            turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
             turbogears.redirect('/cla')
             return dict()
 
@@ -158,31 +161,32 @@ class CLA(controllers.Controller):
     def click(self, agree):
         '''Click-through CLA'''
         username = turbogears.identity.current.user_name
-        if signedCLAPrivs(username):
+        person = Person.by_username(username)
+
+        if signedCLAPrivs(person):
             turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
             turbogears.redirect('/cla')
             return dict()
-        if clickedCLAPrivs(username):
+        if clickedCLAPrivs(person):
             turbogears.flash(_('You have already completed the Click-through CLA.'))
             turbogears.redirect('/cla')
             return dict()
         groupname = config.get('cla_click_group')
+        group = Groups.by_name(groupname)
         if agree.lower() == 'i agree':
             try:
-                person = People.by_username(username)
-                group = Groups.by_name(groupname)
                 person.apply(group, person) # Apply...
                 group.sponsor_person(person, person) # Approve...
             except:
-                turbogears.flash(_("You could not be added to the '%s' group.") % groupname)
+                turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
                 turbogears.redirect('/cla/view/click')
                 return dict()
             else:
-                turbogears.flash(_("You have successfully agreed to the click-through CLA.  You are now in the '%s' group.") % groupname)
+                turbogears.flash(_("You have successfully agreed to the click-through CLA.  You are now in the '%s' group.") % group.name)
                 turbogears.redirect('/cla')
                 return dict()
         else:
-            turbogears.flash(_("You have not agreed to the click-through CLA.") % groupname)
+            turbogears.flash(_("You have not agreed to the click-through CLA.") % group.name)
             turbogears.redirect('/cla/view/click')
             return dict()
 
