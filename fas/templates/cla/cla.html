@@ -19,11 +19,11 @@
   If necessary, you may send it by facsimile to the Project at +1-919-754-3704 or e-mail a signed pdf copy of the document to fedora-legal@redhat.com. Please read this document carefully before signing and keep a copy for your records.
   </p>
   <p>
-  Full name: ${user.givenName}<br />
-  E-Mail:    ${user.mail}<br />
-  Address:   ${user.postalAddress}<br />
-  Telephone: ${user.telephoneNumber}
-  <!-- Facsimile: %(facsimile)s -->
+  Full name: ${user.human_name}<br />
+  E-Mail:    ${user.emails['primary'].email}<br />
+  Address:   ${user.postal_address}<br />
+  Telephone: ${user.telephone}
+  <!-- Facsimile: ${user.facsimile} -->
   </p>
   <p>
   You and the Project hereby accept and agree to the following terms and conditions:

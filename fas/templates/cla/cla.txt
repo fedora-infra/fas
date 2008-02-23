@@ -27,12 +27,12 @@
    fedora-legal@redhat.com. Please read this document carefully before
    signing and keep a copy for your records.
 
-    Full name: ${'%28s' % user.givenName}  E-Mail:    ${'%17s' % user.mail}
+    Full name: ${'%28s' % user.human_name}  E-Mail:    ${'%17s' % user.emails['primary'].email}
 
     Address:
-${user.postalAddress}
+${user.postal_address}
 
-    Telephone: ${user.telephoneNumber}
+    Telephone: ${user.telephone}
 
     Facsimile: %(facsimile)s
 
@@ -150,5 +150,5 @@ ${user.postalAddress}
 
     If you agree to these terms and conditions, type "I agree" here: 
     Enter your full name here: 
-    E-mail: ${user.mail}
+    E-mail: ${user.emails['primary'].email}
     Date: ${date}

@@ -17,9 +17,9 @@
       <xi:include href="cla.html" />
       <form action="${tg.url('/cla/click')}" method="post">
         <div>
-          ${_('If you agree to these terms and conditions, type "I agree" here:')} <input type="text" id="agree" name="agree" /><br />
-          ${_('Full Name:')} ${user.givenName}<br />
-          ${_('E-mail:')} ${user.mail}<br />
+          ${_('If you agree to these terms and conditions, type "%s" here:') % 'I agree'} <input type="text" id="agree" name="agree" /><br />
+          ${_('Full Name:')} ${user.human_name}<br />
+          ${_('E-mail:')} ${user.emails['primary'].email}<br />
           ${_('Date:')} ${date}<br />
           <input type="submit" value="${_('Submit CLA')}" />
         </div>
@@ -28,8 +28,8 @@
     <div py:if="type == 'sign'" py:strip=''>
       <p>
       ${_('Use the below link to download/save the CLA as fedora-icla-${user.cn}.txt, and run:
-      &lt;pre&gt;gpg -as fedora-icla-${user.cn}.txt&lt;/pre&gt;
-      After, upload fedora-icla-${user.cn}.txt.asc in the form below.')}
+      &lt;pre&gt;gpg -as fedora-icla-${user.username}.txt&lt;/pre&gt;
+      After, upload fedora-icla-${user.username}.txt.asc in the form below.')}
       </p>
       <p>
       <a href="${tg.url('/cla/download')}">${_('Download the CLA text file here!')}</a>
