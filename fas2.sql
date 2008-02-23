@@ -19,9 +19,9 @@
 create database fas2 encoding = 'UTF8';
 \c fas2
 
-create trusted procedural language plpgsql
-  handler plpgsql_call_handler
-  validator plpgsql_validator;
+create procedural language plpythonu
+  handler plpythonu_call_handler
+  validator plpythonu_validator;
 
 CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
@@ -185,65 +185,193 @@ create table visit_identity (
     user_id INTEGER references people(id)
 );
 
-create or replace function bugzilla_sync() returns trigger AS $bz_sync$
-DECLARE
-  newaction char(1);
-  ROW person_roles%ROWTYPE;
-BEGIN
-  if TG_OP = 'DELETE' then
-    newaction:='r';
-    ROW := OLD;
-  else
-    -- INSERT or UPDATE
-    ROW := NEW;
-    if NEW.role_status = 'approved' then
-      newaction := 'a';
-    else
-      newaction := 'r';
-    end if;
-  end if;
-  if ROW.group_id = id from groups where name = 'fedorabugs' then
-    if b.email is not Null from bugzilla_queue as b, people as p where p.id = ROW.person_id and b.email = p.email then
-      update bugzilla_queue set action = newaction where email in (select email from people where id = ROW.person_id);
-    else
-      insert into bugzilla_queue select p.email, ROW.group_id, ROW.person_id, newaction from people as p where p.id = ROW.person_id;
-    end if;
-  end if;
-  return ROW;
-END;
-$bz_sync$ language plpgsql;
+--
+-- Check that email is unique.  This is implemented as a trigger rather than a
+-- constraint because implementing as a constraint would require an extra
+-- table and a view to keep everything simple for the consuming code.
+--
+create or replace function check_email_unique() returns trigger AS $email$
+    if TD['event'] == 'UPDATE':
+        if TD['old'].email == TD['NEW'].email:
+            # email was not modified so let this proceed
+            return None
+    plan = plpy.prepare('SELECT email FROM person_email WHERE email = $1'
+            ' and person_id != $2', ('text', 'integer'))
+    results = plpy.execute(plan, (TD['NEW'].email, TD['NEW'].person_id), 1)
+
+    if results:
+        # Email already exists for another person, we cannot save.
+        # Abort the transaction.
+        raise plpy.error('Duplicate email address %s' % TD['NEW'].email)
+
+    # The address checks out fine.
+    return None
+$email$ language plpythonu;
+
+create trigger person_check_email_unique before update or insert
+  on person_emails
+  for each row execute procedure check_email_unique();
+
+--
+-- When a person's fedorabugs role is updated, add them to bugzilla queue.
+--
+create or replace function bugzilla_sync() returns trigger as $bz_sync$
+    # Get the group id for fedorabugs
+    result = plpy.execute("select id from groups where name = 'fedorabugs'", 1)
+    if not result:
+        # Danger Will Robinson!  A basic FAS group does not exist!
+        plpy.error('Basic FAS group fedorabugs does not exist')
+    # If this is not a fedorabugs role, no change needed
+    if row.group_id != result[0].id:
+        return None
+
+    # Decide which row we are operating on and the action to take
+    if TD['event'] == 'DELETE':
+        # 'r' for removing an entry from bugzilla
+        newaction = 'r'
+        row = TD['OLD']
+    else:
+        # insert or update
+        row = TD['NEW']
+        if row.role_status == 'approved':
+            # approved so add an entry to bugzilla
+            newaction = 'a'
+        else:
+            # no longer approved so remove the entry from bugzilla
+            newaction = 'r'
+
+    # Retrieve the bugzilla email address
+    plan = plpy.prepare("select email, purpose from person_emails"
+            " where person_id = $1 and purpose in ('bugzilla', 'primary')",
+            ('integer',))
+    result = plpy.execute(plan, row.person_id)
+    email = None
+    for record in result:
+        email = record.email
+        if record.purpose == 'bugzilla':
+            break
+    if not email:
+        raise plpy.error('Cannot approve fedorabugs for person_id(%s) because they have no email address to use with bugzilla' % row.person_id)
+
+    # If there is already a row in bugzilla_queue update, otherwise insert
+    plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+            ('text',))
+    result = plpy.execute(plan, (email,), 1)
+    if result:
+        plan = plpy.prepare("update bugzilla_queue set action = $1"
+                " where email = $2", ('char', 'text'))
+        plpy.execute(plan, (newaction, email))
+    else:
+        plan = plpy.prepare("insert into bugzilla_queue (email, group_id"
+            ", person_id, action) values ($1, $2, $3, $4)",
+                ('text', 'integer', 'integer', 'char'))
+        plpy.execute(plan, (email, row.group_id, row.person_id, newaction))
+    return None
+$bz_sync$ language plpythonu;
 
 create trigger role_bugzilla_sync before update or insert or delete
   on person_roles
   for each row execute procedure bugzilla_sync();
 
+--
+-- When an email address changes, check whether it needs to be changed in
+-- bugzilla as well.
+--
 create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
-BEGIN
-  if OLD.email = NEW.email then
-    -- We only care if the email has been changed
-    return NEW;
-  end if;
+    if TD['event'] == 'DELETE':
+        row = TD['OLD']
+    else:
+        row = TD['NEW']
 
-  if p.id is not Null from people as p, person_roles as r, groups as g where p.id = OLD.id and g.name = 'fedorabugs' and r.role_status = 'approved' and r.group_id = g.id and r.person_id = p.id then
-    -- Person belongs to the bugzilla changing group
-    -- Remove old email
-    if b.email is not Null from bugzilla_queue as b where b.email = OLD.email then
-      update bugzilla_queue set action = 'r' where email = OLD.email;
-    else
-      insert into bugzilla_queue (select OLD.email, cast(g.id as int), OLD.id, 'r' from groups as g where g.name = 'fedorabugs' limit 1);
-    end if;
-    -- Add new email
-    if b.email is not Null from bugzilla_queue as b where b.email = NEW.email then
-      update bugzilla_queue set action = 'a' where email = NEW.email;
-    else
-      insert into bugzilla_queue (select NEW.email, cast(g.id as int), NEW.id, 'a' from groups as g where g.name = 'fedorabugs' limit 1);
-    end if;
-  end if;
-  return NEW;
-END;
-$bz_sync_e$ language plpgsql;
+    if TD['event'] == 'UPDATE':
+        if TD['OLD'].email == TD['NEW'].email:
+            # Email has not changed.  We do not care
+            return None
+    if row.purpose not in ('bugzilla', 'primary'):
+        # The change is to an email address that does not affect bugzilla
+        return None
+    elif row.purpose == 'primary':
+        # Check if there is a better email.
+        plan = plpy.prepare("select email from person_emails where"
+                " purpose = 'bugzilla' and person_id = $1", ('integer',))
+        result = plpy.execute(plan, (row.person_id,), 1)
+        if result:
+            # If the change is to primary but there is a bugzilla address, it
+            # will have no effect.
+            return None
+    # Check that the person belongs to fedorabugs
+    plan = plpy.prepare("select * from people as p, person_roles as r,"
+            " groups as g where p.id = r.person_id and r.group_id = g.id"
+            " and r.role_status = 'approved' and g.name = 'fedorabugs'"
+            " and p.id = $1", ('integer',))
+    result = plpy.execute(plan, (row.person_id,), 1)
+    if not result:
+        # Person does not belong to fedorabugs so this will have no effect.
+        return None
 
-create trigger email_bugzilla_sync before update
+    # We now know that we have changes to make
+  
+    #
+    # Remove the old Email address
+    #
+    oldEmail = None
+    if TD['event'] in ('DELETE', 'UPDATE'):
+        oldEmail = TD['OLD'].email
+    elif row.purpose == 'bugzilla':
+        # Insert: check if there is an email for primary that this email is
+        # superceding
+        plan = plpy.prepare("select email from person_emails"
+                " where purpose = 'primary' and person_id = $1", ('integer',))
+        result = plpy.execute(plan, (row.person_id,), 1)
+        if result:
+            oldEmail = result[0].email
+
+    if oldEmail:
+        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+                ('text',))
+        result = plpy.execute(plan, oldEmail, 1)
+        if result:
+            plan = plpy.prepare("update bugzilla_queue set action = 'r'"
+                    " where email = $1", ('text',))
+            plpy.execute(plan, (oldEmail))
+        else:    
+            plan = plpy.prepare("insert into bugzilla_queue () values(email"
+                    ", group_id, person_id, action) values ($1, $2, $3, 'r')",
+                    ('text', 'integer', 'integer'))
+            plpy.execute(plan, (oldEmail, row.group_id, row.person_id))
+
+    #
+    # Add a new email address to bugzilla
+    #
+    newEmail = None
+    if TD['event'] in ('INSERT', 'UPDATE'):
+        newEmail = TG['NEW']
+    elif row.purpose == 'bugzilla':
+        # When deleting a bugzilla email, check if there is a primary to
+        # fallback on
+        plan = plpy.prepare("select email from person_emails"
+                " where purpose = 'primary' and person_id = $1", ('integer',))
+        result = plpy.execute(plan, (row.person_id,), 1)
+        if result:
+            newEmail = result[0].email
+
+    if newEmail:
+        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+                ('text',))
+        result = plpy.execute(plan, newEmail, 1)
+        if result:
+            plan = plpy.prepare("update bugzilla_queue set action = 'a'"
+                    " where email = $1", ('text',))
+            plpy.execute(plan, (newEmail))
+        else:    
+            plan = plpy.prepare("insert into bugzilla_queue () values(email"
+                    ", group_id, person_id, action) values ($1, $2, $3, 'a')",
+                    ('text', 'integer', 'integer'))
+            plpy.execute(plan, (newEmail, row.group_id, row.person_id))
+    return None
+$bz_sync_e$ language plpythonu;
+
+create trigger email_bugzilla_sync before update or insert or delete
  on people
  for each row execute procedure bugzilla_sync_email();
 
