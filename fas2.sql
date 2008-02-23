@@ -42,7 +42,7 @@ CREATE TABLE people (
     -- Also, app would be responsible for eliminating spaces and
     -- uppercasing
     -- gpg_fingerprint varchar(40),
-    gpg_keyid VARCHAR(17),
+    gpg_keyid VARCHAR(17), -- This one seems to be a bit strong.
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
@@ -66,20 +66,27 @@ CREATE TABLE people (
     latitude numeric,
     longitude numeric,
     check (status in ('active', 'vacation', 'inactive', 'pinged')),
-    check (gpg_keyid ~ '^[0-9A-F]{17}$')
+    check (gpg_keyid ~ '^[0-9A-F]{17}$') -- This one seems to be a bit strong.
 );
 
+create index people_status_idx on people(status);
+cluster people_status_idx on people;
+
 -- tg_user::email_address needs to use one of these.
--- We want to make sure that the user always has a primary email address.
+-- this table is distressingly complex:
+-- What can we do to ensure the user always has a primary email?
 CREATE TABLE person_emails (
-    email text UNIQUE NOT NULL,
-    person_id integer references people(id) not null,
-    purpose text not null,
-    primary key (person_id, email),
-    validtoken text null,
-    check (purpose in ('bugzilla', 'primary', 'cla', 'pending')),
-    unique (person_id, purpose)
+    email text NOT NULL,
+    person_id INTEGER references people(id) not null,
+    purpose text NOT NULL,
+    validtoken text NULL,
+    primary key(purpose, person_id),
+    check (purpose ~ ('(bugzilla|primary|cla|pending|other[0-9]+)'))
 );
+
+create index person_emails_email_idx on person_emails(email);
+create index on person_emails_person_id_idx on person_emails(person_id);
+cluster person_emails_person_id_idx on person_emails;
 
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
