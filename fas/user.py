@@ -1,5 +1,6 @@
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears.database import session
 
 import ldap
 
@@ -62,7 +63,7 @@ class usernameAllowed(validators.FancyValidator):
           raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
 class editUser(validators.Schema):
-    username = validators.All(knownUser(not_empty=True, max=32), validators.String(max=32, min=3))
+    targetname = validators.All(knownUser(not_empty=True, max=32), validators.String(max=32, min=3))
     human_name = validators.String(not_empty=True, max=42)
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
@@ -180,8 +181,8 @@ class User(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-        if target:
-            target = People.by_username(target)
+        if targetname:
+            target = People.by_username(targetname)
         else:
             target = person
         if not canEditUser(person, target):

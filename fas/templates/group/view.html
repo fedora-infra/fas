@@ -11,8 +11,8 @@
     <h2>${group.display_name} (${group.name})</h2>
     <h3>
       ${_('My Status:')}
-      <span py:if="auth.isApproved(person.username, group.name)" class="approved">${_('Approved')}</span>
-      <span py:if="not auth.isApproved(person.username, group.name)" class="unapproved">${_('Unapproved')}</span>
+      <span py:if="auth.isApproved(person, group)" class="approved">${_('Approved')}</span>
+      <span py:if="not auth.isApproved(person, group)" class="unapproved">${_('Unapproved')}</span>
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
     <form py:if="not group in person.memberships" action="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}">
@@ -27,15 +27,15 @@
       <dl>
         <dt>${_('Name:')}</dt><dd>${group.name}&nbsp;</dd>
         <dt>${_('Description:')}</dt><dd>${group.display_name}&nbsp;</dd>
-        <dt>${_('Owner:')}</dt><dd>${group.id}&nbsp;</dd>
+        <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
         <dt>${_('Needs Sponsor:')}</dt><dd>
-        <span py:if="group.needs_sponsor == 'TRUE'" py:strip="">${_('Yes')}</span>
-        <span py:if="group.needs_sponsor == 'FALSE'" py:strip="">${_('No')}</span>
+        <span py:if="group.needs_sponsor == 1" py:strip="">${_('Yes')}</span>
+        <span py:if="group.needs_sponsor == 0" py:strip="">${_('No')}</span>
         &nbsp;</dd>
         <dt>${_('Self Removal:')}</dt><dd>
-        <span py:if="group.user_can_remove == 'TRUE'" py:strip="">${_('Yes')}</span>
-        <span py:if="group.user_can_remove == 'FALSE'" py:strip="">${_('No')}</span>
+        <span py:if="group.user_can_remove == 1" py:strip="">${_('Yes')}</span>
+        <span py:if="group.user_can_remove == 0" py:strip="">${_('No')}</span>
         &nbsp;</dd>
         <dt>${_('Join Message:')}</dt><dd>${group.joinmsg}&nbsp;</dd>
         <dt>${_('Created:')}</dt><dd>${group.creation}&nbsp;</dd>
@@ -59,23 +59,24 @@
           <th py:if="auth.canSponsorGroup(person.username, group.name)">${_('Action')}</th>
         </tr>
       </thead>
-      <tr py:for="user in group.roles">
-        <td><a href="${tg.url('/user/view/%s' % user.member.username)}">${user.member.username}</a></td>
-        <td py:if='not(user.member.username ==  "None")'><a href="${tg.url('/user/view/%s' % user.member.username)}">${user.member.username}</a></td>
-        <td py:if='user.member.username == "None"'>${_('None')}</td>
+      <tr py:for="role in group.roles">
+        <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
+        <td py:if='not(role.member.username ==  "None")'><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
+        <td py:if='role.member.username == "None"'>${_('None')}</td>
         <?python
         from datetime import datetime
         from pytz import timezone
         ?>
-        <td><!--${datetime.fromtimestamp(float(user.member.creation), timezone(user.member.timezone)).strftime('%F %R %Z')}--></td>
-        <td py:if="user.approval == 'none'">${user.member.creation}</td>
-        <td py:if="user.approval != 'none'"><!--${datetime.fromtimestamp(float(user.member.creation), timezone(user.member.timezone)).strftime('%F %R %Z')}--></td>
-        <td>${user.role_status}</td>
-        <td>${user.role_type}</td>
+        <td><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td py:if="role.approval == 'none'">${role.member.creation}</td>
+        <td py:if="role.approval != 'none'"><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td>${role.role_status}</td>
+        <td>${role.role_type}</td>
         <!--<td>${groups[user].fedoraRoleDomain}</td>-->
         <!-- This section includes all action items -->
-        <td py:if="auth.canSponsorGroup(user.member.username, group.name)">
+        <td py:if="auth.canSponsorGroup(role.member, group)">
           <ul>
+            <!--
             <li py:if="groups[user].fedoraRoleStatus.lower() != 'approved'">
             <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
               href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">${_('Sponsor')}</a>
@@ -91,6 +92,7 @@
             <li py:if="auth.canDowngradeUser(tg.identity.user.user_name, group.cn, userName)">
             <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">${_('Downgrade')}</a>
             </li>
+            -->
           </ul>
         </td>
       </tr>

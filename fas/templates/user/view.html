@@ -9,19 +9,19 @@
   <body>
     <?python from fas import auth ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
-    <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % user.human_name}</h2>
-    <h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % user.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
+    <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.human_name}</h2>
+    <h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
-        <dt>${_('Account Name:')}</dt><dd>${user.username}</dd>
-        <dt>${_('Real Name:')}</dt><dd>${user.human_name}</dd>
-        <dt>${_('Email:')}</dt><dd>${user.emails['primary'].email}</dd>
-        <!--<dt>${_('Bugzilla Email:')}</dt><dd>${user.username}</dd>-->
-        <dt>${_('IRC Nick:')}</dt><dd>${user.ircnick}&nbsp;</dd>
-        <dt>${_('PGP Key:')}</dt><dd>${user.gpg_keyid}&nbsp;</dd>
-        <dt>${_('Telephone Number:')}</dt><dd>${user.telephone}</dd>
-        <dt>${_('Postal Address:')}</dt><dd>${user.postal_address}&nbsp;</dd>
-        <dt>${_('Comments:')}</dt><dd>${user.comments}&nbsp;</dd>
+        <dt>${_('Account Name:')}</dt><dd>${person.username}</dd>
+        <dt>${_('Real Name:')}</dt><dd>${person.human_name}</dd>
+        <dt>${_('Email:')}</dt><dd>${person.emails['primary'].email}</dd>
+        <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
+        <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
+        <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
+        <dt>${_('Telephone Number:')}</dt><dd>${person.telephone}</dd>
+        <dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd>
+        <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Approved')}</span></dd>
         <!-- cla = {None, 'signed', 'clicked'} -->
@@ -29,7 +29,7 @@
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
-    <h3 py:if="not personal">${_('%s\'s Roles') % user.givenName}</h3>
+    <h3 py:if="not personal">${_('%s\'s Roles') % person.givenName}</h3>
 <!--mpm    <ul class="roleslist">
       <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
@@ -43,7 +43,7 @@
     -->
     <ul id="rolespanel" py:if="personal">
       <div py:for="group in sorted(groups)" py:strip="">
-      <li py:if="auth.canViewGroup(user.username, group.name)" class="role">
+      <li py:if="auth.canViewGroup(person, group)" class="role">
       <h4>${group.display_name}</h4> (${group.group_type})
       <dl>
         <dt>${_('Status:')}</dt>
@@ -53,13 +53,13 @@
         <dt>${_('Tools:')}</dt>
         <dd>
         <ul class="tools">
-          <li><a href="${tg.url('/group/view/%s' % group)}">${_('View Group')}</a></li>
-          <li><a href="${tg.url('/group/invite/%s' % group)}">${_('Invite a New Member...')}</a></li>
-          <li py:if="auth.canSponsorGroup(user.username, group.name)"><a href="${tg.url('/group/view/%s' % group)}">${_('Manage Group Membership...')}</a></li>
-          <li py:if="auth.canEditGroup(user.username, group.name)"><a href="${tg.url('/group/edit/%s' % group)}">${_('Manage Group Details...')}</a></li>
+          <li><a href="${tg.url('/group/view/%s' % group.name)}">${_('View Group')}</a></li>
+          <li><a href="${tg.url('/group/invite/%s' % group.name)}">${_('Invite a New Member...')}</a></li>
+          <li py:if="auth.canSponsorGroup(person, group)"><a href="${tg.url('/group/view/%s' % group.name)}">${_('Manage Group Membership...')}</a></li>
+          <li py:if="auth.canEditGroup(person, group)"><a href="${tg.url('/group/edit/%s' % group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
-<!--        <div py:if="auth.canSponsorGroup(user.username, group.name) and groupUnapproved[group] != []" py:strip="">
+<!--        <div py:if="auth.canSponsorGroup(person.username, group.name) and groupUnapproved[group] != []" py:strip="">
           <dt>${_('Queue:')}</dt>
           <dd>
           <ul class="queue">
