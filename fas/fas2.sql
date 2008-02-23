@@ -73,8 +73,15 @@ create index people_status_idx on people(status);
 cluster people_status_idx on people;
 
 -- tg_user::email_address needs to use one of these.
--- this table is distressingly complex:
--- What can we do to ensure the user always has a primary email?
+-- this table is distressingly complex.  We could normalize it and use
+-- multiple tables but that is a bit silly.  We are mapping:
+-- 1:person => Multiple Email addresses
+-- 1:email => Multiple purposes
+-- 1:email => 1:person_id
+-- Currently using a trigger to do this.
+--
+-- What can we do to ensure the user always has a primary email without making
+-- the application code overly complex?
 CREATE TABLE person_emails (
     email text NOT NULL,
     person_id INTEGER references people(id) not null,
@@ -85,7 +92,7 @@ CREATE TABLE person_emails (
 );
 
 create index person_emails_email_idx on person_emails(email);
-create index on person_emails_person_id_idx on person_emails(person_id);
+create index person_emails_person_id_idx on person_emails(person_id);
 cluster person_emails_person_id_idx on person_emails;
 
 CREATE TABLE configs (
@@ -100,6 +107,10 @@ CREATE TABLE configs (
     check (application in ('asterisk', 'moin', 'myfedora' ,'openid'))
     -- Might end up removing openid, depending on how far we take the provider
 );
+
+create index configs_person_id_idx on configs(person_id);
+create index configs_application_idx on configs(application);
+cluster configs_person_id_idx on configs;
 
 CREATE TABLE groups (
     -- tg_group::group_id
@@ -120,14 +131,27 @@ CREATE TABLE groups (
         'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
 
+create index groups_group_type_idx on groups(group_type);
+cluster groups_group_type_idx on groups;
+
+--
+-- Group Emails are slightly different than person emails.
+-- We are much more relaxed about email "ownership".  A group can share an
+-- email address with another group.  (For instance, xen-maint and
+-- kernel-maint might share the same email address for mailing list and
+-- bugzilla.
+--
 create table group_emails (
-    email text not null unique,
+    email text not null,
     group_id INTEGER references groups(id) not null,
     purpose text not null,
-    primary key (group_id, email),
-    check (purpose in ('bugzilla', 'primary', 'mailing list')),
-    unique (group_id, purpose)
+    primary key (purpose, group_id),
+    check (purpose in ('bugzilla', 'primary', 'mailing list'))
 );
+
+create index group_emails_email_idx on group_emails(email);
+create index group_emails_group_id_idx on group_emails(group_id);
+cluster group_emails_group_id_idx on group_emails;
 
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
@@ -145,6 +169,13 @@ CREATE TABLE person_roles (
     check (role_type in ('user', 'administrator', 'sponsor'))
 );
 
+create index person_roles_person_id_idx on person_roles(person_id);
+create index person_roles_group_id_idx on person_roles(group_id);
+-- We could cluster on either person or group.  The choice of group is because
+-- groups are larger and therefore will take more memory if guessed wrong.
+-- Open to reevaluation.
+cluster person_roles_group_id_idx on person_roles;
+
 CREATE TABLE group_roles (
     member_id INTEGER NOT NULL REFERENCES groups(id),
     group_id INTEGER NOT NULL REFERENCES groups(id),
@@ -158,6 +189,13 @@ CREATE TABLE group_roles (
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
 );
+
+create index group_roles_member_id_idx on group_roles(member_id);
+create index group_roles_group_id_idx on group_roles(group_id);
+-- We could cluster on either member or group.  The choice of member is
+-- because member pages will be viewed more frequently.
+-- Open to reevaluation.
+cluster group_roles_group_id_idx on group_roles;
 
 -- action r == remove
 -- action a == add
@@ -178,6 +216,9 @@ create table log (
     description TEXT
 );
 
+create index log_changetime_idx on log(changetime);
+cluster log_changetime_idx on log;
+
 --
 -- turbogears session tables
 --
@@ -186,6 +227,9 @@ create table visit (
     created TIMESTAMP not null default now(),
     expiry TIMESTAMP
 );
+
+create index visit_expiry_idx on visit(expiry);
+cluster visit_expiry_idx on visit;
 
 create table visit_identity (
     visit_key CHAR(40) primary key references visit(visit_key),
