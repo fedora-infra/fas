@@ -328,6 +328,7 @@ class User(controllers.Controller):
                 Please go to https://admin.fedoraproject.org/fas/ to change it.
                 ''')) % newpass['pass']
             if encrypted:
+                # TODO: Make this download the person's key - it might not do this right now. 
                 try:
                     plaintext = StringIO.StringIO(mail)
                     ciphertext = StringIO.StringIO()
@@ -335,7 +336,7 @@ class User(controllers.Controller):
                     ctx.armor = True
                     signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
                     ctx.signers = [signer]
-                    recipient = ctx.get_key(re.sub('\s', '', p.fedoraPersonKeyId))
+                    recipient = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
                     def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
                         os.write(fd, '%s\n' % config.get('gpg_passphrase'))
                     ctx.passphrase_cb = passphrase_cb
