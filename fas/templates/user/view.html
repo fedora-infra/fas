@@ -25,7 +25,7 @@
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Approved')}</span></dd>
         <!-- cla = {None, 'signed', 'clicked'} -->
-        <dt>${_('CLA:')}</dt><dd><span py:if="cla" class="approved">${_('Done')}</span><span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/fas/cla')}">${_('Sign it!')}</a>)</span></dd>
+        <dt>${_('CLA:')}</dt><dd><span py:if="cla" class="approved">${_('Done')}</span><span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla')}">${_('Sign it!')}</a>)</span></dd>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
