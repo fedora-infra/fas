@@ -282,14 +282,21 @@ class VisitIdentity(SABase):
 #
 # mappers for filtering roles
 #
-mapper(ApprovedRoles, ApprovedRolesSelect)
-mapper(UnApprovedRoles, UnApprovedRolesSelect)
+mapper(ApprovedRoles, ApprovedRolesSelect, properties = {
+    'group': relation(Groups, backref='approved_roles')
+    })
+mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
+    'group': relation(Groups, backref='unapproved_roles')
+    })
 
 mapper(People, PeopleTable, properties = {
     'emails': relation(PersonEmails, backref = 'person',
         collection_class = column_mapped_collection(
             PersonEmailsTable.c.purpose)),
-    'approved_roles': relation(ApprovedRoles, backref='member')
+    'approved_roles': relation(ApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
     })
 mapper(PersonEmails, PersonEmailsTable)
 mapper(PersonRoles, PersonRolesTable, properties = {
