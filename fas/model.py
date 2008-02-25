@@ -121,6 +121,46 @@ class People(SABase):
         role.role_type = 'user'
         role.member = cls
         role.group = group
+        
+    def approve(cls, group, requestor):
+        '''
+        Approve a person in a group  - requestor for logging purposes
+        '''
+        if group in cls.approved_memberships:
+            raise '%s is already approved in %s' % (cls.username, group.name)
+        else:
+            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            role.role_status = 'approved'
+        
+    def upgrade(cls, group, requestor):
+        '''
+        Upgrade a user in a group - requestor for logging purposes
+        '''
+        if not group in cls.memberships:
+            raise '%s not a member of %s' % (group.name, cls.memberships)
+        else:
+            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            if role.role_type == 'administrator':
+                raise '%s is already an admin in %s' % (cls.username, group.name)
+            elif role.role_type == 'sponsor':
+                role.role_type = 'administrator'
+            elif role.role_type == 'user':
+                role.role_type = 'sponsor'
+        
+    def downgrade(cls, group, requestor):
+        '''
+        Downgrade a user in a group - requestor for logging purposes
+        '''
+        if not group in cls.memberships:
+            raise '%s not a member of %s' % (group.name, cls.memberships)
+        else:
+            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            if role.role_type == 'user':
+                raise '%s is already a user in %s, did you mean to remove?' % (cls.username, group.name)
+            elif role.role_type == 'sponsor':
+                role.role_type = 'user'
+            elif role.role_type == 'administrator':
+                role.role_type = 'sponsor'
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
