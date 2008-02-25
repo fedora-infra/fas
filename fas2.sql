@@ -15,6 +15,7 @@
 --
 -- Author(s): Toshio Kuratomi <tkuratom@redhat.com>
 --            Ricky Zhou <ricky@fedoraproject.org>
+--            Mike McGrath <mmcgrath@redhat.com>
 --
 create database fas2 encoding = 'UTF8';
 \c fas2
