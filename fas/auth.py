@@ -10,6 +10,8 @@ from fas.model import PersonRoles
 from fas.model import People
 
 from sqlalchemy.exceptions import *
+import turbogears
+
 import re
 
 def isAdmin(person):
@@ -82,7 +84,11 @@ def signedCLAPrivs(person):
     '''
     Returns True if the user has completed the GPG-signed CLA
     '''
-    cla_sign_group = Groups.by_name(config.get('cla_sign_group'))
+    try:
+        cla_sign_group = Groups.by_name(config.get('cla_sign_group'))
+    except InvalidRequestError:
+        turbogears.flash(_("cla_sign_group Does not exist!  Please create it!"))
+        return False
     if isApproved(person, cla_sign_group):
         return True
     else:
@@ -92,7 +98,11 @@ def clickedCLAPrivs(person):
     '''
     Returns True if the user has completed the click-through CLA
     '''
-    cla_click_group = Groups.by_name(config.get('cla_click_group'))
+    try:
+        cla_click_group = Groups.by_name(config.get('cla_click_group'))
+    except InvalidRequestError:
+        turbogears.flash(_("cla_click_group Does not exist!  Please create it!"))
+        return False 
     if signedCLAPrivs(person) or \
         isApproved(person, cla_click_group):
         return True
