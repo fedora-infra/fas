@@ -121,8 +121,8 @@ CREATE TABLE groups (
     display_name TEXT,
     owner_id INTEGER NOT NULL REFERENCES people(id),
     group_type VARCHAR(16),
-    needs_sponsor INTEGER DEFAULT 0,
-    user_can_remove INTEGER DEFAULT 1,
+    needs_sponsor BOOLEAN DEFAULT FALSE,
+    user_can_remove BOOLEAN DEFAULT TRUE,
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
     -- tg_group::created
