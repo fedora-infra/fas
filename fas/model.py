@@ -161,6 +161,21 @@ class People(SABase):
                 role.role_type = 'user'
             elif role.role_type == 'administrator':
                 role.role_type = 'sponsor'
+                
+    def sponsor(cls, group, requestor):
+        # If we want to do logging, this might be the place.
+        # TODO: Find out how to log timestamp
+        role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+        role.role_status = 'approved'
+        role.sponsor_id = requestor.id
+
+    def remove(cls, group, requestor):
+        role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+        try:
+            session.delete(role)
+        except:
+            pass
+            # Handle somehow.
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
@@ -216,44 +231,6 @@ class Groups(SABase):
 
     by_name = classmethod(by_name)
 
-    def sponsor_person(cls, sponsor, target):
-        # If we want to do logging, this might be the place.
-        # TODO: Find out how to log timestamp
-        role = PersonRoles.query.filter_by(group=cls, member=target).one()
-        if role.role_status != 'approved':
-            role.role_status = 'approved'
-            role.sponsor = sponsor
-        else:
-            pass
-            # The user was already sponsored.  Throw some sort of error?
-
-    def upgrade_person(cls, sponsor, target):
-        role = PersonRoles.query.filter_by(group=cls, member=target).one()
-        if role.role_type == 'administrator':
-            # raise some error.
-            pass
-        elif role.role_type == 'sponsor':
-            role.role_type = 'administrator'
-        elif role.role_type == 'user':
-            role.role_type = 'sponsor'
-
-    def downgrade_person(cls, sponsor, target):
-        role = PersonRoles.query.filter_by(group=cls, member=target).one()
-        if role.role_type == 'administrator':
-            role.role_type = 'sponsor'
-        elif role.role_type == 'sponsor':
-            role.role_type = 'user'
-        elif role.role_type == 'user':
-            # raise some error.
-            pass
-
-    def remove_person(cls, sponsor, target):
-        role = PersonRoles.query.filter_by(group=cls, member=target).one()
-        try:
-            session.delete(role)
-        except:
-            pass
-            # Handle somehow.
 
     def __repr__(cls):
         return "Group(%s,%s)" % (cls.name, cls.display_name)
