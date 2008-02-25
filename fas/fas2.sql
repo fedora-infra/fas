@@ -248,7 +248,6 @@ create or replace function check_email_unique() returns trigger AS $email$
             return None
     plan = plpy.prepare('SELECT email FROM person_emails WHERE email = $1'
             ' and person_id != $2', ('text', 'text'))
-    plpy.notice(TD['new']['email'])
     results = plpy.execute(plan, (TD['new']['email'], TD['new']['person_id']), 1)
 
     if results:
@@ -274,10 +273,11 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
         # Danger Will Robinson!  A basic FAS group does not exist!
         plpy.error('Basic FAS group fedorabugs does not exist')
     row = TD['new']
+
     # If this is not a fedorabugs role, no change needed
     if row['group_id'] != result[0]['id']:
         return None
-
+    
     # Decide which row we are operating on and the action to take
     if TD['event'] == 'DELETE':
         # 'r' for removing an entry from bugzilla
@@ -297,7 +297,7 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
     plan = plpy.prepare("select email, purpose from person_emails"
             " where person_id = $1 and purpose in ('bugzilla', 'primary')",
             ('text',))
-    result = plpy.execute(plan, row.person_id)
+    result = plpy.execute(plan, row['person_id'])
     email = None
     for record in result:
         email = record.email
@@ -331,7 +331,6 @@ create trigger role_bugzilla_sync before update or insert or delete
 -- bugzilla as well.
 --
 create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
-    plpy.notice(TD['event'])
     if TD['event'] == 'DELETE':
         row = TD['old']
     else:
