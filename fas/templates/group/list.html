@@ -8,6 +8,12 @@
   </head>
   <body>
     <?python from fas import auth ?>
+    <?python from fas.model import Groups ?>
+    <span py:if="Groups.by_name('accounts') in person.memberships">
+      <h2>Create New Group</h2>
+        <a href='new'>Create Group</a>
+    </span>
+
     <h2>${_('List (%s)') % search}</h2>
     <h3>${_('Search Groups')}</h3>
     <form method="get" action="${tg.url('/group/list')}">

@@ -35,8 +35,11 @@ class unknownGroup(validators.FancyValidator):
     def _to_python(self, value, state):
         return value.strip()
     def validate_python(self, value, state):
-        g = Groups.groups(value)
-        if g:
+        try:
+            g = Groups.by_name(value)
+        except InvalidRequestError:
+            pass
+        else:
             raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
 class createGroup(validators.Schema):
@@ -132,7 +135,7 @@ class Group(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-        if not canCreateGroup(person):
+        if not canCreateGroup(person, Groups.by_name(config.get('admingroup'))):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         return dict()
@@ -143,19 +146,20 @@ class Group(controllers.Controller):
     @expose(template="fas.templates.group.new")
     def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
         '''Create a group'''
-        username = turbogears.identity.current.user_name
+        
         groupname = name
-        person = People.by_username(username)
+        person = People.by_username(turbogears.identity.current.user_name)
+        person_owner = People.by_username(owner)
 
-        if not canCreateGroup(username):
+        if not canCreateGroup(person, Groups.by_name(config.get('admingroup'))):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
             owner = People.by_username(owner)
-            group = Group()
+            group = Groups()
             group.name = name
             group.display_name = display_name
-            group.owner = owner
+            group.owner_id = person_owner.id
             group.group_type = group_type
             group.needs_sponsor = needs_sponsor
             group.user_can_remove = user_can_remove
@@ -165,16 +169,17 @@ class Group(controllers.Controller):
             group.joinmsg = joinmsg
             # Log here
             session.flush()
-        except:
+        except TypeError:
             turbogears.flash(_("The group: '%s' could not be created.") % groupname)
             return dict()
         else:
             try:
+                session.flush()
                 owner.apply(group, person) # Apply...
-                group.sponsor_person(person, owner) # Approve...
-                group.upgrade_person(person, owner) # Sponsor...
-                group.upgrade_person(person, owner) # Admin!
-            except:
+                owner.sponsor(group, person)
+                owner.upgrade(group, person)
+                owner.upgrade(group, person)
+            except KeyError:
                 turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': group.name, 'user': owner.username})
             else:
                 turbogears.flash(_("The group: '%s' has been created.") % group.name)

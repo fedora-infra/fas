@@ -165,6 +165,8 @@ class People(SABase):
     def sponsor(cls, group, requestor):
         # If we want to do logging, this might be the place.
         # TODO: Find out how to log timestamp
+        if not group in cls.memberships:
+            raise '%s not a member of %s' % (group.name, cls.memberships)
         role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
         role.role_status = 'approved'
         role.sponsor_id = requestor.id

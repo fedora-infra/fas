@@ -19,11 +19,11 @@
         <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
-        <dt>${_('Telephone Number:')}</dt><dd>${person.telephone}</dd>
+        <dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd>
         <dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
-        <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Approved')}</span></dd>
+        <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Valid')}</span></dd>
         <!-- cla = {None, 'signed', 'clicked'} -->
         <dt>${_('CLA:')}</dt><dd><span py:if="cla" class="approved">${_('Done')}</span><span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla')}">${_('Sign it!')}</a>)</span></dd>
       </dl>
