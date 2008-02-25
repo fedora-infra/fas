@@ -273,8 +273,9 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
     if not result:
         # Danger Will Robinson!  A basic FAS group does not exist!
         plpy.error('Basic FAS group fedorabugs does not exist')
+    row = TD['new']
     # If this is not a fedorabugs role, no change needed
-    if row.group_id != result[0].id:
+    if row['group_id'] != result[0]['id']:
         return None
 
     # Decide which row we are operating on and the action to take
@@ -285,7 +286,7 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
     else:
         # insert or update
         row = TD['new']
-        if row.role_status == 'approved':
+        if row['role_status'] == 'approved':
             # approved so add an entry to bugzilla
             newaction = 'a'
         else:
@@ -439,7 +440,12 @@ GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, 
 
 -- Create default admin user
 INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', 'admin');
-INSERT INTO person_emails (email, person_id, purpose, validtoken) VALUES ('root@localhost', (SELECT id from people where username='admin'), 'primary', 'valid');
 
 -- Create default groups and populate
 INSERT INTO groups (name, display_name, owner_id) VALUES ('accounts', 'Account System Admins', (SELECT id from people where username='admin'));
+INSERT INTO groups (name, display_name, owner_id) VALUES ('fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'));
+
+INSERT INTO person_roles (person_id, group_id, role_type, role_status, internal_comments, sponsor_id) VALUES ((SELECT id from people where username='admin'), (select id from groups where name='accounts'), 'administrator', 'approved', 'created at install time', (SELECT id from people where username='admin'));
+
+-- Give admin user his email address
+INSERT INTO person_emails (email, person_id, purpose, validtoken) VALUES ('root@localhost', (SELECT id from people where username='admin'), 'primary', 'valid');
