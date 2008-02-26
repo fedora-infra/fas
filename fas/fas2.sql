@@ -276,6 +276,8 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
     row = TD['new']
 
     # If this is not a fedorabugs role, no change needed
+    if not row:
+        return None
     if row['group_id'] != result[0]['id']:
         return None
     
