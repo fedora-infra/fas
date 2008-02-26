@@ -9,7 +9,7 @@
   <body>
     <?python from fas import auth ?>
     <?python from fas.model import Groups ?>
-    <span py:if="Groups.by_name('accounts') in person.memberships">
+    <span py:if="Groups.by_name('accounts') in person.approved_memberships">
       <h2>Create New Group</h2>
         <a href='new'>Create Group</a>
     </span>
