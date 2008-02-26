@@ -39,11 +39,11 @@
           <td><a href="${tg.url('/group/view/%s' % group.name)}">${group.name}</a></td>
           <td>${ group.display_name }</td>
           <td>
-            <a py:if="group in person.roles" href="${tg.url('/group/view/%s' % group)}">
-              <!--<span class="approved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'approved'">${_('Approved')}</span>
-              <span class="unapproved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'unapproved'">${_('Unapproved')}</span>-->
+            <a py:if="group in person.memberships" href="${tg.url('/group/view/%s' % group.name)}">
+              <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
+              <span class="unapproved" py:if="group in person.unapproved_memberships">${_('Unapproved')}</span>
             </a>
-            <a py:if="group not in person.roles" href="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}"><span>${_('Apply')}</span></a>
+            <a py:if="group not in person.memberships" href="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}"><span>${_('Apply')}</span></a>
           </td>
         </div>
         </tr>

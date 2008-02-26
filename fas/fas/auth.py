@@ -43,7 +43,7 @@ def canAdminGroup(person, group):
             return False
         except InvalidRequestError:
             return False
-        if r.role_status == 'approved' and r.role_type == 'administrator':
+        if role.role_status == 'approved' and role.role_type == 'administrator':
             return True
     return False
 
@@ -205,10 +205,12 @@ def canRemoveUser(person, group, target):
         return False
     # A user can remove themself from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
-    elif ((person == target) and (group.user_can_remove == 1)) or \
+    elif ((person == target) and (group.user_can_remove == True)) or \
         canSponsorGroup(person, group):
+        print "GOT HERE TRUE"
         return True
     else:
+        print "GOT HERE FALSE"
         return False
 
 def canUpgradeUser(person, group, target):
