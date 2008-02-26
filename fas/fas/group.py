@@ -174,8 +174,8 @@ class Group(controllers.Controller):
             return dict()
         else:
             try:
-                session.flush()
                 owner.apply(group, person) # Apply...
+                session.flush()
                 owner.sponsor(group, person)
                 owner.upgrade(group, person)
                 owner.upgrade(group, person)
