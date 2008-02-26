@@ -43,7 +43,7 @@
               <!--<span class="approved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'approved'">${_('Approved')}</span>
               <span class="unapproved" py:if="myGroups[group].fedoraRoleStatus.lower() == 'unapproved'">${_('Unapproved')}</span>-->
             </a>
-            <a py:if="group not in person.roles" href="${tg.url('/group/apply/%s/%s' % (group, person))}"><span>${_('Apply')}</span></a>
+            <a py:if="group not in person.roles" href="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}"><span>${_('Apply')}</span></a>
           </td>
         </div>
         </tr>

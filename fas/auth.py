@@ -37,9 +37,11 @@ def canAdminGroup(person, group):
         return True
     else:
         try:
-            role = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id).one()
+            role = PersonRoles.query.filter_by(group_id=group.id, person_id=person.id).one()
         except IndexError:
             ''' Not in the group '''
+            return False
+        except InvalidRequestError:
             return False
         if r.role_status == 'approved' and r.role_type == 'administrator':
             return True
@@ -165,16 +167,22 @@ def canApplyGroup(person, group, applicant):
     # owner of the group (when they initially make it).
     prerequisite = group.prerequisite
     # TODO: Make this return more useful info.
-    if prequisite:
+    
+    if prerequisite:
+        
         if prerequisite in person.approved_memberships:
             pass
         else:
+            print "GOT HERE %s" % prerequisite
+            turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
             return False
     # A user can apply themselves, and FAS admins can apply other people.
-    if (username == applicant) or \
+
+    if (person == applicant) or \
         canAdminGroup(person, group):
         return True
     else:
+        turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
         return False
 
 def canSponsorUser(person, group, target):
