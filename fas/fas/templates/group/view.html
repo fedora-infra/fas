@@ -70,20 +70,20 @@
         from datetime import datetime
         from pytz import timezone
         ?>
-        <td><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td>${role.member.creation}<!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
         <td py:if="role.approval == 'none'">${role.member.creation}</td>
-        <td py:if="role.approval != 'none'"><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td py:if="role.approval != 'none'">${role.member.timezone}<!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!--<td>${groups[user].fedoraRoleDomain}</td>-->
         <!-- This section includes all action items -->
         <td py:if="auth.canSponsorGroup(role.member, group)">
           <ul>
-            <!--
-            <li py:if="groups[user].fedoraRoleStatus.lower() != 'approved'">
-            <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
-              href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">${_('Sponsor')}</a>
-            <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
+            
+            <li py:if="group in role.member.memberships">
+            <a py:if="group in role.member.unapproved_memberships"
+              href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
+            <!--<a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
               href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">${_('Approve')}</a>
             </li>
             <li py:if="auth.canRemoveUser(tg.identity.user.user_name, group.cn, userName)">
@@ -93,9 +93,9 @@
             <a href="${tg.url('/group/upgrade/%s/%s' % (groups[user].cn, user))}">${_('Upgrade')}</a>
             </li>
             <li py:if="auth.canDowngradeUser(tg.identity.user.user_name, group.cn, userName)">
-            <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">${_('Downgrade')}</a>
+            <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">${_('Downgrade')}</a>-->
             </li>
-            -->
+            
           </ul>
         </td>
       </tr>
