@@ -88,7 +88,7 @@ class SaFasIdentity(SqlAlchemyIdentity):
         else:
             ### TG: Difference.  Our model has a many::many for people:groups
             # And an association proxy that links them together
-            self._groups = frozenset([g.group_name for g in self.user.memberships])
+            self._groups = frozenset([g.group_name for g in self.user.approved_memberships])
         return self._groups
     groups = property(_get_groups)
 
