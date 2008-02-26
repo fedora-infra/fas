@@ -28,11 +28,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr py:for="user in sorted(users)">
-          <td><a href="${tg.url('/user/view/%s' % user)}">${user}</a></td>
+        <tr py:for="person in people">
+          <td><a href="${tg.url('/user/view/%s' % person.username)}">${person.username}</a></td>
           <td>
-            <span py:if="claDone[user]" class="approved">${_('CLA Done')}</span>
-            <span py:if="not claDone[user]" class="unapproved">${_('CLA Not Done')}</span>
+            <span py:if="cla_done_group in person.memberships" class="approved">${_('CLA Done')}</span>
+            <span py:if="not cla_done_group in person.memberships" class="unapproved">${_('CLA Not Done')}</span>
           </td>
         </tr>
       </tbody>

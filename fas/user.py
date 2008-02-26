@@ -1,6 +1,7 @@
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
+import cherrypy
 
 import ldap
 
@@ -135,6 +136,11 @@ class User(controllers.Controller):
         '''
         turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
 
+    def jsonRequest(self):
+        return 'tg_format' in cherrypy.request.params and \
+                cherrypy.request.params['tg_format'] == 'json'
+
+
     @expose(template="fas.templates.error")
     def error(self, tg_errors=None):
         '''Show a friendly error message'''
@@ -222,17 +228,19 @@ class User(controllers.Controller):
         return dict(target=target)
 
     @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
-    @expose(template="fas.templates.user.list")
+    @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search="a*"):
         '''List users
         '''
-        people = People.query.filter(People.username.like('%%%s%%' % username))
-        try:
-            people[0]
-        except:
-            turbogears.flash(_("No users found matching '%s'") % search)
-            people = []
-        return dict(users=users, search=search)
+        re_search = re.sub(r'\*', r'%', search).lower()
+        people = People.query.filter(People.username.like(re_search)).order_by('username')
+        if people.count() < 0:
+            turbogears.flash(_("No Users found matching '%s'") % search)
+        if self.jsonRequest():
+            return ({'users': users})
+        cla_done_group = Groups.by_name('cla_done')
+
+        return dict(people=people, search=search, cla_done_group=cla_done_group)
        
     @expose(template='fas.templates.user.new')
     def new(self):
