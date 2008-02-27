@@ -126,8 +126,6 @@ def canCreateGroup(person, group):
     '''
     Returns True if the user can create groups
     '''
-    turbogears.flash('Bypass in auth.py.  Fix!')
-    return True
     # Should groupname restrictions go here?
     if isAdmin(person):
         return True
