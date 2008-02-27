@@ -131,7 +131,7 @@ class People(SABase):
         if group in cls.approved_memberships:
             raise '%s is already approved in %s' % (cls.username, group.name)
         else:
-            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            role = PersonRoles.query.filter_by(member=cls, group=group).one()
             role.role_status = 'approved'
         
     def upgrade(cls, group, requester):
@@ -141,7 +141,7 @@ class People(SABase):
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
         else:
-            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            role = PersonRoles.query.filter_by(member=cls, group=group).one()
             if role.role_type == 'administrator':
                 raise '%s is already an admin in %s' % (cls.username, group.name)
             elif role.role_type == 'sponsor':
@@ -156,7 +156,7 @@ class People(SABase):
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
         else:
-            role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+            role = PersonRoles.query.filter_by(member=cls, group=group).one()
             if role.role_type == 'user':
                 raise '%s is already a user in %s, did you mean to remove?' % (cls.username, group.name)
             elif role.role_type == 'sponsor':
@@ -169,12 +169,12 @@ class People(SABase):
         # TODO: Find out how to log timestamp
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
-        role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+        role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
         role.sponsor_id = requester.id
 
     def remove(cls, group, requester):
-        role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
+        role = PersonRoles.query.filter_by(member=cls, group=group).one()
         try:
             session.delete(role)
         except TypeError:

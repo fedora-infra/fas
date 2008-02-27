@@ -43,7 +43,7 @@ CREATE TABLE people (
     -- Also, app would be responsible for eliminating spaces and
     -- uppercasing
     -- gpg_fingerprint varchar(40),
-    gpg_keyid VARCHAR(17), -- This one seems to be a bit strong.
+    gpg_keyid VARCHAR(64),
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
@@ -66,8 +66,8 @@ CREATE TABLE people (
     timezone TEXT null DEFAULT 'UTC',
     latitude numeric,
     longitude numeric,
-    check (status in ('active', 'vacation', 'inactive', 'pinged')),
-    check (gpg_keyid ~ '^[0-9A-F]{17}$') -- This one seems to be a bit strong.
+    check (status in ('active', 'vacation', 'inactive', 'pinged'))
+    --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 
 create index people_status_idx on people(status);
@@ -444,6 +444,8 @@ GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, 
 INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', 'admin');
 
 -- Create default groups and populate
+INSERT INTO groups (name, display_name, owner_id) VALUES ('cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'));
+INSERT INTO groups (name, display_name, owner_id) VALUES ('cla_click', 'Click-through CLA Group', (SELECT id from people where username='admin'));
 INSERT INTO groups (name, display_name, owner_id) VALUES ('accounts', 'Account System Admins', (SELECT id from people where username='admin'));
 INSERT INTO groups (name, display_name, owner_id) VALUES ('fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'));
 

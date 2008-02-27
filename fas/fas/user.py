@@ -215,7 +215,7 @@ class User(controllers.Controller):
             target.emails['primary'].email = email
 #            target.emails['bugzilla'] = PersonEmails(primary=bugzilla)
             target.ircnick = ircnick
-#            target.gpg_keyid = gpg_keyid
+            target.gpg_keyid = gpg_keyid
             target.telephone = telephone
             target.postal_address = postal_address
             target.comments = comments
