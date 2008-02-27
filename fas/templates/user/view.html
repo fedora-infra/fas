@@ -25,11 +25,14 @@
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Valid')}</span></dd>
         <!-- cla = {None, 'signed', 'clicked'} -->
-        <dt>${_('CLA:')}</dt><dd><span py:if="cla" class="approved">${_('Done')}</span><span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla')}">${_('Sign it!')}</a>)</span></dd>
+        <dt>${_('CLA:')}</dt><dd>
+        <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
+        <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')} (<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a>)</span>
+        <span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</span></dd>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
-    <h3 py:if="not personal">${_('%s\'s Roles') % person.givenName}</h3>
+    <h3 py:if="not personal">${_('%s\'s Roles') % person.human_name}</h3>
 <!--mpm    <ul class="roleslist">
       <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
