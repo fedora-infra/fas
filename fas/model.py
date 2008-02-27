@@ -184,6 +184,73 @@ class People(SABase):
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
 
+    def __json__(self):
+        '''We want to make sure we keep a tight reign on sensistive information.
+        Thus we strip out certain information unless a user is an admin or the
+        current user.
+
+        Current access restrictions
+        ===========================
+
+        Anonymous users can see:
+            :id: The id in the account system and on the shell servers
+            :username: Username in FAS
+            :human_name: Human name of the person
+            :comments: Comments that the user leaves about themselves
+            :creation: Date this account was created
+            :ircnick: User's nickname on IRC
+            :last_seen: timestamp the user last logged into anything tied to
+                the account system 
+            :status: Whether the user is active, inactive, on vacation, etc
+            :status_change: timestamp that the status was last updated
+            :locale: User's default locale for Fedora Services
+            :timezone: User's timezone
+            :latitude: Used for constructing maps of contributors
+            :longitude: Used for contructing maps of contributors
+
+        Authenticated Users add:
+            :ssh_key: Public key for connecting to over ssh
+            :gpg_keyid: gpg key of the user
+            :affiliation: company or group the user wishes to identify with
+            :certificate_serial: serial number of the user's Fedora SSL
+                Certificate
+
+        User Themselves add:
+            :password: hashed password to identify the user
+            :passwordtoken: used when the user needs to reset a password
+            :postal_address: user's postal address
+            :telephone: user's telephone number
+            :facsimile: user's FAX number
+
+        Admins gets access to this final field as well:
+            :internal_comments: Comments an admin wants to write about a user
+
+        Note: There are a few other resources that are not located directly in
+        the People structure that you are likely to want to pass to consuming
+        code like email address and groups.  Please see the documentation on
+        SABase.__json__() to find out how to set jsonProps to handle those.
+        '''
+        props = super(People, self).__json__()
+        if not identity.in_group('admin'):
+            # Only admins can see internal_comments
+            del props['internal_comments']
+
+            if not identity.current.user.user_name == self.username:
+                # Only an admin or the user themselves can see these fields
+                del props['password']
+                del props['passwordtoken']
+                del props['postal_address']
+                del props['telephone']
+                del props['facsimile']
+
+                if identity.current.anonymous:
+                    # Only an authenticated user can see these fields
+                    del props['ssh_key']
+                    del props['gpg_keyid']
+                    del props['affiliation']
+                    del props['certificate_serial']
+        return props
+
     memberships = association_proxy('roles', 'group')
     approved_memberships = association_proxy('approved_roles', 'group')
     unapproved_memberships = association_proxy('unapproved_roles', 'group')
