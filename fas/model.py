@@ -37,6 +37,8 @@ from sqlalchemy.orm.collections import column_mapped_collection
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import select, and_
 
+from turbogears.database import session
+
 from turbogears import identity
 
 from fas.json import SABase
@@ -112,7 +114,7 @@ class People(SABase):
     by_username = classmethod(by_username)
 
     # If we're going to do logging here, we'll have to pass the person that did the applying.
-    def apply(cls, group, requestor):
+    def apply(cls, group, requester):
         '''
         Apply a person to a group
         '''
@@ -122,9 +124,9 @@ class People(SABase):
         role.member = cls
         role.group = group
         
-    def approve(cls, group, requestor):
+    def approve(cls, group, requester):
         '''
-        Approve a person in a group  - requestor for logging purposes
+        Approve a person in a group  - requester for logging purposes
         '''
         if group in cls.approved_memberships:
             raise '%s is already approved in %s' % (cls.username, group.name)
@@ -132,9 +134,9 @@ class People(SABase):
             role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
             role.role_status = 'approved'
         
-    def upgrade(cls, group, requestor):
+    def upgrade(cls, group, requester):
         '''
-        Upgrade a user in a group - requestor for logging purposes
+        Upgrade a user in a group - requester for logging purposes
         '''
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
@@ -147,9 +149,9 @@ class People(SABase):
             elif role.role_type == 'user':
                 role.role_type = 'sponsor'
         
-    def downgrade(cls, group, requestor):
+    def downgrade(cls, group, requester):
         '''
-        Downgrade a user in a group - requestor for logging purposes
+        Downgrade a user in a group - requester for logging purposes
         '''
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
@@ -162,20 +164,20 @@ class People(SABase):
             elif role.role_type == 'administrator':
                 role.role_type = 'sponsor'
                 
-    def sponsor(cls, group, requestor):
+    def sponsor(cls, group, requester):
         # If we want to do logging, this might be the place.
         # TODO: Find out how to log timestamp
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
         role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
         role.role_status = 'approved'
-        role.sponsor_id = requestor.id
+        role.sponsor_id = requester.id
 
-    def remove(cls, group, requestor):
+    def remove(cls, group, requester):
         role = PersonRoles.query.filter_by(person_id=cls.id, group_id=group.id).first()
         try:
             session.delete(role)
-        except:
+        except TypeError:
             pass
             # Handle somehow.
 

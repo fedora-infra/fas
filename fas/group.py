@@ -58,7 +58,7 @@ class editGroup(validators.Schema):
 
 class usernameGroupnameExists(validators.Schema):
     groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
-    username = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    targetname = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
 
 class groupnameExists(validators.Schema):
     groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
@@ -174,8 +174,8 @@ class Group(controllers.Controller):
             return dict()
         else:
             try:
-                session.flush()
                 owner.apply(group, person) # Apply...
+                session.flush()
                 owner.sponsor(group, person)
                 owner.upgrade(group, person)
                 owner.upgrade(group, person)
@@ -265,8 +265,8 @@ class Group(controllers.Controller):
         group = Groups.by_name(groupname)
 
         if not canApplyGroup(person, group, target):
-            turbogears.flash(_('%(user)s could not apply to %(group)s.') % \
-                {'user': target.username, 'group': group.name })
+ #           turbogears.flash(_('%(user)s could not apply to %(group)s.') % \
+ #               {'user': target.username, 'group': group.name })
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
@@ -277,16 +277,18 @@ class Group(controllers.Controller):
                     {'user': target.username, 'group': group.name})
             else:
                 import turbomail
+                
                 # TODO: CC to right place, put a bit more thought into how to most elegantly do this
                 message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % group.name, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
-                url = config.get('base_url') + turbogears.url('/group/edit/%s' % groupname)
+                url = config.get('base_url_filter.base_url') + turbogears.url('/group/edit/%s' % groupname)
+
                 message.plain = dedent('''
                     Fedora user %(user)s, aka %(name)s <%(email)s> has requested
-                    membership for %(applicant) (%(applicant_name)) in the %(group) group and needs a sponsor.
+                    membership for %(applicant)s (%(applicant_name)s) in the %(group)s group and needs a sponsor.
     
                     Please go to %(url)s to take action.  
-                    ''') % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.emails['primary'].email, 'url': url}
+                    ''' % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.emails['primary'].email, 'url': url, 'group': group.name} )
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
                     {'user': target.username, 'group': group.name})
@@ -338,23 +340,23 @@ class Group(controllers.Controller):
         # TODO: Add confirmation?
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        target = People.by_username(targetname)
+        requester = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canRemoveUser(person, group, target):
+        if not canRemoveUser(person, group, requester):
             turbogears.flash(_("You cannot remove '%s'.") % target.username)
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
             try:
-                group.remove_person(person, target)
-            except:
+                person.remove(group, requester)
+            except KeyError:
                 turbogears.flash(_('%(name)s could not be removed from %(group)s!') % \
-                    {'name': target.username, 'group': group.name})
+                    {'name': requester.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), requester.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has removed you from the '%(group)s'
                     group of the Fedora Accounts System This change is effective
@@ -363,7 +365,7 @@ class Group(controllers.Controller):
                     ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
-                    {'name': target.username, 'group': group.name})
+                    {'name': requester.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
