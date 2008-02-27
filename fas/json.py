@@ -79,7 +79,7 @@ class SABase(object):
         # Load all the columns from the table
         for column in sqlalchemy.orm.object_mapper(self).iterate_properties:
             if isinstance(column, sqlalchemy.orm.properties.ColumnProperty):
-                props[column.key] = getattr(self, key)
+                props[column.key] = getattr(self, column.key)
 
         # Load things that are explicitly listed
         for field in propList:
