@@ -11,8 +11,8 @@
     <h2>${group.display_name} (${group.name})</h2>
     <h3>
       ${_('My Status:')}
-      <span py:if="auth.isApproved(person, group)" class="approved">${_('Approved')}</span>
-      <span py:if="not auth.isApproved(person, group)" class="unapproved">${_('Unapproved')}</span>
+      <span py:if="group in person.memberships and group in person.approved_memberships" class="approved">${_('Approved')}</span>
+      <span py:if="group in person.memberships and not group in person.approved_memberships" class="unapproved">${_('Unapproved')}</span>
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
     <form py:if="not group in person.memberships" action="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}">
@@ -22,7 +22,7 @@
       </div>
     </form>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
-    <h3>Group Details <a href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
+    <h3>Group Details <a py:if="auth.canAdminGroup(person, group)" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
         <dt>${_('Name:')}</dt><dd>${group.name}&nbsp;</dd>
@@ -38,6 +38,9 @@
         <span py:if="group.user_can_remove == 0" py:strip="">${_('No')}</span>
         &nbsp;</dd>
         <dt>${_('Join Message:')}</dt><dd>${group.joinmsg}&nbsp;</dd>
+        <dt>${_('Prerequisite:')}</dt>
+            <dd py:if="group.prerequisite">${group.prerequisite.name}&nbsp;</dd>
+            <dd py:if="not group.prerequisite">&nbsp;</dd>
         <dt>${_('Created:')}</dt><dd>${group.creation}&nbsp;</dd>
       </dl>
     </div>
@@ -67,20 +70,20 @@
         from datetime import datetime
         from pytz import timezone
         ?>
-        <td><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td>${role.member.creation}<!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
         <td py:if="role.approval == 'none'">${role.member.creation}</td>
-        <td py:if="role.approval != 'none'"><!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
+        <td py:if="role.approval != 'none'">${role.member.timezone}<!--${datetime.fromtimestamp(float(role.member.creation), timezone(role.member.timezone)).strftime('%F %R %Z')}--></td>
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!--<td>${groups[user].fedoraRoleDomain}</td>-->
         <!-- This section includes all action items -->
         <td py:if="auth.canSponsorGroup(role.member, group)">
           <ul>
-            <!--
-            <li py:if="groups[user].fedoraRoleStatus.lower() != 'approved'">
-            <a py:if="group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
-              href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">${_('Sponsor')}</a>
-            <a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
+            
+            <li py:if="group in role.member.memberships">
+            <a py:if="group in role.member.unapproved_memberships"
+              href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
+            <!--<a py:if="not group.fedoraGroupNeedsSponsor.upper() == 'TRUE'"
               href="${tg.url('/group/sponsor/%s/%s' % (groups[user].cn, user))}">${_('Approve')}</a>
             </li>
             <li py:if="auth.canRemoveUser(tg.identity.user.user_name, group.cn, userName)">
@@ -90,9 +93,9 @@
             <a href="${tg.url('/group/upgrade/%s/%s' % (groups[user].cn, user))}">${_('Upgrade')}</a>
             </li>
             <li py:if="auth.canDowngradeUser(tg.identity.user.user_name, group.cn, userName)">
-            <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">${_('Downgrade')}</a>
+            <a href="${tg.url('/group/downgrade/%s/%s' % (groups[user].cn, user))}">${_('Downgrade')}</a>-->
             </li>
-            -->
+            
           </ul>
         </td>
       </tr>

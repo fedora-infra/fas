@@ -37,11 +37,13 @@ def canAdminGroup(person, group):
         return True
     else:
         try:
-            role = PersonRoles.query.filter_by(group_id=g.id, person_id=p.id).one()
+            role = PersonRoles.query.filter_by(group_id=group.id, person_id=person.id).one()
         except IndexError:
             ''' Not in the group '''
             return False
-        if r.role_status == 'approved' and r.role_type == 'administrator':
+        except InvalidRequestError:
+            return False
+        if role.role_status == 'approved' and role.role_type == 'administrator':
             return True
     return False
 
@@ -165,16 +167,22 @@ def canApplyGroup(person, group, applicant):
     # owner of the group (when they initially make it).
     prerequisite = group.prerequisite
     # TODO: Make this return more useful info.
-    if prequisite:
+    
+    if prerequisite:
+        
         if prerequisite in person.approved_memberships:
             pass
         else:
+            print "GOT HERE %s" % prerequisite
+            turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
             return False
     # A user can apply themselves, and FAS admins can apply other people.
-    if (username == applicant) or \
+
+    if (person == applicant) or \
         canAdminGroup(person, group):
         return True
     else:
+        turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
         return False
 
 def canSponsorUser(person, group, target):
@@ -197,10 +205,12 @@ def canRemoveUser(person, group, target):
         return False
     # A user can remove themself from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
-    elif ((person == target) and (group.user_can_remove == 1)) or \
+    elif ((person == target) and (group.user_can_remove == True)) or \
         canSponsorGroup(person, group):
+        print "GOT HERE TRUE"
         return True
     else:
+        print "GOT HERE FALSE"
         return False
 
 def canUpgradeUser(person, group, target):
