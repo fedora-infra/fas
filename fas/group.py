@@ -204,7 +204,7 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=editGroup())
     @error_handler(error)
-    @expose()
+    @expose(template="fas.templates.group.edit")
     def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
         '''Edit a group'''
         username = turbogears.identity.current.user_name
@@ -232,8 +232,8 @@ class Group(controllers.Controller):
                 turbogears.flash(_('The group details could not be saved.'))
             else:
                 turbogears.flash(_('The group details have been saved.'))
-                turbogears.redirect('/group/view/%s' % groupname)
-            return dict()
+                turbogears.redirect('/group/view/%s' % group.name)
+            return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.list", allow_json=True)
@@ -306,26 +306,26 @@ class Group(controllers.Controller):
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canSponsorUser(sponsor, group, target):
+        if not canSponsorUser(person, group, target):
             turbogears.flash(_("You cannot sponsor '%s'") % target.username)
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
             try:
-                group.sponsor_person(person, target)
+                target.sponsor(group, person)
             except:
                 turbogears.flash(_("'%s' could not be sponsored!") % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), p.mail, "Your Fedora '%s' membership has been sponsored" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been sponsored" % group.name)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has sponsored you for membership in the %(group)s
                     group of the Fedora account system. If applicable, this change should
                     propagate into the e-mail aliases and CVS repository within an hour.
 
                     %(joinmsg)s
-                    ''') % {'group': group.name, 'name': user.human_name, 'email': user.emails['primary'].email, 'joinmsg': group.joinmsg}
+                    ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'joinmsg': group.joinmsg}
                 turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % person.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -340,23 +340,23 @@ class Group(controllers.Controller):
         # TODO: Add confirmation?
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        requester = People.by_username(targetname)
+        target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canRemoveUser(person, group, requester):
+        if not canRemoveUser(person, group, target):
             turbogears.flash(_("You cannot remove '%s'.") % target.username)
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
             try:
-                person.remove(group, requester)
+                target.remove(group, target)
             except KeyError:
                 turbogears.flash(_('%(name)s could not be removed from %(group)s!') % \
-                    {'name': requester.username, 'group': group.name})
+                    {'name': target.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), requester.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = dedent('''
                     %(name)s <%(email)s> has removed you from the '%(group)s'
                     group of the Fedora Accounts System This change is effective
@@ -365,7 +365,7 @@ class Group(controllers.Controller):
                     ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
-                    {'name': requester.username, 'group': group.name})
+                    {'name': target.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
@@ -386,7 +386,7 @@ class Group(controllers.Controller):
             return dict()
         else:
             try:
-                group.upgrade_person(person, target)
+                target.upgrade(group, person)
             except TypeError, e:
                 turbogears.flash(e)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -396,9 +396,7 @@ class Group(controllers.Controller):
             else:
                 import turbomail
                 message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been upgraded" % group.name)
-                user = Person.byUsername(username)
-                g = Groups.byUsername(username)
-                # Should we make upgrade_person return this?
+                # Should we make person.upgrade return this?
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
                 message.plain = dedent('''
@@ -408,7 +406,7 @@ class Group(controllers.Controller):
                     into the e-mail aliases within an hour.
                     ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'status': status}
                 turbomail.enqueue(message)
-                turbogears.flash(_('%s has been upgraded!') % person.username)
+                turbogears.flash(_('%s has been upgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
@@ -416,7 +414,7 @@ class Group(controllers.Controller):
     @validate(validators=usernameGroupnameExists())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
-    def downgrade(self, groupname, username):
+    def downgrade(self, groupname, targetname):
         '''Upgrade user in group'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -429,7 +427,7 @@ class Group(controllers.Controller):
             return dict()
         else:
             try:
-                group.downgrade_person(person, target)
+                target.downgrade(group, person)
             except:
                 turbogears.flash(_('%(username)s could not be downgraded!') % {'username': target.username})
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -471,7 +469,7 @@ class Group(controllers.Controller):
     @expose(template='fas.templates.group.invite')
     def invite(self, groupname):
         username = turbogears.identity.current.user_name
-        person = Person.byUsername(username)
+        person = People.by_username(username)
         group = Groups.by_name(groupname)
 
         return dict(person=person, group=group)
@@ -483,7 +481,7 @@ class Group(controllers.Controller):
     def sendinvite(self, groupname, target):
         import turbomail
         username = turbogears.identity.current.user_name
-        person = Person.byUsername(username)
+        person = People.by_username(username)
         group = Groups.by_name(groupname)
 
         if isApproved(person, group):

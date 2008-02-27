@@ -154,7 +154,7 @@ class CLA(controllers.Controller):
         else:
             try:
                 clickgroup = Groups.by_name(config.get('cla_click_group'))
-                clickgroup.remove_person(person, person)
+                person.remove(cilckgroup, person)
             except:
                 pass
             turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)

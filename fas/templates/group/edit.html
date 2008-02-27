@@ -32,8 +32,8 @@
         <input py:if="not group.user_can_remove" type="checkbox" id="user_can_remove" name="user_can_remove" value="1" />
       </div>
       <div class="field">
-        <label for="prerequisite">${_('Must Belong To:')}</label>
-        <input type="text" id="prerequisite" name="prerequisite" value="${group.prerequisite}" />
+        <label for="prerequisite">${_('Group Prerequisite:')}</label>
+        <input type="text" id="prerequisite" name="prerequisite" value="${group.prerequisite.name}" />
       </div>
       <div class="field">
         <label for="joinmsg">${_('Group Join Message:')}</label>
