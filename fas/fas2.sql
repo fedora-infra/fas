@@ -440,10 +440,10 @@ GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, 
 INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', 'admin');
 
 -- Create default groups and populate
-INSERT INTO groups (name, display_name, owner_id) VALUES ('cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'));
-INSERT INTO groups (name, display_name, owner_id) VALUES ('cla_click', 'Click-through CLA Group', (SELECT id from people where username='admin'));
-INSERT INTO groups (name, display_name, owner_id) VALUES ('accounts', 'Account System Admins', (SELECT id from people where username='admin'));
-INSERT INTO groups (name, display_name, owner_id) VALUES ('fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'));
+INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('cla_click', 'Click-through CLA Group', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('accounts', 'Account System Admins', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'), 'tracking');
 
 INSERT INTO person_roles (person_id, group_id, role_type, role_status, internal_comments, sponsor_id) VALUES ((SELECT id from people where username='admin'), (select id from groups where name='accounts'), 'administrator', 'approved', 'created at install time', (SELECT id from people where username='admin'));
 
