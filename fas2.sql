@@ -28,10 +28,6 @@ CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
 SELECT setval('person_seq', 1111);
 
-CREATE SEQUENCE group_seq;
--- TODO: Set this to start where our last group_id is
-SELECT setval('group_seq', 1222);
-
 CREATE TABLE people (
     -- tg_user::user_id
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
@@ -115,7 +111,7 @@ cluster configs_person_id_idx on configs;
 
 CREATE TABLE groups (
     -- tg_group::group_id
-    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('group_seq'),
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
     -- tg_group::group_name
     name VARCHAR(32) UNIQUE NOT NULL,
     -- tg_group::display_name
@@ -428,7 +424,7 @@ create trigger email_bugzilla_sync before update or insert or delete
  for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, group_seq, visit, visit_identity TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, visit, visit_identity TO GROUP fedora;
 
 -- For other services to connect to the necessary session tables
 GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
