@@ -1,0 +1,166 @@
+source rpm: R-2.6.1-1.el5.src.rpm
+package: R - 2.6.1-1.el5.i386 from fedora-epel-needsign-5-i386
+  unresolved deps: 
+     perl(File::Copy::Recursive)
+
+source rpm: bodhi-0.4.4-1.el5.src.rpm
+package: bodhi-server - 0.4.4-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     yum-utils >= 0:1.1.7
+     mash
+
+source rpm: fedora-packager-0.1.1-1.el5.src.rpm
+package: fedora-packager - 0.1.1-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     plague-client
+
+source rpm: hspell-1.0-7.el5.src.rpm
+package: hunspell-he - 1.0-7.el5.i386 from fedora-epel-testing-5-i386
+  unresolved deps: 
+     hunspell
+
+source rpm: koji-1.2.3-1.el5.src.rpm
+package: koji-builder - 1.2.3-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     createrepo >= 0:0.4.11
+
+source rpm: moodle-1.8.2-1.el5.src.rpm
+package: moodle - 1.8.2-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     mimetex
+
+source rpm: bzr-gtk-0.93.0-2.el5.src.rpm
+package: nautilus-bzr - 0.93.0-2.el5.i386 from fedora-epel-testing-5-i386
+  unresolved deps: 
+     nautilus-python >= 0:0.4.3-4
+
+source rpm: nautilus-sendto-0.7-5.fc6.src.rpm
+package: nautilus-sendto - 0.7-5.fc6.i386 from centos-5-i386
+  unresolved deps: 
+     libgaim.so.0
+
+source rpm: perl-Test-Base-0.53-1.el5.src.rpm
+package: perl-Test-Base - 0.53-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     perl(Module::Install::Base)
+
+source rpm: perl-libwhisker2-2.4-3.el5.src.rpm
+package: perl-libwhisker2 - 2.4-3.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     perl(MD5)
+
+source rpm: python-Coherence-0.2.1-3.el5.src.rpm
+package: python-Coherence - 0.2.1-3.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     python-twisted-core
+     python-nevow
+     python-twisted-web
+
+source rpm: revisor-2.0.5-15.el5.src.rpm
+package: revisor-jigdo - 2.0.5-15.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     jigdo
+
+source rpm: snake-0.9-0.5git.el5.src.rpm
+package: snake-server - 0.9-0.5git.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     pykickstart >= 0:1.1
+
+source rpm: translate-toolkit-0.10.1-1.el5.src.rpm
+package: translate-toolkit - 0.10.1-1.el5.noarch from fedora-epel-testing-5-i386
+  unresolved deps: 
+     python-enchant
+
+source rpm: R-2.6.1-1.el5.src.rpm
+package: R - 2.6.1-1.el5.i386 from fedora-epel-needsign-5-x86_64
+  unresolved deps: 
+     perl(File::Copy::Recursive)
+
+source rpm: R-2.6.1-1.el5.src.rpm
+package: R - 2.6.1-1.el5.x86_64 from fedora-epel-needsign-5-x86_64
+  unresolved deps: 
+     perl(File::Copy::Recursive)
+
+source rpm: bodhi-0.4.4-1.el5.src.rpm
+package: bodhi-server - 0.4.4-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     yum-utils >= 0:1.1.7
+     mash
+
+source rpm: fedora-packager-0.1.1-1.el5.src.rpm
+package: fedora-packager - 0.1.1-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     plague-client
+
+source rpm: hspell-1.0-7.el5.src.rpm
+package: hunspell-he - 1.0-7.el5.x86_64 from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     hunspell
+
+source rpm: koji-1.2.3-1.el5.src.rpm
+package: koji-builder - 1.2.3-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     createrepo >= 0:0.4.11
+
+source rpm: openib-1.2-6.el5.src.rpm
+package: libcxgb3-devel - 1.0-6.el5.i386 from centos-5-x86_64
+  unresolved deps: 
+     libcxgb3 = 0:1.0-6.el5
+
+source rpm: moodle-1.8.2-1.el5.src.rpm
+package: moodle - 1.8.2-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     mimetex
+
+source rpm: mozldap-6.0.4-1.el5.src.rpm
+package: mozldap-devel - 6.0.4-1.el5.i386 from centos-5-x86_64
+  unresolved deps: 
+     mozldap = 0:6.0.4-1.el5
+
+source rpm: nagios-2.9-1.el5.src.rpm
+package: nagios-devel - 2.9-1.el5.i386 from fedora-epel-5-x86_64
+  unresolved deps: 
+     nagios = 0:2.9-1.el5
+
+source rpm: bzr-gtk-0.93.0-2.el5.src.rpm
+package: nautilus-bzr - 0.93.0-2.el5.x86_64 from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     nautilus-python >= 0:0.4.3-4
+
+source rpm: nautilus-sendto-0.7-5.fc6.src.rpm
+package: nautilus-sendto - 0.7-5.fc6.x86_64 from centos-5-x86_64
+  unresolved deps: 
+     libgaim.so.0()(64bit)
+
+source rpm: perl-Test-Base-0.53-1.el5.src.rpm
+package: perl-Test-Base - 0.53-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     perl(Module::Install::Base)
+
+source rpm: perl-libwhisker2-2.4-3.el5.src.rpm
+package: perl-libwhisker2 - 2.4-3.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     perl(MD5)
+
+source rpm: python-Coherence-0.2.1-3.el5.src.rpm
+package: python-Coherence - 0.2.1-3.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     python-twisted-core
+     python-nevow
+     python-twisted-web
+
+source rpm: revisor-2.0.5-15.el5.src.rpm
+package: revisor-jigdo - 2.0.5-15.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     jigdo
+
+source rpm: snake-0.9-0.5git.el5.src.rpm
+package: snake-server - 0.9-0.5git.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     pykickstart >= 0:1.1
+
+source rpm: translate-toolkit-0.10.1-1.el5.src.rpm
+package: translate-toolkit - 0.10.1-1.el5.noarch from fedora-epel-testing-5-x86_64
+  unresolved deps: 
+     python-enchant
+
