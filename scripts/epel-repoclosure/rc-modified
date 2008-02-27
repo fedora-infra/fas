@@ -1,0 +1,282 @@
+#!/usr/bin/python -t
+# -*- mode: Python; indent-tabs-mode: nil; -*-
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Library General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# seth vidal 2005 (c) etc etc
+# mschwendt: modified for Fedora Extras buildsys
+
+#Read in the metadata of a series of repositories and check all the
+#   dependencies in all packages for resolution. Print out the list of
+#   packages with unresolved dependencies
+
+import sys
+import os
+
+# For patched "yum" and "rpmUtils" (post 2.6.1 checkForObsolete support).
+# Comment this to use system yum.
+#sys.path.insert(0,'/srv/extras-push/work/buildsys-utils/pushscript')
+
+import yum
+import yum.Errors
+from yum.misc import getCacheDir
+from optparse import OptionParser
+import rpmUtils.arch
+from yum.constants import *
+if yum.__version__ < '3.0':  # TODO: check
+    from repomd.packageSack import ListPackageSack
+else:
+    from yum.packageSack import ListPackageSack
+
+
+def parseArgs():
+    usage = "usage: %s [-c <config file>] [-a <arch>] [-r <repoid>] [-r <repoid2>]" % sys.argv[0]
+    parser = OptionParser(usage=usage)
+    parser.add_option("-c", "--config", default='/etc/yum.conf',
+        help='config file to use (defaults to /etc/yum.conf)')
+    parser.add_option("-a", "--arch", default=None,
+        help='check as if running the specified arch (default: current arch)')
+    parser.add_option("-r", "--repoid", default=[], action='append',
+        help="specify repo ids to query, can be specified multiple times (default is all enabled)")
+    parser.add_option("-t", "--tempcache", default=False, action="store_true", 
+        help="Use a temp dir for storing/accessing yum-cache")
+    parser.add_option("-d", "--cachedir", default='', 
+        help="specify a custom directory for storing/accessing yum-cache")
+    parser.add_option("-q", "--quiet", default=0, action="store_true", 
+                      help="quiet (no output to stderr)")
+    parser.add_option("-n", "--newest", default=0, action="store_true",
+                      help="check only the newest packages in the repos")
+    (opts, args) = parser.parse_args()
+    return (opts, args)
+
+class RepoClosure(yum.YumBase):
+    def __init__(self, arch = None, config = "/etc/yum.conf"):
+        yum.YumBase.__init__(self)
+
+        self.arch = arch
+        if yum.__version__ < '3.0':  # TODO: check
+            self.doConfigSetup(fn = config)
+        else:
+            self.doConfigSetup(fn = config, init_plugins = False)
+        if hasattr(self.repos, 'sqlite'):
+            self.repos.sqlite = False
+            self.repos._selectSackType()
+    
+    def evrTupletoVer(self,tuple):
+        """convert and evr tuple to a version string, return None if nothing
+        to convert"""
+    
+        e, v,r = tuple
+
+        if v is None:
+            return None
+    
+        val = ''
+        if e is not None:
+            val = '%s:%s' % (e, v)
+    
+        if r is not None:
+            val = '%s-%s' % (val, r)
+    
+        return val
+    
+    def readMetadata(self):
+        self.doRepoSetup()
+        self.doSackSetup(rpmUtils.arch.getArchList(self.arch))
+        for repo in self.repos.listEnabled():
+            try:  # TODO: when exactly did this change to "mdtype"?
+                self.repos.populateSack(which=[repo.id], mdtype='filelists')
+            except TypeError:
+                self.repos.populateSack(which=[repo.id], with='filelists')
+
+    def getBrokenDeps(self, newest=False):
+        unresolved = {}
+        resolved = {}
+        newpkgtuplist = []
+        if newest:
+            if yum.__version__ >= '2.9':  # TODO: check
+                pkgs = self.pkgSack.returnNewestByName()
+            else:
+                pkgs = []
+                for l in self.pkgSack.returnNewestByName():
+                    pkgs.extend(l)
+            newestpkgtuplist = ListPackageSack(pkgs).simplePkgList()
+
+            pkgs = self.pkgSack.returnNewestByNameArch()
+        else:
+            pkgs = self.pkgSack
+        self.numpkgs = len(pkgs)
+
+        mypkgSack = ListPackageSack(pkgs)
+        pkgtuplist = mypkgSack.simplePkgList()
+        
+        # Support new checkForObsolete code in Yum (#190116)
+        # _if available_
+        # so we don't examine old _obsolete_ sub-packages.
+        import rpmUtils.updates
+        self.up = rpmUtils.updates.Updates([],pkgtuplist)
+        self.up.rawobsoletes = mypkgSack.returnObsoletes()
+
+        haveCheckForObsolete = hasattr(rpmUtils.updates.Updates,'checkForObsolete')
+        if not haveCheckForObsolete:
+            print 'WARNING: rpmUtils.updates.checkForObsolete missing!'
+
+        for pkg in pkgs:
+            thispkgobsdict = {}
+            if haveCheckForObsolete:
+                try:
+                    thispkgobsdict = self.up.checkForObsolete([pkg.pkgtup])
+                    if thispkgobsdict.has_key(pkg.pkgtup):
+                        continue
+                except AttributeError:
+                    pass
+
+            def isnotnewest(pkg):
+                # Handle noarch<->arch switches in package updates, so any
+                # old nevra returned by returnNewestByNameArch() are skipped.
+                # TODO: There must be a more elegant/convenient way.
+                if (pkg.pkgtup[1] == 'noarch'):
+                    if (pkg.pkgtup not in newestpkgtuplist):
+                        return True
+                else:
+                    for p in self.pkgSack.returnNewestByName(pkg.pkgtup[0]):
+                        if (p.pkgtup[1] == 'noarch') and (p.pkgtup in newestpkgtuplist):
+                            return True
+                return False
+
+            for (req, flags, (reqe, reqv, reqr)) in pkg.returnPrco('requires'):
+                if req.startswith('rpmlib'): continue # ignore rpmlib deps
+            
+                ver = self.evrTupletoVer((reqe, reqv, reqr))
+                if resolved.has_key((req,flags,ver)):
+                    continue
+                try:
+                    resolve_sack = self.whatProvides(req, flags, ver)
+                except yum.Errors.RepoError, e:
+                    pass
+            
+                if len(resolve_sack) < 1:
+                    if newest and isnotnewest(pkg):
+                        break
+                    if not unresolved.has_key(pkg):
+                        unresolved[pkg] = []
+                    unresolved[pkg].append((req, flags, ver))
+                    continue
+                    
+                kernelprovides = True  # make a false assumption
+                # If all providers are "kernel*" packages, we allow old ones.
+                for (pn,pa,pe,pv,pr) in resolve_sack.simplePkgList():
+                    kernelprovides &= pn.startswith('kernel')
+                
+                if newest and not kernelprovides and not req.startswith('kernel'): # we allow old kernels
+                    resolved_by_newest = False
+                    for po in resolve_sack:# look through and make sure all our answers are newest-only
+
+                        # 2nd stage handling of obsoletes. Only keep providers,
+                        # which are not obsolete. If no provider is left, the
+                        # dep is unresolved.
+                        thispkgobsdict = {}
+                        if haveCheckForObsolete:
+                            try:
+                                thispkgobsdict = self.up.checkForObsolete([po.pkgtup])
+                                if thispkgobsdict.has_key(po.pkgtup):
+                                    continue
+                            except AttributeError:
+                                pass
+                        
+                        if po.pkgtup in pkgtuplist:
+                            resolved_by_newest = True
+                            break
+
+                    if resolved_by_newest:                    
+                        resolved[(req,flags,ver)] = 1
+                    else:
+                        if newest and isnotnewest(pkg):
+                            break
+                        if not unresolved.has_key(pkg):
+                            unresolved[pkg] = []
+                        unresolved[pkg].append((req, flags, ver))                        
+                        
+        return unresolved
+    
+    
+    def log(self, value, msg):
+        pass
+
+def main():
+    (opts, cruft) = parseArgs()
+    my = RepoClosure(arch = opts.arch, config = opts.config)
+    
+    if opts.repoid:
+        for repo in my.repos.repos.values():
+            if repo.id not in opts.repoid:
+                repo.disable()
+            else:
+                repo.enable()
+
+    if os.geteuid() != 0 or opts.tempcache or opts.cachedir != '':
+        if opts.cachedir != '':
+            cachedir = opts.cachedir
+        else:
+            cachedir = getCacheDir()
+            if cachedir is None:
+                print "Error: Could not make cachedir, exiting"
+                sys.exit(50)
+            
+        my.repos.setCacheDir(cachedir)
+
+    if not opts.quiet:
+        print 'Reading in repository metadata - please wait....'
+
+    try:
+        my.readMetadata()
+    except yum.Errors.RepoError, e:
+        print e
+        sys.exit(1)
+
+    if not opts.quiet:
+        print 'Checking Dependencies'
+
+    baddeps = my.getBrokenDeps(opts.newest)
+    num = my.numpkgs
+        
+    repos = my.repos.listEnabled()
+
+    if not opts.quiet:
+        print 'Repos looked at: %s' % len(repos)
+        for repo in repos:
+            print '   %s' % repo
+        print 'Num Packages in Repos: %s' % num
+    
+    pkgs = baddeps.keys()
+    def sortbyname(a,b):
+        return cmp(a.__str__(),b.__str__())
+    pkgs.sort(sortbyname)
+    for pkg in pkgs:
+        srcrpm = pkg.returnSimple('sourcerpm')
+        print 'source rpm: %s\npackage: %s from %s\n  unresolved deps: ' % (srcrpm, pkg, pkg.repoid)
+        for (n, f, v) in baddeps[pkg]:
+            req = '%s' % n
+            if f: 
+                flag = LETTERFLAGS[f]
+                req = '%s %s'% (req, flag)
+            if v:
+                req = '%s %s' % (req, v)
+            
+            print '     %s' % req
+        print
+
+if __name__ == "__main__":
+    main()
+        
