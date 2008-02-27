@@ -238,9 +238,8 @@ class User(controllers.Controller):
             turbogears.flash(_("No Users found matching '%s'") % search)
         if self.jsonRequest():
             return ({'users': users})
-        cla_done_group = Groups.by_name('cla_done')
 
-        return dict(people=people, search=search, cla_done_group=cla_done_group)
+        return dict(people=people, search=search)
        
     @expose(template='fas.templates.user.new')
     def new(self):
