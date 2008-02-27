@@ -22,6 +22,7 @@
 Model for the Fedora Account System
 '''
 from datetime import datetime
+from time import time
 from turbogears.database import metadata, mapper, get_engine
 # import some basic SQLAlchemy classes for declaring the data model
 # (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
@@ -166,12 +167,12 @@ class People(SABase):
                 
     def sponsor(cls, group, requester):
         # If we want to do logging, this might be the place.
-        # TODO: Find out how to log timestamp
         if not group in cls.memberships:
             raise '%s not a member of %s' % (group.name, cls.memberships)
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
         role.sponsor_id = requester.id
+        role.approval = time()
 
     def remove(cls, group, requester):
         role = PersonRoles.query.filter_by(member=cls, group=group).one()

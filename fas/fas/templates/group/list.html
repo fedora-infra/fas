@@ -7,8 +7,10 @@
     <title>${_('Groups List')}</title>
   </head>
   <body>
-    <?python from fas import auth ?>
-    <?python from fas.model import Groups ?>
+    <?python
+    from fas.model import Groups, People
+    person = People.by_username(tg.identity.user.username)
+    ?>
     <span py:if="Groups.by_name('accounts') in person.approved_memberships">
       <h2>Create New Group</h2>
         <a href='new'>Create Group</a>
@@ -35,7 +37,6 @@
       </thead>
       <tbody>
         <tr py:for="group in groups">
-        <div py:if="auth.canViewGroup(person, group)" py:strip="">
           <td><a href="${tg.url('/group/view/%s' % group.name)}">${group.name}</a></td>
           <td>${ group.display_name }</td>
           <td>
@@ -45,7 +46,6 @@
             </a>
             <a py:if="group not in person.memberships" href="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}"><span>${_('Apply')}</span></a>
           </td>
-        </div>
         </tr>
       </tbody>
     </table>
