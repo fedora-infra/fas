@@ -126,7 +126,7 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/list')
             return dict()
         else:
-            return dict(person=person, group=group)
+            return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
@@ -243,12 +243,13 @@ class Group(controllers.Controller):
 
         re_search = re.sub(r'\*', r'%', search).lower()
         groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
-        if groups.count() <= 0:
+        groups = filter(lambda group: canViewGroup(person, group), groups)
+        if len(groups) <= 0:
             turbogears.flash(_("No Groups found matching '%s'") % search)
             groups = {}
         if self.jsonRequest():
             return ({'groups': groups})
-        return dict(groups=groups, search=search, person=person)
+        return dict(groups=groups, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=usernameGroupnameExists())

@@ -7,7 +7,11 @@
     <title>${_('Edit Group')}</title>
   </head>
   <body>
-    <?python from fas import auth ?>
+    <?python
+    from fas import auth
+    from fas.model import People
+    person = People.by_username(tg.identity.user.username)
+    ?>
     <h2>${group.display_name} (${group.name})</h2>
     <h3>
       ${_('My Status:')}
