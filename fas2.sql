@@ -268,17 +268,6 @@ create trigger person_check_email_unique before update or insert
 -- When a person's fedorabugs role is updated, add them to bugzilla queue.
 --
 create or replace function bugzilla_sync() returns trigger as $bz_sync$
-    # Get the group id for fedorabugs
-    result = plpy.execute("select id from groups where name = 'fedorabugs'", 1)
-    if not result:
-        # Danger Will Robinson!  A basic FAS group does not exist!
-        plpy.error('Basic FAS group fedorabugs does not exist')
-    row = TD['new']
-
-    # If this is not a fedorabugs role, no change needed
-    if row['group_id'] != result[0]['id']:
-        return None
-    
     # Decide which row we are operating on and the action to take
     if TD['event'] == 'DELETE':
         # 'r' for removing an entry from bugzilla
@@ -293,6 +282,15 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
         else:
             # no longer approved so remove the entry from bugzilla
             newaction = 'r'
+
+    # Get the group id for fedorabugs
+    result = plpy.execute("select id from groups where name = 'fedorabugs'", 1)
+    if not result:
+        # Danger Will Robinson!  A basic FAS group does not exist!
+        plpy.error('Basic FAS group fedorabugs does not exist')
+    # If this is not a fedorabugs role, no change needed
+    if row['group_id'] != result[0]['id']:
+        return None
 
     # Retrieve the bugzilla email address
     plan = plpy.prepare("select email, purpose from person_emails"
