@@ -33,7 +33,7 @@
       </div>
       <div class="field">
         <label for="prerequisite">${_('Group Prerequisite:')}</label>
-        <input type="text" id="prerequisite" name="prerequisite" value="${group.prerequisite.name}" />
+        <input py:if="group.prerequisite" type="text" id="prerequisite" name="prerequisite" value="${group.prerequisite.name}" />
       </div>
       <div class="field">
         <label for="joinmsg">${_('Group Join Message:')}</label>
