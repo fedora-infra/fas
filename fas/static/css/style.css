@@ -271,7 +271,9 @@ a
 
 .actions li
 {
-  display: inline;
+  /*
+   * TODO: Add icons
+   */
 }
 
 #rolespanel
@@ -405,6 +407,7 @@ a
 #content table th, #content table td
 {
   padding: 0 2ex;
+  border: 1px solid #CCCCCC;
 }
 
 pre

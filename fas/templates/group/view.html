@@ -76,7 +76,7 @@
         <td>${role.role_type}</td>
         <!-- This section includes all action items -->
         <td py:if="auth.canSponsorGroup(person, group)">
-          <ul>
+          <ul class="actions">
             <li py:if="group in role.member.unapproved_memberships">
             <a py:if="group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
             <a py:if="not group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
