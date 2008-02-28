@@ -519,7 +519,7 @@ class Group(controllers.Controller):
                 a people person.  You'll grow and learn as you work on a team with other
                 very smart and talented people.
 
-                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': user.human_name, 'email': user.emails['primary'].email}
+                Fedora and FOSS are changing the world -- come be a part of it!''')) % {'name': person.human_name, 'email': person.emails['primary'].email}
             turbomail.enqueue(message)
             turbogears.flash(_('Message sent to: %s') % target)
             turbogears.redirect('/group/view/%s' % group.name)
