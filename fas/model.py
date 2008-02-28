@@ -22,7 +22,6 @@
 Model for the Fedora Account System
 '''
 from datetime import datetime
-from time import time
 from turbogears.database import metadata, mapper, get_engine
 # import some basic SQLAlchemy classes for declaring the data model
 # (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
@@ -172,7 +171,7 @@ class People(SABase):
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
         role.sponsor_id = requester.id
-        role.approval = time()
+        role.approval = datetime.now()
 
     def remove(cls, group, requester):
         role = PersonRoles.query.filter_by(member=cls, group=group).one()

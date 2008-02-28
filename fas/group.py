@@ -105,8 +105,8 @@ class Group(controllers.Controller):
             if role.status == 'approved':
                 person = role.member
                 users[person.username] = {
-                    'password' : u.password,
-                    'ssh_key' : u.ssh_key,
+                    'password' : person.password,
+                    'ssh_key' : person.ssh_key,
                 }
         groups = Groups.query.all()
         return dict(users=users, groups=groups)
