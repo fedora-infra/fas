@@ -35,47 +35,53 @@ class UnknownGroup(validators.FancyValidator):
             raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
 class GroupCreate(validators.Schema):
-    name = validators.All(UnknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    name = validators.All(UnknownGroup, validators.String(max=32, min=3))
     display_name = validators.NotEmpty
-    owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    owner = KnownUser
     prerequisite = KnownGroup
     #group_type = something
 
 class GroupSave(validators.Schema):
-    groupname = validators.All(KnownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+    groupname = validators.All(KnownGroup, validators.String(max=32, min=3))
     display_name = validators.NotEmpty
-    owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+    owner = KnownUser
     prerequisite = KnownGroup
     #group_type = something
 
 class GroupApply(validators.Schema):
-    groupname = KnownGroup()
-    targetname = KnownUser()
+    groupname = KnownGroup
+    targetname = KnownUser
 
 class GroupSponsor(validators.Schema):
-    groupname = KnownGroup()
-    targetname = KnownUser()
+    groupname = KnownGroup
+    targetname = KnownUser
 
 class GroupRemove(validators.Schema):
-    groupname = KnownGroup()
-    targetname = KnownUser()
+    groupname = KnownGroup
+    targetname = KnownUser
 
 class GroupUpgrade(validators.Schema):
-    groupname = KnownGroup()
-    targetname = KnownUser()
+    groupname = KnownGroup
+    targetname = KnownUser
 
 class GroupDowngrade(validators.Schema):
-    groupname = KnownGroup()
-    targetname = KnownUser()
+    groupname = KnownGroup
+    targetname = KnownUser
 
 class GroupView(validators.Schema):
-    groupname = KnownGroup()
+    groupname = KnownGroup
 
 class GroupEdit(validators.Schema):
-    groupname = KnownGroup()
+    groupname = KnownGroup
+
+class GroupDump(validators.Schema):
+    groupname = KnownGroup
 
 class GroupInvite(validators.Schema):
-    groupname = KnownGroup()
+    groupname = KnownGroup
+
+class GroupSendInvite(validators.Schema):
+    groupname = KnownGroup
     target = validators.Email(not_empty=True, strip=True),
 
 #class findUser(widgets.WidgetsList): 
@@ -460,7 +466,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupnameExists())
+    @validate(validators=GroupDump())
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
     def dump(self, groupname):
@@ -476,7 +482,7 @@ class Group(controllers.Controller):
             return dict(groups=groups)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=groupnameExists())
+    @validate(validators=GroupInvite())
     @error_handler(error)
     @expose(template='fas.templates.group.invite')
     def invite(self, groupname):
@@ -487,7 +493,7 @@ class Group(controllers.Controller):
         return dict(person=person, group=group)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=groupnameExists())
+    @validate(validators=GroupSendInvite())
     @error_handler(error)
     @expose(template='fas.templates.group.invite')
     def sendinvite(self, groupname, target):

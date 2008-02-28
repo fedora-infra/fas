@@ -6,8 +6,6 @@ import cherrypy
 
 from fas.auth import *
 
-from fas.user import knownUser, usernameExists
-
 from textwrap import dedent
 
 import re
