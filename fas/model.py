@@ -234,8 +234,17 @@ class People(SABase):
         if not identity.in_group('admin'):
             # Only admins can see internal_comments
             del props['internal_comments']
-
-            if not identity.current.user.user_name == self.username:
+            if identity.current.anonymous:
+                del props['ssh_key']
+                del props['gpg_keyid']
+                del props['affiliation']
+                del props['certificate_serial']
+                del props['password']
+                del props['passwordtoken']
+                del props['postal_address']
+                del props['telephone']
+                del props['facsimile']
+            elif not identity.current.user.username == self.username:
                 # Only an admin or the user themselves can see these fields
                 del props['password']
                 del props['passwordtoken']
@@ -243,12 +252,6 @@ class People(SABase):
                 del props['telephone']
                 del props['facsimile']
 
-                if identity.current.anonymous:
-                    # Only an authenticated user can see these fields
-                    del props['ssh_key']
-                    del props['gpg_keyid']
-                    del props['affiliation']
-                    del props['certificate_serial']
         return props
 
     memberships = association_proxy('roles', 'group')

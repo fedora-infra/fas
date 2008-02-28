@@ -24,33 +24,11 @@ class JsonRequest(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
         group_list = {}
-        #return dict(groups=groups)
-        for group in groups:
-            group_list[group.id] = {'name' : group.name,
-                                'id' : group.id,
-                                'display_name' : group.display_name,
-                                'owner_id' : group.owner_id,
-                                'group_type' : group.group_type,
-                                'prerequisite_id' : group.prerequisite_id,
-                                'creation' : group.creation,
-                    }
-                    
-        return dict(group_list=group_list)
-        
+        return dict(groups=groups)
         
     @expose("json", allow_json=True)
     def people_list(self, search='*'):
         re_search = re.sub(r'\*', r'%', search).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
-        people_list = {}
-        for person in people:
-            people_list[person.id] = {'id' : person.id,
-                                'username' : person.username,
-                                'human_name' : person.human_name,
-                                'ssh_key' : person.ssh_key,
-                                'password' : person.password
-                                }
-                                
-
-        return dict(people_list=people_list)
+        return dict(people=people)
 
