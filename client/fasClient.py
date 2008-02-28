@@ -66,6 +66,7 @@ class MakeShellAccounts(BaseClient):
         file = open('/tmp/shadow.txt', 'w')
         if not people:
             people = self.people_list()
+        print people
         for person in people:
             uid = person['id']
             username = person['username']
@@ -170,7 +171,11 @@ class MakeShellAccounts(BaseClient):
         
 
 if __name__ == '__main__':
-    fas = MakeShellAccounts(FAS_URL, 'admin', None, None)
+    try:
+        fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', 1)
+    except AuthError, e:
+        print e
+        sys.exit(1)
     fas.make_group_db()
     fas.make_passwd_db()
     fas.make_shadow_db()
