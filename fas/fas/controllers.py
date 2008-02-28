@@ -52,13 +52,28 @@ class Root(controllers.RootController):
     def home(self):
         return dict()
 
-    @expose(template="fas.templates.login")
-    def login(self, forward_url=None, previous_url=None, *args, **kw):
+    @expose(template="pkgdb.templates.login", allow_json=True)
+    def login(self, forward_url=None, previous_url=None, *args, **kwargs):
+        '''Page to become authenticated to the Account System.
 
+        This shows a small login box to type in your username and password
+        from the Fedora Account System.
+        
+        Arguments:
+        :forward_url: The url to send to once authentication succeeds
+        :previous_url: The url that sent us to the login page
+        '''
         if not identity.current.anonymous \
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
+            # User is logged in
             turbogears.flash(_('Welcome, %s') % People.by_username(turbogears.identity.current.user_name).human_name)
+            if 'tg_format' in request.params \
+                    and request.params['tg_format'] == 'json':
+                # When called as a json method, doesn't make any sense to
+                # redirect to a page.  Returning the logged in identity
+                # is better.
+                return dict(user = identity.current.user)
             if not forward_url:
                 forward_url = config.get('base_url_filter.base_url') + '/'
             raise redirect(forward_url)
@@ -76,7 +91,8 @@ class Root(controllers.RootController):
             msg=_("Please log in.")
             forward_url= request.headers.get("Referer", "/")
 
-        response.status=403
+        ### FIXME: Is it okay to get rid of this?
+        #cherrypy.response.status=403
         return dict(message=msg, previous_url=previous_url, logging_in=True,
                     original_parameters=request.params,
                     forward_url=forward_url)
