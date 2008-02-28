@@ -42,6 +42,7 @@ from turbogears.database import session
 from turbogears import identity
 
 from fas.json import SABase
+
 # Soon we'll use this instead:
 #from fedora.tg.json import SABase
 
@@ -244,7 +245,8 @@ class People(SABase):
                 del props['postal_address']
                 del props['telephone']
                 del props['facsimile']
-            elif not identity.current.user.username == self.username:
+                # Below should check for group accounts instead of a specific username
+            elif not identity.current.user.username == self.username and not identity.current.user.username == 'admin':
                 # Only an admin or the user themselves can see these fields
                 del props['password']
                 del props['passwordtoken']
