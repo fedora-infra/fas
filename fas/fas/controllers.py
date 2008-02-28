@@ -52,7 +52,7 @@ class Root(controllers.RootController):
     def home(self):
         return dict()
 
-    @expose(template="pkgdb.templates.login", allow_json=True)
+    @expose(template="fas.templates.login", allow_json=True)
     def login(self, forward_url=None, previous_url=None, *args, **kwargs):
         '''Page to become authenticated to the Account System.
 
