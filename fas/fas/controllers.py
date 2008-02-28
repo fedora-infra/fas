@@ -2,23 +2,16 @@ from turbogears import controllers, expose, config
 from model import *
 from turbogears import identity, redirect, widgets, validate, validators, error_handler
 from cherrypy import request, response
-#from fas.fasLDAP import UserAccount
-#from fas.fasLDAP import Person
-#from fas.fasLDAP import Groups
-##from fas.fasLDAP import UserGroup
+
 from turbogears import exception_handler
 import turbogears
-import ldap
 import time
-from operator import itemgetter
 
 from fas.user import User
 from fas.group import Group
 from fas.cla import CLA
 from fas.json_request import JsonRequest
 #from fas.openid_fas import OpenID
-
-from fas.auth import isAdmin, canAdminGroup, canSponsorGroup, canEditUser
 
 import os
 import sys
@@ -45,6 +38,7 @@ class Root(controllers.RootController):
     json = JsonRequest()
 #    openid = OpenID()
 
+    # TODO: Find a better place for this.
     os.environ['GNUPGHOME'] = config.get('gpghome')
 
     @expose(template="fas.templates.welcome")

@@ -2,19 +2,12 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler, config
 from cherrypy import session
 
-import ldap
 import cherrypy
-import fas.fasLDAP
 
 from openid.server.server import Server as OpenIDServer
 from openid.server.server import BROWSER_REQUEST_MODES
 from openid.server.server import OPENID_PREFIX
 from openid.store.filestore import FileOpenIDStore
-
-from fas.fasLDAP import UserAccount
-from fas.fasLDAP import Person
-from fas.fasLDAP import Groups
-from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 

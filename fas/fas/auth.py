@@ -1,10 +1,5 @@
 from turbogears import config
 
-#from fas.fasLDAP import UserAccount
-#from fas.fasLDAP import Person
-#from fas.fasLDAP import Groups
-#from fas.fasLDAP import UserGroup
-
 from fas.model import Groups
 from fas.model import PersonRoles
 from fas.model import People
