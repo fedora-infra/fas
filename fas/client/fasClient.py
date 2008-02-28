@@ -67,7 +67,6 @@ class MakeShellAccounts(BaseClient):
         file = open('/tmp/shadow.txt', 'w')
         if not people:
             people = self.people_list()
-        print people
         for person in people:
             uid = person['id']
             username = person['username']
