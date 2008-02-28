@@ -62,7 +62,7 @@ class ValidUsername(validators.FancyValidator):
           raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
 class UserSave(validators.Schema):
-    targetname = KnownUser()
+    targetname = KnownUser
     human_name = validators.String(not_empty=True, max=42)
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
@@ -74,7 +74,7 @@ class UserSave(validators.Schema):
     
 class UserCreate(validators.Schema):
     username = validators.All(
-        UnknownUser(),
+        UnknownUser,
         ValidUsername(not_empty=True),
         validators.String(max=32, min=3),
     )
@@ -87,17 +87,17 @@ class UserCreate(validators.Schema):
     postal_address = validators.String(max=512)
 
 class UserSetPassword(validators.Schema):
-    currentpassword = validators.String()
+    currentpassword = validators.String
     # TODO (after we're done with most testing): Add complexity requirements?
     password = validators.String(min=8)
-    passwordcheck = validators.String()
+    passwordcheck = validators.String
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 class UserView(validators.Schema):
-    username = KnownUser()
+    username = KnownUser
 
 class UserEdit(validators.Schema):
-    username = KnownUser()
+    username = KnownUser
     
 def generatePassword(password=None,length=14,salt=''):
     ''' Generate Password '''
