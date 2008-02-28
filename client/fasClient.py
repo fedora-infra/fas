@@ -24,6 +24,7 @@ from fedora.tg.client import BaseClient, AuthError, ServerError
 
 import sys
 import os
+from shutil import move
 import logging
 
 FAS_URL = 'http://localhost:8080/fas/json/'
@@ -33,7 +34,9 @@ class MakeShellAccounts(BaseClient):
     def group_list(self, search='*'):
         params = {'search' : search}
         data = self.send_request('group_list', auth=False, input=params)
-        return data['group_list']
+        return data
+        
+        
     
     def groups_text(self, groups=None, people=None):
         i = 0
@@ -44,20 +47,34 @@ class MakeShellAccounts(BaseClient):
             people = self.people_list()
         
         ''' First create all of our users/groups combo '''
+        usernames = {}
         for person in people:
-            uid = people[person]['id']
-            username = people[person]['username']
+            uid = person['id']
+            username = person['username']
+            usernames['%s' % uid] = username
             file.write("=%i %s:x:%i:\n" % (uid, username, uid))
             file.write( "0%i %s:x:%i:\n" % (i, username, uid))
             file.write( ".%s %s:x:%i:\n" % (username, username, uid))
             i = i + 1
         
-        for group in groups:
-            gid = groups[group]['id']
-            name = groups[group]['name']
-            file.write( "=%i %s:x:%i:\n" % (gid, name, gid))
-            file.write("0%i %s:x:%i:\n" % (i, name, gid))
-            file.write(".%s %s:x:%i:\n" % (name, name, gid))
+        for group in groups['groups']:
+            gid = group['id']
+            name = group['name']
+#                print groups['memberships'][m]
+#            print groups['memberships'][1228]
+            memberships = ''
+            try:
+                ''' Shoot me now I know this isn't right '''
+                members = []
+                for member in  groups['memberships'][u'%s' % gid]:
+                    members.append(usernames['%s' % member['person_id']])
+                memberships = ','.join(members)
+            except KeyError:
+                ''' No users exist in the group '''
+                pass
+            file.write( "=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
+            file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
+            file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
             i = i + 1
 
         file.close()
@@ -66,13 +83,18 @@ class MakeShellAccounts(BaseClient):
     def people_list(self, search='*'):
         params = {'search' : search}
         data = self.send_request('people_list', auth=False, input=params)
-        return data['people_list']
+        return data['people']
 
     def make_group_db(self):
         self.groups_text()
         os.system('makedb -o /tmp/group.db /tmp/group.txt')
+        
+    def install_group_db(self):
+        move('/tmp/group.db', '/var/db/group.db')
+        
 
 if __name__ == '__main__':
     fas = MakeShellAccounts(FAS_URL, None, None, None)
     fas.make_group_db()
+    fas.install_group_db()
     
