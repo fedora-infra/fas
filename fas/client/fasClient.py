@@ -18,6 +18,7 @@
 #
 # Red Hat Author(s): Mike McGrath <mmcgrath@redhat.com>
 #
+# TODO: put tmp files in a 700 tmp dir
 
 import sys
 import os
@@ -58,7 +59,7 @@ parser.add_option('-s', '--server',
 class MakeShellAccounts(BaseClient):
     def group_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('json/group_list', auth=False, input=params)
+        data = self.send_request('json/group_list', auth=True, input=params)
         return data
 
     def shadow_text(self, people=None):
@@ -136,7 +137,7 @@ class MakeShellAccounts(BaseClient):
         
     def people_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('json/people_list', auth=False, input=params)
+        data = self.send_request('json/people_list', auth=True, input=params)
         return data['people']
 
     def make_group_db(self):
@@ -149,7 +150,7 @@ class MakeShellAccounts(BaseClient):
     
     def make_shadow_db(self):
         self.shadow_text()
-        os.system('makedb -o /tmp/passwd.db /tmp/shadow.txt')
+        os.system('makedb -o /tmp/shadow.db /tmp/shadow.txt')
     
     def install_passwd_db(self):
         try:
@@ -172,7 +173,7 @@ class MakeShellAccounts(BaseClient):
 
 if __name__ == '__main__':
     try:
-        fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', 1)
+        fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', False)
     except AuthError, e:
         print e
         sys.exit(1)
