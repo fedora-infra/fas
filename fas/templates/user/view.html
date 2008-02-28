@@ -27,8 +27,8 @@
         <!-- cla = {None, 'signed', 'clicked'} -->
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
-        <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')} (<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a>)</span>
-        <span py:if="not cla" class="unapproved">${_('Not Done')} (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</span></dd>
+        <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}<py:if test="personal">(<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a></py:if>)</span>
+        <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</py:if></span></dd>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
@@ -45,7 +45,7 @@
     </ul>
     -->
     <ul id="rolespanel" py:if="personal">
-      <div py:for="group in sorted(groups)" py:strip="">
+      <py:for each="group in sorted(groups)">
       <li py:if="auth.canViewGroup(person, group)" class="role">
       <h4>${group.display_name}</h4> (${group.group_type})
       <dl>
@@ -63,19 +63,19 @@
           <li py:if="auth.canEditGroup(person, group)"><a href="${tg.url('/group/edit/%s' % group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
-<!--        <div py:if="auth.canSponsorGroup(person.username, group.name) and groupUnapproved[group] != []" py:strip="">
+        <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
           <dt>${_('Queue:')}</dt>
           <dd>
           <ul class="queue">
-            <li py:for="user in groupUnapproved[group][:5]">
-            ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': user[0], 'group': group})}
+            <li py:for="role in group.unapproved_roles[:5]">
+            ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': role.member.username, 'group': group.name})}
             </li>
           </ul>
           </dd>
-        </div>-->
+        </py:if>
       </dl>
       </li>
-      </div>
+      </py:for>
     </ul>
   </body>
 </html>

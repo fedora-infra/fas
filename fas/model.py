@@ -285,7 +285,7 @@ class PersonEmails(SABase):
 class PersonRoles(SABase):
     '''Record people that are members of groups.'''
     def __repr__(cls):
-        return "PersonRole(%s,%s,%s)" % (cls.member.username, cls.role_type, cls.role_status)
+        return "PersonRole(%s,%s,%s,%s)" % (cls.member.username, cls.group.name, cls.role_type, cls.role_status)
 
 class Configs(SABase):
     '''Configs for applications that a Fedora Contributor uses.'''

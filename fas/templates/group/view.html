@@ -34,12 +34,12 @@
         <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
         <dt>${_('Needs Sponsor:')}</dt><dd>
-        <span py:if="group.needs_sponsor == 1" py:strip="">${_('Yes')}</span>
-        <span py:if="group.needs_sponsor == 0" py:strip="">${_('No')}</span>
+        <py:if test="group.needs_sponsor">${_('Yes')}</py:if>
+        <py:if test="not group.needs_sponsor">${_('No')}</py:if>
         &nbsp;</dd>
         <dt>${_('Self Removal:')}</dt><dd>
-        <span py:if="group.user_can_remove == 1" py:strip="">${_('Yes')}</span>
-        <span py:if="group.user_can_remove == 0" py:strip="">${_('No')}</span>
+        <py:if test="group.user_can_remove">${_('Yes')}</py:if>
+        <py:if test="not group.user_can_remove">${_('No')}</py:if>
         &nbsp;</dd>
         <dt>${_('Join Message:')}</dt><dd>${group.joinmsg}&nbsp;</dd>
         <dt>${_('Prerequisite:')}</dt>
