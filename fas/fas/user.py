@@ -72,7 +72,6 @@ class editUser(validators.Schema):
     #)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
-    telephone = validators.PhoneNumber(max=24)
     postal_address = validators.String(max=512)
     
 class newUser(validators.Schema):
@@ -87,7 +86,6 @@ class newUser(validators.Schema):
         nonFedoraEmail(not_empty=True, strip=True),
     )
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
-    telephone = validators.PhoneNumber()
     postal_address = validators.String(max=512)
 
 class changePass(validators.Schema):
@@ -235,9 +233,9 @@ class User(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         if people.count() < 0:
-            turbogears.flash(_("No Users found matching '%s'") % search)
+            turbogears.flash(_("No users found matching '%s'") % search)
         if self.jsonRequest():
-            return ({'users': users})
+            return ({'users': people})
 
         return dict(people=people, search=search)
        
