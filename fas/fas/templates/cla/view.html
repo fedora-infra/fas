@@ -9,11 +9,11 @@
   <body>
     <!-- Click-through CLA -->
     <h2>${_('Contributor License Agreement')}</h2>
-    <div py:if="type is None" py:strip=''>
+    <py:if test="type is None">
       <xi:include href="cla.html" />
-    </div>
+    </py:if>
 
-    <div py:if="type == 'click'" py:strip=''>
+    <py:if test="type == 'click'">
       <xi:include href="cla.html" />
       <form action="${tg.url('/cla/click')}" method="post">
         <div>
@@ -24,22 +24,20 @@
           <input type="submit" value="${_('Submit CLA')}" />
         </div>
       </form>
-    </div>
-    <div py:if="type == 'sign'" py:strip=''>
+    </py:if>
+    <py:if test="type == 'sign'">
       <p>
       ${Markup(_('Use the below link to download/save the CLA as fedora-icla-%(username)s.txt, and run: &lt;pre&gt;gpg -as fedora-icla-%(username)s.txt&lt;/pre&gt; After, upload fedora-icla-%(username)s.txt.asc in the form below.') % {'username': person.username})}
       </p>
       <p>
       <a href="${tg.url('/cla/download')}">${_('Download the CLA text file here!')}</a>
       </p>
-
       <form action="${tg.url('/cla/sign')}" method="post" enctype="multipart/form-data">
         <div>
           <label for="signature">${_('Signed CLA:')}</label> <input type="file" id="signature" name="signature" /><br />
           <input type="submit" value="${_('Submit CLA')}" />
         </div>
       </form>
-    </div>
-
+    </py:if>
   </body>
 </html>

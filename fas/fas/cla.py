@@ -113,12 +113,12 @@ class CLA(controllers.Controller):
             if len(sigs):
                 sig = sigs[0]
                 # This might still assume a full fingerprint. 
-                fingerprint = sig.fpr
-                if fingerprint != re.sub('\s', '', person.gpg_keyid):
+                key = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                fpr = key.subkeys[0].fpr
+                if sig.fpr != fpr:
                     turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
                     turbogears.redirect('/cla/view/sign')
                     return dict()
-                key = ctx.get_key(fingerprint)
                 emails = [];
                 for uid in key.uids:
                     emails.extend([uid.email])
