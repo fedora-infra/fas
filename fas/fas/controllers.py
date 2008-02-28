@@ -41,7 +41,7 @@ class Root(controllers.RootController):
     # TODO: Find a better place for this.
     os.environ['GNUPGHOME'] = config.get('gpghome')
 
-    @expose(template="fas.templates.welcome")
+    @expose(template="fas.templates.welcome", allow_json=True)
     def index(self):
         if turbogears.identity.not_anonymous():
             turbogears.redirect('/home')
