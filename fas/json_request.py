@@ -2,15 +2,7 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
 
-import ldap
 import cherrypy
-
-import fas.fasLDAP
-
-#from fas.fasLDAP import UserAccount
-#from fas.fasLDAP import Person
-#from fas.fasLDAP import Groups
-#from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 

@@ -2,7 +2,6 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
 
-import ldap
 import cherrypy
 
 from datetime import datetime
@@ -10,16 +9,7 @@ import re
 import gpgme
 import StringIO
 
-import fas.fasLDAP
-
-from fas.fasLDAP import UserAccount
-from fas.fasLDAP import Person
-from fas.fasLDAP import Groups
-from fas.fasLDAP import UserGroup
-
 from fas.auth import *
-
-from fas.user import knownUser, usernameExists
 
 class CLA(controllers.Controller):
 

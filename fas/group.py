@@ -2,25 +2,17 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
 
-import ldap
 import cherrypy
-
-import fas.fasLDAP
-
-#from fas.fasLDAP import UserAccount
-#from fas.fasLDAP import Person
-#from fas.fasLDAP import Groups
-#from fas.fasLDAP import UserGroup
 
 from fas.auth import *
 
-from fas.user import knownUser, usernameExists
+from fas.user import KnownUser
 
 from textwrap import dedent
 
 import re
 
-class knownGroup(validators.FancyValidator):
+class KnownGroup(validators.FancyValidator):
     '''Make sure that a group already exists'''
     def _to_python(self, value, state):
         return value.strip()
@@ -30,7 +22,7 @@ class knownGroup(validators.FancyValidator):
         except InvalidRequestError:
             raise validators.Invalid(_("The group '%s' does not exist.") % value, value, state)
 
-class unknownGroup(validators.FancyValidator):
+class UnknownGroup(validators.FancyValidator):
     '''Make sure that a group doesn't already exist'''
     def _to_python(self, value, state):
         return value.strip()
@@ -42,29 +34,48 @@ class unknownGroup(validators.FancyValidator):
         else:
             raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
-class createGroup(validators.Schema):
-    name = validators.All(unknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+class GroupCreate(validators.Schema):
+    name = validators.All(UnknownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     display_name = validators.NotEmpty
     owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    prerequisite = knownGroup
+    prerequisite = KnownGroup
     #group_type = something
 
-class editGroup(validators.Schema):
-    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+class GroupSave(validators.Schema):
+    groupname = validators.All(KnownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
     display_name = validators.NotEmpty
     owner = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
-    prerequisite = knownGroup
+    prerequisite = KnownGroup
     #group_type = something
 
-class usernameGroupnameExists(validators.Schema):
-    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
-    targetname = validators.All(knownUser(not_empty=True, max=10), validators.String(max=32, min=3))
+class GroupApply(validators.Schema):
+    groupname = KnownGroup()
+    targetname = KnownUser()
 
-class groupnameExists(validators.Schema):
-    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+class GroupSponsor(validators.Schema):
+    groupname = KnownGroup()
+    targetname = KnownUser()
 
-class groupInvite(validators.Schema):
-    groupname = validators.All(knownGroup(not_empty=True, max=10), validators.String(max=32, min=3))
+class GroupRemove(validators.Schema):
+    groupname = KnownGroup()
+    targetname = KnownUser()
+
+class GroupUpgrade(validators.Schema):
+    groupname = KnownGroup()
+    targetname = KnownUser()
+
+class GroupDowngrade(validators.Schema):
+    groupname = KnownGroup()
+    targetname = KnownUser()
+
+class GroupView(validators.Schema):
+    groupname = KnownGroup()
+
+class GroupEdit(validators.Schema):
+    groupname = KnownGroup()
+
+class GroupInvite(validators.Schema):
+    groupname = KnownGroup()
     target = validators.Email(not_empty=True, strip=True),
 
 #class findUser(widgets.WidgetsList): 
@@ -112,7 +123,7 @@ class Group(controllers.Controller):
         return dict(users=users, groups=groups)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupnameExists())
+    @validate(validators=GroupView())
     @error_handler(error)
     @expose(template="fas.templates.group.view")
     def view(self, groupname):
@@ -141,7 +152,7 @@ class Group(controllers.Controller):
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=createGroup())
+    @validate(validators=GroupCreate())
     @error_handler(error)
     @expose(template="fas.templates.group.new")
     def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
@@ -187,7 +198,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=groupnameExists())
+    @validate(validators=GroupEdit())
     @error_handler(error)
     @expose(template="fas.templates.group.edit")
     def edit(self, groupname):
@@ -202,7 +213,7 @@ class Group(controllers.Controller):
         return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=editGroup())
+    @validate(validators=GroupSave())
     @error_handler(error)
     @expose(template="fas.templates.group.edit")
     def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
@@ -252,7 +263,7 @@ class Group(controllers.Controller):
         return dict(groups=groups, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameGroupnameExists())
+    @validate(validators=GroupApply())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     def apply(self, groupname, targetname=None):
@@ -297,7 +308,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameGroupnameExists())
+    @validate(validators=GroupSponsor())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     def sponsor(self, groupname, targetname):
@@ -333,7 +344,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameGroupnameExists())
+    @validate(validators=GroupRemove())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     def remove(self, groupname, targetname):
@@ -371,7 +382,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameGroupnameExists())
+    @validate(validators=GroupUpgrade())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     def upgrade(self, groupname, targetname):
@@ -412,7 +423,7 @@ class Group(controllers.Controller):
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameGroupnameExists())
+    @validate(validators=GroupDowngrade())
     @error_handler(error)
     @expose(template='fas.templates.group.view')
     def downgrade(self, groupname, targetname):

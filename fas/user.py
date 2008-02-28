@@ -3,8 +3,6 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 from turbogears.database import session
 import cherrypy
 
-import ldap
-
 import os
 import re
 import gpgme
@@ -22,7 +20,7 @@ import sha
 from base64 import b64encode
 
 
-class knownUser(validators.FancyValidator):
+class KnownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):
         return value.strip()
@@ -32,7 +30,7 @@ class knownUser(validators.FancyValidator):
         except InvalidRequestError:
             raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
 
-class nonFedoraEmail(validators.FancyValidator):
+class NonFedoraEmail(validators.FancyValidator):
     '''Make sure that an email address is not @fedoraproject.org'''
     def _to_python(self, value, state):
         return value.strip()
@@ -40,7 +38,7 @@ class nonFedoraEmail(validators.FancyValidator):
         if value.endswith('@fedoraproject.org'):
             raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
 
-class unknownUser(validators.FancyValidator):
+class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
     def _to_python(self, value, state):
         return value.strip()
@@ -54,7 +52,7 @@ class unknownUser(validators.FancyValidator):
         
         raise validators.Invalid(_("'%s' already exists.") % value, value, state)
             
-class usernameAllowed(validators.FancyValidator):
+class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     def _to_python(self, value, state):
         return value.strip()
@@ -63,40 +61,43 @@ class usernameAllowed(validators.FancyValidator):
         if re.compile(username_blacklist).match(value):
           raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
-class editUser(validators.Schema):
-    targetname = validators.All(knownUser(not_empty=True, max=32), validators.String(max=32, min=3))
+class UserSave(validators.Schema):
+    targetname = KnownUser()
     human_name = validators.String(not_empty=True, max=42)
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
-    #    nonFedoraEmail(not_empty=True, strip=True, max=128),
+    #    NonFedoraEmail(not_empty=True, strip=True, max=128),
     #)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
     
-class newUser(validators.Schema):
+class UserCreate(validators.Schema):
     username = validators.All(
-        unknownUser(not_empty=True, max=10),
-        usernameAllowed(not_empty=True),
+        UnknownUser(),
+        ValidUsername(not_empty=True),
         validators.String(max=32, min=3),
     )
     human_name = validators.String(not_empty=True, max=42)
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
-        nonFedoraEmail(not_empty=True, strip=True),
+        NonFedoraEmail(not_empty=True, strip=True),
     )
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.String(max=512)
 
-class changePass(validators.Schema):
+class UserSetPassword(validators.Schema):
     currentpassword = validators.String()
     # TODO (after we're done with most testing): Add complexity requirements?
     password = validators.String(min=8)
     passwordcheck = validators.String()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
-class usernameExists(validators.Schema):
-    username = validators.All(knownUser(max=10), validators.String(max=32, min=3))
+class UserView(validators.Schema):
+    username = KnownUser()
+
+class UserEdit(validators.Schema):
+    username = KnownUser()
     
 def generatePassword(password=None,length=14,salt=''):
     ''' Generate Password '''
@@ -147,7 +148,7 @@ class User(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=usernameExists())
+    @validate(validators=UserView())
     @error_handler(error)
     @expose(template="fas.templates.user.view")
     def view(self, username=None):
@@ -176,8 +177,8 @@ class User(controllers.Controller):
         return dict(person=person, groups=groups, cla=cla, personal=personal, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
-#    @validate(validators=usernameExists())
-#    @error_handler(error)
+    @validate(validators=UserEdit())
+    @error_handler(error)
     @expose(template="fas.templates.user.edit")
     def edit(self, targetname=None):
         '''Edit a user
@@ -195,7 +196,7 @@ class User(controllers.Controller):
         return dict(target=target)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=editUser())
+    @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', timezone='UTC'):
@@ -246,7 +247,7 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
-    @validate(validators=newUser())
+    @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone, postal_address):
@@ -285,7 +286,7 @@ class User(controllers.Controller):
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=changePass())
+    @validate(validators=UserSetPassword())
     @error_handler(error)
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck):
