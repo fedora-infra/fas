@@ -8,19 +8,19 @@
   </head>
   <body>
     <h2>${_('Invite a new community member!')}</h2>
-    <form method="post" action="${tg.url('/group/sendinvite/%s') % group}">
+    <form method="post" action="${tg.url('/group/sendinvite/%s') % group.name}">
       <div>
         <!--TODO: Make the email translatable -->
         ${_('To email:')} <input type="text" value="" name="target" /><br />
-        ${_('From:)} ${user.mail}<br />
+        ${_('From:')} ${person.emails['primary'].email}<br />
         ${_('Subject:')} Invitation to join the Fedora Team!<br />
         ${_('Message:')}
         <div class="message">
           <p>
-          ${user.givenName} &lt;<a href="mailto: ${user.mail}">${user.mail}</a>&gt; has invited you to join the Fedora
+          ${person.human_name} &lt;<a href="mailto: ${person.emails['primary'].email}">${person.emails['primary'].email}</a>&gt; has invited you to join the Fedora
           Project!  We are a community of users and developers who produce a
           complete operating system from entirely free and open source software
-          (FOSS).  ${user.givenName} thinks that you have knowledge and skills
+          (FOSS).  ${person.human_name} thinks that you have knowledge and skills
           that make you a great fit for the Fedora community, and that you might
           be interested in contributing.
           </p>
