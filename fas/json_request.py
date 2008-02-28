@@ -23,8 +23,10 @@ class JsonRequest(controllers.Controller):
     def group_list(self, search='*'):
         re_search = re.sub(r'\*', r'%', search).lower()
         groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
-        group_list = {}
-        return dict(groups=groups)
+        memberships = {}
+        for group in groups:
+            memberships[group.id] = group.approved_roles
+        return dict(groups=groups, memberships=memberships)
         
     @expose("json", allow_json=True)
     def people_list(self, search='*'):
