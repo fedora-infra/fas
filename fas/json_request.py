@@ -21,7 +21,6 @@ class JsonRequest(controllers.Controller):
         '''Perhaps show a nice explanatory message about groups here?'''
         return dict(help='This is a json interface')
     
-    @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
     def group_list(self, search='*'):
         re_search = re.sub(r'\*', r'%', search).lower()
@@ -31,7 +30,6 @@ class JsonRequest(controllers.Controller):
             memberships[group.id] = group.approved_roles
         return dict(groups=groups, memberships=memberships)
     
-    @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
     def people_list(self, search='*'):
         re_search = re.sub(r'\*', r'%', search).lower()

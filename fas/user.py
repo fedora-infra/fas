@@ -1,5 +1,5 @@
 import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler, config
 from turbogears.database import session
 import cherrypy
 
@@ -7,6 +7,7 @@ import os
 import re
 import gpgme
 import StringIO
+import crypt
 
 from fas.model import People
 from fas.model import PersonEmails
@@ -117,6 +118,7 @@ def generatePassword(password=None,length=14,salt=''):
     
 #    ctx = sha.new(password)
 #    ctx.update(salt)
+    secret['hash'] = crypt.crypt(password, "$1$%s" % config.get('shadowsalt'))
 #    secret['hash'] = "{SSHA}%s" % b64encode(ctx.digest() + salt)
     secret['pass'] = password
 
@@ -299,7 +301,7 @@ class User(controllers.Controller):
             return dict()
         newpass = generatePassword(password)
         try:
-            person.password = newpass['pass']
+            person.password = newpass['hash']
             turbogears.flash(_("Your password has been changed."))
         except:
             turbogears.flash(_("Your password could not be changed."))
