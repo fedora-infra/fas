@@ -2,6 +2,8 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
 
+from cherrypy import request, response
+
 import cherrypy
 
 from fas.auth import *
@@ -33,4 +35,3 @@ class JsonRequest(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         return dict(people=people)
-

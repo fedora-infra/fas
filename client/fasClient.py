@@ -19,24 +19,80 @@
 # Red Hat Author(s): Mike McGrath <mmcgrath@redhat.com>
 #
 
-
-from fedora.tg.client import BaseClient, AuthError, ServerError
-
 import sys
 import os
-from shutil import move
 import logging
 
-FAS_URL = 'http://localhost:8080/fas/json/'
+from fedora.tg.client import BaseClient, AuthError, ServerError
+from optparse import OptionParser
+from shutil import move
+from rhpl.translate import _
+
+FAS_URL = 'http://localhost:8080/fas/'
+
+
+parser = OptionParser()
+
+parser.add_option('--nogroup',
+                     dest = 'no_group',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync group information'))
+parser.add_option('--nopasswd',
+                     dest = 'no_passwd',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync passwd information'))
+parser.add_option('--noshadow',
+                     dest = 'no_shadow',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync shadow information'))
+parser.add_option('-s', '--server',
+                     dest = 'FAS_URL',
+                     default = FAS_URL,
+                     metavar = 'FAS_URL',
+                     help = _('Specify URL of fas server (default "%default")'))
 
 
 class MakeShellAccounts(BaseClient):
     def group_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('group_list', auth=False, input=params)
+        data = self.send_request('json/group_list', auth=False, input=params)
         return data
-        
-        
+
+    def shadow_text(self, people=None):
+        i = 0
+        file = open('/tmp/shadow.txt', 'w')
+        if not people:
+            people = self.people_list()
+        for person in people:
+            uid = person['id']
+            username = person['username']
+            password = person['password']
+            file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
+            file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
+            file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+            i = i + 1
+        file.close()
+
+
+    def passwd_text(self, people=None):
+        i = 0
+        file = open('/tmp/passwd.txt', 'w')
+        if not people:
+            people = self.people_list()
+        for person in people:
+            uid = person['id']
+            username = person['username']
+            human_name = person['human_name']
+            home_dir = "/home/fedora/%s" % username
+            shell = "/bin/bash"
+            file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+            file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+            file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+            i = i + 1
+        file.close()
     
     def groups_text(self, groups=None, people=None):
         i = 0
@@ -60,8 +116,6 @@ class MakeShellAccounts(BaseClient):
         for group in groups['groups']:
             gid = group['id']
             name = group['name']
-#                print groups['memberships'][m]
-#            print groups['memberships'][1228]
             memberships = ''
             try:
                 ''' Shoot me now I know this isn't right '''
@@ -78,23 +132,49 @@ class MakeShellAccounts(BaseClient):
             i = i + 1
 
         file.close()
-
         
     def people_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('people_list', auth=False, input=params)
+        data = self.send_request('json/people_list', auth=False, input=params)
         return data['people']
 
     def make_group_db(self):
         self.groups_text()
         os.system('makedb -o /tmp/group.db /tmp/group.txt')
-        
+    
+    def make_passwd_db(self):
+        self.passwd_text()
+        os.system('makedb -o /tmp/passwd.db /tmp/passwd.txt')
+    
+    def make_shadow_db(self):
+        self.shadow_text()
+        os.system('makedb -o /tmp/passwd.db /tmp/shadow.txt')
+    
+    def install_passwd_db(self):
+        try:
+            move('/tmp/passwd.db', '/var/db/passwd.db')
+        except IOError, e:
+            print "ERROR: Could not write passwd db - %s" % e
+    
+    def install_shadow_db(self):
+        try:
+            move('/tmp/shadow.db', '/var/db/shadow.db')
+        except IOError, e:
+            print "ERROR: Could not write shadow db - %s" % e
+    
     def install_group_db(self):
-        move('/tmp/group.db', '/var/db/group.db')
+        try:
+            move('/tmp/group.db', '/var/db/group.db')
+        except IOError, e:
+            print "ERROR: Could not write group db - %s" % e
         
 
 if __name__ == '__main__':
-    fas = MakeShellAccounts(FAS_URL, None, None, None)
+    fas = MakeShellAccounts(FAS_URL, 'admin', None, None)
     fas.make_group_db()
+    fas.make_passwd_db()
+    fas.make_shadow_db()
     fas.install_group_db()
+    fas.install_passwd_db()
+    fas.install_shadow_db()
     
