@@ -36,6 +36,8 @@ import gettext
 t = gettext.translation('python-fedora', '/usr/share/locale', fallback=True)
 _ = t.ugettext
 
+import crypt
+
 import logging
 log = logging.getLogger('turbogears.identity.safasprovider')
 
@@ -186,6 +188,8 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
         Returns: True if the password matches the username.  Otherwise False.
           Can return False for problems within the Account System as well.
         '''
+        
+        return user.password == crypt.crypt(password, '$1$djFfnacd')
         return user.password == self.encrypt_password(password)
 
     def load_identity(self, visit_key):
