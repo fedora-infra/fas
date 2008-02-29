@@ -112,22 +112,6 @@ class Group(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
-    @expose(format="json")
-    def exportShellAccounts(self):
-        ''' Replaces old "exportShellAccounts.py" '''
-        # TODO: Restrict access to this.
-        group = Groups.by_name('sysadmin-main')
-        users = {}
-        for role in userlist.roles:
-            if role.status == 'approved':
-                person = role.member
-                users[person.username] = {
-                    'password' : person.password,
-                    'ssh_key' : person.ssh_key,
-                }
-        groups = Groups.query.all()
-        return dict(users=users, groups=groups)
-
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupView())
     @error_handler(error)
@@ -263,10 +247,10 @@ class Group(controllers.Controller):
         groups = filter(lambda group: canViewGroup(person, group), groups)
         if len(groups) <= 0:
             turbogears.flash(_("No Groups found matching '%s'") % search)
-            groups = {}
-        if self.jsonRequest():
-            return ({'groups': groups})
-        return dict(groups=groups, search=search)
+        memberships = {}
+        for group in groups:
+            memberships[group.id] = group.approved_roles
+        return dict(groups=groups, search=search, memberships=memberships)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
