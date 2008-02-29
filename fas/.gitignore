@@ -8,3 +8,4 @@ fas.log
 *.pyc
 *.pyo
 *.swp
+fas.egg-info
