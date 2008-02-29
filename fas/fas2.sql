@@ -227,7 +227,7 @@ cluster log_changetime_idx on log;
 -- New records are created when a request is first made by a specific
 -- username@(hostname/id)
 --
-create table allowed_connections (
+create table requests (
     id serial primary key;
     person_id INTEGER not null references people(id),
     hostname TEXT not null,
@@ -238,12 +238,11 @@ create table allowed_connections (
     unique (person_id, hostname, ip, action)
 );
 
-create index allowed_connections_changetime_idx on
-    allowed_connections(changetime);
-create index hostname_idx on allowed_connections(hostname);
-create index ip_idx on allowed_connections(ip);
-create index person_id_idx on allowed_connections(person_id);
-cluster allowed_connection_changetime_idx on allowed_connections;
+create index requests_changetime_idx on requests(changetime);
+create index hostname_idx on requests(hostname);
+create index ip_idx on requests(ip);
+create index person_id_idx on requests(person_id);
+cluster requests_changetime_idx on requests;
 
 --
 -- turbogears session tables
