@@ -59,7 +59,7 @@ parser.add_option('-s', '--server',
 class MakeShellAccounts(BaseClient):
     def group_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('json/group_list', auth=True, input=params)
+        data = self.send_request('group/list', auth=True, input=params)
         return data
 
     def shadow_text(self, people=None):
@@ -136,7 +136,7 @@ class MakeShellAccounts(BaseClient):
         
     def people_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('json/people_list', auth=True, input=params)
+        data = self.send_request('user/list', auth=True, input=params)
         return data['people']
 
     def make_group_db(self):
