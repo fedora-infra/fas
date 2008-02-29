@@ -85,6 +85,8 @@ You should then be able to start the server and test things out::
   ./start-fas.py
   # browse to http://localhost:8080/fas/
 
+The default administrative user is "admin" with password "admin"
+
 Another handy command for trying short snippets of code is tg-admin shell.
 Make sure you're in the top level directory that start-fas.py and dev.cfg is
 in, then run::
