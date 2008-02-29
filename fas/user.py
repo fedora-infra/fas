@@ -12,6 +12,7 @@ import random
 
 from fas.model import People
 from fas.model import PersonEmails
+from fas.model import Log
 
 from fas.auth import *
 
@@ -99,7 +100,7 @@ class UserView(validators.Schema):
     username = KnownUser
 
 class UserEdit(validators.Schema):
-    username = KnownUser
+    targetname = KnownUser
     
 def generate_password(password=None,length=14,salt=''):
     ''' Generate Password '''
@@ -274,12 +275,45 @@ class User(controllers.Controller):
             person.password = '*'
             person.emails['primary'] = PersonEmails(email=email, purpose='primary')
             newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Fedora Project Password Reset'))
+            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Welcome to the Fedora Project!'))
             message.plain = _(dedent('''
-                 You have created a new Fedora account!
-                 Your new password is: %s
+                You have created a new Fedora account!
+                Your new password is: %s
 
-                 Please go to https://admin.fedoraproject.org/fas/ to change it.
+                Please go to https://admin.fedoraproject.org/fas/ to change it.
+
+                Welcome to the Fedora Project. Now that you've signed up for an
+                account you're probably desperate to start contributing, and with that
+                in mind we hope this e-mail might guide you in the right direction to
+                make this process as easy as possible.
+                
+                Fedora is an exciting project with lots going on, and you can
+                contribute in a huge number of ways, using all sorts of different
+                skill sets. To find out about the different ways you can contribute to
+                Fedora, you can visit our join page which provides more information
+                about all the different roles we have available.
+                
+                http://fedoraproject.org/en/join-fedora
+                
+                If you already know how you want to contribute to Fedora, and have
+                found the group already working in the area you're interested in, then
+                there are a few more steps for you to get going.
+                
+                Foremost amongst these is to sign up for the team or project's mailing
+                list that you're interested in - and if you're interested in more than
+                one group's work, feel free to sign up for as many mailing lists as
+                you like! This is because mailing lists are where the majority of work
+                gets organised and tasks assigned, so to stay in the loop be sure to
+                keep up with the messages.
+                
+                Once this is done, it's probably wise to send a short introduction to
+                the list letting them know what experience you have and how you'd like
+                to help. From here, existing members of the team will help you to find
+                your feet as a Fedora contributor.
+                
+                And finally, from all of us here at the Fedora Project, we're looking
+                forward to working with you!
+
                  ''') % newpass['pass'])
             turbomail.enqueue(message)
             person.password = newpass['pass']
@@ -303,15 +337,17 @@ class User(controllers.Controller):
         username = turbogears.identity.current.user_name
         person  = People.by_username(username)
 
-        # TODO: Auth method (complete with salted hash)
-        if not person.password == currentpassword:
+        current_encrypted = generatePassword(currentpassword)
+        if not person.password == current_encrypted['hash']:
             turbogears.flash('Your current password did not match')
             return dict()
         newpass = generate_password(password)
         try:
             person.password = newpass['hash']
+            Log(author_id=person.id, description='Password changed')
             turbogears.flash(_("Your password has been changed."))
         except:
+            Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
         return dict()
 

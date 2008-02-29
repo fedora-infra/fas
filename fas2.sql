@@ -453,7 +453,7 @@ create trigger email_bugzilla_sync before update or insert or delete
  for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, visit, visit_identity TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
 
 -- For other services to connect to the necessary session tables
 GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
@@ -462,7 +462,7 @@ GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
 GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, configs TO GROUP apache;
 
 -- Create default admin user - Default Password "admin"
-INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', '$1$djFfnacd$im/L4UiYckFAlw4D5JUau.');
+INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');
 
 -- Create default groups and populate
 INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'), 'tracking');

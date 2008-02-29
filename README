@@ -19,6 +19,43 @@ script.
 
 .. _TurboGears: http://www.turbogears.org
 
+-------------
+Prerequisites
+-------------
+Before you can get started, make sure to have the following packages installed
+(example being from Fedora 8 with a local postgres database server)::
+
+  yum install git-core postgresql-plpython postgresql-server postgresql-python \
+  python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
+  python-psycopg2
+
+  # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
+
+At present, the database needs to be a postgres database since we use triggers
+to manage some of the data (like syncing accounts with bugzilla).
+
+If you are unfamiliar with postgres and this is your first time installing it,
+you will want to generate the database and allow users to connect.  First as
+root run::
+
+  /etc/init.d/postgresql initdb
+
+Then make sure the bottom of /var/lib/pgsql/data/pg_hba.conf looks like::
+
+  # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+
+  # "local" is for Unix domain socket connections only
+  local   all         all                               ident sameuser
+  # IPv4 local connections:
+  #host    all         all         127.0.0.1/32          ident sameuser
+  # IPv6 local connections:
+  #host    all         all         ::1/128               ident sameuser
+ 
+  host all all 0.0.0.0 0.0.0.0 md5
+
+Then just start the postgres database:
+
+  /etc/init.d/postgresql start
 
 -------
 Hacking
@@ -35,12 +72,12 @@ that are created by the build script, setup.py::
 This will create the fas.egg-info directory which has metadata about the
 program.  It allows things like the identity provider to work.
 
-Next you need to setup a database to work with FAS.  At present, this needs to
-be a postgres database since we use triggers to manage some of the data (like
-syncing accounts with bugzilla).  So install and configure postgres.  Then
-create a postgres user to manage the data and import the schema::
+Do any configuration necessary and start up the postgres server.  Then make the
+plpython language available on new databases, create a postgres user to manage
+the data and import the schema::
+  sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
-  sudo -u postgres < fas2.sql
+  sudo -u postgres psql < fas2.sql
 
 The last thing to do is configure the application to use your settings.
 You'll need to edit dev.cfg and change the following lines::
@@ -56,6 +93,8 @@ You'll need to edit dev.cfg and change the following lines::
 You should then be able to start the server and test things out::
   ./start-fas.py
   # browse to http://localhost:8080/fas/
+
+The default administrative user is "admin" with password "admin"
 
 Another handy command for trying short snippets of code is tg-admin shell.
 Make sure you're in the top level directory that start-fas.py and dev.cfg is
