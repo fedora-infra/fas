@@ -8,6 +8,7 @@ import re
 import gpgme
 import StringIO
 import crypt
+import random
 
 from fas.model import People
 from fas.model import PersonEmails
@@ -101,7 +102,7 @@ class UserView(validators.Schema):
 class UserEdit(validators.Schema):
     targetname = KnownUser
     
-def generatePassword(password=None,length=14,salt=''):
+def generate_password(password=None,length=14,salt=''):
     ''' Generate Password '''
     secret = {} # contains both hash and password
 
@@ -119,12 +120,18 @@ def generatePassword(password=None,length=14,salt=''):
     
 #    ctx = sha.new(password)
 #    ctx.update(salt)
-    secret['hash'] = crypt.crypt(password, "$1$%s" % config.get('shadowsalt'))
+    secret['hash'] = crypt.crypt(password, "$1$%s" % generate_salt(8))
 #    secret['hash'] = "{SSHA}%s" % b64encode(ctx.digest() + salt)
     secret['pass'] = password
 
     return secret
 
+def generate_salt(length=8):
+    chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    salt = ''
+    for i in xrange(length):
+        salt += random.choice(chars)
+    return salt
 
 class User(controllers.Controller):
 
@@ -266,7 +273,7 @@ class User(controllers.Controller):
             person.telephone = telephone
             person.password = '*'
             person.emails['primary'] = PersonEmails(email=email, purpose='primary')
-            newpass = generatePassword()
+            newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Fedora Project Password Reset'))
             message.plain = _(dedent('''
                  You have created a new Fedora account!
@@ -300,7 +307,7 @@ class User(controllers.Controller):
         if not person.password == current_encrypted['hash']:
             turbogears.flash('Your current password did not match')
             return dict()
-        newpass = generatePassword(password)
+        newpass = generate_password(password)
         try:
             person.password = newpass['hash']
             Log(author_id=person.id, description='Password changed')
@@ -330,7 +337,7 @@ class User(controllers.Controller):
             if not email == person.emails['primary'].email:
                 turbogears.flash(_("username + email combo unknown."))
                 return dict()
-            newpass = generatePassword()
+            newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), email, _('Fedora Project Password Reset'))
             mail = _(dedent('''
                 You have requested a password reset!
