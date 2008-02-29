@@ -53,6 +53,10 @@ Then make sure the bottom of /var/lib/pgsql/data/pg_hba.conf looks like::
  
   host all all 0.0.0.0 0.0.0.0 md5
 
+Then just start the postgres database:
+
+  /etc/init.d/postgresql start
+
 -------
 Hacking
 -------
