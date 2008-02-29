@@ -40,7 +40,7 @@ be a postgres database since we use triggers to manage some of the data (like
 syncing accounts with bugzilla).  So install and configure postgres.  Then
 create a postgres user to manage the data and import the schema::
   sudo -u postgres createuser --encrypted --pwprompt fedora
-  sudo -u postgres < fas2.sql
+  sudo -u postgres psql < fas2.sql
 
 The last thing to do is configure the application to use your settings.
 You'll need to edit dev.cfg and change the following lines::
