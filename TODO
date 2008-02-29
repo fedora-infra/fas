@@ -4,7 +4,6 @@ Things to Fix in FAS2 before declaring it done
 safasprovider.py
 ----------------
 validate_password():
-  Currently returns crypt.crypt(password, '$1$djFfnacd').
   We'll want to change this to something that allows for longer passwords
   (like md5).  The one thing about that is we have to figure out how system
   passwords use salt, etc.  That way we'll be able to use this with

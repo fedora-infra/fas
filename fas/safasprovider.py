@@ -189,7 +189,7 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
           Can return False for problems within the Account System as well.
         '''
         
-        return user.password == crypt.crypt(password, '$1$djFfnacd')
+        return user.password == crypt.crypt(password, user.password)
         return user.password == self.encrypt_password(password)
 
     def load_identity(self, visit_key):
