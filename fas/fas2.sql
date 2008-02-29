@@ -228,7 +228,7 @@ cluster log_changetime_idx on log;
 -- username@(hostname/id)
 --
 create table requests (
-    id serial primary key;
+    id serial primary key,
     person_id INTEGER not null references people(id),
     hostname TEXT not null,
     ip TEXT not null,
@@ -238,11 +238,11 @@ create table requests (
     unique (person_id, hostname, ip, action)
 );
 
-create index requests_changetime_idx on requests(changetime);
+create index requests_last_request_idx on requests(last_request);
 create index hostname_idx on requests(hostname);
 create index ip_idx on requests(ip);
 create index person_id_idx on requests(person_id);
-cluster requests_changetime_idx on requests;
+cluster requests_last_request_idx on requests;
 
 --
 -- turbogears session tables
