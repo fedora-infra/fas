@@ -236,7 +236,9 @@ class User(controllers.Controller):
             turbogears.redirect("/user/view/%s" % target.username)
         return dict(target=target)
 
-    @identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
+    # TODO: Decide who is allowed to see this.
+    #@identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
+    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search="a*"):
         '''List users
@@ -245,11 +247,9 @@ class User(controllers.Controller):
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         if people.count() < 0:
             turbogears.flash(_("No users found matching '%s'") % search)
-        if self.jsonRequest():
-            return ({'users': people})
-
         return dict(people=people, search=search)
        
+    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.user.new')
     def new(self):
         if turbogears.identity.not_anonymous():
@@ -257,6 +257,7 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
@@ -412,6 +413,7 @@ class User(controllers.Controller):
       return dict(cert=certdump, key=keydump)
 
     # Not sure where to take this yet.
+    @identity.require(turbogears.identity.not_anonymous())
     @expose(format="json")
     def search(self, username=None, groupname=None):
         people = People.query.filter(People.username.like('%%%s%%' % username))

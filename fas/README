@@ -1,0 +1,63 @@
+=====================
+Fedora Account System
+=====================
+
+:Authors: Ricky Zhou
+	  Mike McGrath
+	  Toshio Kuratomi
+:Contact: fedora-infrastructure-list@redhat.com
+:Date: Friday, 29 February, 2008
+:Version: 0.1
+
+The Fedora Account System holds information on Fedora Contributors to give
+them access to the wonderful things that Fedora has.
+
+.. contents::
+
+This is a TurboGears_ project. It can be started by running the start-fas.py
+script.
+
+.. _TurboGears: http://www.turbogears.org
+
+
+-------
+Hacking
+-------
+If you want to hack on the Account System you need to checkout the module.
+It's presently part of the fedora-infrastructure git repo::
+  git clone git://git.fedorahosted.org/git/fedora-infrastructure
+  cd fedora-infrastructure/fas
+
+Once you are inside you're fresh checkout, you need to regenerate some files
+that are created by the build script, setup.py::
+  python setup.py egg_info
+
+This will create the fas.egg-info directory which has metadata about the
+program.  It allows things like the identity provider to work.
+
+Next you need to setup a database to work with FAS.  At present, this needs to
+be a postgres database since we use triggers to manage some of the data (like
+syncing accounts with bugzilla).  So install and configure postgres.  Then
+create a postgres user to manage the data and import the schema::
+  sudo -u postgres createuser --encrypted --pwprompt fedora
+  sudo -u postgres < fas2.sql
+
+The last thing to do is configure the application to use your settings.
+You'll need to edit dev.cfg and change the following lines::
+  mail.on = False # Set to True if you want to test notification sending
+  mail.server = 'localhost' # Your mail server
+  sqlalchemy.dburi = "postgres://fedora:pass@localhost/fas2" # Fill in the
+  # password you gave in the createuser step and the db host if it's not
+  # localhost.
+  server.socket_port=8080 # Change if you don't want to run on port 8080
+  base_url_filter.base_url = "http://localhost:8080/fas" # Change the port if
+  # you changed server.socket_port above.
+
+You should then be able to start the server and test things out::
+  ./start-fas.py
+  # browse to http://localhost:8080/fas/
+
+Another handy command for trying short snippets of code is tg-admin shell.
+Make sure you're in the top level directory that start-fas.py and dev.cfg is
+in, then run::
+  tg-admin shell
