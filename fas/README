@@ -19,6 +19,18 @@ script.
 
 .. _TurboGears: http://www.turbogears.org
 
+----------
+Installing
+----------
+
+Partial list of prereqs.  When we build an rpm we'll nail this down in more
+detail:
+
+  * pygpgme
+  * python-psycopg2
+  * python-sqlalchemy >= 0.4
+  * TurboGears
+  * python-genshi
 
 -------
 Hacking
@@ -37,8 +49,17 @@ program.  It allows things like the identity provider to work.
 
 Next you need to setup a database to work with FAS.  At present, this needs to
 be a postgres database since we use triggers to manage some of the data (like
-syncing accounts with bugzilla).  So install and configure postgres.  Then
-create a postgres user to manage the data and import the schema::
+syncing accounts with bugzilla).  So install postgres and plpython (the
+language that we've written our triggers in)::
+  # Fedora 8:
+  sudo yum -y install postgresql-server postgresql-plpython
+  # RHEL 5:
+  sudo yum -y install postgresql-server postgresql-pl
+
+Do any configuration necessary and start up the postgres server.  Then make the
+plpython language available on new databases, create a postgres user to manage
+the data and import the schema::
+  sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
   sudo -u postgres psql < fas2.sql
 
