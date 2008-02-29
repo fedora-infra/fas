@@ -11,6 +11,7 @@ import crypt
 
 from fas.model import People
 from fas.model import PersonEmails
+from fas.model import Log
 
 from fas.auth import *
 
@@ -98,7 +99,7 @@ class UserView(validators.Schema):
     username = KnownUser
 
 class UserEdit(validators.Schema):
-    username = KnownUser
+    targetname = KnownUser
     
 def generatePassword(password=None,length=14,salt=''):
     ''' Generate Password '''
@@ -295,15 +296,17 @@ class User(controllers.Controller):
         username = turbogears.identity.current.user_name
         person  = People.by_username(username)
 
-        # TODO: Auth method (complete with salted hash)
-        if not person.password == currentpassword:
+        current_encrypted = generatePassword(currentpassword)
+        if not person.password == current_encrypted['hash']:
             turbogears.flash('Your current password did not match')
             return dict()
         newpass = generatePassword(password)
         try:
             person.password = newpass['hash']
+            Log(author_id=person.id, description='Password changed')
             turbogears.flash(_("Your password has been changed."))
         except:
+            Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
         return dict()
 
