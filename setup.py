@@ -17,7 +17,7 @@ setup(
     #license=license,
     
     install_requires = [
-        "TurboGears >= 1.0.1",
+        "TurboGears >= 1.0.4",
     ],
     scripts = ["start-fas.py"],
     zip_safe=False,
@@ -35,13 +35,13 @@ setup(
         # 'turbogears.command',
         
         # if this has identity providers, uncomment the next line
-        # 'turbogears.identity.provider',
+        'turbogears.identity.provider',
     
         # If this is a template plugin, uncomment the next line
         # 'python.templating.engines',
         
         # If this is a full application, uncomment the next line
-        # 'turbogears.app',
+        'turbogears.app',
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',
@@ -51,12 +51,17 @@ setup(
         'Framework :: TurboGears',
         # if this is an application that you'll distribute through
         # the Cheeseshop, uncomment the next line
-        # 'Framework :: TurboGears :: Applications',
+        'Framework :: TurboGears :: Applications',
         
         # if this is a package that includes widgets that you'll distribute
         # through the Cheeseshop, uncomment the next line
         # 'Framework :: TurboGears :: Widgets',
     ],
     test_suite = 'nose.collector',
+    entry_points = {
+            'turbogears.identity.provider': (
+                'safas3 = fas.safasprovider:SaFasIdentityProvider',
+                )
+            }
     )
     
