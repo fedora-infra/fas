@@ -79,6 +79,7 @@ class MakeShellAccounts(BaseClient):
     
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-')
+        os.chmod(self.temp, 00400)
 
     def rm_tempdir(self):
         rmtree(self.temp)
@@ -102,6 +103,7 @@ class MakeShellAccounts(BaseClient):
             file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
             i = i + 1
         file.close()
+        os.chmod(self.temp + '/shadow.txt', 00400)
 
 
     def passwd_text(self, people=None):
@@ -176,6 +178,7 @@ class MakeShellAccounts(BaseClient):
     def make_shadow_db(self):
         self.shadow_text()
         os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
+        os.chmod(self.temp + '/shadow.db', 00400)
     
     def install_passwd_db(self):
         try:
