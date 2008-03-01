@@ -62,6 +62,7 @@ GroupEmailsTable = Table('group_emails', metadata, autoload=True)
 GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
+RequestsTable = Table('requests', metadata, autoload=True)
 
 #
 # Selects for filtering roles
@@ -331,7 +332,13 @@ class BugzillaQueue(SABase):
     pass
 
 class Log(SABase):
-    '''Write simple logs of changesto the database.'''
+    '''Write simple logs of changes to the database.'''
+    pass
+
+class Requests(SABase):
+    '''
+    Requests for certain resources may be restricted based on the user or host.
+    '''
     pass
 
 #
@@ -430,6 +437,9 @@ mapper(BugzillaQueue, BugzillaQueueTable, properties = {
 mapper(Log, LogTable, properties = {
     ### TODO: test to be sure SQLAlchemy only loads the backref on demand
     'author': relation(People, backref='changes')
+    })
+mapper(Requests, RequestsTable, properties = {
+    'person': relation(People, backref='requests')
     })
 
 # TurboGears Identity
