@@ -21,12 +21,13 @@
 # TODO: put tmp files in a 700 tmp dir
 
 import sys
-import os
 import logging
+import os
+import tempfile
 
 from fedora.tg.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
-from shutil import move
+from shutil import move, rmtree
 from rhpl.translate import _
 
 FAS_URL = 'http://localhost:8080/fas/'
@@ -34,6 +35,11 @@ FAS_URL = 'http://localhost:8080/fas/'
 
 parser = OptionParser()
 
+parser.add_option('-i', '--install',
+                     dest = 'install',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Download and sync most recent content'))
 parser.add_option('--nogroup',
                      dest = 'no_group',
                      default = False,
@@ -54,9 +60,29 @@ parser.add_option('-s', '--server',
                      default = FAS_URL,
                      metavar = 'FAS_URL',
                      help = _('Specify URL of fas server (default "%default")'))
+parser.add_option('-e', '--enable',
+                     dest = 'enable',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Enable FAS synced shell accounts'))
+parser.add_option('-d', '--disable',
+                     dest = 'disable',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Disable FAS synced shell accounts'))
 
+
+(opts, args) = parser.parse_args()
 
 class MakeShellAccounts(BaseClient):
+    temp = None
+    
+    def mk_tempdir(self):
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-')
+
+    def rm_tempdir(self):
+        rmtree(self.temp)
+
     def group_list(self, search='*'):
         params = {'search' : search}
         data = self.send_request('group/list', auth=True, input=params)
@@ -64,7 +90,7 @@ class MakeShellAccounts(BaseClient):
 
     def shadow_text(self, people=None):
         i = 0
-        file = open('/tmp/shadow.txt', 'w')
+        file = open(self.temp + '/shadow.txt', 'w')
         if not people:
             people = self.people_list()
         for person in people:
@@ -80,7 +106,7 @@ class MakeShellAccounts(BaseClient):
 
     def passwd_text(self, people=None):
         i = 0
-        file = open('/tmp/passwd.txt', 'w')
+        file = open(self.temp + '/passwd.txt', 'w')
         if not people:
             people = self.people_list()
         for person in people:
@@ -97,7 +123,7 @@ class MakeShellAccounts(BaseClient):
     
     def groups_text(self, groups=None, people=None):
         i = 0
-        file = open('/tmp/group.txt', 'w')
+        file = open(self.temp + '/group.txt', 'w')
         if not groups:
             groups = self.group_list()
         if not people:
@@ -141,45 +167,98 @@ class MakeShellAccounts(BaseClient):
 
     def make_group_db(self):
         self.groups_text()
-        os.system('makedb -o /tmp/group.db /tmp/group.txt')
+        os.system('makedb -o %s/group.db %s/group.txt' % (self.temp, self.temp))
     
     def make_passwd_db(self):
         self.passwd_text()
-        os.system('makedb -o /tmp/passwd.db /tmp/passwd.txt')
+        os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
     
     def make_shadow_db(self):
         self.shadow_text()
-        os.system('makedb -o /tmp/shadow.db /tmp/shadow.txt')
+        os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
     
     def install_passwd_db(self):
         try:
-            move('/tmp/passwd.db', '/var/db/passwd.db')
+            move(self.temp + '/passwd.db', '/var/db/passwd.db')
         except IOError, e:
             print "ERROR: Could not write passwd db - %s" % e
     
     def install_shadow_db(self):
         try:
-            move('/tmp/shadow.db', '/var/db/shadow.db')
+            move(self.temp + '/shadow.db', '/var/db/shadow.db')
         except IOError, e:
             print "ERROR: Could not write shadow db - %s" % e
     
     def install_group_db(self):
         try:
-            move('/tmp/group.db', '/var/db/group.db')
+            move(self.temp + '/group.db', '/var/db/group.db')
         except IOError, e:
             print "ERROR: Could not write group db - %s" % e
-        
+
+def enable():
+    old = open('/etc/nsswitch.conf', 'r')
+    new = open('/tmp/.fas.nsswitch.conf', 'w')
+    for line in old:
+        if line.startswith('passwd') or line.startswith('shadow') or line.startswith('group'):
+            parts = line.split()
+            if 'db' in parts:
+                new.write(line)
+                print "%s already has db enabled" % parts[0].split(':')[0]
+            else:
+                tmp = line.strip('\n')
+                tmp = tmp + ' db\n'
+                new.write(tmp)
+        else:
+            new.write(line)
+    new.close()
+    try:
+        move('/tmp/.fas.nsswitch.conf', '/etc/nsswitch.conf')
+    except IOError, e:
+        print "ERROR: Could not write nsswitch.conf - %s" % e
+
+def disable():
+    old = open('/etc/nsswitch.conf', 'r')
+    new = open('/tmp/.fas.nsswitch.conf', 'w')
+    for line in old:
+        if line.startswith('passwd') or line.startswith('shadow') or line.startswith('group'):
+            parts = line.split()
+            if 'db' in parts:
+                tmp = line.replace(' db', '')
+                new.write(tmp)
+            else:
+                print "%s already has db disabled" % parts[0].split(':')[0]
+                new.write(line)
+        else:
+            new.write(line)
+    new.close()
+    try:
+        move('/tmp/.fas.nsswitch.conf', '/etc/nsswitch.conf')
+    except IOError, e:
+        print "ERROR: Could not write nsswitch.conf - %s" % e
 
 if __name__ == '__main__':
-    try:
-        fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', False)
-    except AuthError, e:
-        print e
-        sys.exit(1)
-    fas.make_group_db()
-    fas.make_passwd_db()
-    fas.make_shadow_db()
-    fas.install_group_db()
-    fas.install_passwd_db()
-    fas.install_shadow_db()
-    
+    if opts.enable:
+        enable()
+        sys.exit()
+    elif opts.disable:
+        disable()
+        sys.exit()
+    elif opts.install:
+        try:
+            fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', False)
+        except AuthError, e:
+            print e
+            sys.exit(1)
+        fas.mk_tempdir()
+        fas.make_group_db()
+        fas.make_passwd_db()
+        fas.make_shadow_db()
+        if not opts.no_group:
+            fas.install_group_db()
+        if not opts.no_passwd:
+            fas.install_passwd_db()
+        if not opts.no_shadow:
+            fas.install_shadow_db()
+        fas.rm_tempdir()
+    else:
+        parser.print_help()
