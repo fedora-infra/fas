@@ -8,6 +8,7 @@ from datetime import datetime
 import re
 import gpgme
 import StringIO
+import subprocess
 
 from fas.auth import *
 
@@ -94,62 +95,76 @@ class CLA(controllers.Controller):
         plaintext = StringIO.StringIO()
         verified = False
         try:
-            sigs = ctx.verify(data, None, plaintext)
-        except gpgme.GpgmeError, e:
-            turbogears.flash(_("Your signature could not be verified: '%s'.") % e)
-            turbogears.redirect('/cla/view/sign')
-            return dict()
-        else:
-            if len(sigs):
-                sig = sigs[0]
-                # This might still assume a full fingerprint. 
-                key = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
-                fpr = key.subkeys[0].fpr
-                if sig.fpr != fpr:
-                    turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
-                    turbogears.redirect('/cla/view/sign')
-                    return dict()
-                emails = [];
-                for uid in key.uids:
-                    emails.extend([uid.email])
-                if person.emails['cla'].email in emails:
-                    verified = True
-                else:
-                    turbogears.flash(_('Your key did not match your email.'))
-                    turbogears.redirect('/cla/view/sign')
-                    return dict()
-
-        # We got a properly signed CLA.
-        cla = plaintext.getvalue()
-        if cla.find('Contributor License Agreement (CLA)') < 0:
-            turbogears.flash(_('The GPG-signed part of the message did not contain a signed CLA.'))
-            turbogears.redirect('/cla/view/sign')
-            return dict()
-
-        if re.compile('If you agree to these terms and conditions, type "I agree" here: I agree', re.IGNORECASE).match(cla):
-            turbogears.flash(_('The text "I agree" was not found in the CLA.'))
-            turbogears.redirect('/cla/view/sign')
-            return dict()
-
-        # Everything is correct.
-        try:
-            person.apply(group, person) # Apply...
-            session.flush()
-            person.sponsor(group, person) # Approve...
-            session.flush()
-        except:
-            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+              subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+        except subprocess.CalledProcessError:
+            turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
             turbogears.redirect('/cla/view/sign')
             return dict()
         else:
             try:
-                clickgroup = Groups.by_name(config.get('cla_click_group'))
-                person.remove(cilckgroup, person)
+                sigs = ctx.verify(data, None, plaintext)
+            except gpgme.GpgmeError, e:
+                turbogears.flash(_("Your signature could not be verified: '%s'.") % e)
+                turbogears.redirect('/cla/view/sign')
+                return dict()
+            else: # Hm, I wonder how these nested ifs can be made more elegant...
+                if len(sigs):
+                    sig = sigs[0]
+                    # This might still assume a full fingerprint. 
+                    key = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                    fpr = key.subkeys[0].fpr
+                    if sig.fpr != fpr:
+                        turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
+                        turbogears.redirect('/cla/view/sign')
+                        return dict()
+                    emails = [];
+                    for uid in key.uids:
+                        emails.extend([uid.email])
+                    if person.emails['cla'].email in emails:
+                        verified = True
+                    else:
+                        turbogears.flash(_('Your key did not match your email.'))
+                        turbogears.redirect('/cla/view/sign')
+                        return dict()
+                else:
+                    # TODO: Find out what it means if verify() succeeded and len(sigs) == 0
+                    turbogears.flash(_('len(sigs) == 0'))
+                    turbogears.redirect('/cla/view/sign')
+                    return dict()
+            # We got a properly signed CLA.
+            cla = plaintext.getvalue()
+            if cla.find('Contributor License Agreement (CLA)') < 0:
+                turbogears.flash(_('The GPG-signed part of the message did not contain a signed CLA.'))
+                turbogears.redirect('/cla/view/sign')
+                return dict()
+
+            if re.compile('If you agree to these terms and conditions, type "I agree" here: I agree', re.IGNORECASE).match(cla):
+                turbogears.flash(_('The text "I agree" was not found in the CLA.'))
+                turbogears.redirect('/cla/view/sign')
+                return dict()
+
+            # Everything is correct.
+            try:
+                person.apply(group, person) # Apply...
+                session.flush()
+                person.sponsor(group, person) # Approve...
+                session.flush()
             except:
-                pass
-            turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
-            turbogears.redirect('/cla/')
-            return dict()
+                # TODO: If apply succeeds and sponsor fails, the user has
+                # to remove themselves from the CLA group before they can
+                # sign the CLA and go through the above try block again.
+                turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+                turbogears.redirect('/cla/view/sign')
+                return dict()
+            else:
+                try:
+                    clickgroup = Groups.by_name(config.get('cla_click_group'))
+                    person.remove(cilckgroup, person)
+                except:
+                    pass
+                turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
+                turbogears.redirect('/cla/')
+                return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
