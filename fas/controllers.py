@@ -11,6 +11,7 @@ from fas.user import User
 from fas.group import Group
 from fas.cla import CLA
 from fas.json_request import JsonRequest
+from fas.help import Help
 #from fas.openid_fas import OpenID
 
 import os
@@ -36,6 +37,7 @@ class Root(controllers.RootController):
     group = Group()
     cla = CLA()
     json = JsonRequest()
+    help = Help()
 #    openid = OpenID()
 
     # TODO: Find a better place for this.
