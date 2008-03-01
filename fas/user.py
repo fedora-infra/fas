@@ -80,6 +80,7 @@ class UserCreate(validators.Schema):
         UnknownUser,
         ValidUsername(not_empty=True),
         validators.String(max=32, min=3),
+        validators.Regex(regex='^[a-z][a-z0-9]+$'),
     )
     human_name = validators.String(not_empty=True, max=42)
     email = validators.All(
@@ -249,7 +250,6 @@ class User(controllers.Controller):
             turbogears.flash(_("No users found matching '%s'") % search)
         return dict(people=people, search=search)
        
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.user.new')
     def new(self):
         if turbogears.identity.not_anonymous():
@@ -257,7 +257,6 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
-    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
