@@ -9,6 +9,7 @@ import gpgme
 import StringIO
 import crypt
 import random
+import subprocess
 
 from fas.model import People
 from fas.model import PersonEmails
@@ -103,26 +104,18 @@ class UserView(validators.Schema):
 class UserEdit(validators.Schema):
     targetname = KnownUser
     
-def generate_password(password=None,length=14,salt=''):
+def generate_password(password=None, length=14):
     ''' Generate Password '''
     secret = {} # contains both hash and password
 
     if not password:
-        rand = Random() 
+        # Exclude 1,l and 0,O
+        chars = '23456789abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'
         password = ''
-        # Exclude 0,O and l,1
-        righthand = '23456qwertasdfgzxcvbQWERTASDFGZXCVB'
-        lefthand = '789yuiophjknmYUIPHJKLNM'
-        for i in range(length):
-            if i%2:
-                password = password + rand.choice(lefthand)
-            else:
-                password = password + rand.choice(righthand)
+        for i in xrange(length):
+            password += random.choice(chars)
     
-#    ctx = sha.new(password)
-#    ctx.update(salt)
     secret['hash'] = crypt.crypt(password, "$1$%s" % generate_salt(8))
-#    secret['hash'] = "{SSHA}%s" % b64encode(ctx.digest() + salt)
     secret['pass'] = password
 
     return secret
@@ -379,26 +372,30 @@ class User(controllers.Controller):
                 Please go to https://admin.fedoraproject.org/fas/ to change it.
                 ''')) % newpass['pass']
             if encrypted:
-                # TODO: Make this download the person's key - it might not do this right now. 
                 try:
-                    plaintext = StringIO.StringIO(mail)
-                    ciphertext = StringIO.StringIO()
-                    ctx = gpgme.Context()
-                    ctx.armor = True
-                    signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
-                    ctx.signers = [signer]
-                    recipient = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
-                    def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
-                        os.write(fd, '%s\n' % config.get('gpg_passphrase'))
-                    ctx.passphrase_cb = passphrase_cb
-                    ctx.encrypt_sign([recipient],
-                        gpgme.ENCRYPT_ALWAYS_TRUST,
-                        plaintext,
-                        ciphertext)
-                    message.plain = ciphertext.getvalue()
-                except:
-                    turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
-                    return dict()
+                    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+                except subprocess.CalledProcessError:
+                    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+                else:
+                    try:
+                        plaintext = StringIO.StringIO(mail)
+                        ciphertext = StringIO.StringIO()
+                        ctx = gpgme.Context()
+                        ctx.armor = True
+                        signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
+                        ctx.signers = [signer]
+                        recipient = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                        def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
+                            os.write(fd, '%s\n' % config.get('gpg_passphrase'))
+                        ctx.passphrase_cb = passphrase_cb
+                        ctx.encrypt_sign([recipient],
+                            gpgme.ENCRYPT_ALWAYS_TRUST,
+                            plaintext,
+                            ciphertext)
+                        message.plain = ciphertext.getvalue()
+                    except:
+                        turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
+                        return dict()
             else:
                 message.plain = mail;
             turbomail.enqueue(message)
