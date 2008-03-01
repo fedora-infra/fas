@@ -100,3 +100,27 @@ Another handy command for trying short snippets of code is tg-admin shell.
 Make sure you're in the top level directory that start-fas.py and dev.cfg is
 in, then run::
   tg-admin shell
+
+-------
+Enabling Local Users
+-------
+* THIS IS EXPERIMENTAL *
+
+To allow local users to log in to your system, first enable fas via the
+client in fas/client/fasClient.py
+
+  ./fasClient -e
+
+To disable run
+
+  ./fasClient -d
+
+To sync with your local install run:
+
+  ./fasClient -i
+
+To test, look and see if your groups or users show up with getent.  For
+example:
+
+  getent passwd
+  getent group
