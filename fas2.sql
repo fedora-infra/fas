@@ -217,6 +217,34 @@ create index log_changetime_idx on log(changetime);
 cluster log_changetime_idx on log;
 
 --
+-- This table allows certain services to be restricted by hostname/ip/person.
+--
+-- Any time a request for a restricted action is requested, the FAS server
+-- consults this table to see if the user@(hostname/ip) is allowed to access
+-- the resource.  If approved is true, the request is granted.  If false or
+-- null, the request is denied.
+--
+-- New records are created when a request is first made by a specific
+-- username@(hostname/id)
+--
+create table requests (
+    id serial primary key,
+    person_id INTEGER not null references people(id),
+    hostname TEXT not null,
+    ip TEXT not null,
+    action TEXT not null default 'trust_all',
+    last_request TIMESTAMP default now() not null,
+    approved boolean,
+    unique (person_id, hostname, ip, action)
+);
+
+create index requests_last_request_idx on requests(last_request);
+create index hostname_idx on requests(hostname);
+create index ip_idx on requests(ip);
+create index person_id_idx on requests(person_id);
+cluster requests_last_request_idx on requests;
+
+--
 -- turbogears session tables
 --
 create table visit (
