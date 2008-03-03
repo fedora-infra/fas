@@ -330,8 +330,9 @@ forward to working with you!
         username = turbogears.identity.current.user_name
         person  = People.by_username(username)
 
-        current_encrypted = generatePassword(currentpassword)
-        if not person.password == current_encrypted['hash']:
+#        current_encrypted = generate_password(currentpassword)
+#        print "PASS: %s %s" % (current_encrypted, person.password)
+        if not person.password == crypt.crypt(currentpassword, person.password):
             turbogears.flash('Your current password did not match')
             return dict()
         newpass = generate_password(password)
