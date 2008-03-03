@@ -9,10 +9,10 @@
   <head py:match="head" py:attrs="select('@*')">
     <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
     <meta py:replace="select('*|text()')" />
-    <script type="text/javascript" src="/static/js/prototype.js"></script>
-    <script type="text/javascript" src="/static/js/prototype.improvements.js"></script>
-    <script type="text/javascript" src="/static/js/scriptaculous.js"></script>
-    <script type="text/javascript" language="JavaScript" src="/static/js/HelpBalloon.js"></script>
+    <script type="text/javascript" src="${tg.url('/static/js/prototype.js')}"></script>
+    <script type="text/javascript" src="${tg.url('/static/js/prototype.improvements.js')}"></script>
+    <script type="text/javascript" src="${tg.url('/static/js/scriptaculous.js?load=effects')}"></script>
+    <script type="text/javascript" src="${tg.url('/static/js/HelpBalloon.js')}"></script>
 
 
   </head>

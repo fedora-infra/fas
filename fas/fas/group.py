@@ -247,14 +247,16 @@ class Group(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-        re_search = re.sub(r'\*', r'%', search).lower()
-        groups = Groups.query.filter(Groups.name.like(re_search)).order_by('name')
-        groups = filter(lambda group: canViewGroup(person, group), groups)
-        if len(groups) <= 0:
-            turbogears.flash(_("No Groups found matching '%s'") % search)
         memberships = {}
-        for group in groups:
-            memberships[group.id] = group.approved_roles
+        groups = []
+        re_search = re.sub(r'\*', r'%', search).lower()
+        results = Groups.query.filter(Groups.name.like(re_search)).order_by('name').all()
+        for group in results:
+            if canViewGroup(person, group):
+                groups.append(group)
+                memberships[group.name] = group.approved_roles
+        if not len(groups):
+            turbogears.flash(_("No Groups found matching '%s'") % search)
         return dict(groups=groups, search=search, memberships=memberships)
 
     @identity.require(turbogears.identity.not_anonymous())

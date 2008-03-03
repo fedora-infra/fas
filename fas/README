@@ -27,7 +27,7 @@ Before you can get started, make sure to have the following packages installed
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2
+  python-psycopg2 pytz
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
@@ -124,3 +124,4 @@ example:
 
   getent passwd
   getent group
+
