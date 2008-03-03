@@ -125,21 +125,20 @@ class MakeShellAccounts(BaseClient):
         i = 0
         file = open(self.temp + '/passwd.txt', 'w')
         if not self.people:
-            people = self.people_list()
-        local_groups = config.get('host', 'groups')
-        for group in local_groups.split(','):
-            for person in people:
-                uid = person['id']
-                username = person['username']
-                human_name = person['human_name']
-                home_dir = "%s/%s" % (config.get('users', 'home'), username)
-                shell = config.get('users', 'shell')
-                file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-                file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-                file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
-                i = i + 1
+            self.people = self.people_list()
+        for person in self.people:
+            uid = person['id']
+            username = person['username']
+            human_name = person['human_name']
+            home_dir = "%s/%s" % (config.get('users', 'home'), username)
+            shell = config.get('users', 'shell')
+            file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+            file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+            file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+            i = i + 1
         file.close()
-    
+
+        
     def groups_text(self, groups=None, people=None):
         i = 0
         file = open(self.temp + '/group.txt', 'w')
@@ -237,7 +236,7 @@ def enable():
     except IOError, e:
         print "ERROR: Could not write /etc/sysconfig/authconfig - %s" % e
         sys.exit(5)
-    os.system('/usr/sbin/authconfig --enablepamaccess --updateall')
+    os.system('/usr/sbin/authconfig --updateall')
     rmtree(temp)
 
 def disable():
@@ -256,7 +255,7 @@ def disable():
     except IOError, e:
         print "ERROR: Could not write /etc/sysconfig/authconfig - %s" % e
         sys.exit(5)
-    os.system('/usr/sbin/authconfig --disablepamaccess --updateall')
+    os.system('/usr/sbin/authconfig --updateall')
     rmtree(temp)
 
 
