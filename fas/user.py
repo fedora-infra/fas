@@ -203,7 +203,7 @@ class User(controllers.Controller):
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', timezone='UTC'):
+    def save(self, targetname, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
         username = turbogears.identity.current.user_name
         target = targetname
         person = People.by_username(username)
@@ -222,6 +222,7 @@ class User(controllers.Controller):
             target.telephone = telephone
             target.postal_address = postal_address
             target.comments = comments
+            target.locale = locale
             target.timezone = timezone
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s' % e))
@@ -375,6 +376,7 @@ class User(controllers.Controller):
                 # TODO: Move this out to a single function (same as
                 # CLA one), think of how to make sure this doesn't get
                 # full of random keys (keep a clean Fedora keyring)
+                # TODO: MIME stuff?
                 try:
                     subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
                 except subprocess.CalledProcessError:

@@ -64,6 +64,13 @@
             <li><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
+          <div py:if="tg.identity.anonymous" id="language">
+            <form action="${tg.url('/language')}" method="get">
+              <label for="locale">${_('Locale:')}</label>
+              <input type="text" name="locale" id="locale" />
+              <input type="submit" value="${_('OK')}" />
+            </form>
+          </div>
         </div>
         <div id="content">
           <div py:if="tg_flash" class="flash">
