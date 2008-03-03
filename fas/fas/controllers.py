@@ -99,8 +99,14 @@ class Root(controllers.RootController):
                     original_parameters=request.params,
                     forward_url=forward_url)
 
-    @expose()
+    @expose(allow_json=True)
     def logout(self):
         identity.current.logout()
         turbogears.flash(_('You have successfully logged out.'))
+        if 'tg_format' in request.params \
+                and request.params['tg_format'] == 'json':
+            # When called as a json method, doesn't make any sense to
+            # redirect to a page.  Returning the logged in identity
+            # is better.
+            return dict(status=True)
         raise redirect(request.headers.get("Referer", "/"))
