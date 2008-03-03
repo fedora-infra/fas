@@ -17,8 +17,6 @@ from fas.model import Log
 
 from fas.auth import *
 
-from textwrap import dedent
-
 from random import Random
 import sha
 from base64 import b64encode
@@ -53,9 +51,9 @@ class UnknownUser(validators.FancyValidator):
             return
         except:
             raise validators.Invalid(_("Error: Could not create - '%s'") % value, value, state)
-        
+
         raise validators.Invalid(_("'%s' already exists.") % value, value, state)
-            
+
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     def _to_python(self, value, state):
@@ -75,7 +73,7 @@ class UserSave(validators.Schema):
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
-    
+
 class UserCreate(validators.Schema):
     username = validators.All(
         UnknownUser,
@@ -103,7 +101,7 @@ class UserView(validators.Schema):
 
 class UserEdit(validators.Schema):
     targetname = KnownUser
-    
+
 def generate_password(password=None, length=14):
     ''' Generate Password '''
     secret = {} # contains both hash and password
@@ -114,7 +112,7 @@ def generate_password(password=None, length=14):
         password = ''
         for i in xrange(length):
             password += random.choice(chars)
-    
+
     secret['hash'] = crypt.crypt(password, "$1$%s" % generate_salt(8))
     secret['pass'] = password
 
@@ -243,7 +241,7 @@ class User(controllers.Controller):
         if people.count() < 0:
             turbogears.flash(_("No users found matching '%s'") % search)
         return dict(people=people, search=search)
-       
+
     @expose(template='fas.templates.user.new')
     def new(self):
         if turbogears.identity.not_anonymous():
@@ -269,45 +267,44 @@ class User(controllers.Controller):
             person.emails['primary'] = PersonEmails(email=email, purpose='primary')
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Welcome to the Fedora Project!'))
-            message.plain = _(dedent('''
-                You have created a new Fedora account!
-                Your new password is: %s
+            message.plain = _('''
+You have created a new Fedora account!
+Your new password is: %s
 
-                Please go to https://admin.fedoraproject.org/fas/ to change it.
+Please go to https://admin.fedoraproject.org/fas/ to change it.
 
-                Welcome to the Fedora Project. Now that you've signed up for an
-                account you're probably desperate to start contributing, and with that
-                in mind we hope this e-mail might guide you in the right direction to
-                make this process as easy as possible.
-                
-                Fedora is an exciting project with lots going on, and you can
-                contribute in a huge number of ways, using all sorts of different
-                skill sets. To find out about the different ways you can contribute to
-                Fedora, you can visit our join page which provides more information
-                about all the different roles we have available.
-                
-                http://fedoraproject.org/en/join-fedora
-                
-                If you already know how you want to contribute to Fedora, and have
-                found the group already working in the area you're interested in, then
-                there are a few more steps for you to get going.
-                
-                Foremost amongst these is to sign up for the team or project's mailing
-                list that you're interested in - and if you're interested in more than
-                one group's work, feel free to sign up for as many mailing lists as
-                you like! This is because mailing lists are where the majority of work
-                gets organised and tasks assigned, so to stay in the loop be sure to
-                keep up with the messages.
-                
-                Once this is done, it's probably wise to send a short introduction to
-                the list letting them know what experience you have and how you'd like
-                to help. From here, existing members of the team will help you to find
-                your feet as a Fedora contributor.
-                
-                And finally, from all of us here at the Fedora Project, we're looking
-                forward to working with you!
+Welcome to the Fedora Project. Now that you've signed up for an
+account you're probably desperate to start contributing, and with that
+in mind we hope this e-mail might guide you in the right direction to
+make this process as easy as possible.
 
-                 ''') % newpass['pass'])
+Fedora is an exciting project with lots going on, and you can
+contribute in a huge number of ways, using all sorts of different
+skill sets. To find out about the different ways you can contribute to
+Fedora, you can visit our join page which provides more information
+about all the different roles we have available.
+
+http://fedoraproject.org/en/join-fedora
+
+If you already know how you want to contribute to Fedora, and have
+found the group already working in the area you're interested in, then
+there are a few more steps for you to get going.
+
+Foremost amongst these is to sign up for the team or project's mailing
+list that you're interested in - and if you're interested in more than
+one group's work, feel free to sign up for as many mailing lists as
+you like! This is because mailing lists are where the majority of work
+gets organised and tasks assigned, so to stay in the loop be sure to
+keep up with the messages.
+
+Once this is done, it's probably wise to send a short introduction to
+the list letting them know what experience you have and how you'd like
+to help. From here, existing members of the team will help you to find
+your feet as a Fedora contributor.
+
+And finally, from all of us here at the Fedora Project, we're looking
+forward to working with you!
+''') % newpass['pass']
             turbomail.enqueue(message)
             person.password = newpass['pass']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
@@ -350,7 +347,7 @@ class User(controllers.Controller):
             turbogears.flash(_('You are already logged in!'))
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
-            
+
     @expose(template="fas.templates.user.resetpass")
     def sendpass(self, username, email, encrypted=False):
         import turbomail
@@ -366,12 +363,12 @@ class User(controllers.Controller):
                 return dict()
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), email, _('Fedora Project Password Reset'))
-            mail = _(dedent('''
-                You have requested a password reset!
-                Your new password is: %s
-                
-                Please go to https://admin.fedoraproject.org/fas/ to change it.
-                ''')) % newpass['pass']
+            mail = _('''
+You have requested a password reset!
+Your new password is: %s
+
+Please go to https://admin.fedoraproject.org/fas/ to change it.
+''') % newpass['pass']
             if encrypted:
                 # TODO: Move this out to a single function (same as
                 # CLA one), think of how to make sure this doesn't get
