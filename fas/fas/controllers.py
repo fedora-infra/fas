@@ -5,6 +5,7 @@ from cherrypy import request, response
 
 from turbogears import exception_handler
 import turbogears
+import cherrypy
 import time
 
 from fas.user import User
@@ -23,6 +24,17 @@ def add_custom_stdvars(vars):
     return vars.update({"gettext": _})
 
 turbogears.view.variable_providers.append(add_custom_stdvars)
+
+def get_locale(locale=None):
+    if locale:
+        return locale
+    if turbogears.identity.current.user_name:
+        person = People.by_username(turbogears.identity.current.user_name)
+        return person.locale
+    else:
+        return turbogears.i18n.utils._get_locale()
+
+config.update({'i18n.get_locale': get_locale})
 
 # from fas import json
 # import logging
@@ -101,6 +113,14 @@ class Root(controllers.RootController):
 
     @expose()
     def logout(self):
-        identity.current.logout()
         turbogears.flash(_('You have successfully logged out.'))
+        identity.current.logout()
         raise redirect(request.headers.get("Referer", "/"))
+
+    @expose()
+    def language(self, locale):
+        locale_key = config.get("i18n.session_key", "locale")
+        cherrypy.session[locale_key] = locale
+        raise redirect(request.headers.get("Referer", "/"))
+
+

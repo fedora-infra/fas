@@ -189,6 +189,21 @@ a
   background: #082C59;
 }
 
+#language
+{
+  padding: 1ex;
+}
+
+#language label
+{
+  color: #FFFFFF;
+}
+
+#language input
+{
+  width: 4ex;
+}
+
 #content
 {
   margin-left: 22ex;
