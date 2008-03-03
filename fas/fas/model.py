@@ -310,7 +310,7 @@ class Groups(SABase):
 
 
     def __repr__(cls):
-        return "Group(%s,%s)" % (cls.name, cls.display_name)
+        return "Groups(%s,%s)" % (cls.name, cls.display_name)
 
     # People in the group
     people = association_proxy('roles', 'member')
