@@ -126,10 +126,6 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
         log.info(_("Loading: %(visitmod)s") % \
                 {'visitmod': visit_identity_class_path})
         visit_identity_class = load_class(visit_identity_class_path)
-        # Default encryption algorithm is to use plain text passwords
-        algorithm = config.get("identity.saprovider.encryption_algorithm", None)
-        self.encrypt_password = lambda pw: \
-                                    identity._encrypt_password(algorithm, pw)
 
     def create_provider_model(self):
         '''
@@ -190,7 +186,6 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
         '''
         
         return user.password == crypt.crypt(password, user.password)
-        return user.password == self.encrypt_password(password)
 
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
