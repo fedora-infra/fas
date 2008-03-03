@@ -51,13 +51,13 @@ CREATE TABLE people (
     affiliation TEXT,
     certificate_serial INTEGER DEFAULT 1,
     -- tg_user::created
-    creation TIMESTAMP DEFAULT NOW(),
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     --approval_status TEXT DEFAULT 'unapproved',
     internal_comments TEXT,
     ircnick TEXT,
-    last_seen TIMESTAMP DEFAULT NOW(),
+    last_seen TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     status TEXT,
-    status_change TIMESTAMP DEFAULT NOW(),
+    status_change TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     locale TEXT not null DEFAULT 'C',
     timezone TEXT null DEFAULT 'UTC',
     latitude numeric,
@@ -123,7 +123,7 @@ CREATE TABLE groups (
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
     -- tg_group::created
-    creation TIMESTAMP DEFAULT NOW(),
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
         'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
@@ -159,8 +159,8 @@ CREATE TABLE person_roles (
     role_status text DEFAULT 'unapproved',
     internal_comments text,
     sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NULL,
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    approval TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     primary key (person_id, group_id),
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
@@ -180,8 +180,8 @@ CREATE TABLE group_roles (
     role_status text DEFAULT 'unapproved',
     internal_comments text,
     sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP DEFAULT NOW(),
-    approval TIMESTAMP DEFAULT NOW(),
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    approval TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     primary key (member_id, group_id),
     check (role_status in ('approved', 'unapproved')),
     check (role_type in ('user', 'administrator', 'sponsor'))
@@ -209,7 +209,7 @@ create table bugzilla_queue (
 create table log (
     id serial primary key,
     author_id INTEGER references people(id) not null,
-    changetime TIMESTAMP default NOW(),
+    changetime TIMESTAMP WITH TIME ZONE default NOW(),
     description TEXT
 );
 
@@ -233,7 +233,7 @@ create table requests (
     hostname TEXT not null,
     ip TEXT not null,
     action TEXT not null default 'trust_all',
-    last_request TIMESTAMP default now() not null,
+    last_request TIMESTAMP WITH TIME ZONE default now() not null,
     approved boolean,
     unique (person_id, hostname, ip, action)
 );
@@ -249,8 +249,8 @@ cluster requests_last_request_idx on requests;
 --
 create table visit (
     visit_key CHAR(40) primary key,
-    created TIMESTAMP not null default now(),
-    expiry TIMESTAMP
+    created TIMESTAMP WITH TIME ZONE not null default now(),
+    expiry TIMESTAMP WITH TIME ZONE
 );
 
 create index visit_expiry_idx on visit(expiry);
