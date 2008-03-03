@@ -255,7 +255,7 @@ class User(controllers.Controller):
     @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
-    def create(self, username, human_name, email, telephone, postal_address):
+    def create(self, username, human_name, email, telephone=None, postal_address=None):
         # TODO: Ensure that e-mails are unique?
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
