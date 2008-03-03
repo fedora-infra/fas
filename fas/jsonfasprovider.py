@@ -61,6 +61,9 @@ class JsonFasIdentity(BaseClient):
         super(JsonFasIdentity, self).__init__(FASURL, debug=debug)
         if user:
             self._user = user
+            self._groups = frozenset(
+                    [g['name'] for g in data['person']['approved_memberships']]
+                    )
         self.visit_key = visit_key
         # It's allowed to use a null value for a visit_key if we know we're
         # generating an anonymous user.  The json interface doesn't handle
