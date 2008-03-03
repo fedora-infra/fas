@@ -79,19 +79,14 @@ class MakeShellAccounts(BaseClient):
     
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-', '/var/db')
-        os.chmod(self.temp, 00400)
 
     def rm_tempdir(self):
         rmtree(self.temp)
 
-    def group_list(self, search='*'):
-        params = {'search' : search}
-        data = self.send_request('group/list', auth=True, input=params)
-        return data
-
     def shadow_text(self, people=None):
         i = 0
         file = open(self.temp + '/shadow.txt', 'w')
+        os.chmod(self.temp + '/shadow.txt', 00400)
         if not people:
             people = self.people_list()
         for person in people:
@@ -103,8 +98,6 @@ class MakeShellAccounts(BaseClient):
             file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
             i = i + 1
         file.close()
-        os.chmod(self.temp + '/shadow.txt', 00400)
-
 
     def passwd_text(self, people=None):
         i = 0
@@ -136,10 +129,10 @@ class MakeShellAccounts(BaseClient):
         for person in people:
             uid = person['id']
             username = person['username']
-            usernames['%s' % uid] = username
+            usernames[uid] = username
             file.write("=%i %s:x:%i:\n" % (uid, username, uid))
-            file.write( "0%i %s:x:%i:\n" % (i, username, uid))
-            file.write( ".%s %s:x:%i:\n" % (username, username, uid))
+            file.write("0%i %s:x:%i:\n" % (i, username, uid))
+            file.write(".%s %s:x:%i:\n" % (username, username, uid))
             i = i + 1
         
         for group in groups['groups']:
@@ -149,18 +142,23 @@ class MakeShellAccounts(BaseClient):
             try:
                 ''' Shoot me now I know this isn't right '''
                 members = []
-                for member in  groups['memberships'][u'%s' % gid]:
-                    members.append(usernames['%s' % member['person_id']])
+                for member in groups['memberships'][name]:
+                    members.append(usernames[member['person_id']])
                 memberships = ','.join(members)
             except KeyError:
                 ''' No users exist in the group '''
                 pass
-            file.write( "=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
+            file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
             file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
             file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
             i = i + 1
 
         file.close()
+
+    def group_list(self, search='*'):
+        params = {'search' : search}
+        data = self.send_request('group/list', auth=True, input=params)
+        return data
         
     def people_list(self, search='*'):
         params = {'search' : search}
@@ -205,14 +203,11 @@ def enable():
         if line.startswith('passwd') or line.startswith('shadow') or line.startswith('group'):
             parts = line.split()
             if 'db' in parts:
-                new.write(line)
                 print "%s already has db enabled" % parts[0].split(':')[0]
             else:
-                tmp = line.strip('\n')
-                tmp = tmp + ' db\n'
-                new.write(tmp)
-        else:
-            new.write(line)
+                line = line.strip('\n')
+                line += ' db\n'
+        new.write(line)
     new.close()
     try:
         move('/tmp/.fas.nsswitch.conf', '/etc/nsswitch.conf')
@@ -226,13 +221,10 @@ def disable():
         if line.startswith('passwd') or line.startswith('shadow') or line.startswith('group'):
             parts = line.split()
             if 'db' in parts:
-                tmp = line.replace(' db', '')
-                new.write(tmp)
+                line = line.replace(' db', '')
             else:
                 print "%s already has db disabled" % parts[0].split(':')[0]
-                new.write(line)
-        else:
-            new.write(line)
+        new.write(line)
     new.close()
     try:
         move('/tmp/.fas.nsswitch.conf', '/etc/nsswitch.conf')
@@ -240,13 +232,7 @@ def disable():
         print "ERROR: Could not write nsswitch.conf - %s" % e
 
 if __name__ == '__main__':
-    if opts.enable:
-        enable()
-        sys.exit()
-    elif opts.disable:
-        disable()
-        sys.exit()
-    elif opts.install:
+    if opts.install:
         try:
             fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', False)
         except AuthError, e:
@@ -263,5 +249,9 @@ if __name__ == '__main__':
         if not opts.no_shadow:
             fas.install_shadow_db()
         fas.rm_tempdir()
-    else:
+    if opts.enable:
+        enable()
+    if opts.disable:
+        disable()
+    if not (opts.install or opts.enable or opts.disable):
         parser.print_help()
