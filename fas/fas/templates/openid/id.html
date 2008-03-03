@@ -8,13 +8,13 @@
     <link rel="openid.server" href="${server}" />
   </head>
   <body>
-    <h2>${_('User %s') % user.cn}</h2>
+    <h2>${_('User %s') % person.username}</h2>
     <div class="userbox">
       <dl>
         <dt>${_('Username:')}</dt>
-        <dd>${user.cn}</dd>
+        <dd>${person.username}</dd>
         <dt>${_('Name:')}</dt>
-        <dd>${user.givenName}</dd>
+        <dd>${person.human_name}</dd>
       </dl>
     </div>
   </body>
