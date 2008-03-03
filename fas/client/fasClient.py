@@ -30,7 +30,7 @@ from optparse import OptionParser
 from shutil import move, rmtree
 from rhpl.translate import _
 
-FAS_URL = 'http://localhost:8080/fas/'
+FAS_URL = 'http://localhost:8088/fas/'
 
 
 parser = OptionParser()
@@ -78,7 +78,7 @@ class MakeShellAccounts(BaseClient):
     temp = None
     
     def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-')
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-', '/var/db')
         os.chmod(self.temp, 00400)
 
     def rm_tempdir(self):
