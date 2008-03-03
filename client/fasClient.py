@@ -30,8 +30,7 @@ from optparse import OptionParser
 from shutil import move, rmtree
 from rhpl.translate import _
 
-FAS_URL = 'http://localhost:8088/fas/'
-
+import ConfigParser
 
 parser = OptionParser()
 
@@ -40,6 +39,11 @@ parser.add_option('-i', '--install',
                      default = False,
                      action = 'store_true',
                      help = _('Download and sync most recent content'))
+parser.add_option('-c', '--config',
+                     dest = 'CONFIG_FILE',
+                     default = '/etc/fas.conf',
+                     metavar = 'CONFIG_FILE',
+                     help = _('Specify config file (default "%default")'))
 parser.add_option('--nogroup',
                      dest = 'no_group',
                      default = False,
@@ -57,9 +61,9 @@ parser.add_option('--noshadow',
                      help = _('Do not sync shadow information'))
 parser.add_option('-s', '--server',
                      dest = 'FAS_URL',
-                     default = FAS_URL,
+                     default = None,
                      metavar = 'FAS_URL',
-                     help = _('Specify URL of fas server (default "%default")'))
+                     help = _('Specify URL of fas server.'))
 parser.add_option('-e', '--enable',
                      dest = 'enable',
                      default = False,
@@ -71,14 +75,29 @@ parser.add_option('-d', '--disable',
                      action = 'store_true',
                      help = _('Disable FAS synced shell accounts'))
 
-
 (opts, args) = parser.parse_args()
+
+try:
+    config = ConfigParser.ConfigParser()
+    if os.path.exists(opts.CONFIG_FILE):
+        config.read(opts.CONFIG_FILE)
+    elif os.path.exists('fas.conf'):
+        config.read('fas.conf')
+        print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
+    else:
+        print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
+        sys.exit(5)
+except ConfigParser.MissingSectionHeaderError, e:
+        print >> sys.stderr, "Config file does not have proper formatting - %s" % e
+        sys.exit(6)
+
+FAS_URL = config.get('global', 'url')
 
 class MakeShellAccounts(BaseClient):
     temp = None
     
     def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-', '/var/db')
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
 
     def rm_tempdir(self):
         rmtree(self.temp)
@@ -108,8 +127,8 @@ class MakeShellAccounts(BaseClient):
             uid = person['id']
             username = person['username']
             human_name = person['human_name']
-            home_dir = "/home/fedora/%s" % username
-            shell = "/bin/bash"
+            home_dir = "%s/%s" % (config.get('users', 'home'), username)
+            shell = config.get('users', 'shell')
             file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
             file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
             file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
@@ -236,7 +255,7 @@ if __name__ == '__main__':
         try:
             fas = MakeShellAccounts(FAS_URL, 'admin', 'admin', False)
         except AuthError, e:
-            print e
+            print >> sys.stderr, e
             sys.exit(1)
         fas.mk_tempdir()
         fas.make_group_db()
