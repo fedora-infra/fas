@@ -38,7 +38,7 @@ class Root(controllers.RootController):
     cla = CLA()
     json = JsonRequest()
     help = Help()
-#    openid = OpenID()
+    #openid = OpenID()
 
     # TODO: Find a better place for this.
     os.environ['GNUPGHOME'] = config.get('gpghome')
