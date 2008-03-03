@@ -254,7 +254,7 @@ class User(controllers.Controller):
     @error_handler(error)
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone, postal_address):
-        # TODO: Ensure that e-mails are unique- this should probably be done in the LDAP schema.
+        # TODO: Ensure that e-mails are unique?
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.  
