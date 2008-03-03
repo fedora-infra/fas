@@ -372,6 +372,9 @@ class User(controllers.Controller):
                 Please go to https://admin.fedoraproject.org/fas/ to change it.
                 ''')) % newpass['pass']
             if encrypted:
+                # TODO: Move this out to a single function (same as
+                # CLA one), think of how to make sure this doesn't get
+                # full of random keys (keep a clean Fedora keyring)
                 try:
                     subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
                 except subprocess.CalledProcessError:

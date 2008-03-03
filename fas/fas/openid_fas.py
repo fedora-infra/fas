@@ -11,7 +11,10 @@ from openid.store.filestore import FileOpenIDStore
 
 from fas.auth import *
 
-from fas.user import knownUser, userNameExists
+from fas.user import KnownUser
+
+class UserID(validators.Schema):
+    targetname = KnownUser
 
 class OpenID(controllers.Controller):
 
@@ -28,8 +31,8 @@ class OpenID(controllers.Controller):
     @expose(template="fas.templates.openid.about")
     def about(self):
         '''Display an explanatory message about the OpenID service'''
-        userName = turbogears.identity.current.user_name
-        return dict(userName=userName)
+        username = turbogears.identity.current.user_name
+        return dict(username=username)
 
     @expose(template="genshi-text:fas.templates.openid.auth", format="text", content_type='text/plain; charset=utf-8')
     def server(self, **query):
@@ -58,10 +61,10 @@ class OpenID(controllers.Controller):
         else:
             openid_response = None
             if openid_request.mode in BROWSER_REQUEST_MODES:
-                userName = turbogears.identity.current.user_name;
+                username = turbogears.identity.current.user_name;
                 url = None
-                if userName is not None:
-                    url = config.get('base_url') + turbogears.url('/openid/id/%s' % userName)
+                if username is not None:
+                    url = config.get('base_url') + turbogears.url('/openid/id/%s' % username)
                 if openid_request.identity == url:
                     if openid_request.trust_root in session['openid_trusted']:
                         openid_response = openid_request.answer(True)
@@ -95,16 +98,15 @@ class OpenID(controllers.Controller):
     @expose()
     def login(self):
         '''This exists only to make the user login and then redirect to /openid/server'''
-        userName = turbogears.identity.current.user_name;
         turbogears.redirect('/openid/server')
         return dict()
 
 
     @expose(template="fas.templates.openid.id")
-    @validate(validators=userNameExists())
-    def id(self, userName):
+    @validate(validators=UserID())
+    def id(self, username):
         '''The "real" OpenID URL'''
-        user = Person.byUserName(userName)
+        person = Person.by_username(username)
         server = config.get('base_url') + turbogears.url('/openid/server')
-        return dict(user=user, server=server)
+        return dict(person=person, server=server)
 
