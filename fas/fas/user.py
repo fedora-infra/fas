@@ -309,7 +309,7 @@ And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
 ''') % newpass['pass']
             turbomail.enqueue(message)
-            person.password = newpass['pass']
+            person.password = newpass['hash']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/login')
         except KeyError:
