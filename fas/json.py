@@ -106,7 +106,7 @@ def jsonify_sa_select_results(obj):
             element.jsonProps = obj.jsonProps
     return list(obj)
 
-@jsonify.when("isinstance(obj, sqlalchemy.orm.attributes.InstrumentedAttribute)")
+@jsonify.when("isinstance(obj, sqlalchemy.orm.attributes.InstrumentedAttribute) or isinstance(obj, sqlalchemy.ext.associationproxy._AssociationList)")
 def jsonify_salist(obj):
     '''Transform SQLAlchemy InstrumentedLists into json.
     
