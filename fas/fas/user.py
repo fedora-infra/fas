@@ -154,7 +154,7 @@ class User(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserView())
     @error_handler(error)
-    @expose(template="fas.templates.user.view")
+    @expose(template="fas.templates.user.view", allow_json=True)
     def view(self, username=None):
         '''View a User.
         '''
@@ -178,7 +178,10 @@ class User(controllers.Controller):
             cla = 'clicked'
         if signedCLAPrivs(person):
             cla = 'signed'
-        return dict(person=person, groups=groups, cla=cla, personal=personal, admin=admin)
+        person.jsonProps = {
+                'People': ('approved_memberships', 'unapproved_memberships')
+                }
+        return dict(person=person, cla=cla, personal=personal, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserEdit())

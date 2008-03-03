@@ -45,7 +45,7 @@
     </ul>
     -->
     <ul id="rolespanel" py:if="personal">
-      <py:for each="group in sorted(groups)">
+      <py:for each="group in sorted(person.memberships)">
       <li py:if="auth.canViewGroup(person, group)" class="role">
       <h4>${group.display_name}</h4> (${group.group_type})
       <dl>
