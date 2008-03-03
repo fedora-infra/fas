@@ -22,6 +22,7 @@
 Model for the Fedora Account System
 '''
 from datetime import datetime
+import pytz
 from turbogears.database import metadata, mapper, get_engine
 # import some basic SQLAlchemy classes for declaring the data model
 # (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
@@ -80,7 +81,7 @@ UnApprovedRolesSelect = PersonRolesTable.select(and_(
 
 visits_table = Table('visit', metadata,
     Column('visit_key', String(40), primary_key=True),
-    Column('created', DateTime, nullable=False, default=datetime.now),
+    Column('created', DateTime, nullable=False, default=datetime.now(pytz.utc)),
     Column('expiry', DateTime)
 )
 
@@ -173,7 +174,7 @@ class People(SABase):
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
         role.sponsor_id = requester.id
-        role.approval = datetime.now()
+        role.approval = datetime.now(pytz.utc)
 
     def remove(cls, group, requester):
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
