@@ -177,9 +177,13 @@ class BaseClient(object):
 
         if auth:
             req.add_header('Cookie', self.session.output(attrs=[],
-                                                   header='').strip())
+                header='').strip())
+        elif self._sessionCookie:
+            # If the cookie exists, send it so that visit tracking works.
+            req.add_header('Cookie', self._sessionCookie.output(attrs=[],
+                header='').strip())
         try:
-            response = urllib2.urlopen(req).read()
+            response = urllib2.urlopen(req)
         except urllib2.HTTPError, e:
             if e.msg == 'Forbidden':
                 if (inspect.currentframe().f_back.f_code !=
@@ -195,8 +199,14 @@ class BaseClient(object):
             log.error(e)
             raise ServerError, str(e)
 
+        # In case the server returned a new session cookie to us
         try:
-            data = simplejson.loads(response)
+            self._sessionCookie.load(response.headers['set-cookie'])
+        except KeyError:
+            pass
+
+        try:
+            data = simplejson.load(response)
         except Exception, e:
             regex = re.compile('<span class="fielderror">(.*)</span>')
             match = regex.search(response)
