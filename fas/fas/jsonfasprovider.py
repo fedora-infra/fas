@@ -51,14 +51,15 @@ try:
 except NameError:
     from sets import Set as set, ImmutableSet as frozenset
 
-FASURL = config.get('fas.url', 'https://admin.fedoraproject.org/admin/fas/')
-
 class JsonFasIdentity(BaseClient):
     '''Associate an identity with a person in the auth system.
     '''
+    cookieName = config.get('visit.cookie.name', 'tg-visit')
+    fasURL = config.get('fas.url', 'https://admin.fedoraproject.org/admin/fas/')
+
     def __init__(self, visit_key, user=None, username=None, password=None,
             debug=False):
-        super(JsonFasIdentity, self).__init__(FASURL, debug=debug)
+        super(JsonFasIdentity, self).__init__(self.fasURL, debug=debug)
         if user:
             self._user = user
             self._groups = frozenset(
@@ -74,7 +75,6 @@ class JsonFasIdentity(BaseClient):
         # Set the cookie to the user's tg_visit key before requesting
         # authentication.  That way we link the two together.
         self._sessionCookie = Cookie.SimpleCookie()
-        self.cookieName = config.get('visit.cookie.name', 'tg-visit')
         self._sessionCookie[self.cookieName] = self.visit_key
         self.username = username
         self.password = password
@@ -139,7 +139,7 @@ class JsonFasIdentity(BaseClient):
         '''
         if not self.visit_key:
             return
-        # Call FASURL logout method
+        # Call Account System Server logout method
         self.send_request('logout', auth=True)
 
 class JsonFasIdentityProvider(object):
