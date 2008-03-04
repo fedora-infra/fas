@@ -73,7 +73,7 @@
         <td py:if='not(role.member.username ==  "None")'><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
         <td py:if='role.member.username == "None"'>${_('None')}</td>
         <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
-        <td>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
+        <td py:if='role.approval'>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!-- This section includes all action items -->
