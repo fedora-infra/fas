@@ -65,7 +65,10 @@ class ValidUsername(validators.FancyValidator):
 
 class UserSave(validators.Schema):
     targetname = KnownUser
-    human_name = validators.String(not_empty=True, max=42)
+    human_name = validators.All(
+        validators.String(not_empty=True, max=42),
+        validators.Regex(regex='^[^\n:<>]$'),
+        )
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
     #    NonFedoraEmail(not_empty=True, strip=True, max=128),
@@ -81,7 +84,10 @@ class UserCreate(validators.Schema):
         validators.String(max=32, min=3),
         validators.Regex(regex='^[a-z][a-z0-9]+$'),
     )
-    human_name = validators.String(not_empty=True, max=42)
+    human_name = validators.All(
+        validators.String(not_empty=True, max=42),
+        validators.Regex(regex='^[^\n:<>]$'),
+        )
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
