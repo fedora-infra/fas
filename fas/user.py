@@ -67,7 +67,7 @@ class UserSave(validators.Schema):
     targetname = KnownUser
     human_name = validators.All(
         validators.String(not_empty=True, max=42),
-        validators.Regex(regex='^[^\n:<>]$'),
+        validators.Regex(regex='^[^\n:<>]+$'),
         )
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
@@ -86,7 +86,7 @@ class UserCreate(validators.Schema):
     )
     human_name = validators.All(
         validators.String(not_empty=True, max=42),
-        validators.Regex(regex='^[^\n:<>]$'),
+        validators.Regex(regex='^[^\n:<>]+$'),
         )
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
