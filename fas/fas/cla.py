@@ -167,6 +167,7 @@ class CLA(controllers.Controller):
                     person.remove(cilckgroup, person)
                 except:
                     pass
+                # TODO: Email legal-cla-archive@fedoraproject.org
                 turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
                 turbogears.redirect('/cla/')
                 return dict()
