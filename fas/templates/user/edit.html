@@ -57,6 +57,7 @@
       <div class="field">
         <label for="locale">${_('Locale')}:</label>
         <input type="text" id="locale" name="locale" value="${target.locale}" />
+        <script type="text/javascript">var hb8 = new HelpBalloon({dataURL: '/fas/help/get_help/user_locale'});</script>
         <!--
         <select id="locale" name="locale">
           option py:for="locale in available_locales" value="${locale}" py:attrs="{'selected': target.locale == locale and 'selected' or None}">${locale}</option>
