@@ -384,10 +384,15 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                 # CLA one), think of how to make sure this doesn't get
                 # full of random keys (keep a clean Fedora keyring)
                 # TODO: MIME stuff?
-                try:
-                    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
-                except subprocess.CalledProcessError:
+                ret = subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+                if ret != 0:
                     turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+                    turbogears.redirect('/cla/view/sign')
+                    return dict()
+                #try:
+                #    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+                #except subprocess.CalledProcessError:
+                #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
                 else:
                     try:
                         plaintext = StringIO.StringIO(mail)
