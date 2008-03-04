@@ -96,7 +96,8 @@ FAS_URL = config.get('global', 'url')
 class MakeShellAccounts(BaseClient):
     temp = None
     groups = None
-    People = None
+    people = None
+    memberships = None
     
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
@@ -104,6 +105,15 @@ class MakeShellAccounts(BaseClient):
     def rm_tempdir(self):
         rmtree(self.temp)
         
+    def is_valid_user(self, person_id):
+        ''' Determine if person is valid on this machine as defined in the
+        config file.  I worry that this is going to be horribly inefficient
+        with large numbers of users and groups.'''
+        for member in self.memberships:
+            for group in self.memberships[member]:
+                if group['person_id'] == person_id:
+                    return True
+        return False
 
     def shadow_text(self, people=None):
         i = 0
@@ -113,14 +123,15 @@ class MakeShellAccounts(BaseClient):
             people = self.people_list()
         for person in people:
             uid = person['id']
-            username = person['username']
-            password = person['password']
-            file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
-            file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
-            file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
-            i = i + 1
+            if self.is_valid_user(uid):
+                username = person['username']
+                password = person['password']
+                file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
+                file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
+                file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+                i = i + 1
         file.close()
-
+        
     def passwd_text(self, people=None):
         i = 0
         file = open(self.temp + '/passwd.txt', 'w')
@@ -128,16 +139,16 @@ class MakeShellAccounts(BaseClient):
             self.people = self.people_list()
         for person in self.people:
             uid = person['id']
-            username = person['username']
-            human_name = person['human_name']
-            home_dir = "%s/%s" % (config.get('users', 'home'), username)
-            shell = config.get('users', 'shell')
-            file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-            file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-            file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
-            i = i + 1
+            if self.is_valid_user(uid):
+                username = person['username']
+                human_name = person['human_name']
+                home_dir = "%s/%s" % (config.get('users', 'home'), username)
+                shell = config.get('users', 'shell')
+                file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+                file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+                file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+                i = i + 1
         file.close()
-
         
     def groups_text(self, groups=None, people=None):
         i = 0
@@ -158,29 +169,30 @@ class MakeShellAccounts(BaseClient):
             file.write(".%s %s:x:%i:\n" % (username, username, uid))
             i = i + 1
         
-        for group in groups['groups']:
+        for group in groups:
             gid = group['id']
             name = group['name']
-            memberships = ''
             try:
                 ''' Shoot me now I know this isn't right '''
                 members = []
-                for member in groups['memberships'][name]:
+                for member in self.memberships[name]:
                     members.append(usernames[member['person_id']])
                 memberships = ','.join(members)
             except KeyError:
                 ''' No users exist in the group '''
                 pass
-            file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
-            file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
-            file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
+            file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, self.memberships))
+            file.write("0%i %s:x:%i:%s\n" % (i, name, gid, self.memberships))
+            file.write(".%s %s:x:%i:%s\n" % (name, name, gid, self.memberships))
             i = i + 1
 
         file.close()
 
     def group_list(self, search='*'):
         params = {'search' : search}
-        self.groups = self.send_request('group/list', auth=True, input=params)
+        request = self.send_request('group/list', auth=True, input=params)
+        self.groups = request['groups']
+        self.memberships = request['memberships']
         return self.groups
 
     def people_list(self, search='*'):
