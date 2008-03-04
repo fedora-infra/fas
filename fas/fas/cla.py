@@ -99,12 +99,17 @@ class CLA(controllers.Controller):
         data = StringIO.StringIO(signature.file.read())
         plaintext = StringIO.StringIO()
         verified = False
-        try:
-              subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
-        except subprocess.CalledProcessError:
+        ret = subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+        if ret != 0:
             turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
             turbogears.redirect('/cla/view/sign')
             return dict()
+        #try:
+        #      subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+        #except subprocess.CalledProcessError:
+        #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+        #    turbogears.redirect('/cla/view/sign')
+        #    return dict()
         else:
             try:
                 sigs = ctx.verify(data, None, plaintext)
