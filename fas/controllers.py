@@ -63,10 +63,15 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.welcome", allow_json=True)
     def index(self):
         if turbogears.identity.not_anonymous():
+            if 'tg_format' in request.params \
+                    and request.params['tg_format'] == 'json':
+                # redirects don't work with JSON calls.  This is a bit of a
+                # hack until we can figure out something better.
+                return dict()
             turbogears.redirect('/home')
         return dict(now=time.ctime())
 
-    @expose(template="fas.templates.home")
+    @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
     def home(self):
         return dict()
