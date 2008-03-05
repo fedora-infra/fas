@@ -55,11 +55,21 @@ get_engine()
 #
 
 PeopleTable = Table('people', metadata, autoload=True)
-PersonEmailsTable = Table('person_emails', metadata, autoload=True)
+# This is a view and therefore needs to have its key columns defined
+PersonEmailsTable = Table('person_emailsv', metadata,
+        Column('id', Integer, primary_key=True),
+        Column('purpose', Unicode, primary_key=True),
+        Column('person_id', Integer, ForeignKey('people.id')),
+        autoload=True)
 PersonRolesTable = Table('person_roles', metadata, autoload=True)
 ConfigsTable = Table('configs', metadata, autoload=True)
 GroupsTable = Table('groups', metadata, autoload=True)
-GroupEmailsTable = Table('group_emails', metadata, autoload=True)
+# This is a view and therefore needs to have its key columns defined
+GroupEmailsTable = Table('group_emailsv', metadata,
+        Column('id', Integer, primary_key=True),
+        Column('purpose', Unicode, primary_key=True),
+        Column('person_id', Integer, ForeignKey('groups.id')),
+        autoload=True)
 GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
@@ -449,5 +459,3 @@ mapper(Requests, RequestsTable, properties = {
 mapper(Visit, visits_table)
 mapper(VisitIdentity, visit_identity_table,
         properties=dict(users=relation(People, backref='visit_identity')))
-
-

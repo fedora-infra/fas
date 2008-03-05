@@ -81,17 +81,22 @@ CREATE TABLE person_emails (
 create index person_emails_person_id_idx on person_emails(person_id);
 cluster person_emails_person_id_idx on person_emails;
 
-CREATE TABLE purpose_emails (
-    email_id INTEGER NOT NULL references emails(id),
+CREATE TABLE email_purposes (
+    email_id INTEGER NOT NULL references person_emails(id),
     person_id INTEGER NOT NULL references people(id),
     purpose text NOT NULL,
     primary key (person_id, purpose),
     check (purpose ~ ('(bugzilla|primary|cla|pending|other[0-9]+)'))
 );
 
-create index purpose_emails_email_id_idx on purpose_emails(email_id);
-create index purpose_emails_person_id_idx on purpose_emails(person_id);
-cluster purpose_emails_person_id_idx on purpose_emails;
+create index email_purposes_email_id_idx on email_purposes(email_id);
+create index email_purposes_person_id_idx on email_purposes(person_id);
+cluster email_purposes_person_id_idx on email_purposes;
+
+-- Set up a view so we can get all the information about a person's emails.
+create view person_emailsv (id, email, person_id, validtoken, description, verified, purpose) as (select pe.id, email, pe.person_id, validtoken,
+  description, verified, purpose from person_emails as pe,
+  email_purposes as pep where pe.id = pep.email_id);
 
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
@@ -145,24 +150,28 @@ CREATE TABLE group_emails (
     group_id INTEGER NOT NULL references groups(id),
     validtoken text,
     description text,
-    verified boolean NOT NULL DEFAULT false,
+    verified boolean NOT NULL DEFAULT false
 );
 
 create index group_emails_group_id_idx on group_emails(group_id);
 cluster group_emails_group_id_idx on group_emails;
 
-CREATE TABLE group_purpose_emails (
-    email_id INTEGER NOT NULL references emails(id),
+CREATE TABLE group_email_purposes (
+    email_id INTEGER NOT NULL references group_emails(id),
     group_id INTEGER NOT NULL references groups(id),
     purpose text NOT NULL,
-    primary key (person_id, purpose)
+    primary key (group_id, purpose),
     check (purpose ~ ('(bugzilla|primary|mailing list|other[0-9]+)'))
 );
 
-create index group_purpose_emails_email_id_idx on group_purpose_emails(email_id);
-create index group_purpose_emails_person_id_idx on group_purpose_emails(person_id);
-cluster group_purpose_emails_person_id_idx on group_purpose_emails;
+create index group_email_purposes_email_id_idx on group_email_purposes(email_id);
+create index group_email_purposes_person_id_idx on group_email_purposes(group_id);
+cluster group_email_purposes_person_id_idx on group_email_purposes;
 
+-- Set up a view so we can get all the information about a group's emails.
+create view group_emailsv (id, email, group_id, validtoken, description, verified, purpose) as (select ge.id, ge.email, ge.group_id, ge.validtoken,
+  ge.description, ge.verified, gep.purpose from group_emails as ge,
+  group_email_purposes as gep where ge.id = gep.email_id);
 
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
@@ -305,8 +314,8 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
 
     # Retrieve the bugzilla email address
     plan = plpy.prepare("select email, purpose from person_emails as pee,"
-            " purpose_emails as pue"
-            " where pee.id = pue.email_id and pee.person_id = $1"
+            " email_purposes as epu"
+            " where epu.id = epu.email_id and pee.person_id = $1"
             " and purpose in ('bugzilla', 'primary')",
             ('text',))
     result = plpy.execute(plan, row['person_id'])
@@ -342,112 +351,107 @@ create trigger role_bugzilla_sync before update or insert or delete
 -- When an email address changes, check whether it needs to be changed in
 -- bugzilla as well.
 --
-create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
-    if TD['event'] == 'DELETE':
-        row = TD['old']
-    else:
-        row = TD['new']
-
-    if TD['event'] == 'UPDATE':
-        if TD['old']['email'] == TD['new']['email']:
-            # Email has not changed.  We do not care
-            return None
-    if row['purpose'] not in ('bugzilla', 'primary'):
-        # The change is to an email address that does not affect bugzilla
-        return None
-    elif row['purpose'] == 'primary':
-        # Check if there is a better email.
-        plan = plpy.prepare("select email from person_emails where"
-                " purpose = 'bugzilla' and person_id = $1", ('text',))
-        result = plpy.execute(plan, (row['person_id'],), 1)
-        if result:
-            # If the change is to primary but there is a bugzilla address, it
-            # will have no effect.
-            return None
-    # Check that the person belongs to fedorabugs
-    plan = plpy.prepare("select * from people as p, person_roles as r,"
-            " groups as g where p.id = r.person_id and r.group_id = g.id"
-            " and r.role_status = 'approved' and g.name = 'fedorabugs'"
-            " and p.id = $1", ('text',))
-    result = plpy.execute(plan, (row['person_id'],), 1)
-    if not result:
-        # Person does not belong to fedorabugs so this will have no effect.
-        return None
-
-    # We now know that we have changes to make
-  
-    #
-    # Remove the old Email address
-    #
-    oldEmail = None
-    if TD['event'] in ('DELETE', 'UPDATE'):
-        oldEmail = TD['old']['email']
-    elif row['purpose'] == 'bugzilla':
-        # Insert: check if there is an email for primary that this email is
-        # superceding
-        plan = plpy.prepare("select email from person_emails"
-                " where purpose = 'primary' and person_id = $1", ('text',))
-        result = plpy.execute(plan, (row['person_id'],), 1)
-        if result:
-            oldEmail = result[0]['email']
-
-    if oldEmail:
-        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
-                ('text',))
-        result = plpy.execute(plan, oldEmail, 1)
-        if result:
-            plan = plpy.prepare("update bugzilla_queue set action = 'r'"
-                    " where email = $1", ('text',))
-            plpy.execute(plan, (oldEmail))
-        else:    
-            plan = plpy.prepare("insert into bugzilla_queue () values(email"
-                    ", group_id, person_id, action) values ($1, $2, $3, 'r')",
-                    ('text', 'text', 'text'))
-            plpy.execute(plan, (oldEmail, row['group_id'], row['person_id']))
-
-    #
-    # Add a new email address to bugzilla
-    #
-    newEmail = None
-    if TD['event'] in ('INSERT', 'UPDATE'):
-        newEmail = TG['new']
-    elif row['purpose'] == 'bugzilla':
-        # When deleting a bugzilla email, check if there is a primary to
-        # fallback on
-        plan = plpy.prepare("select email from person_emails"
-                " where purpose = 'primary' and person_id = $1", ('text',))
-        result = plpy.execute(plan, (row['person_id'],), 1)
-        if result:
-            newEmail = result[0]['email']
-
-    if newEmail:
-        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
-                ('text',))
-        result = plpy.execute(plan, newEmail, 1)
-        if result:
-            plan = plpy.prepare("update bugzilla_queue set action = 'a'"
-                    " where email = $1", ('text',))
-            plpy.execute(plan, (newEmail))
-        else:    
-            plan = plpy.prepare("insert into bugzilla_queue () values(email"
-                    ", group_id, person_id, action) values ($1, $2, $3, 'a')",
-                    ('text', 'text', 'text'))
-            plpy.execute(plan, (newEmail, row['group_id'], row['person_id']))
-    return None
-$bz_sync_e$ language plpythonu;
-
-create trigger email_bugzilla_sync before update or insert or delete
- on person_emails
- for each row execute procedure bugzilla_sync_email();
+--  create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
+--      # To port this we need to operate on two tables now
+--      if TD['event'] == 'DELETE':
+--          row = TD['old']
+--      else:
+--          row = TD['new']
+--  
+--      if TD['event'] == 'UPDATE':
+--          if TD['old']['email'] == TD['new']['email']:
+--              # Email has not changed.  We do not care
+--              return None
+--      if row['purpose'] not in ('bugzilla', 'primary'):
+--          # The change is to an email address that does not affect bugzilla
+--          return None
+--      elif row['purpose'] == 'primary':
+--          # Check if there is a better email.
+--          plan = plpy.prepare("select email from person_emails where"
+--                  " purpose = 'bugzilla' and person_id = $1", ('text',))
+--          result = plpy.execute(plan, (row['person_id'],), 1)
+--          if result:
+--              # If the change is to primary but there is a bugzilla address, it
+--              # will have no effect.
+--              return None
+--      # Check that the person belongs to fedorabugs
+--      plan = plpy.prepare("select * from people as p, person_roles as r,"
+--              " groups as g where p.id = r.person_id and r.group_id = g.id"
+--              " and r.role_status = 'approved' and g.name = 'fedorabugs'"
+--              " and p.id = $1", ('text',))
+--      result = plpy.execute(plan, (row['person_id'],), 1)
+--      if not result:
+--          # Person does not belong to fedorabugs so this will have no effect.
+--          return None
+--  
+--      # We now know that we have changes to make
+--    
+--      #
+--      # Remove the old Email address
+--      #
+--      oldEmail = None
+--      if TD['event'] in ('DELETE', 'UPDATE'):
+--          oldEmail = TD['old']['email']
+--      elif row['purpose'] == 'bugzilla':
+--          # Insert: check if there is an email for primary that this email is
+--          # superceding
+--          plan = plpy.prepare("select email from person_emails"
+--                  " where purpose = 'primary' and person_id = $1", ('text',))
+--          result = plpy.execute(plan, (row['person_id'],), 1)
+--          if result:
+--              oldEmail = result[0]['email']
+--  
+--      if oldEmail:
+--          plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+--                  ('text',))
+--          result = plpy.execute(plan, oldEmail, 1)
+--          if result:
+--              plan = plpy.prepare("update bugzilla_queue set action = 'r'"
+--                      " where email = $1", ('text',))
+--              plpy.execute(plan, (oldEmail))
+--          else:    
+--              plan = plpy.prepare("insert into bugzilla_queue () values(email"
+--                      ", group_id, person_id, action) values ($1, $2, $3, 'r')",
+--                      ('text', 'text', 'text'))
+--              plpy.execute(plan, (oldEmail, row['group_id'], row['person_id']))
+--  
+--      #
+--      # Add a new email address to bugzilla
+--      #
+--      newEmail = None
+--      if TD['event'] in ('INSERT', 'UPDATE'):
+--          newEmail = TG['new']
+--      elif row['purpose'] == 'bugzilla':
+--          # When deleting a bugzilla email, check if there is a primary to
+--          # fallback on
+--          plan = plpy.prepare("select email from person_emails"
+--                  " where purpose = 'primary' and person_id = $1", ('text',))
+--          result = plpy.execute(plan, (row['person_id'],), 1)
+--          if result:
+--              newEmail = result[0]['email']
+--  
+--      if newEmail:
+--          plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+--                  ('text',))
+--          result = plpy.execute(plan, newEmail, 1)
+--          if result:
+--              plan = plpy.prepare("update bugzilla_queue set action = 'a'"
+--                      " where email = $1", ('text',))
+--              plpy.execute(plan, (newEmail))
+--          else:    
+--              plan = plpy.prepare("insert into bugzilla_queue () values(email"
+--                      ", group_id, person_id, action) values ($1, $2, $3, 'a')",
+--                      ('text', 'text', 'text'))
+--              plpy.execute(plan, (newEmail, row['group_id'], row['person_id']))
+--      return None
+--  $bz_sync_e$ language plpythonu;
+--  
+--  create trigger email_bugzilla_sync before update or insert or delete
+--   on person_emails
+--   for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
-
--- For other services to connect to the necessary session tables
-GRANT ALL ON TABLE visit, visit_identity TO GROUP apache;
--- For now other services would have to connect to the db to get auth
--- information so we need to allow select access on all these tables :-(
-GRANT SELECT ON TABLE people, groups, person_roles, person_emails, group_roles, group_emails, configs TO GROUP apache;
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
 INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');
@@ -461,4 +465,5 @@ INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fedorabug
 INSERT INTO person_roles (person_id, group_id, role_type, role_status, internal_comments, sponsor_id) VALUES ((SELECT id from people where username='admin'), (select id from groups where name='accounts'), 'administrator', 'approved', 'created at install time', (SELECT id from people where username='admin'));
 
 -- Give admin user his email address
-INSERT INTO person_emails (email, person_id, purpose, validtoken) VALUES ('root@localhost', (SELECT id from people where username='admin'), 'primary', 'valid');
+INSERT INTO person_emails (email, person_id, verified) VALUES ('root@localhost', (SELECT id from people where username='admin'), true);
+INSERT INTO email_purposes (email_id, person_id, purpose) VALUES ((SELECT id from person_emails where email='root@localhost'), (SELECT id from people where username='admin'), 'primary');
