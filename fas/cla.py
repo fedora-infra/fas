@@ -131,7 +131,7 @@ class CLA(controllers.Controller):
                     emails = [];
                     for uid in key.uids:
                         emails.extend([uid.email])
-                    if person.emails['cla'].email in emails:
+                    if person.emails['primary'].email in emails:
                         verified = True
                     else:
                         turbogears.flash(_('Your key did not match your email.'))
