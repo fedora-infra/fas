@@ -71,11 +71,11 @@
       </thead>
       <tr py:for="role in group.roles">
         <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
-        <td py:if='not(role.member.username ==  "None")'><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
-        <td py:if='role.member.username == "None"'>${_('None')}</td>
+        <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
+        <td py:if='not role.sponsor'>${_('None')}</td>
         <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
         <td py:if='role.approval'>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
-        <td py:if='not role.approval'>${_('Unapproved')}</td>
+        <td py:if='not role.approval'>${_('None')}</td>
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!-- This section includes all action items -->
