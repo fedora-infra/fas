@@ -418,7 +418,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                 message.plain = mail;
             turbomail.enqueue(message)
             try:
-                person.password = newpass['pass']
+                person.password = newpass['hash']
                 turbogears.flash(_('Your new password has been emailed to you.'))
             except:
                 turbogears.flash(_('Your password could not be reset.'))
