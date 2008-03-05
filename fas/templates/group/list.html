@@ -45,7 +45,7 @@
               <span class="unapproved" py:if="group in person.unapproved_memberships">${_('Unapproved')}</span>
             </a>
             <a py:if="group not in person.memberships" href="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}"><span>${_('Apply')}</span></a>
-            <script py:if="group not in person.memberships" type="text/javascript">var hb1 = new HelpBalloon({dataURL: '/fas/help/get_help/group_apply'});</script>
+            <script py:if="group not in person.memberships" type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_apply')}'});</script>
           </td>
         </tr>
       </tbody>
