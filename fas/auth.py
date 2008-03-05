@@ -65,14 +65,7 @@ def isApproved(person, group):
     '''
     Returns True if the user is an approved member of a group
     '''
-    try:
-        role = PersonRoles.query.filter_by(group=group, member=person).one()
-    except IndexError:
-        ''' Not in the group '''
-        return False
-    except InvalidRequestError:
-        return False
-    if role.role_status == 'approved':
+    if group in person.approved_memberships:
         return True
     else:
         return False
@@ -208,18 +201,16 @@ def canUpgradeUser(person, group, target):
     '''
     Returns True if the user can upgrade target in the group
     '''
-    if isApproved(person, group):
-        # Group admins can upgrade anybody.
-        # The controller should handle the case where the target
-        # is already a group admin.
-        if canAdminGroup(person, group):
-            return True
-        # Sponsors can only upgrade non-sponsors (i.e. normal users)
-        elif canSponsorGroup(person, group) and \
-            not canSponsorGroup(target, group):
-            return True
-        else:
-            return False
+    # Group admins can upgrade anybody.
+    # The controller should handle the case where the target
+    # is already a group admin.
+    if canAdminGroup(person, group):
+        return True
+    # Sponsors can only upgrade non-sponsors (i.e. normal users)
+    # TODO: Don't assume that canSponsorGroup means that the user is a sponsor
+    elif canSponsorGroup(person, group) and \
+        not canSponsorGroup(target, group):
+        return True
     else:
         return False
 
