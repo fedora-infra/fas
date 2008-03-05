@@ -165,8 +165,8 @@ class Group(controllers.Controller):
             group.display_name = display_name
             group.owner_id = person_owner.id
             group.group_type = group_type
-            group.needs_sponsor = needs_sponsor
-            group.user_can_remove = user_can_remove
+            group.needs_sponsor = bool(needs_sponsor)
+            group.user_can_remove = bool(user_can_remove)
             if prerequisite:
                 prerequisite = Groups.by_name(prerequisite)
                 group.prerequisite = prerequisite
@@ -224,8 +224,8 @@ class Group(controllers.Controller):
                 group.display_name = display_name
                 group.owner = owner
                 group.group_type = group_type
-                group.needs_sponsor = needs_sponsor
-                group.user_can_remove = user_can_remove
+                group.needs_sponsor = bool(needs_sponsor)
+                group.user_can_remove = bool(user_can_remove)
                 if prerequisite:
                     prerequisite = Groups.by_name(prerequisite)
                     group.prerequisite = prerequisite
