@@ -23,10 +23,12 @@
         <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <py:if test="personal"><dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd></py:if>
-        <!-- TODO: Make this actually get data -->
-        <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Valid')}</span>
+        <dt>${_('Account Status:')}</dt><dd>
+        <span py:if="person.status == 'active'" class="approved">${_('Active')}</span>
+        <span py:if="person.status == 'vacation'" class="approved">${_('Vacation')}</span>
+        <span py:if="person.status == 'inactive'" class="unapproved">${_('Inactive')}</span>
+        <span py:if="person.status == 'pinged'" class="approved">${_('Pinged')}</span>
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
-        <!-- cla = {None, 'signed', 'clicked'} -->
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
         <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}<py:if test="personal">(<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a></py:if>)</span>

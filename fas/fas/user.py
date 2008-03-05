@@ -273,6 +273,7 @@ class User(controllers.Controller):
             person.human_name = human_name
             person.telephone = telephone
             person.password = '*'
+            person.status = 'active'
             person.emails['primary'] = PersonEmails(email=email, purpose='primary')
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Welcome to the Fedora Project!'))
