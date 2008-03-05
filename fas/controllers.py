@@ -110,7 +110,7 @@ class Root(controllers.RootController):
                 # is better.
                 return dict(user = identity.current.user)
             if not forward_url:
-                forward_url = '/'
+                forward_url = '.'
             raise redirect(forward_url)
 
         forward_url=None
@@ -124,7 +124,7 @@ class Root(controllers.RootController):
                    "this resource.")
         else:
             msg=_("Please log in.")
-            forward_url= '/'
+            forward_url= 'a.'
 
         ### FIXME: Is it okay to get rid of this?
         #cherrypy.response.status=403
