@@ -46,7 +46,7 @@
         </div>
         <div id="control">
           <ul>
-            <li><a href="${tg.url('/about')}">about</a></li>
+            <li><a href="${tg.url('/about')}">About</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/logout')}">${_('Log Out')}</a></li>
             <li py:if="tg.identity.anonymous"><a href="${tg.url('/login')}">${_('Log In')}</a></li>
@@ -56,13 +56,14 @@
       <div id="main">
         <div id="sidebar">
           <ul>
-            <li class="first"><a href="${tg.url('/group/list')}">${_('Group List')}</a></li>
+            <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
             <div py:if="not tg.identity.anonymous and 'accounts' in tg.identity.groups" py:strip=''>
               <!-- TODO: Make these use auth.py -->
-              <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
               <li><a href="${tg.url('/group/new')}">${_('New Group')}</a></li>
+              <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
             </div>
-            <li><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list')}">${_('Group List')}</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
           <div py:if="tg.identity.anonymous" id="language">
@@ -74,14 +75,34 @@
           </div>
         </div>
         <div id="content">
-          <div py:if="tg_flash" class="flash">
+          <div style="
+            background: #FF7777;
+            color: #333333;
+            border: 1px solid #555555;
+            padding: 1ex 1ex 0.5ex;
+            float: right;
+            width: 57ex;
+            margin: 1ex 1ex 1ex 2ex;
+            ">
+            <div style="font-size: 3ex;"><strong>Warning:</strong> This is a test instance!</div>
+            <ul style="
+            font-size: 2ex;
+            list-style: square;
+            padding-left: 3ex;
+            ">
+            <li>Avoid entering private info here.</li>
+            <li>The database may be wiped/rebuilt periodically.</li>
+            <li>Feel free to file bugs, enhancements, etc. at <a href="https://fedorahosted.org/fas2/">https://fedorahosted.org/fas2/</a></li>
+            </ul>
+          </div>
+          <div py:if="tg_flash" class="flash" style="margin-right: 62ex">
             ${tg_flash}
           </div>
           <div py:replace="select('*|text()')" />
         </div>
         <div id="footer">
           <ul id="footlinks">
-            <li class="first"><a href="/">${_('About')}</a></li>
+            <li class="first"><a href="${tg.url('/about')}">${_('About')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/Communicate">${_('Contact Us')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/Legal">${_('Legal &amp; Privacy')}</a></li>
             <!--<li><a href="/">Site Map</a></li>-->

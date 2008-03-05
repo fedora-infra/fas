@@ -56,7 +56,7 @@ CREATE TABLE people (
     internal_comments TEXT,
     ircnick TEXT,
     last_seen TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    status TEXT,
+    status TEXT DEFAULT 'active',
     status_change TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     locale TEXT not null DEFAULT 'C',
     timezone TEXT null DEFAULT 'UTC',

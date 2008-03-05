@@ -4,8 +4,8 @@ from turbogears.database import session
 
 import cherrypy
 
+import fas
 from fas.auth import *
-
 from fas.user import KnownUser
 
 import re
@@ -37,7 +37,7 @@ class GroupCreate(validators.Schema):
     name = validators.All(
         UnknownGroup,
         validators.String(max=32, min=3),
-        validators.Regex(regex='^[a-z][a-z0-9]+$'),
+        validators.Regex(regex='^[a-z0-9\-]+$'),
         )
     display_name = validators.NotEmpty
     owner = KnownUser
@@ -165,8 +165,8 @@ class Group(controllers.Controller):
             group.display_name = display_name
             group.owner_id = person_owner.id
             group.group_type = group_type
-            group.needs_sponsor = needs_sponsor
-            group.user_can_remove = user_can_remove
+            group.needs_sponsor = bool(needs_sponsor)
+            group.user_can_remove = bool(user_can_remove)
             if prerequisite:
                 prerequisite = Groups.by_name(prerequisite)
                 group.prerequisite = prerequisite
@@ -224,8 +224,8 @@ class Group(controllers.Controller):
                 group.display_name = display_name
                 group.owner = owner
                 group.group_type = group_type
-                group.needs_sponsor = needs_sponsor
-                group.user_can_remove = user_can_remove
+                group.needs_sponsor = bool(needs_sponsor)
+                group.user_can_remove = bool(user_can_remove)
                 if prerequisite:
                     prerequisite = Groups.by_name(prerequisite)
                     group.prerequisite = prerequisite
@@ -279,15 +279,16 @@ class Group(controllers.Controller):
         else:
             try:
                 target.apply(group, person)
-            except: # TODO: More specific exception here.
-                turbogears.flash(_('%(user)s has already applied to %(group)s!') % \
-                    {'user': target.username, 'group': group.name})
+            except fas.ApplyError, e:
+                turbogears.flash(_('%(user)s could not apply to %(group)s: %(error)s') % \
+                    {'user': target.username, 'group': group.name, 'error': e})
+                turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-
                 # TODO: How do we handle gettext calls for these kinds of emails?
                 # TODO: CC to right place, put a bit more thought into how to most elegantly do this
-                message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % group.name, \
+                # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
+                message = turbomail.Message(config.get('accounts_mail'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
                 url = config.get('base_url_filter.base_url') + turbogears.url('/group/edit/%s' % groupname)
 
@@ -321,8 +322,9 @@ Please go to %(url)s to take action.
         else:
             try:
                 target.sponsor(group, person)
-            except:
-                turbogears.flash(_("'%s' could not be sponsored!") % target.username)
+            except fas.SponsorError, e:
+                turbogears.flash(_("%(user)s could not be sponsored in %(group)s: %(error)s") % \
+                    {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
@@ -335,7 +337,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
 %(joinmsg)s
 ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'joinmsg': group.joinmsg}
                 turbomail.enqueue(message)
-                turbogears.flash(_("'%s' has been sponsored!") % person.human_name)
+                turbogears.flash(_("'%s' has been sponsored!") % target.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
@@ -358,9 +360,9 @@ propagate into the e-mail aliases and CVS repository within an hour.
         else:
             try:
                 target.remove(group, target)
-            except KeyError:
-                turbogears.flash(_('%(name)s could not be removed from %(group)s!') % \
-                    {'name': target.username, 'group': group.name})
+            except fas.RemoveError, e:
+                turbogears.flash(_("%(user)s could not be removed from %(group)s: %(error)s") % \
+                    {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
@@ -372,7 +374,7 @@ immediately for new operations, and should propagate into the e-mail
 aliases within an hour.
 ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email}
                 turbomail.enqueue(message)
-                turbogears.flash(_('%(name)s has been removed from %(group)s!') % \
+                turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
@@ -395,11 +397,9 @@ aliases within an hour.
         else:
             try:
                 target.upgrade(group, person)
-            except TypeError, e:
-                turbogears.flash(e)
-                turbogears.redirect('/group/view/%s' % group.name)
-            except:
-                turbogears.flash(_('%(name)s could not be upgraded!') % {'name' : target.username})
+            except fas.UpgradeError, e:
+                turbogears.flash(_('%(name)s could not be upgraded in %(group)s: %(error)s') % \
+                    {'name': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
@@ -436,8 +436,9 @@ into the e-mail aliases within an hour.
         else:
             try:
                 target.downgrade(group, person)
-            except:
-                turbogears.flash(_('%(username)s could not be downgraded!') % {'username': target.username})
+            except fas.DowngradeError, e:
+                turbogears.flash(_('%(name)s could not be downgraded in %(group)s: %(error)s') % \
+                    {'name': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
@@ -469,7 +470,7 @@ into the e-mail aliases within an hour.
             turbogears.redirect('/group/list')
             return dict()
         else:
-            return dict(groups=groups)
+            return dict(group=group)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())

@@ -7,5 +7,25 @@
     <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
+    <?python from fas import auth ?>
+      <h2>Todo queue:</h2>
+      <py:for each="group in sorted(person.memberships)">
+          <dl>
+              <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
+                 <dd>
+                   <ul class="queue">
+                     <li py:for="role in group.unapproved_roles[:5]">
+                       ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;a href="group/view/%(group)s"&gt;%(group)s&lt;/a&gt;.') % {'user': role.member.username, 'group': group.name, 'group': group.name})}
+                     </li>
+                   </ul>
+                 </dd>
+               </py:if>
+          </dl>
+      </py:for>
+      <ul class="queue">
+        <li py:if="cla == None">
+          ${_('CLA Not Signed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('sign the CLA')}</a>.
+        </li>
+      </ul>
   </body>
 </html>

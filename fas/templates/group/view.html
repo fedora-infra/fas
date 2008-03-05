@@ -28,6 +28,7 @@
       </div>
     </form>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
+    <script py:if="group in person.memberships" type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
     <h3>Group Details <a py:if="auth.canAdminGroup(person, group)" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
@@ -70,10 +71,11 @@
       </thead>
       <tr py:for="role in group.roles">
         <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
-        <td py:if='not(role.member.username ==  "None")'><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
-        <td py:if='role.member.username == "None"'>${_('None')}</td>
+        <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
+        <td py:if='not role.sponsor'>${_('None')}</td>
         <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
-        <td>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
+        <td py:if='role.approval'>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
+        <td py:if='not role.approval'>${_('None')}</td>
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!-- This section includes all action items -->
@@ -81,16 +83,21 @@
           <ul class="actions">
             <li py:if="group in role.member.unapproved_memberships">
             <a py:if="group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
+            <script py:if="group.needs_sponsor" type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
             <a py:if="not group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
+            <script py:if="not group.needs_sponsor" type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
             </li>
             <li py:if="auth.canRemoveUser(person, group, role.member)">
             <a href="${tg.url('/group/remove/%s/%s' % (group.name, role.member.username))}">${_('Remove')}</a>
+            <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
             </li>
             <li py:if="auth.canUpgradeUser(person, group, role.member)">
             <a href="${tg.url('/group/upgrade/%s/%s' % (group.name, role.member.username))}">${_('Upgrade')}</a>
+            <script type="text/javascript">var hb4 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_upgrade')}'});</script>
             </li>
             <li py:if="auth.canDowngradeUser(person, group, role.member)">
             <a href="${tg.url('/group/downgrade/%s/%s' % (group.name, role.member.username))}">${_('Downgrade')}</a>
+            <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_downgrade')}'});</script>
             </li>
           </ul>
         </td>

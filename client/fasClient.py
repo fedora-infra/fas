@@ -162,12 +162,13 @@ class MakeShellAccounts(BaseClient):
         usernames = {}
         for person in people:
             uid = person['id']
-            username = person['username']
-            usernames[uid] = username
-            file.write("=%i %s:x:%i:\n" % (uid, username, uid))
-            file.write("0%i %s:x:%i:\n" % (i, username, uid))
-            file.write(".%s %s:x:%i:\n" % (username, username, uid))
-            i = i + 1
+            if self.is_valid_user(uid):
+                username = person['username']
+                usernames[uid] = username
+                file.write("=%i %s:x:%i:\n" % (uid, username, uid))
+                file.write("0%i %s:x:%i:\n" % (i, username, uid))
+                file.write(".%s %s:x:%i:\n" % (username, username, uid))
+                i = i + 1
         
         for group in groups:
             gid = group['id']
@@ -181,9 +182,9 @@ class MakeShellAccounts(BaseClient):
             except KeyError:
                 ''' No users exist in the group '''
                 pass
-            file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, self.memberships))
-            file.write("0%i %s:x:%i:%s\n" % (i, name, gid, self.memberships))
-            file.write(".%s %s:x:%i:%s\n" % (name, name, gid, self.memberships))
+            file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
+            file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
+            file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
             i = i + 1
 
         file.close()

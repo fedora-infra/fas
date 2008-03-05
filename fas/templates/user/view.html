@@ -19,18 +19,21 @@
         <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
-        <dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd>
-        <dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd>
+        <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
+        <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
-        <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
-        <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Valid')}</span>
-            <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '/fas/help/get_help/user_account_status'});</script></dd>
-        <!-- cla = {None, 'signed', 'clicked'} -->
+        <py:if test="personal"><dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd></py:if>
+        <dt>${_('Account Status:')}</dt><dd>
+        <span py:if="person.status == 'active'" class="approved">${_('Active')}</span>
+        <span py:if="person.status == 'vacation'" class="approved">${_('Vacation')}</span>
+        <span py:if="person.status == 'inactive'" class="unapproved">${_('Inactive')}</span>
+        <span py:if="person.status == 'pinged'" class="approved">${_('Pinged')}</span>
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
         <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}<py:if test="personal">(<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a></py:if>)</span>
         <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</py:if></span>
-          <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '/fas/help/get_help/user_cla'});</script></dd>
+        <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script></dd>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
@@ -54,7 +57,7 @@
         <dt>${_('Status:')}</dt>
         <dd>
         <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
-        <span class="unapproved" py:if="group in person.unapproved_memberships">${_('Unapproved')}</span>
+        <span class="unapproved" py:if="group in person.unapproved_memberships">${_('None')}</span>
         </dd>
         <dt>${_('Tools:')}</dt>
         <dd>
