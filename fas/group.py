@@ -287,7 +287,8 @@ class Group(controllers.Controller):
 
                 # TODO: How do we handle gettext calls for these kinds of emails?
                 # TODO: CC to right place, put a bit more thought into how to most elegantly do this
-                message = turbomail.Message(config.get('accounts_mail'), '%s-sponsors@fedoraproject.org' % group.name, \
+                # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
+                message = turbomail.Message(config.get('accounts_mail'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
                 url = config.get('base_url_filter.base_url') + turbogears.url('/group/edit/%s' % groupname)
 
