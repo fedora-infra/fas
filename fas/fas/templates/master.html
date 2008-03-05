@@ -75,7 +75,27 @@
           </div>
         </div>
         <div id="content">
-          <div py:if="tg_flash" class="flash">
+          <div style="
+            background: #FF7777;
+            color: #333333;
+            border: 1px solid #555555;
+            padding: 1ex 1ex 0.5ex;
+            float: right;
+            width: 57ex;
+            margin: 1ex 1ex 1ex 2ex;
+            ">
+            <div style="font-size: 3ex;"><strong>Warning:</strong> This is a test instance!</div>
+            <ul style="
+            font-size: 2ex;
+            list-style: square;
+            padding-left: 3ex;
+            ">
+            <li>Avoid entering private info here.</li>
+            <li>The database may be wiped/rebuilt periodically.</li>
+            <li>Feel free to file bugs, enhancements, etc. at <a href="https://fedorahosted.org/fas2/">https://fedorahosted.org/fas2/</a></li>
+            </ul>
+          </div>
+          <div py:if="tg_flash" class="flash" style="margin-right: 62ex">
             ${tg_flash}
           </div>
           <div py:replace="select('*|text()')" />
