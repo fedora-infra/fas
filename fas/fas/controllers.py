@@ -103,7 +103,7 @@ class Root(controllers.RootController):
                 # is better.
                 return dict(user = identity.current.user)
             if not forward_url:
-                forward_url = config.get('base_url_filter.base_url') + '/'
+                forward_url = '/'
             raise redirect(forward_url)
 
         forward_url=None
