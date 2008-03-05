@@ -217,7 +217,7 @@ class User(controllers.Controller):
         target = People.by_username(target)
 
         if not canEditUser(person, target):
-            turbogears.flash(_("You do not have permission to edit '%s'" % target.username))
+            turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
             turbogears.redirect('/user/edit/%s', target.username)
             return dict()
         try:
@@ -232,7 +232,7 @@ class User(controllers.Controller):
             target.locale = locale
             target.timezone = timezone
         except TypeError:
-            turbogears.flash(_('Your account details could not be saved: %s' % e))
+            turbogears.flash(_('Your account details could not be saved: %s') % e)
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % target.username)

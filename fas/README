@@ -27,7 +27,7 @@ Before you can get started, make sure to have the following packages installed
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz
+  python-psycopg2 pytz python-babel babel
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
@@ -90,6 +90,9 @@ You'll need to edit dev.cfg and change the following lines::
   base_url_filter.base_url = "http://localhost:8080/fas" # Change the port if
   # you changed server.socket_port above.
 
+You may also need to change some of the directories and settings in
+fas/config/app.cfg.  
+
 You should then be able to start the server and test things out::
   ./start-fas.py
   # browse to http://localhost:8080/fas/
@@ -101,9 +104,9 @@ Make sure you're in the top level directory that start-fas.py and dev.cfg is
 in, then run::
   tg-admin shell
 
--------
+--------------------
 Enabling Local Users
--------
+--------------------
 * THIS IS EXPERIMENTAL *
 
 To allow local users to log in to your system, first enable fas via the
@@ -124,4 +127,18 @@ example:
 
   getent passwd
   getent group
+
+------------
+Localization
+------------
+To generate the POT file (located in the po/ subdirectory), run the
+following from the top level directory:
+
+  pybabel extract -F pybabel.conf -o po/fas.pot .
+To add a language: tg-admin i18n add <locale> 
+This will create a PO file at po/<locale>/LC_MESSAGES/fas.po
+
+To update (merge) PO files with the POT file, run:
+
+  tg-admin i18n merge
 
