@@ -99,13 +99,14 @@ class CLA(controllers.Controller):
         data = StringIO.StringIO(signature.file.read())
         plaintext = StringIO.StringIO()
         verified = False
-        ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+        keyid = re.sub('\s', '', person.gpg_keyid)
+        ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
         if ret != 0:
             turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
             turbogears.redirect('/cla/view/sign')
             return dict()
         #try:
-        #      subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
+        #      subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
         #except subprocess.CalledProcessError:
         #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
         #    turbogears.redirect('/cla/view/sign')
@@ -121,7 +122,7 @@ class CLA(controllers.Controller):
                 if len(sigs):
                     sig = sigs[0]
                     # This might still assume a full fingerprint. 
-                    key = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                    key = ctx.get_key(keyid)
                     fpr = key.subkeys[0].fpr
                     if sig.fpr != fpr:
                         turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
