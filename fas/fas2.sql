@@ -69,28 +69,29 @@ CREATE TABLE people (
 create index people_status_idx on people(status);
 cluster people_status_idx on people;
 
--- tg_user::email_address needs to use one of these.
--- this table is distressingly complex.  We could normalize it and use
--- multiple tables but that is a bit silly.  We are mapping:
--- 1:person => Multiple Email addresses
--- 1:email => Multiple purposes
--- 1:email => 1:person_id
--- Currently using a trigger to do this.
---
--- What can we do to ensure the user always has a primary email without making
--- the application code overly complex?
 CREATE TABLE person_emails (
-    email text NOT NULL,
-    person_id INTEGER references people(id) not null,
+    id serial primary key,
+    email text not null unique,
+    person_id INTEGER NOT NULL references people(id),
+    validtoken text,
+    description text,
+    verified boolean NOT NULL DEFAULT false
+);
+
+create index person_emails_person_id_idx on person_emails(person_id);
+cluster person_emails_person_id_idx on person_emails;
+
+CREATE TABLE purpose_emails (
+    email_id INTEGER NOT NULL references emails(id),
+    person_id INTEGER NOT NULL references people(id),
     purpose text NOT NULL,
-    validtoken text NULL,
-    primary key(purpose, person_id),
+    primary key (person_id, purpose),
     check (purpose ~ ('(bugzilla|primary|cla|pending|other[0-9]+)'))
 );
 
-create index person_emails_email_idx on person_emails(email);
-create index person_emails_person_id_idx on person_emails(person_id);
-cluster person_emails_person_id_idx on person_emails;
+create index purpose_emails_email_id_idx on purpose_emails(email_id);
+create index purpose_emails_person_id_idx on purpose_emails(person_id);
+cluster purpose_emails_person_id_idx on purpose_emails;
 
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
@@ -138,17 +139,30 @@ cluster groups_group_type_idx on groups;
 -- kernel-maint might share the same email address for mailing list and
 -- bugzilla.
 --
-create table group_emails (
-    email text not null,
-    group_id INTEGER references groups(id) not null,
-    purpose text not null,
-    primary key (purpose, group_id),
-    check (purpose in ('bugzilla', 'primary', 'mailing list'))
+CREATE TABLE group_emails (
+    id serial primary key,
+    email text not null unique,
+    group_id INTEGER NOT NULL references groups(id),
+    validtoken text,
+    description text,
+    verified boolean NOT NULL DEFAULT false,
 );
 
-create index group_emails_email_idx on group_emails(email);
 create index group_emails_group_id_idx on group_emails(group_id);
 cluster group_emails_group_id_idx on group_emails;
+
+CREATE TABLE group_purpose_emails (
+    email_id INTEGER NOT NULL references emails(id),
+    group_id INTEGER NOT NULL references groups(id),
+    purpose text NOT NULL,
+    primary key (person_id, purpose)
+    check (purpose ~ ('(bugzilla|primary|mailing list|other[0-9]+)'))
+);
+
+create index group_purpose_emails_email_id_idx on group_purpose_emails(email_id);
+create index group_purpose_emails_person_id_idx on group_purpose_emails(person_id);
+cluster group_purpose_emails_person_id_idx on group_purpose_emails;
+
 
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
@@ -262,33 +276,6 @@ create table visit_identity (
 );
 
 --
--- Check that email is unique.  This is implemented as a trigger rather than a
--- constraint because implementing as a constraint would require an extra
--- table and a view to keep everything simple for the consuming code.
---
-create or replace function check_email_unique() returns trigger AS $email$
-    if TD['event'] == 'UPDATE':
-        if TD['old']['email'] == TD['new']['email']:
-            # email was not modified so let this proceed
-            return None
-    plan = plpy.prepare('SELECT email FROM person_emails WHERE email = $1'
-            ' and person_id != $2', ('text', 'text'))
-    results = plpy.execute(plan, (TD['new']['email'], TD['new']['person_id']), 1)
-
-    if results:
-        # Email already exists for another person, we cannot save.
-        # Abort the transaction.
-        raise plpy.error('Duplicate email address %s' % TD['new']['email'])
-
-    # The address checks out fine.
-    return None
-$email$ language plpythonu;
-
-create trigger person_check_email_unique before update or insert
-  on person_emails
-  for each row execute procedure check_email_unique();
-
---
 -- When a person's fedorabugs role is updated, add them to bugzilla queue.
 --
 create or replace function bugzilla_sync() returns trigger as $bz_sync$
@@ -317,17 +304,19 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
         return None
 
     # Retrieve the bugzilla email address
-    plan = plpy.prepare("select email, purpose from person_emails"
-            " where person_id = $1 and purpose in ('bugzilla', 'primary')",
+    plan = plpy.prepare("select email, purpose from person_emails as pee,"
+            " purpose_emails as pue"
+            " where pee.id = pue.email_id and pee.person_id = $1"
+            " and purpose in ('bugzilla', 'primary')",
             ('text',))
     result = plpy.execute(plan, row['person_id'])
     email = None
     for record in result:
-        email = record.email
+        email = record['email']
         if record['purpose'] == 'bugzilla':
             break
     if not email:
-        raise plpy.error('Cannot approve fedorabugs for person_id(%s) because they have no email address to use with bugzilla' % row.person_id)
+        raise plpy.error('Cannot approve fedorabugs for person_id(%s) because they have no email address to use with bugzilla' % row['person_id'])
 
     # If there is already a row in bugzilla_queue update, otherwise insert
     plan = plpy.prepare("select email from bugzilla_queue where email = $1",
@@ -341,7 +330,7 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
         plan = plpy.prepare("insert into bugzilla_queue (email, group_id"
             ", person_id, action) values ($1, $2, $3, $4)",
                 ('text', 'text', 'text', 'char'))
-        plpy.execute(plan, (email, row.group_id, row.person_id, newaction))
+        plpy.execute(plan, (email, row['group_id'], row['person_id'], newaction))
     return None
 $bz_sync$ language plpythonu;
 
@@ -400,7 +389,7 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
                 " where purpose = 'primary' and person_id = $1", ('text',))
         result = plpy.execute(plan, (row['person_id'],), 1)
         if result:
-            oldEmail = result[0].email
+            oldEmail = result[0]['email']
 
     if oldEmail:
         plan = plpy.prepare("select email from bugzilla_queue where email = $1",
