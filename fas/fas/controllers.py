@@ -13,6 +13,7 @@ from fas.group import Group
 from fas.cla import CLA
 from fas.json_request import JsonRequest
 from fas.help import Help
+from fas.auth import *
 #from fas.openid_fas import OpenID
 
 import os
@@ -74,7 +75,13 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
     def home(self):
-        return dict()
+        user_name = turbogears.identity.current.user_name
+        person = People.by_username(user_name)
+        cla = None
+        if signedCLAPrivs(person):
+            cla = 'signed'
+
+        return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")
     def about(self):

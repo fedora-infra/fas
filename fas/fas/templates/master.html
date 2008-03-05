@@ -56,14 +56,15 @@
       <div id="main">
         <div id="sidebar">
           <ul>
-            <li class="first"><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
+            <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
             <div py:if="not tg.identity.anonymous and 'accounts' in tg.identity.groups" py:strip=''>
               <!-- TODO: Make these use auth.py -->
-              <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
               <li><a href="${tg.url('/group/new')}">${_('New Group')}</a></li>
+              <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
             </div>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list')}">${_('Group List')}</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
+            <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
           <div py:if="tg.identity.anonymous" id="language">
             <form action="${tg.url('/language')}" method="get">
