@@ -450,7 +450,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
           L=config.get('openssl_l'),
           O=config.get('openssl_o'),
           OU=config.get('openssl_ou'),
-          CN=user.cn,
+          CN=person.username,
           emailAddress=person.emails['primary'].email,
           )
 

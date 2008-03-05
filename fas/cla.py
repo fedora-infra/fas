@@ -53,14 +53,17 @@ class CLA(controllers.Controller):
                 turbogears.redirect('/user/edit/%s' % username)
 
         if type == 'click':
-            if signedCLAPrivs(person):
-                turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
-                turbogears.redirect('/cla/')
-                return dict()
-            if clickedCLAPrivs(person):
-                turbogears.flash(_('You have already completed the Click-through CLA.'))
-                turbogears.redirect('/cla/')
-                return dict()
+            # Disable click-through CLA for now
+            #if signedCLAPrivs(person):
+            #    turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
+            #    turbogears.redirect('/cla/')
+            #    return dict()
+            #if clickedCLAPrivs(person):
+            #    turbogears.flash(_('You have already completed the Click-through CLA.'))
+            #    turbogears.redirect('/cla/')
+            #    return dict()
+            turbogears.redirect('/cla/')
+            return dict()
         elif type == 'sign':
             if signedCLAPrivs(person):
                 turbogears.flash(_('You have already signed the CLA.'))
@@ -180,7 +183,8 @@ class CLA(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="fas.templates.cla.index")
+    # Don't expose click-through CLA for now.
+    #@expose(template="fas.templates.cla.index")
     def click(self, agree):
         '''Click-through CLA'''
         username = turbogears.identity.current.user_name
