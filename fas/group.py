@@ -516,5 +516,5 @@ Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': p
             turbogears.redirect('/group/view/%s' % group.name)
         else:
             turbogears.flash(_("You are not in the '%s' group.") % group.name)
-        return dict(target=target, person=person)
+        return dict(target=target, person=person, group=group)
 
