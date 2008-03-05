@@ -431,7 +431,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
     def gencert(self):
       from fas.openssl_fas import *
       username = turbogears.identity.current.user_name
-      person = Person.by_username(username)
+      person = People.by_username(username)
 
       person.certificate_serial = person.certificate_serial + 1
 
@@ -451,7 +451,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
           O=config.get('openssl_o'),
           OU=config.get('openssl_ou'),
           CN=user.cn,
-          emailAddress=person.mail,
+          emailAddress=person.emails['primary'].email,
           )
 
       cert = createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')

@@ -470,7 +470,7 @@ into the e-mail aliases within an hour.
             turbogears.redirect('/group/list')
             return dict()
         else:
-            return dict(groups=groups)
+            return dict(group=group)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())
