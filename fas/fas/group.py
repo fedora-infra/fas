@@ -37,7 +37,7 @@ class GroupCreate(validators.Schema):
     name = validators.All(
         UnknownGroup,
         validators.String(max=32, min=3),
-        validators.Regex(regex='^[a-z][a-z0-9]+$'),
+        validators.Regex(regex='^[a-z0-9\-]+$'),
         )
     display_name = validators.NotEmpty
     owner = KnownUser
