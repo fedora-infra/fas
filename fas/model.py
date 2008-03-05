@@ -42,10 +42,7 @@ from turbogears.database import session
 
 from turbogears import identity
 
-from fas.json import SABase
-
-# Soon we'll use this instead:
-#from fedora.tg.json import SABase
+from fedora.tg.json import SABase
 
 # Bind us to the database defined in the config file.
 get_engine()
