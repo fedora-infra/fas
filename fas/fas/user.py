@@ -171,6 +171,9 @@ class User(controllers.Controller):
             personal = False
         if isAdmin(person):
             admin = True
+            # TODO: Should admins be able to see personal info?  If so, enable this.  
+            # Either way, let's enable this after the testing period.
+            #personal = True
         else:
             admin = False
         groups = []
