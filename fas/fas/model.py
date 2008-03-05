@@ -42,10 +42,10 @@ from turbogears.database import session
 
 from turbogears import identity
 
-from fas.json import SABase
+import turbogears
 
-# Soon we'll use this instead:
-#from fedora.tg.json import SABase
+from fedora.tg.json import SABase
+import fas
 
 # Bind us to the database defined in the config file.
 get_engine()
@@ -121,18 +121,21 @@ class People(SABase):
         '''
         Apply a person to a group
         '''
-        role = PersonRoles()
-        role.role_status = 'unapproved'
-        role.role_type = 'user'
-        role.member = cls
-        role.group = group
+        if group in cls.memberships:
+            raise fas.ApplyError, _('user is already in this group')
+        else:
+            role = PersonRoles()
+            role.role_status = 'unapproved'
+            role.role_type = 'user'
+            role.member = cls
+            role.group = group
         
     def approve(cls, group, requester):
         '''
         Approve a person in a group  - requester for logging purposes
         '''
-        if group in cls.approved_memberships:
-            raise '%s is already approved in %s' % (cls.username, group.name)
+        if group not in cls.unapproved_memberships:
+            raise fas.ApproveError, _('user is not an unapproved member')
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             role.role_status = 'approved'
@@ -142,11 +145,11 @@ class People(SABase):
         Upgrade a user in a group - requester for logging purposes
         '''
         if not group in cls.memberships:
-            raise '%s not a member of %s' % (group.name, cls.memberships)
+            raise fas.UpgradeError, _('user is not a member')
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             if role.role_type == 'administrator':
-                raise '%s is already an admin in %s' % (cls.username, group.name)
+                raise fas.UpgradeError, _('administrators cannot be upgraded any further')
             elif role.role_type == 'sponsor':
                 role.role_type = 'administrator'
             elif role.role_type == 'user':
@@ -157,11 +160,11 @@ class People(SABase):
         Downgrade a user in a group - requester for logging purposes
         '''
         if not group in cls.memberships:
-            raise '%s not a member of %s' % (group.name, cls.memberships)
+            raise fas.DowngradeError, _('user is not a member')
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             if role.role_type == 'user':
-                raise '%s is already a user in %s, did you mean to remove?' % (cls.username, group.name)
+                raise fas.DowngradeError, _('users cannot be downgraded any further')
             elif role.role_type == 'sponsor':
                 role.role_type = 'user'
             elif role.role_type == 'administrator':
@@ -169,20 +172,19 @@ class People(SABase):
                 
     def sponsor(cls, group, requester):
         # If we want to do logging, this might be the place.
-        if not group in cls.memberships:
-            raise '%s not a member of %s' % (group.name, cls.memberships)
+        if not group in cls.unapproved_memberships:
+            raise fas.SponsorError, _('user is not an unapproved member')
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
         role.sponsor_id = requester.id
         role.approval = datetime.now(pytz.utc)
 
     def remove(cls, group, requester):
-        role = PersonRoles.query.filter_by(member=cls, group=group).one()
-        try:
+        if not group in cls.memberships:
+            raise fas.RemoveError, _('user is not a member')
+        else:
+            role = PersonRoles.query.filter_by(member=cls, group=group).one()
             session.delete(role)
-        except TypeError:
-            pass
-            # Handle somehow.
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)

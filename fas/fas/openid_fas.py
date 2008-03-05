@@ -106,7 +106,7 @@ class OpenID(controllers.Controller):
     @validate(validators=UserID())
     def id(self, username):
         '''The "real" OpenID URL'''
-        person = Person.by_username(username)
+        person = People.by_username(username)
         server = config.get('base_url') + turbogears.url('/openid/server')
         return dict(person=person, server=server)
 

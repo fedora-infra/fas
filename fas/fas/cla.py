@@ -53,14 +53,17 @@ class CLA(controllers.Controller):
                 turbogears.redirect('/user/edit/%s' % username)
 
         if type == 'click':
-            if signedCLAPrivs(person):
-                turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
-                turbogears.redirect('/cla/')
-                return dict()
-            if clickedCLAPrivs(person):
-                turbogears.flash(_('You have already completed the Click-through CLA.'))
-                turbogears.redirect('/cla/')
-                return dict()
+            # Disable click-through CLA for now
+            #if signedCLAPrivs(person):
+            #    turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
+            #    turbogears.redirect('/cla/')
+            #    return dict()
+            #if clickedCLAPrivs(person):
+            #    turbogears.flash(_('You have already completed the Click-through CLA.'))
+            #    turbogears.redirect('/cla/')
+            #    return dict()
+            turbogears.redirect('/cla/')
+            return dict()
         elif type == 'sign':
             if signedCLAPrivs(person):
                 turbogears.flash(_('You have already signed the CLA.'))
@@ -99,12 +102,18 @@ class CLA(controllers.Controller):
         data = StringIO.StringIO(signature.file.read())
         plaintext = StringIO.StringIO()
         verified = False
-        try:
-              subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
-        except subprocess.CalledProcessError:
+        keyid = re.sub('\s', '', person.gpg_keyid)
+        ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+        if ret != 0:
             turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
             turbogears.redirect('/cla/view/sign')
             return dict()
+        #try:
+        #      subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+        #except subprocess.CalledProcessError:
+        #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+        #    turbogears.redirect('/cla/view/sign')
+        #    return dict()
         else:
             try:
                 sigs = ctx.verify(data, None, plaintext)
@@ -116,7 +125,7 @@ class CLA(controllers.Controller):
                 if len(sigs):
                     sig = sigs[0]
                     # This might still assume a full fingerprint. 
-                    key = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                    key = ctx.get_key(keyid)
                     fpr = key.subkeys[0].fpr
                     if sig.fpr != fpr:
                         turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
@@ -125,7 +134,7 @@ class CLA(controllers.Controller):
                     emails = [];
                     for uid in key.uids:
                         emails.extend([uid.email])
-                    if person.emails['cla'].email in emails:
+                    if person.emails['primary'].email in emails:
                         verified = True
                     else:
                         turbogears.flash(_('Your key did not match your email.'))
@@ -167,13 +176,15 @@ class CLA(controllers.Controller):
                     person.remove(cilckgroup, person)
                 except:
                     pass
+                # TODO: Email legal-cla-archive@fedoraproject.org
                 turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
                 turbogears.redirect('/cla/')
                 return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="fas.templates.cla.index")
+    # Don't expose click-through CLA for now.
+    #@expose(template="fas.templates.cla.index")
     def click(self, agree):
         '''Click-through CLA'''
         username = turbogears.identity.current.user_name

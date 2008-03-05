@@ -25,7 +25,7 @@ a
   margin-top: 35px;
   height: 70px;
   line-height: 70px;
-  background: url(/fas/static/images/head.png) 0 0 repeat-x;
+  background: url(../images/head.png) 0 0 repeat-x;
 }
 
 #head h1
@@ -34,7 +34,7 @@ a
   float: left;
   text-indent: -9999px;
   overflow: hidden;
-  background: url(/fas/static/images/logo.png) 1ex 50% no-repeat;
+  background: url(../images/logo.png) 1ex 50% no-repeat;
 }
 
 #searchbox
@@ -65,7 +65,7 @@ a
 {
   height: 30px;
   line-height: 30px;
-  background: url(/fas/static/images/topnav.png) 0 0 repeat-x;
+  background: url(../images/topnav.png) 0 0 repeat-x;
   font-size: 1.6ex;
 }
 
@@ -78,7 +78,7 @@ a
 #topnav ul li
 {
   display: inline;
-  background: url(/fas/static/images/topnav-separator.png) 0 50% no-repeat;
+  background: url(../images/topnav-separator.png) 0 50% no-repeat;
   padding-left: 3px;
 }
 
@@ -106,7 +106,7 @@ a
   right: 0;
   height: 35px;
   line-height: 35px;
-  background: url(/fas/static/images/infobar.png) 0 0 repeat-x;
+  background: url(../images/infobar.png) 0 0 repeat-x;
   font-size: 1.6ex;
 }
 
@@ -139,7 +139,7 @@ a
 #control ul li
 {
   display: inline;
-  background: url(/fas/static/images/control-separator.png) 0 50% no-repeat;
+  background: url(../images/control-separator.png) 0 50% no-repeat;
 }
 
 #control a
@@ -150,14 +150,14 @@ a
 
 #main
 {
-  background: url(/fas/static/images/shadow.png) 0 0 repeat-x;
+  background: url(../images/shadow.png) 0 0 repeat-x;
 }
 
 #sidebar
 {
   width: 22ex;
   float: left;
-  background: #335F9D url(/fas/static/images/sidebar.png) 0 0 repeat-x;
+  background: #335F9D url(../images/sidebar.png) 0 0 repeat-x;
   border: 1px solid #112233;
 }
 
@@ -246,25 +246,25 @@ a
 .account
 {
   padding-left: 30px;
-  background: url(/fas/static/images/account.png) 0 68% no-repeat;
+  background: url(../images/account.png) 0 68% no-repeat;
 }
 
 .approved
 {
   padding-left: 20px;
-  background: url(/fas/static/images/approved.png) 0 68% no-repeat;
+  background: url(../images/approved.png) 0 68% no-repeat;
 }
 
 .unapproved
 {
   padding-left: 20px;
-  background: url(/fas/static/images/unapproved.png) 0 68% no-repeat;
+  background: url(../images/unapproved.png) 0 68% no-repeat;
 }
 
 .attn
 {
   padding-left: 20px;
-  background: url(/fas/static/images/attn.png) 0 68% no-repeat;
+  background: url(../images/attn.png) 0 68% no-repeat;
 }
 
 .roleslist
@@ -302,7 +302,7 @@ a
   margin-top: 1ex;
   padding-top: 1ex;
   padding-left: 22px;
-  background: url(/fas/static/images/arrow.png) 0 1.6ex no-repeat;
+  background: url(../images/arrow.png) 0 1.6ex no-repeat;
 }
 
 #rolespanel h4
@@ -332,13 +332,13 @@ a
 #rolespanel .tools li
 {
   padding-left: 22px;
-  background: url(/fas/static/images/tools.png) 0 50% no-repeat;
+  background: url(../images/tools.png) 0 50% no-repeat;
 }
 
 #rolespanel .queue li
 {
   padding-left: 22px;
-  background: url(/fas/static/images/queue.png) 0 50% no-repeat;
+  background: url(../images/queue.png) 0 50% no-repeat;
 }
 
 #rolespanel .queue strong
@@ -352,7 +352,7 @@ a
   clear: both;
   text-align: center;
   padding: 15px 0 2.5ex;
-  background: url(/fas/static/images/footer-top.png) 0 0 repeat-x;
+  background: url(../images/footer-top.png) 0 0 repeat-x;
 }
 
 #footer .copy, #footer .disclaimer
@@ -364,7 +364,7 @@ a
 {
   padding-top: 3px;
   padding-bottom: 18px;
-  background: #EEEEEE url(/fas/static/images/footer-bottom.png) 0 100% repeat-x;
+  background: #EEEEEE url(../images/footer-bottom.png) 0 100% repeat-x;
   list-style: none;
 }
 
@@ -389,7 +389,7 @@ a
 
 .flash
 {
-  background: #DEE6B1 url(/fas/static/images/success.png) 10px 50% no-repeat;
+  background: #DEE6B1 url(../images/success.png) 10px 50% no-repeat;
   border: 1px solid #CCBBAA;
   padding: 1.5ex 15px 1.5ex 43px;
   margin: 1ex 0;
@@ -397,7 +397,7 @@ a
 
 .help
 {
-  background: #DEE6B1 url(/fas/static/images/help.png) 10px 50% no-repeat;
+  background: #DEE6B1 url(../images/help.png) 10px 50% no-repeat;
   border: 1px solid #CCBBAA;
   padding: 1.5ex 15px 1.5ex 65px;
   margin: 1ex 0;

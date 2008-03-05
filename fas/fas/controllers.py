@@ -13,6 +13,7 @@ from fas.group import Group
 from fas.cla import CLA
 from fas.json_request import JsonRequest
 from fas.help import Help
+from fas.auth import *
 #from fas.openid_fas import OpenID
 
 import os
@@ -28,9 +29,14 @@ turbogears.view.variable_providers.append(add_custom_stdvars)
 def get_locale(locale=None):
     if locale:
         return locale
-    if turbogears.identity.current.user_name:
+    username = None
+    try:
+        username = turbogears.identity.current.user_name
+    except AttributeError:
+        pass
+    if username:
         person = People.by_username(turbogears.identity.current.user_name)
-        return person.locale
+        return person.locale or 'C'
     else:
         return turbogears.i18n.utils._get_locale()
 
@@ -58,13 +64,24 @@ class Root(controllers.RootController):
     @expose(template="fas.templates.welcome", allow_json=True)
     def index(self):
         if turbogears.identity.not_anonymous():
+            if 'tg_format' in request.params \
+                    and request.params['tg_format'] == 'json':
+                # redirects don't work with JSON calls.  This is a bit of a
+                # hack until we can figure out something better.
+                return dict()
             turbogears.redirect('/home')
         return dict(now=time.ctime())
 
-    @expose(template="fas.templates.home")
+    @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
     def home(self):
-        return dict()
+        user_name = turbogears.identity.current.user_name
+        person = People.by_username(user_name)
+        cla = None
+        if signedCLAPrivs(person):
+            cla = 'signed'
+
+        return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")
     def about(self):
@@ -93,7 +110,7 @@ class Root(controllers.RootController):
                 # is better.
                 return dict(user = identity.current.user)
             if not forward_url:
-                forward_url = config.get('base_url_filter.base_url') + '/'
+                forward_url = '/'
             raise redirect(forward_url)
 
         forward_url=None
@@ -107,7 +124,7 @@ class Root(controllers.RootController):
                    "this resource.")
         else:
             msg=_("Please log in.")
-            forward_url= request.headers.get("Referer", "/")
+            forward_url= '/'
 
         ### FIXME: Is it okay to get rid of this?
         #cherrypy.response.status=403
@@ -125,7 +142,7 @@ class Root(controllers.RootController):
             # redirect to a page.  Returning the logged in identity
             # is better.
             return dict(status=True)
-        raise redirect(request.headers.get("Referer", "/"))
+        raise redirect('/')
 
     @expose()
     def language(self, locale):

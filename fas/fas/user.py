@@ -65,7 +65,10 @@ class ValidUsername(validators.FancyValidator):
 
 class UserSave(validators.Schema):
     targetname = KnownUser
-    human_name = validators.String(not_empty=True, max=42)
+    human_name = validators.All(
+        validators.String(not_empty=True, max=42),
+        validators.Regex(regex='^[^\n:<>]+$'),
+        )
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
     #    NonFedoraEmail(not_empty=True, strip=True, max=128),
@@ -81,7 +84,10 @@ class UserCreate(validators.Schema):
         validators.String(max=32, min=3),
         validators.Regex(regex='^[a-z][a-z0-9]+$'),
     )
-    human_name = validators.String(not_empty=True, max=42)
+    human_name = validators.All(
+        validators.String(not_empty=True, max=42),
+        validators.Regex(regex='^[^\n:<>]+$'),
+        )
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
@@ -211,7 +217,7 @@ class User(controllers.Controller):
         target = People.by_username(target)
 
         if not canEditUser(person, target):
-            turbogears.flash(_("You do not have permission to edit '%s'" % target.username))
+            turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
             turbogears.redirect('/user/edit/%s', target.username)
             return dict()
         try:
@@ -226,7 +232,7 @@ class User(controllers.Controller):
             target.locale = locale
             target.timezone = timezone
         except TypeError:
-            turbogears.flash(_('Your account details could not be saved: %s' % e))
+            turbogears.flash(_('Your account details could not be saved: %s') % e)
         else:
             turbogears.flash(_('Your account details have been saved.'))
             turbogears.redirect("/user/view/%s" % target.username)
@@ -267,6 +273,7 @@ class User(controllers.Controller):
             person.human_name = human_name
             person.telephone = telephone
             person.password = '*'
+            person.status = 'active'
             person.emails['primary'] = PersonEmails(email=email, purpose='primary')
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Welcome to the Fedora Project!'))
@@ -378,10 +385,16 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                 # CLA one), think of how to make sure this doesn't get
                 # full of random keys (keep a clean Fedora keyring)
                 # TODO: MIME stuff?
-                try:
-                    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', person.gpg_keyid])
-                except subprocess.CalledProcessError:
+                keyid = re.sub('\s', '', person.gpg_keyid)
+                ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+                if ret != 0:
                     turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+                    turbogears.redirect('/cla/view/sign')
+                    return dict()
+                #try:
+                #    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+                #except subprocess.CalledProcessError:
+                #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
                 else:
                     try:
                         plaintext = StringIO.StringIO(mail)
@@ -390,7 +403,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                         ctx.armor = True
                         signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
                         ctx.signers = [signer]
-                        recipient = ctx.get_key(re.sub('\s', '', person.gpg_keyid))
+                        recipient = ctx.get_key(keyid)
                         def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
                             os.write(fd, '%s\n' % config.get('gpg_passphrase'))
                         ctx.passphrase_cb = passphrase_cb
@@ -406,7 +419,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                 message.plain = mail;
             turbomail.enqueue(message)
             try:
-                person.password = newpass['pass']
+                person.password = newpass['hash']
                 turbogears.flash(_('Your new password has been emailed to you.'))
             except:
                 turbogears.flash(_('Your password could not be reset.'))
@@ -419,7 +432,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
     def gencert(self):
       from fas.openssl_fas import *
       username = turbogears.identity.current.user_name
-      person = Person.by_username(username)
+      person = People.by_username(username)
 
       person.certificate_serial = person.certificate_serial + 1
 
@@ -438,8 +451,8 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
           L=config.get('openssl_l'),
           O=config.get('openssl_o'),
           OU=config.get('openssl_ou'),
-          CN=user.cn,
-          emailAddress=person.mail,
+          CN=person.username,
+          emailAddress=person.emails['primary'].email,
           )
 
       cert = createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
