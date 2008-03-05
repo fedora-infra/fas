@@ -24,13 +24,13 @@
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}" py:if="personal">(change)</a></dd>
         <dt>${_('Account Status:')}</dt><dd><span class="approved">${_('Valid')}</span>
-            <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '/fas/help/get_help/user_account_status'});</script></dd>
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
         <!-- cla = {None, 'signed', 'clicked'} -->
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
         <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}<py:if test="personal">(<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a></py:if>)</span>
         <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</py:if></span>
-          <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '/fas/help/get_help/user_cla'});</script></dd>
+        <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script></dd>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
