@@ -1,3 +1,3 @@
-#for user in sorted(groups.keys())
-${user},${Person.byUserName(user).mail},${Person.byUserName(user).givenName},${groups[user].fedoraRoleType}
+#for role in sorted(group.approved_roles)
+${role.member.username},${role.member.emails['primary'].email},${role.member.human_name},${role.role_type}
 #end
