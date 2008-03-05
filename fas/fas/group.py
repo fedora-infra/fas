@@ -337,7 +337,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
 %(joinmsg)s
 ''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'joinmsg': group.joinmsg}
                 turbomail.enqueue(message)
-                turbogears.flash(_("'%s' has been sponsored!") % person.human_name)
+                turbogears.flash(_("'%s' has been sponsored!") % target.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
