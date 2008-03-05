@@ -135,7 +135,7 @@ class Root(controllers.RootController):
             # redirect to a page.  Returning the logged in identity
             # is better.
             return dict(status=True)
-        raise redirect(request.headers.get("Referer", "/"))
+        raise redirect('/'))
 
     @expose()
     def language(self, locale):
