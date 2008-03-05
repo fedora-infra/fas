@@ -117,7 +117,7 @@ class Root(controllers.RootController):
                    "this resource.")
         else:
             msg=_("Please log in.")
-            forward_url= request.headers.get("Referer", "/")
+            forward_url= '/'
 
         ### FIXME: Is it okay to get rid of this?
         #cherrypy.response.status=403
