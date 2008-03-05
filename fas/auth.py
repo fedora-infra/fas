@@ -165,7 +165,7 @@ def canApplyGroup(person, group, applicant):
             pass
         else:
             print "GOT HERE, prereq: %s" % prerequisite
-            turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
+            turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
             return False
     # A user can apply themselves, and FAS admins can apply other people.
 
@@ -173,7 +173,7 @@ def canApplyGroup(person, group, applicant):
         canAdminGroup(person, group):
         return True
     else:
-        turbogears.flash(_('%s membership required before application to this group is allowed' % prerequisite.name))
+        turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
         return False
 
 def canSponsorUser(person, group, target):
