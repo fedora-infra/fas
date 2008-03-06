@@ -101,6 +101,14 @@ visit_identity_table = Table('visit_identity', metadata,
 
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
+
+    def by_id(cls, id):
+        '''
+        A class method that can be used to search users
+        based on their unique id
+        '''
+        return cls.query.filter_by(id=id).one()
+    by_id = classmethod(by_id)
     
     def by_email_address(cls, email):
         '''
