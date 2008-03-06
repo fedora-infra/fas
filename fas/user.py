@@ -13,6 +13,7 @@ import subprocess
 
 from fas.model import People
 from fas.model import PersonEmails
+from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas.auth import *
@@ -316,7 +317,6 @@ class User(controllers.Controller):
 
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'], _('Welcome to the Fedora Project!'))
-            HERE
             message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
