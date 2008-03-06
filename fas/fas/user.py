@@ -385,7 +385,11 @@ forward to working with you!
             turbogears.flash(_("You are already logged in."))
             turbogears.redirect('/user/view/%s', turbogears.identity.current.user_name)
             return dict()
-        person = People.by_username(username)
+        try:
+            person = People.by_username(username)
+        except InvalidRequestError:
+            turbogears.flash(_('Username email combo does not exist!'))
+            turbogears.redirect('/user/resetpass')
         if username and email:
             if not email == person.emails['primary']:
                 turbogears.flash(_("username + email combo unknown."))
