@@ -8,7 +8,7 @@
   </head>
   <body>
     <h2>${_('Edit Account (%s)') % target.username}</h2>
-    <form action="${tg.url('/user/save/%s' % target.username)}" method="post">
+    <form action="${tg.url('/user/save/%s' % target.username)}" method="post" enctype="multipart/form-data">
       <div class="field">
         <label for="human_name">${_('Human Name')}:</label>
         <input type="text" id="human_name" name="human_name" value="${target.human_name}" />
@@ -41,7 +41,8 @@
       </div>
       <div class="field">
         <label for="ssh_key">${_('Public SSH Key')}:</label>
-        <textarea id="ssh_key" name="ssh_key">${target.ssh_key}</textarea>
+        <!--<textarea id="ssh_key" rows='3' cols='50' name="ssh_key">${target.ssh_key}</textarea>-->
+        <input type="file" name="ssh_key" id="ssh_key"/>
         <script type="text/javascript">var hb19 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_ssh_key')}'});</script>
       </div>
       <div class="field">
