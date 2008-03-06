@@ -98,14 +98,66 @@ class MakeShellAccounts(BaseClient):
     groups = None
     people = None
     memberships = None
+    group_mapping = {}
     
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
 
     def rm_tempdir(self):
         rmtree(self.temp)
+    
+    def valid_user(self, username):
+        valid_groups = config.get('host', 'groups').split(',') + \
+            config.get('host', 'restricted_groups').split(',') + \
+            config.get('host', 'ssh_restricted_groups').split(',')
+        try:
+            for group in valid_groups:
+                print group
+                print self.group_mapping[group]
+                print username
+                if username in self.group_mapping[group]:
+                    return True
+        except KeyError:
+            return False
+        return False
+    
+    def shell(self, username):
+        ''' Determine what shell username should have '''
+        for group in config.get('host', 'groups').split(','):
+            if username in self.group_mapping[group]:
+                return config.get('users', 'shell')
+        for group in config.get('host', 'restricted_groups'):
+            if username in self.group_mapping[group]:
+                return config.get('users', 'restricted_shell')
+        print >> sys.stderr, 'Could not determine shell for %s.  Defaulting to /sbin/nologin' % username
+        return '/sbin/nologin'
+
+    def passwd_text(self, people=None):
+        i = 0
+        passwd_file = open(self.temp + '/passwd.txt', 'w')
+        shadow_file = open(self.temp + '/shadow.txt', 'w')
+        os.chmod(self.temp + '/shadow.txt', 00400)
+        if not self.people:
+            self.people = self.people_list()
+        for person in self.people:
+            username = person['username']
+            if self.valid_user(username):
+                uid = person['id']
+                human_name = person['human_name']
+                password = person['password']
+                home_dir = "%s/%s" % (config.get('users', 'home'), username)
+                shell = self.shell(username)
+                passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+                passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+                passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+                shadow_file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
+                shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
+                shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+                i = i + 1
+        passwd_file.close()
+        shadow_file.close()
         
-    def is_valid_user(self, person_id):
+    def valid_user_group(self, person_id):
         ''' Determine if person is valid on this machine as defined in the
         config file.  I worry that this is going to be horribly inefficient
         with large numbers of users and groups.'''
@@ -115,41 +167,7 @@ class MakeShellAccounts(BaseClient):
                     return True
         return False
 
-    def shadow_text(self, people=None):
-        i = 0
-        file = open(self.temp + '/shadow.txt', 'w')
-        os.chmod(self.temp + '/shadow.txt', 00400)
-        if not people:
-            people = self.people_list()
-        for person in people:
-            uid = person['id']
-            if self.is_valid_user(uid):
-                username = person['username']
-                password = person['password']
-                file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
-                file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
-                file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
-                i = i + 1
-        file.close()
-        
-    def passwd_text(self, people=None):
-        i = 0
-        file = open(self.temp + '/passwd.txt', 'w')
-        if not self.people:
-            self.people = self.people_list()
-        for person in self.people:
-            uid = person['id']
-            if self.is_valid_user(uid):
-                username = person['username']
-                human_name = person['human_name']
-                home_dir = "%s/%s" % (config.get('users', 'home'), username)
-                shell = config.get('users', 'shell')
-                file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-                file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-                file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
-                i = i + 1
-        file.close()
-        
+
     def groups_text(self, groups=None, people=None):
         i = 0
         file = open(self.temp + '/group.txt', 'w')
@@ -162,7 +180,7 @@ class MakeShellAccounts(BaseClient):
         usernames = {}
         for person in people:
             uid = person['id']
-            if self.is_valid_user(uid):
+            if self.valid_user_group(uid):
                 username = person['username']
                 usernames[uid] = username
                 file.write("=%i %s:x:%i:\n" % (uid, username, uid))
@@ -179,6 +197,7 @@ class MakeShellAccounts(BaseClient):
                 for member in self.memberships[name]:
                     members.append(usernames[member['person_id']])
                 memberships = ','.join(members)
+                self.group_mapping[name] = members
             except KeyError:
                 ''' No users exist in the group '''
                 pass
@@ -208,12 +227,9 @@ class MakeShellAccounts(BaseClient):
     def make_passwd_db(self):
         self.passwd_text()
         os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
-    
-    def make_shadow_db(self):
-        self.shadow_text()
         os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
         os.chmod(self.temp + '/shadow.db', 00400)
-    
+
     def install_passwd_db(self):
         try:
             move(self.temp + '/passwd.db', '/var/db/passwd.db')
@@ -287,7 +303,6 @@ if __name__ == '__main__':
         fas.mk_tempdir()
         fas.make_group_db()
         fas.make_passwd_db()
-        fas.make_shadow_db()
         if not opts.no_group:
             fas.install_group_db()
         if not opts.no_passwd:
