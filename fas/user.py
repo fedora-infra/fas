@@ -213,7 +213,7 @@ class User(controllers.Controller):
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
+    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
         username = turbogears.identity.current.user_name
         target = targetname
         person = People.by_username(username)
@@ -230,6 +230,7 @@ class User(controllers.Controller):
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
+            target.ssh_key = ssh_key
             target.postal_address = postal_address
             target.comments = comments
             target.locale = locale

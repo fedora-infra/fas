@@ -22,7 +22,7 @@
         <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Public SSH Key:')}</dt>
-            <dd py:if="person.ssh_key">title="${person.ssh_key}">${person.ssh_key[:10]}&nbsp;</dd>
+            <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
             <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
         </py:if>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
