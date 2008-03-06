@@ -98,6 +98,8 @@ class Root(controllers.RootController):
         :forward_url: The url to send to once authentication succeeds
         :previous_url: The url that sent us to the login page
         '''
+        if forward_url == '.':
+            forward_url = turbogears.url('/../home')
         if not identity.current.anonymous \
             and identity.was_login_attempted() \
             and not identity.get_identity_errors():
@@ -110,7 +112,7 @@ class Root(controllers.RootController):
                 # is better.
                 return dict(user = identity.current.user)
             if not forward_url:
-                forward_url = '.'
+                forward_url = turbogears.url('/')
             raise redirect(forward_url)
 
         forward_url=None
