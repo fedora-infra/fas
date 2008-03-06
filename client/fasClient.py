@@ -22,12 +22,13 @@
 
 import sys
 import logging
+import syslog
 import os
 import tempfile
 
 from fedora.tg.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
-from shutil import move, rmtree
+from shutil import move, rmtree, copy
 from rhpl.translate import _
 
 import ConfigParser
@@ -59,6 +60,12 @@ parser.add_option('--noshadow',
                      default = False,
                      action = 'store_true',
                      help = _('Do not sync shadow information'))
+parser.add_option('--nohome',
+                     dest = 'no_home_dirs',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not create home dirs'))
+
 parser.add_option('-s', '--server',
                      dest = 'FAS_URL',
                      default = None,
@@ -77,6 +84,8 @@ parser.add_option('-d', '--disable',
 
 (opts, args) = parser.parse_args()
 
+log = logging.getLogger('fas')
+
 try:
     config = ConfigParser.ConfigParser()
     if os.path.exists(opts.CONFIG_FILE):
@@ -92,6 +101,11 @@ except ConfigParser.MissingSectionHeaderError, e:
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url')
+
+def _chown(arg, dir_name, files):
+    os.chown(dir_name, arg[0], arg[1])
+    for file in files:
+        os.chown(os.path.join(dir_name, file), arg[0], arg[1])
 
 class MakeShellAccounts(BaseClient):
     temp = None
@@ -112,9 +126,6 @@ class MakeShellAccounts(BaseClient):
             config.get('host', 'ssh_restricted_groups').split(',')
         try:
             for group in valid_groups:
-                print group
-                print self.group_mapping[group]
-                print username
                 if username in self.group_mapping[group]:
                     return True
         except KeyError:
@@ -156,7 +167,7 @@ class MakeShellAccounts(BaseClient):
                 i = i + 1
         passwd_file.close()
         shadow_file.close()
-        
+                
     def valid_user_group(self, person_id):
         ''' Determine if person is valid on this machine as defined in the
         config file.  I worry that this is going to be horribly inefficient
@@ -247,6 +258,27 @@ class MakeShellAccounts(BaseClient):
             move(self.temp + '/group.db', '/var/db/group.db')
         except IOError, e:
             print "ERROR: Could not write group db - %s" % e
+    
+    def create_homedirs(self):
+        ''' Create homedirs and home base dir if they do not exist '''
+        home_base = config.get('users', 'home')
+        if not os.path.exists(home_base):
+            os.makedirs(home_base, mode=0755)
+        for person in self.people:
+            home_dir = os.path.join(home_base, person['username'])
+            if not os.path.exists(home_dir) and self.valid_user(person['username']):
+                syslog.syslog('Creating homedir for %s' % person['username'])
+                os.makedirs(home_dir, mode=0755)
+                try:
+                    copy('/etc/skel/.*', home_dir)
+                except IOError:
+                    pass
+                try:
+                    copy('/etc/skel/*', home_dir)
+                except IOError:
+                    pass
+                os.path.walk(home_dir, _chown, [person['id'], person['id']])
+
 
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
@@ -309,6 +341,8 @@ if __name__ == '__main__':
             fas.install_passwd_db()
         if not opts.no_shadow:
             fas.install_shadow_db()
+        if not opts.no_home_dirs:
+            fas.create_homedirs()
         fas.rm_tempdir()
     if not (opts.install or opts.enable or opts.disable):
         parser.print_help()
