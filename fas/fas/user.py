@@ -63,15 +63,14 @@ class ValidSSHKey(validators.FancyValidator):
     def validate_python(self, value, state):
 #        value = value.file.read()
         print dir(value)
-        email_pattern = "[a-zA-Z0-9\.\+\-_]+@[a-zA-Z0-9\.\-]+"
         keylines = value.split('\n')
         print "KEYLINES: %s" % keylines
         for keyline in keylines:
             if not keyline:
                 continue
             keyline = keyline.strip()
-            m = re.match('ssh-[dr]s[as] [^ ]+ ' + email_pattern, keyline)
-            if not m or m.end() < len(keyline):
+            m = re.match('^(rsa|dsa|ssh-rsa|ssh-dss) [ \t]*[^ \t]+.*$', keyline)
+            if not m:
                 raise validators.Invalid(_('Error - Not a valid ssh key: %s') % keyline, value, state)
 
 class ValidUsername(validators.FancyValidator):
