@@ -297,7 +297,7 @@ Fedora user %(user)s, aka %(name)s <%(email)s> has requested
 membership for %(applicant)s (%(applicant_name)s) in the %(group)s group and needs a sponsor.
 
 Please go to %(url)s to take action.  
-''') % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.emails['primary'].email, 'url': url, 'group': group.name}
+''') % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.emails['primary'], 'url': url, 'group': group.name}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
                     {'user': target.username, 'group': group.name})
@@ -328,14 +328,14 @@ Please go to %(url)s to take action.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been sponsored" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been sponsored" % group.name)
                 message.plain = _('''
 %(name)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
 propagate into the e-mail aliases and CVS repository within an hour.
 
 %(joinmsg)s
-''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'joinmsg': group.joinmsg}
+''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'], 'joinmsg': group.joinmsg}
                 turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % target.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -366,13 +366,13 @@ propagate into the e-mail aliases and CVS repository within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been removed" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = _('''
 %(name)s <%(email)s> has removed you from the '%(group)s'
 group of the Fedora Accounts System This change is effective
 immediately for new operations, and should propagate into the e-mail
 aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email}
+''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary']}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
@@ -403,7 +403,7 @@ aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been upgraded" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been upgraded" % group.name)
                 # Should we make person.upgrade return this?
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
@@ -412,7 +412,7 @@ aliases within an hour.
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'status': status}
+''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'], 'status': status}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%s has been upgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -442,7 +442,7 @@ into the e-mail aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'].email, "Your Fedora '%s' membership has been downgraded" % group.name)
+                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been downgraded" % group.name)
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
                 message.plain = _('''
@@ -450,7 +450,7 @@ into the e-mail aliases within an hour.
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'].email, 'status': status}
+''') % {'group': group.name, 'name': person.human_name, 'email': person.emails['primary'], 'status': status}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%s has been downgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -494,7 +494,7 @@ into the e-mail aliases within an hour.
         group = Groups.by_name(groupname)
 
         if isApproved(person, group):
-            message = turbomail.Message(person.emails['primary'].email, target, _('Come join The Fedora Project!'))
+            message = turbomail.Message(person.emails['primary'], target, _('Come join The Fedora Project!'))
             message.plain = _('''
 %(name)s <%(email)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
@@ -510,7 +510,7 @@ place for you whether you're an artist, a web site builder, a writer, or
 a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
-Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': person.human_name, 'email': person.emails['primary'].email}
+Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': person.human_name, 'email': person.emails['primary']}
             turbomail.enqueue(message)
             turbogears.flash(_('Message sent to: %s') % target)
             turbogears.redirect('/group/view/%s' % group.name)
