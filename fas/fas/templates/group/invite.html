@@ -12,12 +12,12 @@
       <div>
         <!--TODO: Make the email translatable -->
         ${_('To email:')} <input type="text" value="" name="target" /><br />
-        ${_('From:')} ${person.emails['primary'].email}<br />
+        ${_('From:')} ${person.emails['primary']}<br />
         ${_('Subject:')} Invitation to join the Fedora Team!<br />
         ${_('Message:')}
         <div class="message">
           <p>
-          ${person.human_name} &lt;<a href="mailto: ${person.emails['primary'].email}">${person.emails['primary'].email}</a>&gt; has invited you to join the Fedora
+          ${person.human_name} &lt;<a href="mailto: ${person.emails['primary']}">${person.emails['primary']}</a>&gt; has invited you to join the Fedora
           Project!  We are a community of users and developers who produce a
           complete operating system from entirely free and open source software
           (FOSS).  ${person.human_name} thinks that you have knowledge and skills

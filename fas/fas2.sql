@@ -93,11 +93,6 @@ create index email_purposes_email_id_idx on email_purposes(email_id);
 create index email_purposes_person_id_idx on email_purposes(person_id);
 cluster email_purposes_person_id_idx on email_purposes;
 
--- Set up a view so we can get all the information about a person's emails.
-create view person_emailsv (id, email, person_id, validtoken, description, verified, purpose) as (select pe.id, email, pe.person_id, validtoken,
-  description, verified, purpose from person_emails as pe,
-  email_purposes as pep where pe.id = pep.email_id);
-
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
     person_id integer references people(id),
@@ -167,11 +162,6 @@ CREATE TABLE group_email_purposes (
 create index group_email_purposes_email_id_idx on group_email_purposes(email_id);
 create index group_email_purposes_person_id_idx on group_email_purposes(group_id);
 cluster group_email_purposes_person_id_idx on group_email_purposes;
-
--- Set up a view so we can get all the information about a group's emails.
-create view group_emailsv (id, email, group_id, validtoken, description, verified, purpose) as (select ge.id, ge.email, ge.group_id, ge.validtoken,
-  ge.description, ge.verified, gep.purpose from group_emails as ge,
-  group_email_purposes as gep where ge.id = gep.email_id);
 
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
@@ -451,7 +441,7 @@ create trigger role_bugzilla_sync before update or insert or delete
 --   for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq, person_emails_id_seq, group_emails_id_seq TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
 INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');

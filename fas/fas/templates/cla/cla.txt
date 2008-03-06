@@ -27,7 +27,7 @@
    fedora-legal@redhat.com. Please read this document carefully before
    signing and keep a copy for your records.
 
-    Full name: ${'%28s' % person.human_name}  E-Mail:    ${'%17s' % person.emails['primary'].email}
+    Full name: ${'%28s' % person.human_name}  E-Mail:    ${'%17s' % person.emails['primary']}
 
     Address:
 ${person.postal_address}
@@ -150,5 +150,5 @@ ${person.postal_address}
 
     If you agree to these terms and conditions, type "I agree" here: 
     Enter your full name here: 
-    E-mail: ${person.emails['primary'].email}
+    E-mail: ${person.emails['primary']}
     Date: ${date}

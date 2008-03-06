@@ -16,6 +16,7 @@
 # permission of Red Hat, Inc.
 #
 # Author(s): Toshio Kuratomi <tkuratom@redhat.com>
+#            Ricky Zhou <ricky@fedoraproject.org>
 #
 
 '''
@@ -55,21 +56,14 @@ get_engine()
 #
 
 PeopleTable = Table('people', metadata, autoload=True)
-# This is a view and therefore needs to have its key columns defined
-PersonEmailsTable = Table('person_emailsv', metadata,
-        Column('id', Integer, primary_key=True),
-        Column('purpose', Unicode, primary_key=True),
-        Column('person_id', Integer, ForeignKey('people.id')),
-        autoload=True)
+PersonEmailsTable = Table('person_emails', metadata, autoload=True)
+EmailPurposesTable = Table('email_purposes', metadata, autoload=True)
 PersonRolesTable = Table('person_roles', metadata, autoload=True)
+
 ConfigsTable = Table('configs', metadata, autoload=True)
 GroupsTable = Table('groups', metadata, autoload=True)
-# This is a view and therefore needs to have its key columns defined
-GroupEmailsTable = Table('group_emailsv', metadata,
-        Column('id', Integer, primary_key=True),
-        Column('purpose', Unicode, primary_key=True),
-        Column('person_id', Integer, ForeignKey('groups.id')),
-        autoload=True)
+GroupEmailsTable = Table('group_emails', metadata, autoload=True)
+GroupEmailPurposesTable = Table('group_email_purposes', metadata, autoload=True)
 GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
@@ -274,32 +268,18 @@ class People(SABase):
     approved_memberships = association_proxy('approved_roles', 'group')
     unapproved_memberships = association_proxy('unapproved_roles', 'group')
 
-# It's possible we want to merge this into the People class
-'''
-class User(object):
-    """
-    Reasonably basic User definition.
-    Probably would want additional attributes.
-    """
-    def _set_password(self, password):
-        """
-        encrypts password on the fly using the encryption
-        algo defined in the configuration
-        """
-        self._password = identity.encrypt_password(password)
+    emails = association_proxy('email_purposes', 'email')
 
-    def _get_password(self):
-        """
-        returns password
-        """
-        return self._password
-
-    password = property(_get_password, _set_password)
-
-'''
 class PersonEmails(SABase):
     '''Map a person to an email address.'''
-    pass
+    def __repr__(cls):
+        return "PersonEmails(%s,%s,%s,%s)" % (cls.person.username, cls.email, cls.description, cls.verified)
+
+class EmailPurposes(SABase):
+    '''Map a person to an email (with a purpose).'''
+    def __repr__(cls):
+        return "EmailPurposes(%s,%s,%s)" % (cls.person.username, cls.email, cls.purpose)
+    email = association_proxy('person_email', 'email')
 
 class PersonRoles(SABase):
     '''Record people that are members of groups.'''
@@ -332,9 +312,20 @@ class Groups(SABase):
     # Groups that this group belongs to
     memberships = association_proxy('group_roles', 'group')
 
+    emails = association_proxy('email_purposes', 'email')
+
 class GroupEmails(SABase):
     '''Map a group to an email address.'''
-    pass
+    def __repr__(cls):
+        return "GroupEmails(%s,%s,%s,%s)" % (cls.group.name, cls.email, cls.description, cls.verified)
+
+class GroupEmailPurposes(SABase):
+    '''Map a group to an email (with a purpose).'''
+    def __repr__(cls):
+        return "GroupEmailPurposes(%s,%s,%s)" % (cls.group.name, cls.email, cls.purpose)
+
+    email = association_proxy('group_email', 'email')
+
 
 class GroupRoles(SABase):
     '''Record groups that are members of other groups.'''
@@ -403,15 +394,22 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
     })
 
 mapper(People, PeopleTable, properties = {
-    'emails': relation(PersonEmails, backref = 'person',
+    'email_purposes': relation(EmailPurposes, backref = 'person',
         collection_class = column_mapped_collection(
-            PersonEmailsTable.c.purpose)),
+            EmailPurposesTable.c.purpose)),
     'approved_roles': relation(ApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
     })
-mapper(PersonEmails, PersonEmailsTable)
+mapper(PersonEmails, PersonEmailsTable, properties = {
+    'person': relation(People, uselist = False,
+        primaryjoin = PeopleTable.c.id==PersonEmailsTable.c.person_id)
+    })
+mapper(EmailPurposes, EmailPurposesTable, properties = {
+    'person_email': relation(PersonEmails, uselist = False,
+        primaryjoin = PersonEmailsTable.c.id==EmailPurposesTable.c.email_id)
+    })
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles',
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
@@ -425,13 +423,20 @@ mapper(Configs, ConfigsTable, properties = {
 mapper(Groups, GroupsTable, properties = {
     'owner': relation(People, uselist=False,
         primaryjoin = GroupsTable.c.owner_id==PeopleTable.c.id),
-    'emails': relation(GroupEmails, backref = 'group',
+    'email_purposes': relation(GroupEmailPurposes, backref = 'group',
         collection_class = column_mapped_collection(
-            GroupEmailsTable.c.purpose)),
+            GroupEmailPurposesTable.c.purpose)),
     'prerequisite': relation(Groups, uselist=False,
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
     })
-mapper(GroupEmails, GroupEmailsTable)
+mapper(GroupEmails, GroupEmailsTable, properties = {
+    'group': relation(Groups, uselist = False,
+        primaryjoin = GroupsTable.c.id==GroupEmailsTable.c.group_id)
+    })
+mapper(GroupEmailPurposes, GroupEmailPurposesTable, properties = {
+    'group_email': relation(GroupEmails, uselist = False,
+        primaryjoin = GroupEmailsTable.c.id==GroupEmailPurposesTable.c.email_id)
+    })
 # GroupRoles are complex because the group is a member of a group and thus
 # is referencing the same table.
 mapper(GroupRoles, GroupRolesTable, properties = {

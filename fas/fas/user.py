@@ -225,8 +225,8 @@ class User(controllers.Controller):
             return dict()
         try:
             target.human_name = human_name
-            target.emails['primary'].email = email
-#            target.emails['bugzilla'] = PersonEmails(primary=bugzilla)
+            target.emails['primary'] = email
+#            target.emails['bugzilla'] = bugzilla
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -277,9 +277,24 @@ class User(controllers.Controller):
             person.telephone = telephone
             person.password = '*'
             person.status = 'active'
-            person.emails['primary'] = PersonEmails(email=email, purpose='primary')
+            session.flush()
+
+            person_email = PersonEmails()
+            person_email.email = email
+            person_email.person = person
+            person_email.description = 'Fedora Email'
+            person_email.verified = True # The first email is verified for free, since this is where their password is sent.
+            session.flush()
+
+            email_purpose = EmailPurposes()
+            email_purpose.person = person
+            email_purpose.person_email = person_email
+            email_purpose.purpose = 'primary'
+            session.flush()
+
             newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'].email, _('Welcome to the Fedora Project!'))
+            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'], _('Welcome to the Fedora Project!'))
+            HERE
             message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
@@ -372,7 +387,7 @@ forward to working with you!
             return dict()
         person = People.by_username(username)
         if username and email:
-            if not email == person.emails['primary'].email:
+            if not email == person.emails['primary']:
                 turbogears.flash(_("username + email combo unknown."))
                 return dict()
             newpass = generate_password()
@@ -455,7 +470,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
           O=config.get('openssl_o'),
           OU=config.get('openssl_ou'),
           CN=person.username,
-          emailAddress=person.emails['primary'].email,
+          emailAddress=person.emails['primary'],
           )
 
       cert = createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
