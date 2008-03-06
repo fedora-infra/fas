@@ -54,6 +54,25 @@ class UnknownUser(validators.FancyValidator):
 
         raise validators.Invalid(_("'%s' already exists.") % value, value, state)
 
+class ValidSSHKey(validators.FancyValidator):
+    ''' Make sure the ssh key uploaded is valid '''
+    def _to_python(self, value, state):
+        
+        return value.file.read()
+    def validate_python(self, value, state):
+#        value = value.file.read()
+        print dir(value)
+        email_pattern = "[a-zA-Z0-9\.\+\-_]+@[a-zA-Z0-9\.\-]+"
+        keylines = value.split('\n')
+        print "KEYLINES: %s" % keylines
+        for keyline in keylines:
+            if not keyline:
+                continue
+            keyline = keyline.strip()
+            m = re.match('ssh-[dr]s[as] [^ ]+ ' + email_pattern, keyline)
+            if not m or m.end() < len(keyline):
+                raise validators.Invalid(_('Error - Not a valid ssh key: %s') % keyline, value, state)
+
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     def _to_python(self, value, state):
@@ -69,6 +88,7 @@ class UserSave(validators.Schema):
         validators.String(not_empty=True, max=42),
         validators.Regex(regex='^[^\n:<>]+$'),
         )
+    ssh_key = ValidSSHKey(max=5000)
     #mail = validators.All(
     #    validators.Email(not_empty=True, strip=True, max=128),
     #    NonFedoraEmail(not_empty=True, strip=True, max=128),
@@ -230,7 +250,8 @@ class User(controllers.Controller):
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
-            target.ssh_key = ssh_key
+            if ssh_key:
+                target.ssh_key = ssh_key
             target.postal_address = postal_address
             target.comments = comments
             target.locale = locale
