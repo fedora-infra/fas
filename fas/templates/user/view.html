@@ -21,6 +21,10 @@
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
         <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
+        <py:if test="personal"><dt>${_('Public SSH Key:')}</dt>
+            <dd py:if="person.ssh_key">title="${person.ssh_key}">${person.ssh_key[:10]}&nbsp;</dd>
+            <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
+        </py:if>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <py:if test="personal"><dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd></py:if>
         <dt>${_('Account Status:')}</dt><dd>
