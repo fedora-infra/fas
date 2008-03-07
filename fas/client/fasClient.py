@@ -28,7 +28,7 @@ import tempfile
 
 from fedora.tg.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
-from shutil import move, rmtree, copy
+from shutil import move, rmtree, copytree
 from rhpl.translate import _
 
 import ConfigParser
@@ -268,17 +268,8 @@ class MakeShellAccounts(BaseClient):
             home_dir = os.path.join(home_base, person['username'])
             if not os.path.exists(home_dir) and self.valid_user(person['username']):
                 syslog.syslog('Creating homedir for %s' % person['username'])
-                os.makedirs(home_dir, mode=0755)
-                try:
-                    copy('/etc/skel/.*', home_dir)
-                except IOError:
-                    pass
-                try:
-                    copy('/etc/skel/*', home_dir)
-                except IOError:
-                    pass
+                copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [person['id'], person['id']])
-
 
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
