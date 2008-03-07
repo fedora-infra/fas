@@ -126,7 +126,7 @@ CREATE TABLE groups (
     joinmsg TEXT NULL DEFAULT '',
     -- tg_group::created
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    check (group_type in ('bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
+    check (group_type in ('system', 'bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
         'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
 );
 
