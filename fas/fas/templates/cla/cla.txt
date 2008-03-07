@@ -1,6 +1,6 @@
  The Fedora Project
  Individual Contributor License Agreement (CLA)
- http://www.fedora.redhat.com/licenses/
+ http://fedoraproject.org/wiki/Legal/Licenses/CLA
 
     Thank you for your interest in The Fedora Project (the
     "Project"). In order to clarify the intellectual property license
