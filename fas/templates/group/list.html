@@ -13,7 +13,7 @@
     ?>
     <span py:if="Groups.by_name('accounts') in person.approved_memberships">
       <h2>Create New Group</h2>
-        <a href='new'>Create Group</a>
+      <a href="${tg.url('/group/new')}">Create Group</a>
     </span>
 
     <h2>${_('List (%s)') % search}</h2>
