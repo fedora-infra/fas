@@ -25,6 +25,7 @@ class Help(controllers.Controller):
             'group_downgrade':      ['Downgrade', '''<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>'''],
             'group_approve':        ['Approve', '''<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>'''],
             'group_sponsor':        ['Sponsor', '''<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>'''],
+            'group_user_add':       ['Add User', '''<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>'''],
             }
 
     def __init__(self):
