@@ -8,3 +8,7 @@ validate_password():
   (like md5).  The one thing about that is we have to figure out how system
   passwords use salt, etc.  That way we'll be able to use this with
   make_shell_accounts.
+
+fasClient.py
+---------------
+Proper logging
