@@ -271,6 +271,21 @@ class MakeShellAccounts(BaseClient):
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [person['id'], person['id']])
 
+    def remove_stale_homedirs(self):
+        ''' Remove homedirs of users that no longer have access '''
+        home_base = config.get('users', 'home')
+        try:
+            home_backup_dir = config.get('users', 'home_backup_dir')
+        except ConfigParser.NoOptionError:
+            home_backup_dir = '/var/tmp/'
+        users = os.listdir(home_base)
+        for user in users:
+            if not self.valid_user(user):
+                if not os.path.exists(home_backup_dir):
+                    os.makedirs(home_backup_dir)
+                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
+                move(os.path.join(home_base, user), os.path.join(home_backup_dir, user))
+
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
 
@@ -334,6 +349,7 @@ if __name__ == '__main__':
             fas.install_shadow_db()
         if not opts.no_home_dirs:
             fas.create_homedirs()
+            fas.remove_stale_homedirs()
         fas.rm_tempdir()
     if not (opts.install or opts.enable or opts.disable):
         parser.print_help()
