@@ -29,6 +29,7 @@
         <li py:if="cla == None">
           ${_('CLA Not Signed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('sign the CLA')}</a>.
         </li>
+        <li py:if="not person.ssh_key">You have not submitted an SSH key, some Fedora resources require an ssh.  Please submit yours by editing <a href="${tg.url('/user/edit')}">My Account</a></li>
       </ul>
   </body>
 </html>
