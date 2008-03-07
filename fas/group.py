@@ -40,7 +40,10 @@ class GroupCreate(validators.Schema):
         validators.Regex(regex='^[a-z0-9\-]+$'),
         )
     display_name = validators.NotEmpty
-    owner = KnownUser
+    owner = validators.All(
+        KnownUser,
+        validators.NotEmpty,
+        )
     prerequisite = KnownGroup
     #group_type = something
 
