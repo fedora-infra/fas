@@ -17,6 +17,7 @@ from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas.auth import *
+from fas.user_email import Email, NonFedoraEmail
 
 from random import Random
 import sha
@@ -32,14 +33,6 @@ class KnownUser(validators.FancyValidator):
             p = People.by_username(value)
         except InvalidRequestError:
             raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
-
-class NonFedoraEmail(validators.FancyValidator):
-    '''Make sure that an email address is not @fedoraproject.org'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        if value.endswith('@fedoraproject.org'):
-            raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
 
 class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
@@ -152,6 +145,8 @@ def generate_salt(length=8):
     return salt
 
 class User(controllers.Controller):
+
+    email = Email()
 
     def __init__(self):
         '''Create a User Controller.

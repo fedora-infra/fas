@@ -429,7 +429,7 @@ mapper(People, PeopleTable, properties = {
         primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
     })
 mapper(PersonEmails, PersonEmailsTable, properties = {
-    'person': relation(People, uselist = False,
+    'person': relation(People, backref = 'person_emails', uselist = False,
         primaryjoin = PeopleTable.c.id==PersonEmailsTable.c.person_id)
     })
 mapper(EmailPurposes, EmailPurposesTable, properties = {
@@ -456,7 +456,7 @@ mapper(Groups, GroupsTable, properties = {
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
     })
 mapper(GroupEmails, GroupEmailsTable, properties = {
-    'group': relation(Groups, uselist = False,
+    'group': relation(Groups, backref = 'group_emails', uselist = False,
         primaryjoin = GroupsTable.c.id==GroupEmailsTable.c.group_id)
     })
 mapper(GroupEmailPurposes, GroupEmailPurposesTable, properties = {
