@@ -71,11 +71,12 @@ cluster people_status_idx on people;
 
 CREATE TABLE person_emails (
     id serial primary key,
-    email text not null unique,
+    email text not null,
     person_id INTEGER NOT NULL references people(id),
     validtoken text,
     description text,
     verified boolean NOT NULL DEFAULT false
+    unique (email, verified) --You can't "claim" an email before you verify it first
 );
 
 create index person_emails_person_id_idx on person_emails(person_id);
@@ -141,11 +142,12 @@ cluster groups_group_type_idx on groups;
 --
 CREATE TABLE group_emails (
     id serial primary key,
-    email text not null unique,
+    email text not null,
     group_id INTEGER NOT NULL references groups(id),
     validtoken text,
     description text,
     verified boolean NOT NULL DEFAULT false
+    unique (email, verified) --You can't "claim" an email before you verify it first
 );
 
 create index group_emails_group_id_idx on group_emails(group_id);
