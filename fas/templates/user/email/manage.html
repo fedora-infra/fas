@@ -7,7 +7,7 @@
     <title>${_('Manage Emails')}</title>
   </head>
   <body>
-    <h2>${_('Managing Emails for %s') % person.username}</h2>
+    <h2>${_('Managing Emails for %s') % target.username}</h2>
     <h3>Available Emails</h3>
     <table>
       <thead>
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr py:for="email in person.person_emails">
+        <tr py:for="email in target.person_emails.values()">
           <td><a href="mailto:${email.email}">${email.email}</a></td>
           <td>${email.description}</td>
           <td py:if="email.verified"><span class="approved">${_('Verified')}</span></td>
@@ -36,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr py:for="purpose in person.email_purposes.values()">
+        <tr py:for="purpose in target.email_purposes.values()">
           <td><a href="mailto:${purpose.email}">${purpose.email}</a></td>
           <td>${purpose.person_email.description}</td>
           <td>${purpose.purpose}</td>
