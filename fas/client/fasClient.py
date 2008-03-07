@@ -65,6 +65,11 @@ parser.add_option('--nohome',
                      default = False,
                      action = 'store_true',
                      help = _('Do not create home dirs'))
+parser.add_option('--nossh',
+                     dest = 'no_ssh_keys',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not create ssh keys'))
 
 parser.add_option('-s', '--server',
                      dest = 'FAS_URL',
@@ -286,6 +291,22 @@ class MakeShellAccounts(BaseClient):
                 syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
                 move(os.path.join(home_base, user), os.path.join(home_backup_dir, user))
 
+    def create_ssh_keys(self):
+        ''' Create ssh keys '''
+        home_base = config.get('users', 'home')
+        for person in self.people:
+            username = person['username']
+            if self.valid_user(username):
+                ssh_dir = os.path.join(home_base, username, '.ssh')
+                if person['ssh_key']:
+                    if not os.path.exists(ssh_dir):
+                        os.makedirs(ssh_dir, mode=0700)
+                    f = open(os.path.join(ssh_dir, 'authorized_keys'), 'w')
+                    f.write(person['ssh_key'])
+                    f.close()
+                    os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
+                    os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
+                    
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
 
@@ -350,6 +371,8 @@ if __name__ == '__main__':
         if not opts.no_home_dirs:
             fas.create_homedirs()
             fas.remove_stale_homedirs()
+        if not opts.no_ssh_keys:
+            fas.create_ssh_keys()
         fas.rm_tempdir()
     if not (opts.install or opts.enable or opts.disable):
         parser.print_help()
