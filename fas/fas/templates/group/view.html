@@ -54,6 +54,7 @@
           <form action="${tg.url('/group/apply/%s' % group.name)}">
             <input type='text' size='15' name='targetname'/>
             <input type="submit" value="${('Add')}" />
+            <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
           </form>
         </dd>
       </dl>
