@@ -49,6 +49,13 @@
             <dd py:if="group.prerequisite">${group.prerequisite.name}&nbsp;</dd>
             <dd py:if="not group.prerequisite">&nbsp;</dd>
         <dt>${_('Created:')}</dt><dd>${group.creation}&nbsp;</dd>
+        <dt py:if="auth.canSponsorGroup(person, group)">${_('Add User:')}</dt>
+        <dd py:if="auth.canSponsorGroup(person, group)">
+          <form action="${tg.url('/group/apply/%s' % group.name)}">
+            <input type='text' size='15' name='targetname'/>
+            <input type="submit" value="${('Add')}" />
+          </form>
+        </dd>
       </dl>
     </div>
     <!--
