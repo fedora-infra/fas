@@ -314,7 +314,7 @@ class Groups(SABase):
         A class method that can be used to search groups
         based on their email addresses since it is unique.
         '''
-        return cls.query.join(['group_email_purposes', 'group_email']).filter_by(email=email).one()
+        return cls.query.join(['email_purposes', 'group_email']).filter_by(email=email).one()
 
     by_email_address = classmethod(by_email_address)
 
@@ -452,13 +452,13 @@ mapper(Groups, GroupsTable, properties = {
     'email_purposes': relation(GroupEmailPurposes, backref = 'group',
         collection_class = column_mapped_collection(
             GroupEmailPurposesTable.c.purpose)),
+    'group_emails': relation(GroupEmails, backref = 'group',
+        collection_class = column_mapped_collection(
+            GroupEmailsTable.c.email)),
     'prerequisite': relation(Groups, uselist=False,
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
     })
-mapper(GroupEmails, GroupEmailsTable, properties = {
-    'group': relation(Groups, backref = 'group_emails', uselist = False,
-        primaryjoin = GroupsTable.c.id==GroupEmailsTable.c.group_id)
-    })
+mapper(GroupEmails, GroupEmailsTable)
 mapper(GroupEmailPurposes, GroupEmailPurposesTable, properties = {
     'group_email': relation(GroupEmails, uselist = False,
         primaryjoin = GroupEmailsTable.c.id==GroupEmailPurposesTable.c.email_id)
