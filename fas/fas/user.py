@@ -13,9 +13,11 @@ import subprocess
 
 from fas.model import People
 from fas.model import PersonEmails
+from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas.auth import *
+from fas.user_email import Email, NonFedoraEmail
 
 from random import Random
 import sha
@@ -31,14 +33,6 @@ class KnownUser(validators.FancyValidator):
             p = People.by_username(value)
         except InvalidRequestError:
             raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
-
-class NonFedoraEmail(validators.FancyValidator):
-    '''Make sure that an email address is not @fedoraproject.org'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        if value.endswith('@fedoraproject.org'):
-            raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
 
 class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
@@ -62,15 +56,14 @@ class ValidSSHKey(validators.FancyValidator):
     def validate_python(self, value, state):
 #        value = value.file.read()
         print dir(value)
-        email_pattern = "[a-zA-Z0-9\.\+\-_]+@[a-zA-Z0-9\.\-]+"
         keylines = value.split('\n')
         print "KEYLINES: %s" % keylines
         for keyline in keylines:
             if not keyline:
                 continue
             keyline = keyline.strip()
-            m = re.match('ssh-[dr]s[as] [^ ]+ ' + email_pattern, keyline)
-            if not m or m.end() < len(keyline):
+            m = re.match('^(rsa|dsa|ssh-rsa|ssh-dss) [ \t]*[^ \t]+.*$', keyline)
+            if not m:
                 raise validators.Invalid(_('Error - Not a valid ssh key: %s') % keyline, value, state)
 
 class ValidUsername(validators.FancyValidator):
@@ -152,6 +145,8 @@ def generate_salt(length=8):
     return salt
 
 class User(controllers.Controller):
+
+    email = Email()
 
     def __init__(self):
         '''Create a User Controller.
@@ -316,7 +311,6 @@ class User(controllers.Controller):
 
             newpass = generate_password()
             message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'], _('Welcome to the Fedora Project!'))
-            HERE
             message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
