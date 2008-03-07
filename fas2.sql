@@ -75,7 +75,8 @@ CREATE TABLE person_emails (
     person_id INTEGER NOT NULL references people(id),
     validtoken text,
     description text,
-    verified boolean NOT NULL DEFAULT false
+    verified boolean NOT NULL DEFAULT false,
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     unique (email, verified) --You can't "claim" an email before you verify it first
 );
 
@@ -146,7 +147,8 @@ CREATE TABLE group_emails (
     group_id INTEGER NOT NULL references groups(id),
     validtoken text,
     description text,
-    verified boolean NOT NULL DEFAULT false
+    verified boolean NOT NULL DEFAULT false,
+    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     unique (email, verified) --You can't "claim" an email before you verify it first
 );
 
