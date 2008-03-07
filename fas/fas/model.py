@@ -423,15 +423,15 @@ mapper(People, PeopleTable, properties = {
     'email_purposes': relation(EmailPurposes, backref = 'person',
         collection_class = column_mapped_collection(
             EmailPurposesTable.c.purpose)),
+    'person_emails': relation(PersonEmails, backref = 'person',
+        collection_class = column_mapped_collection(
+            PersonEmailsTable.c.email)),
     'approved_roles': relation(ApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
     })
-mapper(PersonEmails, PersonEmailsTable, properties = {
-    'person': relation(People, backref = 'person_emails', uselist = False,
-        primaryjoin = PeopleTable.c.id==PersonEmailsTable.c.person_id)
-    })
+mapper(PersonEmails, PersonEmailsTable)
 mapper(EmailPurposes, EmailPurposesTable, properties = {
     'person_email': relation(PersonEmails, uselist = False,
         primaryjoin = PersonEmailsTable.c.id==EmailPurposesTable.c.email_id)
