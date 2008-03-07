@@ -448,13 +448,13 @@ create trigger role_bugzilla_sync before update or insert or delete
 GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq, person_emails_id_seq, group_emails_id_seq TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
-INSERT INTO people (username, human_name, password) VALUES ('admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');
+INSERT INTO people (id, username, human_name, password) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');
 
 -- Create default groups and populate
-INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100002, 'cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'), 'tracking');
 INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('cla_click', 'Click-through CLA Group', (SELECT id from people where username='admin'), 'tracking');
-INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('accounts', 'Account System Admins', (SELECT id from people where username='admin'), 'tracking');
-INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100006, 'accounts', 'Account System Admins', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100148, 'fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'), 'tracking');
 INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fas-system', 'System users allowed to get password and key information', (SELECT id from people where username='admin'), 'system');
 
 
