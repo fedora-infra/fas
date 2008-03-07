@@ -140,17 +140,54 @@ class MakeShellAccounts(BaseClient):
     def ssh_key(self, person):
         ''' determine what ssh key a user should have '''
         for group in config.get('host', 'groups').split(','):
-            if person['username'] in self.group_mapping[group]:
-                return person['ssh_key']
-
+            try:
+                if person['username'] in self.group_mapping[group]:
+                    return person['ssh_key']
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
+                continue
+        for group in config.get('host', 'restricted_groups').split(','):
+            try:
+                if person['username'] in self.group_mapping[group]:
+                    return person['ssh_key']
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                continue
+        for group in config.get('host', 'ssh_restricted_groups').split(','):
+            try:
+                if person['username'] in self.group_mapping[group]:
+                    command = config.get('users', 'ssh_restricted_app')
+                    options = config.get('users', 'ssh_key_options')
+                    key = 'command="%s",%s %s' % (command, options, person['ssh_key'])
+                    return key
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
+                continue
+        return 'INVALID\n'
     def shell(self, username):
         ''' Determine what shell username should have '''
         for group in config.get('host', 'groups').split(','):
-            if username in self.group_mapping[group]:
-                return config.get('users', 'shell')
-        for group in config.get('host', 'restricted_groups'):
-            if username in self.group_mapping[group]:
-                return config.get('users', 'restricted_shell')
+            try:
+                if username in self.group_mapping[group]:
+                    return config.get('users', 'shell')
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
+                continue
+        for group in config.get('host', 'restricted_groups').split(','):
+            try:
+                if username in self.group_mapping[group]:
+                    return config.get('users', 'restricted_shell')
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                continue
+        for group in config.get('host', 'ssh_restricted_groups').split(','):
+            try:
+                if username in self.group_mapping[group]:
+                    return config.get('users', 'ssh_restricted_shell')
+            except KeyError:
+                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                continue
+
         print >> sys.stderr, 'Could not determine shell for %s.  Defaulting to /sbin/nologin' % username
         return '/sbin/nologin'
 
