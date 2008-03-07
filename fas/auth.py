@@ -157,7 +157,6 @@ def canApplyGroup(person, group, applicant):
         if prerequisite in person.approved_memberships:
             pass
         else:
-            print "GOT HERE, prereq: %s" % prerequisite
             turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
             return False
     # A user can apply themselves, and FAS admins can apply other people.
@@ -191,10 +190,8 @@ def canRemoveUser(person, group, target):
     # Otherwise, a sponsor can remove sponsors/users.
     elif ((person == target) and (group.user_can_remove == True)) or \
         canSponsorGroup(person, group):
-        print "GOT HERE TRUE"
         return True
     else:
-        print "GOT HERE FALSE"
         return False
 
 def canUpgradeUser(person, group, target):
