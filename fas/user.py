@@ -3,6 +3,8 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 from turbogears.database import session
 import cherrypy
 
+import turbomail
+
 import os
 import re
 import gpgme
@@ -221,7 +223,8 @@ class User(controllers.Controller):
             target = person
         if not canEditUser(person, target):
             turbogears.flash(_('You cannot edit %s') % target.username )
-            username = turbogears.identity.current.username
+            turbogears.redirect('/user/view/%s', target.username)
+            return dict()
         return dict(target=target)
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -236,7 +239,7 @@ class User(controllers.Controller):
 
         if not canEditUser(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
-            turbogears.redirect('/user/edit/%s', target.username)
+            turbogears.redirect('/user/view/%s', target.username)
             return dict()
         try:
             target.human_name = human_name
@@ -286,7 +289,6 @@ class User(controllers.Controller):
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.  
-        import turbomail
         try:
             person = People()
             person.username = username
@@ -296,6 +298,7 @@ class User(controllers.Controller):
             person.status = 'active'
             session.flush()
 
+            # TODO: Handle properly if email has already been used.  This might be painful, since the person already exists, at this point. 
             person_email = PersonEmails()
             person_email.email = email
             person_email.person = person
