@@ -109,13 +109,13 @@ class People(SABase):
         '''
         return cls.query.filter_by(id=id).one()
     by_id = classmethod(by_id)
-    
+
     def by_email_address(cls, email):
         '''
         A class method that can be used to search users
         based on their email addresses since it is unique.
         '''
-        return cls.query.join('emails').filter_by(email=email).first()
+        return cls.query.join(['email_purposes', 'person_email']).filter_by(email=email).one()
 
     by_email_address = classmethod(by_email_address)
 
@@ -141,7 +141,7 @@ class People(SABase):
             role.role_type = 'user'
             role.member = cls
             role.group = group
-        
+
     def approve(cls, group, requester):
         '''
         Approve a person in a group  - requester for logging purposes
@@ -151,7 +151,7 @@ class People(SABase):
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             role.role_status = 'approved'
-        
+
     def upgrade(cls, group, requester):
         '''
         Upgrade a user in a group - requester for logging purposes
@@ -166,7 +166,7 @@ class People(SABase):
                 role.role_type = 'administrator'
             elif role.role_type == 'user':
                 role.role_type = 'sponsor'
-        
+
     def downgrade(cls, group, requester):
         '''
         Downgrade a user in a group - requester for logging purposes
@@ -181,7 +181,7 @@ class People(SABase):
                 role.role_type = 'user'
             elif role.role_type == 'administrator':
                 role.role_type = 'sponsor'
-                
+
     def sponsor(cls, group, requester):
         # If we want to do logging, this might be the place.
         if not group in cls.unapproved_memberships:
@@ -300,6 +300,24 @@ class Configs(SABase):
 
 class Groups(SABase):
     '''Group that people can belong to.'''
+
+    def by_id(cls, id):
+        '''
+        A class method that can be used to search groups
+        based on their unique id
+        '''
+        return cls.query.filter_by(id=id).one()
+    by_id = classmethod(by_id)
+
+    def by_email_address(cls, email):
+        '''
+        A class method that can be used to search groups
+        based on their email addresses since it is unique.
+        '''
+        return cls.query.join(['group_email_purposes', 'group_email']).filter_by(email=email).one()
+
+    by_email_address = classmethod(by_email_address)
+
     def by_name(cls, name):
         '''
         A class method that permits to search groups
@@ -372,7 +390,7 @@ class UnApprovedRoles(PersonRoles):
 
 class Visit(SABase):
     '''Track how many people are visiting the website.
-    
+
     It doesn't currently make sense for us to track this here so we clear this
     table of stale records every hour.
     '''
@@ -382,7 +400,7 @@ class Visit(SABase):
 
 class VisitIdentity(SABase):
     '''Associate a user with a visit cookie.
-    
+
     This allows users to log in to app.
     '''
     pass
