@@ -26,6 +26,14 @@ class Help(controllers.Controller):
             'group_approve':        ['Approve', '''<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>'''],
             'group_sponsor':        ['Sponsor', '''<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>'''],
             'group_user_add':       ['Add User', '''<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>'''],
+            'group_name':           ['Group Name', '''<p>The name of the group you'd like to create.  It should be alphanumeric though '-'s are allowed</p>'''],
+            'group_display_name':   ['Display Name', '''<p>More human readable name of the group</p>'''],
+            'group_owner':          ['Group Owner', '''<p>The name of the owner who will run this group</p>'''],
+            'group_type':           ['Group Type', '''<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>'''],
+            'group_needs_sponsor':  ['Needs Sponsor', '''<p>If your group requires sponsorship (recommended), this means that when a user is approved by a sponsor.  That relationship is recorded in the account system.  If user A sponsors user N, then in viewing the members of this group, people will know to contact user A about user N if something goes wrong.  If this box is unchecked, this means that only approval is needed and no relationship is recorded about who did the approving</p>'''],
+            'group_self_removal':   ['Self Removal', '''<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>'''],
+            'group_prerequisite':   ['Must Belong To', '''<p>Before a user can join this group, they must belong to the group listed in this box.  <b>This value cannot be removed without administrative intervention, only changed</b>.  Recommended values are for the 'cla_sign' group.</p>'''],
+            'group_join_message':   ['Join Message', '''<p>This message will go out to users when they join the group.  It should be informative and offer tips about what to do next.  A description of the group would also be valuable here</p>'''],
             }
 
     def __init__(self):
