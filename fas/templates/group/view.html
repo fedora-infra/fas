@@ -66,7 +66,7 @@
           <th>${_('Date Approved')}</th>
           <th>${_('Approval')}</th>
           <th>${_('Role Type')}</th>
-          <th py:if="auth.canSponsorGroup(person.username, group.name)">${_('Action')}</th>
+          <th py:if="auth.canSponsorGroup(person, group)">${_('Action')}</th>
         </tr>
       </thead>
       <tr py:for="role in group.roles">
