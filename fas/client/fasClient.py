@@ -137,6 +137,12 @@ class MakeShellAccounts(BaseClient):
             return False
         return False
     
+    def ssh_key(self, person):
+        ''' determine what ssh key a user should have '''
+        for group in config.get('host', 'groups').split(','):
+            if person['username'] in self.group_mapping[group]:
+                return person['ssh_key']
+
     def shell(self, username):
         ''' Determine what shell username should have '''
         for group in config.get('host', 'groups').split(','):
@@ -299,10 +305,11 @@ class MakeShellAccounts(BaseClient):
             if self.valid_user(username):
                 ssh_dir = os.path.join(home_base, username, '.ssh')
                 if person['ssh_key']:
+                    key = self.ssh_key(person)
                     if not os.path.exists(ssh_dir):
                         os.makedirs(ssh_dir, mode=0700)
                     f = open(os.path.join(ssh_dir, 'authorized_keys'), 'w')
-                    f.write(person['ssh_key'])
+                    f.write(key)
                     f.close()
                     os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
                     os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
