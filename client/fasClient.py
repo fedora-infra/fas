@@ -105,7 +105,7 @@ except ConfigParser.MissingSectionHeaderError, e:
         print >> sys.stderr, "Config file does not have proper formatting - %s" % e
         sys.exit(6)
 
-FAS_URL = config.get('global', 'url')
+FAS_URL = config.get('global', 'url').strip('"')
 
 def _chown(arg, dir_name, files):
     os.chown(dir_name, arg[0], arg[1])
@@ -120,15 +120,15 @@ class MakeShellAccounts(BaseClient):
     group_mapping = {}
     
     def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
     def rm_tempdir(self):
         rmtree(self.temp)
     
     def valid_user(self, username):
-        valid_groups = config.get('host', 'groups').split(',') + \
-            config.get('host', 'restricted_groups').split(',') + \
-            config.get('host', 'ssh_restricted_groups').split(',')
+        valid_groups = config.get('host', 'groups').strip('"').split(',') + \
+            config.get('host', 'restricted_groups').strip('"').split(',') + \
+            config.get('host', 'ssh_restricted_groups').strip('"').split(',')
         try:
             for group in valid_groups:
                 if username in self.group_mapping[group]:
@@ -139,25 +139,25 @@ class MakeShellAccounts(BaseClient):
     
     def ssh_key(self, person):
         ''' determine what ssh key a user should have '''
-        for group in config.get('host', 'groups').split(','):
+        for group in config.get('host', 'groups').strip('"').split(','):
             try:
                 if person['username'] in self.group_mapping[group]:
                     return person['ssh_key']
             except KeyError:
                 print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
                 continue
-        for group in config.get('host', 'restricted_groups').split(','):
+        for group in config.get('host', 'restricted_groups').strip('"').split(','):
             try:
                 if person['username'] in self.group_mapping[group]:
                     return person['ssh_key']
             except KeyError:
                 print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
                 continue
-        for group in config.get('host', 'ssh_restricted_groups').split(','):
+        for group in config.get('host', 'ssh_restricted_groups').strip('"').split(','):
             try:
                 if person['username'] in self.group_mapping[group]:
-                    command = config.get('users', 'ssh_restricted_app')
-                    options = config.get('users', 'ssh_key_options')
+                    command = config.get('users', 'ssh_restricted_app').strip('"')
+                    options = config.get('users', 'ssh_key_options').strip('"')
                     key = 'command="%s",%s %s' % (command, options, person['ssh_key'])
                     return key
             except KeyError:
@@ -166,24 +166,24 @@ class MakeShellAccounts(BaseClient):
         return 'INVALID\n'
     def shell(self, username):
         ''' Determine what shell username should have '''
-        for group in config.get('host', 'groups').split(','):
+        for group in config.get('host', 'groups').strip('"').split(','):
             try:
                 if username in self.group_mapping[group]:
-                    return config.get('users', 'shell')
+                    return config.get('users', 'shell').strip('"')
             except KeyError:
                 print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
                 continue
-        for group in config.get('host', 'restricted_groups').split(','):
+        for group in config.get('host', 'restricted_groups').strip('"').split(','):
             try:
                 if username in self.group_mapping[group]:
-                    return config.get('users', 'restricted_shell')
+                    return config.get('users', 'restricted_shell').strip('"')
             except KeyError:
                 print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
                 continue
-        for group in config.get('host', 'ssh_restricted_groups').split(','):
+        for group in config.get('host', 'ssh_restricted_groups').strip('"').split(','):
             try:
                 if username in self.group_mapping[group]:
-                    return config.get('users', 'ssh_restricted_shell')
+                    return config.get('users', 'ssh_restricted_shell').strip('"')
             except KeyError:
                 print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
                 continue
@@ -204,7 +204,7 @@ class MakeShellAccounts(BaseClient):
                 uid = person['id']
                 human_name = person['human_name']
                 password = person['password']
-                home_dir = "%s/%s" % (config.get('users', 'home'), username)
+                home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
                 shell = self.shell(username)
                 passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
                 passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
@@ -309,7 +309,7 @@ class MakeShellAccounts(BaseClient):
     
     def create_homedirs(self):
         ''' Create homedirs and home base dir if they do not exist '''
-        home_base = config.get('users', 'home')
+        home_base = config.get('users', 'home').strip('"')
         if not os.path.exists(home_base):
             os.makedirs(home_base, mode=0755)
         for person in self.people:
@@ -321,9 +321,9 @@ class MakeShellAccounts(BaseClient):
 
     def remove_stale_homedirs(self):
         ''' Remove homedirs of users that no longer have access '''
-        home_base = config.get('users', 'home')
+        home_base = config.get('users', 'home').strip('"')
         try:
-            home_backup_dir = config.get('users', 'home_backup_dir')
+            home_backup_dir = config.get('users', 'home_backup_dir').strip('"')
         except ConfigParser.NoOptionError:
             home_backup_dir = '/var/tmp/'
         users = os.listdir(home_base)
@@ -336,7 +336,7 @@ class MakeShellAccounts(BaseClient):
 
     def create_ssh_keys(self):
         ''' Create ssh keys '''
-        home_base = config.get('users', 'home')
+        home_base = config.get('users', 'home').strip('"')
         for person in self.people:
             username = person['username']
             if self.valid_user(username):
@@ -352,7 +352,7 @@ class MakeShellAccounts(BaseClient):
                     os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
                     
 def enable():
-    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
+    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
     old = open('/etc/sysconfig/authconfig', 'r')
     new = open(temp + '/authconfig', 'w')
@@ -372,7 +372,7 @@ def enable():
     rmtree(temp)
 
 def disable():
-    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp'))
+    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
     old = open('/etc/sysconfig/authconfig', 'r')
     new = open(temp + '/authconfig', 'w')
     for line in old:
@@ -399,7 +399,7 @@ if __name__ == '__main__':
 
     if opts.install:
         try:
-            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login'), config.get('global', 'password'), False)
+            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), False)
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)
