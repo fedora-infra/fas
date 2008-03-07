@@ -23,6 +23,9 @@
           </dl>
       </py:for>
       <ul class="queue">
+        <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('GPG Sign it!')}</a></py:if>)</span>
+        <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</py:if></span>
+
         <li py:if="cla == None">
           ${_('CLA Not Signed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('sign the CLA')}</a>.
         </li>
