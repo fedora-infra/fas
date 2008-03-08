@@ -1,25 +1,34 @@
+#!/usr/bin/python -tt
+
+import os
+
 from setuptools import setup, find_packages
 from turbogears.finddata import find_package_data
 
-import os
-execfile(os.path.join("fas", "release.py"))
+execfile(os.path.join('fas', 'release.py'))
 
 setup(
-    name="fas",
-    version=version,
+    name=NAME,
+    version=VERSION,
     
-    # uncomment the following lines if you fill them out in release.py
-    #description=description,
-    #author=author,
-    #author_email=email,
-    #url=url,
-    #download_url=download_url,
-    #license=license,
-    
+    description=DESCRIPTION,
+    author=AUTHOR,
+    author_email=EMAIL,
+    url=URL,
+    download_url=DOWNLOAD_URL,
+    license=LICENSE,
+   
+    #cmdclass={'build_scripts': BuildScripts,
+    #          'build': Build,
+    #          'install': Install,
+    #          'install_lib': InstallApp},
     install_requires = [
-        "TurboGears >= 1.0.4",
+        'TurboGears >= 1.0.4',
+        'SQLAlchemy >= 0.4',
+        'TurboMail',
+        'python_fedora >= 0.2.99.2'
     ],
-    scripts = ["start-fas.py"],
+    scripts = ['client/fasClient.py'],
     zip_safe=False,
     packages=find_packages(),
     package_data = find_package_data(where='fas',
@@ -44,7 +53,7 @@ setup(
         'turbogears.app',
     ],
     classifiers = [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -59,9 +68,12 @@ setup(
     ],
     test_suite = 'nose.collector',
     entry_points = {
+            'console_scripts': (
+                'start-fas = fas.commands:start',
+            ),
             'turbogears.identity.provider': (
                 'safas3 = fas.safasprovider:SaFasIdentityProvider',
-                )
-            }
-    )
+            )
+    }
+)
     
