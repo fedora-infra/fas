@@ -65,7 +65,7 @@ for person in c.fetchall():
     try:
         session.flush()
     except IntegrityError, e:
-        print "\tCould not create %s - %s" % (username, e)
+        print "\tERROR - Could not create %s - %s" % (username, e)
         session.close()
         continue
 
@@ -73,7 +73,7 @@ for person in c.fetchall():
     try:
         person_email.email = email
     except AttributeError:
-        print "\tCould not create email for %s (%s)" % (username, email)
+        print "\tERROR - Could not create email for %s (%s)" % (username, email)
         session.close()
         continue
     person_email.person = p
@@ -108,18 +108,18 @@ for group in c.fetchall():
         group.group_type = group_type
         group.needs_sponsor = bool(bool_dict[needs_sponsor])
         group.user_can_remove = bool(bool_dict[user_can_remove])
-        if prerequisite_id:
-            prerequisite = Groups.by_id(prerequisite_id)
-            group.prerequisite = prerequisite
+#        if prerequisite_id:
+#            prerequisite = Groups.by_id(prerequisite_id)
+#            group.prerequisite = prerequisite
         group.joinmsg = joinmsg
         # Log here
         session.flush()
     except IntegrityError, e:
-        print "The group: '%s' (%i) could not be created - %s" % (name, id, e)
+        print "\tERROR - The group: '%s' (%i) could not be created - %s" % (name, id, e)
     except FlushError, e:
-        print "The group: '%s' (%i) could not be created - %s" % (name, id, e)
+        print "\tERROR - The group: '%s' (%i) could not be created - %s" % (name, id, e)
     except InvalidRequestError, e:
-        print "The group: '%s' (%i) could not be created - %s" % (name, id, e)
+        print "\tERROR - The group: '%s' (%i) could not be created - %s" % (name, id, e)
 
     session.close()
 
@@ -130,13 +130,18 @@ for role in c.fetchall():
     print "%s - %s" % (person_id, project_group_id)
     try:
         role = PersonRoles()
+        if len(role_status) > 10:
+            role_status = 'approved'
+        if role_status == 'declined':
+            ''' No longer exists '''
+            continue
         role.role_status = role_status
         role.role_type = role_type
         role.member = People.by_id(person_id)
         role.group = Groups.by_id(project_group_id)
         session.flush()
     except ProgrammingError, e:
-        print "The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
+        print "\tERROR - The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
     except IntegrityError, e:
-        print "The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
+        print "\tERROR - The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
     session.close()
