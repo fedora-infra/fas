@@ -1,3 +1,6 @@
+from fas import release
+__version__ = release.VERSION
+
 class FASError(Exception):
     '''FAS Error'''
     pass

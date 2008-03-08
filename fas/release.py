@@ -1,14 +1,18 @@
-# Release information about fas
+'''
+Release information about the Fedora Accounts System
+'''
 
-version = "1.0"
-
-# description = "Your plan to rule the world"
-# long_description = "More description about your plan"
-# author = "Your Name Here"
-# email = "YourEmail@YourDomain"
-# copyright = "Vintage 2006 - a good year indeed"
+VERSION = '0.1'
+NAME = 'fas'
+DESCRIPTION = 'The Fedora Account System'
+LONG_DESCRIPTION = '''
+Manage the accounts of contributors to the Fedora Project.
+'''
+AUTHOR = 'Ricky Zhou, Mike McGrath, and Toshio Kuratomi'
+EMAIL = 'fedora-infrastructure-list@fedoraproject.org'
+COPYRIGHT = '2007-2008 Red Hat, Inc.'
 
 # if it's open source, you might want to specify these
-# url = "http://yourcool.site/"
-# download_url = "http://yourcool.site/download"
-# license = "MIT"
+URL = 'https://admin.fedoraproject.org/accounts/'
+DOWNLOAD_URL = 'https://fas2.fedorahosted.org/'
+LICENSE = 'GPLv2'
