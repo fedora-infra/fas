@@ -25,6 +25,9 @@ import logging
 import syslog
 import os
 import tempfile
+import codecs
+import datetime
+import time
 
 from fedora.tg.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
@@ -193,8 +196,8 @@ class MakeShellAccounts(BaseClient):
 
     def passwd_text(self, people=None):
         i = 0
-        passwd_file = open(self.temp + '/passwd.txt', 'w')
-        shadow_file = open(self.temp + '/shadow.txt', 'w')
+        passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
+        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
         os.chmod(self.temp + '/shadow.txt', 00400)
         if not self.people:
             self.people = self.people_list()
@@ -332,7 +335,8 @@ class MakeShellAccounts(BaseClient):
                 if not os.path.exists(home_backup_dir):
                     os.makedirs(home_backup_dir)
                 syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
-                move(os.path.join(home_base, user), os.path.join(home_backup_dir, user))
+                target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
+                move(os.path.join(home_base, user), os.path.join(home_backup_dir, target))
 
     def create_ssh_keys(self):
         ''' Create ssh keys '''
