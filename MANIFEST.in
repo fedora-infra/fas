@@ -1,0 +1,3 @@
+include fas2.sql
+include README COPYING
+include *.cfg
