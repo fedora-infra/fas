@@ -44,6 +44,7 @@ CREATE TABLE people (
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
     passwordtoken text null,
+    password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     comments TEXT,
     postal_address TEXT,
     telephone TEXT,

@@ -235,6 +235,7 @@ class People(SABase):
         User Themselves add:
             :password: hashed password to identify the user
             :passwordtoken: used when the user needs to reset a password
+            :password_changed: last time the user changed the password
             :postal_address: user's postal address
             :telephone: user's telephone number
             :facsimile: user's FAX number
@@ -252,21 +253,23 @@ class People(SABase):
             # Only admins can see internal_comments
             del props['internal_comments']
             if identity.current.anonymous:
+                # Anonymous users can't see any of these
                 del props['ssh_key']
                 del props['gpg_keyid']
                 del props['affiliation']
                 del props['certificate_serial']
                 del props['password']
                 del props['passwordtoken']
+                del props['password_changed']
                 del props['postal_address']
                 del props['telephone']
                 del props['facsimile']
-                # Below should check for group accounts instead of a specific username
-            elif not identity.current.user.username == self.username and not identity.current.user.username == 'admin':
+            elif not identity.current.user.username == self.username:
                 # Only an admin or the user themselves can see these fields
                 del props['password']
                 del props['passwordtoken']
                 del props['postal_address']
+                del props['password_changed']
                 del props['telephone']
                 del props['facsimile']
 
@@ -479,7 +482,6 @@ mapper(BugzillaQueue, BugzillaQueueTable, properties = {
         primaryjoin=BugzillaQueueTable.c.person_id==PeopleTable.c.id)
     })
 mapper(Log, LogTable, properties = {
-    ### TODO: test to be sure SQLAlchemy only loads the backref on demand
     'author': relation(People, backref='changes')
     })
 mapper(Requests, RequestsTable, properties = {
