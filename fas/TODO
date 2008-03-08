@@ -4,3 +4,5 @@ Things to Fix in FAS2 before declaring it done:
 
 Nice-to-have things:
  * fas/group.py: Easy searching within groups (and sponsor/admin interface)
+
+ * fas/aliases.py: An easy interface to manage mail aliases
