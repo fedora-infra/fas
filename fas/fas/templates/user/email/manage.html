@@ -22,26 +22,35 @@
           <td><a href="mailto:${email.email}">${email.email}</a></td>
           <td>${email.description}</td>
           <td py:if="email.verified"><span class="approved">${_('Verified')}</span></td>
-          <td py:if="not email.verified"><span class="unapproved">${_('Unverified')}</span> <a href="${tg.url('/email/verify')}">${_('Resend Verification')}</a></td>
+          <td py:if="not email.verified"><span class="unapproved">${_('Unverified')}</span> (<a href="${tg.url('/email/verify')}">${_('Resend Verification')}</a>)</td>
+          <td py:if="len(target.person_emails) > 1"><a href="${tg.url('/user/email/remove/%s/%s') % (target.username, email.email)}">${_('Remove')}</a></td>
         </tr>
       </tbody>
     </table>
     <h3>Set Emails</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>${_('Email')}</th>
-          <th>${_('Description')}</th>
-          <th>${_('Purpose')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr py:for="purpose in target.email_purposes.values()">
-          <td><a href="mailto:${purpose.email}">${purpose.email}</a></td>
-          <td>${purpose.person_email.description}</td>
-          <td>${purpose.purpose}</td>
-        </tr>
-      </tbody>
-    </table>
+    <form action="${tg.url('/user/email/map/%s' % target.username)}">
+      <table>
+        <thead>
+          <tr>
+            <th>${_('Email')}</th>
+            <th>${_('Description')}</th>
+            <th>${_('Purpose')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr py:for="purpose in target.email_purposes.values()">
+            <td>
+              <select id="email" name="email">
+                <py:for each="person_email in target.person_emails.values()">
+                <option py:if="person_email.verified" value="person_email.email" py:attrs="{'selected': purpose.email == person_email.email and 'selected' or None}">${person_email.email} (${person_email.description})</option>
+                </py:for>
+              </select>
+            </td>
+            <td>${purpose.person_email.description}</td>
+            <td>${purpose.purpose}</td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </body>
 </html>
