@@ -4,20 +4,18 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../../master.html" />
   <head>
-    <title>${_('Add Email')}</title>
+    <title>${_('Edit Email')}</title>
   </head>
   <body>
-    <h2>${_('Add Email')}</h2>
-    <form action="${tg.url('/user/email/create/%s' % target.username)}" method="post">
+    <h2>${_('Edit Email')}</h2>
+    <form action="${tg.url('/user/email/save/%s' % target.username)}" method="post">
       <div class="field">
-        <label for="email">${_('Email:')}</label>
-        <input type="text" id="email" name="email" />
-        <!-- TODO: More generic documentation for adding an email -->
-        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_primary_email')}'});</script>
+        <label for="email">${_('Email:')}</label> <span>${email}</span>
+        <input type="hidden" id="email" name="email" value="${email}" />
       </div>
       <div class="field">
         <label for="description">${_('Description:')}</label>
-        <input type="text" id="description" name="description" />
+        <input type="text" id="description" name="description" value="${target.person_emails[email].description}" />
         <!-- TODO: Correct documentation for this -->
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_primary_email')}'});</script>
       </div>

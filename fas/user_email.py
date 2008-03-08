@@ -36,6 +36,13 @@ def generate_validtoken(length=32):
         token += random.choice(chars)
     return token
 
+# Note: I'm making some of these controllers really, really hideous
+# (in the interest of allowing admins to modify pretty much everything)
+# Is this really necessary (as in, can tg-admin shell be "good enough?"
+# (I'm pretty much referring to passing the username around every
+# instead of just using the current logged on person.)
+
+# I hope all of this doesn't end up being too convoluted for most users...
 class Email(controllers.Controller):
 
     def __init__(self):
@@ -79,9 +86,68 @@ class Email(controllers.Controller):
         return dict(target=target)
 
     @identity.require(turbogears.identity.not_anonymous())
+    # TODO: Validate!
     #@validate(validators=UserView())
     @error_handler(error)
-    @expose(template="fas.templates.user.email.add", allow_json=True)
+    @expose(template="fas.templates.user.email.edit")
+    # TODO: Should the purpose-setting part be moved in into user/save?
+    def edit(self, targetname, email):
+        '''
+        Display the form to edit an email
+        '''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
+        if targetname:
+            target = People.by_username(targetname)
+        else:
+            target = person
+
+        if not canEditUser(person, target):
+            turbogears.flash(_('You cannot edit %s') % target.username )
+            turbogears.redirect('/user/email/manage')
+            return dict()
+        return dict(email=email, target=target)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    # TODO: Validate!
+    #@validate(validators=UserView())
+    @error_handler(error)
+    @expose()
+    # TODO: Should the purpose-setting part be moved in into user/save?
+    def save(self, targetname, email, description):
+        '''
+        Save an email entry
+        '''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
+        if targetname:
+            target = People.by_username(targetname)
+        else:
+            target = person
+
+        if not canEditUser(person, target):
+            turbogears.flash(_('You cannot edit %s') % target.username )
+            turbogears.redirect('/user/email/manage')
+            return dict()
+
+        try:
+            person.person_emails[email].description = description
+        except KeyError:
+            turbogears.flash(_('No such email is associated with your user.'))
+            turbogears.redirect('/user/email/manage')
+            return dict()
+        else:
+            turbogears.flash(_('Your email has been saved.'))
+            turbogears.redirect('/user/email/manage')
+            return dict()
+
+    @identity.require(turbogears.identity.not_anonymous())
+    # TODO: Validate!
+    #@validate(validators=UserView())
+    @error_handler(error)
+    @expose(template="fas.templates.user.email.add")
     def add(self, targetname=None):
         '''
         Display the form to add an email
@@ -102,12 +168,46 @@ class Email(controllers.Controller):
         return dict(target=target)
 
     @identity.require(turbogears.identity.not_anonymous())
+    # TODO: Validate!
+    #@validate(validators=UserView())
+    @error_handler(error)
+    @expose(allow_json=True)
+    def remove(self, targetname, email):
+        '''
+        Remove an email
+        '''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
+        if targetname:
+            target = People.by_username(targetname)
+        else:
+            target = person
+
+        if not canEditUser(person, target):
+            turbogears.flash(_('You cannot edit %s') % target.username )
+            turbogears.redirect('/user/email/manage')
+            return dict()
+
+        try:
+            session.delete(target.person_emails[email])
+            session.flush()
+        except IntegrityError:
+            turbogears.flash(_('You cannot delete an email that is in use.'))
+            turbogears.redirect('/user/email/manage')
+            return dict()
+        else:
+            turbogears.flash(_('The email \'%s\' has been removed.') % email )
+            turbogears.redirect('/user/email/manage')
+            return dict()
+
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=EmailSave())
     @error_handler(error)
     @expose(template="fas.templates.user.email.add", allow_json=True)
-    def save(self, targetname, email, description):
+    def create(self, targetname, email, description):
         '''
-        Display the form to add an email
+        Create an email entry.
         '''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -144,8 +244,8 @@ Go to this URL to verify that you own this email address: %s
 ''') % validurl
             turbomail.enqueue(message)
             turbogears.flash(_('Your email has been added.  Before you can use this email, you must verify it.  The email you added should receive a message with instructions shortly.'))
-
-            return dict(target=target)
+            turbogears.redirect('/user/email/manage')
+            return dict()
 
         return dict(target=target)
 
