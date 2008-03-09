@@ -19,7 +19,7 @@ from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas.auth import *
-from fas.user_email import Email, NonFedoraEmail
+#from fas.user_email import Email, NonFedoraEmail
 
 from random import Random
 import sha
@@ -148,7 +148,7 @@ def generate_salt(length=8):
 
 class User(controllers.Controller):
 
-    email = Email()
+    #email = Email()
 
     def __init__(self):
         '''Create a User Controller.
