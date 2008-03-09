@@ -73,7 +73,6 @@ parser.add_option('--nossh',
                      default = False,
                      action = 'store_true',
                      help = _('Do not create ssh keys'))
-
 parser.add_option('-s', '--server',
                      dest = 'FAS_URL',
                      default = None,
@@ -89,6 +88,12 @@ parser.add_option('-d', '--disable',
                      default = False,
                      action = 'store_true',
                      help = _('Disable FAS synced shell accounts'))
+parser.add_option('-a', '--aliases',
+                     dest = 'aliases',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Sync mail aliases'))
+
 
 (opts, args) = parser.parse_args()
 
@@ -120,6 +125,7 @@ class MakeShellAccounts(BaseClient):
     groups = None
     people = None
     memberships = None
+    emails = None
     group_mapping = {}
     
     def mk_tempdir(self):
@@ -194,6 +200,14 @@ class MakeShellAccounts(BaseClient):
         print >> sys.stderr, 'Could not determine shell for %s.  Defaulting to /sbin/nologin' % username
         return '/sbin/nologin'
 
+    def aliases_txt(self):
+        ''' update your mail aliases file '''
+        self.emails = self.email_list()
+        email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
+        for person in self.emails:
+            email_file.write("%s: %s" % (person, self.emails[person]))
+        email_file.close()
+
     def passwd_text(self, people=None):
         i = 0
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
@@ -228,7 +242,6 @@ class MakeShellAccounts(BaseClient):
                 if group['person_id'] == person_id:
                     return True
         return False
-
 
     def groups_text(self, groups=None, people=None):
         i = 0
@@ -281,6 +294,11 @@ class MakeShellAccounts(BaseClient):
         params = {'search' : search}
         self.people = self.send_request('user/list', auth=True, input=params)['people']
         return self.people
+
+    def email_list(self, search='*'):
+        params = {'search' : search}
+        self.emails = self.send_request('user/email_list', auth=True, input=params)['emails']
+        return self.emails
 
     def make_group_db(self):
         self.groups_text()
@@ -354,6 +372,7 @@ class MakeShellAccounts(BaseClient):
                     f.close()
                     os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
                     os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
+
                     
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
@@ -422,5 +441,13 @@ if __name__ == '__main__':
         if not opts.no_ssh_keys:
             fas.create_ssh_keys()
         fas.rm_tempdir()
-    if not (opts.install or opts.enable or opts.disable):
+    if opts.aliases:
+        try:
+            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), False)
+        except AuthError, e:
+            print >> sys.stderr, e
+            sys.exit(1)
+        fas.create_aliases()
+
+    if not (opts.install or opts.enable or opts.disable or opts.aliases):
         parser.print_help()
