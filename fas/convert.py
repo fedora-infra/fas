@@ -142,9 +142,11 @@ for role in c.fetchall():
         session.flush()
     except ProgrammingError, e:
         print "\tERROR - The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
+        session.close()
     except IntegrityError, e:
         if e.message.find('dupilcate key'):
             print "\tERROR - The role %s -> %s already exists!  Skipping" % (person_id, project_group_id)
+            session.close()
             continue
         print "\tERROR - The role %s -> %s could not be created - %s" % (person_id, project_group_id, e)
     session.close()
