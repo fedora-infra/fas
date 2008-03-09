@@ -274,6 +274,16 @@ class User(controllers.Controller):
             turbogears.flash(_("No users found matching '%s'") % search)
         return dict(people=people, search=search)
 
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(format='json')
+    def email_list(self, search='*'):
+        re_search = re.sub(r'\*', r'%', search).lower()
+        people = People.query.filter(People.username.like(re_search)).order_by('username')
+        emails = {}
+        for person in people:
+            emails[person.username] = person.emails['primary']
+        return dict(emails=emails)
+
     @expose(template='fas.templates.user.new')
     def new(self):
         if turbogears.identity.not_anonymous():
