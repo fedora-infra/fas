@@ -102,14 +102,15 @@ visit_identity_table = Table('visit_identity', metadata,
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
 
+    @classmethod
     def by_id(cls, id):
         '''
         A class method that can be used to search users
         based on their unique id
         '''
         return cls.query.filter_by(id=id).one()
-    by_id = classmethod(by_id)
 
+    @classmethod
     def by_email_address(cls, email):
         '''
         A class method that can be used to search users
@@ -117,16 +118,13 @@ class People(SABase):
         '''
         return cls.query.join(['email_purposes', 'person_email']).filter_by(email=email).one()
 
-    by_email_address = classmethod(by_email_address)
-
+    @classmethod
     def by_username(cls, username):
         '''
         A class method that permits to search users
         based on their username attribute.
         '''
         return cls.query.filter_by(username=username).one()
-
-    by_username = classmethod(by_username)
 
     # If we're going to do logging here, we'll have to pass the person that did the applying.
     def apply(cls, group, requester):
@@ -304,14 +302,15 @@ class Configs(SABase):
 class Groups(SABase):
     '''Group that people can belong to.'''
 
+    @classmethod
     def by_id(cls, id):
         '''
         A class method that can be used to search groups
         based on their unique id
         '''
         return cls.query.filter_by(id=id).one()
-    by_id = classmethod(by_id)
 
+    @classmethod
     def by_email_address(cls, email):
         '''
         A class method that can be used to search groups
@@ -319,17 +318,14 @@ class Groups(SABase):
         '''
         return cls.query.join(['email_purposes', 'group_email']).filter_by(email=email).one()
 
-    by_email_address = classmethod(by_email_address)
 
+    @classmethod
     def by_name(cls, name):
         '''
         A class method that permits to search groups
         based on their name attribute.
         '''
         return cls.query.filter_by(name=name).one()
-
-    by_name = classmethod(by_name)
-
 
     def __repr__(cls):
         return "Groups(%s,%s)" % (cls.name, cls.display_name)
@@ -397,9 +393,9 @@ class Visit(SABase):
     It doesn't currently make sense for us to track this here so we clear this
     table of stale records every hour.
     '''
+    @classmethod
     def lookup_visit(cls, visit_key):
         return cls.query.get(visit_key)
-    lookup_visit = classmethod(lookup_visit)
 
 class VisitIdentity(SABase):
     '''Associate a user with a visit cookie.
@@ -478,10 +474,8 @@ mapper(GroupRoles, GroupRolesTable, properties = {
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
     'group': relation(Groups, backref = 'pending'),
-    'person': relation(People, backref = 'pending',
-        primaryjoin=BugzillaQueueTable.c.person_id==PeopleTable.c.id)
-    })
-mapper(Log, LogTable, properties = {
+    'person': relation(People, backref = 'pending'),
+    ### TODO: test to be sure SQLAlchemy only loads the backref on demand
     'author': relation(People, backref='changes')
     })
 mapper(Requests, RequestsTable, properties = {
