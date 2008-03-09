@@ -25,7 +25,6 @@ from random import Random
 import sha
 from base64 import b64encode
 
-
 class KnownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):
@@ -49,6 +48,14 @@ class UnknownUser(validators.FancyValidator):
             raise validators.Invalid(_("Error: Could not create - '%s'") % value, value, state)
 
         raise validators.Invalid(_("'%s' already exists.") % value, value, state)
+
+class NonFedoraEmail(validators.FancyValidator):
+    '''Make sure that an email address is not @fedoraproject.org'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        if value.endswith('@fedoraproject.org'):
+            raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
 
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
@@ -84,10 +91,10 @@ class UserSave(validators.Schema):
         validators.Regex(regex='^[^\n:<>]+$'),
         )
     ssh_key = ValidSSHKey(max=5000)
-    #mail = validators.All(
-    #    validators.Email(not_empty=True, strip=True, max=128),
-    #    NonFedoraEmail(not_empty=True, strip=True, max=128),
-    #)
+    email = validators.All(
+        validators.Email(not_empty=True, strip=True, max=128),
+        NonFedoraEmail(not_empty=True, strip=True, max=128),
+    )
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
@@ -323,7 +330,7 @@ class User(controllers.Controller):
             session.flush()
 
             newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_mail'), person.emails['primary'], _('Welcome to the Fedora Project!'))
+            message = turbomail.Message(config.get('accounts_email'), person.emails['primary'], _('Welcome to the Fedora Project!'))
             message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
@@ -424,7 +431,7 @@ forward to working with you!
                 turbogears.flash(_("username + email combo unknown."))
                 return dict()
             newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_mail'), email, _('Fedora Project Password Reset'))
+            message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
             mail = _('''
 You have requested a password reset!
 Your new password is: %s
