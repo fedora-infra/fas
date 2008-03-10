@@ -12,12 +12,14 @@ import StringIO
 import crypt
 import random
 import subprocess
+from OpenSSL import crypto
 
 from fas.model import People
 from fas.model import PersonEmails
 from fas.model import EmailPurposes
 from fas.model import Log
 
+from fas import openssl_fas
 from fas.auth import *
 #from fas.user_email import Email, NonFedoraEmail
 
@@ -491,22 +493,21 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
     def gencert(self):
-      from fas.openssl_fas import *
       username = turbogears.identity.current.user_name
       person = People.by_username(username)
 
       person.certificate_serial = person.certificate_serial + 1
 
-      pkey = createKeyPair(TYPE_RSA, 1024);
+      pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024);
 
       digest = config.get('openssl_digest')
       expire = config.get('openssl_expire')
       cafile = config.get('openssl_ca_file')
 
-      cakey = retrieve_key_from_file(cafile)
-      cacert = retrieve_cert_from_file(cafile)
+      cakey = openssl_fas.retrieve_key_from_file(cafile)
+      cacert = openssl_fas.retrieve_cert_from_file(cafile)
 
-      req = createCertRequest(pkey, digest=digest,
+      req = openssl_fas.createCertRequest(pkey, digest=digest,
           C=config.get('openssl_c'),
           ST=config.get('openssl_st'),
           L=config.get('openssl_l'),
@@ -516,7 +517,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
           emailAddress=person.emails['primary'],
           )
 
-      cert = createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
+      cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
       certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
       keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
       return dict(cert=certdump, key=keydump)

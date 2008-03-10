@@ -20,8 +20,8 @@ def isAdmin(person):
         else:
             return False
     except KeyError:
-        print '%s - Your admin group could not be found!' % admingroup
         return False
+    return False
     
 def canAdminGroup(person, group):
     '''
@@ -81,6 +81,7 @@ def signedCLAPrivs(person):
             return False
     except KeyError:
         return False
+    return False
 
 def clickedCLAPrivs(person):
     '''
@@ -94,6 +95,7 @@ def clickedCLAPrivs(person):
             return False
     except KeyError:
         return False
+    return False
 
 def canEditUser(person, target):
     '''
