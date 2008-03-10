@@ -4,7 +4,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>${_('Edit Group')}</title>
+    <title>${_('View Group')}</title>
   </head>
   <body>
     <?python
@@ -99,8 +99,8 @@
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
             </py:if>
             <py:if test="not group.needs_sponsor">
-            <a group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
-            <script group.needs_sponsor" type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
+            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
+            <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
             </py:if>
             </li>
             <li py:if="auth.canRemoveUser(person, group, role.member)">
