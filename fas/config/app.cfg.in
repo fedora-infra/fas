@@ -157,12 +157,12 @@ identity.saprovider.model.group="fas.model.Groups"
 # gzip_filter.mime_types = ["application/x-javascript", "text/javascript", "text/html", "text/css", "text/plain"]
 [/robots.txt]
 static_filter.on = True
-static_filter.dir = "%(top_level_dir)s/static/robots.txt"
+static_filter.dir = "@DATADIR@/static/robots.txt"
 
 [/static]
 static_filter.on = True
-static_filter.dir = "%(top_level_dir)s/static"
+static_filter.dir = "@DATADIR@/static"
 
 [/favicon.ico]
 static_filter.on = True
-static_filter.file = "%(top_level_dir)s/static/images/favicon.ico"
+static_filter.file = "@DATADIR@/static/images/favicon.ico"
