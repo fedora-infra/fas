@@ -2,16 +2,24 @@
 
 import os
 import re
+import glob
 
 from distutils.command.build import build as _build
+from distutils.command.install_data import install_data as _install_data
 from distutils.dep_util import newer
 
 from setuptools import setup, find_packages
-from turbogears.finddata import find_package_data
+from turbogears.finddata import find_package_data, standard_exclude, \
+        standard_exclude_directories
 
 execfile(os.path.join('fas', 'release.py'))
 
-SUBSTFILES=('fas/config/app.cfg',)
+excludeFiles = ['*.cfg.in']
+excludeFiles.extend(standard_exclude)
+excludeDataDirs = ['fas/static']
+excludeDataDirs.extend(standard_exclude_directories)
+
+SUBSTFILES = ('fas/config/app.cfg',)
 
 class Build(_build, object):
     '''
@@ -58,6 +66,23 @@ class Build(_build, object):
             f.close()
         super(Build, self).run()
 
+class InstallData(_install_data, object):
+    def finalize_options(self):
+        '''Override to emulate setuptools in the default case.
+        install_data => install_dir
+        '''
+        print 'DEBUG:', self.install_dir, '#'
+        haveInstallDir = self.install_dir
+        self.set_undefined_options('install',
+                ('install_lib', 'install_dir'),
+                ('root', 'root'),
+                ('force', 'force'),
+                )
+        if not haveInstallDir:
+            # We set this above, now we need to add the module subdirectory to
+            # make it truly correct.
+            self.install_dir = os.path.join(self.install_dir, 'fas')
+
 setup(
     name=NAME,
     version=VERSION,
@@ -71,9 +96,7 @@ setup(
    
     cmdclass={
         'build': Build,
-        #'build_scripts': BuildScripts,
-    #          'install': Install,
-    #          'install_lib': InstallApp},
+        'install_data': InstallData,
     },
     install_requires = [
         'TurboGears >= 1.0.4',
@@ -81,11 +104,21 @@ setup(
         'TurboMail',
         'python_fedora >= 0.2.99.2'
     ],
-    scripts = ['client/fasClient.py', 'client/restricted-shell'],
+    scripts = ['client/fasClient', 'client/restricted-shell'],
     zip_safe=False,
     packages=find_packages(),
+    data_files = (('static', [f for f in glob.glob('fas/static/*') if os.path.isfile(f)]),
+        ('static/css', [f for f in glob.glob('fas/static/css/*') if os.path.isfile(f)]),
+        ('static/images', [f for f in glob.glob('fas/static/images/*') if os.path.isfile(f)]),
+        ('static/images/balloons',
+            [f for f in glob.glob('fas/static/images/balloons/*') if os.path.isfile(f)]),
+        ('static/js', [f for f in glob.glob('fas/static/js/*') if os.path.isfile(f)]),
+    ),
     package_data = find_package_data(where='fas',
-                                     package='fas'),
+        package='fas',
+        exclude=excludeFiles,
+        exclude_directories=excludeDataDirs,
+    ),
     keywords = [
         # Use keywords if you'll be adding your package to the
         # Python Cheeseshop
@@ -129,4 +162,3 @@ setup(
             )
     }
 )
-    
