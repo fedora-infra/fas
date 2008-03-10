@@ -250,6 +250,9 @@ class User(controllers.Controller):
             return dict()
         try:
             target.human_name = human_name
+            # FIXME: WARNING!  This is deceptive.  Remember that it
+            # changes the email object itself, not the email attached
+            # to the purpose.
             target.emails['primary'] = email
 #            target.emails['bugzilla'] = bugzilla
             target.ircnick = ircnick
