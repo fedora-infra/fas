@@ -238,7 +238,7 @@ class Email(controllers.Controller):
         else:
             # TODO: Make this email more friendly.  Maybe escape the @ in email too?
             validurl = config.get('base_url_filter.base_url') + turbogears.url('/user/email/verify/%s/%s/%s') % (target.username, email, validtoken)
-            message = turbomail.Message(config.get('accounts_mail'), email, _('Confirm this email address'))
+            message = turbomail.Message(config.get('accounts_email'), email, _('Confirm this email address'))
             message.plain = _('''
 Go to this URL to verify that you own this email address: %s
 ''') % validurl
