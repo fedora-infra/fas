@@ -83,7 +83,7 @@
       </thead>
       <tr py:for="role in sorted([(role.member.username, role) for role in group.roles ])">
         <td><a href="${tg.url('/user/view/%s' % role[1].member.username)}">${role[1].member.username}</a></td>
-        <td py:if='role[1].sponsor'><a href="${tg.url('/user/view/%s' % role[1].sponsor.username)}">${role.sponsor.username}</a></td>
+        <td py:if='role[1].sponsor'><a href="${tg.url('/user/view/%s' % role[1].sponsor.username)}">${role[1].sponsor.username}</a></td>
         <td py:if='not role[1].sponsor'>${_('None')}</td>
         <td>${role[1].creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
         <td py:if='role[1].approval'>${role[1].approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
