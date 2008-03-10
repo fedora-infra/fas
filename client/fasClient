@@ -127,74 +127,103 @@ class MakeShellAccounts(BaseClient):
     memberships = None
     emails = None
     group_mapping = {}
-    
+    valid_groups = {}
+
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
     def rm_tempdir(self):
         rmtree(self.temp)
     
-    def valid_user(self, username):
-        valid_groups = config.get('host', 'groups').strip('"').split(',') + \
-            config.get('host', 'restricted_groups').strip('"').split(',') + \
-            config.get('host', 'ssh_restricted_groups').strip('"').split(',')
-        try:
-            for group in valid_groups:
-                if username in self.group_mapping[group]:
+    
+    def valid_groups(self):
+        ''' Create a dict of valid groups, including that of group_type '''
+        if not self.groups:
+            self.group_list()
+        valid_groups = {'groups':[], 'restricted_groups':[], 'ssh_restricted_groups': []}
+        for restriction in valid_groups:
+            for group in config.get('host', restriction).strip('"').split(','):
+                if group == '':
+                    continue
+                if group.startswith('@'):
+                    for grp in self.groups:
+                        if grp['group_type'] == group[1:]:
+                            valid_groups[restriction].append(grp['name'])
+                else:
+                    valid_groups[restriction].append(group)
+        self.valid_groups = valid_groups
+    
+    def valid_group(self, name, restriction=None):
+        ''' Determine if group is valid on the system '''
+        if restriction:
+            return name in self.valid_groups[restriction]
+        else:
+            for restrict_key in self.valid_groups:
+                if name in self.valid_groups[restrict_key]:
                     return True
+        return False
+    
+    def valid_user(self, username):
+        ''' Is the user valid on this system '''
+        try:
+            for restriction in self.valid_groups:
+                for group in self.valid_groups[restriction]:
+                    if username in self.group_mapping[group]:
+                        return True
         except KeyError:
             return False
         return False
     
     def ssh_key(self, person):
         ''' determine what ssh key a user should have '''
-        for group in config.get('host', 'groups').strip('"').split(','):
+        for group in self.valid_groups['groups']:
             try:
                 if person['username'] in self.group_mapping[group]:
                     return person['ssh_key']
             except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "groups"!' % group
                 continue
-        for group in config.get('host', 'restricted_groups').strip('"').split(','):
+        for group in self.valid_groups['restricted_groups']:
             try:
                 if person['username'] in self.group_mapping[group]:
                     return person['ssh_key']
             except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "restricted_groups"!' % group
                 continue
-        for group in config.get('host', 'ssh_restricted_groups').strip('"').split(','):
+        for group in self.valid_groups['ssh_restricted_groups']:
             try:
                 if person['username'] in self.group_mapping[group]:
                     command = config.get('users', 'ssh_restricted_app').strip('"')
                     options = config.get('users', 'ssh_key_options').strip('"')
                     key = 'command="%s",%s %s' % (command, options, person['ssh_key'])
                     return key
-            except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
+            except TypeError:
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
                 continue
         return 'INVALID\n'
+
     def shell(self, username):
         ''' Determine what shell username should have '''
-        for group in config.get('host', 'groups').strip('"').split(','):
+        for group in self.valid_groups['groups']:
             try:
                 if username in self.group_mapping[group]:
                     return config.get('users', 'shell').strip('"')
             except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "groups"!' % group
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "groups"!' % group
                 continue
-        for group in config.get('host', 'restricted_groups').strip('"').split(','):
+        for group in self.valid_groups['restricted_groups']:
             try:
                 if username in self.group_mapping[group]:
                     return config.get('users', 'restricted_shell').strip('"')
             except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "restricted_groups"!' % group
                 continue
-        for group in config.get('host', 'ssh_restricted_groups').strip('"').split(','):
+        for group in self.valid_groups['ssh_restricted_groups']:
             try:
                 if username in self.group_mapping[group]:
                     return config.get('users', 'ssh_restricted_shell').strip('"')
             except KeyError:
-                print >> sys.stderr, '%s is could not be found in fas but was in your config under "restricted_groups"!' % group
+                print >> sys.stderr, '%s could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
                 continue
 
         print >> sys.stderr, 'Could not determine shell for %s.  Defaulting to /sbin/nologin' % username
@@ -227,7 +256,7 @@ class MakeShellAccounts(BaseClient):
                 i = i + 1
         passwd_file.close()
         shadow_file.close()
-                
+
     def valid_user_group(self, person_id):
         ''' Determine if person is valid on this machine as defined in the
         config file.  I worry that this is going to be horribly inefficient
@@ -293,6 +322,7 @@ class MakeShellAccounts(BaseClient):
         request = self.send_request('group/list', auth=True, input=params)
         self.groups = request['groups']
         self.memberships = request['memberships']
+        self.valid_groups()
         return self.groups
 
     def people_list(self, search='*'):
@@ -372,8 +402,8 @@ class MakeShellAccounts(BaseClient):
                     key = self.ssh_key(person)
                     if not os.path.exists(ssh_dir):
                         os.makedirs(ssh_dir, mode=0700)
-                    f = open(os.path.join(ssh_dir, 'authorized_keys'), 'w')
-                    f.write(key)
+                    f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
+                    f.write(key + '\n')
                     f.close()
                     os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
                     os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
