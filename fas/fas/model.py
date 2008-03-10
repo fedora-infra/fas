@@ -262,7 +262,7 @@ class People(SABase):
                 del props['postal_address']
                 del props['telephone']
                 del props['facsimile']
-            elif not identity.current.user.username == self.username and 'fas-system' not in identity.current.groups::
+            elif not identity.current.user.username == self.username and 'fas-system' not in identity.current.groups:
                 # Only an admin or the user themselves can see these fields
                 del props['password']
                 del props['passwordtoken']
