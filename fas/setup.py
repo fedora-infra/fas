@@ -66,22 +66,45 @@ class Build(_build, object):
             f.close()
         super(Build, self).run()
 
+### FIXME: This method breaks eggs.
+# Unfortunately, instead of eggs being built by putting together package *.py
+# files and data sanely at the last minute, they are built by putting them
+# together in the build step.  This makes it extremely hard to put the
+# separate pieces together in different places depending on what type of
+# install we're doing.
+#
+# We can work around this by using package_data for static as eggs expect and
+# then overriding install to install static in the correct place.
+#
+# Eventually someone needs to rewrite egg generation to tag files into
+# separate groups (module, script, data, documentation, test) and put them
+# into the final package format in the correct place.
+#
+# For some reason, the install-data switch also doesn't propogate to the build
+# script.  So if we invoke install without --skip-build the app.cfg that is
+# installed is also broken.  Grr....
+
 class InstallData(_install_data, object):
     def finalize_options(self):
         '''Override to emulate setuptools in the default case.
         install_data => install_dir
         '''
-        print 'DEBUG:', self.install_dir, '#'
+        self.temp_lib = None
+        self.temp_data = None
+        self.temp_prefix = None
         haveInstallDir = self.install_dir
         self.set_undefined_options('install',
-                ('install_lib', 'install_dir'),
+                ('install_data', 'temp_data'),
+                ('install_lib', 'temp_lib'),
+                ('prefix', 'temp_prefix'),
                 ('root', 'root'),
                 ('force', 'force'),
                 )
-        if not haveInstallDir:
-            # We set this above, now we need to add the module subdirectory to
-            # make it truly correct.
-            self.install_dir = os.path.join(self.install_dir, 'fas')
+        if not self.install_dir:
+            if self.temp_data == self.root + self.temp_prefix:
+                self.install_dir = os.path.join(self.temp_lib, 'fas')
+            else:
+                self.install_dir = self.temp_data
 
 setup(
     name=NAME,
