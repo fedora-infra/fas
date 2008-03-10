@@ -9,6 +9,7 @@ import re
 import gpgme
 import StringIO
 import subprocess
+import turbomail
 
 from fas.auth import *
 
@@ -176,7 +177,14 @@ class CLA(controllers.Controller):
                     person.remove(cilckgroup, person)
                 except:
                     pass
-                # TODO: Email legal-cla-archive@fedoraproject.org
+                message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
+                message.plain = '''
+Fedora user %(username)s has signed a completed ICLA using their published GPG key, ID %(gpg_keyid)s,
+that is associated with e-mail address %(email)s. The full signed ICLA is attached.
+''' % {'username': person.username, 'gpg_keyid': person.gpg_keyid, 'email': person.emails['primary']}
+                signature.file.seek(0) # For another read()
+                message.attach(signature.file, signature.filename)
+                turbomail.enqueue(message)
                 turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
                 turbogears.redirect('/cla/')
                 return dict()
