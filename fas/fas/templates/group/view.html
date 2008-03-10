@@ -4,7 +4,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>${_('Edit Group')}</title>
+    <title>${_('View Group')}</title>
   </head>
   <body>
     <?python
@@ -13,6 +13,8 @@
     import pytz
     person = People.by_username(tg.identity.user.username)
     timezone = pytz.timezone(person.timezone)
+    can_admin = auth.canAdminGroup(person, group)
+    can_sponsor = auth.canSponsorGroup(person, group)
     ?>
     <h2>${group.display_name} (${group.name})</h2>
     <h3>
@@ -29,7 +31,7 @@
     </form>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
     <script py:if="group in person.memberships" type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
-    <h3>Group Details <a py:if="auth.canAdminGroup(person, group)" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
+    <h3>Group Details <a py:if="can_admin" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
         <dt>${_('Name:')}</dt><dd>${group.name}&nbsp;</dd>
@@ -49,14 +51,16 @@
             <dd py:if="group.prerequisite">${group.prerequisite.name}&nbsp;</dd>
             <dd py:if="not group.prerequisite">&nbsp;</dd>
         <dt>${_('Created:')}</dt><dd>${group.creation}&nbsp;</dd>
-        <dt py:if="auth.canSponsorGroup(person, group)">${_('Add User:')}</dt>
-        <dd py:if="auth.canSponsorGroup(person, group)">
+        <py:if test="can_sponsor">
+        <dt>${_('Add User:')}</dt>
+        <dd>
           <form action="${tg.url('/group/apply/%s' % group.name)}">
             <input type='text' size='15' name='targetname'/>
             <input type="submit" value="${('Add')}" />
             <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
           </form>
         </dd>
+        </py:if>
       </dl>
     </div>
     <!--
@@ -74,7 +78,7 @@
           <th>${_('Date Approved')}</th>
           <th>${_('Approval')}</th>
           <th>${_('Role Type')}</th>
-          <th py:if="auth.canSponsorGroup(person, group)">${_('Action')}</th>
+          <th py:if="can_sponsor">${_('Action')}</th>
         </tr>
       </thead>
       <tr py:for="role in group.roles">
@@ -87,13 +91,17 @@
         <td>${role.role_status}</td>
         <td>${role.role_type}</td>
         <!-- This section includes all action items -->
-        <td py:if="auth.canSponsorGroup(person, group)">
+        <td py:if="can_sponsor">
           <ul class="actions">
-            <li py:if="group in role.member.unapproved_memberships">
-            <a py:if="group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
-            <script py:if="group.needs_sponsor" type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
-            <a py:if="not group.needs_sponsor" href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
-            <script py:if="not group.needs_sponsor" type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
+            <li py:if="role.role_status == 'unapproved'">
+            <py:if test="group.needs_sponsor">
+            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
+            <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
+            </py:if>
+            <py:if test="not group.needs_sponsor">
+            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
+            <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
+            </py:if>
             </li>
             <li py:if="auth.canRemoveUser(person, group, role.member)">
             <a href="${tg.url('/group/remove/%s/%s' % (group.name, role.member.username))}">${_('Remove')}</a>

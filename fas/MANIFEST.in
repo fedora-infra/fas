@@ -1,3 +1,23 @@
 include fas2.sql
-include README COPYING
-include *.cfg
+include README COPYING TODO
+include *.cfg *.conf
+include convert.py start-fas
+include client/*.conf
+include fas/config/*
+include fas/static/*
+include fas/static/css/*
+include fas/static/images/*
+include fas/static/images/balloons/*
+include fas/static/js/*
+include fas/templates/cla/*.html
+include fas/templates/cla/*.txt
+include fas/templates/group/*.html
+include fas/templates/group/*.txt
+include fas/templates/openid/*.html
+include fas/templates/openid/*.txt
+include fas/templates/user/email/*.html
+include fas/templates/user/email/*.txt
+include fas/templates/user/*.html
+include fas/templates/user/*.txt
+include fas/templates/*.html
+include fas/templates/*.txt
