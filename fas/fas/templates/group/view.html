@@ -93,7 +93,7 @@
         <!-- This section includes all action items -->
         <td py:if="can_sponsor">
           <ul class="actions">
-            <li py:if="role.status == 'unapproved'">
+            <li py:if="role.role_status == 'unapproved'">
             <py:if test="group.needs_sponsor">
             <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
