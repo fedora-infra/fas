@@ -487,6 +487,7 @@ mapper(BugzillaQueue, BugzillaQueueTable, properties = {
 mapper(Requests, RequestsTable, properties = {
     'person': relation(People, backref='requests')
     })
+mapper(Log, LogTable)
 
 # TurboGears Identity
 mapper(Visit, visits_table)
