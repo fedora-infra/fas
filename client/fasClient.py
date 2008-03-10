@@ -201,7 +201,7 @@ class MakeShellAccounts(BaseClient):
         return '/sbin/nologin'
 
     def install_aliases_txt(self):
-        move(self.temp + '/aliases', '/tmp/aliases')
+        move(self.temp + '/aliases', '/etc/aliases')
 
     def passwd_text(self, people=None):
         i = 0
@@ -397,15 +397,21 @@ class MakeShellAccounts(BaseClient):
         for group in self.groups:
             name = group['name']
             members = {}
+            members['member'] = []
             for membership in self.memberships[name]:
                 role_type = membership['role_type']
                 person = usernames[membership['person_id']]
+                if role_type == 'user':
+                    ''' Legacy support '''
+                    members['member'].append(person)
+                    continue
+                members['member'].append(person)
                 try:
                     members[role_type].append(person)
                 except KeyError:
                     members[role_type] = [person]
             for role in members:
-                print "%s-%s: %s" % (name, role, members[role])
+                email_file.write("%s-%ss: %s\n" % (name, role, ','.join(members[role])))
         email_file.close()
                     
 def enable():
