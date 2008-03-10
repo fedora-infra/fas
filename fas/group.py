@@ -9,6 +9,7 @@ from fas.auth import *
 from fas.user import KnownUser
 
 import re
+import turbomail
 
 class KnownGroup(validators.FancyValidator):
     '''Make sure that a group already exists'''
@@ -287,11 +288,10 @@ class Group(controllers.Controller):
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
-                import turbomail
                 # TODO: How do we handle gettext calls for these kinds of emails?
                 # TODO: CC to right place, put a bit more thought into how to most elegantly do this
                 # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
-                message = turbomail.Message(config.get('accounts_mail'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
+                message = turbomail.Message(config.get('accounts_email'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
                 url = config.get('base_url_filter.base_url') + turbogears.url('/group/edit/%s' % groupname)
 
@@ -331,7 +331,7 @@ Please go to %(url)s to take action.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been sponsored" % group.name)
+                message = turbomail.Message(config.get('accounts_email'), target.emails['primary'], "Your Fedora '%s' membership has been sponsored" % group.name)
                 message.plain = _('''
 %(name)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
@@ -357,7 +357,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
         group = Groups.by_name(groupname)
 
         if not canRemoveUser(person, group, target):
-            turbogears.flash(_("You cannot remove '%s'.") % target.username)
+            turbogears.flash(_("You cannot remove '%(user)s' from '%(group)s'.") % {'user': target.username, 'group': group.name})
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
@@ -368,8 +368,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
-                import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been removed" % group.name)
+                message = turbomail.Message(config.get('accounts_email'), target.emails['primary'], "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = _('''
 %(name)s <%(email)s> has removed you from the '%(group)s'
 group of the Fedora Accounts System This change is effective
@@ -406,7 +405,7 @@ aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been upgraded" % group.name)
+                message = turbomail.Message(config.get('accounts_email'), target.emails['primary'], "Your Fedora '%s' membership has been upgraded" % group.name)
                 # Should we make person.upgrade return this?
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
@@ -445,7 +444,7 @@ into the e-mail aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
                 import turbomail
-                message = turbomail.Message(config.get('accounts_mail'), target.emails['primary'], "Your Fedora '%s' membership has been downgraded" % group.name)
+                message = turbomail.Message(config.get('accounts_email'), target.emails['primary'], "Your Fedora '%s' membership has been downgraded" % group.name)
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
                 message.plain = _('''
