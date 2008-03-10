@@ -256,7 +256,9 @@ class Group(controllers.Controller):
         for group in results:
             if canViewGroup(person, group):
                 groups.append(group)
-                memberships[group.name] = group.approved_roles
+                if self.jsonRequest():
+                    # Added an efficiency
+                    memberships[group.name] = group.approved_roles
         if not len(groups):
             turbogears.flash(_("No Groups found matching '%s'") % search)
         return dict(groups=groups, search=search, memberships=memberships)
