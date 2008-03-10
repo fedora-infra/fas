@@ -34,7 +34,7 @@ from sqlalchemy.orm import relation
 from sqlalchemy import String, Unicode, Integer, DateTime
 # A few sqlalchemy tricks:
 # Allow viewing foreign key relations as a dictionary
-from sqlalchemy.orm.collections import column_mapped_collection
+from sqlalchemy.orm.collections import column_mapped_collection, attribute_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import select, and_
@@ -294,6 +294,7 @@ class PersonRoles(SABase):
     '''Record people that are members of groups.'''
     def __repr__(cls):
         return "PersonRole(%s,%s,%s,%s)" % (cls.member.username, cls.group.name, cls.role_type, cls.role_status)
+    groupname = association_proxy('group', 'name')
 
 class Configs(SABase):
     '''Configs for applications that a Fedora Contributor uses.'''
@@ -412,10 +413,10 @@ class VisitIdentity(SABase):
 # mappers for filtering roles
 #
 mapper(ApprovedRoles, ApprovedRolesSelect, properties = {
-    'group': relation(Groups, backref='approved_roles')
+    'group': relation(Groups, backref='approved_roles', lazy = False)
     })
 mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
-    'group': relation(Groups, backref='unapproved_roles')
+    'group': relation(Groups, backref='unapproved_roles', lazy = False)
     })
 
 mapper(People, PeopleTable, properties = {
@@ -425,6 +426,10 @@ mapper(People, PeopleTable, properties = {
     'person_emails': relation(PersonEmails, backref = 'person',
         collection_class = column_mapped_collection(
             PersonEmailsTable.c.email)),
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    'group_roles': relation(PersonRoles,
+        collection_class = attribute_mapped_collection('groupname'),
+        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id),
     'approved_roles': relation(ApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
@@ -436,9 +441,10 @@ mapper(EmailPurposes, EmailPurposesTable, properties = {
         primaryjoin = PersonEmailsTable.c.id==EmailPurposesTable.c.email_id)
     })
 mapper(PersonRoles, PersonRolesTable, properties = {
-    'member': relation(People, backref = 'roles',
+    'member': relation(People, backref = 'roles', lazy = False,
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
-    'group': relation(Groups, backref='roles'),
+    'group': relation(Groups, backref='roles', lazy = False,
+        primaryjoin=PersonRolesTable.c.group_id==GroupsTable.c.id),
     'sponsor': relation(People, uselist=False,
         primaryjoin = PersonRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
