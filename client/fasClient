@@ -321,7 +321,15 @@ class MakeShellAccounts(BaseClient):
         params = {'search' : search}
         request = self.send_request('group/list', auth=True, input=params)
         self.groups = request['groups']
-        self.memberships = request['memberships']
+        memberships = {}
+        for group in self.groups:
+            memberships[group['name']] = []
+            try:
+                for member in request['memberships'][u'%s' % group['id']]:
+                    memberships[group['name']].append({'person_id': member})
+            except KeyError:
+                    pass
+        self.memberships = memberships
         self.valid_groups()
         return self.groups
 

@@ -3,6 +3,7 @@ from turbogears import controllers, expose, paginate, identity, redirect, widget
 from turbogears.database import session
 
 import cherrypy
+import sqlalchemy
 
 import fas
 from fas.auth import *
@@ -253,12 +254,25 @@ class Group(controllers.Controller):
         groups = []
         re_search = re.sub(r'\*', r'%', search).lower()
         results = Groups.query.filter(Groups.name.like(re_search)).order_by('name').all()
+#        memberships = session.query(PersonRoles).order_by(PersonRoles.sponsor_id).all()
+        membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id]).order_by(PersonRoles.c.group_id)
+        members = membersql.execute()
+        for member in members:
+            try:
+                memberships[member[1]].append(member[0])
+            except KeyError:
+                memberships[member[1]]=[member[0]]
         for group in results:
             if canViewGroup(person, group):
                 groups.append(group)
-                if self.jsonRequest():
-                    # Added an efficiency
-                    memberships[group.name] = group.approved_roles
+#                if self.jsonRequest():
+                    # Adds efficiency
+                    #grp_members = session.query(Groups).filter_by(name=group.name).all()
+#                    grp_members = session.query(PersonRoles).filter_by(group_id=group.id).all()
+#                    memberships[group.name] = []
+#                    for member in grp_members:
+#                        memberships[group.name].append({'person_id': member.person_id})
+#                    memberships[group.name] = group.approved_roles
         if not len(groups):
             turbogears.flash(_("No Groups found matching '%s'") % search)
         return dict(groups=groups, search=search, memberships=memberships)
