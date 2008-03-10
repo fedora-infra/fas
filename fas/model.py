@@ -436,7 +436,7 @@ mapper(EmailPurposes, EmailPurposesTable, properties = {
         primaryjoin = PersonEmailsTable.c.id==EmailPurposesTable.c.email_id)
     })
 mapper(PersonRoles, PersonRolesTable, properties = {
-    'member': relation(People, backref = 'roles',
+    'member': relation(People, backref = 'roles', lazy = False,
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
     'group': relation(Groups, backref='roles'),
     'sponsor': relation(People, uselist=False,
