@@ -62,31 +62,13 @@ for person in c.fetchall():
     p.internal_comments = internal_comments
     p.ircnick = ircnick
     p.status = 'active'
+    p.email = email
     try:
         session.flush()
     except IntegrityError, e:
         print "\tERROR - Could not create %s - %s" % (username, e)
         session.close()
         continue
-
-    person_email = PersonEmails()
-    try:
-        person_email.email = email
-    except AttributeError:
-        print "\tERROR - Could not create email for %s (%s)" % (username, email)
-        session.close()
-        continue
-    person_email.person = p
-    person_email.description = 'Fedora Email'
-    person_email.verified = True # The first email is verified for free, since this is where their password is sent.
-    session.flush()
-    
-    
-    email_purpose = EmailPurposes()
-    email_purpose.person = p
-    email_purpose.person_email = person_email
-    email_purpose.purpose = 'primary'
-    session.flush()
 
 c.execute('select id, name, owner_id, group_type, needs_sponsor, user_can_remove, prerequisite_id, joinmsg from project_group;')
 bool_dict = {0 : False, 1 : True}

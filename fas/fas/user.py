@@ -17,13 +17,10 @@ import subprocess
 from OpenSSL import crypto
 
 from fas.model import People
-from fas.model import PersonEmails
-from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas import openssl_fas
 from fas.auth import *
-#from fas.user_email import Email, NonFedoraEmail
 
 from random import Random
 import sha
@@ -159,8 +156,6 @@ def generate_salt(length=8):
 
 class User(controllers.Controller):
 
-    #email = Email()
-
     def __init__(self):
         '''Create a User Controller.
         '''
@@ -254,16 +249,11 @@ class User(controllers.Controller):
             return dict()
         try:
             target.human_name = human_name
-            # FIXME: WARNING!  This is deceptive.  Remember that it
-            # changes the email object itself, not the email attached
-            # to the purpose.
-            if not target.emails['primary'] == email:
+            if target.email != email:
                 ''' Log this '''
-                oldEmail = target.emails['primary']
+                oldEmail = target.email
                 Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, email))
-                target.emails['primary'] = email
-
-#            target.emails['bugzilla'] = bugzilla
+                target.email = email
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -311,7 +301,7 @@ class User(controllers.Controller):
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
         for person in people:
-            emails[person.username] = person.emails['primary']
+            emails[person.username] = person.email
         return dict(emails=emails)
 
     @expose(template='fas.templates.user.new')
@@ -334,26 +324,12 @@ class User(controllers.Controller):
             person.username = username
             person.human_name = human_name
             person.telephone = telephone
+            person.email = email
             person.password = '*'
             person.status = 'active'
             session.flush()
-
-            # TODO: Handle properly if email has already been used.  This might be painful, since the person already exists, at this point. 
-            person_email = PersonEmails()
-            person_email.email = email
-            person_email.person = person
-            person_email.description = 'Fedora Email'
-            person_email.verified = True # The first email is verified for free, since this is where their password is sent.
-            session.flush()
-
-            email_purpose = EmailPurposes()
-            email_purpose.person = person
-            email_purpose.person_email = person_email
-            email_purpose.purpose = 'primary'
-            session.flush()
-
             newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_email'), person.emails['primary'], _('Welcome to the Fedora Project!'))
+            message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
             message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
@@ -436,6 +412,7 @@ forward to working with you!
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
+    #TODO: Validate
     @expose(template="fas.templates.user.resetpass")
     def sendpass(self, username, email, encrypted=False):
         import turbomail
@@ -449,64 +426,59 @@ forward to working with you!
         except InvalidRequestError:
             turbogears.flash(_('Username email combo does not exist!'))
             turbogears.redirect('/user/resetpass')
-        if username and email:
-            if not email == person.emails['primary']:
-                turbogears.flash(_("username + email combo unknown."))
-                return dict()
-            newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
-            mail = _('''
+        if email != person.email:
+            turbogears.flash(_("username + email combo unknown."))
+            return dict()
+        newpass = generate_password()
+        message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
+        mail = _('''
 You have requested a password reset!
 Your new password is: %s
 
 Please go to https://admin.fedoraproject.org/fas/ to change it.
 ''') % newpass['pass']
-            if encrypted:
-                # TODO: Move this out to a single function (same as
-                # CLA one), think of how to make sure this doesn't get
-                # full of random keys (keep a clean Fedora keyring)
-                # TODO: MIME stuff?
-                keyid = re.sub('\s', '', person.gpg_keyid)
-                ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
-                if ret != 0:
-                    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
-                    turbogears.redirect('/cla/view/sign')
+        if encrypted:
+            # TODO: Move this out to a single function (same as
+            # CLA one), think of how to make sure this doesn't get
+            # full of random keys (keep a clean Fedora keyring)
+            # TODO: MIME stuff?
+            keyid = re.sub('\s', '', person.gpg_keyid)
+            ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+            if ret != 0:
+                turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+                turbogears.redirect('/user/resetpass')
+                return dict()
+            else:
+                try:
+                    plaintext = StringIO.StringIO(mail)
+                    ciphertext = StringIO.StringIO()
+                    ctx = gpgme.Context()
+                    ctx.armor = True
+                    signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
+                    ctx.signers = [signer]
+                    recipient = ctx.get_key(keyid)
+                    def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
+                        os.write(fd, '%s\n' % config.get('gpg_passphrase'))
+                    ctx.passphrase_cb = passphrase_cb
+                    ctx.encrypt_sign([recipient],
+                        gpgme.ENCRYPT_ALWAYS_TRUST,
+                        plaintext,
+                        ciphertext)
+                    message.plain = ciphertext.getvalue()
+                except:
+                    turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
                     return dict()
-                #try:
-                #    subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
-                #except subprocess.CalledProcessError:
-                #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
-                else:
-                    try:
-                        plaintext = StringIO.StringIO(mail)
-                        ciphertext = StringIO.StringIO()
-                        ctx = gpgme.Context()
-                        ctx.armor = True
-                        signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
-                        ctx.signers = [signer]
-                        recipient = ctx.get_key(keyid)
-                        def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
-                            os.write(fd, '%s\n' % config.get('gpg_passphrase'))
-                        ctx.passphrase_cb = passphrase_cb
-                        ctx.encrypt_sign([recipient],
-                            gpgme.ENCRYPT_ALWAYS_TRUST,
-                            plaintext,
-                            ciphertext)
-                        message.plain = ciphertext.getvalue()
-                    except:
-                        turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
-                        return dict()
-            else:
-                message.plain = mail;
-            turbomail.enqueue(message)
-            try:
-                person.password = newpass['hash']
-                turbogears.flash(_('Your new password has been emailed to you.'))
-            except:
-                turbogears.flash(_('Your password could not be reset.'))
-            else:
-                turbogears.redirect('/login')  
-        return dict()
+        else:
+            message.plain = mail;
+        turbomail.enqueue(message)
+        try:
+            person.password = newpass['hash']
+            turbogears.flash(_('Your new password has been emailed to you.'))
+            turbogears.redirect('/login')  
+            return dict()
+        except:
+            turbogears.flash(_('Your password could not be reset.'))
+            return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
@@ -533,7 +505,7 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
               O=config.get('openssl_o'),
               OU=config.get('openssl_ou'),
               CN=person.username,
-              emailAddress=person.emails['primary'],
+              emailAddress=person.email,
               )
 
           cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')

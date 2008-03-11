@@ -135,7 +135,7 @@ class CLA(controllers.Controller):
                     emails = [];
                     for uid in key.uids:
                         emails.extend([uid.email])
-                    if person.emails['primary'] in emails:
+                    if person.email in emails:
                         verified = True
                     else:
                         turbogears.flash(_('Your key did not match your email.'))
@@ -181,7 +181,7 @@ class CLA(controllers.Controller):
                 message.plain = '''
 Fedora user %(username)s has signed a completed ICLA using their published GPG key, ID %(gpg_keyid)s,
 that is associated with e-mail address %(email)s. The full signed ICLA is attached.
-''' % {'username': person.username, 'gpg_keyid': person.gpg_keyid, 'email': person.emails['primary']}
+''' % {'username': person.username, 'gpg_keyid': person.gpg_keyid, 'email': person.email}
                 signature.file.seek(0) # For another read()
                 message.attach(signature.file, signature.filename)
                 turbomail.enqueue(message)
