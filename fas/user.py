@@ -280,14 +280,12 @@ class User(controllers.Controller):
             turbogears.redirect("/user/view/%s" % target.username)
         return dict(target=target)
 
-    # TODO: Decide who is allowed to see this.
-    #@identity.require(turbogears.identity.in_group("accounts")) #TODO: Use auth.py
+    # TODO: This took about 55 seconds for me to load - might want to limit it to the right accounts (systems user, accounts group)
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search="a*"):
         '''List users
         '''
-        
         re_search = re.sub(r'\*', r'%', search).lower()
         if self.jsonRequest():
             people = []
@@ -516,36 +514,34 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
       username = turbogears.identity.current.user_name
       person = People.by_username(username)
 
-      person.certificate_serial = person.certificate_serial + 1
+      if signedCLAPrivs(person):
+          person.certificate_serial = person.certificate_serial + 1
 
-      pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024);
+          pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024);
 
-      digest = config.get('openssl_digest')
-      expire = config.get('openssl_expire')
-      cafile = config.get('openssl_ca_file')
+          digest = config.get('openssl_digest')
+          expire = config.get('openssl_expire')
+          cafile = config.get('openssl_ca_file')
 
-      cakey = openssl_fas.retrieve_key_from_file(cafile)
-      cacert = openssl_fas.retrieve_cert_from_file(cafile)
+          cakey = openssl_fas.retrieve_key_from_file(cafile)
+          cacert = openssl_fas.retrieve_cert_from_file(cafile)
 
-      req = openssl_fas.createCertRequest(pkey, digest=digest,
-          C=config.get('openssl_c'),
-          ST=config.get('openssl_st'),
-          L=config.get('openssl_l'),
-          O=config.get('openssl_o'),
-          OU=config.get('openssl_ou'),
-          CN=person.username,
-          emailAddress=person.emails['primary'],
-          )
+          req = openssl_fas.createCertRequest(pkey, digest=digest,
+              C=config.get('openssl_c'),
+              ST=config.get('openssl_st'),
+              L=config.get('openssl_l'),
+              O=config.get('openssl_o'),
+              OU=config.get('openssl_ou'),
+              CN=person.username,
+              emailAddress=person.emails['primary'],
+              )
 
-      cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
-      certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
-      keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-      return dict(cert=certdump, key=keydump)
+          cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
+          certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+          keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+          return dict(cert=certdump, key=keydump)
+      else:
+          turbogears.flash(_('Before generating a certificate, you must first sign the CLA.'))
+          turbogears.redirect('/cla/')
 
-    # Not sure where to take this yet.
-    @identity.require(turbogears.identity.not_anonymous())
-    @expose(format="json")
-    def search(self, username=None, groupname=None):
-        people = People.query.filter(People.username.like('%%%s%%' % username))
-        return dict(people=people)
 
