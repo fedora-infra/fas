@@ -257,7 +257,12 @@ class User(controllers.Controller):
             # FIXME: WARNING!  This is deceptive.  Remember that it
             # changes the email object itself, not the email attached
             # to the purpose.
-            target.emails['primary'] = email
+            if not target.emails['primary'] == email:
+                ''' Log this '''
+                oldEmail = target.emails['primary']
+                Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, email))
+                target.emails['primary'] = email
+
 #            target.emails['bugzilla'] = bugzilla
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
