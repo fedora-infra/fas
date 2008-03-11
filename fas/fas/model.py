@@ -56,14 +56,10 @@ get_engine()
 #
 
 PeopleTable = Table('people', metadata, autoload=True)
-PersonEmailsTable = Table('person_emails', metadata, autoload=True)
-EmailPurposesTable = Table('email_purposes', metadata, autoload=True)
 PersonRolesTable = Table('person_roles', metadata, autoload=True)
 
 ConfigsTable = Table('configs', metadata, autoload=True)
 GroupsTable = Table('groups', metadata, autoload=True)
-GroupEmailsTable = Table('group_emails', metadata, autoload=True)
-GroupEmailPurposesTable = Table('group_email_purposes', metadata, autoload=True)
 GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
@@ -116,7 +112,7 @@ class People(SABase):
         A class method that can be used to search users
         based on their email addresses since it is unique.
         '''
-        return cls.query.join(['email_purposes', 'person_email']).filter_by(email=email).one()
+        return cls.query.filter_by(email=email).one()
 
     @classmethod
     def by_username(cls, username):
@@ -250,8 +246,12 @@ class People(SABase):
         if not identity.in_group('admin'):
             # Only admins can see internal_comments
             del props['internal_comments']
+            del props['emailtoken']
             if identity.current.anonymous:
                 # Anonymous users can't see any of these
+                del props['email']
+                del props['emailtoken']
+                del props['unverified_email']
                 del props['ssh_key']
                 del props['gpg_keyid']
                 del props['affiliation']
@@ -262,8 +262,10 @@ class People(SABase):
                 del props['postal_address']
                 del props['telephone']
                 del props['facsimile']
+            # TODO: Are we still doing the fas-system thing?  I think I saw a systems users somewhere...
             elif not identity.current.user.username == self.username and 'fas-system' not in identity.current.groups:
                 # Only an admin or the user themselves can see these fields
+                del props['unverified_email']
                 del props['password']
                 del props['passwordtoken']
                 del props['postal_address']
@@ -276,19 +278,6 @@ class People(SABase):
     memberships = association_proxy('roles', 'group')
     approved_memberships = association_proxy('approved_roles', 'group')
     unapproved_memberships = association_proxy('unapproved_roles', 'group')
-
-    emails = association_proxy('email_purposes', 'email')
-
-class PersonEmails(SABase):
-    '''Map a person to an email address.'''
-    def __repr__(cls):
-        return "PersonEmails(%s,%s,%s,%s)" % (cls.person.username, cls.email, cls.description, cls.verified)
-
-class EmailPurposes(SABase):
-    '''Map a person to an email (with a purpose).'''
-    def __repr__(cls):
-        return "EmailPurposes(%s,%s,%s)" % (cls.person.username, cls.email, cls.purpose)
-    email = association_proxy('person_email', 'email')
 
 class PersonRoles(SABase):
     '''Record people that are members of groups.'''
@@ -317,7 +306,7 @@ class Groups(SABase):
         A class method that can be used to search groups
         based on their email addresses since it is unique.
         '''
-        return cls.query.join(['email_purposes', 'group_email']).filter_by(email=email).one()
+        return cls.query.filter_by(email=email).one()
 
 
     @classmethod
@@ -337,21 +326,6 @@ class Groups(SABase):
     groups = association_proxy('group_members', 'member')
     # Groups that this group belongs to
     memberships = association_proxy('group_roles', 'group')
-
-    emails = association_proxy('email_purposes', 'email')
-
-class GroupEmails(SABase):
-    '''Map a group to an email address.'''
-    def __repr__(cls):
-        return "GroupEmails(%s,%s,%s,%s)" % (cls.group.name, cls.email, cls.description, cls.verified)
-
-class GroupEmailPurposes(SABase):
-    '''Map a group to an email (with a purpose).'''
-    def __repr__(cls):
-        return "GroupEmailPurposes(%s,%s,%s)" % (cls.group.name, cls.email, cls.purpose)
-
-    email = association_proxy('group_email', 'email')
-
 
 class GroupRoles(SABase):
     '''Record groups that are members of other groups.'''
@@ -420,12 +394,6 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
     })
 
 mapper(People, PeopleTable, properties = {
-    'email_purposes': relation(EmailPurposes, backref = 'person',
-        collection_class = column_mapped_collection(
-            EmailPurposesTable.c.purpose)),
-    'person_emails': relation(PersonEmails, backref = 'person',
-        collection_class = column_mapped_collection(
-            PersonEmailsTable.c.email)),
     # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
     'group_roles': relation(PersonRoles,
         collection_class = attribute_mapped_collection('groupname'),
@@ -434,11 +402,6 @@ mapper(People, PeopleTable, properties = {
         primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
-    })
-mapper(PersonEmails, PersonEmailsTable)
-mapper(EmailPurposes, EmailPurposesTable, properties = {
-    'person_email': relation(PersonEmails, uselist = False,
-        primaryjoin = PersonEmailsTable.c.id==EmailPurposesTable.c.email_id)
     })
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles', lazy = False,
@@ -454,19 +417,8 @@ mapper(Configs, ConfigsTable, properties = {
 mapper(Groups, GroupsTable, properties = {
     'owner': relation(People, uselist=False,
         primaryjoin = GroupsTable.c.owner_id==PeopleTable.c.id),
-    'email_purposes': relation(GroupEmailPurposes, backref = 'group',
-        collection_class = column_mapped_collection(
-            GroupEmailPurposesTable.c.purpose)),
-    'group_emails': relation(GroupEmails, backref = 'group',
-        collection_class = column_mapped_collection(
-            GroupEmailsTable.c.email)),
     'prerequisite': relation(Groups, uselist=False,
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
-    })
-mapper(GroupEmails, GroupEmailsTable)
-mapper(GroupEmailPurposes, GroupEmailPurposesTable, properties = {
-    'group_email': relation(GroupEmails, uselist = False,
-        primaryjoin = GroupEmailsTable.c.id==GroupEmailPurposesTable.c.email_id)
     })
 # GroupRoles are complex because the group is a member of a group and thus
 # is referencing the same table.
