@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.2
+Version:        0.4
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -56,6 +56,7 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
 mv $RPM_BUILD_ROOT%{_bindir}/start-fas $RPM_BUILD_ROOT%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
 install fas.cfg $RPM_BUILD_ROOT%{_sysconfdir}
+install client/fas.conf $RPM_BUILD_ROOT%{_sysconfdir}
  
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,8 +78,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files clients
 %{_bindir}/*
+%config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Tue Mar 11 2008 Mike McGrath <mmcgrath@redhat.com> - 0.4-1
+- added fas.conf will fix later.
+
+* Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.3-1
+- Upstream released a new version.
+
 * Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
 - Added fas user/group
 

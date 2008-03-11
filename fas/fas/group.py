@@ -255,7 +255,7 @@ class Group(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         results = Groups.query.filter(Groups.name.like(re_search)).order_by('name').all()
         if self.jsonRequest():
-            membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id]).order_by(PersonRoles.c.group_id)
+            membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id], PersonRoles.c.role_status=='approved').order_by(PersonRoles.c.group_id)
             members = membersql.execute()
             for member in members:
                 try:
