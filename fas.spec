@@ -8,12 +8,13 @@ Summary:        Fedora Account System
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas2/
-Source0:        https://fedorahosted.org/releases/f/e/fedora-infrastructure/
+Source0:        https://fedorahosted.org/releases/f/e/fedora-infrastructure/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 BuildRequires:  python-devel
-BuildRequires:  setuptools-devel
+BuildRequires:  python-setuptools-devel
+BuildRequires:  TurboGears
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
 Requires: python-turbomail
@@ -33,7 +34,7 @@ Group: Applications/System
 Requires: python-fedora
 Requires: rhpl
 
-%description -n clients
+%description clients
 Additional scripts that work as clients to the accounts system.
 
 %prep
@@ -60,10 +61,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README TODO COPYING fas2.sql
 %{python_sitelib}/*
+%{_datadir}/fas/
 %{_sbindir}/start-fas
 %config(noreplace) %{_sysconfdir}/*
 
-%files -n clients
+%files clients
 %{_bindir}/*
 
 %changelog
