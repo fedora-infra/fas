@@ -282,168 +282,217 @@ create table visit_identity (
 --
 -- When a person's fedorabugs role is updated, add them to bugzilla queue.
 --
--- create or replace function bugzilla_sync() returns trigger as $bz_sync$
---     # Decide which row we are operating on and the action to take
---     if TD['event'] == 'DELETE':
---         # 'r' for removing an entry from bugzilla
---         newaction = 'r'
---         row = TD['old']
---     else:
---         # insert or update
---         row = TD['new']
---         if row['role_status'] == 'approved':
---             # approved so add an entry to bugzilla
---             newaction = 'a'
---         else:
---             # no longer approved so remove the entry from bugzilla
---             newaction = 'r'
--- 
---     # Get the group id for fedorabugs
---     result = plpy.execute("select id from groups where name = 'fedorabugs'", 1)
---     if not result:
---         # Danger Will Robinson!  A basic FAS group does not exist!
---         plpy.error('Basic FAS group fedorabugs does not exist')
---     # If this is not a fedorabugs role, no change needed
---     if row['group_id'] != result[0]['id']:
---         return None
--- 
---     # Retrieve the bugzilla email address
---     plan = plpy.prepare("select email, purpose from person_emails as pee,"
---             " email_purposes as epu"
---             " where epu.id = epu.email_id and pee.person_id = $1"
---             " and purpose in ('bugzilla', 'primary')",
---             ('text',))
---     result = plpy.execute(plan, row['person_id'])
---     email = None
---     for record in result:
---         email = record['email']
---         if record['purpose'] == 'bugzilla':
---             break
---     if not email:
---         raise plpy.error('Cannot approve fedorabugs for person_id(%s) because they have no email address to use with bugzilla' % row['person_id'])
--- 
---     # If there is already a row in bugzilla_queue update, otherwise insert
---     plan = plpy.prepare("select email from bugzilla_queue where email = $1",
---             ('text',))
---     result = plpy.execute(plan, (email,), 1)
---     if result:
---         plan = plpy.prepare("update bugzilla_queue set action = $1"
---                 " where email = $2", ('char', 'text'))
---         plpy.execute(plan, (newaction, email))
---     else:
---         plan = plpy.prepare("insert into bugzilla_queue (email, group_id"
---             ", person_id, action) values ($1, $2, $3, $4)",
---                 ('text', 'text', 'text', 'char'))
---         plpy.execute(plan, (email, row['group_id'], row['person_id'], newaction))
---     return None
--- $bz_sync$ language plpythonu;
--- 
--- create trigger role_bugzilla_sync before update or insert or delete
---   on person_roles
---   for each row execute procedure bugzilla_sync();
+create or replace function bugzilla_sync() returns trigger as $bz_sync$
+    # Decide which row we are operating on and the action to take
+    if TD['event'] == 'DELETE':
+        # 'r' for removing an entry from bugzilla
+        newaction = 'r'
+        row = TD['old']
+    else:
+        # insert or update
+        row = TD['new']
+        if row['role_status'] == 'approved':
+            # approved so add an entry to bugzilla
+            newaction = 'a'
+        else:
+            # no longer approved so remove the entry from bugzilla
+            newaction = 'r'
+
+    # Get the group id for fedorabugs
+    result = plpy.execute("select id from groups where name = 'fedorabugs'", 1)
+    if not result:
+        # Danger Will Robinson!  A basic FAS group does not exist!
+        plpy.error('Basic FAS group fedorabugs does not exist')
+    # If this is not a fedorabugs role, no change needed
+    if row['group_id'] != result[0]['id']:
+        return None
+
+    # Retrieve the bugzilla email address
+    plan = plpy.prepare("select email, purpose from person_emails as pee,"
+            " email_purposes as epu"
+            " where epu.id = epu.email_id and pee.person_id = $1"
+            " and purpose in ('bugzilla', 'primary')",
+            ('text',))
+    result = plpy.execute(plan, row['person_id'])
+    email = None
+    for record in result:
+        email = record['email']
+        if record['purpose'] == 'bugzilla':
+            break
+    if not email:
+        raise plpy.error('Cannot approve fedorabugs for person_id(%s) because they have no email address to use with bugzilla' % row['person_id'])
+
+    # If there is already a row in bugzilla_queue update, otherwise insert
+    plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+            ('text',))
+    result = plpy.execute(plan, (email,), 1)
+    if result:
+        plan = plpy.prepare("update bugzilla_queue set action = $1"
+                " where email = $2", ('char', 'text'))
+        plpy.execute(plan, (newaction, email))
+    else:
+        plan = plpy.prepare("insert into bugzilla_queue (email, group_id"
+            ", person_id, action) values ($1, $2, $3, $4)",
+                ('text', 'text', 'text', 'char'))
+        plpy.execute(plan, (email, row['group_id'], row['person_id'], newaction))
+    return None
+$bz_sync$ language plpythonu;
+
+create trigger role_bugzilla_sync before update or insert or delete
+  on person_roles
+  for each row execute procedure bugzilla_sync();
 
 --
 -- When an email address changes, check whether it needs to be changed in
 -- bugzilla as well.
 --
---  create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
---      # To port this we need to operate on two tables now
---      if TD['event'] == 'DELETE':
---          row = TD['old']
---      else:
---          row = TD['new']
---  
---      if TD['event'] == 'UPDATE':
---          if TD['old']['email'] == TD['new']['email']:
---              # Email has not changed.  We do not care
---              return None
---      if row['purpose'] not in ('bugzilla', 'primary'):
---          # The change is to an email address that does not affect bugzilla
---          return None
---      elif row['purpose'] == 'primary':
---          # Check if there is a better email.
---          plan = plpy.prepare("select email from person_emails where"
---                  " purpose = 'bugzilla' and person_id = $1", ('text',))
---          result = plpy.execute(plan, (row['person_id'],), 1)
---          if result:
---              # If the change is to primary but there is a bugzilla address, it
---              # will have no effect.
---              return None
---      # Check that the person belongs to fedorabugs
---      plan = plpy.prepare("select * from people as p, person_roles as r,"
---              " groups as g where p.id = r.person_id and r.group_id = g.id"
---              " and r.role_status = 'approved' and g.name = 'fedorabugs'"
---              " and p.id = $1", ('text',))
---      result = plpy.execute(plan, (row['person_id'],), 1)
---      if not result:
---          # Person does not belong to fedorabugs so this will have no effect.
---          return None
---  
---      # We now know that we have changes to make
---    
---      #
---      # Remove the old Email address
---      #
---      oldEmail = None
---      if TD['event'] in ('DELETE', 'UPDATE'):
---          oldEmail = TD['old']['email']
---      elif row['purpose'] == 'bugzilla':
---          # Insert: check if there is an email for primary that this email is
---          # superceding
---          plan = plpy.prepare("select email from person_emails"
---                  " where purpose = 'primary' and person_id = $1", ('text',))
---          result = plpy.execute(plan, (row['person_id'],), 1)
---          if result:
---              oldEmail = result[0]['email']
---  
---      if oldEmail:
---          plan = plpy.prepare("select email from bugzilla_queue where email = $1",
---                  ('text',))
---          result = plpy.execute(plan, oldEmail, 1)
---          if result:
---              plan = plpy.prepare("update bugzilla_queue set action = 'r'"
---                      " where email = $1", ('text',))
---              plpy.execute(plan, (oldEmail))
---          else:    
---              plan = plpy.prepare("insert into bugzilla_queue () values(email"
---                      ", group_id, person_id, action) values ($1, $2, $3, 'r')",
---                      ('text', 'text', 'text'))
---              plpy.execute(plan, (oldEmail, row['group_id'], row['person_id']))
---  
---      #
---      # Add a new email address to bugzilla
---      #
---      newEmail = None
---      if TD['event'] in ('INSERT', 'UPDATE'):
---          newEmail = TG['new']
---      elif row['purpose'] == 'bugzilla':
---          # When deleting a bugzilla email, check if there is a primary to
---          # fallback on
---          plan = plpy.prepare("select email from person_emails"
---                  " where purpose = 'primary' and person_id = $1", ('text',))
---          result = plpy.execute(plan, (row['person_id'],), 1)
---          if result:
---              newEmail = result[0]['email']
---  
---      if newEmail:
---          plan = plpy.prepare("select email from bugzilla_queue where email = $1",
---                  ('text',))
---          result = plpy.execute(plan, newEmail, 1)
---          if result:
---              plan = plpy.prepare("update bugzilla_queue set action = 'a'"
---                      " where email = $1", ('text',))
---              plpy.execute(plan, (newEmail))
---          else:    
---              plan = plpy.prepare("insert into bugzilla_queue () values(email"
---                      ", group_id, person_id, action) values ($1, $2, $3, 'a')",
---                      ('text', 'text', 'text'))
---              plpy.execute(plan, (newEmail, row['group_id'], row['person_id']))
---      return None
---  $bz_sync_e$ language plpythonu;
---  
---  create trigger email_bugzilla_sync before update or insert or delete
---   on person_emails
---   for each row execute procedure bugzilla_sync_email();
+create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
+    if TD['new']['email'] != TD['old']['email']:
+        pass
+          # if person new in fedorabugs and email_purpose == bz or (email_purpose == primary and no bz email)
+            # delete old email
+            # add new email
+    if TD['new']['person_id'] != TD['old']['person_id']:
+        pass
+        # Check that  email_purpose == bz or (email_purpose == primary and no bz email)
+        # if person old in fedorabugs and person new not in fedorabugs
+            # delete old email
+        # if person old not in fedorabugs and person new in fedorabugs
+            # add new email
+    if TD['new']['verified'] != TD['old']['verified']:
+        pass
+        ### FIXME: We are here
+        # if person new in fedorabugs and 
+
+    ### FIXME: All below here has to be merged into the above structure
+    # Retrieve the purpose
+    plan = plpy.prepare("select purpose from email_purposes where"
+            " email_id = $1", ('text',))
+    result = plpy.execute(plan, (TD['new']['id']))
+
+    # Check that the person belongs to fedorabugs
+    plan = plpy.prepare("select * from people as p, person_roles as r,"
+            " groups as g where p.id = r.person_id and r.group_id = g.id"
+            " and r.role_status = 'approved' and g.name = 'fedorabugs'"
+            " and p.id = $1", ('text',))
+    result = plpy.execute(plan, (TD['new']['person_id'],), 1)
+    if not result:
+        # Person does not belong to fedorabugs so this will have no effect.
+        return None
+
+$bz_sync_e$ language plpythonu;
+
+create trigger email_bugzilla_sync before update
+  on person_emails
+  for each row execute procedure bugzilla_sync_email();
+
+
+create or replace function bugzilla_sync_purpose() returns trigger AS
+$bz_sync_p$
+    ### FIXME: This trigger needs a complete rewrite.
+    # Genericize a row so we can access things that would be in either
+    if TD['event'] == 'DELETE':
+        row = TD['old']
+    else:
+        row = TD['new']
+
+    # Check that the person belongs to fedorabugs
+    plan = plpy.prepare("select * from people as p, person_roles as r,"
+            " groups as g where p.id = r.person_id and r.group_id = g.id"
+            " and r.role_status = 'approved' and g.name = 'fedorabugs'"
+            " and p.id = $1", ('text',))
+    result = plpy.execute(plan, (row['person_id'],), 1)
+    if not result:
+        # Person does not belong to fedorabugs so this will have no effect.
+        return None
+
+    # Check that a change has occurred:
+    # if email in 
+
+    # To port this we need to operate on two tables now
+
+    if TD['event'] == 'UPDATE':
+        if TD['old']['email'] == TD['new']['email']:
+            # Email has not changed.  We do not care
+            return None
+    if row['purpose'] not in ('bugzilla', 'primary'):
+        # The change is to an email address that does not affect bugzilla
+        return None
+    elif row['purpose'] == 'primary':
+        # Check if there is a better email.
+        plan = plpy.prepare("select email from person_emails where"
+                " purpose = 'bugzilla' and person_id = $1", ('text',))
+        result = plpy.execute(plan, (row['person_id'],), 1)
+        if result:
+            # If the change is to primary but there is a bugzilla address, it
+            # will have no effect.
+            return None
+
+    # We now know that we have changes to make
+  
+    #
+    # Remove the old Email address
+    #
+    oldEmail = None
+    if TD['event'] in ('DELETE', 'UPDATE'):
+        oldEmail = TD['old']['email']
+    elif row['purpose'] == 'bugzilla':
+        # Insert: check if there is an email for primary that this email is
+        # superceding
+        plan = plpy.prepare("select email from person_emails"
+                " where purpose = 'primary' and person_id = $1", ('text',))
+        result = plpy.execute(plan, (row['person_id'],), 1)
+        if result:
+            oldEmail = result[0]['email']
+
+    if oldEmail:
+        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+                ('text',))
+        result = plpy.execute(plan, oldEmail, 1)
+        if result:
+            plan = plpy.prepare("update bugzilla_queue set action = 'r'"
+                    " where email = $1", ('text',))
+            plpy.execute(plan, (oldEmail))
+        else:    
+            plan = plpy.prepare("insert into bugzilla_queue () values(email"
+                    ", group_id, person_id, action) values ($1, $2, $3, 'r')",
+                    ('text', 'text', 'text'))
+            plpy.execute(plan, (oldEmail, row['group_id'], row['person_id']))
+
+    #
+    # Add a new email address to bugzilla
+    #
+    newEmail = None
+    if TD['event'] in ('INSERT', 'UPDATE'):
+        newEmail = TG['new']
+    elif row['purpose'] == 'bugzilla':
+        # When deleting a bugzilla email, check if there is a primary to
+        # fallback on
+        plan = plpy.prepare("select email from person_emails"
+                " where purpose = 'primary' and person_id = $1", ('text',))
+        result = plpy.execute(plan, (row['person_id'],), 1)
+        if result:
+            newEmail = result[0]['email']
+
+    if newEmail:
+        plan = plpy.prepare("select email from bugzilla_queue where email = $1",
+                ('text',))
+        result = plpy.execute(plan, newEmail, 1)
+        if result:
+            plan = plpy.prepare("update bugzilla_queue set action = 'a'"
+                    " where email = $1", ('text',))
+            plpy.execute(plan, (newEmail))
+        else:    
+            plan = plpy.prepare("insert into bugzilla_queue () values(email"
+                    ", group_id, person_id, action) values ($1, $2, $3, 'a')",
+                    ('text', 'text', 'text'))
+            plpy.execute(plan, (newEmail, row['group_id'], row['person_id']))
+    return None
+$bz_sync_p$ language plpythonu;
+
+create trigger email_bugzilla_sync before update or insert or delete
+ on person_emails
+ for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
 GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq, person_emails_id_seq, group_emails_id_seq TO GROUP fedora;
