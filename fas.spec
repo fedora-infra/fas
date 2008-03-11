@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.1
+Version:        0.2
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -55,6 +55,10 @@ install -m 0600 fas.cfg $RPM_BUILD_ROOT%{_sysconfdir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+/usr/sbin/groupadd -r fas &>/dev/null || :
+/usr/sbin/useradd  -r -s /sbin/nologin -d /usr/share/fas -M \
+                               -c 'Fedora Account System User' -g fas fas &>/dev/null || :
 
 %files
 %defattr(-,root,root,-)
@@ -67,5 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
+- Added create user to pre
+
 * Mon Mar 10 2008 Toshio Kuratomi <tkuratom@redhat.com> - 0.1-1
 - Initial Build.
