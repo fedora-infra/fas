@@ -238,7 +238,7 @@ class MakeShellAccounts(BaseClient):
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
         os.chmod(self.temp + '/shadow.txt', 00400)
         if not self.people:
-            self.people = self.people_list()
+            self.people_list()
         for person in self.people:
             username = person['username']
             if self.valid_user(username):
@@ -281,23 +281,25 @@ class MakeShellAccounts(BaseClient):
     def groups_text(self, groups=None, people=None):
         i = 0
         file = open(self.temp + '/group.txt', 'w')
-        if not groups:
-            groups = self.group_list()
-        if not people:
-            people = self.people_list()
-        
-        ''' First create all of our users/groups combo '''
-        for person in people:
-            uid = person['id']
-            if self.valid_user_group(uid):
-                username = person['username']
-                file.write("=%i %s:x:%i:\n" % (uid, username, uid))
-                file.write("0%i %s:x:%i:\n" % (i, username, uid))
-                file.write(".%s %s:x:%i:\n" % (username, username, uid))
-                i = i + 1
-        
+        if not self.groups:
+            self.group_list()
+        if not self.people:
+            self.people_list()
         usernames = self.usernames()
-        for group in groups:
+        ''' First create all of our users/groups combo '''
+        for person in self.people:
+            uid = person['id']
+            try:
+                if self.valid_user(usernames[uid]):
+                    username = person['username']
+                    file.write("=%i %s:x:%i:\n" % (uid, username, uid))
+                    file.write("0%i %s:x:%i:\n" % (i, username, uid))
+                    file.write(".%s %s:x:%i:\n" % (username, username, uid))
+                    i = i + 1
+            except KeyError:
+                continue
+            
+        for group in self.groups:
             gid = group['id']
             name = group['name']
             try:
@@ -314,7 +316,6 @@ class MakeShellAccounts(BaseClient):
             file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
             file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
             i = i + 1
-
         file.close()
 
     def group_list(self, search='*'):
@@ -336,7 +337,6 @@ class MakeShellAccounts(BaseClient):
     def people_list(self, search='*'):
         params = {'search' : search}
         self.people = self.send_request('user/list', auth=True, input=params)['people']
-        return self.people
 
     def email_list(self, search='*'):
         params = {'search' : search}
