@@ -125,8 +125,7 @@ class Root(controllers.RootController):
             msg=_("Please log in.")
             forward_url= '.'
 
-        ### FIXME: Is it okay to get rid of this?
-        #cherrypy.response.status=403
+        cherrypy.response.status=403
         return dict(message=msg, previous_url=previous_url, logging_in=True,
                     original_parameters=request.params,
                     forward_url=forward_url)
