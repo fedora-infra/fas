@@ -8,15 +8,16 @@ Summary:        Fedora Account System
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas2/
-Source0:        https://fedorahosted.org/releases/f/e/fedora-infrastructure/
+Source0:        https://fedorahosted.org/releases/f/e/fedora-infrastructure/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 BuildRequires:  python-devel
-BuildRequires:  setuptools-devel
+BuildRequires:  python-setuptools-devel
+BuildRequires:  TurboGears
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
-Requires: python-turbomail
+Requires: python-TurboMail
 Requires: python-fedora-infrastructure >= 0.2.99.2
 
 %description
@@ -33,7 +34,7 @@ Group: Applications/System
 Requires: python-fedora
 Requires: rhpl
 
-%description -n clients
+%description clients
 Additional scripts that work as clients to the accounts system.
 
 %prep
@@ -50,7 +51,7 @@ mkdir -p $RPM_BUILD_ROOT%{_sbindir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
 mv $RPM_BUILD_ROOT%{_bindir}/start-fas $RPM_BUILD_ROOT%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
-install -m 0600 fas.cfg $RPM_BUILD_ROOT%{_sysconfdir}
+install fas.cfg $RPM_BUILD_ROOT%{_sysconfdir}
  
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -58,21 +59,24 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 /usr/sbin/groupadd -r fas &>/dev/null || :
 /usr/sbin/useradd  -r -s /sbin/nologin -d /usr/share/fas -M \
-                               -c 'Fedora Account System User' -g fas fas &>/dev/null || :
+                               -c 'Fedora Acocunt System user' -g fas fas &>/dev/null || :
+
+
 
 %files
 %defattr(-,root,root,-)
 %doc README TODO COPYING fas2.sql
 %{python_sitelib}/*
+%{_datadir}/fas/
 %{_sbindir}/start-fas
-%config(noreplace) %{_sysconfdir}/*
+%attr(0640,root,apache) %config(noreplace) %{_sysconfdir}/fas.cfg
 
-%files -n clients
+%files clients
 %{_bindir}/*
 
 %changelog
 * Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
-- Added create user to pre
+- Added fas user/group
 
 * Mon Mar 10 2008 Toshio Kuratomi <tkuratom@redhat.com> - 0.1-1
 - Initial Build.
