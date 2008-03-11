@@ -78,6 +78,11 @@ parser.add_option('-s', '--server',
                      default = None,
                      metavar = 'FAS_URL',
                      help = _('Specify URL of fas server.'))
+parser.add_option('-p', '--prefix',
+                     dest = 'prefix',
+                     default = None,
+                     metavar = 'prefix',
+                     help = _('Specify install prefix.  Useful for testing'))
 parser.add_option('-e', '--enable',
                      dest = 'enable',
                      default = False,
@@ -114,6 +119,10 @@ except ConfigParser.MissingSectionHeaderError, e:
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url').strip('"')
+if opts.prefix:
+    prefix = opts.prefix
+else:
+    prefix = config.get('global', 'prefix').strip('"')
 
 def _chown(arg, dir_name, files):
     os.chown(dir_name, arg[0], arg[1])
@@ -131,7 +140,7 @@ class MakeShellAccounts(BaseClient):
     usernames = {}
 
     def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-', os.path.join(prefix + config.get('global', 'temp').strip('"')))
 
     def rm_tempdir(self):
         rmtree(self.temp)
@@ -235,7 +244,7 @@ class MakeShellAccounts(BaseClient):
         return '/sbin/nologin'
 
     def install_aliases_txt(self):
-        move(self.temp + '/aliases', '/etc/aliases')
+        move(self.temp + '/aliases', prefix + '/etc/aliases')
 
     def passwd_text(self, people=None):
         i = 0
@@ -381,25 +390,25 @@ class MakeShellAccounts(BaseClient):
 
     def install_passwd_db(self):
         try:
-            move(self.temp + '/passwd.db', '/var/db/passwd.db')
+            move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
         except IOError, e:
             print "ERROR: Could not write passwd db - %s" % e
     
     def install_shadow_db(self):
         try:
-            move(self.temp + '/shadow.db', '/var/db/shadow.db')
+            move(self.temp + '/shadow.db', os.path.join(prefix + '/var/db/shadow.db'))
         except IOError, e:
             print "ERROR: Could not write shadow db - %s" % e
     
     def install_group_db(self):
         try:
-            move(self.temp + '/group.db', '/var/db/group.db')
+            move(self.temp + '/group.db', os.path.join(prefix + '/var/db/group.db'))
         except IOError, e:
             print "ERROR: Could not write group db - %s" % e
     
     def create_homedirs(self):
         ''' Create homedirs and home base dir if they do not exist '''
-        home_base = config.get('users', 'home').strip('"')
+        home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
         if not os.path.exists(home_base):
             os.makedirs(home_base, mode=0755)
         for person in self.people:
@@ -411,7 +420,7 @@ class MakeShellAccounts(BaseClient):
 
     def remove_stale_homedirs(self):
         ''' Remove homedirs of users that no longer have access '''
-        home_base = config.get('users', 'home').strip('"')
+        home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
         try:
             home_backup_dir = config.get('users', 'home_backup_dir').strip('"')
         except ConfigParser.NoOptionError:
@@ -423,7 +432,7 @@ class MakeShellAccounts(BaseClient):
                     os.makedirs(home_backup_dir)
                 syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
                 target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
-                move(os.path.join(home_base, user), os.path.join(home_backup_dir, target))
+                move(os.path.join(home_base, user), os.path.join(prefix + home_backup_dir, target))
 
     def create_ssh_keys(self):
         ''' Create ssh keys '''
