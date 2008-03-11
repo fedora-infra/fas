@@ -45,6 +45,9 @@ CREATE TABLE people (
     password VARCHAR(127) NOT NULL,
     passwordtoken text null,
     password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    email TEXT not null unique,
+    emailtoken TEXT,
+    unverified_email TEXT,
     comments TEXT,
     postal_address TEXT,
     telephone TEXT,
@@ -70,35 +73,6 @@ CREATE TABLE people (
 create index people_status_idx on people(status);
 cluster people_status_idx on people;
 
-CREATE TABLE person_emails (
-    id serial primary key,
-    email text not null,
-    person_id INTEGER NOT NULL references people(id),
-    validtoken text,
-    description text,
-    verified boolean NOT NULL DEFAULT false,
-    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    unique (id, person_id),
-    unique (email, verified) --You can't "claim" an email before you verify it first
-);
-
-create index person_emails_person_id_idx on person_emails(person_id);
-cluster person_emails_person_id_idx on person_emails;
-
-CREATE TABLE email_purposes (
-    email_id INTEGER NOT NULL references person_emails(id),
-    person_id INTEGER NOT NULL references people(id),
-    purpose text NOT NULL,
-    primary key (person_id, purpose),
-    foreign key (email_id, person_id) references person_emails(id,
-        person_id) on update cascade,
-    check (purpose ~ ('(bugzilla|primary|cla|pending|other[0-9]+)'))
-);
-
-create index email_purposes_email_id_idx on email_purposes(email_id);
-create index email_purposes_person_id_idx on email_purposes(person_id);
-cluster email_purposes_person_id_idx on email_purposes;
-
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
     person_id integer references people(id),
@@ -123,6 +97,10 @@ CREATE TABLE groups (
     name VARCHAR(32) UNIQUE NOT NULL,
     -- tg_group::display_name
     display_name TEXT,
+    -- Unlike users, groups can share email addresses
+    email TEXT not null,
+    emailtoken TEXT,
+    unverified_email TEXT,
     owner_id INTEGER NOT NULL REFERENCES people(id),
     group_type VARCHAR(16),
     needs_sponsor BOOLEAN DEFAULT FALSE,
@@ -136,40 +114,8 @@ CREATE TABLE groups (
 );
 
 create index groups_group_type_idx on groups(group_type);
+create index groups_email_idx on groups(email);
 cluster groups_group_type_idx on groups;
-
---
--- Group Emails are slightly different than person emails.
--- We are much more relaxed about email "ownership".  A group can share an
--- email address with another group.  (For instance, xen-maint and
--- kernel-maint might share the same email address for mailing list and
--- bugzilla.
---
-CREATE TABLE group_emails (
-    id serial primary key,
-    email text not null,
-    group_id INTEGER NOT NULL references groups(id),
-    validtoken text,
-    description text,
-    verified boolean NOT NULL DEFAULT false,
-    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    unique (email, verified) --You can't "claim" an email before you verify it first
-);
-
-create index group_emails_group_id_idx on group_emails(group_id);
-cluster group_emails_group_id_idx on group_emails;
-
-CREATE TABLE group_email_purposes (
-    email_id INTEGER NOT NULL references group_emails(id),
-    group_id INTEGER NOT NULL references groups(id),
-    purpose text NOT NULL,
-    primary key (group_id, purpose),
-    check (purpose ~ ('(bugzilla|primary|mailing list|other[0-9]+)'))
-);
-
-create index group_email_purposes_email_id_idx on group_email_purposes(email_id);
-create index group_email_purposes_person_id_idx on group_email_purposes(group_id);
-cluster group_email_purposes_person_id_idx on group_email_purposes;
 
 CREATE TABLE person_roles (
     person_id INTEGER NOT NULL REFERENCES people(id),
@@ -389,6 +335,16 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
                 emailAffectsBz = True
         return emailAffectsBz
 
+    def previous_emails(person_id):
+        '''Find the previous email used for bugzilla.'''
+        plan = plpy.prepare("select email, purpose from person_emails as pem,"
+            " email_purposes as epu"
+            " where pem.id = epu.email_id and pem.person_id = $1"
+            " and epu.purpose in ('bugzilla', 'primary')", ('int4',))
+        result = plpy.execute(plan, (TD['new']['person_id'],))
+        email = None
+        return result
+
     #
     # Main body of function starts here
     #
@@ -445,42 +401,51 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
         # use with bugzilla.
         if oldHasBugs and newHasBugs and newAffectsBz:
             # Retrieve the bugzilla email address
-            plan = plpy.prepare("select email, purpose from person_emails as pem,"
-                " email_purposes as epu"
-                " where pem.id = epu.email_id and pem.person_id = $1"
-                " and epu.purpose in ('bugzilla', 'primary')", ('int4',))
-            result = plpy.execute(plan, (TD['new']['person_id'],))
-            email = None
-            bzEmail = False
-            for record in result:
-                email = record['email']
-                if record['purpose'] == 'bugzilla':
-                    bzEmail = True
-                    break
+            previous = previous_emails(TD['new']['person_id'])
+
             # Note: we depend on the unique constraint having already run and
             # stopped us from getting to this point with two email addresses
             # for the same purpose.
             # Since only one can be the bzEmail address and only one the
             # primary, we can do what we need only knowing the purpose for one
             # of the email addresses.
-            if bzEmail:
-                # Remove the new email address as the old one is the bz email
-                changes[TD['new']['email']] = (TD['new']['email'], fedorabugsId, TD['new']['person_id'], 'r')
-            else:
-                # Remove the current email address
-                changes[email] = (email, fedorabugsId, TD['new']['person_id'], 'r')
+            if previous:
+                
+                for email in previous:
+                    if email['purpose'] == 'bugzilla':
+                        # Remove the new email address as the old one is the bz email
+                        changes[TD['new']['email']] = (TD['new']['email'], fedorabugsId, TD['new']['person_id'], 'r')
+                else:
+                    # Remove the current email address
+                    changes[email] = (email, fedorabugsId, TD['new']['person_id'], 'r')
 
     if TD['new']['verified'] != TD['old']['verified']:
+        plpy.execute("insert into debug values ('In verified')")
         if TD['new']['verified'] and newHasBugs and newAffectsBz:
             # Add the email address
+            plpy.execute("insert into debug values('Add email address')")
             if not TD['new']['email'] in changes:
+                plpy.execute("insert into debug values ('addind address for real')")
                 changes[TD['new']['email']] = (TD['new']['email'], fedorabugsId, TD['new']['person_id'], 'a')
-
+                # Check whether there's a previous email address this
+                # obsoletes
+                previous = previous_email(TD['new']['person_id'])
+                plan = plpy.prepare("insert into debug values ($1)", ('text',))
+                plpy.execute(plan, (str(previous),))
+                if previous and previous[0] == 'primary':
+                    changes[previous[1]] = (previous[1], fedorabugsId, TD['new']['person_id'], 'r')
         elif not TD['new']['verified'] and oldHasBugs and oldAffectsBz:
             # Remove the email address
             changes[TD['old']['email']] = (TD['old']['email'], fedorabugsId, TD['old']['person_id'], 'r')
+            # Check if there's another email address that should take it's
+            # place
+            previous = previous_email(TD['new']['person_id'])
+            if previous and not  pervious[1] in changes:
+                changes[previous[1]] = (previous[1], fedorabugsId, TD['new']['person_id'], 'a')
 
     # Now actually add the changes to the queue.
+    plan = plpy.prepare("insert into debug values ($1)", ('text',))
+    plpy.execute(plan, (str(changes),))
     for email in changes:
         plan = plpy.prepare("select email from bugzilla_queue where email = $1", ('text',))
         result = plpy.execute(plan, (email,), 1)
