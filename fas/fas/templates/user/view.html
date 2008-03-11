@@ -7,7 +7,11 @@
     <title>${_('View Account')}</title>
   </head>
   <body>
-    <?python from fas import auth ?>
+    <?python
+    from fas import auth
+    from fas.model import People
+    viewer = People.by_username(tg.identity.user.username)
+    ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
     <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.human_name}</h2>
     <h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
@@ -22,8 +26,8 @@
         <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Public SSH Key:')}</dt>
-            <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
-            <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
+        <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
+        <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
         </py:if>
         <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
         <py:if test="personal"><dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd></py:if>
@@ -42,20 +46,20 @@
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
     <h3 py:if="not personal">${_('%s\'s Roles') % person.human_name}</h3>
-<!--mpm    <ul class="roleslist">
+    <!--mpm    <ul class="roleslist">
       <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
       <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
     </ul>
--->
+    -->
     <!--
     <ul class="actions" py:if="personal">
       <li><a href="${tg.url('/group/list/A*')}">${_('(Join another project)')}</a></li>
       <li><a href="/">${_('(Create a new project)')}</a></li>
     </ul>
     -->
-    <ul id="rolespanel" py:if="personal">
+    <ul id="rolespanel">
       <py:for each="group in sorted(person.memberships)">
-      <li py:if="auth.canViewGroup(person, group)" class="role">
+      <li py:if="auth.canViewGroup(viewer, group)" class="role">
       <h4>${group.display_name}</h4> (${group.group_type})
       <dl>
         <dt>${_('Status:')}</dt>
@@ -63,6 +67,7 @@
         <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
         <span class="unapproved" py:if="group in person.unapproved_memberships">${_('None')}</span>
         </dd>
+        <py:if test="personal">
         <dt>${_('Tools:')}</dt>
         <dd>
         <ul class="tools">
@@ -73,14 +78,15 @@
         </ul>
         </dd>
         <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
-          <dt>${_('Queue:')}</dt>
-          <dd>
-          <ul class="queue">
-            <li py:for="role in group.unapproved_roles[:5]">
-            ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': role.member.username, 'group': group.name})}
-            </li>
-          </ul>
-          </dd>
+        <dt>${_('Queue:')}</dt>
+        <dd>
+        <ul class="queue">
+          <li py:for="role in group.unapproved_roles[:5]">
+          ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': role.member.username, 'group': group.name})}
+          </li>
+        </ul>
+        </dd>
+        </py:if>
         </py:if>
       </dl>
       </li>
