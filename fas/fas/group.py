@@ -257,11 +257,11 @@ class Group(controllers.Controller):
         if self.jsonRequest():
             membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id]).order_by(PersonRoles.c.group_id)
             members = membersql.execute()
-        for member in members:
-            try:
-                memberships[member[1]].append(member[0])
-            except KeyError:
-                memberships[member[1]]=[member[0]]
+            for member in members:
+                try:
+                    memberships[member[1]].append(member[0])
+                except KeyError:
+                    memberships[member[1]]=[member[0]]
         for group in results:
             if canViewGroup(person, group):
                 groups.append(group)
