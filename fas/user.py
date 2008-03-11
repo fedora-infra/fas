@@ -17,8 +17,6 @@ import subprocess
 from OpenSSL import crypto
 
 from fas.model import People
-from fas.model import PersonEmails
-from fas.model import EmailPurposes
 from fas.model import Log
 
 from fas import openssl_fas
