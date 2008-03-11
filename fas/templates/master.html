@@ -62,7 +62,7 @@
               <li><a href="${tg.url('/group/new')}">${_('New Group')}</a></li>
               <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
             </div>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list')}">${_('Group List')}</a></li>
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Group List')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
