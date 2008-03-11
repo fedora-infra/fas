@@ -19,6 +19,10 @@ Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
 Requires: python-TurboMail
 Requires: python-fedora-infrastructure >= 0.2.99.2
+Requires: babel
+Requires: pygpgme
+Requires: python-babel
+Requires: pytz
 
 %description
 The Fedora Account System is a web application that manages the accounts of
