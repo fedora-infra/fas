@@ -5,6 +5,8 @@ import cherrypy
 
 import turbomail
 
+import sqlalchemy
+
 import os
 import re
 import gpgme
@@ -280,10 +282,23 @@ class User(controllers.Controller):
     def list(self, search="a*"):
         '''List users
         '''
+        
         re_search = re.sub(r'\*', r'%', search).lower()
-        people = People.query.filter(People.username.like(re_search)).order_by('username')
-        if people.count() < 0:
-            turbogears.flash(_("No users found matching '%s'") % search)
+        if self.jsonRequest():
+            people = []
+            peoplesql = sqlalchemy.select([People.c.id, People.c.username, People.c.human_name, People.c.ssh_key, People.c.password])
+            persons = peoplesql.execute()
+            for person in persons:
+                people.append({
+                    'id'         : person[0],
+                    'username'   : person[1],
+                    'human_name' : person[2],
+                    'ssh_key'    : person[3],
+                    'password'   : person[4]})
+        else:
+            people = People.query.filter(People.username.like(re_search)).order_by('username')
+            if people.count() < 0:
+                turbogears.flash(_("No users found matching '%s'") % search)
         return dict(people=people, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
