@@ -466,7 +466,7 @@ class MakeShellAccounts(BaseClient):
         sorted.sort()
         for person in sorted:
             email_file.write("%s: %s\n" % (person, self.emails[person]))
-        usernames = self.usernames()
+        usernames = self.usernames
         for group in self.groups:
             name = group['name']
             members = {}

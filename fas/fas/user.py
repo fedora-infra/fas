@@ -458,6 +458,10 @@ forward to working with you!
         if not person.password == crypt.crypt(currentpassword, person.password):
             turbogears.flash('Your current password did not match')
             return dict()
+        # TODO: Enable this when we need to.
+        #if currentpassword == password:
+        #    turbogears.flash('Your new password cannot be the same as your old one.')
+        #    return dict()
         newpass = generate_password(password)
         try:
             person.password = newpass['hash']
