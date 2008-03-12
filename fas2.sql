@@ -257,7 +257,7 @@ create or replace function bugzilla_sync() returns trigger as $bz_sync$
         return None
 
     # Retrieve the bugzilla email address
-    ### FIXME: Once we implement it, we'll want to add a check for an email
+    ### FIXME: Once we implement it, we will want to add a check for an email
     # address in configs::application='bugzilla',person_id=person_id,
     # attribute='login'
     plan = plpy.prepare("select email from people where id = $1", ('int4',))
@@ -575,10 +575,10 @@ create trigger role_bugzilla_sync before update or insert or delete
 --  for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, person_emails, email_purposes, group_roles, group_emails, group_email_purposes, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq, TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, group_roles, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq, person_emails_id_seq, group_emails_id_seq TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
-INSERT INTO people (id, username, human_name, password) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/');
+INSERT INTO people (id, username, human_name, password, email) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost');
 
 -- Create default groups and populate
 INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100002, 'cla_sign', 'Signed CLA Group', (SELECT id from people where username='admin'), 'tracking');
@@ -589,7 +589,3 @@ INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fas-syste
 
 
 INSERT INTO person_roles (person_id, group_id, role_type, role_status, internal_comments, sponsor_id) VALUES ((SELECT id from people where username='admin'), (select id from groups where name='accounts'), 'administrator', 'approved', 'created at install time', (SELECT id from people where username='admin'));
-
--- Give admin user his email address
-INSERT INTO person_emails (email, person_id, verified) VALUES ('root@localhost', (SELECT id from people where username='admin'), true);
-INSERT INTO email_purposes (email_id, person_id, purpose) VALUES ((SELECT id from person_emails where email='root@localhost'), (SELECT id from people where username='admin'), 'primary');

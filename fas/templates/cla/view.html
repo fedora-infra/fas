@@ -19,7 +19,7 @@
         <div>
           ${_('If you agree to these terms and conditions, type "%s" here:') % 'I agree'} <input type="text" id="agree" name="agree" /><br />
           ${_('Full Name:')} ${person.human_name}<br />
-          ${_('E-mail:')} ${person.emails['primary']}<br />
+          ${_('E-mail:')} ${person.email}<br />
           ${_('Date:')} ${date}<br />
           <input type="submit" value="${_('Submit CLA')}" />
         </div>
