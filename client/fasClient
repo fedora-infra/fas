@@ -29,6 +29,7 @@ import codecs
 import datetime
 import time
 
+from urllib2 import URLError
 from fedora.tg.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
 from shutil import move, rmtree, copytree
@@ -539,6 +540,9 @@ if __name__ == '__main__':
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)
+        except URLError, e:
+            print >> sys.stderr, 'Could not connect to %s - %s' % (FAS_URL, e.reason[1])
+            sys.exit(9)
         fas.mk_tempdir()
         fas.make_group_db()
         fas.make_passwd_db()
