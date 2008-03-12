@@ -131,7 +131,7 @@ class UserView(validators.Schema):
 class UserEdit(validators.Schema):
     targetname = KnownUser
 
-def generate_password(password=None, length=14):
+def generate_password(password=None, length=16):
     ''' Generate Password '''
     secret = {} # contains both hash and password
 
@@ -153,6 +153,13 @@ def generate_salt(length=8):
     for i in xrange(length):
         salt += random.choice(chars)
     return salt
+
+def generate_token(length=32):
+    chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    token = ''
+    for i in xrange(length):
+        token += random.choice(chars)
+    return token
 
 class User(controllers.Controller):
 
@@ -242,6 +249,7 @@ class User(controllers.Controller):
         target = targetname
         person = People.by_username(username)
         target = People.by_username(target)
+        emailflash = ''
 
         if not canEditUser(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
@@ -250,10 +258,22 @@ class User(controllers.Controller):
         try:
             target.human_name = human_name
             if target.email != email:
-                ''' Log this '''
-                oldEmail = target.email
-                Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, email))
-                target.email = email
+                token = generate_token()
+                target.unverified_email = email
+                target.emailtoken = token
+                message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
+                # TODO: Make this email friendlier. 
+                message.plain = _('''
+You have recently requested to change your Fedora Account System email
+to this address.  To complete the email change, you must confirm your
+ownership of this email by visiting the following URL (you will need to
+login with your Fedora account first):
+
+https://admin.fedoraproject.org/accounts/user/verifyemail/%s
+''') % token
+                emailflash = _('  Your email ')
+                
+                turbomail.enqueue(message)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -266,7 +286,7 @@ class User(controllers.Controller):
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
         else:
-            turbogears.flash(_('Your account details have been saved.'))
+            turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
         return dict(target=target)
 
@@ -303,6 +323,49 @@ class User(controllers.Controller):
         for person in people:
             emails[person.username] = person.email
         return dict(emails=emails)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='fas.templates.user.verifyemail')
+    def verifyemail(self, token):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        if not person.unverified_email:
+            turbogears.flash(_('You do not have any pending email changes.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
+        if person.emailtoken and (person.emailtoken != token):
+            person.emailtoken = ''
+            turbogears.flash(_('Invalid email change token.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
+        return dict(person=person, token=token)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='fas.templates.user.verifyemail')
+    def setemail(self, token, confirmation=None):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        if not person.unverified_email:
+            turbogears.flash(_('You do not have any pending email changes.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
+        if person.emailtoken and (person.emailtoken != token):
+            person.emailtoken = ''
+            turbogears.flash(_('Invalid email change token.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
+        if confirmation:
+            ''' Log this '''
+            oldEmail = person.email
+            person.email = person.unverified_email
+            Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, person.email))
+            person.unverified_email = ''
+            session.flush()
+            turbogears.flash(_('You have successfully changed your email to \'%s\'') % person.email)
+            turbogears.redirect('/user/view/%s' % username)
+        else:
+            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.') % person.email)
+            turbogears.redirect('/user/view/%s' % username)
 
     @expose(template='fas.templates.user.new')
     def new(self):
