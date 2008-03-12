@@ -335,7 +335,7 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
             plpy.execute(plan, change)
 
     return None
-$bz_sync_p$ language plpythonu;
+$bz_sync_e$ language plpythonu;
 
 create trigger email_bugzilla_sync before update on people
   for each row execute procedure bugzilla_sync_email();
