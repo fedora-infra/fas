@@ -301,7 +301,7 @@ class Group(controllers.Controller):
                 # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
                 message = turbomail.Message(config.get('accounts_email'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
-                url = config.get('base_url_filter.base_url') + turbogears.url('/group/edit/%s' % groupname)
+                url = config.get('base_url_filter.base_url') + '/group/edit/%s' % groupname
 
                 message.plain = _('''
 Fedora user %(user)s, aka %(name)s <%(email)s> has requested
