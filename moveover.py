@@ -43,8 +43,8 @@ for group in c.fetchall():
     print "%i - %s" % (id, name)
     try:
         group = Groups.by_id(id)
-        if prerequisite_id:
-            group.prerequisite = Groups.by_id(prerequisite_id)
+        #if prerequisite_id:
+        #    group.prerequisite = Groups.by_id(prerequisite_id)
         session.flush()
     except IntegrityError, e:
         print "\tERROR - The group: '%s' (%i) could not be created - %s" % (name, id, e)
