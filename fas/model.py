@@ -136,16 +136,6 @@ class People(SABase):
             role.member = cls
             role.group = group
 
-    def approve(cls, group, requester):
-        '''
-        Approve a person in a group  - requester for logging purposes
-        '''
-        if group not in cls.unapproved_memberships:
-            raise fas.ApproveError, _('user is not an unapproved member')
-        else:
-            role = PersonRoles.query.filter_by(member=cls, group=group).one()
-            role.role_status = 'approved'
-
     def upgrade(cls, group, requester):
         '''
         Upgrade a user in a group - requester for logging purposes
