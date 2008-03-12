@@ -11,7 +11,7 @@
     <form action="${tg.url('/user/sendpass')}" method="post">
       <ul>
         <div class="field"><label for="username">${_('Username:')}</label> <input type="text" id="username" name="username" /></div>
-        <div class="field"><label for="email">${_('Primary Email:')}</label> <input type="text" id="email" name="email" /></div>
+        <div class="field"><label for="email">${_('Email:')}</label> <input type="text" id="email" name="email" /></div>
         <div class="field"><input type="checkbox" id="encrypted" name="encrypted" /> <label style="width: auto; float: none; margin-left: 1ex;" for="encrypted">${_('Encrypt/Sign password reset email')}</label></div>
         <div class="field"><input type="submit" value="${_('Reset Password')}" /></div>
       </ul>

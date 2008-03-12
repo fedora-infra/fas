@@ -436,7 +436,7 @@ class MakeShellAccounts(BaseClient):
 
     def create_ssh_keys(self):
         ''' Create ssh keys '''
-        home_base = config.get('users', 'home').strip('"')
+        home_base = prefix + config.get('users', 'home').strip('"')
         for person in self.people:
             username = person['username']
             if self.valid_user(username):

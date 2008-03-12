@@ -17,8 +17,8 @@
       <!--Need to figure out what the interface should be for emails. -->
       <div class="field">
         <label for="mail">${_('Email')}:</label>
-        <input type="text" id="email" name="email" value="${target.emails['primary']}" />
-        <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_primary_email')}'});</script>
+        <input type="text" id="email" name="email" value="${target.email}" />
+        <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
       </div>
 <!--      <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email')}:</label>
