@@ -33,14 +33,9 @@
           <td><a href="${tg.url('/user/view/%s' % person.username)}">${person.username}</a></td>
           <td>
             <?python
-            cla = None
-            if auth.clickedCLAPrivs(person):
-                cla = 'clicked'
-            if auth.signedCLAPrivs(person):
-                cla = 'signed'
+            cla = auth.CLADone(person):
             ?>
-            <span py:if="cla == 'signed'" class="approved">${_('Signed CLA')}</span>
-            <span py:if="cla == 'clicked'" class="approved">${_('Click-through CLA')}</span>
+            <span py:if="cla" class="approved">${_('CLA Done')}</span>
             <span py:if="not cla" class="unapproved">${_('Not Done')}</span>
           </td>
         </tr>

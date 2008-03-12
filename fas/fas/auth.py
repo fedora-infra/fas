@@ -69,27 +69,13 @@ def isApproved(person, group):
     else:
         return False
 
-def signedCLAPrivs(person):
+def CLADone(person):
     '''
     Returns True if the user has completed the GPG-signed CLA
     '''
-    cla_sign_group =config.get('cla_sign_group')
+    cla_done_group =config.get('cla_done_group')
     try:
-        if person.group_roles[cla_sign_group].role_status == 'approved':
-            return True
-        else:
-            return False
-    except KeyError:
-        return False
-    return False
-
-def clickedCLAPrivs(person):
-    '''
-    Returns True if the user has completed the click-through CLA
-    '''
-    cla_click_group = config.get('cla_click_group')
-    try:
-        if person.group_roles[cla_click_group].role_status == 'approved':
+        if person.group_roles[cla_done_group].role_status == 'approved':
             return True
         else:
             return False
