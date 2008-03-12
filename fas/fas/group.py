@@ -281,8 +281,8 @@ class Group(controllers.Controller):
         group = Groups.by_name(groupname)
 
         if not canApplyGroup(person, group, target):
- #           turbogears.flash(_('%(user)s could not apply to %(group)s.') % \
- #               {'user': target.username, 'group': group.name })
+            turbogears.flash(_('%(user)s can not apply to %(group)s.') % \
+                {'user': target.username, 'group': group.name })
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
