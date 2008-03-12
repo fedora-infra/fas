@@ -217,10 +217,7 @@ class User(controllers.Controller):
         for group in person.roles:
             groups.append(Groups.by_name(group.group.name))
         cla = None
-        if clickedCLAPrivs(person):
-            cla = 'clicked'
-        if signedCLAPrivs(person):
-            cla = 'signed'
+        cla = CLADone(person)
         person.jsonProps = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
@@ -610,7 +607,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     def gencert(self):
       username = turbogears.identity.current.user_name
       person = People.by_username(username) 
-      if signedCLAPrivs(person):
+      if CLADone(person):
           person.certificate_serial = person.certificate_serial + 1
 
           pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024);

@@ -470,7 +470,7 @@ into the e-mail aliases within an hour.
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not groupname:
-            groupname = config.get('cla_sign_group')
+            groupname = config.get('cla_done_group')
         group = Groups.by_name(groupname)
 
         if not canViewGroup(person, group):

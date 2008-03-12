@@ -72,12 +72,7 @@ class Root(controllers.RootController):
     def home(self):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
-        cla = None
-        cla = None
-        if clickedCLAPrivs(person):
-            cla = 'clicked'
-        if signedCLAPrivs(person):
-            cla = 'signed'
+        cla = CLADone(person)
         return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")
