@@ -537,11 +537,11 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
         try:
             person.password = newpass['hash']
             turbogears.flash(_('Your new password has been emailed to you.'))
-            turbogears.redirect('/login')  
-            return dict()
         except:
             turbogears.flash(_('Your password could not be reset.'))
             return dict()
+        turbogears.redirect('/login')  
+        return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
