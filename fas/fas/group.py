@@ -82,9 +82,6 @@ class GroupView(validators.Schema):
 class GroupEdit(validators.Schema):
     groupname = KnownGroup
 
-class GroupDump(validators.Schema):
-    groupname = KnownGroup
-
 class GroupInvite(validators.Schema):
     groupname = KnownGroup
 
@@ -467,12 +464,13 @@ into the e-mail aliases within an hour.
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=GroupDump())
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
-    def dump(self, groupname):
+    def dump(self, groupname=None):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
+        if not groupname:
+            groupname = config.get('cla_sign_group')
         group = Groups.by_name(groupname)
 
         if not canViewGroup(person, group):
