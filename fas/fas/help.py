@@ -35,6 +35,7 @@ class Help(controllers.Controller):
             'group_self_removal':   ['Self Removal', '''<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>'''],
             'group_prerequisite':   ['Must Belong To', '''<p>Before a user can join this group, they must belong to the group listed in this box.  <b>This value cannot be removed without administrative intervention, only changed</b>.  Recommended values are for the 'cla_sign' group.</p>'''],
             'group_join_message':   ['Join Message', '''<p>This message will go out to users when they join the group.  It should be informative and offer tips about what to do next.  A description of the group would also be valuable here</p>'''],
+            'gencert':              ['Client Side Cert', '''<p>The client side cert is generally used to grant access to upload packages to Fedora or for other authentication purposes like with koji.  If you are not a package maintainer there is no need to worry about the client side cert</p>'''],
             }
 
     def __init__(self):
