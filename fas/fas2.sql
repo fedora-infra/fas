@@ -292,7 +292,7 @@ create trigger role_bugzilla_sync before update or insert or delete
 -- bugzilla as well.
 --
 create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
-    if TD['event'] == 'UPDATE' and TD['old']['email'] == TD['new']['email']:
+    if TD['old']['email'] == TD['new']['email']:
         # We only care if the email has been changed
         return None;
 
@@ -304,8 +304,8 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
     fedorabugsId = result[0]['id']
 
     plan = plpy.prepare("select person_id from person_roles where"
-        " role_status = 'approved' and group_id = $2 "
-        " and person_id = $1", ('int4', 'int4'))
+        " role_status = 'approved' and group_id = $1 "
+        " and person_id = $2", ('int4', 'int4'))
     result = plpy.execute(plan, (fedorabugsId, TD['old']['id']), 1)
     if not result:
         # We only care if Person belongs to fedorabugs
@@ -325,7 +325,7 @@ create or replace function bugzilla_sync_email() returns trigger AS $bz_sync_e$
             # Yes, update that change
             plan = plpy.prepare("update bugzilla_queue set email = $1,"
                 " group_id = $2, person_id = $3, action = $4 where "
-                " email = $1", ('text', 'int4', 'int4', 'char', 'text'))
+                " email = $1", ('text', 'int4', 'int4', 'char'))
             plpy.execute(plan, change)
         else:
             # No, add a new change
