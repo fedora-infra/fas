@@ -8,7 +8,7 @@
   </head>
   <body>
     <h2>${_('Reset Password')}</h2>
-    <form action="${tg.url('/user/sendpass')}" method="post">
+    <form action="${tg.url('/user/sendtoken')}" method="post">
       <ul>
         <div class="field"><label for="username">${_('Username:')}</label> <input type="text" id="username" name="username" /></div>
         <div class="field"><label for="email">${_('Email:')}</label> <input type="text" id="email" name="email" /></div>

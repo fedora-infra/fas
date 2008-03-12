@@ -247,17 +247,16 @@ class People(SABase):
             # Only admins can see internal_comments
             del props['internal_comments']
             del props['emailtoken']
+            del props['passwordtoken']
             if identity.current.anonymous:
                 # Anonymous users can't see any of these
                 del props['email']
-                del props['emailtoken']
                 del props['unverified_email']
                 del props['ssh_key']
                 del props['gpg_keyid']
                 del props['affiliation']
                 del props['certificate_serial']
                 del props['password']
-                del props['passwordtoken']
                 del props['password_changed']
                 del props['postal_address']
                 del props['telephone']
@@ -267,7 +266,6 @@ class People(SABase):
                 # Only an admin or the user themselves can see these fields
                 del props['unverified_email']
                 del props['password']
-                del props['passwordtoken']
                 del props['postal_address']
                 del props['password_changed']
                 del props['telephone']

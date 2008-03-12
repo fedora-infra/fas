@@ -125,6 +125,12 @@ class UserSetPassword(validators.Schema):
     passwordcheck = validators.String
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
+class UserResetPassword(validators.Schema):
+    # TODO (after we're done with most testing): Add complexity requirements?
+    password = validators.String(min=8)
+    passwordcheck = validators.String
+    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
+
 class UserView(validators.Schema):
     username = KnownUser
 
@@ -271,8 +277,7 @@ login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 ''') % token
-                emailflash = _('  Your email ')
-                
+                emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
                 turbomail.enqueue(message)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
@@ -326,7 +331,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.user.verifyemail')
-    def verifyemail(self, token):
+    def verifyemail(self, token, cancel=False):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not person.unverified_email:
@@ -334,38 +339,38 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect('/user/view/%s' % username)
             return dict()
         if person.emailtoken and (person.emailtoken != token):
-            person.emailtoken = ''
             turbogears.flash(_('Invalid email change token.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
+        if cancel:
+            person.emailtoken = ''
+            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
         return dict(person=person, token=token)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @expose(template='fas.templates.user.verifyemail')
-    def setemail(self, token, confirmation=None):
+    @expose()
+    def setemail(self, token):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if not person.unverified_email:
+        if not (person.unverified_email and person.emailtoken):
             turbogears.flash(_('You do not have any pending email changes.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
-        if person.emailtoken and (person.emailtoken != token):
-            person.emailtoken = ''
+        if person.emailtoken != token:
             turbogears.flash(_('Invalid email change token.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
-        if confirmation:
-            ''' Log this '''
-            oldEmail = person.email
-            person.email = person.unverified_email
-            Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, person.email))
-            person.unverified_email = ''
-            session.flush()
-            turbogears.flash(_('You have successfully changed your email to \'%s\'') % person.email)
-            turbogears.redirect('/user/view/%s' % username)
-        else:
-            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.') % person.email)
-            turbogears.redirect('/user/view/%s' % username)
+        ''' Log this '''
+        oldEmail = person.email
+        person.email = person.unverified_email
+        Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, person.email))
+        person.unverified_email = ''
+        session.flush()
+        turbogears.flash(_('You have successfully changed your email to \'%s\'') % person.email)
+        turbogears.redirect('/user/view/%s' % username)
+        return dict()
 
     @expose(template='fas.templates.user.new')
     def new(self):
@@ -397,7 +402,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 You have created a new Fedora account!
 Your new password is: %s
 
-Please go to https://admin.fedoraproject.org/fas/ to change it.
+Please go to https://admin.fedoraproject.org/accounts/ to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
 account you're probably desperate to start contributing, and with that
@@ -481,7 +486,7 @@ forward to working with you!
 
     #TODO: Validate
     @expose(template="fas.templates.user.resetpass")
-    def sendpass(self, username, email, encrypted=False):
+    def sendtoken(self, username, email, encrypted=False):
         import turbomail
         # Logged in
         if turbogears.identity.current.user_name:
@@ -496,14 +501,13 @@ forward to working with you!
         if email != person.email:
             turbogears.flash(_("username + email combo unknown."))
             return dict()
-        newpass = generate_password()
+        token = generate_token()
         message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
         mail = _('''
-You have requested a password reset!
-Your new password is: %s
-
-Please go to https://admin.fedoraproject.org/fas/ to change it.
-''') % newpass['pass']
+Somebody (hopefully you) has requested a password reset for your account!
+To change your password (or to cancel the request), please visit
+https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
+''') % {'user': username, 'token': token}
         if encrypted:
             # TODO: Move this out to a single function (same as
             # CLA one), think of how to make sure this doesn't get
@@ -517,7 +521,8 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                 return dict()
             else:
                 try:
-                    plaintext = StringIO.StringIO(mail)
+                    # This may not be the neatest fix, but gpgme gave an error when mail was unicode.
+                    plaintext = StringIO.StringIO(mail.encode('utf-8'))
                     ciphertext = StringIO.StringIO()
                     ctx = gpgme.Context()
                     ctx.armor = True
@@ -533,26 +538,78 @@ Please go to https://admin.fedoraproject.org/fas/ to change it.
                         ciphertext)
                     message.plain = ciphertext.getvalue()
                 except:
-                    turbogears.flash(_('Your password reset email could not be encrypted.  Your password has not been changed.'))
+                    turbogears.flash(_('Your password reset email could not be encrypted.'))
                     return dict()
         else:
             message.plain = mail;
         turbomail.enqueue(message)
-        try:
-            person.password = newpass['hash']
-            turbogears.flash(_('Your new password has been emailed to you.'))
-        except:
-            turbogears.flash(_('Your password could not be reset.'))
-            return dict()
+        person.passwordtoken = token
+        turbogears.flash(_('A password reset URL has been emailed to you.'))
         turbogears.redirect('/login')  
+        return dict()
+
+    @expose(template="fas.templates.user.newpass")
+    # TODO: Validator
+    def newpass(self, username, token, password=None, passwordcheck=None):
+        person = People.by_username(username)
+        if not person.passwordtoken:
+            turbogears.flash(_('You do not have any pending password changes.'))
+            turbogears.redirect('/login')
+            return dict()
+        if person.passwordtoken != token:
+            person.emailtoken = ''
+            turbogears.flash(_('Invalid password change token.'))
+            turbogears.redirect('/login')
+            return dict()
+        return dict(person=person, token=token)
+
+    @expose(template="fas.templates.user.verifypass")
+    # TODO: Validator
+    def verifypass(self, username, token, cancel=False):
+        person = People.by_username(username)
+        if not person.passwordtoken:
+            turbogears.flash(_('You do not have any pending password changes.'))
+            turbogears.redirect('/login')
+            return dict()
+        if person.passwordtoken != token:
+            turbogears.flash(_('Invalid password change token.'))
+            turbogears.redirect('/login')
+            return dict()
+        if cancel:
+            person.passwordtoken = ''
+            turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
+            turbogears.redirect('/login')
+            return dict()
+        return dict(person=person, token=token)
+
+    @expose()
+    @validate(validators=UserResetPassword())
+    def setnewpass(self, username, token, password, passwordcheck):
+        person = People.by_username(username)
+        if not person.passwordtoken:
+            turbogears.flash(_('You do not have any pending password changes.'))
+            turbogears.redirect('/login')
+            return dict()
+        if person.passwordtoken != token:
+            person.emailtoken = ''
+            turbogears.flash(_('Invalid password change token.'))
+            turbogears.redirect('/login')
+            return dict()
+        ''' Log this '''
+        newpass = generate_password(password)
+        person.password = newpass['hash']
+        person.passwordtoken = ''
+        Log(author_id=person.id, description='Password changed')
+        session.flush()
+        turbogears.flash(_('You have successfully reset your password.  You should now be able to login below.'))
+        turbogears.redirect('/login')
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
     def gencert(self):
       username = turbogears.identity.current.user_name
-      person = People.by_username(username)
-
+      person = People.by_username(username) 
       if signedCLAPrivs(person):
           person.certificate_serial = person.certificate_serial + 1
 
