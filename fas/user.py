@@ -512,6 +512,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             # full of random keys (keep a clean Fedora keyring)
             # TODO: MIME stuff?
             keyid = re.sub('\s', '', person.gpg_keyid)
+            if not keyid:
+                turbogears.flash(_("This user does not have a GPG Key ID set, so an encrypted email cannot be sent."))
+                return dict()
             ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
             if ret != 0:
                 turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
