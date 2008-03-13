@@ -471,15 +471,19 @@ into the e-mail aliases within an hour.
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not groupname:
-            groupname = config.get('cla_done_group')
-        group = Groups.by_name(groupname)
-
-        if not canViewGroup(person, group):
-            turbogears.flash(_("You cannot view '%s'") % group.name)
-            turbogears.redirect('/group/list')
-            return dict()
+#            groupname = config.get('cla_done_group')
+            people = People.query.order_by('username').all()
         else:
-            return dict(group=group)
+            people = []
+            groups = Groups.by_name(groupname)
+            for role in groups.approved_roles:
+                people.append(role.member)
+            if not canViewGroup(person, groups):
+                turbogears.flash(_("You cannot view '%s'") % group.name)
+                turbogears.redirect('/group/list')
+                return dict()
+
+        return dict(people=people)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())
