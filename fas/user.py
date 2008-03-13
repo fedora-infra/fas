@@ -331,17 +331,17 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     def verifyemail(self, token, cancel=False):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
+        if cancel:
+            person.emailtoken = ''
+            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.'))
+            turbogears.redirect('/user/view/%s' % username)
+            return dict()
         if not person.unverified_email:
             turbogears.flash(_('You do not have any pending email changes.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
         if person.emailtoken and (person.emailtoken != token):
             turbogears.flash(_('Invalid email change token.'))
-            turbogears.redirect('/user/view/%s' % username)
-            return dict()
-        if cancel:
-            person.emailtoken = ''
-            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
         return dict(person=person, token=token)

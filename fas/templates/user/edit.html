@@ -18,7 +18,9 @@
       <div class="field">
         <label for="mail">${_('Email')}:</label>
         <input type="text" id="email" name="email" value="${target.email}" />
-        <span py:if="target.unverified_email and target.emailtoken">${_('(pending change to %s)') % target.unverified_email}</span>
+        <span py:if="target.unverified_email and target.emailtoken">
+          ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': target.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
+        </span>
         <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
       </div>
 <!--      <div class="field">
@@ -43,7 +45,7 @@
       <div class="field">
         <label for="ssh_key">${_('Public SSH Key')}:</label>
         <!--<textarea id="ssh_key" rows='3' cols='50' name="ssh_key">${target.ssh_key}</textarea>-->
-        <input type="file" name="ssh_key" id="ssh_key"/>
+        <input type="file" name="ssh_key" id="ssh_key" />
         <script type="text/javascript">var hb19 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_ssh_key')}'});</script>
       </div>
       <div class="field">
