@@ -363,7 +363,7 @@ class MakeShellAccounts(BaseClient):
             memberships[group['name']] = []
             try:
                 for member in request['memberships'][u'%s' % group['id']]:
-                    memberships[group['name']].append({'person_id': member})
+                    memberships[group['name']].append(member)
             except KeyError:
                     pass
         self.memberships = memberships
@@ -456,6 +456,8 @@ class MakeShellAccounts(BaseClient):
         ''' update your mail aliases file '''
         if not self.groups:
             groups = self.group_list()
+        if not self.usernames:
+            self.get_usernames()
 
         self.emails = self.email_list()
         email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
@@ -467,14 +469,13 @@ class MakeShellAccounts(BaseClient):
         sorted.sort()
         for person in sorted:
             email_file.write("%s: %s\n" % (person, self.emails[person]))
-        usernames = self.usernames
         for group in self.groups:
             name = group['name']
             members = {}
             members['member'] = []
             for membership in self.memberships[name]:
                 role_type = membership['role_type']
-                person = usernames[membership['person_id']]
+                person = self.usernames[membership['person_id']]
                 if role_type == 'user':
                     ''' Legacy support '''
                     members['member'].append(person)
