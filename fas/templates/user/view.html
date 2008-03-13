@@ -19,7 +19,7 @@
       <dl>
         <dt>${_('Account Name:')}</dt><dd>${person.username}</dd>
         <dt>${_('Real Name:')}</dt><dd>${person.human_name}</dd>
-        <dt>${_('Email:')}</dt><dd>${person.email}</dd>
+        <dt>${_('Email:')}</dt><dd>${person.email} <span py:if="(personal or admin) and person.unverified_email and person.emailtoken">${_('(pending change to %s)') % person.unverified_email}</span></dd>
         <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
