@@ -440,12 +440,14 @@ forward to working with you!
 ''') % newpass['pass']
             turbomail.enqueue(message)
             person.password = newpass['hash']
-            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
-            turbogears.redirect('/user/changepass')
         except IntegrityError:
             turbogears.flash(_("An account has already been registered with that email address."))
             turbogears.redirect('/user/new')
-        return dict()
+            return dict()
+        else:
+            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            turbogears.redirect('/user/changepass')
+            return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
@@ -474,12 +476,15 @@ forward to working with you!
         try:
             person.password = newpass['hash']
             Log(author_id=person.id, description='Password changed')
-            turbogears.flash(_("Your password has been changed."))
-            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+        # TODO: Make this catch something specific.
         except:
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
-        return dict()
+            return dict()
+        else:   
+            turbogears.flash(_("Your password has been changed."))
+            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+            return dict()
 
     @error_handler(error)
     @expose(template="fas.templates.user.resetpass")
