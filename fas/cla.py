@@ -49,21 +49,8 @@ class CLA(controllers.Controller):
         if not person.telephone or \
             not person.postal_address or \
             not person.gpg_keyid:
-                turbogears.flash(_('To sign the CLA we must have your telephone number, postal address and gpg key id.  Please ensure they have been filled out'))
+                turbogears.flash(_('To sign the CLA we must have your telephone number, postal address and GPG key ID.  Please ensure they have been filled out.'))
                 turbogears.redirect('/user/edit/%s' % username)
-
-        # Disable click-through CLA for now
-        #if type == 'click':
-        #    if signedCLAPrivs(person):
-        #        turbogears.flash(_('You have already signed the CLA, so it is unnecessary to complete the Click-through CLA.'))
-        #        turbogears.redirect('/cla/')
-        #        return dict()
-        #    if clickedCLAPrivs(person):
-        #        turbogears.flash(_('You have already completed the Click-through CLA.'))
-        #        turbogears.redirect('/cla/')
-        #        return dict()
-        #    turbogears.redirect('/cla/')
-        #    return dict()
         if type == 'sign':
             if CLADone(person):
                 turbogears.flash(_('You have already signed the CLA.'))
@@ -156,13 +143,11 @@ class CLA(controllers.Controller):
                 turbogears.flash(_('The text "I agree" was not found in the CLA.'))
                 turbogears.redirect('/cla/view/sign')
                 return dict()
-
-            # Everything is correct.
             try:
+                # Everything is correct.
                 person.apply(group, person) # Apply...
                 session.flush()
-                person.sponsor(group, person) # Approve...
-                session.flush()
+                person.sponsor(group, person) # Sponsor!
             except:
                 # TODO: If apply succeeds and sponsor fails, the user has
                 # to remove themselves from the CLA group before they can
@@ -171,11 +156,6 @@ class CLA(controllers.Controller):
                 turbogears.redirect('/cla/view/sign')
                 return dict()
             else:
-                try:
-                    clickgroup = Groups.by_name(config.get('cla_click_group'))
-                    person.remove(cilckgroup, person)
-                except:
-                    pass
                 message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
                 message.plain = '''
 Fedora user %(username)s has signed a completed ICLA using their published GPG key, ID %(gpg_keyid)s,

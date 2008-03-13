@@ -328,6 +328,7 @@ Please go to %(url)s to take action.
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
         else:
+            target.sponsor(group, person)
             try:
                 target.sponsor(group, person)
             except fas.SponsorError, e:

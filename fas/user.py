@@ -469,6 +469,7 @@ forward to working with you!
             person.password = newpass['hash']
             Log(author_id=person.id, description='Password changed')
             turbogears.flash(_("Your password has been changed."))
+            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         except:
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))

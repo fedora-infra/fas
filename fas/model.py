@@ -39,9 +39,11 @@ from sqlalchemy.orm.collections import column_mapped_collection, attribute_mappe
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import select, and_
 
+from sqlalchemy.exceptions import InvalidRequestError
+
 from turbogears.database import session
 
-from turbogears import identity
+from turbogears import identity, config
 
 import turbogears
 
@@ -174,6 +176,39 @@ class People(SABase):
         role.role_status = 'approved'
         role.sponsor_id = requester.id
         role.approval = datetime.now(pytz.utc)
+        cls._handle_auto_add(group, requester)
+
+    def _handle_auto_add(cls, group, requester):
+        """
+        Handle automatic group approvals
+        """
+        auto_approve_groups = config.get('auto_approve_groups')
+        associations = auto_approve_groups.split('|')
+        approve_group_queue = []
+        for association in associations:
+            (groupname, approve_groups) = association.split(':', 1)
+            if groupname == group.name:
+                approve_group_queue.extend(approve_groups.split(','))
+        for groupname in approve_group_queue:
+            approve_group = Groups.by_name(groupname)
+            cls._auto_add(approve_group, requester)
+
+    def _auto_add(cls, group, requester):
+        """
+        Ensure that a person is approved in a group
+        """
+        try:
+            role = PersonRoles.query.filter_by(member=cls, group=group).one()
+            if role.role_status != 'approved':
+                role.role_status = 'approved'
+                role.sponsor_id = requester.id
+                role.approval = datetime.now(pytz.utc)
+        except InvalidRequestError:
+            role = PersonRoles()
+            role.role_status = 'approved'
+            role.role_type = 'user'
+            role.member = cls
+            role.group = group
 
     def remove(cls, group, requester):
         if not group in cls.memberships:
