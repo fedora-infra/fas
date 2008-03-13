@@ -33,7 +33,7 @@
           <td><a href="${tg.url('/user/view/%s' % person.username)}">${person.username}</a></td>
           <td>
             <?python
-            cla = auth.CLADone(person):
+            cla = auth.CLADone(person)
             ?>
             <span py:if="cla" class="approved">${_('CLA Done')}</span>
             <span py:if="not cla" class="unapproved">${_('Not Done')}</span>
