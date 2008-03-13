@@ -156,7 +156,12 @@ class MakeShellAccounts(BaseClient):
             for group in config.get('host', restriction).strip('"').split(','):
                 if group == '':
                     continue
-                if group.startswith('@'):
+                if group == '@all':
+                    for grp in self.groups:
+                        if not grp['name'].startswith('cla'):
+                            print grp['name']
+                            valid_groups[restriction].append(grp['name'])
+                elif group.startswith('@'):
                     for grp in self.groups:
                         if grp['group_type'] == group[1:]:
                             valid_groups[restriction].append(grp['name'])
@@ -334,7 +339,7 @@ class MakeShellAccounts(BaseClient):
                     i = i + 1
             except KeyError:
                 continue
-            
+                
         for group in self.groups:
             gid = group['id']
             name = group['name']
