@@ -294,6 +294,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 
     # TODO: This took about 55 seconds for me to load - might want to limit it to the right accounts (systems user, accounts group)
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search="a*"):
         '''List users
@@ -317,6 +318,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         return dict(people=people, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(format='json')
     def email_list(self, search='*'):
         re_search = re.sub(r'\*', r'%', search).lower()
@@ -327,6 +329,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         return dict(emails=emails)
 
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template='fas.templates.user.verifyemail')
     def verifyemail(self, token, cancel=False):
         username = turbogears.identity.current.user_name
@@ -347,6 +350,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         return dict(person=person, token=token)
 
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose()
     def setemail(self, token):
         username = turbogears.identity.current.user_name
@@ -369,6 +373,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
+    @error_handler(error)
     @expose(template='fas.templates.user.new')
     def new(self):
         if turbogears.identity.not_anonymous():
@@ -435,14 +440,17 @@ forward to working with you!
 ''') % newpass['pass']
             turbomail.enqueue(message)
             person.password = newpass['hash']
-            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
-            turbogears.redirect('/user/changepass')
         except IntegrityError:
             turbogears.flash(_("An account has already been registered with that email address."))
             turbogears.redirect('/user/new')
-        return dict()
+            return dict()
+        else:
+            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            turbogears.redirect('/user/changepass')
+            return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
         return dict()
@@ -468,13 +476,17 @@ forward to working with you!
         try:
             person.password = newpass['hash']
             Log(author_id=person.id, description='Password changed')
-            turbogears.flash(_("Your password has been changed."))
-            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+        # TODO: Make this catch something specific.
         except:
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
-        return dict()
+            return dict()
+        else:   
+            turbogears.flash(_("Your password has been changed."))
+            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+            return dict()
 
+    @error_handler(error)
     @expose(template="fas.templates.user.resetpass")
     def resetpass(self):
         if turbogears.identity.not_anonymous():
@@ -483,6 +495,7 @@ forward to working with you!
         return dict()
 
     #TODO: Validate
+    @error_handler(error)
     @expose(template="fas.templates.user.resetpass")
     def sendtoken(self, username, email, encrypted=False):
         import turbomail
@@ -549,6 +562,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         turbogears.redirect('/login')  
         return dict()
 
+    @error_handler(error)
     @expose(template="fas.templates.user.newpass")
     # TODO: Validator
     def newpass(self, username, token, password=None, passwordcheck=None):
@@ -564,6 +578,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
         return dict(person=person, token=token)
 
+    @error_handler(error)
     @expose(template="fas.templates.user.verifypass")
     # TODO: Validator
     def verifypass(self, username, token, cancel=False):
@@ -583,6 +598,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
         return dict(person=person, token=token)
 
+    @error_handler(error)
     @expose()
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
@@ -607,6 +623,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
     def gencert(self):
       username = turbogears.identity.current.user_name
