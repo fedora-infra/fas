@@ -18,6 +18,7 @@
       <div class="field">
         <label for="mail">${_('Email')}:</label>
         <input type="text" id="email" name="email" value="${target.email}" />
+        <span py:if="target.unverified_email and target.emailtoken">${_('(pending change to %s)') % target.unverified_email}</span>
         <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
       </div>
 <!--      <div class="field">
