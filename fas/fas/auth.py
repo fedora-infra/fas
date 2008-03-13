@@ -60,14 +60,19 @@ def canSponsorGroup(person, group):
         return False
     except:
         return False
+
 def isApproved(person, group):
     '''
     Returns True if the user is an approved member of a group
     '''
-    if group in person.approved_memberships:
-        return True
-    else:
+    try:
+        if person.group_roles[group.name].role_status == 'approved':
+            return True
+        else:
+            return False
+    except KeyError:
         return False
+    return False
 
 def CLADone(person):
     '''
