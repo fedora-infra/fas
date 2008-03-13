@@ -437,8 +437,8 @@ forward to working with you!
             person.password = newpass['hash']
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/user/changepass')
-        except KeyError:
-            turbogears.flash(_("The username '%s' already Exists.  Please choose a different username.") % username)
+        except IntegrityError:
+            turbogears.flash(_("An account has already been registered with that email address."))
             turbogears.redirect('/user/new')
         return dict()
 
