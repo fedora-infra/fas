@@ -8,23 +8,12 @@
   </head>
   <body>
     <h2>${_('Contributor License Agreement')}</h2>
-    <py:if test="not type">
-      <xi:include href="cla.html" />
-    </py:if>
-
-    <py:if test="type == 'sign'">
-      <p>
-      ${Markup(_('Use the below link to download/save the CLA as fedora-icla-%(username)s.txt, and run: &lt;pre&gt;gpg -as fedora-icla-%(username)s.txt&lt;/pre&gt; After, upload fedora-icla-%(username)s.txt.asc in the form below.') % {'username': person.username})}
-      </p>
-      <p>
-      <a href="${tg.url('/cla/download')}">${_('Download the CLA text file here!')}</a>
-      </p>
-      <form action="${tg.url('/cla/sign')}" method="post" enctype="multipart/form-data">
-        <div>
-          <label for="signature">${_('Signed CLA:')}</label> <input type="file" id="signature" name="signature" /><br />
-          <input type="submit" value="${_('Submit CLA')}" />
-        </div>
-      </form>
-    </py:if>
+    <p>
+    <a href="${tg.url('/cla/')}">${_('Return to the signing page.')}</a>
+    </p>
+    <xi:include href="cla.html" />
+    <p>
+    <a href="${tg.url('/cla/')}">${_('Return to the signing page.')}</a>
+    </p>
   </body>
 </html>
