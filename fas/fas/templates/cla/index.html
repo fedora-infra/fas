@@ -8,14 +8,13 @@
   </head>
   <body>
     <h2>${_('Fedora Contributor License Agreement')}</h2>
+    ${Markup(_('&lt;a href="%(url)s"&gt;Text Version&lt;/a&gt;') % {'url': tg.url('/cla/text')})}
+    <xi:include href="cla.html" />
+    ${Markup(_('&lt;a href="%(url)s"&gt;Text Version&lt;/a&gt;') % {'url': tg.url('/cla/text')})}
     <p py:if="cla">
-    ${Markup(_('You have already sucessfully signed the &lt;a href="%(url)s"&gt;CLA&lt;/a&gt; (&lt;a href="%(url)s"&gt;text&lt;/a&gt;).') % {'url': tg.url('/cla/view')})}
+    ${Markup(_('You have already sucessfully signed the CLA.') % {'url': tg.url('/cla/text')})}
     </p>
     <py:if test="not cla">
-    <p>
-    ${_('Insert legal text here')}
-    </p>
-    ${Markup(_('&lt;a href="%(url)s"&gt;View the CLA&lt;/a&gt; (&lt;a href="%(url)s"&gt;text&lt;/a&gt;).') % {'url': tg.url('/cla/view')})}
     <form action="${tg.url('/cla/sign')}" method="post">
       <div>
         <input type="submit" id="agree" name="agree" value="${_('I agree')}" />
