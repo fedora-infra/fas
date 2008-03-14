@@ -174,7 +174,7 @@ class People(SABase):
             raise fas.SponsorError, _('user is not an unapproved member')
         role = PersonRoles.query.filter_by(member=cls, group=group).one()
         role.role_status = 'approved'
-        role.sponsor_id = requester.id
+        role.sponsor = requester
         role.approval = datetime.now(pytz.utc)
         cls._handle_auto_add(group, requester)
 
@@ -201,7 +201,7 @@ class People(SABase):
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             if role.role_status != 'approved':
                 role.role_status = 'approved'
-                role.sponsor_id = requester.id
+                role.sponsor = requester
                 role.approval = datetime.now(pytz.utc)
         except InvalidRequestError:
             role = PersonRoles()
