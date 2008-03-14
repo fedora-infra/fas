@@ -324,7 +324,7 @@ class MakeShellAccounts(BaseClient):
             self.people_list()
         if not self.usernames:
             self.get_usernames()
-	if not self.group_mapping:
+        if not self.group_mapping:
             self.get_group_mapping()
         ''' First create all of our users/groups combo '''
         for person in self.people:
