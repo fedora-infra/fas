@@ -22,12 +22,11 @@ class CLA(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.cla.index")
     def index(self):
-        '''Display an explanatory message about the Click-through and Signed CLAs (with links)'''
+        '''Display the CLAs (and accept/do not accept buttons)'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-
         cla = CLADone(person)
-        return dict(cla=cla)
+        return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
 
     def jsonRequest(self):
         return 'tg_format' in cherrypy.request.params and \
@@ -47,19 +46,6 @@ class CLA(controllers.Controller):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        return dict(person=person, date=datetime.utcnow().ctime())
-
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
-    @expose(template="fas.templates.cla.view")
-    def view(self):
-        '''View CLA'''
-        username = turbogears.identity.current.user_name
-        person = People.by_username(username)
-        if CLADone(person):
-            turbogears.flash(_('You have already signed the CLA.'))
-            turbogears.redirect('/cla/')
-            return dict()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
