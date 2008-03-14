@@ -68,15 +68,15 @@ class CLA(controllers.Controller):
             turbogears.flash(_('You have already signed the CLA.'))
             turbogears.redirect('/cla/')
             return dict()
+        if not agree:
+            turbogears.flash(_("You have not signed the CLA."))
+            turbogears.redirect('/user/view/%s' % person.username)
         if not person.telephone or \
             not person.postal_address:
                 turbogears.flash(_('To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out.'))
                 turbogears.redirect('/user/edit/%s' % username)
         groupname = config.get('cla_fedora_group')
         group = Groups.by_name(groupname)
-        if not agree:
-            turbogears.flash(_("You have not agreed to the CLA."))
-            turbogears.redirect('/cla/')
         try:
             # Everything is correct.
             person.apply(group, person) # Apply...
