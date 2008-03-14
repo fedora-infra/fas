@@ -120,7 +120,7 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupView())
     @error_handler(error)
-    @expose(template="fas.templates.group.view")
+    @expose(template="fas.templates.group.view", allow_json=True)
     def view(self, groupname):
         '''View group'''
         username = turbogears.identity.current.user_name
