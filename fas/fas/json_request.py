@@ -1,15 +1,14 @@
 import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
-from turbogears.database import session
+from turbogears import controllers, expose, identity 
 
 from fas.auth import *
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
-        '''Create a JsonRequest Controller.'''
+        """Create a JsonRequest Controller."""
 
     @expose("json")
     def index(self):
-        '''Perhaps show a nice explanatory message about groups here?'''
+        """Return a help message"""
         return dict(help='This is a json interface')
 

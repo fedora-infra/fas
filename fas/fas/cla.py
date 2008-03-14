@@ -56,10 +56,6 @@ class CLA(controllers.Controller):
         '''View CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if not person.telephone or \
-            not person.postal_address:
-                turbogears.flash(_('To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out.'))
-                turbogears.redirect('/user/edit/%s' % username)
         if CLADone(person):
             turbogears.flash(_('You have already signed the CLA.'))
             turbogears.redirect('/cla/')
@@ -82,11 +78,14 @@ class CLA(controllers.Controller):
         '''Sign CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        
         if CLADone(person):
             turbogears.flash(_('You have already signed the CLA.'))
             turbogears.redirect('/cla/')
             return dict()
+        if not person.telephone or \
+            not person.postal_address:
+                turbogears.flash(_('To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out.'))
+                turbogears.redirect('/user/edit/%s' % username)
         groupname = config.get('cla_fedora_group')
         group = Groups.by_name(groupname)
         if not agree:
