@@ -6,11 +6,12 @@ import cherrypy
 
 from datetime import datetime
 import re
-import gpgme
-import StringIO
-import subprocess
 import turbomail
+from genshi.template import TemplateLoader
+from genshi.template import TextTemplate
 
+from fas.model import People
+from fas.model import Log
 from fas.auth import *
 
 class CLA(controllers.Controller):
@@ -41,25 +42,29 @@ class CLA(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
+    @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
+    def text(self, type=None):
+        '''View CLA as text'''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        return dict(person=person, date=datetime.utcnow().ctime())
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template="fas.templates.cla.view")
-    def view(self, type=None):
+    def view(self):
         '''View CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not person.telephone or \
-            not person.postal_address or \
-            not person.gpg_keyid:
-                turbogears.flash(_('To sign the CLA we must have your telephone number, postal address and GPG key ID.  Please ensure they have been filled out.'))
+            not person.postal_address:
+                turbogears.flash(_('To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out.'))
                 turbogears.redirect('/user/edit/%s' % username)
-        if type == 'sign':
-            if CLADone(person):
-                turbogears.flash(_('You have already signed the CLA.'))
-                turbogears.redirect('/cla/')
-                return dict()
-        elif type != None:
+        if CLADone(person):
+            turbogears.flash(_('You have already signed the CLA.'))
             turbogears.redirect('/cla/')
             return dict()
-        return dict(type=type, person=person, date=datetime.utcnow().ctime())
+        return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
@@ -73,7 +78,7 @@ class CLA(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="fas.templates.cla.index")
-    def sign(self, signature):
+    def sign(self, agree=False):
         '''Sign CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -84,87 +89,46 @@ class CLA(controllers.Controller):
             return dict()
         groupname = config.get('cla_fedora_group')
         group = Groups.by_name(groupname)
-
-        ctx = gpgme.Context()
-        data = StringIO.StringIO(signature.file.read())
-        plaintext = StringIO.StringIO()
-        verified = False
-        keyid = re.sub('\s', '', person.gpg_keyid)
-        ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
-        if ret != 0:
-            turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
-            turbogears.redirect('/cla/view/sign')
+        if not agree:
+            turbogears.flash(_("You have not agreed to the CLA."))
+            turbogears.redirect('/cla/')
+        try:
+            # Everything is correct.
+            person.apply(group, person) # Apply...
+            session.flush()
+            person.sponsor(group, person) # Sponsor!
+        except:
+            # TODO: If apply succeeds and sponsor fails, the user has
+            # to remove themselves from the CLA group before they can
+            # sign the CLA and go through the above try block again.
+            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+            turbogears.redirect('/cla/')
             return dict()
-        #try:
-        #      subprocess.check_call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
-        #except subprocess.CalledProcessError:
-        #    turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
-        #    turbogears.redirect('/cla/view/sign')
-        #    return dict()
         else:
-            try:
-                sigs = ctx.verify(data, None, plaintext)
-            except gpgme.GpgmeError, e:
-                turbogears.flash(_("Your signature could not be verified: '%s'.") % e)
-                turbogears.redirect('/cla/view/sign')
-                return dict()
-            else: # Hm, I wonder how these nested ifs can be made more elegant...
-                if len(sigs):
-                    sig = sigs[0]
-                    # This might still assume a full fingerprint. 
-                    key = ctx.get_key(keyid)
-                    fpr = key.subkeys[0].fpr
-                    if sig.fpr != fpr:
-                        turbogears.flash(_("Your signature's fingerprint did not match the fingerprint registered in FAS."))
-                        turbogears.redirect('/cla/view/sign')
-                        return dict()
-                    emails = [];
-                    for uid in key.uids:
-                        emails.extend([uid.email])
-                    if person.email in emails:
-                        verified = True
-                    else:
-                        turbogears.flash(_('Your key did not match your email.'))
-                        turbogears.redirect('/cla/view/sign')
-                        return dict()
-                else:
-                    # TODO: Find out what it means if verify() succeeded and len(sigs) == 0
-                    turbogears.flash(_('len(sigs) == 0'))
-                    turbogears.redirect('/cla/view/sign')
-                    return dict()
-            # We got a properly signed CLA.
-            cla = plaintext.getvalue()
-            if cla.find('Contributor License Agreement (CLA)') < 0:
-                turbogears.flash(_('The GPG-signed part of the message did not contain a signed CLA.'))
-                turbogears.redirect('/cla/view/sign')
-                return dict()
+            dt = datetime.utcnow()
+            Log(author_id=person.id, description='Signed CLA', changetime=dt)
+            message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
+            message.plain = '''
+Fedora user %(username)s has signed a completed ICLA (below).
+Username: %(username)s
+Email: %(email)s
+Date: %(date)s
 
-            if re.compile('If you agree to these terms and conditions, type "I agree" here: I agree', re.IGNORECASE).match(cla):
-                turbogears.flash(_('The text "I agree" was not found in the CLA.'))
-                turbogears.redirect('/cla/view/sign')
-                return dict()
-            try:
-                # Everything is correct.
-                person.apply(group, person) # Apply...
-                session.flush()
-                person.sponsor(group, person) # Sponsor!
-            except:
-                # TODO: If apply succeeds and sponsor fails, the user has
-                # to remove themselves from the CLA group before they can
-                # sign the CLA and go through the above try block again.
-                turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
-                turbogears.redirect('/cla/view/sign')
-                return dict()
-            else:
-                message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
-                message.plain = '''
-Fedora user %(username)s has signed a completed ICLA using their published GPG key, ID %(gpg_keyid)s,
-that is associated with e-mail address %(email)s. The full signed ICLA is attached.
-''' % {'username': person.username, 'gpg_keyid': person.gpg_keyid, 'email': person.email}
-                signature.file.seek(0) # For another read()
-                message.attach(signature.file, signature.filename)
-                turbomail.enqueue(message)
-                turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
-                turbogears.redirect('/cla/')
-                return dict()
+=== CLA ===
+
+''' % {'username': person.username,
+    'human_name': person.human_name,
+    'email': person.email,
+    'postal_address': person.postal_address,
+    'telephone': person.telephone,
+    'facsimile': person.facsimile,
+    'date': dt.ctime(),}
+            # Sigh..  if only there were a nicer way.
+            loader = TemplateLoader('fas/templates/cla')
+            template = loader.load('cla.txt', cls=TextTemplate)
+            message.plain += template.generate(person=person).render('text')
+            turbomail.enqueue(message)
+            turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
+            turbogears.redirect('/cla/')
+            return dict()
 
