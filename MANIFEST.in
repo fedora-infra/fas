@@ -15,9 +15,11 @@ include fas/templates/group/*.html
 include fas/templates/group/*.txt
 include fas/templates/openid/*.html
 include fas/templates/openid/*.txt
-include fas/templates/user/email/*.html
-include fas/templates/user/email/*.txt
 include fas/templates/user/*.html
 include fas/templates/user/*.txt
 include fas/templates/*.html
 include fas/templates/*.txt
+include po/*.pot
+include po/*.po
+include locales/*.pot
+include locales/*/*/*.po

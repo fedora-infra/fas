@@ -136,6 +136,8 @@ setup(
         ('static/images/balloons',
             [f for f in glob.glob('fas/static/images/balloons/*') if os.path.isfile(f)]),
         ('static/js', [f for f in glob.glob('fas/static/js/*') if os.path.isfile(f)]),
+        ('locales', [f for f in glob.glob('locales/*') if os.path.isfile(f)]),
+        ('locales/xx/LC_MESSAGES', [f for f in glob.glob('locales/*/*/*') if os.path.isfile(f)]),
     ),
     package_data = find_package_data(where='fas',
         package='fas',

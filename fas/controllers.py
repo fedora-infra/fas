@@ -29,7 +29,6 @@ turbogears.view.variable_providers.append(add_custom_stdvars)
 def get_locale(locale=None):
     if locale:
         return locale
-
     try:
         return turbogears.identity.current.user.locale
     except AttributeError:
