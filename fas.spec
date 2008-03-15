@@ -22,6 +22,7 @@ Requires: python-fedora-infrastructure >= 0.2.99.2
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
+Requires: python-genshi
 Requires: pytz
 
 %description
