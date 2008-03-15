@@ -212,11 +212,6 @@ class User(controllers.Controller):
             #personal = True
         else:
             admin = False
-        groups = []
-        # Possibly extract this info in view (person.roles[n].group gives the group)
-        for group in person.roles:
-            groups.append(Groups.by_name(group.group.name))
-        cla = None
         cla = CLADone(person)
         person.jsonProps = {
                 'People': ('approved_memberships', 'unapproved_memberships')
