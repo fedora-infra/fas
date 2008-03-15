@@ -1,3 +1,0 @@
-#for person in sorted(people)
-${person.username},${person.email},${person.human_name},user,0
-#end
