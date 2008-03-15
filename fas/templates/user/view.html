@@ -24,11 +24,11 @@
           ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': person.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
         </span>
         </dd>
+        <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
+        <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
-        <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
-        <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Public SSH Key:')}</dt>
         <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
         <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
@@ -43,7 +43,7 @@
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla" class="approved">${_('CLA Done')}</span>
-        <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Sign it!')}</a>)</py:if></span>
+        <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Complete it!')}</a>)</py:if></span>
         <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script></dd>
       </dl>
     </div>

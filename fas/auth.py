@@ -76,7 +76,7 @@ def isApproved(person, group):
 
 def CLADone(person):
     '''
-    Returns True if the user has completed the GPG-signed CLA
+    Returns True if the user has completed the CLA
     '''
     cla_done_group =config.get('cla_done_group')
     try:

@@ -28,6 +28,16 @@
         <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${target.username}" />
       </div> -->
       <div class="field">
+        <label for="telephone">${_('Telephone Number')}:</label>
+        <input type="text" id="telephone" name="telephone" value="${target.telephone}" />
+        <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_telephone')}'});</script>
+      </div>
+      <div class="field">
+        <label for="postal_address">${_('Postal Address')}:</label>
+        <textarea id="postal_address" name="postal_address">${target.postal_address}</textarea>
+        <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_postal_address')}'});</script>
+      </div>
+      <div class="field">
         <label for="ircnick">${_('IRC Nick')}:</label>
         <input type="text" id="ircnick" name="ircnick" value="${target.ircnick}" />
         <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_ircnick')}'});</script>
@@ -38,20 +48,10 @@
         <script type="text/javascript">var hb4 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_gpg_keyid')}'});</script>
       </div>
       <div class="field">
-        <label for="telephone">${_('Telephone Number')}:</label>
-        <input type="text" id="telephone" name="telephone" value="${target.telephone}" />
-        <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_telephone')}'});</script>
-      </div>
-      <div class="field">
         <label for="ssh_key">${_('Public SSH Key')}:</label>
         <!--<textarea id="ssh_key" rows='3' cols='50' name="ssh_key">${target.ssh_key}</textarea>-->
         <input type="file" name="ssh_key" id="ssh_key" />
         <script type="text/javascript">var hb19 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_ssh_key')}'});</script>
-      </div>
-      <div class="field">
-        <label for="postal_address">${_('Postal Address')}:</label>
-        <textarea id="postal_address" name="postal_address">${target.postal_address}</textarea>
-        <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_postal_address')}'});</script>
       </div>
       <div class="field">
         <label for="timezone">${_('Time Zone')}:</label>
