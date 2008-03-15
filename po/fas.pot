@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2008-03-13 11:06-0400\n"
+"POT-Creation-Date: 2008-03-14 20:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,53 +22,26 @@ msgstr ""
 msgid "%s membership required before application to this group is allowed"
 msgstr ""
 
-#: fas/cla.py:52
-msgid ""
-"To sign the CLA we must have your telephone number, postal address and "
-"GPG key ID.  Please ensure they have been filled out."
-msgstr ""
-
-#: fas/cla.py:56 fas/cla.py:82
+#: fas/cla.py:68
 msgid "You have already signed the CLA."
 msgstr ""
 
-#: fas/cla.py:95 fas/user.py:520
-msgid "Your key could not be retrieved from subkeys.pgp.net"
+#: fas/cla.py:72
+msgid "You have not signed the CLA."
 msgstr ""
 
-#: fas/cla.py:108
-#, python-format
-msgid "Your signature could not be verified: '%s'."
-msgstr ""
-
-#: fas/cla.py:118
+#: fas/cla.py:76
 msgid ""
-"Your signature's fingerprint did not match the fingerprint registered in "
-"FAS."
+"To sign the CLA we must have your telephone number and postal address.  "
+"Please ensure they have been filled out."
 msgstr ""
 
-#: fas/cla.py:127
-msgid "Your key did not match your email."
-msgstr ""
-
-#: fas/cla.py:132
-msgid "len(sigs) == 0"
-msgstr ""
-
-#: fas/cla.py:138
-msgid "The GPG-signed part of the message did not contain a signed CLA."
-msgstr ""
-
-#: fas/cla.py:143
-msgid "The text \"I agree\" was not found in the CLA."
-msgstr ""
-
-#: fas/cla.py:155
+#: fas/cla.py:89
 #, python-format
 msgid "You could not be added to the '%s' group."
 msgstr ""
 
-#: fas/cla.py:167
+#: fas/cla.py:116
 #, python-format
 msgid "You have successfully signed the CLA.  You are now in the '%s' group."
 msgstr ""
@@ -106,7 +79,7 @@ msgstr ""
 msgid "The group '%s' already exists."
 msgstr ""
 
-#: fas/group.py:131 fas/group.py:478
+#: fas/group.py:131 fas/group.py:481
 #, python-format
 msgid "You cannot view '%s'"
 msgstr ""
@@ -181,12 +154,12 @@ msgstr ""
 msgid "You cannot sponsor '%s'"
 msgstr ""
 
-#: fas/group.py:335
+#: fas/group.py:334
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:341
+#: fas/group.py:340
 #, python-format
 msgid ""
 "\n"
@@ -197,22 +170,22 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr ""
 
-#: fas/group.py:349
+#: fas/group.py:348
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr ""
 
-#: fas/group.py:366
+#: fas/group.py:365
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr ""
 
-#: fas/group.py:373
+#: fas/group.py:372
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:378
+#: fas/group.py:377
 #, python-format
 msgid ""
 "\n"
@@ -222,22 +195,22 @@ msgid ""
 "aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:385
+#: fas/group.py:384
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr ""
 
-#: fas/group.py:402
+#: fas/group.py:401
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr ""
 
-#: fas/group.py:409
+#: fas/group.py:408
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:418
+#: fas/group.py:417
 #, python-format
 msgid ""
 "\n"
@@ -247,22 +220,22 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:425
+#: fas/group.py:424
 #, python-format
 msgid "%s has been upgraded!"
 msgstr ""
 
-#: fas/group.py:441
+#: fas/group.py:440
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr ""
 
-#: fas/group.py:448
+#: fas/group.py:447
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:456
+#: fas/group.py:455
 #, python-format
 msgid ""
 "\n"
@@ -272,16 +245,16 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:463
+#: fas/group.py:462
 #, python-format
 msgid "%s has been downgraded!"
 msgstr ""
 
-#: fas/group.py:506
+#: fas/group.py:509
 msgid "Come join The Fedora Project!"
 msgstr ""
 
-#: fas/group.py:507
+#: fas/group.py:510
 #, python-format
 msgid ""
 "\n"
@@ -302,12 +275,12 @@ msgid ""
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
 
-#: fas/group.py:524
+#: fas/group.py:527
 #, python-format
 msgid "Message sent to: %s"
 msgstr ""
 
-#: fas/group.py:527
+#: fas/group.py:530
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr ""
@@ -412,39 +385,39 @@ msgstr ""
 msgid "Your account details have been saved."
 msgstr ""
 
-#: fas/user.py:316
+#: fas/user.py:317
 #, python-format
 msgid "No users found matching '%s'"
 msgstr ""
 
-#: fas/user.py:336
+#: fas/user.py:339
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:340 fas/user.py:355
+#: fas/user.py:343 fas/user.py:359
 msgid "You do not have any pending email changes."
 msgstr ""
 
-#: fas/user.py:344 fas/user.py:359
+#: fas/user.py:347 fas/user.py:363
 msgid "Invalid email change token."
 msgstr ""
 
-#: fas/user.py:368
+#: fas/user.py:372
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr ""
 
-#: fas/user.py:375
+#: fas/user.py:380
 msgid "No need to sign up, you have an account!"
 msgstr ""
 
-#: fas/user.py:397
+#: fas/user.py:402
 msgid "Welcome to the Fedora Project!"
 msgstr ""
 
-#: fas/user.py:398
+#: fas/user.py:403
 #, python-format
 msgid ""
 "\n"
@@ -486,45 +459,45 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:438
+#: fas/user.py:444
+msgid "An account has already been registered with that email address."
+msgstr ""
+
+#: fas/user.py:448
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
 
-#: fas/user.py:441
-msgid "An account has already been registered with that email address."
-msgstr ""
-
-#: fas/user.py:471
-msgid "Your password has been changed."
-msgstr ""
-
-#: fas/user.py:475
+#: fas/user.py:482
 msgid "Your password could not be changed."
 msgstr ""
 
-#: fas/user.py:481
+#: fas/user.py:485
+msgid "Your password has been changed."
+msgstr ""
+
+#: fas/user.py:493
 msgid "You are already logged in!"
 msgstr ""
 
-#: fas/user.py:491
+#: fas/user.py:504
 msgid "You are already logged in."
 msgstr ""
 
-#: fas/user.py:497
+#: fas/user.py:510
 msgid "Username email combo does not exist!"
 msgstr ""
 
-#: fas/user.py:500
+#: fas/user.py:513
 msgid "username + email combo unknown."
 msgstr ""
 
-#: fas/user.py:503
+#: fas/user.py:516
 msgid "Fedora Project Password Reset"
 msgstr ""
 
-#: fas/user.py:504
+#: fas/user.py:517
 #, python-format
 msgid ""
 "\n"
@@ -535,41 +508,45 @@ msgid ""
 "\n"
 msgstr ""
 
-#: fas/user.py:516
+#: fas/user.py:529
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be"
 " sent."
 msgstr ""
 
-#: fas/user.py:542
+#: fas/user.py:533
+msgid "Your key could not be retrieved from subkeys.pgp.net"
+msgstr ""
+
+#: fas/user.py:555
 msgid "Your password reset email could not be encrypted."
 msgstr ""
 
-#: fas/user.py:548
+#: fas/user.py:561
 msgid "A password reset URL has been emailed to you."
 msgstr ""
 
-#: fas/user.py:557 fas/user.py:572 fas/user.py:591
+#: fas/user.py:571 fas/user.py:587 fas/user.py:607
 msgid "You do not have any pending password changes."
 msgstr ""
 
-#: fas/user.py:562 fas/user.py:576 fas/user.py:596
+#: fas/user.py:576 fas/user.py:591 fas/user.py:612
 msgid "Invalid password change token."
 msgstr ""
 
-#: fas/user.py:581
+#: fas/user.py:596
 msgid ""
 "Your password reset has been canceled.  The password change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:605
+#: fas/user.py:621
 msgid ""
 "You have successfully reset your password.  You should now be able to "
 "login below."
 msgstr ""
 
-#: fas/user.py:641
+#: fas/user.py:658
 msgid "Before generating a certificate, you must first sign the CLA."
 msgstr ""
 
@@ -628,9 +605,8 @@ msgid ""
 msgstr ""
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
-#: fas/templates/cla/index.html:7 fas/templates/cla/view.html:7
-#: fas/templates/openid/about.html:7 fas/templates/openid/id.html:7
-#: fas/templates/openid/trusted.html:7
+#: fas/templates/cla/index.html:7 fas/templates/openid/about.html:7
+#: fas/templates/openid/id.html:7 fas/templates/openid/trusted.html:7
 msgid "Fedora Accounts System"
 msgstr ""
 
@@ -780,11 +756,7 @@ msgid "Welcome to FAS2"
 msgstr ""
 
 #: fas/templates/welcome.html:18
-msgid ""
-"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a "
-"href=\"https://fedorahosted.org/fedora-"
-"infrastructure/\">https://fedorahosted.org/fedora-infrastructure/<a> or "
-"stop by #fedora-admin on irc.freenode.net"
+msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to "
 msgstr ""
 
 #: fas/templates/welcome.html:22
@@ -799,42 +771,21 @@ msgstr ""
 msgid "Fedora Contributor License Agreement"
 msgstr ""
 
-#: fas/templates/cla/index.html:13
-msgid "In order to become a full Fedora contributor, you must sign the CLA."
-msgstr ""
-
-#: fas/templates/cla/index.html:18
-msgid "Sign Contributor License Agreement (CLA)"
-msgstr ""
-
-#: fas/templates/cla/index.html:22
+#: fas/templates/cla/index.html:11 fas/templates/cla/index.html:13
 #, python-format
-msgid "You have already sucessfully signed the <a href=\"%s\">CLA</a>."
+msgid "<a href=\"%(url)s\">Text Version</a>"
 msgstr ""
 
-#: fas/templates/cla/view.html:10
-msgid "Contributor License Agreement"
+#: fas/templates/cla/index.html:15
+msgid "You have already sucessfully signed the CLA."
 msgstr ""
 
-#: fas/templates/cla/view.html:17
-#, python-format
-msgid ""
-"Use the below link to download/save the CLA as fedora-"
-"icla-%(username)s.txt, and run: <pre>gpg -as fedora-"
-"icla-%(username)s.txt</pre> After, upload fedora-"
-"icla-%(username)s.txt.asc in the form below."
+#: fas/templates/cla/index.html:20
+msgid "I agree"
 msgstr ""
 
-#: fas/templates/cla/view.html:20
-msgid "Download the CLA text file here!"
-msgstr ""
-
-#: fas/templates/cla/view.html:24
-msgid "Signed CLA:"
-msgstr ""
-
-#: fas/templates/cla/view.html:25
-msgid "Submit CLA"
+#: fas/templates/cla/index.html:21
+msgid "I do not agree"
 msgstr ""
 
 #: fas/templates/group/edit.html:7
