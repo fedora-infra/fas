@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-14 20:55-0400\n"
-"PO-Revision-Date: 2008-03-14 23:16+0200\n"
+"PO-Revision-Date: 2008-03-15 15:10+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,18 +24,16 @@ msgid "You have already signed the CLA."
 msgstr "Już podpisałeś CLA."
 
 #: fas/cla.py:72
-#, fuzzy
 msgid "You have not signed the CLA."
-msgstr "Już podpisałeś CLA."
+msgstr "Nie podpisałeś CLA."
 
 #: fas/cla.py:76
-#, fuzzy
 msgid ""
 "To sign the CLA we must have your telephone number and postal address.  "
 "Please ensure they have been filled out."
 msgstr ""
-"Aby podpisać CLA, musimy znać twój numer telefonu, adres pocztowy i "
-"identyfikator klucza GPG. Upewnij się, że je podałeś."
+"Aby podpisać CLA, musimy znać twój numer telefonu i adres pocztowy. Upewnij "
+"się, że je podałeś."
 
 #: fas/cla.py:89
 #, python-format
@@ -644,11 +642,11 @@ msgstr "Anulowano resetowanie hasła. Token zmiany hasła został unieważniony.
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
-msgstr ""
+msgstr "Pomyślnie zresetowano hasło. Możesz się teraz zalogować."
 
 #: fas/user.py:658
 msgid "Before generating a certificate, you must first sign the CLA."
-msgstr ""
+msgstr "Przed utworzeniem certyfikatu musisz podpisać CLA."
 
 #: fas/templates/about.html:7
 msgid "About FAS"
@@ -890,9 +888,8 @@ msgid "Welcome to FAS2"
 msgstr "Witaj w FAS2"
 
 #: fas/templates/welcome.html:18
-#, fuzzy
 msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to "
-msgstr "Zaloguj się do systemu kont Fedory"
+msgstr "Witaj w systemie kont Fedory 2. Prosimy zgłaszać błędy do "
 
 #: fas/templates/welcome.html:22
 msgid "New Account"
@@ -909,20 +906,19 @@ msgstr "Warunki licencji współtwórcy Fedory"
 #: fas/templates/cla/index.html:11 fas/templates/cla/index.html:13
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Wersja tekstowa</a>"
 
 #: fas/templates/cla/index.html:15
-#, fuzzy
 msgid "You have already sucessfully signed the CLA."
 msgstr "Już podpisałeś CLA."
 
 #: fas/templates/cla/index.html:20
 msgid "I agree"
-msgstr ""
+msgstr "Zgadzam się"
 
 #: fas/templates/cla/index.html:21
 msgid "I do not agree"
-msgstr ""
+msgstr "Nie zgadzam się"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
