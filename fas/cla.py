@@ -7,8 +7,7 @@ import cherrypy
 from datetime import datetime
 import re
 import turbomail
-from genshi.template import TemplateLoader
-from genshi.template import TextTemplate
+from genshi.template.plugin import TextTemplateEnginePlugin
 
 from fas.model import People
 from fas.model import Log
@@ -109,9 +108,8 @@ Date: %(date)s
     'facsimile': person.facsimile,
     'date': dt.ctime(),}
             # Sigh..  if only there were a nicer way.
-            loader = TemplateLoader('fas/templates/cla')
-            template = loader.load('cla.txt', cls=TextTemplate)
-            message.plain += template.generate(person=person).render('text')
+            plugin = TextTemplateEnginePlugin()
+            message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
             turbomail.enqueue(message)
             turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
             turbogears.redirect('/user/view/%s' % person.username)

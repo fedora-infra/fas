@@ -21,8 +21,8 @@
     </py:if>
     </py:for>
     <ul class="queue">
-      <li py:if="not cla" class="unapproved">${_('CLA not completed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('Complete the CLA')}</a>.</li>
-      <li py:if="not person.ssh_key">You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing <a href="${tg.url('/user/edit')}">My Account</a></li>
+      <li py:if="not cla" class="unapproved">${Markup(_('CLA not completed.  To become a full Fedora Contributor please &lt;a href="%s"&gt;complete the CLA&lt;/a&gt;.') % tg.url('/cla/'))}</li>
+      <li py:if="not person.ssh_key">${Markup(_('You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing &lt;a href="%s"&gt;My Account&lt;/a&gt;') % tg.url('/user/edit'))}</li>
     </ul>
     <div>
       <!-- TODO: Make this entire page more friendly -->

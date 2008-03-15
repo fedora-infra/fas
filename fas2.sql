@@ -347,8 +347,8 @@ GRANT ALL ON TABLE people, groups, person_roles, group_roles, bugzilla_queue, co
 INSERT INTO people (id, username, human_name, password, email) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost');
 
 -- Create default groups and populate
-INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100002, 'cla_done', 'CLA Done Group', (SELECT id from people where username='admin'), 'tracking');
-INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (101441, 'cla_fedora', 'Fedora CLA Group', (SELECT id from people where username='admin'), 'tracking');
+INSERT INTO groups (id, name, display_name, owner_id, group_type, user_can_remove) VALUES (100002, 'cla_done', 'CLA Done Group', (SELECT id from people where username='admin'), 'tracking', false);
+INSERT INTO groups (id, name, display_name, owner_id, group_type, user_can_remove) VALUES (101441, 'cla_fedora', 'Fedora CLA Group', (SELECT id from people where username='admin'), 'tracking', false);
 INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100006, 'accounts', 'Account System Admins', (SELECT id from people where username='admin'), 'tracking');
 INSERT INTO groups (id, name, display_name, owner_id, group_type) VALUES (100148, 'fedorabugs', 'Fedora Bugs Group', (SELECT id from people where username='admin'), 'tracking');
 INSERT INTO groups (name, display_name, owner_id, group_type) VALUES ('fas-system', 'System users allowed to get password and key information', (SELECT id from people where username='admin'), 'system');
