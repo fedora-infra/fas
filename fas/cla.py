@@ -24,7 +24,7 @@ class CLA(controllers.Controller):
         '''Display the CLAs (and accept/do not accept buttons)'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if not person.telephone and not person.postal_address:
+        if not person.telephone or not person.postal_address:
             turbogears.flash('Postal Address and telephone number are required to complete the cla, please fill them out')
             turbogears.redirect('/user/edit/%s' % username)
         cla = CLADone(person)
