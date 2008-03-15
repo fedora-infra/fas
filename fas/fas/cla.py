@@ -60,20 +60,20 @@ class CLA(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="fas.templates.cla.index")
-    def sign(self, agree=False):
-        '''Sign CLA'''
+    def send(self, agree=False):
+        '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if CLADone(person):
-            turbogears.flash(_('You have already signed the CLA.'))
+            turbogears.flash(_('You have already completed the CLA.'))
             turbogears.redirect('/cla/')
             return dict()
         if not agree:
-            turbogears.flash(_("You have not signed the CLA."))
+            turbogears.flash(_("You have not completed the CLA."))
             turbogears.redirect('/user/view/%s' % person.username)
         if not person.telephone or \
             not person.postal_address:
-                turbogears.flash(_('To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out.'))
+                turbogears.flash(_('To complete the CLA, we must have your telephone number and postal address.  Please ensure they have been filled out.'))
                 turbogears.redirect('/user/edit/%s' % username)
         groupname = config.get('cla_fedora_group')
         group = Groups.by_name(groupname)
@@ -85,16 +85,16 @@ class CLA(controllers.Controller):
         except:
             # TODO: If apply succeeds and sponsor fails, the user has
             # to remove themselves from the CLA group before they can
-            # sign the CLA and go through the above try block again.
+            # complete the CLA and go through the above try block again.
             turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
             turbogears.redirect('/cla/')
             return dict()
         else:
             dt = datetime.utcnow()
-            Log(author_id=person.id, description='Signed CLA', changetime=dt)
+            Log(author_id=person.id, description='Completed CLA', changetime=dt)
             message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
             message.plain = '''
-Fedora user %(username)s has signed a completed ICLA (below).
+Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
 Email: %(email)s
 Date: %(date)s
@@ -113,7 +113,7 @@ Date: %(date)s
             template = loader.load('cla.txt', cls=TextTemplate)
             message.plain += template.generate(person=person).render('text')
             turbomail.enqueue(message)
-            turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
+            turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
             turbogears.redirect('/user/view/%s' % person.username)
             return dict()
 

@@ -21,7 +21,7 @@
     </py:if>
     </py:for>
     <ul class="queue">
-      <li py:if="not cla" class="unapproved">${_('CLA Not Signed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('Sign the CLA')}</a>.</li>
+      <li py:if="not cla" class="unapproved">${_('CLA not completed.  To become a full Fedora Contributor please ')}<a href="${tg.url('/cla/')}">${_('Complete the CLA')}</a>.</li>
       <li py:if="not person.ssh_key">You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing <a href="${tg.url('/user/edit')}">My Account</a></li>
     </ul>
     <div>

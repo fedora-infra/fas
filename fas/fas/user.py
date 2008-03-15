@@ -655,7 +655,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
           keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
           return dict(cert=certdump, key=keydump)
       else:
-          turbogears.flash(_('Before generating a certificate, you must first sign the CLA.'))
+          turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
           turbogears.redirect('/cla/')
 
 
