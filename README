@@ -67,7 +67,7 @@ It's presently part of the fedora-infrastructure git repo::
 
 Once you are inside you're fresh checkout, you need to regenerate some files
 that are created by the build script, setup.py::
-  python setup.py egg_info
+  python setup.py build
 
 This will create the fas.egg-info directory which has metadata about the
 program.  It allows things like the identity provider to work.

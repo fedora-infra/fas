@@ -61,7 +61,7 @@ genshi.encoding="utf-8"
 session_filter.on = True
 i18n.run_template_filter = True
 i18n.domain = 'fas'
-i18n.locale_dir = 'po'
+i18n.locale_dir = '@DATADIR@/locales'
 
 # VISIT TRACKING
 # Each visit to your application will be assigned a unique visit ID tracked via

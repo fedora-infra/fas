@@ -22,6 +22,7 @@ Requires: python-fedora-infrastructure >= 0.2.99.2
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
+Requires: python-genshi
 Requires: pytz
 
 %description
@@ -48,24 +49,25 @@ Additional scripts that work as clients to the accounts system.
 %build
 %{__python} setup.py build --install-data='%{_datadir}/fas'
 
+
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --install-data='%{_datadir}/fas' --root $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_sbindir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-mv $RPM_BUILD_ROOT%{_bindir}/start-fas $RPM_BUILD_ROOT%{_sbindir}
+rm -rf %{buildroot}
+%{__python} setup.py install -O1 --skip-build --install-data='%{_datadir}/fas' --root %{buildroot}
+mkdir -p %{buildroot}%{_sbindir}
+mkdir -p %{buildroot}%{_sysconfdir}
+mv %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
-install fas.cfg $RPM_BUILD_ROOT%{_sysconfdir}
-install client/fas.conf $RPM_BUILD_ROOT%{_sysconfdir}
+install -m 640 fas.cfg %{buildroot}%{_sysconfdir}
+install -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
  
+
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
+
 
 %pre
-/usr/sbin/groupadd -r fas &>/dev/null || :
-/usr/sbin/useradd  -r -s /sbin/nologin -d /usr/share/fas -M \
-                               -c 'Fedora Acocunt System user' -g fas fas &>/dev/null || :
-
+/usr/sbin/useradd -c 'Fedora Acocunt System user' -s /sbin/nologin \
+    -r -M -d /usr/share/fas fas &> /dev/null || :
 
 
 %files
@@ -74,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
-%attr(0640,root,apache) %config(noreplace) %{_sysconfdir}/fas.cfg
+%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 
 %files clients
 %{_bindir}/*
