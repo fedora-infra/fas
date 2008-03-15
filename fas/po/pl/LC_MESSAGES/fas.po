@@ -1,0 +1,830 @@
+Już podpisałeś CLA.
+
+#: fas/cla.py:72
+msgid "You have not signed the CLA."
+msgstr ""
+
+#: fas/cla.py:76
+msgid "To sign the CLA we must have your telephone number and postal address.  Please ensure they have been filled out."
+msgstr ""
+
+#: fas/controllers.py:114
+msgid "The credentials you supplied were not correct or did not grant access to this resource."
+msgstr "Podane dane uwierzytelniające nie są poprawne lub nie gwarantują dostępu do tego zasobu."
+
+#: fas/controllers.py:117
+msgid "You must provide your credentials before accessing this resource."
+msgstr "Musisz podać dane uwierzytelniające zanim uzyskasz dostęp do tego zasobu."
+
+#: fas/controllers.py:120
+msgid "Please log in."
+msgstr "Zaloguj się."
+
+#: fas/controllers.py:131
+msgid "You have successfully logged out."
+msgstr "Wylogowano pomyślnie."
+
+#: fas/group.py:145 fas/group.py:161
+msgid "Only FAS adminstrators can create groups."
+msgstr "Tylko administratorzy FAS mogą tworzyć grupy."
+
+#: fas/group.py:238
+msgid "The group details could not be saved."
+msgstr "Nie można zapisać szczegółów grupy."
+
+#: fas/group.py:240
+msgid "The group details have been saved."
+msgstr "Zapisano szczegóły grupy."
+
+#: fas/group.py:509
+msgid "Come join The Fedora Project!"
+msgstr "Przyłącz się do Projektu Fedora!"
+
+#: fas/model.py:133
+msgid "user is already in this group"
+msgstr "użytkownik jest już w tej grupie"
+
+#: fas/model.py:146 fas/model.py:161 fas/model.py:215
+msgid "user is not a member"
+msgstr "użytkownik nie jest członkiem"
+
+#: fas/model.py:150
+msgid "administrators cannot be upgraded any further"
+msgstr "administratorów nie można już wyżej awansować"
+
+#: fas/model.py:165
+msgid "users cannot be downgraded any further"
+msgstr "użytkowników nie można już niżej zdegradować"
+
+#: fas/model.py:174
+msgid "user is not an unapproved member"
+msgstr "użytkownik nie jest zaakceptowanym członkiem"
+
+#: fas/openid_fas.py:55
+msgid "The OpenID request could not be decoded."
+msgstr "Nie można rozszyfrować żądania OpenID."
+
+#: fas/user.py:59
+msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
+msgstr "Aby zapobiec pętli adresów e-mail, twój adres nie może być \"@fedoraproject.org\"."
+
+#: fas/user.py:277
+msgid "  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
+msgstr "  Zanim nowy adres e-mail zostanie uwzględniony, musisz go potwierdzić. Powinieneś wkrótce otrzymać e-mail z instrukcjami."
+
+#: fas/user.py:291
+msgid "Your account details have been saved."
+msgstr "Zapisano szczegóły konta."
+
+#: fas/user.py:339
+msgid "Your pending email change has been canceled.  The email change token has been invalidated."
+msgstr "Anulowano oczekującą zmianę adresu e-mail. Token zmiany adresu e-mail został unieważniony."
+
+#: fas/user.py:343 fas/user.py:359
+msgid "You do not have any pending email changes."
+msgstr "Brak oczekujących zmian adresów e-mail."
+
+#: fas/user.py:347 fas/user.py:363
+msgid "Invalid email change token."
+msgstr "Nieprawidłowy token zmiany adresu e-mail."
+
+#: fas/user.py:380
+msgid "No need to sign up, you have an account!"
+msgstr "Nie musisz zakładać konta, masz już je!"
+
+#: fas/user.py:402
+msgid "Welcome to the Fedora Project!"
+msgstr "Witaj w Projekcie Fedora!"
+
+#: fas/user.py:444
+msgid "An account has already been registered with that email address."
+msgstr "Konto zostało już zarejestrowane za pomocą tego adresu e-mail."
+
+#: fas/user.py:448
+msgid "Your password has been emailed to you.  Please log in with it and change your password"
+msgstr "Hasło zostało wysłane e-mailem. Zaloguj się za jego pomocą i zmień je"
+
+#: fas/user.py:482
+msgid "Your password could not be changed."
+msgstr "Nie można zmienić hasła."
+
+#: fas/user.py:485
+msgid "Your password has been changed."
+msgstr "Zmieniono hasło."
+
+#: fas/user.py:493
+msgid "You are already logged in!"
+msgstr "Jesteś już zalogowany!"
+
+#: fas/user.py:504
+msgid "You are already logged in."
+msgstr "Jesteś już zalogowany."
+
+#: fas/user.py:510
+msgid "Username email combo does not exist!"
+msgstr "Kombinacja nazwy użytkownika i adresu e-mail nie istnieje!"
+
+#: fas/user.py:513
+msgid "username + email combo unknown."
+msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail"
+
+#: fas/user.py:516
+msgid "Fedora Project Password Reset"
+msgstr "Resetowanie hasła Projektu Fedora"
+
+#: fas/user.py:529
+msgid "This user does not have a GPG Key ID set, so an encrypted email cannot be sent."
+msgstr "Ten użytkownik nie ustawił identyfikatora klucza GPG, więc nie można wysłać zaszyfrowanego e-maila."
+
+#: fas/user.py:533
+msgid "Your key could not be retrieved from subkeys.pgp.net"
+msgstr "Nie można pobrać klucza z subkeys.pgp.net"
+
+#: fas/user.py:555
+msgid "Your password reset email could not be encrypted."
+msgstr "Nie można zaszyfrować e-maila resetowania hasła."
+
+#: fas/user.py:561
+msgid "A password reset URL has been emailed to you."
+msgstr "Adres resetowania hasła został wysłany e-mailem."
+
+#: fas/user.py:571 fas/user.py:587 fas/user.py:607
+msgid "You do not have any pending password changes."
+msgstr "Brak oczekujących zmian haseł."
+
+#: fas/user.py:576 fas/user.py:591 fas/user.py:612
+msgid "Invalid password change token."
+msgstr "Nieprawidłowy token zmiany hasła."
+
+#: fas/user.py:596
+msgid "Your password reset has been canceled.  The password change token has been invalidated."
+msgstr "Anulowano resetowanie hasła. Token zmiany hasła został unieważniony."
+
+#: fas/user.py:621
+msgid "You have successfully reset your password.  You should now be able to login below."
+msgstr ""
+
+#: fas/user.py:658
+msgid "Before generating a certificate, you must first sign the CLA."
+msgstr ""
+
+#: fas/templates/about.html:7
+msgid "About FAS"
+msgstr "Informacje o FAS"
+
+#: fas/templates/about.html:10
+msgid "FAS - The Open Account System"
+msgstr "FAS - otwarty system kont"
+
+#: fas/templates/about.html:11
+msgid "FAS is designed around an open architecture.  Unlike the traditional account systems where a single admin or group of admins decide who gets to be in what group, FAS is completely designed to be self operating per team.  Every group is given at least one administrator who can then approve other people in the group.  Also, unlike traditional account systems.  FAS allows people to apply for the groups they want to be in.  This paridigm is interesting as it allows anyone to find out who is in what groups and contact them.  This openness is brought over from the same philosophies that make Open Source popular."
+msgstr "FAS został zaprojektowany wokół otwartej architektury. Inaczej niż tradycyjne systemy kont, gdzie jeden administrator lub ich grupa decyduje o przydziale do grup, FAS został zaprojektowany tak, aby zespoły mogły działać samodzielnie. Każda grupa posiada co najmniej jednego administratora, który może akceptować innych członków grupy. FAS pozwala ludziom także na wysyłanie aplikacji do grup, do których chcą należeć. To ciekawa sprawa, ponieważ pozwala każdemu użytkownikowi na wyszukiwanie ludzi w grupach i kontaktowanie się z nimi. Ta otwartość powstała na podstawie tej samej filozofii, która uczyniła oprogramowanie open source tak popularnym."
+
+#: fas/templates/about.html:12
+msgid "Etiquette"
+msgstr "Etykieta"
+
+#: fas/templates/about.html:13
+msgid "People shouldn't assume that by applying for a group that they're then in that group.  Consider it like applying for another job.  It often takes time.  For best odds of success, learn about the group you're applying for and get to know someone in the group.  Find someone with sponsor or admin access and ask them if they'd have time to mentor you.  Plan on spending at least a few days learning about the group, doing a mundain task, participating on the mailing list.  Sometimes this process can take weeks depending on the group.  It's best to know you will get sponsored before you apply."
+msgstr "Ludzie nie powinni przyjmować, że wysyłając aplikację o dołączenie do grupy stają się członkami tej grupy. Należy rozumieć to jak wysyłanie aplikacji o inną pracę. To zwykle zajmuje czasu. Aby dołączyć do grupy, dowiedz się więcej o niej i poznaj któregoś z jej członków. Znajdź kogoś z dostępem sponsora lub administratora i zapytaj go, czy nie miałby trochę czasu, aby ci pomóc. Zaplanuj co najmniej kilka dni na uczenie się o grupie, wykonywanie prostych zadań, uczestniczenie w liście mailingowej. Czasami ten proces może zająć tygodnie, w zależności od grupy. Najlepiej jest wiedzieć, że zostaniesz zasponsorowany, zanim wyślesz aplikację."
+
+#: fas/templates/about.html:14
+msgid "Users, Sponsors, Administrators"
+msgstr "Użytkownicy, sponsorzy i administratorzy"
+
+#: fas/templates/about.html:15
+msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the disctinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
+msgstr "Kiedy już będziesz w grupie, to będziesz w tej grupie. Sponsorzy i administratorzy zwykle posiadają specjalny dostęp do grup w razie pytań. Niektóre grupy uważają sponsorów za wyższy poziom udziału, jak na przykład częściowe posiadanie grupy. Ale na poziomie systemu kont podział jest prosty. Sponsorzy mogą akceptować nowych użytkowników i wybierać nowych sponsorów. Nie mogą jednak degradować lub usuwać innych sponsorów. Nie mogą też w żaden sposób zmieniać administratorów. Administratorzy mogą wszystko ze wszystkimi w grupie."
+
+#: fas/templates/openid/id.html:7 fas/templates/openid/trusted.html:7
+msgid "Fedora Accounts System"
+msgstr "System kont Fedory"
+
+#: fas/templates/error.html:17
+msgid "Error!"
+msgstr "Błąd!"
+
+#: fas/templates/error.html:18
+msgid "The following error(s) have occured with your request:"
+msgstr "Po żądaniu wystąpiły następujące błędy:"
+
+#: fas/templates/home.html:24
+msgid "CLA Not Signed.  To become a full Fedora Contributor please "
+msgstr "Nie podpisano CLA. Aby zostać pełnoprawnym współtwórcą Fedory, "
+
+#: fas/templates/home.html:24
+msgid "Sign the CLA"
+msgstr "Podpisz CLA"
+
+#: fas/templates/login.html:7
+msgid "Login to the Fedora Accounts System"
+msgstr "Zaloguj się do systemu kont Fedory"
+
+#: fas/templates/login.html:17 fas/templates/login.html:23
+msgid "Login"
+msgstr "Zaloguj się"
+
+#: fas/templates/login.html:20
+msgid "User Name:"
+msgstr "Nazwa użytkownika:"
+
+#: fas/templates/login.html:21 fas/templates/user/view.html:37
+msgid "Password:"
+msgstr "Hasło:"
+
+#: fas/templates/login.html:29
+msgid "Forgot Password?"
+msgstr "Zapomniałeś hasła?"
+
+#: fas/templates/login.html:30
+msgid "Sign Up"
+msgstr "Załóż konto"
+
+#: fas/templates/master.html:21
+msgid "Fedora"
+msgstr "Fedora"
+
+#: fas/templates/master.html:34
+msgid "Learn about Fedora"
+msgstr "Dowiedz się więcej o Fedorze"
+
+#: fas/templates/master.html:35
+msgid "Download Fedora"
+msgstr "Pobierz Fedorę"
+
+#: fas/templates/master.html:36
+msgid "Projects"
+msgstr "Projekty"
+
+#: fas/templates/master.html:37
+msgid "Join Fedora"
+msgstr "Dołącz do Fedory"
+
+#: fas/templates/master.html:38
+msgid "Communicate"
+msgstr "Komunikacjua"
+
+#: fas/templates/master.html:39
+msgid "Help/Documentation"
+msgstr "Pomoc/dokumentacja"
+
+#: fas/templates/master.html:45
+msgid "Logged in:"
+msgstr "Zalogowany:"
+
+#: fas/templates/master.html:51
+msgid "My Account"
+msgstr "Moje konto"
+
+#: fas/templates/master.html:52 fas/templates/master.html:92
+msgid "Log Out"
+msgstr "Wyloguj się"
+
+#: fas/templates/master.html:53 fas/templates/welcome.html:21
+msgid "Log In"
+msgstr "Zaloguj się"
+
+#: fas/templates/master.html:60
+msgid "Home"
+msgstr "Strona domowa"
+
+#: fas/templates/master.html:63
+msgid "New Group"
+msgstr "Nowa grupa"
+
+#: fas/templates/master.html:64
+msgid "User List"
+msgstr "Lista użytkowników"
+
+#: fas/templates/master.html:66
+msgid "Group List"
+msgstr "Lista grup"
+
+#: fas/templates/master.html:67
+msgid "Apply For a new Group"
+msgstr "Wyślij aplikację nowej grupy"
+
+#: fas/templates/master.html:68
+msgid "News"
+msgstr "Wiadomości"
+
+#: fas/templates/master.html:88
+msgid "About"
+msgstr "Informacje o"
+
+#: fas/templates/master.html:89
+msgid "Contact Us"
+msgstr "Kontakt"
+
+#: fas/templates/master.html:90
+msgid "Legal & Privacy"
+msgstr "Legalność i prywatność"
+
+#: fas/templates/master.html:95
+msgid "Copyright © 2007 Red Hat, Inc. and others.  All Rights Reserved.  Please send any comments or corrections to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+msgstr "Copyright © 2007 Red Hat, Inc. i inni. Wszystkie prawa zastrzeżone. Prosimy wysyłać wszystkie komentarze lub poprawki do <a href=\"mailto:webmaster@fedoraproject.org\">zespołu stron WWW</a> (w języku angielskim)."
+
+#: fas/templates/master.html:98
+msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
+msgstr "Projekt Fedora jest zarządzany i prowadzony przez społeczność i sponsorowany przez Red Hata. Ta strona jest zarządzana przez społeczność. Red Hat nie jest odpowiedzialny za jej zawartość."
+
+#: fas/templates/welcome.html:7
+msgid "Welcome to FAS2"
+msgstr "Witaj w FAS2"
+
+#: fas/templates/welcome.html:18
+msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to "
+msgstr ""
+
+#: fas/templates/welcome.html:22
+msgid "New Account"
+msgstr "Nowe konto"
+
+#: fas/templates/welcome.html:23
+msgid "Why Join?"
+msgstr "Po co się przyłączać?"
+
+#: fas/templates/cla/index.html:10
+msgid "Fedora Contributor License Agreement"
+msgstr "Warunki licencji współtwórcy Fedory"
+
+#: fas/templates/cla/index.html:15
+msgid "You have already sucessfully signed the CLA."
+msgstr ""
+
+#: fas/templates/cla/index.html:20
+msgid "I agree"
+msgstr ""
+
+#: fas/templates/cla/index.html:21
+msgid "I do not agree"
+msgstr ""
+
+#: fas/templates/group/edit.html:7
+msgid "Edit Group"
+msgstr "Edytuj grupę"
+
+#: fas/templates/group/edit.html:13 fas/templates/group/new.html:18
+msgid "Display Name:"
+msgstr "Wyświetlana nazwa:"
+
+#: fas/templates/group/edit.html:18 fas/templates/group/new.html:28
+msgid "Group Type:"
+msgstr "Typ grupy:"
+
+#: fas/templates/group/edit.html:23 fas/templates/group/new.html:23
+msgid "Group Owner:"
+msgstr "Właściciel grupy:"
+
+#: fas/templates/group/view.html:41
+msgid "Needs Sponsor:"
+msgstr "Wymaga sponsora:"
+
+#: fas/templates/group/view.html:45
+msgid "Self Removal:"
+msgstr "Można ją samodzielnie usunąć:"
+
+#: fas/templates/group/edit.html:40
+msgid "Group Prerequisite:"
+msgstr "Wymagania wstępne grupy:"
+
+#: fas/templates/group/edit.html:46
+msgid "Group Join Message:"
+msgstr "Wiadomość o dołączeniu do grupy:"
+
+#: fas/templates/group/edit.html:51 fas/templates/user/edit.html:83
+msgid "Save!"
+msgstr "Zapisz!"
+
+#: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
+msgid "Invite a new community member!"
+msgstr "Zaproś nowego członka społeczności!"
+
+#: fas/templates/group/invite.html:14
+msgid "To email:"
+msgstr "E-mail:"
+
+#: fas/templates/group/invite.html:15
+msgid "From:"
+msgstr "Od:"
+
+#: fas/templates/group/invite.html:16
+msgid "Subject:"
+msgstr "Temat:"
+
+#: fas/templates/group/invite.html:17
+msgid "Message:"
+msgstr "Wiadomość:"
+
+#: fas/templates/group/invite.html:39
+msgid "Send!"
+msgstr "Wyślij!"
+
+#: fas/templates/group/list.html:7
+msgid "Groups List"
+msgstr "Lista grup"
+
+#: fas/templates/group/list.html:20
+msgid "Search Groups"
+msgstr "Znajdź grupę"
+
+#: fas/templates/group/list.html:22
+msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
+msgstr "\"*\" jest wieloznacznikiem (np. \"cvs*\")"
+
+#: fas/templates/group/list.html:25
+msgid "Search"
+msgstr "Znajdź"
+
+#: fas/templates/group/list.html:28 fas/templates/user/list.html:19
+msgid "Results"
+msgstr "Wyniki"
+
+#: fas/templates/group/list.html:31 fas/templates/user/list.html:22
+msgid "All"
+msgstr "Wszystkie"
+
+#: fas/templates/group/list.html:36
+msgid "Group"
+msgstr "Grupa"
+
+#: fas/templates/group/list.html:36
+msgid "Description"
+msgstr "Opis"
+
+#: fas/templates/group/list.html:36
+msgid "Status"
+msgstr "Stan"
+
+#: fas/templates/user/view.html:70
+msgid "Approved"
+msgstr "Zaakceptowana"
+
+#: fas/templates/group/list.html:45 fas/templates/group/view.html:23
+msgid "Unapproved"
+msgstr "Niezaakceptowana"
+
+#: fas/templates/group/list.html:47
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: fas/templates/group/new.html:7 fas/templates/group/new.html:10
+msgid "Create a new FAS Group"
+msgstr "Utwórz nową grupę FAS"
+
+#: fas/templates/group/new.html:13
+msgid "Group Name:"
+msgstr "Nazwa grupy:"
+
+#: fas/templates/group/new.html:43
+msgid "Must Belong To:"
+msgstr "Musi należeć do:"
+
+#: fas/templates/group/new.html:48 fas/templates/group/view.html:49
+msgid "Join Message:"
+msgstr "Wiadomość o dołączeniu:"
+
+#: fas/templates/group/new.html:53
+msgid "Create!"
+msgstr "Utwórz!"
+
+#: fas/templates/group/view.html:7 fas/templates/user/view.html:77
+msgid "View Group"
+msgstr "Wyświetl grupę"
+
+#: fas/templates/group/view.html:21
+msgid "My Status:"
+msgstr "Mój stan:"
+
+#: fas/templates/group/view.html:24
+msgid "Not a Member"
+msgstr "Nie jest członkiem"
+
+#: fas/templates/group/view.html:32
+msgid "Remove me"
+msgstr "Usuń mnie"
+
+#: fas/templates/group/view.html:34 fas/templates/user/view.html:17
+msgid "(edit)"
+msgstr "(edytuj)"
+
+#: fas/templates/group/view.html:37 fas/templates/openid/id.html:16
+msgid "Name:"
+msgstr "Nazwa:"
+
+#: fas/templates/group/view.html:38
+msgid "Description:"
+msgstr "Opis:"
+
+#: fas/templates/group/view.html:39
+msgid "Owner:"
+msgstr "Właściciel:"
+
+#: fas/templates/group/view.html:40
+msgid "Type:"
+msgstr "Typ:"
+
+#: fas/templates/group/view.html:42 fas/templates/group/view.html:46
+msgid "Yes"
+msgstr "Tak"
+
+#: fas/templates/group/view.html:43 fas/templates/group/view.html:47
+msgid "No"
+msgstr "Nie"
+
+#: fas/templates/group/view.html:50
+msgid "Prerequisite:"
+msgstr "Wymagania wstępne:"
+
+#: fas/templates/group/view.html:53
+msgid "Created:"
+msgstr "Utworzono:"
+
+#: fas/templates/group/view.html:55
+msgid "Add User:"
+msgstr "Dodaj użytkownika:"
+
+#: fas/templates/group/view.html:71
+msgid "Members"
+msgstr "Członkowie"
+
+#: fas/templates/group/view.html:75 fas/templates/user/list.html:27
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: fas/templates/group/view.html:76 fas/templates/group/view.html:98
+msgid "Sponsor"
+msgstr "Sponsor"
+
+#: fas/templates/group/view.html:77
+msgid "Date Added"
+msgstr "Dodano datę"
+
+#: fas/templates/group/view.html:78
+msgid "Date Approved"
+msgstr "Data zaakceptowania"
+
+#: fas/templates/group/view.html:79
+msgid "Approval"
+msgstr "Akceptacja"
+
+#: fas/templates/group/view.html:80
+msgid "Role Type"
+msgstr "Typ roli"
+
+#: fas/templates/group/view.html:81
+msgid "Action"
+msgstr "Działanie"
+
+#: fas/templates/user/view.html:71
+msgid "None"
+msgstr "Brak"
+
+#: fas/templates/group/view.html:102
+msgid "Approve"
+msgstr "Zaakceptuj"
+
+#: fas/templates/group/view.html:107
+msgid "Remove"
+msgstr "Usuń"
+
+#: fas/templates/group/view.html:111
+msgid "Upgrade"
+msgstr "Awansuj"
+
+#: fas/templates/group/view.html:115
+msgid "Downgrade"
+msgstr "Zdegraduj"
+
+#: fas/templates/openid/about.html:10 fas/templates/openid/trusted.html:10
+msgid "Fedora Project OpenID Provider"
+msgstr "Dostawca OpenID Projektu Fedora"
+
+#: fas/templates/user/resetpass.html:13
+msgid "Username:"
+msgstr "Nazwa użytkownika:"
+
+#: fas/templates/openid/trusted.html:16
+msgid "Submit"
+msgstr "Wyślij"
+
+#: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
+msgid "Change Password"
+msgstr "Zmień hasło"
+
+#: fas/templates/user/changepass.html:13
+msgid "Current Password:"
+msgstr "Obecne hasło:"
+
+#: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
+msgid "New Password:"
+msgstr "Nowe hasło:"
+
+#: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
+msgid "Confirm Password:"
+msgstr "Potwierdź hasło:"
+
+#: fas/templates/user/edit.html:7
+msgid "Edit Account"
+msgstr "Edytuj konto"
+
+#: fas/templates/user/edit.html:13
+msgid "Human Name"
+msgstr "Imię i nazwisko człowieka"
+
+#: fas/templates/user/edit.html:19
+msgid "Email"
+msgstr "E-mail"
+
+#: fas/templates/user/edit.html:31
+msgid "IRC Nick"
+msgstr "Pseudonim na IRC-u"
+
+#: fas/templates/user/edit.html:36
+msgid "PGP Key"
+msgstr "Klucz PGP"
+
+#: fas/templates/user/edit.html:41
+msgid "Telephone Number"
+msgstr "Numer telefonu"
+
+#: fas/templates/user/edit.html:46
+msgid "Public SSH Key"
+msgstr "Publiczny klucz SSH"
+
+#: fas/templates/user/edit.html:52
+msgid "Postal Address"
+msgstr "Adres pocztowy"
+
+#: fas/templates/user/edit.html:57
+msgid "Time Zone"
+msgstr "Strefa czasowa"
+
+#: fas/templates/user/edit.html:67
+msgid "Locale"
+msgstr "Język"
+
+#: fas/templates/user/edit.html:78
+msgid "Comments"
+msgstr "Komentarze"
+
+#: fas/templates/user/verifypass.html:17
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: fas/templates/user/list.html:7
+msgid "Users List"
+msgstr "Lista użytkowników"
+
+#: fas/templates/user/list.html:13
+msgid "\"*\" is a wildcard (Ex: \"ric*\")"
+msgstr "\"*\" jest wieloznacznikiem (np. \"ric*\")"
+
+#: fas/templates/user/list.html:28
+msgid "Account Status"
+msgstr "Stan konta"
+
+#: fas/templates/user/list.html:38 fas/templates/user/view.html:45
+msgid "CLA Done"
+msgstr "Zakończono CLA"
+
+#: fas/templates/user/list.html:39 fas/templates/user/view.html:46
+msgid "Not Done"
+msgstr "Nie zakończono"
+
+#: fas/templates/user/new.html:7 fas/templates/user/new.html:10
+msgid "Sign up for a Fedora account"
+msgstr "Załóż konto Fedory"
+
+#: fas/templates/user/new.html:17
+msgid "Full Name:"
+msgstr "Imię i nazwisko:"
+
+#: fas/templates/user/view.html:22
+msgid "Email:"
+msgstr "E-mail:"
+
+#: fas/templates/user/new.html:38
+msgid "Sign up!"
+msgstr "Załóż konto!"
+
+#: fas/templates/user/verifypass.html:10
+msgid "Reset Password"
+msgstr "Zresetuj hasło"
+
+#: fas/templates/user/resetpass.html:15
+msgid "Encrypt/Sign password reset email"
+msgstr "Zaszyfruj/podpisz e-mail resetowania hasła"
+
+#: fas/templates/user/verifyemail.html:7 fas/templates/user/verifyemail.html:10
+msgid "Confirm Email Change Request"
+msgstr "Potwierdź żądanie zmiany adresu e-mail"
+
+#: fas/templates/user/verifyemail.html:16
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: fas/templates/user/view.html:7
+msgid "View Account"
+msgstr "Wyświetl konto"
+
+#: fas/templates/user/view.html:15
+msgid "Your Fedora Account"
+msgstr "Konto Fedory"
+
+#: fas/templates/user/view.html:17
+msgid "Account Details"
+msgstr "Szczegóły konta"
+
+#: fas/templates/user/view.html:20
+msgid "Account Name:"
+msgstr "Nazwa konta:"
+
+#: fas/templates/user/view.html:21
+msgid "Real Name:"
+msgstr "Imię i nazwisko:"
+
+#: fas/templates/user/view.html:28
+msgid "IRC Nick:"
+msgstr "Pseudonim na IRC-u:"
+
+#: fas/templates/user/view.html:29
+msgid "PGP Key:"
+msgstr "Klucz PGP:"
+
+#: fas/templates/user/view.html:30
+msgid "Telephone Number:"
+msgstr "Numer telefonu:"
+
+#: fas/templates/user/view.html:31
+msgid "Postal Address:"
+msgstr "Adres pocztowy:"
+
+#: fas/templates/user/view.html:32
+msgid "Public SSH Key:"
+msgstr "Publiczny klucz SSH:"
+
+#: fas/templates/user/view.html:36
+msgid "Comments:"
+msgstr "Komentarze:"
+
+#: fas/templates/user/view.html:37
+msgid "Valid"
+msgstr "Prawidłowe"
+
+#: fas/templates/user/view.html:38
+msgid "Account Status:"
+msgstr "Stan konta:"
+
+#: fas/templates/user/view.html:39
+msgid "Active"
+msgstr "Aktywne"
+
+#: fas/templates/user/view.html:40
+msgid "Vacation"
+msgstr "Wakacje"
+
+#: fas/templates/user/view.html:41
+msgid "Inactive"
+msgstr "Nieaktywne"
+
+#: fas/templates/user/view.html:42
+msgid "Pinged"
+msgstr ""
+
+#: fas/templates/user/view.html:44
+msgid "CLA:"
+msgstr "CLA:"
+
+#: fas/templates/user/view.html:46
+msgid "Sign it!"
+msgstr "Podpisz!"
+
+#: fas/templates/user/view.html:50
+msgid "Your Roles"
+msgstr "Role"
+
+#: fas/templates/user/view.html:68
+msgid "Status:"
+msgstr "Stan:"
+
+#: fas/templates/user/view.html:74
+msgid "Tools:"
+msgstr "Narzędzia:"
+
+#: fas/templates/user/view.html:78
+msgid "Invite a New Member..."
+msgstr "Zaproś nowego członka..."
+
+#: fas/templates/user/view.html:79
+msgid "Manage Group Membership..."
+msgstr "Zarządzaj członkostwem w grupach"
+
+#: fas/templates/user/view.html:80
+msgid "Manage Group Details..."
+msgstr "Zarządzaj szczegółami grupy..."
+
+#: fas/templates/user/view.html:84
+msgid "Queue:"
+msgstr "Kolejka:"
+
