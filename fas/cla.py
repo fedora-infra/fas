@@ -114,6 +114,6 @@ Date: %(date)s
             message.plain += template.generate(person=person).render('text')
             turbomail.enqueue(message)
             turbogears.flash(_("You have successfully signed the CLA.  You are now in the '%s' group.") % group.name)
-            turbogears.redirect('/cla/')
+            turbogears.redirect('/user/view/%s' % person.username)
             return dict()
 
