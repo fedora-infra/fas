@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>${_('View Account')}</title>
+  </head>
+  <body>
+    <?python
+    from fas import auth
+    from fas.model import People
+    viewer = People.by_username(tg.identity.user.username)
+    ?>
+    <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
+    <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.human_name}</h2>
+    <h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
+    <div class="userbox">
+      <dl>
+        <dt>${_('Account Name:')}</dt><dd>${person.username}</dd>
+        <dt>${_('Real Name:')}</dt><dd>${person.human_name}</dd>
+        <dt>${_('Email:')}</dt><dd>${person.email}
+        <span py:if="(personal or admin) and person.unverified_email and person.emailtoken">
+          ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': person.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
+        </span>
+        </dd>
+        <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
+        <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
+        <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
+        <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
+        <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>
+        <py:if test="personal"><dt>${_('Public SSH Key:')}</dt>
+        <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
+        <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
+        </py:if>
+        <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
+        <py:if test="personal"><dt>${_('Password:')}</dt><dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd></py:if>
+        <dt>${_('Account Status:')}</dt><dd>
+        <span py:if="person.status == 'active'" class="approved">${_('Active')}</span>
+        <span py:if="person.status == 'vacation'" class="approved">${_('Vacation')}</span>
+        <span py:if="person.status == 'inactive'" class="unapproved">${_('Inactive')}</span>
+        <span py:if="person.status == 'pinged'" class="approved">${_('Pinged')}</span>
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
+        <dt>${_('CLA:')}</dt><dd>
+        <span py:if="cla" class="approved">${_('CLA Done')}</span>
+        <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Complete it!')}</a>)</py:if></span>
+        <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script></dd>
+      </dl>
+    </div>
+    <h3 py:if="personal">${_('Your Roles')}</h3>
+    <h3 py:if="not personal">${_('%s\'s Roles') % person.human_name}</h3>
+    <!--mpm    <ul class="roleslist">
+      <li py:for="group in sorted(groups.keys())"><span class="team approved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
+      <li py:for="group in sorted(groupsPending.keys())"><span class="team unapproved">${groupdata[group].fedoraGroupDesc} (${group})</span></li>
+    </ul>
+    -->
+    <!--
+    <ul class="actions" py:if="personal">
+      <li><a href="${tg.url('/group/list/A*')}">${_('(Join another project)')}</a></li>
+      <li><a href="/">${_('(Create a new project)')}</a></li>
+    </ul>
+    -->
+    <ul id="rolespanel">
+      <py:for each="group in sorted(person.memberships, lambda x,y: cmp(x.name, y.name))">
+      <li py:if="auth.canViewGroup(viewer, group)" class="role">
+      <h4>${group.display_name}</h4> (${group.group_type})
+      <dl>
+        <dt>${_('Status:')}</dt>
+        <dd>
+        <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
+        <span class="unapproved" py:if="group in person.unapproved_memberships">${_('None')}</span>
+        </dd>
+        <py:if test="personal">
+        <dt>${_('Tools:')}</dt>
+        <dd>
+        <ul class="tools">
+          <li><a href="${tg.url('/group/view/%s' % group.name)}">${_('View Group')}</a></li>
+          <li><a href="${tg.url('/group/invite/%s' % group.name)}">${_('Invite a New Member...')}</a></li>
+          <li py:if="auth.canSponsorGroup(person, group)"><a href="${tg.url('/group/view/%s' % group.name)}">${_('Manage Group Membership...')}</a></li>
+          <li py:if="auth.canEditGroup(person, group)"><a href="${tg.url('/group/edit/%s' % group.name)}">${_('Manage Group Details...')}</a></li>
+        </ul>
+        </dd>
+        <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
+        <dt>${_('Queue:')}</dt>
+        <dd>
+        <ul class="queue">
+          <li py:for="role in group.unapproved_roles[:5]">
+          ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': role.member.username, 'group': group.name})}
+          </li>
+        </ul>
+        </dd>
+        </py:if>
+        </py:if>
+      </dl>
+      </li>
+      </py:for>
+    </ul>
+  </body>
+</html>

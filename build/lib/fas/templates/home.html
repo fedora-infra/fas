@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="master.html" />
+  <head>
+    <title>${_('Fedora Accounts System')}</title>
+  </head>
+  <body>
+    <?python from fas import auth ?>
+    <h2>${_('Todo queue:')}</h2>
+    <py:for each="group in sorted(person.memberships)">
+    <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
+    <dd>
+    <ul class="queue">
+      <li py:for="role in group.unapproved_roles[:5]">
+      ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;a href="group/view/%(group)s"&gt;%(group)s&lt;/a&gt;.') % {'user': role.member.username, 'group': group.name, 'group': group.name})}
+      </li>
+    </ul>
+    </dd>
+    </py:if>
+    </py:for>
+    <ul class="queue">
+      <li py:if="not cla" class="unapproved">${Markup(_('CLA not completed.  To become a full Fedora Contributor please &lt;a href="%s"&gt;complete the CLA&lt;/a&gt;.') % tg.url('/cla/'))}</li>
+      <li py:if="not person.ssh_key">${Markup(_('You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing &lt;a href="%s"&gt;My Account&lt;/a&gt;') % tg.url('/user/edit'))}</li>
+    </ul>
+    <div>
+      <!-- TODO: Make this entire page more friendly -->
+      <a href="${tg.url('/user/gencert')}">${_('Download a client-side certificate')}</a>&nbsp;
+      <script type="text/javascript">var gencert = new HelpBalloon({dataURL: '${tg.url('/help/get_help/gencert')}'});</script>
+    </div>
+  </body>
+</html>

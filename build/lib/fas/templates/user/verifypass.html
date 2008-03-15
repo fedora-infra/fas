@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <head>
+    <title>${_('Reset Password')}</title>
+  </head>
+  <body>
+    <h2>${_('Reset Password')}</h2>
+    <form action="${tg.url('/user/setnewpass/%s/%s') % (person.username, token)}" method="post">
+      <ul>
+        <div class="field"><label for="password">${_('New Password:')}</label> <input type="password" id="password" name="password" /></div>
+        <div class="field"><label for="passwordcheck">${_('Confirm Password:')}</label> <input type="password" id="passwordcheck" name="passwordcheck" /></div>
+        <div class="field">
+          <input type="submit" value="${_('Change Password')}" />
+          <a href="${tg.url('/user/verifypass/%s/%s/cancel') % (person.username, token)}">${_('Cancel')}</a>
+        </div>
+      </ul>
+    </form>
+  </body>
+</html>

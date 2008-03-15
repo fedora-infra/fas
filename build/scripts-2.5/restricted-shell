@@ -1,0 +1,67 @@
+#!/usr/bin/python -tt
+# This script allows people to run the commands listed in 'commands' and
+# 'commands' only.  Be careful though, by adding /bin/bash you've effectively
+# disabled this script.  Also, via some voodoo you can restrict what flags
+# get passed or even completely alter what would normally happen if a command
+# were envoked (see scp section below)
+
+# TODO: better documentation needed for how this file works
+
+
+import sys, os
+
+commands = {
+    "git-receive-pack": "/usr/bin/git-receive-pack",
+    "git-upload-pack": "/usr/bin/git-upload-pack",
+    "bzr": "/usr/bin/run-bzr",
+    "hg": "/usr/bin/run-hg",
+    "mtn": "/usr/bin/run-mtn",
+    "svnserve": "/usr/bin/run-svnserve",
+    "scp": "/usr/bin/scp",
+}
+
+if __name__ == '__main__':
+    orig_cmd = os.environ.get('SSH_ORIGINAL_COMMAND')
+    if not orig_cmd:
+        print "Need a command"
+        sys.exit(1)
+    allargs = orig_cmd.split()
+    try:
+        basecmd = os.path.basename(allargs[0])
+        cmd = commands[basecmd]
+    except:
+        sys.stderr.write("Invalid command %s\n" % orig_cmd)
+        sys.exit(2)
+
+    if basecmd in ('git-receive-pack', 'git-upload-pack'):
+        # git repositories need to be parsed specially
+        thearg = ' '.join(allargs[1:])
+        if thearg[0] == "'" and thearg[-1] == "'":
+            thearg = thearg.replace("'","")
+        thearg = thearg.replace("\\'", "")
+        if thearg[:len('/git/')] != '/git/' or not os.path.isdir(thearg):
+            print "Invalid repository %s" % thearg
+            sys.exit(3)
+        allargs = [thearg]
+    elif basecmd in ('scp'):
+        thearg = ' '.join(allargs[1:])
+        firstLetter = allargs[2][0]
+        secondLetter = allargs[2][1]
+        uploadTarget = "/srv/web/releases/%s/%s/%s/" % (firstLetter, secondLetter, allargs[2])
+        if thearg.find('/') != -1:
+            print "scp yourfile-1.2.tar.gz scm.fedorahosted.org:$YOURPROJECT # No trailing /"
+            sys.exit(4)
+        elif not os.path.isdir(uploadTarget):
+            print "http://fedorahosted.org/releases/%s/%s/%s does not exist!" % (firstLetter, secondLetter, allargs[2])
+            sys.exit(5)
+        else:
+            newargs = []
+            newargs.append(allargs[0])
+            newargs.append(allargs[1])
+            newargs.append(uploadTarget)
+            os.execv(cmd, [cmd] + newargs[1:])
+            sys.exit(1)
+    else:
+        allargs = allargs[1:]
+    os.execv(cmd, [cmd] + allargs)
+    sys.exit(1)
