@@ -9,3 +9,8 @@ fas.log
 *.swp
 *.mo 
 fas.egg-info
+build
+gnupg
+locale
+ssl
+
