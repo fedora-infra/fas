@@ -67,7 +67,7 @@ It's presently part of the fedora-infrastructure git repo::
 
 Once you are inside you're fresh checkout, you need to regenerate some files
 that are created by the build script, setup.py::
-  python setup.py build
+  python setup.py egg_info && python setup.py build
 
 This will create the fas.egg-info directory which has metadata about the
 program.  It allows things like the identity provider to work.
@@ -135,10 +135,3 @@ To generate the POT file (located in the po/ subdirectory), run the
 following from the top level directory:
 
   pybabel extract -F pybabel.conf -o po/fas.pot .
-To add a language: tg-admin i18n add <locale> 
-This will create a PO file at po/<locale>/LC_MESSAGES/fas.po
-
-To update (merge) PO files with the POT file, run:
-
-  tg-admin i18n merge
-
