@@ -15,6 +15,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools-devel
 BuildRequires:  TurboGears
+BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
 Requires: python-TurboMail
@@ -47,30 +48,30 @@ Additional scripts that work as clients to the accounts system.
 
 
 %build
-%{__python} setup.py build --install-data='%{_datadir}/fas'
+%{__python} setup.py build --install-data='%{_datadir}'
 
 
 %install
-rm -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --install-data='%{_datadir}/fas' --root %{buildroot}
-mkdir -p %{buildroot}%{_sbindir}
-mkdir -p %{buildroot}%{_sysconfdir}
-mv %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
+%{__rm} -rf %{buildroot}
+%{__python} setup.py install -O1 --skip-build --install-data='%{_datadir}' --root %{buildroot}
+%{__mkdir_p} %{buildroot}%{_sbindir}
+%{__mkdir_p} %{buildroot}%{_sysconfdir}
+%{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
-install -m 640 fas.cfg %{buildroot}%{_sysconfdir}
-install -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
- 
+%{__install} -m 640 fas.cfg %{buildroot}%{_sysconfdir}
+%{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
+%find_lang %{name}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 
 %pre
 /usr/sbin/useradd -c 'Fedora Acocunt System user' -s /sbin/nologin \
-    -r -M -d /usr/share/fas fas &> /dev/null || :
+    -r -M -d %{_datadir}fas fas &> /dev/null || :
 
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc README TODO COPYING fas2.sql
 %{python_sitelib}/*
