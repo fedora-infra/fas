@@ -3,6 +3,7 @@
 import os
 import re
 import glob
+import subprocess
 
 from distutils.command.build import build as _build
 from distutils.command.install_data import install_data as _install_data
@@ -19,6 +20,8 @@ excludeFiles.extend(standard_exclude)
 excludeDataDirs = ['fas/static']
 excludeDataDirs.extend(standard_exclude_directories)
 
+poFiles = filter(os.path.isfile, glob.glob('po/*.po'))
+
 SUBSTFILES = ('fas/config/app.cfg',)
 
 class Build(_build, object):
@@ -29,7 +32,7 @@ class Build(_build, object):
     user_options.extend([('install-data=', None,
         'Installation directory for data files')])
     # These are set in finalize_options()
-    substitutions = {'@DATADIR@': None}
+    substitutions = {'@DATADIR@': None, '@LOCALEDIR@': None}
     subRE = re.compile('(' + '|'.join(substitutions.keys()) + ')+')
 
     def initialize_options(self):
@@ -37,8 +40,12 @@ class Build(_build, object):
         super(Build, self).initialize_options()
 
     def finalize_options(self):
-        self.substitutions['@DATADIR@'] = self.install_data or \
-                '%(top_level_dir)s'
+        if self.install_data:
+            self.substitutions['@DATADIR@'] = self.install_data + '/fas'
+            self.substitutions['@LOCALEDIR@'] = self.install_data + '/locale'
+        else:
+            self.substitutions['@DATADIR@'] = '%(top_level_dir)s'
+            self.substitutions['@LOCALEDIR@'] = '%(top_level_dir)s/../locale'
         super(Build, self).finalize_options()
 
     def run(self):
@@ -64,6 +71,15 @@ class Build(_build, object):
                 outf.writelines(line)
             outf.close()
             f.close()
+        for pofile in poFiles:
+            # Compile PO files
+            lang = os.path.basename(pofile).rsplit('.', 1)[0]
+            dirname = 'locale/%s/LC_MESSAGES/' % lang
+            if not os.path.isdir(dirname):
+                os.makedirs(dirname)
+            # Hardcoded gettext domain: 'fas'
+            mofile = dirname + 'fas' + '.mo'
+            subprocess.call(['/usr/bin/msgfmt', pofile, '-o', mofile])
         super(Build, self).run()
 
 ### FIXME: This method breaks eggs.
@@ -106,6 +122,20 @@ class InstallData(_install_data, object):
             else:
                 self.install_dir = self.temp_data
 
+# fas/static => /usr/share/fas/static
+data_files = [('fas/static', filter(os.path.isfile, glob.glob('fas/static/*'))),
+    ('fas/static/css', filter(os.path.isfile, glob.glob('fas/static/css/*'))),
+    ('fas/static/images', filter(os.path.isfile, glob.glob('fas/static/images/*'))),
+    ('fas/static/images/balloons', filter(os.path.isfile, glob.glob('fas/static/images/balloons/*'))),
+    ('fas/static/js', filter(os.path.isfile, glob.glob('fas/static/js/*'))),
+]
+for langfile in filter(os.path.isfile, glob.glob('locale/*/*/*')):
+    data_files.append((os.path.dirname(langfile), [langfile]))
+
+package_data = find_package_data(where='fas', package='fas', exclude=excludeFiles, exclude_directories=excludeDataDirs,)
+# Even if it doesn't exist yet, has to be in the list to be included in the build.
+package_data['fas.config'].append('app.cfg')
+
 setup(
     name=NAME,
     version=VERSION,
@@ -130,20 +160,8 @@ setup(
     scripts = ['client/fasClient', 'client/restricted-shell'],
     zip_safe=False,
     packages=find_packages(),
-    data_files = (('static', [f for f in glob.glob('fas/static/*') if os.path.isfile(f)]),
-        ('static/css', [f for f in glob.glob('fas/static/css/*') if os.path.isfile(f)]),
-        ('static/images', [f for f in glob.glob('fas/static/images/*') if os.path.isfile(f)]),
-        ('static/images/balloons',
-            [f for f in glob.glob('fas/static/images/balloons/*') if os.path.isfile(f)]),
-        ('static/js', [f for f in glob.glob('fas/static/js/*') if os.path.isfile(f)]),
-        ('locales', [f for f in glob.glob('locales/*') if os.path.isfile(f)]),
-        ('locales/xx/LC_MESSAGES', [f for f in glob.glob('locales/*/*/*') if os.path.isfile(f)]),
-    ),
-    package_data = find_package_data(where='fas',
-        package='fas',
-        exclude=excludeFiles,
-        exclude_directories=excludeDataDirs,
-    ),
+    data_files = data_files,
+    package_data = package_data,
     keywords = [
         # Use keywords if you'll be adding your package to the
         # Python Cheeseshop
