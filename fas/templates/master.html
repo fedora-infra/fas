@@ -6,9 +6,10 @@
   <?python
   _ = lambda text: tg.gettext(text)
   ?>
+  <?python from turbogears import config  ?>
   <head py:match="head" py:attrs="select('@*')">
-    <link href="${tg.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="${tg.url('/static/images/favicon.ico')}" type="image/vnd.microsoft.icon" />
+    <link href="${tg.url('/static/theme/%s/css/style.css') % config.get('theme')}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="${tg.url('/static/theme/%s/images/favicon.ico' % config.get('theme'))}" type="image/vnd.microsoft.icon" />
     <meta py:replace="select('*|text()')" />
     <script type="text/javascript" src="${tg.url('/static/js/prototype.js')}"></script>
     <script type="text/javascript" src="${tg.url('/static/js/prototype.improvements.js')}"></script>
