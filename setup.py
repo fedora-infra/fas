@@ -4,6 +4,7 @@ import os
 import re
 import glob
 import subprocess
+import shutil
 
 from distutils.command.build import build as _build
 from distutils.command.install_data import install_data as _install_data
@@ -71,6 +72,13 @@ class Build(_build, object):
                 outf.writelines(line)
             outf.close()
             f.close()
+
+        # Make empty en.po
+        dirname = 'locale/'
+        if not os.path.isdir(dirname):
+            os.makedirs(dirname)
+        shutil.copy('po/LINGUAS', 'locale/')
+
         for pofile in poFiles:
             # Compile PO files
             lang = os.path.basename(pofile).rsplit('.', 1)[0]

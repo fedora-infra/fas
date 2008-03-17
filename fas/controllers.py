@@ -14,17 +14,13 @@ from fas.cla import CLA
 from fas.json_request import JsonRequest
 from fas.help import Help
 from fas.auth import *
+from fas.util import available_languages
 #from fas.openid_fas import OpenID
 
 import os
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
-def add_custom_stdvars(vars):
-    return vars.update({"gettext": _})
-
-turbogears.view.variable_providers.append(add_custom_stdvars)
 
 def get_locale(locale=None):
     if locale:
@@ -35,6 +31,12 @@ def get_locale(locale=None):
         return turbogears.i18n.utils._get_locale()
 
 config.update({'i18n.get_locale': get_locale})
+
+def add_custom_stdvars(vars):
+  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages()})
+
+turbogears.view.variable_providers.append(add_custom_stdvars)
+
 
 # from fas import json
 # import logging
@@ -138,8 +140,11 @@ class Root(controllers.RootController):
 
     @expose()
     def language(self, locale):
-        locale_key = config.get("i18n.session_key", "locale")
-        cherrypy.session[locale_key] = locale
-        raise redirect(request.headers.get("Referer", "/"))
-
+        if locale not in available_languages():
+            turbogears.flash(_('The language \'%s\' is not available.') % locale)
+            redirect(request.headers.get("Referer", "/"))
+            return dict()
+        turbogears.i18n.set_session_locale(locale)
+        redirect(request.headers.get("Referer", "/"))
+        return dict()
 

@@ -65,13 +65,10 @@
       </div>
       <div class="field">
         <label for="locale">${_('Locale')}:</label>
-        <input type="text" id="locale" name="locale" value="${target.locale}" />
-        <script type="text/javascript">var hb8 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_locale')}'});</script>
-        <!--
-        <select id="locale" name="locale">
-          option py:for="locale in available_locales" value="${locale}" py:attrs="{'selected': target.locale == locale and 'selected' or None}">${locale}</option>
+        <select name="locale" id="locale">
+          <option py:for="language in tg.available_languages" value="${language}" py:attrs="{'selected': tg.lang == language and 'selected' or None}">${language}</option>
         </select>
-        -->
+        <script type="text/javascript">var hb8 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_locale')}'});</script>
         <!--<script type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/locale')}'});</script>-->
       </div>
       <div class="field">

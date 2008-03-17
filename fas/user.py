@@ -21,6 +21,7 @@ from fas.model import Log
 
 from fas import openssl_fas
 from fas.auth import *
+from fas.util import available_languages
 
 from random import Random
 import sha
@@ -65,9 +66,7 @@ class ValidSSHKey(validators.FancyValidator):
         return value.file.read()
     def validate_python(self, value, state):
 #        value = value.file.read()
-        print dir(value)
         keylines = value.split('\n')
-        print "KEYLINES: %s" % keylines
         for keyline in keylines:
             if not keyline:
                 continue
@@ -85,6 +84,15 @@ class ValidUsername(validators.FancyValidator):
         if re.compile(username_blacklist).match(value):
           raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
 
+class ValidLanguage(validators.FancyValidator):
+    '''Make sure that a username isn't blacklisted'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        if value not in available_languages():
+          raise validators.Invalid(_('The language \'%s\' is not available.') % value, value, state)
+
+
 class UserSave(validators.Schema):
     targetname = KnownUser
     human_name = validators.All(
@@ -96,6 +104,7 @@ class UserSave(validators.Schema):
         validators.Email(not_empty=True, strip=True, max=128),
         NonFedoraEmail(not_empty=True, strip=True, max=128),
     )
+    locale = ValidLanguage(not_empty=True, strip=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
@@ -236,7 +245,8 @@ class User(controllers.Controller):
             turbogears.flash(_('You cannot edit %s') % target.username )
             turbogears.redirect('/user/view/%s', target.username)
             return dict()
-        return dict(target=target)
+        languages = available_languages()
+        return dict(target=target, languages=languages)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserSave())

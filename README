@@ -135,3 +135,11 @@ To generate the POT file (located in the po/ subdirectory), run the
 following from the top level directory:
 
   pybabel extract -F pybabel.conf -o po/fas.pot .
+
+Message merging should be done manually using msgmerge at this point.  
+
+  python setup.py build
+
+compiles the PO files and places them where TurboGears will look for
+them.  To enable a language to be available to users, it must be added
+to po/LINGUAS. 

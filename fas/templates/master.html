@@ -4,9 +4,9 @@
   xmlns:py="http://genshi.edgewall.org/"
   py:strip="">
   <?python
+  from turbogears import config
   _ = lambda text: tg.gettext(text)
   ?>
-  <?python from turbogears import config  ?>
   <head py:match="head" py:attrs="select('@*')">
     <link href="${tg.url('/static/theme/%s/css/style.css') % config.get('theme')}" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="${tg.url('/static/theme/%s/images/favicon.ico' % config.get('theme'))}" type="image/vnd.microsoft.icon" />
@@ -68,15 +68,16 @@
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
-          <!--
           <div py:if="tg.identity.anonymous" id="language">
+            <!-- TODO: Should this be available to logged in users to (and actually change their DB entry?) -->
             <form action="${tg.url('/language')}" method="get">
               <label for="locale">${_('Locale:')}</label>
-              <input type="text" name="locale" id="locale" />
+              <select name="locale" id="locale">
+                <option py:for="language in tg.available_languages" value="${language}" py:attrs="{'selected': tg.lang == language and 'selected' or None}">${language}</option>
+              </select>
               <input type="submit" value="${_('OK')}" />
             </form>
           </div>
-          -->
         </div>
         <div id="content">
           <div py:if="tg_flash" class="flash">
