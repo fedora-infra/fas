@@ -19,5 +19,6 @@ include fas/templates/user/*.html
 include fas/templates/user/*.txt
 include fas/templates/*.html
 include fas/templates/*.txt
+include po/LINGUAS
 include po/*.po
 include po/*.pot
