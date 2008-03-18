@@ -141,17 +141,14 @@ def canApplyGroup(person, group, applicant):
     # This is bypassed for people already in the group and for the
     # owner of the group (when they initially make it).
     prerequisite = group.prerequisite
-    # TODO: Make this return more useful info.
+    # TODO: Make this raise more useful info.
     if prerequisite:
-        if prerequisite in person.approved_memberships:
-            pass
-        else:
+        if prerequisite not in applicant.approved_memberships:
             turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
             return False
-    # A user can apply themselves, and FAS admins can apply other people.
-
+    # A user can apply themselves, and group sponsors can apply other people.
     if (person == applicant) or \
-        canAdminGroup(person, group):
+        canSponsorGroup(person, group):
         return True
     else:
         turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)

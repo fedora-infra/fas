@@ -34,6 +34,16 @@ class UnknownGroup(validators.FancyValidator):
         else:
             raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
 
+class ValidGroupType(validators.FancyValidator):
+    '''Make sure that a group type is valid'''
+    def _to_python(self, value, state):
+        return value.strip()
+    def validate_python(self, value, state):
+        if value not in ('system', 'bugzilla','cvs', 'bzr', 'git', \
+            'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
+            'tracking', 'user'):
+            raise validators.Invalid(_("Invalid group type.") % value, value, state)
+
 class GroupCreate(validators.Schema):
 
     name = validators.All(
@@ -47,14 +57,14 @@ class GroupCreate(validators.Schema):
         validators.NotEmpty,
         )
     prerequisite = KnownGroup
-    #group_type = something
+    group_type = ValidGroupType
 
 class GroupSave(validators.Schema):
     groupname = validators.All(KnownGroup, validators.String(max=32, min=3))
     display_name = validators.NotEmpty
     owner = KnownUser
     prerequisite = KnownGroup
-    #group_type = something
+    group_type = ValidGroupType
 
 class GroupApply(validators.Schema):
     groupname = KnownGroup
@@ -231,6 +241,8 @@ class Group(controllers.Controller):
                 if prerequisite:
                     prerequisite = Groups.by_name(prerequisite)
                     group.prerequisite = prerequisite
+                else:
+                    group.prerequisite = None
                 group.joinmsg = joinmsg
                 # Log here
                 session.flush()
