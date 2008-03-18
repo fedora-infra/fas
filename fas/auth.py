@@ -17,49 +17,42 @@ def isAdmin(person):
     try:
         if person.group_roles[admingroup].role_status == 'approved':
             return True
-        else:
-            return False
     except KeyError:
         return False
     return False
     
-def canAdminGroup(person, group):
+def canAdminGroup(person, group, role=None):
     '''
     Returns True if the user is allowed to act as an admin for a group
     '''
     if isAdmin(person) or (group.owner == person):
         return True
-    else:
+    if not role:
         try:
             role = PersonRoles.query.filter_by(group=group, member=person).one()
-        except IndexError:
+        except InvalidRequestError:
             ''' Not in the group '''
             return False
-        except InvalidRequestError:
-            return False
-        if role.role_status == 'approved' and role.role_type == 'administrator':
-            return True
+    if role.role_status == 'approved' and role.role_type == 'administrator':
+        return True
     return False
 
 def canSponsorGroup(person, group):
     '''
     Returns True if the user is allowed to act as a sponsor for a group
     '''
+    if isAdmin(person) or \
+        group.owner == person:
+        return True
     try:
-        if isAdmin(person) or \
-            group.owner == person:
-            return True
-        else:
-            try:
-                role = PersonRoles.query.filter_by(group=group, member=person).one()
-            except IndexError:
-                ''' Not in the group '''
-                return False
-            if role.role_status == 'approved' and role.role_type == 'sponsor':
-                return True
+        role = PersonRoles.query.filter_by(group=group, member=person).one()
+    except InvalidRequestError:
+        ''' Not in the group '''
         return False
-    except:
-        return False
+    if (role.role_status == 'approved' and role.role_type == 'sponsor') \
+        or canAdminGroup(person, group, role):
+        return True
+    return False
 
 def isApproved(person, group):
     '''
@@ -68,8 +61,6 @@ def isApproved(person, group):
     try:
         if person.group_roles[group.name].role_status == 'approved':
             return True
-        else:
-            return False
     except KeyError:
         return False
     return False
@@ -82,8 +73,6 @@ def CLADone(person):
     try:
         if person.group_roles[cla_done_group].role_status == 'approved':
             return True
-        else:
-            return False
     except KeyError:
         return False
     return False
@@ -96,8 +85,7 @@ def canEditUser(person, target):
         return True
     elif isAdmin(person):
         return True
-    else:
-        return False
+    return False
 
 def canCreateGroup(person, group):
     '''
@@ -106,8 +94,7 @@ def canCreateGroup(person, group):
     # Should groupname restrictions go here?
     if isAdmin(person):
         return True
-    else:
-        return False
+    return False
 
 def canEditGroup(person, group):
     '''
@@ -115,8 +102,7 @@ def canEditGroup(person, group):
     '''
     if canAdminGroup(person, group):
         return True
-    else:
-        return False
+    return False
 
 def canViewGroup(person, group):
     '''
@@ -126,12 +112,9 @@ def canViewGroup(person, group):
     # only people that can admin the group can view it
     privilegedViewGroups = config.get('privileged_view_groups')
     if re.compile(privilegedViewGroups).match(group.name):
-        if canAdminGroup(person, group):
-            return True
-        else:
+        if not canAdminGroup(person, group):
             return False
-    else:
-        return True
+    return True
 
 def canApplyGroup(person, group, applicant):
     '''
@@ -150,9 +133,7 @@ def canApplyGroup(person, group, applicant):
     if (person == applicant) or \
         canSponsorGroup(person, group):
         return True
-    else:
-        turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
-        return False
+    return False
 
 def canSponsorUser(person, group, target):
     '''
@@ -161,8 +142,7 @@ def canSponsorUser(person, group, target):
     # This is just here in case we want to add more complex checks in the future 
     if canSponsorGroup(person, group):
         return True
-    else:
-        return False
+    return False
 
 def canRemoveUser(person, group, target):
     '''
@@ -177,8 +157,7 @@ def canRemoveUser(person, group, target):
     elif ((person == target) and (group.user_can_remove == True)) or \
         canSponsorGroup(person, group):
         return True
-    else:
-        return False
+    return False
 
 def canUpgradeUser(person, group, target):
     '''
@@ -194,8 +173,7 @@ def canUpgradeUser(person, group, target):
     elif canSponsorGroup(person, group) and \
         not canSponsorGroup(target, group):
         return True
-    else:
-        return False
+    return False
 
 def canDowngradeUser(person, group, target):
     '''
@@ -210,6 +188,5 @@ def canDowngradeUser(person, group, target):
     elif canSponsorGroup(person, group) and \
         not canAdminGroup(person, group):
         return True
-    else:
-        return False
+    return False
 
