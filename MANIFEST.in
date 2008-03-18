@@ -9,6 +9,10 @@ include fas/static/css/*
 include fas/static/images/*
 include fas/static/images/balloons/*
 include fas/static/js/*
+include fas/static/theme/*
+include fas/static/theme/fas/*
+include fas/static/theme/fas/css/*
+include fas/static/theme/fas/images/*
 include fas/templates/cla/*.html
 include fas/templates/cla/*.txt
 include fas/templates/group/*.html

@@ -61,31 +61,31 @@
     </ul>
     -->
     <ul id="rolespanel">
-      <py:for each="group in sorted(person.memberships, lambda x,y: cmp(x.name, y.name))">
-      <li py:if="auth.canViewGroup(viewer, group)" class="role">
-      <h4>${group.display_name}</h4> (${group.group_type})
+      <py:for each="role in sorted(person.roles, lambda x,y: cmp(x.group.name, y.group.name))">
+      <li py:if="auth.canViewGroup(viewer, role.group)" class="role">
+      <h4><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></h4> (${role.role_type})
       <dl>
         <dt>${_('Status:')}</dt>
         <dd>
-        <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
-        <span class="unapproved" py:if="group in person.unapproved_memberships">${_('None')}</span>
+        <span class="approved" py:if="role.group in person.approved_memberships">${_('Approved')}</span>
+        <span class="unapproved" py:if="role.group in person.unapproved_memberships">${_('None')}</span>
         </dd>
         <py:if test="personal">
         <dt>${_('Tools:')}</dt>
         <dd>
         <ul class="tools">
-          <li><a href="${tg.url('/group/view/%s' % group.name)}">${_('View Group')}</a></li>
-          <li><a href="${tg.url('/group/invite/%s' % group.name)}">${_('Invite a New Member...')}</a></li>
-          <li py:if="auth.canSponsorGroup(person, group)"><a href="${tg.url('/group/view/%s' % group.name)}">${_('Manage Group Membership...')}</a></li>
-          <li py:if="auth.canEditGroup(person, group)"><a href="${tg.url('/group/edit/%s' % group.name)}">${_('Manage Group Details...')}</a></li>
+          <li><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('View Group')}</a></li>
+          <li><a href="${tg.url('/group/invite/%s' % role.group.name)}">${_('Invite a New Member...')}</a></li>
+          <li py:if="auth.canSponsorGroup(person, role.group)"><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('Manage Group Membership...')}</a></li>
+          <li py:if="auth.canEditGroup(person, role.group)"><a href="${tg.url('/group/edit/%s' % role.group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
-        <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
+        <py:if test="auth.canSponsorGroup(person, role.group) and role.group.unapproved_roles">
         <dt>${_('Queue:')}</dt>
         <dd>
         <ul class="queue">
-          <li py:for="role in group.unapproved_roles[:5]">
-          ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(group)s&lt;/strong&gt;.') % {'user': role.member.username, 'group': group.name})}
+          <li py:for="unapproved_role in role.group.unapproved_roles[:5]">
+          ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;strong&gt;%(unapproved_role.group)s&lt;/strong&gt;.') % {'user': unapproved_role.member.username, 'unapproved_role.group': unapproved_role.group.name})}
           </li>
         </ul>
         </dd>
