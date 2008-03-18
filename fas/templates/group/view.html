@@ -81,38 +81,38 @@
           <th py:if="can_sponsor">${_('Action')}</th>
         </tr>
       </thead>
-      <tr py:for="role in sorted([(role.member.username, role) for role in group.roles ])">
-        <td><a href="${tg.url('/user/view/%s' % role[1].member.username)}">${role[1].member.username}</a></td>
-        <td py:if='role[1].sponsor'><a href="${tg.url('/user/view/%s' % role[1].sponsor.username)}">${role[1].sponsor.username}</a></td>
-        <td py:if='not role[1].sponsor'>${_('None')}</td>
-        <td>${role[1].creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
-        <td py:if='role[1].approval'>${role[1].approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
-        <td py:if='not role[1].approval'>${_('None')}</td>
-        <td>${role[1].role_status}</td>
-        <td>${role[1].role_type}</td>
+      <tr py:for="role in sorted(group.roles, lambda x,y: cmp(x.member.username, y.member.username))">
+        <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
+        <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
+        <td py:if='not role.sponsor'>${_('None')}</td>
+        <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
+        <td py:if='role.approval'>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
+        <td py:if='not role.approval'>${_('None')}</td>
+        <td>${role.role_status}</td>
+        <td>${role.role_type}</td>
         <!-- This section includes all action items -->
         <td py:if="can_sponsor">
           <ul class="actions">
-            <li py:if="role[1].role_status == 'unapproved'">
+            <li py:if="role.role_status == 'unapproved'">
             <py:if test="group.needs_sponsor">
-            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role[1].member.username))}">${_('Sponsor')}</a>
+            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Sponsor')}</a>
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_sponsor')}'});</script>
             </py:if>
             <py:if test="not group.needs_sponsor">
-            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role[1].member.username))}">${_('Approve')}</a>
+            <a href="${tg.url('/group/sponsor/%s/%s' % (group.name, role.member.username))}">${_('Approve')}</a>
             <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_approve')}'});</script>
             </py:if>
             </li>
             <li>
-            <a href="${tg.url('/group/remove/%s/%s' % (group.name, role[1].member.username))}">${_('Remove')}</a>
+            <a href="${tg.url('/group/remove/%s/%s' % (group.name, role.member.username))}">${_('Remove')}</a>
             <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
             </li>
-            <li py:if="role[1].role_type != 'administrator' or auth.canDowngradeUser(person, group, role[1].member)">
-            <a href="${tg.url('/group/upgrade/%s/%s' % (group.name, role[1].member.username))}">${_('Upgrade')}</a>
+            <li py:if="role.role_type != 'administrator' or auth.canDowngradeUser(person, group, role.member)">
+            <a href="${tg.url('/group/upgrade/%s/%s' % (group.name, role.member.username))}">${_('Upgrade')}</a>
             <script type="text/javascript">var hb4 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_upgrade')}'});</script>
             </li>
-            <li py:if="role[1].role_type != 'user' or auth.canDowngradeUser(person, group, role[1].member)">
-            <a href="${tg.url('/group/downgrade/%s/%s' % (group.name, role[1].member.username))}">${_('Downgrade')}</a>
+            <li py:if="role.role_type != 'user' or auth.canDowngradeUser(person, group, role.member)">
+            <a href="${tg.url('/group/downgrade/%s/%s' % (group.name, role.member.username))}">${_('Downgrade')}</a>
             <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_downgrade')}'});</script>
             </li>
           </ul>
