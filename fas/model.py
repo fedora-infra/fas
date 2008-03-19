@@ -356,7 +356,8 @@ class GroupRoles(SABase):
 
 class BugzillaQueue(SABase):
     '''Queued up changes that need to be applied to bugzilla.'''
-    pass
+    def __repr__(cls):
+        return "BugzillaQueue(%s,%s,%s,%s)" % (cls.person.username, cls.email, cls.group.name, cls.action)
 
 class Log(SABase):
     '''Write simple logs of changes to the database.'''
@@ -454,8 +455,8 @@ mapper(GroupRoles, GroupRolesTable, properties = {
         primaryjoin = GroupRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
-    'group': relation(Groups, backref = 'pending'),
-    'person': relation(People, backref = 'pending'),
+    'group': relation(Groups, lazy = False, backref = 'pending'),
+    'person': relation(People, lazy = False, backref = 'pending'),
     ### TODO: test to be sure SQLAlchemy only loads the backref on demand
     'author': relation(People, backref='changes')
     })

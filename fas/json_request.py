@@ -6,6 +6,7 @@ import sqlalchemy
 from fas.model import People
 from fas.model import Groups
 from fas.model import Log
+from fas.model import BugzillaQueue
 
 from fas.auth import *
 
@@ -37,8 +38,8 @@ class JsonRequest(controllers.Controller):
         try:
             person = People.by_username(username)
             person.jsonProps = {
-                    'People': ('approved_memberships', 'unapproved_memberships')
-                    }
+                'People': ('approved_memberships', 'unapproved_memberships')
+                }
             return dict(success=True, person=person)
         except InvalidRequestError:
             return dict(success=False)
