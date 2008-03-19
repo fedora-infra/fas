@@ -59,7 +59,7 @@
         <div id="sidebar">
           <ul>
             <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
-            <div py:if="not tg.identity.anonymous and 'accounts' in tg.identity.groups" py:strip=''>
+            <div py:if="not tg.identity.anonymous and ('sysadmin' in tg.identity.groups or 'accounts' in tg.identity.groups)" py:strip=''>
               <!-- TODO: Make these use auth.py -->
               <li><a href="${tg.url('/group/new')}">${_('New Group')}</a></li>
               <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>

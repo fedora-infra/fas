@@ -94,6 +94,14 @@ def canCreateGroup(person, group):
     # Should groupname restrictions go here?
     if isAdmin(person):
         return True
+    try:
+        # isApproved is more appropriate here, but that would require an extra group.by_name.  
+        # I need to think over the efficiency of auth.py.  Maybe something in model.py so that
+        # Any given query should only be called once...
+        if person.group_roles['sysadmin'].role_status == 'approved':
+            return True
+    except KeyError:
+        return False
     return False
 
 def canEditGroup(person, group):
