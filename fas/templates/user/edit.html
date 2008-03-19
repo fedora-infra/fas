@@ -63,7 +63,7 @@
         </select>
         <script type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_timezone')}'});</script>
       </div>
-      <div class="field">
+      <div py:if="tg.available_languages" class="field">
         <label for="locale">${_('Locale')}:</label>
         <select name="locale" id="locale">
           <option py:for="language in tg.available_languages" value="${language}" py:attrs="{'selected': tg.lang == language and 'selected' or None}">${language}</option>

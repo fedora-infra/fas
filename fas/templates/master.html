@@ -68,7 +68,7 @@
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
-          <div py:if="tg.identity.anonymous" id="language">
+          <div py:if="tg.identity.anonymous and tg.available_languages" id="language">
             <!-- TODO: Should this be available to logged in users to (and actually change their DB entry?) -->
             <form action="${tg.url('/language')}" method="get">
               <label for="locale">${_('Locale:')}</label>
