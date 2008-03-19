@@ -103,7 +103,7 @@ class Root(controllers.RootController):
                 # When called as a json method, doesn't make any sense to
                 # redirect to a page.  Returning the logged in identity
                 # is better.
-                return dict(user = identity.current.user)
+                return dict(user=identity.current.user)
             if not forward_url:
                 forward_url = turbogears.url('/')
             raise redirect(forward_url)

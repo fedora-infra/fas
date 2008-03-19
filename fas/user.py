@@ -146,6 +146,12 @@ class UserView(validators.Schema):
 class UserEdit(validators.Schema):
     targetname = KnownUser
 
+class SendToken(validators.Schema):
+    username = KnownUser
+
+class VerifyPass(validators.Schema):
+    username = KnownUser
+
 def generate_password(password=None, length=16):
     ''' Generate Password '''
     secret = {} # contains both hash and password
@@ -499,7 +505,6 @@ forward to working with you!
             turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
         return dict()
 
-    #TODO: Validate
     @error_handler(error)
     @expose(template="fas.templates.user.resetpass")
     def sendtoken(self, username, email, encrypted=False):
@@ -568,24 +573,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict()
 
     @error_handler(error)
-    @expose(template="fas.templates.user.newpass")
-    # TODO: Validator
-    def newpass(self, username, token, password=None, passwordcheck=None):
-        person = People.by_username(username)
-        if not person.passwordtoken:
-            turbogears.flash(_('You do not have any pending password changes.'))
-            turbogears.redirect('/login')
-            return dict()
-        if person.passwordtoken != token:
-            person.emailtoken = ''
-            turbogears.flash(_('Invalid password change token.'))
-            turbogears.redirect('/login')
-            return dict()
-        return dict(person=person, token=token)
-
-    @error_handler(error)
     @expose(template="fas.templates.user.verifypass")
-    # TODO: Validator
+    @validate(validators=VerifyPass())
     def verifypass(self, username, token, cancel=False):
         person = People.by_username(username)
         if not person.passwordtoken:
