@@ -159,6 +159,14 @@ identity.saprovider.model.group="fas.model.Groups"
 static_filter.on = True
 static_filter.dir = "@DATADIR@/static/robots.txt"
 
+[/fedora-server-ca.cert]
+static_filter.on = True
+static_filter.dir = "@DATADIR@/static/fedora-server-ca.cert"
+
+[/fedora-upload-ca.cert]
+static_filter.on = True
+static_filter.dir = "@DATADIR@/static/fedora-upload-ca.cert"
+
 [/static]
 static_filter.on = True
 static_filter.dir = "@DATADIR@/static"
