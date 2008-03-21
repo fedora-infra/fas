@@ -340,6 +340,11 @@ class Groups(SABase):
         '''
         return cls.query.filter_by(name=name).one()
 
+    def delete(cls):
+        for role in cls.roles:
+            session.delete(role)
+        session.delete(cls)
+
     def __repr__(cls):
         return "Groups(%s,%s)" % (cls.name, cls.display_name)
 
