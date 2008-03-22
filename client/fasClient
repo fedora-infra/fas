@@ -476,21 +476,21 @@ class MakeShellAccounts(BaseClient):
         for group in self.groups:
             name = group['name']
             members = {}
-            members['member'] = []
+            members['members'] = []
+            members['sponsors'] = []
+            members['administrators'] = []
             for membership in self.memberships[name]:
                 role_type = membership['role_type']
                 person = self.usernames[membership['person_id']]
+                members['members'].append(person)
                 if role_type == 'user':
-                    ''' Legacy support '''
-                    members['member'].append(person)
                     continue
-                members['member'].append(person)
-                try:
-                    members[role_type].append(person)
-                except KeyError:
-                    members[role_type] = [person]
+                members['sponsors'].append(person)
+                if role_type == 'sponsor':
+                    continue
+                members['administrators'].append(person)
             for role in members:
-                email_file.write("%s-%ss: %s\n" % (name, role, ','.join(members[role])))
+                email_file.write("%s-%s: %s\n" % (name, role, ','.join(members[role])))
         email_file.close()
                     
 def enable():
