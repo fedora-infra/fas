@@ -225,7 +225,9 @@ cluster visit_expiry_idx on visit;
 
 create table visit_identity (
     visit_key CHAR(40) primary key references visit(visit_key),
-    user_id INTEGER references people(id)
+    user_id INTEGER references people(id),
+    -- True if the user was authenticated using SSL
+    ssl boolean
 );
 
 --

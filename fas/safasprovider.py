@@ -32,6 +32,8 @@ from turbogears.identity.saprovider import SqlAlchemyIdentity, \
 from turbogears.database import session
 from turbogears.util import load_class
 
+import cherrypy
+
 import gettext
 t = gettext.translation('python-fedora', '/usr/share/locale', fallback=True)
 _ = t.ugettext
@@ -64,10 +66,20 @@ class SaFasIdentity(SqlAlchemyIdentity):
         # Attempt to load the user. After this code executes, there *WILL* be
         # a _user attribute, even if the value is None.
         ### TG: Difference: Can't use the inherited method b/c of global var
+
         visit = visit_identity_class.query.filter_by(visit_key = self.visit_key).first()
         if not visit:
             self._user = None
             return None
+
+        # I hope this is a safe place to double-check the SSL variables.
+        # TODO: Double check my logic with this - is it unnecessary to
+        # check that the username matches up?
+        if visit.ssl:
+            if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
+                session.delete(visit)
+                return None
+
         self._user = user_class.query.get(visit.user_id)
         return self._user
     user = property(_get_user)
@@ -146,13 +158,20 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
             groups: a set of group IDs
             permissions: a set of permission IDs
         '''
+        using_ssl = False
+        if not user_name:
+            if cherrypy.request.headers['X-Client-Verify'] == 'SUCCESS':
+                user_name = cherrypy.request.headers['X-Client-CN']
+                using_ssl = True
         user = user_class.query.filter_by(username=user_name).first()
         if not user:
             log.warning("No such user: %s", user_name)
             return None
-        if not self.validate_password(user, user_name, password):
-            log.info("Passwords don't match for user: %s", user_name)
-            return None
+
+        if not using_ssl:
+            if not self.validate_password(user, user_name, password):
+                log.info("Passwords don't match for user: %s", user_name)
+                return None
 
         log.info("associating user (%s) with visit (%s)", user.username,
                   visit_key)
@@ -162,8 +181,10 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
             link = visit_identity_class()
             link.visit_key = visit_key
             link.user_id = user.id
+            link.ssl = using_ssl
         else:
             link.user_id = user.id
+            link.ssl = using_ssl
         session.flush()
         return SaFasIdentity(visit_key, user)
 

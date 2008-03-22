@@ -618,7 +618,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8')
+    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
     def gencert(self):
       username = turbogears.identity.current.user_name
       person = People.by_username(username) 
@@ -647,8 +647,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
           cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
           certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
           keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-          return dict(cert=certdump, key=keydump)
+          return dict(cla=True, cert=certdump, key=keydump)
       else:
+          if self.jsonRequest():
+              return dict(cla=False)
           turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
           turbogears.redirect('/cla/')
 

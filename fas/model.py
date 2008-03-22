@@ -31,7 +31,7 @@ from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy.orm import relation
 # import some datatypes for table columns from SQLAlchemy
 # (see http://www.sqlalchemy.org/docs/04/types.html for more)
-from sqlalchemy import String, Unicode, Integer, DateTime
+from sqlalchemy import String, Unicode, Integer, DateTime, Boolean
 # A few sqlalchemy tricks:
 # Allow viewing foreign key relations as a dictionary
 from sqlalchemy.orm.collections import column_mapped_collection, attribute_mapped_collection
@@ -90,7 +90,8 @@ visits_table = Table('visit', metadata,
 visit_identity_table = Table('visit_identity', metadata,
     Column('visit_key', String(40), ForeignKey('visit.visit_key'),
         primary_key=True),
-    Column('user_id', Integer, ForeignKey('people.id'), index=True)
+    Column('user_id', Integer, ForeignKey('people.id'), index=True),
+    Column('ssl', Boolean)
 )
 
 #
