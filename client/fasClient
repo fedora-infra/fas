@@ -250,6 +250,7 @@ class MakeShellAccounts(BaseClient):
 
     def install_aliases_txt(self):
         move(self.temp + '/aliases', prefix + '/etc/aliases')
+        os.system("newaliases > /dev/null")
 
     def passwd_text(self, people=None):
         i = 0
