@@ -377,7 +377,7 @@ class MakeShellAccounts(BaseClient):
 
     def people_list(self, search='*'):
         params = {'search' : search}
-        self.people = self.send_request('user/list', auth=True, input=params)['people']
+        self.people = self.send_request('user/list/*', auth=True, input=params)['people']
 
     def email_list(self, search='*'):
         params = {'search' : search}

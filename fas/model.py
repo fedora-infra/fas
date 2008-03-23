@@ -269,33 +269,35 @@ class People(SABase):
         SABase.__json__() to find out how to set jsonProps to handle those.
         '''
         props = super(People, self).__json__()
-        if not identity.in_group('admin'):
-            # Only admins can see internal_comments
-            del props['internal_comments']
-            del props['emailtoken']
-            del props['passwordtoken']
-            if identity.current.anonymous:
-                # Anonymous users can't see any of these
-                del props['email']
-                del props['unverified_email']
-                del props['ssh_key']
-                del props['gpg_keyid']
-                del props['affiliation']
-                del props['certificate_serial']
-                del props['password']
-                del props['password_changed']
-                del props['postal_address']
-                del props['telephone']
-                del props['facsimile']
-            # TODO: Are we still doing the fas-system thing?  I think I saw a systems users somewhere...
-            elif not identity.current.user.username == self.username and 'fas-system' not in identity.current.groups:
-                # Only an admin or the user themselves can see these fields
-                del props['unverified_email']
-                del props['password']
-                del props['postal_address']
-                del props['password_changed']
-                del props['telephone']
-                del props['facsimile']
+
+        if identity.current.anonymous:
+            # Anonymous users can't see any of these
+            del props['email']
+            del props['unverified_email']
+            del props['ssh_key']
+            del props['gpg_keyid']
+            del props['affiliation']
+            del props['certificate_serial']
+            del props['password']
+            del props['password_changed']
+            del props['postal_address']
+            del props['telephone']
+            del props['facsimile']
+
+        if not identity.in_group('fas-system'):
+            if not identity.in_group('accounts'):
+                # Only admins can see internal_comments
+                del props['internal_comments']
+                del props['emailtoken']
+                del props['passwordtoken']
+                if identity.current.user.username != self.username:
+                    # Only system accounts, admins, or the user themselves can see these fields
+                    del props['unverified_email']
+                    del props['password']
+                    del props['postal_address']
+                    del props['password_changed']
+                    del props['telephone']
+                    del props['facsimile']
 
         return props
 
