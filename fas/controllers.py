@@ -27,35 +27,11 @@ ENTRYPOINT = 'fas.plugins'
 PLUGIN_DIR = config.get('plugin_dir')
 #print PLUGIN_DIR
 possible_plugins=os.listdir(PLUGIN_DIR)
-for dir in possible_plugins:
-    if dir.find('.py') == -1:
-        print PLUGIN_DIR + dir
-        sys.path.insert(0, PLUGIN_DIR + dir)
+for directory in possible_plugins:
+    if directory.find('.py') == -1:
+        print PLUGIN_DIR + directory
+        sys.path.insert(0, PLUGIN_DIR + directory)
 sys.path.insert(0, PLUGIN_DIR)
-
-
-# Load the plugins.  This needs cleanup
-def init_plugins():
-    modules = []
-    for dir in possible_plugins:
-        if dir.find('.py') == -1:
-            pkg_resources.working_set.add_entry(PLUGIN_DIR + dir)
-            modules.append(PLUGIN_DIR + dir)
-    pkg_env = pkg_resources.Environment(modules)
-    plugins = {}
-    for name in pkg_env:
-        egg = pkg_env[name][0]
-        egg.activate()
-        modules = []
-        for name in egg.get_entry_map(ENTRYPOINT):
-            entry_point = egg.get_entry_info(ENTRYPOINT, name)
-            cls = entry_point.load()
-            if not hasattr(cls, 'capabilities'):
-                cls.capabilities = []
-            instance = cls()
-            for c in cls.capabilities:
-                plugins.setdefault(c, []).append(instance)
-    return plugins
 
 
 def get_locale(locale=None):
@@ -76,10 +52,17 @@ turbogears.view.variable_providers.append(add_custom_stdvars)
 class Plugins(controllers.Controller):
     def __init__(self):
         ''' Create this plugins thing '''
+        pass
+
     @expose(format='json')
     def default(self, pluginName, *args, **kwargs):
-        plugins = init_plugins()
-        return plugins[pluginName][0].__getattribute__(args[0])()
+        for pluginEntry in pkg_resources.iter_entry_points('fas.plugins',
+                pluginName):
+            pluginClass = pluginEntry.load()
+            plugin = pluginClass()
+            if hasattr(plugin, args[0]):
+                return plugin.__getattribute__(args[0])()
+        return dict(message='An Error has occurred')
 
 # from fas import json
 # import logging
