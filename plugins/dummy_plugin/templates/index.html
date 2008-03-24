@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  import genshi.template.plugin
+  master = genshi.template.plugin.MarkupTemplateEnginePlugin().load_template('fas.templates.master')
+  ?>
+  <xi:include href="${master.filename}" />
   <head>
     <title>${_('Dummy Plugin!')}</title>
   </head>
