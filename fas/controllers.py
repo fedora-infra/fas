@@ -7,6 +7,7 @@ from turbogears import exception_handler
 import turbogears
 import cherrypy
 import time
+import pkg_resources
 
 from fas.user import User
 from fas.group import Group
@@ -21,6 +22,28 @@ import os
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+ENTRYPOINT = 'fas.plugins'
+PLUGIN_DIR = '/home/mmcgrath/git/fas/plugins/dummy_plugin/'
+
+def init_plugins():
+    pkg_resources.working_set.add_entry(PLUGIN_DIR)
+    pkg_env = pkg_resources.Environment([PLUGIN_DIR])
+    plugins = {}
+    for name in pkg_env:
+        egg = pkg_env[name][0]
+        egg.activate()
+        modules = []
+        for name in egg.get_entry_map(ENTRYPOINT):
+            entry_point = egg.get_entry_info(ENTRYPOINT, name)
+            cls = entry_point.load()
+            if not hasattr(cls, 'capabilities'):
+                cls.capabilities = []
+            instance = cls()
+            for c in cls.capabilities:
+                plugins.setdefault(c, []).append(instance)
+    return plugins
+
 
 def get_locale(locale=None):
     if locale:
@@ -37,6 +60,12 @@ def add_custom_stdvars(vars):
 
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
+class Plugins(controllers.Controller):
+    def __init__(self):
+        ''' Create this plugins thing '''
+    @expose(format='json')
+    def default(self, pluginName, *args, **kwargs):
+        return init_plugins()[pluginName][0].__getattribute__(args[0])()
 
 # from fas import json
 # import logging
@@ -52,6 +81,8 @@ class Root(controllers.RootController):
     cla = CLA()
     json = JsonRequest()
     help = Help()
+    #plugins = init_plugins()['dummy_plugin'][0]
+    plugins = Plugins()
     #openid = OpenID()
 
     # TODO: Find a better place for this.

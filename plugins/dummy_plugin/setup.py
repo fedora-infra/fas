@@ -11,7 +11,7 @@ excludeDataDirs = ['']
 excludeDataDirs.extend(standard_exclude_directories)
 
 package_data = find_package_data(where='./', package='dummy_plugin', exclude=excludeFiles, exclude_directories=excludeDataDirs,)
-data_files = [('dummy_plugin.py', filter(os.path.isfile, glob.glob('dummy_plugin.py'))),
+data_files = [('__init__.py', filter(os.path.isfile, glob.glob('__init__.py'))),
               ('templates', filter(os.path.isfile, glob.glob('templates/*html')))
 ]
 setup(
@@ -26,11 +26,8 @@ setup(
     author_email = "mmcgrath@redhat.com",
     description = "Sample plugin for FAS2",
     entry_points = {
-            'console_scripts': (
-                'start-fas = fas.commands:start',
-            ),
-            'turbogears.identity.provider': (
-                'safas3 = fas.safasprovider:SaFasIdentityProvider',
+            'fas.plugins': (
+                'Dummy = dummy_plugin:DummyPlugin',
             )
     }
 )
