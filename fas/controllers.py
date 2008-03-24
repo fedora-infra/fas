@@ -24,11 +24,22 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 ENTRYPOINT = 'fas.plugins'
-PLUGIN_DIR = '/home/mmcgrath/git/fas/plugins/dummy_plugin/'
+PLUGIN_DIR = config.get('plugin_dir')
+#print PLUGIN_DIR
+possible_plugins=os.listdir(PLUGIN_DIR)
+for dir in possible_plugins:
+    if dir.find('.py') == -1:
+        print PLUGIN_DIR + dir
+        sys.path.insert(0, PLUGIN_DIR + dir)
+sys.path.insert(0, PLUGIN_DIR)
 
+
+# Load the plugins.  This needs cleanup
 def init_plugins():
-    pkg_resources.working_set.add_entry(PLUGIN_DIR)
-    pkg_env = pkg_resources.Environment([PLUGIN_DIR])
+    for dir in possible_plugins:
+        if dir.find('.py') == -1:
+            pkg_resources.working_set.add_entry(PLUGIN_DIR + dir)
+            pkg_env = pkg_resources.Environment([PLUGIN_DIR + dir])
     plugins = {}
     for name in pkg_env:
         egg = pkg_env[name][0]
@@ -65,7 +76,8 @@ class Plugins(controllers.Controller):
         ''' Create this plugins thing '''
     @expose(format='json')
     def default(self, pluginName, *args, **kwargs):
-        return init_plugins()[pluginName][0].__getattribute__(args[0])()
+        plugins = init_plugins()
+        return plugins[pluginName][0].__getattribute__(args[0])()
 
 # from fas import json
 # import logging
