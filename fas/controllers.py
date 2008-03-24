@@ -36,10 +36,12 @@ sys.path.insert(0, PLUGIN_DIR)
 
 # Load the plugins.  This needs cleanup
 def init_plugins():
+    modules = []
     for dir in possible_plugins:
         if dir.find('.py') == -1:
             pkg_resources.working_set.add_entry(PLUGIN_DIR + dir)
-            pkg_env = pkg_resources.Environment([PLUGIN_DIR + dir])
+            modules.append(PLUGIN_DIR + dir)
+    pkg_env = pkg_resources.Environment(modules)
     plugins = {}
     for name in pkg_env:
         egg = pkg_env[name][0]
