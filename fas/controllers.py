@@ -24,17 +24,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-ENTRYPOINT = 'fas.plugins'
-PLUGIN_DIR = config.get('plugin_dir')
-#print PLUGIN_DIR
-possible_plugins=os.listdir(PLUGIN_DIR)
-for directory in possible_plugins:
-    if directory.find('.py') == -1:
-        print PLUGIN_DIR + directory
-        sys.path.insert(0, PLUGIN_DIR + directory)
-sys.path.insert(0, PLUGIN_DIR)
-
-
 def get_locale(locale=None):
     if locale:
         return locale
@@ -56,16 +45,12 @@ class Plugins(controllers.Controller):
 
     @expose(format='json')
     def default(self, pluginName, *args, **kwargs):
-        from turbogears.util import load_class
         for pluginEntry in pkg_resources.iter_entry_points('fas.plugins',
                 pluginName):
             pluginClass = pluginEntry.load()
             plugin = pluginClass()
             if hasattr(plugin, args[0]):
                 return plugin.__getattribute__(args[0])()
-        plugin = load_class(pluginName)
-        if hasattr(plugin, args[0]):
-            return plugin.__getattribute__(args[0])()
         return dict(message='An Error has occurred')
 
 # from fas import json
