@@ -26,11 +26,9 @@ sys.setdefaultencoding('utf-8')
 
 ENTRYPOINT = 'fas.plugins'
 PLUGIN_DIR = config.get('plugin_dir')
-#print PLUGIN_DIR
 possible_plugins=os.listdir(PLUGIN_DIR)
 for directory in possible_plugins:
     if directory.find('.py') == -1:
-        print PLUGIN_DIR + directory
         sys.path.insert(0, PLUGIN_DIR + directory)
 sys.path.insert(0, PLUGIN_DIR)
 
