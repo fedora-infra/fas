@@ -46,8 +46,7 @@ def get_locale(locale=None):
 config.update({'i18n.get_locale': get_locale})
 
 def add_custom_stdvars(vars):
-  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages()})
-
+  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
 class Plugins(controllers.Controller):
@@ -99,7 +98,7 @@ class Root(controllers.RootController):
                 # hack until we can figure out something better.
                 return dict()
             turbogears.redirect('/home')
-        return dict(now=time.ctime(), version=release.VERSION)
+        return dict(now=time.ctime())
 
     @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
@@ -107,7 +106,7 @@ class Root(controllers.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
-        return dict(person=person, cla=cla, version=release.VERSION)
+        return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")
     def about(self):
