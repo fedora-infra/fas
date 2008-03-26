@@ -7,6 +7,7 @@
     <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
+    <h1>Fedora Account System v${version}</h1>
     <?python from fas import auth ?>
     <h2>${_('Todo queue:')}</h2>
     <py:for each="group in sorted(person.memberships)">

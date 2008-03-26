@@ -9,6 +9,7 @@ import cherrypy
 import time
 import pkg_resources
 
+from fas import release
 from fas.user import User
 from fas.group import Group
 from fas.cla import CLA
@@ -94,7 +95,7 @@ class Root(controllers.RootController):
                 # hack until we can figure out something better.
                 return dict()
             turbogears.redirect('/home')
-        return dict(now=time.ctime())
+        return dict(now=time.ctime(), version=release.VERSION)
 
     @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
@@ -102,7 +103,7 @@ class Root(controllers.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
-        return dict(person=person, cla=cla)
+        return dict(person=person, cla=cla, version=release.VERSION)
 
     @expose(template="fas.templates.about")
     def about(self):
