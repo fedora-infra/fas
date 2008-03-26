@@ -15,7 +15,7 @@
     <dd>
     <ul class="queue">
       <li py:for="role in group.unapproved_roles[:5]">
-      ${Markup(_('&lt;strong&gt;%(user)s&lt;/strong&gt; requests approval to join &lt;a href="group/view/%(group)s"&gt;%(group)s&lt;/a&gt;.') % {'user': role.member.username, 'group': group.name, 'group': group.name})}
+      ${Markup(_('&lt;strong&gt;&lt;a href="%(userview)s"&gt;%(user)s&lt;/a&gt;&lt;/strong&gt; requests approval to join &lt;a href="group/view/%(group)s"&gt;%(group)s&lt;/a&gt;.') % {'userview': tg.url('/user/view/%s') % role.member.username, 'user': role.member.username, 'group': group.name, 'group': group.name})}
       </li>
     </ul>
     </dd>
