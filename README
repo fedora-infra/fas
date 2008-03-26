@@ -82,19 +82,19 @@ The last thing to do is configure the application to use your settings.
 You'll need to edit dev.cfg and change the following lines::
   mail.on = False # Set to True if you want to test notification sending
   mail.server = 'localhost' # Your mail server
-  sqlalchemy.dburi = "postgres://fedora:pass@localhost/fas2" # Fill in the
-  # password you gave in the createuser step and the db host if it's not
-  # localhost.
+  # Fill in the password you gave in the createuser step and the db host if
+  # it's not localhost.
+  sqlalchemy.dburi = "postgres://fedora:pass@localhost/fas2"
   server.socket_port=8088 # Change if you don't want to run on port 8088
-  base_url_filter.base_url = "http://localhost:8088/fas" # Change the port if
-  # you changed server.socket_port above.
+  # Change the port if you changed server.socket_port above.
+  base_url_filter.base_url = "http://localhost:8088/accounts"
 
 You may also need to change some of the directories and settings in
 fas/config/app.cfg.  
 
 You should then be able to start the server and test things out::
-  ./start-fas.py
-  # browse to http://localhost:8088/fas/
+  ./start-fas
+  # browse to http://localhost:8088/accounts/
 
 The default administrative user is "admin" with password "admin"
 
