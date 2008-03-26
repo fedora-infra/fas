@@ -24,7 +24,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-ef get_locale(locale=None):
+def get_locale(locale=None):
     if locale:
         return locale
     try:
