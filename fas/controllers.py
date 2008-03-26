@@ -44,14 +44,25 @@ class Plugins(controllers.Controller):
         pass
 
     @expose(format='json')
+    def index(self):
+        '''List available plugins'''
+        return dict(message='Eventually this should return a list of available plugins')
+
+    @expose(format='json')
     def default(self, pluginName, *args, **kwargs):
+        if len(args):
+            method = args[0]
+        else:
+            method = 'index'
         for pluginEntry in pkg_resources.iter_entry_points('fas.plugins',
                 pluginName):
             pluginClass = pluginEntry.load()
             plugin = pluginClass()
-            if hasattr(plugin, args[0]):
-                return plugin.__getattribute__(args[0])()
-        return dict(message='An Error has occurred')
+            if hasattr(plugin, method):
+                return plugin.__getattribute__(method)()
+            else:
+                return dict(message='No method named %(method)s in plugin %(plugin)s' % {'method': method, 'plugin': pluginName})
+        return dict(message='Plugin %(plugin)s not found' % {'plugin': pluginName})
 
 # from fas import json
 # import logging
