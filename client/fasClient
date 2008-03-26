@@ -99,6 +99,11 @@ parser.add_option('-a', '--aliases',
                      default = False,
                      action = 'store_true',
                      help = _('Sync mail aliases'))
+parser.add_option('--debug',
+                     dest = 'debug',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Enable debugging messages'))
 
 
 (opts, args) = parser.parse_args()
@@ -377,7 +382,7 @@ class MakeShellAccounts(BaseClient):
 
     def people_list(self, search='*'):
         params = {'search' : search}
-        self.people = self.send_request('user/list/*', auth=True, input=params)['people']
+        self.people = self.send_request('user/list', auth=True, input=params)['people']
 
     def email_list(self, search='*'):
         params = {'search' : search}
@@ -542,7 +547,7 @@ if __name__ == '__main__':
 
     if opts.install:
         try:
-            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), False)
+            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)
@@ -566,7 +571,7 @@ if __name__ == '__main__':
         fas.rm_tempdir()
     if opts.aliases:
         try:
-            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), False)
+            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)
