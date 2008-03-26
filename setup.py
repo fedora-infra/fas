@@ -210,6 +210,9 @@ setup(
             ),
             'turbogears.identity.provider': (
                 'safas3 = fas.safasprovider:SaFasIdentityProvider',
-            )
+            ),
+            'fas.plugins': (
+                'dummy_plugin = plugins.dummy_plugin:DummyPlugin',
+            ),
     }
 )
