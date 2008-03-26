@@ -1,5 +1,6 @@
 # Dummy Plugin for FAS2
 __requires__='TurboGears >= 1.0.4'
+
 from setuptools import setup, find_packages
 from turbogears.finddata import find_package_data, standard_exclude, \
         standard_exclude_directories

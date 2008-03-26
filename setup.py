@@ -1,5 +1,5 @@
 #!/usr/bin/python -tt
-
+__requires__='TurboGears >= 1.0.4'
 import os
 import re
 import glob
