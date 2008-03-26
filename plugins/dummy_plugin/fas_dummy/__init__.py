@@ -13,7 +13,7 @@ class DummyPlugin(controllers.Controller):
     def __init__(self):
         '''Create a Dummy Controller.'''
 
-    @expose(template="plugins.dummy_plugin.templates.index")
+    @expose(template="fas_dummy.templates.index")
     def index(self):
         value = "my Val"
         return dict(value=value)

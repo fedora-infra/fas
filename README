@@ -7,7 +7,7 @@ Fedora Account System
 	  Toshio Kuratomi
 :Contact: fedora-infrastructure-list@redhat.com
 :Date: Wed, 26 March, 2008
-:Version: 0.2
+:README Version: 0.2
 
 The Fedora Account System holds information on Fedora Contributors to give
 them access to the wonderful things that Fedora has.
@@ -155,7 +155,7 @@ steps.  When installed things will be much simpler::
   cd plugins/dummy_plugin
   python setup.py egg_info
   cd ../
-  export PYTHONPATH=${PYTHONPATH}:`pwd`:`pwd`/dummy_plugin
+  export PYTHONPATH=${PYTHONPATH}:`pwd`/dummy_plugin
   cd ../
   ./start-fas
 
@@ -163,3 +163,7 @@ You should then be able to browse to::
   http://localhost:8088/accounts/plugins/Dummy/index
 
 and see some simple output from the dummy plugin.
+
+In a real install, the plugin will be installed to a directory already on your
+PYTHONPATH (for instance, site-packages) so there won't be a need to set the
+PYTHONPATH variable explicitly.
