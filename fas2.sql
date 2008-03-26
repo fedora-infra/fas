@@ -66,7 +66,7 @@ CREATE TABLE people (
     timezone TEXT null DEFAULT 'UTC',
     latitude numeric,
     longitude numeric,
-    check (status in ('active', 'vacation', 'inactive', 'pinged'))
+    check (status in ('active', 'vacation', 'inactive', 'pinged', 'expired', 'admin_disabled'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 
