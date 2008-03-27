@@ -478,6 +478,7 @@ into the e-mail aliases within an hour.
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
+    @expose(allow_json=True)
     def dump(self, groupname=None):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -494,7 +495,11 @@ into the e-mail aliases within an hour.
                 turbogears.redirect('/group/list')
                 return dict()
 
-        return dict(people=people)
+        # We filter this so that sending information via json is quick(er)
+        filteredPeople = sorted([(p.username, p.email, p.human_name)
+            for p in people])
+
+        return dict(people=filteredPeople)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())
