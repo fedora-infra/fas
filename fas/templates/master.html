@@ -93,6 +93,9 @@
             <!--<li><a href="/">Site Map</a></li>-->
             <li><a href="${tg.url('/logout')}">${_('Log Out')}</a></li>
           </ul>
+          <p class="version">
+          ${_('FAS version %s') % tg.fas_version}
+          </p>
           <p class="copy">
           ${Markup(_('Copyright &copy; 2007 Red Hat, Inc. and others.  All Rights Reserved.  Please send any comments or corrections to the &lt;a href="mailto:webmaster@fedoraproject.org"&gt;websites team&lt;/a&gt;.'))}
           </p>

@@ -1,3 +1,24 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2008  Ricky Zhou All rights reserved.
+# Copyright © 2008 Red Hat, Inc. All rights reserved.
+#
+# This copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the GNU
+# General Public License v.2.  This program is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.  You should have
+# received a copy of the GNU General Public License along with this program;
+# if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+# Fifth Floor, Boston, MA 02110-1301, USA. Any Red Hat trademarks that are
+# incorporated in the source code or documentation are not subject to the GNU
+# General Public License and may only be used or replicated with the express
+# permission of Red Hat, Inc.
+#
+# Author(s): Ricky Zhou <ricky@fedoraproject.org>
+#            Mike McGrath <mmcgrath@redhat.com>
+#
 from turbogears import controllers, expose, config
 from model import *
 from turbogears import identity, redirect, widgets, validate, validators, error_handler
@@ -7,7 +28,9 @@ from turbogears import exception_handler
 import turbogears
 import cherrypy
 import time
+import pkg_resources
 
+from fas import release
 from fas.user import User
 from fas.group import Group
 from fas.cla import CLA
@@ -33,10 +56,34 @@ def get_locale(locale=None):
 config.update({'i18n.get_locale': get_locale})
 
 def add_custom_stdvars(vars):
-  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages()})
-
+  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
+class Plugins(controllers.Controller):
+    def __init__(self):
+        ''' Create this plugins thing '''
+        pass
+
+    @expose(format='json')
+    def index(self):
+        '''List available plugins'''
+        return dict(message='Eventually this should return a list of available plugins')
+
+    @expose(format='json')
+    def default(self, pluginName, *args, **kwargs):
+        if len(args):
+            method = args[0]
+        else:
+            method = 'index'
+        for pluginEntry in pkg_resources.iter_entry_points('fas.plugins',
+                pluginName):
+            pluginClass = pluginEntry.load()
+            plugin = pluginClass()
+            if hasattr(plugin, method):
+                return plugin.__getattribute__(method)()
+            else:
+                return dict(message='No method named %(method)s in plugin %(plugin)s' % {'method': method, 'plugin': pluginName})
+        return dict(message='Plugin %(plugin)s not found' % {'plugin': pluginName})
 
 # from fas import json
 # import logging
@@ -52,6 +99,8 @@ class Root(controllers.RootController):
     cla = CLA()
     json = JsonRequest()
     help = Help()
+    #plugins = init_plugins()['dummy_plugin'][0]
+    plugins = Plugins()
     #openid = OpenID()
 
     # TODO: Find a better place for this.

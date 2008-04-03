@@ -1,3 +1,24 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2008  Ricky Zhou All rights reserved.
+# Copyright © 2008 Red Hat, Inc. All rights reserved.
+#
+# This copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the GNU
+# General Public License v.2.  This program is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.  You should have
+# received a copy of the GNU General Public License along with this program;
+# if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+# Fifth Floor, Boston, MA 02110-1301, USA. Any Red Hat trademarks that are
+# incorporated in the source code or documentation are not subject to the GNU
+# General Public License and may only be used or replicated with the express
+# permission of Red Hat, Inc.
+#
+# Author(s): Ricky Zhou <ricky@fedoraproject.org>
+#            Mike McGrath <mmcgrath@redhat.com>
+#
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
@@ -310,7 +331,7 @@ class Group(controllers.Controller):
                 # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
                 message = turbomail.Message(config.get('accounts_email'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
-                url = config.get('base_url_filter.base_url') + '/group/edit/%s' % groupname
+                url = config.get('base_url_filter.base_url') + '/group/view/%s' % groupname
 
                 message.plain = _('''
 Fedora user %(user)s, aka %(name)s <%(email)s> has requested
@@ -478,6 +499,7 @@ into the e-mail aliases within an hour.
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
+    @expose(allow_json=True)
     def dump(self, groupname=None):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -494,7 +516,11 @@ into the e-mail aliases within an hour.
                 turbogears.redirect('/group/list')
                 return dict()
 
-        return dict(people=people)
+        # We filter this so that sending information via json is quick(er)
+        filteredPeople = sorted([(p.username, p.email, p.human_name)
+            for p in people])
+
+        return dict(people=filteredPeople)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())

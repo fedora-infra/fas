@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Red Hat, Inc. All rights reserved.
+# Copyright © 2008  Ricky Zhou All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -206,10 +207,12 @@ class People(SABase):
                 role.approval = datetime.now(pytz.utc)
         except InvalidRequestError:
             role = PersonRoles()
-            role.role_status = 'approved'
-            role.role_type = 'user'
             role.member = cls
             role.group = group
+            role.role_type = 'user'
+            role.sponsor = requester
+            role.role_status = 'approved'
+            role.approval = datetime.now(pytz.utc)
 
     def remove(cls, group, requester):
         if not group in cls.memberships:

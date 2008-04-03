@@ -1,5 +1,5 @@
 #!/usr/bin/python -tt
-
+__requires__='TurboGears >= 1.0.4'
 import os
 import re
 import glob
@@ -136,6 +136,10 @@ data_files = [('fas/static', filter(os.path.isfile, glob.glob('fas/static/*'))),
     ('fas/static/images', filter(os.path.isfile, glob.glob('fas/static/images/*'))),
     ('fas/static/images/balloons', filter(os.path.isfile, glob.glob('fas/static/images/balloons/*'))),
     ('fas/static/js', filter(os.path.isfile, glob.glob('fas/static/js/*'))),
+    ('fas/static/theme', filter(os.path.isfile, glob.glob('fas/static/theme/*'))),
+    ('fas/static/theme/fas', filter(os.path.isfile, glob.glob('fas/static/theme/fas/*'))),
+    ('fas/static/theme/fas/css', filter(os.path.isfile, glob.glob('fas/static/theme/fas/css/*'))),
+    ('fas/static/theme/fas/images', filter(os.path.isfile, glob.glob('fas/static/theme/fas/images/*'))),
 ]
 for langfile in filter(os.path.isfile, glob.glob('locale/*/*/*')):
     data_files.append((os.path.dirname(langfile), [langfile]))
@@ -210,6 +214,6 @@ setup(
             ),
             'turbogears.identity.provider': (
                 'safas3 = fas.safasprovider:SaFasIdentityProvider',
-            )
+            ),
     }
 )
