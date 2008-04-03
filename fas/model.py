@@ -207,10 +207,12 @@ class People(SABase):
                 role.approval = datetime.now(pytz.utc)
         except InvalidRequestError:
             role = PersonRoles()
-            role.role_status = 'approved'
-            role.role_type = 'user'
             role.member = cls
             role.group = group
+            role.role_type = 'user'
+            role.sponsor = requester
+            role.role_status = 'approved'
+            role.approval = datetime.now(pytz.utc)
 
     def remove(cls, group, requester):
         if not group in cls.memberships:
