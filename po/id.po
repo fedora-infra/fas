@@ -1,0 +1,218 @@
+# Translations template for PROJECT.
+# Copyright (C) 2008 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fedorahosted.org website\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2008-02-06 10:51-0600\n"
+"PO-Revision-Date: 2008-04-02 16:16+0700\n"
+"Last-Translator: Dapid Candra <dapidc@gmail.com>\n"
+"Language-Team: Indonesian <fedora-trans-id@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.1\n"
+"X-Poedit-Language: Indonesian\n"
+"X-Poedit-Country: INDONESIA\n"
+
+#: data/content/about.html:7
+msgid "About - Fedora Hosted"
+msgstr "Mengenai Fedora Hosted"
+
+#: data/content/about.html:12
+msgid "About Fedora Hosted"
+msgstr "Mengenai Fedora Hosted"
+
+#: data/content/about.html:13
+msgid "Fedora Hosted is a <a href=\"http://fedoraproject.org\">Fedora Project</a>-sponsored way for developers to host their code and collaborate online. We provide each project with source control via git, Mercurial, bzr, and others, as well as a bug tracker and wiki via Trac."
+msgstr "Fedora Hosted adalah cara untuk para developer menyimpan kode mereka dan berkolaborasi online yang disponsori oleh <a href=\"http://fedoraproject.org\">Fedora Project</a>. Kami memberikan setiap proyek dengan kontrol sumber melalui git, Mercurial, bzr, dan lainnya, dan juga bug tracker dan wiki lewat Trac."
+
+#: data/content/about.html:14
+msgid "Your new project is just a <a href=\"new\">work ticket</a> away."
+msgstr "Project baru Anda hanya sejauh satu <a href=\"new\">Tiket Kerja</a>."
+
+#: data/content/faq.html:7
+msgid "FAQs - Fedora Hosted"
+msgstr "FAQ - Fedora Hosted"
+
+#: data/content/faq.html:12
+#: data/templates/sidebar.html:15
+msgid "Frequently-Asked Questions"
+msgstr "Pertanyaan yang sering ditanyakan"
+
+#: data/content/faq.html:13
+msgid "What is Fedora Hosted?"
+msgstr "Apa sih Fedora Hosted itu?"
+
+#: data/content/faq.html:14
+msgid "Fedora Hosted is a project sponsored by <a href=\"http://fedoraproject.org/\">the Fedora Project</a> to allow upstream developers to host their code and collaborate online."
+msgstr "Fedora Hosted adalah project yang disponsori oleh <a href=\"http://fedoraproject.org/\">Fedora Project</a> untuk mewadahi 'upstream developer' untuk menyimpan kode mereka dan berkolaborasi online."
+
+#: data/content/faq.html:15
+msgid "How can I request a new project?"
+msgstr "Bagaimana saya meminta proyek baru?"
+
+#: data/content/faq.html:16
+msgid "File a <a href=\"new\">work ticket</a> with the Fedora Infrastructure team."
+msgstr "Ajukan <a href=\"new\">tiket kerja</a> ke tim Fedora Infrastructure."
+
+#: data/content/faq.html:17
+msgid "Where can I go for help?"
+msgstr "Kemana saya pergi mencari bantuan?"
+
+#: data/content/faq.html:18
+msgid "The best ways to get help are to join the <a href=\"irc://irc.freenode.net/#fedora-admin\"><code>#fedora-admin</code></a> IRC channel on <a href=\"http://www.freenode.net/\">Freenode</a> or to <a href=\"https://fedorahosted.org/fedora-infrastructure/\">open a ticket</a> with the Fedora Infrastructure team."
+msgstr "Cara terbaik untuk memperoleh bantuan adalah dengan bergabung di  channel IRC <a href=\"irc://irc.freenode.net/#fedora-admin\"><code>#fedora-admin</code></a> di<a href=\"http://www.freenode.net/\">Freenode</a> atau <a href=\"https://fedorahosted.org/fedora-infrastructure/\"> buka tiket</a> ke tim Infrastruktur Fedora."
+
+#: data/content/faq.html:19
+msgid "How can I get a Fedora Hosted account?"
+msgstr "Bagaimana memperoleh akun Fedora Hosted?"
+
+#: data/content/faq.html:20
+msgid "Your normal Fedora Project account works with Fedora Hosted. Simply <a href=\"https://admin.fedoraproject.org/accounts/\">apply</a> for a Fedora Project account if you haven't already. Do note that you must sign a Contributor License Agreement with the Fedora Project in order to contribute code."
+msgstr "Akun biasa Fedora Project juga dapat digunakan untuk Fedora Hosted. Silakan <a href=\"https://admin.fedoraproject.org/accounts/\">daftar</a> untuk akun Fedora Project jika belum punya. Harap dicatat bahwa Anda harus menandatangani Contributor License Agreement dengan Fedora Project untuk dapat ikut kontribusi kode."
+
+#: data/content/faq.html:21
+msgid "How can I publish archive releases (tgz, zip, etc) for my project?"
+msgstr "Bagaimana caranya mempublikasikan rilis dalam arsip (tgz, zip, etc) untuk proyek saya?"
+
+#: data/content/faq.html:22
+msgid "Create the archive on your workstation and run <code>scp myProject-0.1.tar.gz fedorahosted.org:&lt;Project Name&gt;</code>. The archive will be located under <a href=\"https://fedorahosted.org/releases/\">https://fedorahosted.org/releases/</a>"
+msgstr "Buat arsip pada komputer Anda dan jalankan <code>scp myProject-0.1.tar.gz fedorahosted.org:&lt;Nama Proyek&gt;</code>. Arsip tersebut akan ditempatkan di bawah <a href=\"https://fedorahosted.org/releases/\">https://fedorahosted.org/releases/</a>"
+
+#: data/content/faq.html:23
+msgid "I just got a new git repository, how can I push/pull?"
+msgstr "Saya baru saja memperoleh repository git, bagaimana cara push/pull?"
+
+#: data/content/faq.html:24
+msgid "Before anyone can clone/push the new repository a master push must be done with the command (from your local git repo): git push ssh://git.fedorahosted.org/git/yourproject.git/ master"
+msgstr "Sebelum siapapun dapat melakukan clone/push kepada repository baru, 'master push' harus dilakukan dengan perintah  (dari git repo lokal Anda): git push ssh://git.fedorahosted.org/git/yourproject.git/ master"
+
+#: data/content/index.html:7
+msgid "Hosted Projects - Fedora Hosted"
+msgstr "Hosted Projects - Fedora Hosted"
+
+#: data/content/index.html:12
+msgid "Available Projects"
+msgstr "Proyek yang ada"
+
+#: data/content/index.html:19
+msgid "Right-click and copy the anonymous VCS URI to your clipboard"
+msgstr "Klik kanan dan salin URI VCS anonim ke clipboard"
+
+#: data/content/index.html:20
+msgid "Right-click and copy the authorized VCS URI to your clipboard"
+msgstr "Klik kanan dan salin URI VCS resmi ke clipboard"
+
+#: data/content/new.html:7
+msgid "Request a New Project - Fedora Hosted"
+msgstr "Minta projek baru - Fedora Hosted"
+
+#: data/content/new.html:12
+msgid "Request a New Project"
+msgstr "Minta Proyek Baru"
+
+#: data/content/new.html:13
+msgid "New project requests must be filed via a ticket in the <a href=\"https://fedorahosted.org/fedora-infrastructure\">Fedora Infrastructure Trac instance</a>. Be sure to log in before attempting to create a ticket."
+msgstr "Proyek baru harus diajukan dengan membuat tiket di <a href=\"https://fedorahosted.org/fedora-infrastructure\">Fedora Infrastructure Trac instance</a>. Pastikan Anda login sebelum mencoba membuat tiket."
+
+#: data/content/new.html:14
+msgid "Fill in the fields as follows:"
+msgstr "Isi isian sebagai berikut:"
+
+#: data/content/new.html:16
+msgid "&lt;name of project&gt;"
+msgstr "&lt;nama proyek&gt;"
+
+#: data/content/new.html:18
+msgid "<code>minor</code> unless this is an urgent request. If you are uncertain whether or not the request is urgent then set this field to <code>minor</code>."
+msgstr "<code>minor</code> kecuali jika termasuk permintaan urgent. Jika tidak yakin permintaan ini urgent atau tidak, set kolom ini ke <code>minor</code>."
+
+#: data/content/new.html:21
+msgid "Use the following template for the full description of the ticket:"
+msgstr "Gunakan template berikut untuk deskripsi lengkap dari tiket tersebut:"
+
+#: data/content/terms.html:7
+msgid "Terms of Use - Fedora Hosted"
+msgstr "Syarat Penggunaan - Fedora Hosted"
+
+#: data/content/terms.html:12
+#: data/templates/sidebar.html:16
+msgid "Terms of Use"
+msgstr "Syarat Penggunaan"
+
+#: data/content/terms.html:13
+msgid "The Fedora Project Infrastructure team provides Fedora Hosted services on a best-effort basis. Many of the people that manage it are volunteers. Response time to new project requests is typically between 1 hour and 3 days. Outages, should they occur, are handled with a much higher priority."
+msgstr "Tim Infrastruktur Fedora Project menyediakan layanan Fedora Hosted dengan 'best-effort basis'. Pengelola banyak merupakan sukarelawan. Waktu untuk menanggapi permintaan proyek baru biasanya antara 1 jam dan 3 hari. Masalah 'outage', jika terjadi, akan ditangani dengan prioritas jauh lebih tinggi."
+
+#: data/content/terms.html:14
+msgid "The Fedora Project reserves the right to remove any project from our system that does not meet the following criteria:"
+msgstr "Fedora Project berhak untuk membuang proyek dari sistem kami yang tidak memenuhi kriteria sebagai berikut:"
+
+#: data/content/terms.html:16
+msgid "Code contained in the project does not meet our <a href=\"http://fedoraproject.org/wiki/Legal/Licenses\">license requirements</a>"
+msgstr "Kode yang terdapat dalam proyek tidak memenuhi <a href=\"http://fedoraproject.org/wiki/Legal/Licenses\">syarat lisensi</a> kami"
+
+#: data/content/terms.html:17
+msgid "No significant changes have been committed or applied for at least six (6) months"
+msgstr "Tidak ada pembaruan atau perubahan yang signifikan selama enam (6) bulan terakhir"
+
+#: data/content/terms.html:19
+msgid "We will always do our best to contact missing developers and ensure that the code, Trac databases, and any relevant data is kept on hand so that it may be presented to the project owner in the event that a project is removed."
+msgstr "Kami akan selalu melakukan usaha terbaik untuk menghubungi developer yang menghilang dan memastikan bahwa kode, database Trac, dan semua data yang relevan tersimpan sehingga dapat diberikan kepada pemilik proyek saat proyek dibuang."
+
+#: data/templates/foot.html:9
+msgid "Copyright &copy; 2008 Red Hat, Inc. and others.  All Rights Reserved.  Please send any comments or corrections to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+msgstr "Copyright &copy; 2008 Red Hat, Inc. dan lainnya.  Hak Cipta dilindungi Undang - undang. Silakan kirimkan komentar atau koreksi ke <a href=\"mailto:webmaster@fedoraproject.org\">team website</a>."
+
+#: data/templates/foot.html:12
+msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
+msgstr "Fedora Project dikelola dan digerakkan oleh komunitas dan disponsori oleh Red Hat.  Web site ini dikelola oleh komunitas.  Red Hat tidak bertanggung jawab atas isi."
+
+#: data/templates/foot.html:15
+msgid "Sponsors"
+msgstr "Sponsor"
+
+#: data/templates/foot.html:16
+msgid "<a href=\"http://fedoraproject.org/wiki/Legal\">Legal</a>"
+msgstr "<a href=\"http://fedoraproject.org/wiki/Legal\">Legal</a>"
+
+#: data/templates/foot.html:17
+msgid "<a href=\"http://fedoraproject.org/wiki/Legal/TrademarkGuidelines\">Trademark Guidelines</a>"
+msgstr "<a href=\"http://fedoraproject.org/wiki/Legal/TrademarkGuidelines\">Garis panduan Merk Dagang</a>"
+
+#: data/templates/head.html:7
+msgid "Fedora"
+msgstr "Fedora"
+
+#: data/templates/sidebar.html:10
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: data/templates/sidebar.html:12
+msgid "Home"
+msgstr "Home"
+
+#: data/templates/sidebar.html:13
+msgid "About"
+msgstr "About"
+
+#: data/templates/sidebar.html:14
+msgid "New Project"
+msgstr "Proyek Baru"
+
+#: data/templates/sidebar.html:18
+msgid "Website Language"
+msgstr "Bahasa Situs Web"
+
+#: data/templates/sidebar.html:26
+msgid "Hosting Sponsor"
+msgstr "Sponsor Hosting"
+
+#: data/templates/sidebar.html:27
+msgid "Sponsored by ServerBeach"
+msgstr "Di sponsori oleh ServerBeach"
+
