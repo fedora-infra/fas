@@ -15,7 +15,8 @@
 # General Public License and may only be used or replicated with the express
 # permission of Red Hat, Inc.
 #
-# Red Hat Author(s): Toshio Kuratomi <tkuratom@redhat.com>
+# Author(s): Toshio Kuratomi <tkuratom@redhat.com>
+#            Ricky Zhou <ricky@fedoraproject.org>
 #
 
 '''

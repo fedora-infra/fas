@@ -1,4 +1,7 @@
 # Pretty much all copied from pyOpenSSL's certgen.py example and func's certs.py
+# func's certs.py is GPLv2+
+# pyOpenSSL is LGPL (Probably v2+)
+# The pyOpenSSL examples may be under the same license but I'm not certain.
 
 from OpenSSL import crypto
 TYPE_RSA = crypto.TYPE_RSA
