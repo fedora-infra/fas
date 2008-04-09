@@ -93,12 +93,6 @@ visit.manager="sqlalchemy"
 # Database class to use for visit tracking
 visit.saprovider.model = "fas.model.Visit"
 identity.saprovider.model.visit = "fas.model.VisitIdentity"
-#visit.saprovider.model = "fedora.accounts.tgfas.visit_identity_table"
-#visit.soprovider.model = "fas.model.Visit"
-
-#identity.saprovider.model.visit="fedora.accounts.tgfas.VisitIdentity"
-#identity.saprovider.model=
-#sqlalchemy.dburi='sqlite://'
 
 # IDENTITY
 # General configuration of the TurboGears Identity management module

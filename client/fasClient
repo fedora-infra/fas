@@ -30,7 +30,7 @@ import datetime
 import time
 
 from urllib2 import URLError
-from fedora.tg.client import BaseClient, AuthError, ServerError
+from fedora.client import BaseClient, AuthError, ServerError
 from optparse import OptionParser
 from shutil import move, rmtree, copytree
 from rhpl.translate import _
