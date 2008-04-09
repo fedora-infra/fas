@@ -29,6 +29,9 @@ log = logging.getLogger('fas.util')
 
 def available_languages():
     """Return available languages for a given domain."""
+    available_languages = ['en']
+    return available_languages
+    # *sigh* Hardcoding is less pain.
     available_languages = []
     localedir = get_locale_dir()
     try:
@@ -39,5 +42,6 @@ def available_languages():
                 available_languages.append(lang)
     except IOError, e:
         log.warning('The LINGUAS file could not be opened: %s' % e)
+        available_languages = ['en']
     return available_languages
 
