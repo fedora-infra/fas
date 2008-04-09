@@ -578,6 +578,7 @@ if __name__ == '__main__':
         fas.mk_tempdir()
         fas.make_aliases_txt()
         fas.install_aliases_txt()
+        fas.rm_tempdir()
 
     if not (opts.install or opts.enable or opts.disable or opts.aliases):
         parser.print_help()
