@@ -1,3 +1,8 @@
+2008-04-08  Fabian Affolter <fabian@bernewireless.net> (via
+fab@fedoraproject.org)
+
+  * po/de.po: Some strings done in German translation
+
 2008-04-06  Miloš Komarčević <kmilos@gmail.com> (via kmilos@fedoraproject.org)
 
   * po/sr.po: Initial commit of Serbian translation

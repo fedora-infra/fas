@@ -38,7 +38,6 @@ from fas.json_request import JsonRequest
 from fas.help import Help
 from fas.auth import *
 from fas.util import available_languages
-#from fas.openid_fas import OpenID
 
 import os
 import sys
@@ -101,7 +100,6 @@ class Root(controllers.RootController):
     help = Help()
     #plugins = init_plugins()['dummy_plugin'][0]
     plugins = Plugins()
-    #openid = OpenID()
 
     # TODO: Find a better place for this.
     os.environ['GNUPGHOME'] = config.get('gpghome')
