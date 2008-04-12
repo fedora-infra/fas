@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-03-24 12:58+0200\n"
+"PO-Revision-Date: 2008-04-12 14:11+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -599,7 +599,7 @@ msgstr ""
 #: build/lib/fas/templates/group/view.html:98 fas/help.py:27
 #: fas/templates/group/view.html:76 fas/templates/group/view.html:98
 msgid "Sponsor"
-msgstr "Zasponsoruj"
+msgstr "Sponsor"
 
 #: build/lib/fas/help.py:27 fas/help.py:27
 msgid ""
