@@ -361,6 +361,46 @@ class Groups(SABase):
     # Groups that this group belongs to
     memberships = association_proxy('group_roles', 'group')
 
+    def __json__(self):
+        '''We want to make sure we keep a tight reign on sensistive information.
+        Thus we strip out certain information unless a user is an admin.
+
+        Current access restrictions
+        ===========================
+
+        Anonymous users can see:
+            :id: The id in the account system and on the shell servers
+            :name: Username in FAS
+            :display_name: Human name of the person
+            :group_type: The type of group
+            :needs_sponsor: Whether the group requirse a sponsor or not
+            :user_can_remove: Whether users can remove themselves from the group
+            :creation: Date this group was created
+            :joinmsg: The join message for the group
+            :prequisite_id: The prerequisite for the group
+            :owner_id: The owner of the group
+
+        Authenticated Users add:
+            :email: The group email address
+
+        Admins gets access to this final field as well:
+            :unverified_email: An unverified email
+            :email_token: The token for setting an email
+        '''
+        props = super(Groups, self).__json__()
+
+        if identity.current.anonymous:
+            # Anonymous users can't see any of these
+            del props['email']
+
+        if not identity.in_group('fas-system'):
+            if not identity.in_group('accounts'):
+                # Only admins can see internal_comments
+                del props['unverified_email']
+                del props['emailtoken']
+
+        return props
+
 class GroupRoles(SABase):
     '''Record groups that are members of other groups.'''
     pass

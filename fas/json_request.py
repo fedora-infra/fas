@@ -70,6 +70,7 @@ class JsonRequest(controllers.Controller):
     def group_by_id(self, id):
         try:
             group = Groups.by_id(id)
+            group.jsonProps = {'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)
         except InvalidRequestError:
             return dict(success=False)
@@ -79,6 +80,7 @@ class JsonRequest(controllers.Controller):
     def group_by_name(self, groupname):
         try:
             group = Groups.by_name(groupname)
+            group.jsonProps = {'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)
         except InvalidRequestError:
             return dict(success=False)
