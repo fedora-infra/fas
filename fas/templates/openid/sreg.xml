@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xi="http://www.w3.org/2001/XInclude"
+     xmlns:py="http://genshi.edgewall.org/"
+     id="sreg"
+     py:if="sreg_req.wereFieldsRequested()">
+  <table py:def="sreg_fields_form(fields, required)">
+    <tr>
+      <th>Field</th>
+      <th>Stored Value</th>
+      <th py:if="not required">Send Value?</th>
+      <th>Override?</th>
+      <th>Update stored information?</th>
+    </tr>
+    <tr py:for="field in fields">
+      <td>${data_fields[field]}</td>
+      <td py:choose="">
+	<span class="stored_information" py:when="field == 'nickname' and tg.identity.user.user_name is not None">${tg.identity.user.user_name}</span>
+	<span class="stored_information" py:when="field == 'email' and tg.identity.user.email_address is not None">${tg.identity.user.email_address}</span>
+	<span class="stored_information" py:when="field == 'fullname' and tg.identity.user.display_name is not None">${tg.identity.user.display_name}</span>
+	<span class="no_information" py:otherwise="">No information on file</span>
+      </td>
+      <td py:if="not required">
+	<input type="checkbox" name="sreg.send.${field}"/>
+      </td>
+      <td>
+	<input type="checkbox" name="sreg.override.${field}"/>
+	<input type="text" name="sreg.override_value.${field}" size="40"/>
+      </td>
+      <td>
+	<input type="checkbox" name="sreg.update_stored.${field}"/>
+      </td>
+    </tr>
+  </table>
+  <fieldset id="sreg.required" py:if="sreg_req.required">
+    <legend>Required Fields</legend>
+    ${sreg_fields_form(sreg_req.required, True)}
+  </fieldset>
+  <fieldset id="sreg.optional" py:if="sreg_req.optional">
+    <legend>Optional Fields</legend>
+
+    <p>The web site has requested that you supply the following
+    information.  Providing this information is optional, and will not
+    affect your ability to authenticate with the web site.</p>
+
+    ${sreg_fields_form(sreg_req.optional, False)}
+  </fieldset>
+  <div id="sreg.policy_url" py:if="sreg_req.policy_url">
+    <p >The web site has a privacy policy
+    that can be viewed at <a
+    href="${sreg_req.policy_url}">${sreg_reg.policy_url}</a>.</p>
+  </div>
+</div>

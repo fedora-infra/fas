@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:py="http://genshi.edgewall.org/">
+  <head>
+    <meta content="http://127.0.0.1:8080/serveryadis" http-equiv="x-xrds-location"/>
+    <title>Welcome to the Fedora OpenID Provider</title>
+  </head>
+
+  <body>
+    <div class="login" py:choose="">
+      <py:when test="not tg.identity.anonymous">
+        <p>You are logged in as ${tg.identity.user_name}. Your OpenID identity URL is
+        <tt><a href="$id_base_url/$tg.identity.user_name">$id_base_url/$tg.identity.user_name</a></tt></p>
+        <p>
+        <a href="${tg.url('/logout')}">Logout</a>
+        </p>
+      </py:when>
+      <py:otherwise>
+        <p>You are not <a href="$login_url">logged in</a>.</p>
+      </py:otherwise>
+    </div>
+  </body>
+</html>
