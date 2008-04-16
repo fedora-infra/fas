@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-04-08 12:54+0100\n"
+"PO-Revision-Date: 2008-04-16 12:26+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -380,8 +380,9 @@ msgstr "E-Mail (benötigt)"
 
 #: build/lib/fas/help.py:10
 #: fas/help.py:10
+#, fuzzy
 msgid "<p>This email address should be your prefered email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>"
-msgstr ""
+msgstr "<p>Diese E-Mail-Adresse sollte Ihre bevorzugter E-Mail-Kontakt sein und wird benötigt, um Ihnen diverse offizielle Nachrichten zu schicken. Darauf werden auch Ihre @fedoraproject.org Emails weitergeleitet</p>"
 
 #: build/lib/fas/help.py:11
 #: fas/help.py:11
@@ -551,8 +552,9 @@ msgstr "Akzeptieren"
 
 #: build/lib/fas/help.py:26
 #: fas/help.py:26
+#, fuzzy
 msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
-msgstr ""
+msgstr "<p>Ein Sponsor oder ein Administrator kann Benutzer zu einer Gruppe zulassen. Wenn ein Benutzer einmal eine für die Gruppe, gehen Sie zur Gruppen-Seite und drücken Sie auf \"Akezptieren, um den Benutzer in die Gruppe aufzunehmen.</p>"
 
 #: build/lib/fas/help.py:27
 #: build/lib/fas/templates/group/view.html:76
@@ -585,8 +587,9 @@ msgstr "Gruppenname"
 
 #: build/lib/fas/help.py:29
 #: fas/help.py:29
+#, fuzzy
 msgid "<p>The name of the group you'd like to create.  It should be alphanumeric though '-'s are allowed</p>"
-msgstr ""
+msgstr "<p>Der Name der Gruppe, welche Sie ereugen wollen. Er sollte alphanumerisch sein und nur '-' ist erlaubt</p>"
 
 #: build/lib/fas/help.py:30
 #: fas/help.py:30
@@ -615,8 +618,9 @@ msgstr "Gruppentyp"
 
 #: build/lib/fas/help.py:32
 #: fas/help.py:32
+#, fuzzy
 msgid "<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>"
-msgstr ""
+msgstr "<p>Normalerweise ist es sicher, dies leer zu lassen. Allerdings enthalten ein paar Werte 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' und 'mtn'. Diese Werte sind nur von Bedeutung, wenn die Gruppe einen Shell-Zugang oder Übermittlungszugang wie bei fedorahosted braucht.</p>"
 
 #: build/lib/fas/help.py:33
 #: fas/help.py:33
@@ -642,7 +646,7 @@ msgstr ""
 #: fas/help.py:35
 #, fuzzy
 msgid "Must Belong To"
-msgstr "Objekt(e) gehören in folgende _Kategorien:"
+msgstr "&Zu Telefonbuch hinzufügen..."
 
 #: build/lib/fas/help.py:35
 #: fas/help.py:35
@@ -777,8 +781,9 @@ msgstr ""
 
 #: build/lib/fas/user.py:288
 #: fas/user.py:288
+#, fuzzy
 msgid "  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
-msgstr ""
+msgstr " Bevor Ihre neue E-Mail-Adresse akzeptiert wird, müssen Sie sie bestätigen. Sie werden in Kürze eine Nachricht mit weiteren Instruktionen erhalten."
 
 #: build/lib/fas/user.py:300
 #: fas/user.py:300
@@ -834,7 +839,7 @@ msgstr "Willkommen beim Fedora-Projekt!"
 
 #: build/lib/fas/user.py:414
 #: fas/user.py:401
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -874,6 +879,43 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Sie haben ein neues Fedora-Konto eröffnet!\n"
+"Ihr neues Passwort ist: %s\n"
+"\n"
+"Bitte gehen Sie zu https://admin.fedoraproject.org/accounts/ , um es zu ändern.\n"
+"\n"
+"Willkommen beim Fedora-Projekt. Now that you've signed up for an\n"
+"account you're probably desperate to start contributing, and with that\n"
+"in mind we hope this e-mail might guide you in the right direction to\n"
+"make this process as easy as possible.\n"
+"\n"
+"Fedora is an exciting project with lots going on, and you can\n"
+"contribute in a huge number of ways, using all sorts of different\n"
+"skill sets. To find out about the different ways you can contribute to\n"
+"Fedora, you can visit our join page which provides more information\n"
+"about all the different roles we have available.\n"
+"\n"
+"http://fedoraproject.org/de/join-fedora\n"
+"\n"
+"If you already know how you want to contribute to Fedora, and have\n"
+"found the group already working in the area you're interested in, then\n"
+"there are a few more steps for you to get going.\n"
+"\n"
+"Foremost amongst these is to sign up for the team or project's mailing\n"
+"list that you're interested in - and if you're interested in more than\n"
+"one group's work, feel free to sign up for as many mailing lists as\n"
+"you like! This is because mailing lists are where the majority of work\n"
+"gets organised and tasks assigned, so to stay in the loop be sure to\n"
+"keep up with the messages.\n"
+"\n"
+"Once this is done, it's probably wise to send a short introduction to\n"
+"the list letting them know what experience you have and how you'd like\n"
+"to help. From here, existing members of the team will help you to find\n"
+"your feet as a Fedora contributor.\n"
+"\n"
+"Und zu letzt, von allen von uns, welche bei Fedora-Projekt arbeiten, wir freuen\n"
+"uns mit Ihnen zu arbeiten in der Zukunft!\n"
 
 #: build/lib/fas/user.py:455
 #: fas/user.py:442
@@ -1046,9 +1088,9 @@ msgstr "Aufgabenliste:"
 
 #: build/lib/fas/templates/home.html:17
 #: fas/templates/home.html:17
-#, python-format
+#, fuzzy, python-format
 msgid "<strong>%(user)s</strong> requests approval to join <a href=\"group/view/%(group)s\">%(group)s</a>."
-msgstr ""
+msgstr "<strong>%(user)s</strong> Anforderung für eine Akzeptierung zum Beitritt zu <a href=\"group/view/%(group)s\">%(group)s</a>."
 
 #: build/lib/fas/templates/home.html:24
 #: fas/templates/home.html:24
@@ -1060,7 +1102,7 @@ msgstr "CLA nicht komplett abgeschlossen. Um ein vollwertiger Fedora-Mitwirkende
 #: fas/templates/home.html:25
 #, python-format
 msgid "You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
+msgstr "Sie haben keinen SSH-Schlüssel übermittelt. Gewissen Fedora-Ressourcen benötigen einen solchen Schlüssel. Bitte übermitteln Sie Ihren durch Bearbeiten von <a href=\"%s\">My Account</a>"
 
 #: build/lib/fas/templates/home.html:29
 #: fas/templates/home.html:29
@@ -1460,7 +1502,7 @@ msgstr "Gruppenname:"
 #: fas/templates/group/new.html:43
 #, fuzzy
 msgid "Must Belong To:"
-msgstr "Objekt(e) gehören in folgende _Kategorien:"
+msgstr "&Zu Telefonbuch hinzufügen..."
 
 #: build/lib/fas/templates/group/new.html:48
 #: build/lib/fas/templates/group/view.html:49
@@ -1575,7 +1617,7 @@ msgstr "Hinzufügedatum"
 #: fas/templates/group/view.html:78
 #, fuzzy
 msgid "Date Approved"
-msgstr "Erstellungsdatum"
+msgstr "Ende Datum:"
 
 #: build/lib/fas/templates/group/view.html:79
 #: fas/templates/group/view.html:79
@@ -1896,8 +1938,9 @@ msgstr "Inaktiv"
 
 #: build/lib/fas/templates/user/view.html:42
 #: fas/templates/user/view.html:42
+#, fuzzy
 msgid "Pinged"
-msgstr ""
+msgstr "Angepingt"
 
 #: build/lib/fas/templates/user/view.html:44
 #: fas/templates/user/view.html:44
