@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-04-16 12:26+0100\n"
+"PO-Revision-Date: 2008-04-17 17:07+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -189,7 +189,7 @@ msgstr ""
 
 #: build/lib/fas/group.py:322
 #: fas/group.py:322
-#, fuzzy, python-format
+#, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s wurde bestätigt für %(group)s!"
 
@@ -207,7 +207,7 @@ msgstr "%(user)s konnte in %(group)s nicht gesponsert werden: %(error)s"
 
 #: build/lib/fas/group.py:352
 #: fas/group.py:352
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -216,6 +216,12 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"%(name)s <%(email)s> hat Ihre Mitgliedschaft in der %(group)s-Gruppe\n"
+"des Fedora-Kontosystem gesponsert. Falls anwendbar, sollte sich diese\n"
+"Änderung in den Email-Aliase und CVS-Repository innerhalb einer Stunde verbreiten.\n"
+"\n"
+"%(joinmsg)s\n"
 
 #: build/lib/fas/group.py:360
 #: fas/group.py:360
@@ -237,7 +243,7 @@ msgstr "%(user)s konnte nicht aus %(group)s entfernt werden: %(error)s"
 
 #: build/lib/fas/group.py:389
 #: fas/group.py:389
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has removed you from the '%(group)s'\n"
@@ -245,6 +251,11 @@ msgid ""
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(name)s <%(email)s> hat Sie aus der '%(group)s'-Gruppe im\n"
+"Fedora-Kontosystem entfernt. Diese Änderung ist sofort aktiv\n"
+"für neue Arbeitsgänge und sollte sich innerhalb einer Stunde in\n"
+"den Email-Aliase verbreiten.\n"
 
 #: build/lib/fas/group.py:396
 #: fas/group.py:396
@@ -266,7 +277,7 @@ msgstr "%(name)s konnte nicht hinaufgestuft werden in %(group)s: %(error)s"
 
 #: build/lib/fas/group.py:429
 #: fas/group.py:429
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has upgraded you to %(status)s status in the\n"
@@ -274,6 +285,11 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(name)s <%(email)s> hat Ihren Status zum %(status)s-Status in der\n"
+"'%(group)s'-Gruppe im Fedora-Kontosystem erhöht. Diese Änderung ist sofort aktiv\n"
+"für neue Arbeitsvorgänge und sollte sich innerhalb einer Stunde in\n"
+"den Email-Aliase verbreiten.\n"
 
 #: build/lib/fas/group.py:436
 #: fas/group.py:436
@@ -295,7 +311,7 @@ msgstr "%(name)s konnte nicht hinuntergestuft werden in %(group)s: %(error)s"
 
 #: build/lib/fas/group.py:467
 #: fas/group.py:467
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has downgraded you to %(status)s status in the\n"
@@ -303,6 +319,11 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(name)s <%(email)s> hat Ihren Status zum %(status)s-Status in der '%(group)s'-\n"
+"Gruppe im Fedora-Kontosystem heruntergestuft. Diese Änderung ist sofort aktiv\n"
+"für neue Arbeitsvorgänge und sollte sich innerhalb einer Stunde in\n"
+"den Email-Aliase verbreiten.\n"
 
 #: build/lib/fas/group.py:474
 #: fas/group.py:474
@@ -317,7 +338,7 @@ msgstr "Treten Sie dem Fedora-Projekt bei!"
 
 #: build/lib/fas/group.py:522
 #: fas/group.py:522
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has invited you to join the Fedora\n"
@@ -336,6 +357,22 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
+"\n"
+"%(name)s <%(email)s> has invited you to join the Fedora\n"
+"Project!  We are a community of users and developers who produce a\n"
+"complete operating system from entirely free and open source software\n"
+"(FOSS).  %(name)s thinks that you have knowledge and skills\n"
+"that make you a great fit for the Fedora community, and that you might\n"
+"be interested in contributing.\n"
+"\n"
+"How could you team up with the Fedora community to use and develop your\n"
+"skills?  Check out http://fedoraproject.org/join-fedora for some ideas.\n"
+"Our community is more than just software developers -- we also have a\n"
+"place for you whether you're an artist, a web site builder, a writer, or\n"
+"a people person.  You'll grow and learn as you work on a team with other\n"
+"very smart and talented people.\n"
+"\n"
+"Fedora und FOSS ändern die Welt -- kommen Sie und werden Sie ein Teil davon!"
 
 #: build/lib/fas/group.py:539
 #: fas/group.py:539
@@ -371,7 +408,7 @@ msgstr "IRC-Nick (optional)"
 #: build/lib/fas/help.py:9
 #: fas/help.py:9
 msgid "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please register your nick on irc.freenode.net first, then fill this in so people can find you online when they need to</p>"
-msgstr ""
+msgstr "<p>IRC-Nickname wird benutzt, um Sie auf irc.freenode.net zu identifizieren. Bitte registrieren Sie zuerst Ihren Nick auf irc.freenode.net, dann füllen Sie bitte das entsprechende Feld aus, damit die Menschen Sie finden können, wenn Sie online sind</p>"
 
 #: build/lib/fas/help.py:10
 #: fas/help.py:10
@@ -380,7 +417,6 @@ msgstr "E-Mail (benötigt)"
 
 #: build/lib/fas/help.py:10
 #: fas/help.py:10
-#, fuzzy
 msgid "<p>This email address should be your prefered email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>"
 msgstr "<p>Diese E-Mail-Adresse sollte Ihre bevorzugter E-Mail-Kontakt sein und wird benötigt, um Ihnen diverse offizielle Nachrichten zu schicken. Darauf werden auch Ihre @fedoraproject.org Emails weitergeleitet</p>"
 
@@ -404,7 +440,7 @@ msgstr "GPG-Schlüssel-ID"
 #: build/lib/fas/help.py:12
 #: fas/help.py:12
 msgid "<p>A GPG key is generally used to prove that a message or email came from you or to encrypt information so that only the recipients can read it.  This can be used when a password reset is sent to your email.</p>"
-msgstr ""
+msgstr "<p>Ein GPG-Schlüssel wird normalerweise benutzt, um zu beweisen, dass eine Nachricht oder eine Email von Ihnen kommt oder zum Verschlüsseln von Informationen, welche dann nur der Empfänger lesen kann. Dies kann benutzt werden, wenn eine Passwort-Rücksetzung an Ihre Email-Adresse geschickt wird.</p>"
 
 #: build/lib/fas/help.py:13
 #: fas/help.py:13
@@ -414,7 +450,7 @@ msgstr "Telefon"
 #: build/lib/fas/help.py:13
 #: fas/help.py:13
 msgid "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Sometimes during a time of emergency someone from the Fedora Project may need to contact you.  For more information see our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
-msgstr ""
+msgstr "<p>Benötigt zum Funktionieren die Komplettierung des <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>. Eventuell muss Sie jemand vom Fedora-Projekt kontaktieren zu Zeiten eines Notfalles . Für mehr Informationen lesen Sie unsere <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Datenschutzrichtlinie</a>.</p>"
 
 #: build/lib/fas/help.py:14
 #: build/lib/fas/templates/user/edit.html:36
@@ -426,7 +462,7 @@ msgstr "Post-Adresse"
 #: build/lib/fas/help.py:14
 #: fas/help.py:14
 msgid "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  This should be a mailing address where you can be contacted.  See our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a> about any concerns.</p>"
-msgstr ""
+msgstr "<p>Benötigt zum Funktionieren die Komplettierung des <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>. Dies sollte eine Postadresse sein, durch aie Sie kontaktiert werden können. Lesen Sie unsere <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Datenschutzrichtlinie</a> wegen irgendwelchen Bedenken.</p>"
 
 #: build/lib/fas/help.py:15
 #: fas/help.py:15
@@ -480,7 +516,7 @@ msgstr "Öffentlicher SSH-Schlüssel"
 #: build/lib/fas/help.py:19
 #: fas/help.py:19
 msgid "<p>Many resources require public key authentiaction to work.  By uploading your public key to us, you can then log in to our servers.  Type \"man ssh-keygen\" for more information on creating your key.  Once created you will want to upload ~/.ssh/id_dsa.pub or ~/.ssh/id_rsa.pub</p>"
-msgstr ""
+msgstr "<p>Viele Ressourcen arbeiten mit der Public-Key-Authentifikation. Durch das Hinaufladen Ihrer öffentlichen Schlüssel zu uns, können Sie such an unseren Server anmelden. Geben Sie \"man ssh-keygen\" ein für mehr Information zur Erzeugung von Schlüsseln. Einmal erzeugt, müssen Sie sie entweder ~/.ssh/id_dsa.pub oder ~/.ssh/id_rsa.pub hinaufladen</p>"
 
 #: build/lib/fas/help.py:20
 #: build/lib/fas/templates/user/edit.html:67
@@ -516,7 +552,7 @@ msgstr "Entfernen"
 #: build/lib/fas/help.py:23
 #: fas/help.py:23
 msgid "<p>Removing a person from a group will cause that user to no longer be in the group.  They will need to re-apply to get in.  Admins can remove anyone, Sponsors can remove users, users can't remove anyone.</p>"
-msgstr ""
+msgstr "<p>Entfernen einer Person aus einer Gruppe verursacht, dass die Person nicht mehr Mitglied der Gruppe ist. Sie müssen einen neuen Antrags stellen, um wieder zur Gruppe zu gehören. Admins können all eentfernen, Sponsoren können Benutzer entfernen, Benutzer können niemanden entfernen.</p>"
 
 #: build/lib/fas/help.py:24
 #: build/lib/fas/templates/group/view.html:111
@@ -528,7 +564,7 @@ msgstr "Höherstufen"
 #: build/lib/fas/help.py:24
 #: fas/help.py:24
 msgid "<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot be upgraded beyond administrator</li></ul></p>"
-msgstr ""
+msgstr "<p>Herhöht den Status einer Person in einer Gruppe. <ul><li>von Benutzer -> zu Sponsor</li><li>von Sponsor -> Administrator</li><li>Administratoren können nicht über Administrator herhöht werden.</li></ul></p>"
 
 #: build/lib/fas/help.py:25
 #: build/lib/fas/templates/group/view.html:115
@@ -540,21 +576,19 @@ msgstr "Herunterstufen"
 #: build/lib/fas/help.py:25
 #: fas/help.py:25
 msgid "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>"
-msgstr ""
+msgstr "<p>Stuft den Status einer Person in einer Gruppe herunter.<ul><li>von Administrator -> zu Sponsor</li><li>von Sponsor -> Benutzer</li><li>Benutzer können nicht weiter als Benutzer heruntergestuft werden. Sie wollen sie vielleicht entfernen.</li></ul></p>"
 
 #: build/lib/fas/help.py:26
 #: build/lib/fas/templates/group/view.html:102
 #: fas/help.py:26
 #: fas/templates/group/view.html:102
-#, fuzzy
 msgid "Approve"
-msgstr "Akzeptieren"
+msgstr "Bestätigen"
 
 #: build/lib/fas/help.py:26
 #: fas/help.py:26
-#, fuzzy
 msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
-msgstr "<p>Ein Sponsor oder ein Administrator kann Benutzer zu einer Gruppe zulassen. Wenn ein Benutzer einmal eine für die Gruppe, gehen Sie zur Gruppen-Seite und drücken Sie auf \"Akezptieren, um den Benutzer in die Gruppe aufzunehmen.</p>"
+msgstr "<p>Ein Sponsor oder ein Administrator kann Benutzer zu einer Gruppe zulassen. Wenn ein Benutzer einmal eine für die Gruppe, gehen Sie zur Gruppen-Seite und drücken Sie auf Akezptieren, um den Benutzer in die Gruppe aufzunehmen.</p>"
 
 #: build/lib/fas/help.py:27
 #: build/lib/fas/templates/group/view.html:76
@@ -587,9 +621,8 @@ msgstr "Gruppenname"
 
 #: build/lib/fas/help.py:29
 #: fas/help.py:29
-#, fuzzy
 msgid "<p>The name of the group you'd like to create.  It should be alphanumeric though '-'s are allowed</p>"
-msgstr "<p>Der Name der Gruppe, welche Sie ereugen wollen. Er sollte alphanumerisch sein und nur '-' ist erlaubt</p>"
+msgstr "<p>Der Name der Gruppe, welche Sie ereugen wollen. Er sollte alphanumerisch sein und es sind nur '-' erlaubt</p>"
 
 #: build/lib/fas/help.py:30
 #: fas/help.py:30
@@ -618,7 +651,6 @@ msgstr "Gruppentyp"
 
 #: build/lib/fas/help.py:32
 #: fas/help.py:32
-#, fuzzy
 msgid "<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>"
 msgstr "<p>Normalerweise ist es sicher, dies leer zu lassen. Allerdings enthalten ein paar Werte 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' und 'mtn'. Diese Werte sind nur von Bedeutung, wenn die Gruppe einen Shell-Zugang oder Übermittlungszugang wie bei fedorahosted braucht.</p>"
 
@@ -640,7 +672,7 @@ msgstr "Selbst-Entfernung"
 #: build/lib/fas/help.py:34
 #: fas/help.py:34
 msgid "<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>"
-msgstr ""
+msgstr "<p>Sollen Benutzer fähig sein, sich selber aus der Gruppe zu entfernen ohne Sponsor- / Administrator-Hilfe? (empfohlen ja)</p>"
 
 #: build/lib/fas/help.py:35
 #: fas/help.py:35
@@ -651,7 +683,7 @@ msgstr "&Zu Telefonbuch hinzufügen..."
 #: build/lib/fas/help.py:35
 #: fas/help.py:35
 msgid "<p>Before a user can join this group, they must belong to the group listed in this box.  <b>This value cannot be removed without administrative intervention, only changed</b>.  Recommended values are for the 'cla_done' group.</p>"
-msgstr ""
+msgstr "<p>Bevor ein Benutzer dieser Gruppe beitreten kann, muss er zu den aufgelisteten Gruppen in diesem Feld gehören. <b>Dieser Wert kann nicht entfernt werden ohne administrative Eingriff, nur geändert</b>.  Empfohlener Eintrag ist 'cla_done' group.</p>"
 
 #: build/lib/fas/help.py:36
 #: fas/help.py:36
@@ -661,7 +693,7 @@ msgstr "Beitritt-Nachricht"
 #: build/lib/fas/help.py:36
 #: fas/help.py:36
 msgid "<p>This message will go out to users when they join the group.  It should be informative and offer tips about what to do next.  A description of the group would also be valuable here</p>"
-msgstr ""
+msgstr "<p>Diese Nachricht geht an die Benutzer, wenn sie der Gruppe beitreten. Sie sollte informativ und Tipps über die nächsten Schritte enthalten. Eine Beschreibung der Gruppe ist auch wertvoll hier</p>"
 
 #: build/lib/fas/help.py:37
 #: fas/help.py:37
@@ -781,7 +813,6 @@ msgstr ""
 
 #: build/lib/fas/user.py:288
 #: fas/user.py:288
-#, fuzzy
 msgid "  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
 msgstr " Bevor Ihre neue E-Mail-Adresse akzeptiert wird, müssen Sie sie bestätigen. Sie werden in Kürze eine Nachricht mit weiteren Instruktionen erhalten."
 
@@ -971,6 +1002,10 @@ msgid ""
 "To change your password (or to cancel the request), please visit\n"
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"Jemand (hoffentlich Sie) hat ein Passwort-Rücksetzung für Ihr Konto beantragt!\n"
+"Um Ihr Passwort zu ändern (oder den Antrag abzubrechen), besuchen Sie bitte\n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: build/lib/fas/user.py:539
 #: fas/user.py:526
@@ -1053,8 +1088,9 @@ msgstr "Benutzer, Sponsoren, Administratoren"
 
 #: build/lib/fas/templates/about.html:15
 #: fas/templates/about.html:15
+#, fuzzy
 msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the disctinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
-msgstr ""
+msgstr "Wenn Sie einmal in der Gruppe sind, dann sind Sie in der Gruppe. Sponsoren und Administratoren haben speziellen Zugriff auf die in Frage kommenden Gruppen. Ein paar Gruppen benötigen Sponsoring, um mehr involviert zu sein, als Beispiel teilweisen Besitzt der Gruppe.......Administratoren können alles zu jedem in der Gruppe "
 
 #: build/lib/fas/templates/error.html:7
 #: build/lib/fas/templates/home.html:7
@@ -1088,9 +1124,9 @@ msgstr "Aufgabenliste:"
 
 #: build/lib/fas/templates/home.html:17
 #: fas/templates/home.html:17
-#, fuzzy, python-format
+#, python-format
 msgid "<strong>%(user)s</strong> requests approval to join <a href=\"group/view/%(group)s\">%(group)s</a>."
-msgstr "<strong>%(user)s</strong> Anforderung für eine Akzeptierung zum Beitritt zu <a href=\"group/view/%(group)s\">%(group)s</a>."
+msgstr "<strong>%(user)s</strong> fordert eine Akzeptierung zum Beitritt zu <a href=\"group/view/%(group)s\">%(group)s</a> an."
 
 #: build/lib/fas/templates/home.html:24
 #: fas/templates/home.html:24
@@ -1617,7 +1653,7 @@ msgstr "Hinzufügedatum"
 #: fas/templates/group/view.html:78
 #, fuzzy
 msgid "Date Approved"
-msgstr "Ende Datum:"
+msgstr "Datum genemigt"
 
 #: build/lib/fas/templates/group/view.html:79
 #: fas/templates/group/view.html:79
@@ -1995,9 +2031,9 @@ msgstr "Warteschlange:"
 
 #: build/lib/fas/templates/user/view.html:88
 #: fas/templates/user/view.html:88
-#, fuzzy, python-format
+#, python-format
 msgid "<strong>%(user)s</strong> requests approval to join <strong>%(unapproved_role.group)s</strong>."
-msgstr "<strong>%(user)s</strong> requests approval to join <strong>%(unapproved_role.group)s</strong>."
+msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>%(unapproved_role.group)s</strong>."
 
 #: fas/templates/cla/index.html:15
 msgid "You have already successfully completed the CLA."
