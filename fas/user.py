@@ -269,8 +269,8 @@ class User(controllers.Controller):
         else:
             target = person
         if not canEditUser(person, target):
-            turbogears.flash(_('You cannot edit %s') % target.username )
-            turbogears.redirect('/user/view/%s', target.username)
+            turbogears.flash(_('You cannot edit %s') % target.username)
+            turbogears.redirect('/user/view/%s' % target.username)
             return dict()
         languages = available_languages()
         return dict(target=target, languages=languages)
