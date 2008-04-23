@@ -46,7 +46,7 @@ class CLA(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not person.telephone or not person.postal_address:
-            turbogears.flash('Postal Address and telephone number are required to complete the cla, please fill them out')
+            turbogears.flash('A valid postal Address and telephone number are required to complete the CLA.  Please fill them out below.')
             turbogears.redirect('/user/edit/%s' % username)
         cla = CLADone(person)
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
@@ -83,7 +83,7 @@ class CLA(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="fas.templates.cla.index")
-    def send(self, agree=False):
+    def send(self, confirm=False, agree=False):
         '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -96,8 +96,11 @@ class CLA(controllers.Controller):
             turbogears.redirect('/user/view/%s' % person.username)
         if not person.telephone or \
             not person.postal_address:
-                turbogears.flash(_('To complete the CLA, we must have your telephone number and postal address.  Please ensure they have been filled out.'))
-                turbogears.redirect('/user/edit/%s' % username)
+            turbogears.flash(_('To complete the CLA, we must have your telephone number and postal address.  Please ensure they have been filled out.'))
+            turbogears.redirect('/user/edit/%s' % username)
+        if not confirm:
+            turbogears.flash(_('You must confirm that your personal information is accurate.'))
+            turbogears.redirect('/cla/')
         groupname = config.get('cla_fedora_group')
         group = Groups.by_name(groupname)
         try:

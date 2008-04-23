@@ -16,6 +16,12 @@
     </p>
     <py:if test="not cla">
     <form action="${tg.url('/cla/send')}" method="post">
+      <p>
+      <input type="checkbox" id="confirm" name="confirm" /> <label for="confirm">${_('I certify that the above information (my name, address, and phone number) are accurate to the best of my knowledge.')}</label>
+      </p>
+      <p>
+      ${Markup(_('To update any of this information, &lt;a href="%s"&gt;edit your account&lt;/a&gt;.') % tg.url('/user/edit'))}
+      </p>
       <div>
         <input type="submit" id="agree" name="agree" value="${_('I agree')}" />
         <input type="submit" value="${_('I do not agree')}" />

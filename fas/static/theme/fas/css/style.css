@@ -426,6 +426,11 @@ a
   border: 1px solid #CCCCCC;
 }
 
+#content p
+{
+  margin: 1ex 0 2ex;
+}
+
 pre
 {
   font-size: 3ex;
