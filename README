@@ -135,7 +135,13 @@ following from the top level directory:
 
   pybabel extract -F pybabel.conf -o po/fas.pot .
 
-Message merging should be done manually using msgmerge at this point.  
+Message merging should be done manually using msgmerge at this point:
+
+  cd po
+  for file in *.po;
+  do msgmerge $file fas.pot > $file.new;
+  mv $file.new $file;
+  done
 
   python setup.py build
 
