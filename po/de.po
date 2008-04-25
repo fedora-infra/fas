@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-04-17 17:07+0100\n"
+"PO-Revision-Date: 2008-04-25 13:38+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -207,7 +207,7 @@ msgstr "%(user)s konnte in %(group)s nicht gesponsert werden: %(error)s"
 
 #: build/lib/fas/group.py:352
 #: fas/group.py:352
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -243,7 +243,7 @@ msgstr "%(user)s konnte nicht aus %(group)s entfernt werden: %(error)s"
 
 #: build/lib/fas/group.py:389
 #: fas/group.py:389
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has removed you from the '%(group)s'\n"
@@ -277,7 +277,7 @@ msgstr "%(name)s konnte nicht hinaufgestuft werden in %(group)s: %(error)s"
 
 #: build/lib/fas/group.py:429
 #: fas/group.py:429
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has upgraded you to %(status)s status in the\n"
@@ -311,7 +311,7 @@ msgstr "%(name)s konnte nicht hinuntergestuft werden in %(group)s: %(error)s"
 
 #: build/lib/fas/group.py:467
 #: fas/group.py:467
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has downgraded you to %(status)s status in the\n"
@@ -338,7 +338,7 @@ msgstr "Treten Sie dem Fedora-Projekt bei!"
 
 #: build/lib/fas/group.py:522
 #: fas/group.py:522
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has invited you to join the Fedora\n"
@@ -358,19 +358,19 @@ msgid ""
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
 "\n"
-"%(name)s <%(email)s> has invited you to join the Fedora\n"
-"Project!  We are a community of users and developers who produce a\n"
-"complete operating system from entirely free and open source software\n"
-"(FOSS).  %(name)s thinks that you have knowledge and skills\n"
-"that make you a great fit for the Fedora community, and that you might\n"
-"be interested in contributing.\n"
+"%(name)s <%(email)s> hat Sie eingeladen dem Fedora-Projekt\n"
+"beizutreten! Wir sind eine Gemeinschaft von Benutzern und Entwicklern,\n"
+"welche ein komplettes Betriebssystem aus freier und Open Source-Software\n"
+"(FOSS) produzieren. %(name)s denkt, dass Sie Wissen und Fähigkeiten haben,\n"
+"welche Sie zu einen wertvollen Mitwirkenden für die Fedora-Gemeinschaft macht\n"
+"und dass Sie vielleicht interessiert sind, mitzuhelfen.\n"
 "\n"
-"How could you team up with the Fedora community to use and develop your\n"
-"skills?  Check out http://fedoraproject.org/join-fedora for some ideas.\n"
-"Our community is more than just software developers -- we also have a\n"
-"place for you whether you're an artist, a web site builder, a writer, or\n"
-"a people person.  You'll grow and learn as you work on a team with other\n"
-"very smart and talented people.\n"
+"Wie können Sie sich in die Fedora-Gemeinschaft integrieren, damit Ihre Fähigkeiten am\n"
+"besten entwickelt werden? Besuchen Sie http://fedoraproject.org/join-fedora , um\n"
+"ein paar Ideen zu bekommen. Unsere Gemeinschaft besteht nicht nur aus Software-\n"
+"Entwicklern -- wir haben auch Platz für Sie, ob Sie nun ein Künstler, ein Webdesigner,\n"
+"ein Schreiber oder ein Ansprechpartner. Sie werden wachsen und lernen, wenn Sie mit\n"
+"anderen cleveren und talentierten Menschen in einem Team zusammenarbeiten.\n"
 "\n"
 "Fedora und FOSS ändern die Welt -- kommen Sie und werden Sie ein Teil davon!"
 
@@ -504,7 +504,7 @@ msgstr "CLA"
 #: build/lib/fas/help.py:18
 #: fas/help.py:18
 msgid "<p>In order to become a full Fedora contributor you must complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License Agreement</a>.  This license is a legal agreement between you and Red Hat.  Full status allows people to contribute content and code and is recommended for anyone interested in getting involved in the Fedora Project.</p>"
-msgstr ""
+msgstr "<p>Um ein vollständiger Fedora-Mitwirkender zu werden, müssen Sie das <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License Agreement</a> komplett abschliessen. Die Lizenz ist ein juristische Vereinbarung zwischen Ihnen und Red Hat. Der volle Status erlaubt Personen Inhalte und Code beizusteuern und ist für alle empfohlen, welche interessiert sind, in das Fedora-Prjekt involviert zu werden.</p>"
 
 #: build/lib/fas/help.py:19
 #: build/lib/fas/templates/user/edit.html:51
@@ -540,7 +540,7 @@ msgstr "Anwenden"
 #: build/lib/fas/help.py:22
 #: fas/help.py:22
 msgid "<p>Applying for a group is like applying for a job and it can certainly take a while to get in.  Many groups have their own rules about how to actually get approved or sponsored.  For more information on how the account system works see the <a href=\"../about\">about page</a>.</p>"
-msgstr ""
+msgstr "<p>Das Beantragen eines Beitritt zu einer Gruppe ist wie die Bewerbung für eine Arbeitstelle und es kann eine Weile dauern bis man drin ist. Viele Gruppen haben momentan ihre eigenen Regeln, wie das Bestätigen oder das Sponsern gehandhabt wird. Für mehr Informationen wie das Kontosystem arbeitet, besuchen Sie bitte <a href=\"../about\">about page</a>.</p>"
 
 #: build/lib/fas/help.py:23
 #: build/lib/fas/templates/group/view.html:107
@@ -602,7 +602,7 @@ msgstr "Sponsor"
 #: build/lib/fas/help.py:27
 #: fas/help.py:27
 msgid "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>"
-msgstr ""
+msgstr "<p>Ein Sponsor oder Administrator kann Benutzer zur Mitgliedschaft in einer Gruppe sponsern. Wenn der Benutzer seinen Beitritt beantragt hat, gehen Sie zur Gruppen-Seite und klicken Sie auf Bestätigen zum Sponsern des Bentuzers. Sponsoring von Benutzern bringt mit sich, dass Sie sie die Benutzer bestätigen, dass Sie als Mentor handeln und ihre auftauchenden Fragen beantworten.</p>"
 
 #: build/lib/fas/help.py:28
 #: fas/help.py:28
@@ -662,7 +662,7 @@ msgstr "Benötigt Spnsor"
 #: build/lib/fas/help.py:33
 #: fas/help.py:33
 msgid "<p>If your group requires sponsorship (recommended), this means that when a user is approved by a sponsor.  That relationship is recorded in the account system.  If user A sponsors user N, then in viewing the members of this group, people will know to contact user A about user N if something goes wrong.  If this box is unchecked, this means that only approval is needed and no relationship is recorded about who did the approving</p>"
-msgstr ""
+msgstr "<p>Wenn Ihre Gruppe Spnsoring benötigen soll (empfohlen), heisst dies, dass die Benutzer von einem Sponsor bestätigt werden. Diese Beziehung wird im Konto-System aufgezeichnet. Wenn Benutzer A Benutzer N sponsert, dann kann in der Mitgliederübersicht der Gruppe erkannt werden, dass Benutzer A kontaktiert werden kann und über Benutzer N Auskunft geben kann, wenn etwas schief gegangen ist. Wenn dieses Feld nicht markiert ist, heisst dies, das nur eine Bestätigung erforderlich ist, aber keine Beziehung aufgezeichnet wird, wer bestätigte.</p>"
 
 #: build/lib/fas/help.py:34
 #: fas/help.py:34
@@ -676,9 +676,8 @@ msgstr "<p>Sollen Benutzer fähig sein, sich selber aus der Gruppe zu entfernen 
 
 #: build/lib/fas/help.py:35
 #: fas/help.py:35
-#, fuzzy
 msgid "Must Belong To"
-msgstr "&Zu Telefonbuch hinzufügen..."
+msgstr "Muss gehören zu"
 
 #: build/lib/fas/help.py:35
 #: fas/help.py:35
@@ -703,7 +702,7 @@ msgstr "Clientseitiges Zertifikat"
 #: build/lib/fas/help.py:37
 #: fas/help.py:37
 msgid "<p>The client side cert is generally used to grant access to upload packages to Fedora or for other authentication purposes like with koji.  If you are not a package maintainer there is no need to worry about the client side cert</p>"
-msgstr ""
+msgstr "<p>Das clientseitige Zertifikat wird normalerweise benutzt, um den Zugang zum Hinaufladen der Pakete für Fedora zu gewähren oder für andere Authentifikationszwecke, wie koji, verwendet. Wenn Sie kein Paketbetreuer sind, brauchen Sie sich keine Sorgen bezüglich des clientseitigen Zertifikats zu machen.</p>"
 
 #: build/lib/fas/model.py:133
 #: fas/model.py:134
@@ -810,6 +809,13 @@ msgid ""
 "\n"
 "https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 msgstr ""
+"\n"
+"Sie haben kürzlich eine Änderung Ihrer Fedora-Kontosystem Email-Adresse\n"
+"zu dieser Adresse beantragt. Um die Änderung abzuschliessen, müssen Sie\n"
+"Ihren Besitz dieser E-Mail-Adresse bestätigen durch den Besuch des folgenden\n"
+"URL (Sie müssen sich zuerst an Ihrem Fedora-Konto anmelden):\n"
+"\n"
+"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 
 #: build/lib/fas/user.py:288
 #: fas/user.py:288
@@ -1069,7 +1075,7 @@ msgstr "FAS - Das Open Account System"
 #: build/lib/fas/templates/about.html:11
 #: fas/templates/about.html:11
 msgid "FAS is designed around an open architecture.  Unlike the traditional account systems where a single admin or group of admins decide who gets to be in what group, FAS is completely designed to be self operating per team.  Every group is given at least one administrator who can then approve other people in the group.  Also, unlike traditional account systems.  FAS allows people to apply for the groups they want to be in.  This paridigm is interesting as it allows anyone to find out who is in what groups and contact them.  This openness is brought over from the same philosophies that make Open Source popular."
-msgstr ""
+msgstr "FAS wurde um eine offenen Architektur entworfen. Anders als das traditionelle Konto-System, in welchem ein einzelner Administrator oder eine Administrator-Gruppe entschiedet, wer in eine Gruppe kommt, FAS ist selbstorganisierend pro Team. Jede Gruppe hat mindestens einen Administrator, welcher andere Personen in der Gruppe bestätigen kann. Ebenfalls anders als in traditionellen Konto-Systemen. FAS erlaubt den Personen selber, sich um eine Mitgliedschaft in einer Gruppe zu kümmern. Dieses Vorgehen ist interessant, weil so jeder herausfinden kann, wer in der Gruppe ist und kann diese dann kontaktieren. Diese Offenheit wurde von den gleichen Philosophien übernommen, welche Open Source so populär machen."
 
 #: build/lib/fas/templates/about.html:12
 #: fas/templates/about.html:12
@@ -1079,7 +1085,7 @@ msgstr "Etiquette"
 #: build/lib/fas/templates/about.html:13
 #: fas/templates/about.html:13
 msgid "People shouldn't assume that by applying for a group that they're then in that group.  Consider it like applying for another job.  It often takes time.  For best odds of success, learn about the group you're applying for and get to know someone in the group.  Find someone with sponsor or admin access and ask them if they'd have time to mentor you.  Plan on spending at least a few days learning about the group, doing a mundain task, participating on the mailing list.  Sometimes this process can take weeks depending on the group.  It's best to know you will get sponsored before you apply."
-msgstr ""
+msgstr "Menschen sollte nicht erwarten, dass wenn sie die Mitgliedschaft in einer Grupope beantragt haben auch in diese Gruppe aufgenommen werden. Beachten Sie, dass Bestätigen eine andere Aufgabe ist. Es braucht oftamls etwas Zeit. Für grössere Erfolgschancen lernen Sie alles über die Gruppe, welcher Sie betreten möchten, und knüpfen Sie Kontakte zu Mitgleidern der Gruppe. Finden Sie jemanden mit Sponsor- oder Administrator-Zugriff und fragen Sie sie, ob sie Zeit haben Ihr Mentor zu werden. Planen Sie ein sich ein paar Tage ein, um die Gruppe kennenzulernen, erledigen Sie kleine Arbeiten und arbeiten Sie in der Mailing-Liste aktiv mit. Jenach Gruppe kann dieser Prozess manchmal Wochen dauern. Es ist besser, wenn Sie wissen, dass Sie gesponsert werden, vor der Beitritt."
 
 #: build/lib/fas/templates/about.html:14
 #: fas/templates/about.html:14
@@ -1088,9 +1094,8 @@ msgstr "Benutzer, Sponsoren, Administratoren"
 
 #: build/lib/fas/templates/about.html:15
 #: fas/templates/about.html:15
-#, fuzzy
 msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the disctinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
-msgstr "Wenn Sie einmal in der Gruppe sind, dann sind Sie in der Gruppe. Sponsoren und Administratoren haben speziellen Zugriff auf die in Frage kommenden Gruppen. Ein paar Gruppen benötigen Sponsoring, um mehr involviert zu sein, als Beispiel teilweisen Besitzt der Gruppe.......Administratoren können alles zu jedem in der Gruppe "
+msgstr "Wenn Sie einmal in der Gruppe sind, dann sind Sie in der Gruppe. Sponsoren und Administratoren haben speziellen Zugriff auf die in Frage kommenden Gruppen. Ein paar Gruppen benötigen Sponsoring, um mehr involviert zu sein, als Beispiel. Aber soweit das Konto-System geht, ist die Unterschiedung einfach. Spnsoren können neue Benutzer bestätigten und Personen zu Sponsoren machen. Sie können jedoch andere Sponsoren nicht herunterstufen und entfernen. Sie können auch in keiner Weise Änderungen an den Administratoren vornehmen. Administratoren können alles zu jedem in der Gruppe."
 
 #: build/lib/fas/templates/error.html:7
 #: build/lib/fas/templates/home.html:7
@@ -1536,9 +1541,8 @@ msgstr "Gruppenname:"
 
 #: build/lib/fas/templates/group/new.html:43
 #: fas/templates/group/new.html:43
-#, fuzzy
 msgid "Must Belong To:"
-msgstr "&Zu Telefonbuch hinzufügen..."
+msgstr "Muss gehören zu:"
 
 #: build/lib/fas/templates/group/new.html:48
 #: build/lib/fas/templates/group/view.html:49
@@ -1651,9 +1655,8 @@ msgstr "Hinzufügedatum"
 
 #: build/lib/fas/templates/group/view.html:78
 #: fas/templates/group/view.html:78
-#, fuzzy
 msgid "Date Approved"
-msgstr "Datum genemigt"
+msgstr "Genehmigungsdatum"
 
 #: build/lib/fas/templates/group/view.html:79
 #: fas/templates/group/view.html:79
