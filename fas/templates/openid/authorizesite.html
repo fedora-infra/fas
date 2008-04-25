@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:xi="http://www.w3.org/2001/XInclude"
-      xmlns:py="http://genshi.edgewall.org/">
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
   <head>
     <title>Approve OpenID Request?</title>
   </head>
@@ -10,29 +10,29 @@
   <body>
     <h1>Approve OpenID Request?</h1>
     <p>A new site has asked to confirm your identity.  If you
-      approve, the site represented by the trust root below will
-      be told that you control identity URL listed below. (If
-      you are using a delegated identity, the site will take
-      care of reversing the delegation on its own.)</p>
+    approve, the site represented by the trust root below will
+    be told that you control identity URL listed below. (If
+    you are using a delegated identity, the site will take
+    care of reversing the delegation on its own.)</p>
     <table>
       <tr>
-	<td>Identity:</td>
-	<td>$identity</td>
+        <td>Identity:</td>
+        <td>$identity</td>
       </tr>
       <tr>
-	<td>Trust Root:</td>
-	<td>$trust_root</td>
+        <td>Trust Root:</td>
+        <td>$trust_root</td>
       </tr>
     </table>
     <p>Allow this authentication to proceed?</p>
     <form method="post" action="${tg.url('/openid/allow')}">
       <xi:include href="sreg.xml"></xi:include>
       <fieldset>
-	<legend>Approve OpenID Request?</legend>
-	<input type="checkbox" id="remember" name="remember" value="yes"/>
-	<label for="remember">Remember this decision</label><br/>
-	<input type="submit" name="yes" value="yes"/>
-	<input type="submit" name="no" value="no"/>
+        <legend>Approve OpenID Request?</legend>
+        <input type="checkbox" id="remember" name="remember" value="yes"/>
+        <label for="remember">Remember this decision</label><br/>
+        <input type="submit" name="yes" value="yes"/>
+        <input type="submit" name="no" value="no"/>
       </fieldset>
     </form>
   </body>
