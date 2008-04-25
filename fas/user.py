@@ -261,6 +261,8 @@ class User(controllers.Controller):
     def edit(self, targetname=None):
         '''Edit a user
         '''
+        languages = available_languages()
+
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
@@ -272,7 +274,6 @@ class User(controllers.Controller):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
-        languages = available_languages()
         return dict(target=target, languages=languages)
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -280,6 +281,8 @@ class User(controllers.Controller):
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
+        languages = available_languages()
+
         username = turbogears.identity.current.user_name
         target = targetname
         person = People.by_username(username)
@@ -293,12 +296,21 @@ class User(controllers.Controller):
         try:
             target.human_name = human_name
             if target.email != email:
-                token = generate_token()
-                target.unverified_email = email
-                target.emailtoken = token
-                message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
-                # TODO: Make this email friendlier. 
-                message.plain = _('''
+                test = None
+                try:
+                    test = People.by_email_address(email)
+                except:
+                    pass
+                if test:
+                    turbogears.flash(_('Somebody is already using that email address.'))
+                    return dict(target=target, languages=languages)
+                else:
+                    token = generate_token()
+                    target.unverified_email = email
+                    target.emailtoken = token
+                    message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
+                    # TODO: Make this email friendlier. 
+                    message.plain = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
 ownership of this email by visiting the following URL (you will need to
@@ -306,8 +318,8 @@ login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 ''') % token
-                emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
-                turbomail.enqueue(message)
+                    emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
+                    turbomail.enqueue(message)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -319,10 +331,11 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             target.timezone = timezone
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
+            return dict(target=target, languages=languages)
         else:
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
-        return dict(target=target)
+            return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
