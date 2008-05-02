@@ -498,27 +498,28 @@ into the e-mail aliases within an hour.
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
+    @expose(template="genshi-text:fas.templates.group.dump", format="text",
+            content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
     def dump(self, groupname=None):
-        username = turbogears.identity.current.user_name
-        person = People.by_username(username)
         if not groupname:
-#            groupname = config.get('cla_done_group')
-            people = People.query.order_by('username').all()
+            people = People.query.order_by('username').add_column(
+                    sqlalchemy.sql.literal_column("'user'").label(
+                        'role_type')).all()
         else:
             people = []
-            groups = Groups.by_name(groupname)
-            for role in groups.approved_roles:
-                people.append(role.member)
-            if not canViewGroup(person, groups):
-                turbogears.flash(_("You cannot view '%s'") % group.name)
-                turbogears.redirect('/group/list')
-                return dict()
+
+            # Retrieve necessary info about the users who are approved in
+            # this group
+            people = People.query.join('roles').filter(
+                    PersonRoles.role_status=='approved').join(
+                        PersonRoles.group).add_column(
+                            PersonRoles.role_type).filter(
+                                Groups.name==groupname).order_by('username')
 
         # We filter this so that sending information via json is quick(er)
-        filteredPeople = sorted([(p.username, p.email, p.human_name)
-            for p in people])
+        filteredPeople = sorted([(p[0].username, p[0].email,
+            p[0].human_name, p[1]) for p in people])
 
         return dict(people=filteredPeople)
 
