@@ -29,6 +29,8 @@ from sqlalchemy import select, func
 from sqlalchemy.sql import literal_column
 
 import fas
+from fas.model import (People, PeopleTable, PersonRoles, PersonRolesTable, \
+        Groups, GroupsTable)
 from fas.auth import *
 from fas.user import KnownUser
 
@@ -504,8 +506,8 @@ into the e-mail aliases within an hour.
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
     def dump(self, groupname=None):
-         sponsorTables = PeopleTable.join(PersonRolesTable,
-                        People.id==PersonRoles.sponsor_id)
+        sponsorTables = PeopleTable.join(PersonRolesTable,
+                People.id==PersonRoles.sponsor_id)
         if not groupname:
             people = People.query.order_by('username').add_column(
                     literal_column("'user'").label('role_type')).all()
