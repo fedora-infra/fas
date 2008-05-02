@@ -1,19 +1,18 @@
 #!/usr/bin/python -t
+__requires__ = 'TurboGears'
+import pkg_resources
+pkg_resources.require('CherryPy >= 2.0, < 3.0alpha')
 
 import sys
 import getopt
 import xmlrpclib
 import turbogears
 from turbogears import config
-turbogears.update_config(configfile="export-bugzilla.cfg")
+turbogears.update_config(configfile="/etc/export-bugzilla.cfg")
 from turbogears.database import session
-# TODO: Make sure that this line works.
 from fas.model import BugzillaQueue
 
-BZSERVER = config.get('bugzilla.server', 'https://bugdev.devel.redhat.com/bugzilla-cvs/xmlrpc.cgi')
-#BZSERVER = 'https://bugzilla.redhat.com/xmlrpc.cgi'
-#BZSERVER = 'https://bzprx.vip.phx.redhat.com/xmlrpc.cgi'
-# TODO: config.get
+BZSERVER = config.get('bugzilla.url', 'https://bugdev.devel.redhat.com/bugzilla-cvs/xmlrpc.cgi')
 BZUSER = config.get('bugzilla.username')
 BZPASS = config.get('bugzilla.password')
 
@@ -24,22 +23,19 @@ if __name__ == '__main__':
     Usage: export-bugzilla.py GROUP BUGZILLA_GROUP
     """
         sys.exit(1)
-    our_group = args[0]
-    bz_group = args[1]
+    ourGroup = args[0]
+    bzGroup = args[1]
 
-    #server = xmlrpclib.Server(BZSERVER)
-    # This might be inefficient with no filter (when there are many
-    # groups), but for now, all entries are for fedorabugs.
-    bugzilla_queue = BugzillaQueue.query.all()
+    server = xmlrpclib.Server(BZSERVER)
+    bugzilla_queue = BugzillaQueue.query.join('group').filter_by(
+            name=ourGroup)
 
     for entry in bugzilla_queue:
-        if entry.group.name != our_group:
-            continue
         # Make sure we have a record for this user in bugzilla
         if entry.action == 'r':
             # Remove the user's bugzilla group
             try:
-                server.bugzilla.updatePerms(entry.email, 'remove', (bz_group,),
+                server.bugzilla.updatePerms(entry.email, 'remove', (bzGroup,),
                         BZUSER, BZPASS)
             except xmlrpclib.Fault, e:
                 if e.faultString.startswith('User Does Not Exist:'):
@@ -61,7 +57,7 @@ if __name__ == '__main__':
                 else:
                     print entry.email,entry.person.human_name
                     raise
-            server.bugzilla.updatePerms(entry.email, 'add', (bz_group,),
+            server.bugzilla.updatePerms(entry.email, 'add', (bzGroup,),
                     BZUSER, BZPASS)
         else:
             print 'Unrecognized action code: %s %s %s %s %s' % (entry.action,

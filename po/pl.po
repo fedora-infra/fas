@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-25 16:32-0400\n"
-"PO-Revision-Date: 2008-04-12 14:11+0200\n"
+"PO-Revision-Date: 2008-04-29 20:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -523,7 +523,7 @@ msgid "Apply"
 msgstr "Wyślij aplikację"
 
 #: build/lib/fas/help.py:43 fas/help.py:43
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<p>Applying for a group is like applying for a job and it can certainly take "
 "a while to get in.  Many groups have their own rules about how to actually "
@@ -533,7 +533,7 @@ msgstr ""
 "<p>Wysyłanie aplikacji do grupy to jak wysyłanie aplikacji o pracę i może "
 "chwilę zająć. Wiele grup posiada swoje własne reguły akceptowania lub "
 "sponsorowania. Aby dowiedzieć się więcej o działaniu systemu kont, zobacz <a "
-"href=\"../about\">stronę z informacjami</a>.</p>"
+"href=\"%s\">stronę z informacjami</a>.</p>"
 
 #: build/lib/fas/help.py:44 build/lib/fas/templates/group/view.html:107
 #: fas/help.py:44 fas/templates/group/view.html:107
@@ -1177,13 +1177,13 @@ msgid "Todo queue:"
 msgstr "Kolejka do zrobienia:"
 
 #: build/lib/fas/templates/home.html:17 fas/templates/home.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s</a></strong> requests approval to "
 "join <a href=\"group/view/%(group)s\">%(group)s</a>."
 msgstr ""
-"<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <a href="
-"\"group/view/%(group)s\">%(group)s</a>."
+"<strong><a href=\"%(userview)s\">%(user)s</a></strong> poprosił o "
+"zaakceptowanie dołączenia do <a href=\"group/view/%(group)s\">%(group)s</a>."
 
 #: build/lib/fas/templates/home.html:24 fas/templates/home.html:24
 #, python-format
@@ -1330,7 +1330,7 @@ msgstr "Legalność i prywatność"
 #: build/lib/fas/templates/master.html:97 fas/templates/master.html:98
 #, python-format
 msgid "FAS version %s"
-msgstr ""
+msgstr "FAS wersja %s"
 
 #: build/lib/fas/templates/master.html:100 fas/templates/master.html:101
 msgid ""
@@ -1357,14 +1357,13 @@ msgid "Welcome to FAS2"
 msgstr "Witaj w FAS2"
 
 #: build/lib/fas/templates/welcome.html:18 fas/templates/welcome.html:18
-#, fuzzy
 msgid ""
 "Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href="
 "\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop "
 "by #fedora-admin on irc.freenode.net."
 msgstr ""
 "Witaj w systemie kont Fedory 2. Prosimy zgłaszać błędy na stronie <a href="
-"\"https://fedorahosted.org/fas2\">https://fedorahosted.org/fas2/</a> lub "
+"\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> lub "
 "kanale #fedora-admin na irc.freenode.net (w języku angielskim)."
 
 #: build/lib/fas/templates/welcome.html:22 fas/templates/welcome.html:22
@@ -1970,28 +1969,27 @@ msgstr ""
 
 #: fas/cla.py:102
 msgid "You must confirm that your personal information is accurate."
-msgstr ""
+msgstr "Musisz potwierdzić, że informacje osobiste są prawdziwe."
 
 #: fas/user.py:305
-#, fuzzy
 msgid "Somebody is already using that email address."
-msgstr "Konto zostało już zarejestrowane za pomocą tego adresu e-mail."
+msgstr "Ktoś już używa tego adresu e-mail."
 
 #: fas/templates/cla/index.html:20
 msgid ""
 "I certify that the above information (my name, address, and phone number) "
 "are accurate to the best of my knowledge."
 msgstr ""
+"Potwierdzam, że powyższe informacje (imię i nazwisko, adres oraz numer "
+"telefonu) są prawdziwe, zgodnie z moją najlepszą wiedzą."
 
 #: fas/templates/cla/index.html:23
 #, python-format
 msgid ""
 "To update any of this information, <a href=\"%s\">edit your account</a>."
 msgstr ""
+"Aby zaktualizować informacje, <a href=\"%s\">zmodyfikuj swoje konto</a>."
 
 #: plugins/dummy_plugin/fas_dummy/templates/index.html:11
 msgid "Dummy Plugin!"
-msgstr ""
-
-#~ msgid "You have already sucessfully complete the CLA."
-#~ msgstr "Już wypełniłeś CLA."
+msgstr "Przykładowa wtyczka!"
