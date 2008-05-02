@@ -25,6 +25,8 @@ from turbogears.database import session
 
 import cherrypy
 import sqlalchemy
+from sqlalchemy import select, func
+from sqlalchemy.sql import literal_column
 
 import fas
 from fas.auth import *
@@ -502,10 +504,17 @@ into the e-mail aliases within an hour.
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
     def dump(self, groupname=None):
+         sponsorTables = PeopleTable.join(PersonRolesTable,
+                        People.id==PersonRoles.sponsor_id)
         if not groupname:
             people = People.query.order_by('username').add_column(
-                    sqlalchemy.sql.literal_column("'user'").label(
-                        'role_type')).all()
+                    literal_column("'user'").label('role_type')).all()
+
+            # retrieve sponsorship info:
+            sponsorCount = select(
+                    [People.username, func.count(People.username)],
+                    from_obj = sponsorTables).group_by(People.username)
+            sponsorship = dict(pair for pair in sponsorCount.execute())
         else:
             people = []
 
@@ -517,9 +526,17 @@ into the e-mail aliases within an hour.
                             PersonRoles.role_type).filter(
                                 Groups.name==groupname).order_by('username')
 
+            # retrieve sponsorship info:
+            sponsorCount = select(
+                    [People.username, func.count(People.username)],
+                    from_obj=sponsorTables.join(
+                        GroupsTable, PersonRoles.group_id==Groups.id)
+                    ).group_by(People.username).where(Groups.name==groupname)
+            sponsorship = dict(pair for pair in sponsorCount.execute())
+
         # We filter this so that sending information via json is quick(er)
-        filteredPeople = sorted([(p[0].username, p[0].email,
-            p[0].human_name, p[1]) for p in people])
+        filteredPeople = sorted((p[0].username, p[0].email, p[0].human_name,
+            p[1], sponsorship.get(p[0].username, 0)) for p in people)
 
         return dict(people=filteredPeople)
 
