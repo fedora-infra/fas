@@ -25,8 +25,12 @@ from turbogears.database import session
 
 import cherrypy
 import sqlalchemy
+from sqlalchemy import select, func
+from sqlalchemy.sql import literal_column
 
 import fas
+from fas.model import (People, PeopleTable, PersonRoles, PersonRolesTable, \
+        Groups, GroupsTable)
 from fas.auth import *
 from fas.user import KnownUser
 
@@ -498,27 +502,43 @@ into the e-mail aliases within an hour.
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="genshi-text:fas.templates.group.dump", format="text", content_type='text/plain; charset=utf-8')
+    @expose(template="genshi-text:fas.templates.group.dump", format="text",
+            content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
     def dump(self, groupname=None):
-        username = turbogears.identity.current.user_name
-        person = People.by_username(username)
+        sponsorTables = PeopleTable.join(PersonRolesTable,
+                People.id==PersonRoles.sponsor_id)
         if not groupname:
-#            groupname = config.get('cla_done_group')
-            people = People.query.order_by('username').all()
+            people = People.query.order_by('username').add_column(
+                    literal_column("'user'").label('role_type')).all()
+
+            # retrieve sponsorship info:
+            sponsorCount = select(
+                    [People.username, func.count(People.username)],
+                    from_obj = sponsorTables).group_by(People.username)
+            sponsorship = dict(pair for pair in sponsorCount.execute())
         else:
             people = []
-            groups = Groups.by_name(groupname)
-            for role in groups.approved_roles:
-                people.append(role.member)
-            if not canViewGroup(person, groups):
-                turbogears.flash(_("You cannot view '%s'") % group.name)
-                turbogears.redirect('/group/list')
-                return dict()
+
+            # Retrieve necessary info about the users who are approved in
+            # this group
+            people = People.query.join('roles').filter(
+                    PersonRoles.role_status=='approved').join(
+                        PersonRoles.group).add_column(
+                            PersonRoles.role_type).filter(
+                                Groups.name==groupname).order_by('username')
+
+            # retrieve sponsorship info:
+            sponsorCount = select(
+                    [People.username, func.count(People.username)],
+                    from_obj=sponsorTables.join(
+                        GroupsTable, PersonRoles.group_id==Groups.id)
+                    ).group_by(People.username).where(Groups.name==groupname)
+            sponsorship = dict(pair for pair in sponsorCount.execute())
 
         # We filter this so that sending information via json is quick(er)
-        filteredPeople = sorted([(p.username, p.email, p.human_name)
-            for p in people])
+        filteredPeople = sorted((p[0].username, p[0].email, p[0].human_name,
+            p[1], sponsorship.get(p[0].username, 0)) for p in people)
 
         return dict(people=filteredPeople)
 
