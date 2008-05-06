@@ -340,10 +340,10 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search="a*"):
+    def list(self, search=u'a*'):
         '''List users
         '''
-        re_search = re.sub(r'\*', r'%', search).lower()
+        re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         if people.count() < 0:
             turbogears.flash(_("No users found matching '%s'") % search)
@@ -352,8 +352,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(format='json')
-    def email_list(self, search='*'):
-        re_search = re.sub(r'\*', r'%', search).lower()
+    def email_list(self, search=u'*'):
+        re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
         for person in people:
