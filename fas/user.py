@@ -37,7 +37,8 @@ import random
 import subprocess
 from OpenSSL import crypto
 
-from fas.model import People
+from sqlalchemy.sql import select, and_, not_
+from fas.model import People, PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import Log
 
 from fas import openssl_fas
@@ -342,17 +343,71 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search=u'a*'):
         '''List users
+
+        This should be fixed up at some point.  Json data needs at least the
+        following for fasClient to work::
+
+          list of users with these attributes:
+            username
+            id
+            ssh_key
+            human_name
+            password
+
+        The template, on the other hand, needs to know about::
+
+          list of usernames with information about whether the user is
+          approved in cla_done
+       
+        The json information is useful so we probably want to create a new
+        method for it at some point.  One which returns the list of users with
+        more complete information about themselves.  Then this method can
+        change to only returning username and cla status.
         '''
+        ### FIXME: Should port this to a validator
+        # Work around a bug in TG (1.0.4.3-2)
+        # When called as /user/list/*  search is a str type.
+        # When called as /user/list/?search=* search is a unicode type.
+        if not isinstance(search, unicode) and isinstance(search, basestring):
+            search = unicode(search, 'utf-8', 'replace')
+
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
-        people = People.query.filter(People.username.like(re_search)).order_by('username')
-        if people.count() < 0:
+        PeopleGroupsTable = PeopleTable.join(
+                PersonRolesTable, PersonRoles.person_id==People.id).join(
+                        GroupsTable, PersonRoles.group_id==Groups.id)
+
+        approved = select([People.username, People.id, People.human_name,
+            People.ssh_key, People.password], from_obj=PeopleGroupsTable
+            ).where(and_(People.username.like(re_search),
+                    Groups.name=='cla_done',
+                    PersonRoles.role_status=='approved')
+                ).distinct().order_by('username').execute()
+        cla_approved = [dict(row) for row in approved]
+
+        unapproved = select([People.username, People.id, People.human_name,
+            People.ssh_key, People.password]).where(and_(
+                People.username.like(re_search),
+                not_(People.id.in_([p['id'] for p in cla_approved])))
+                ).distinct().order_by('username').execute()
+        cla_unapproved = [dict(row) for row in unapproved]
+
+        if not (cla_approved or cla_unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
-        return dict(people=people, search=search)
+
+        return dict(people=cla_unapproved, unapproved_people=cla_unapproved,
+                search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(format='json')
     def email_list(self, search=u'*'):
+        ### FIXME: Should port this to a validator
+        # Work around a bug in TG (1.0.4.3-2)
+        # When called as /user/list/*  search is a str type.
+        # When called as /user/list/?search=* search is a unicode type.
+        if not isinstance(search, unicode) and isinstance(search, basestring):
+            search = unicode(search, 'utf-8', 'replace')
+
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}

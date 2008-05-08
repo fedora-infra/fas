@@ -7,7 +7,6 @@
     <title>${_('Users List')}</title>
   </head>
   <body>
-    <?python from fas import auth ?>
     <h2>${_('List (%s)') % search}</h2>
     <form method="get" action="${tg.url('/user/list')}">
       <p>${_('"*" is a wildcard (Ex: "ric*")')}</p>
@@ -32,11 +31,13 @@
         <tr py:for="person in people">
           <td><a href="${tg.url('/user/view/%s' % person.username)}">${person.username}</a></td>
           <td>
-            <?python
-            cla = auth.CLADone(person)
-            ?>
-            <span py:if="cla" class="approved">${_('CLA Done')}</span>
-            <span py:if="not cla" class="unapproved">${_('Not Done')}</span>
+            <span class="approved">${_('CLA Done')}</span>
+          </td>
+        </tr>
+        <tr py:for="person in unapproved_people">
+          <td><a href="${tg.url('/user/view/%s' % person.username)}">${person.username}</a></td>
+          <td>
+            <span class="unapproved">${_('Not Done')}</span>
           </td>
         </tr>
       </tbody>
