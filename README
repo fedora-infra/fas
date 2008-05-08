@@ -103,6 +103,43 @@ Make sure you're in the top level directory that start-fas.py and dev.cfg is
 in, then run::
   tg-admin shell
 
+
+--------------------
+Apache + mod_wsgi deployment
+--------------------
+
+WSGI or, Web Server Gateway Interface is a specification to allow servers and
+applications to communicate with eachother.  It's one method that allows Turbo
+Gears to scale properly.  To install it run:
+
+  # yum -y install httpd mod_wsgi
+
+next create a configuration file in /etc/httpd/conf.d/accounts.conf with the
+following information in it:
+
+# File Start
+
+WSGISocketPrefix /tmp/wsgi
+
+# Repress TG's stdoutput
+WSGIRestrictStdout On
+
+# TG implements its own signal handler.
+WSGIRestrictSignal Off
+
+# These are the real tunables
+WSGIDaemonProcess daemon processes=2 threads=2
+WSGIPythonOptimize 2
+
+WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
+
+<Directory /path/to/turbogears/fas/>
+    WSGIProcessGroup daemon
+    Order deny,allow
+    Allow from all
+</Directory>
+
+#EOF
 --------------------
 Enabling Local Users
 --------------------
