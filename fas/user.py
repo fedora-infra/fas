@@ -364,6 +364,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         more complete information about themselves.  Then this method can
         change to only returning username and cla status.
         '''
+        ### FIXME: Should port this to a validator
+        # Work around a bug in TG (1.0.4.3-2)
+        # When called as /user/list/*  search is a str type.
+        # When called as /user/list/?search=* search is a unicode type.
+        if not isinstance(search, unicode) and isinstance(search, basestring):
+            search = unicode(search, 'utf-8', 'replace')
+
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         PeopleGroupsTable = PeopleTable.join(
                 PersonRolesTable, PersonRoles.person_id==People.id).join(
@@ -394,6 +401,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @error_handler(error)
     @expose(format='json')
     def email_list(self, search=u'*'):
+        ### FIXME: Should port this to a validator
+        # Work around a bug in TG (1.0.4.3-2)
+        # When called as /user/list/*  search is a str type.
+        # When called as /user/list/?search=* search is a unicode type.
+        if not isinstance(search, unicode) and isinstance(search, basestring):
+            search = unicode(search, 'utf-8', 'replace')
+
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
