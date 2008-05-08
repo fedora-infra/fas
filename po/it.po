@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-05-06 21:05+0200\n"
+"PO-Revision-Date: 2008-05-08 00:13+0200\n"
 "Last-Translator: Francesco Tombolini <tombo@adamantio.net>\n"
 "Language-Team: Italiano <fedora-trans-it@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -1111,6 +1111,16 @@ msgid ""
 " weeks depending on the group.  It's best to know you will get sponsored "
 "before you apply."
 msgstr ""
+"Le persone non dovranno assumere che richiedendo l'adesione ad un gruppo "
+"apparterranno al gruppo.  Dovrà essere considerata come fare una domanda per "
+"essere assunti per un lavoro.  Spesso ci vuole del tempo.  Per avere migliori "
+"possibilità di riuscita, si dovrà saperne di più sul gruppo e si dovrà "
+"conoscere qualcuno che vi appartiene.  Si dovrà trovare qualcuno con privilegio "
+"di sponsor o amministratore e chiedergli se hanno tempo di farvi da mentori.  "
+"Pianificare di spendere un po di giorni per saperne di più sul gruppo, compiere "
+"un po azioni formali, partecipare alla mailing list.  Talvolta questi processi "
+"possono richiedere settimane a seconda del gruppo.  E' meglio sapere che si "
+"potrà essere sponsorizzati prima di richiedere un adesione."
 
 #: build/lib/fas/templates/about.html:14 fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
@@ -1127,6 +1137,14 @@ msgid ""
 "other sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
+"Una volta nel gruppo, si è nel gruppo.  Gli sponsor e gli amministratori "
+"tipicamente hanno accessi speciali ai gruppi in questione.  Alcuni gruppi ad "
+"esempio, considerano il livello di sponsor come un impegno di notevole "
+"importanza, e parziale proprietà del gruppo.  Ma per il sistema di account la "
+"distinzione è semplice.  Gli sponsor possono approvare nuovi utenti e rendere "
+"altre persone sponsor.  Questi comunque non possono degradare o rimuovere altri "
+"sponsor.  Essi inoltre non possono cambiare gli amministratori in alcun modo.  "
+"Gli amministratori possono fare qualsiasi cosa a chiunque nel gruppo."
 
 #: build/lib/fas/templates/error.html:7 build/lib/fas/templates/home.html:7
 #: build/lib/fas/templates/cla/index.html:7
@@ -1145,7 +1163,7 @@ msgstr "Errore!"
 
 #: build/lib/fas/templates/error.html:18 fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "Si sono verificati i seguenti errori nella richiesta:"
 
 #: build/lib/fas/templates/home.html:11 fas/templates/home.html:11
 msgid "Todo queue:"
@@ -1157,6 +1175,8 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join <a "
 "href=\"group/view/%(group)s\">%(group)s</a>."
 msgstr ""
+"<strong>%(user)s</strong> richiede approvazione per l'appatenenza al gruppo <a "
+"href=\"group/view/%(group)s\">%(group)s</a>."
 
 #: build/lib/fas/templates/home.html:24 fas/templates/home.html:24
 #, python-format
@@ -1164,6 +1184,8 @@ msgid ""
 "CLA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the CLA</a>."
 msgstr ""
+"CLA non completata.  Per divenire un pieno contributore Fedora si prega di <a "
+"href=\"%s\">completare la CLA</a>."
 
 #: build/lib/fas/templates/home.html:25 fas/templates/home.html:25
 #, python-format
@@ -1171,14 +1193,16 @@ msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH "
 "key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
+"Non è stata inviata alcuna chiave SSH, alcune risorse Fedora richiedono una "
+"chiave SSH.  Si prega di inviarla editando <a href=\"%s\">Il mio account</a>"
 
 #: build/lib/fas/templates/home.html:29 fas/templates/home.html:29
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "Download di un certificato lato client"
 
 #: build/lib/fas/templates/login.html:7 fas/templates/login.html:7
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Login nel Fedora Accounts System"
 
 #: build/lib/fas/templates/login.html:17 build/lib/fas/templates/login.html:23
 #: fas/templates/login.html:17 fas/templates/login.html:23
@@ -1197,7 +1221,7 @@ msgstr "Password:"
 
 #: build/lib/fas/templates/login.html:29 fas/templates/login.html:29
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Password dimenticata?"
 
 #: build/lib/fas/templates/login.html:30 fas/templates/login.html:30
 msgid "Sign Up"
@@ -1209,7 +1233,7 @@ msgstr "Fedora"
 
 #: build/lib/fas/templates/master.html:35 fas/templates/master.html:35
 msgid "Learn about Fedora"
-msgstr ""
+msgstr "Ulteriori informazioni su Fedora"
 
 #: build/lib/fas/templates/master.html:36 fas/templates/master.html:36
 msgid "Download Fedora"
@@ -1225,7 +1249,7 @@ msgstr "Partecipa a Fedora"
 
 #: build/lib/fas/templates/master.html:39 fas/templates/master.html:39
 msgid "Communicate"
-msgstr ""
+msgstr "Comunicare"
 
 #: build/lib/fas/templates/master.html:40 fas/templates/master.html:40
 msgid "Help/Documentation"
@@ -1233,67 +1257,67 @@ msgstr "Aiuto/Documentazione"
 
 #: build/lib/fas/templates/master.html:46 fas/templates/master.html:46
 msgid "Logged in:"
-msgstr ""
+msgstr "Accesso effettuato come:"
 
 #: build/lib/fas/templates/master.html:52 fas/templates/master.html:52
 msgid "My Account"
-msgstr ""
+msgstr "Il mio account"
 
 #: build/lib/fas/templates/master.html:53
 #: build/lib/fas/templates/master.html:94 fas/templates/master.html:53
 #: fas/templates/master.html:94
 msgid "Log Out"
-msgstr ""
+msgstr "Uscita"
 
 #: build/lib/fas/templates/master.html:54
 #: build/lib/fas/templates/welcome.html:21 fas/templates/master.html:54
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr ""
+msgstr "Accesso"
 
 #: build/lib/fas/templates/master.html:61 fas/templates/master.html:61
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: build/lib/fas/templates/master.html:64 fas/templates/master.html:64
 msgid "New Group"
-msgstr ""
+msgstr "Nuovo gruppo"
 
 #: build/lib/fas/templates/master.html:65 fas/templates/master.html:65
 msgid "User List"
-msgstr ""
+msgstr "Elenco utenti"
 
 #: build/lib/fas/templates/master.html:67 fas/templates/master.html:67
 msgid "Group List"
-msgstr ""
+msgstr "Elenco gruppi"
 
 #: build/lib/fas/templates/master.html:68 fas/templates/master.html:68
 msgid "Apply For a new Group"
-msgstr ""
+msgstr "Aderisci ad un nuovo gruppo"
 
 #: build/lib/fas/templates/master.html:69 fas/templates/master.html:69
 msgid "News"
-msgstr ""
+msgstr "Notizie"
 
 #: build/lib/fas/templates/master.html:74 fas/templates/master.html:74
 msgid "Locale:"
-msgstr ""
+msgstr "Linguaggio:"
 
 #: build/lib/fas/templates/master.html:78 fas/templates/master.html:78
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: build/lib/fas/templates/master.html:90 fas/templates/master.html:90
 msgid "About"
-msgstr ""
+msgstr "Informazioni"
 
 #: build/lib/fas/templates/master.html:91 fas/templates/master.html:91
 msgid "Contact Us"
-msgstr ""
+msgstr "Contatti"
 
 #: build/lib/fas/templates/master.html:92 fas/templates/master.html:92
 msgid "Legal & Privacy"
-msgstr ""
+msgstr "Note legali & Privacy"
 
 #: build/lib/fas/templates/master.html:97 fas/templates/master.html:97
 msgid ""
@@ -1301,6 +1325,8 @@ msgid ""
 "send any comments or corrections to the <a "
 "href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
+"Copyright © 2007 Red Hat, Inc. ed altri.  Tutti i diritti riservati.  Si prega di inviare qualsiasi commento o correzione al <a "
+"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 
 #: build/lib/fas/templates/master.html:100 fas/templates/master.html:100
 msgid ""
@@ -1308,10 +1334,12 @@ msgid ""
 "sponsored by Red Hat.  This is a community maintained site.  Red Hat is "
 "not responsible for content."
 msgstr ""
+"Il Fedora Project è mantenuto e guidato dalla comunità e sponsorizzato da Red "
+"Hat.  Questo è un sito web mantenuto dalla comunità.  Red Hat non è responsabile dei suoi contenuti."
 
 #: build/lib/fas/templates/welcome.html:7 fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr ""
+msgstr "Benvenuti nel FAS2"
 
 #: build/lib/fas/templates/welcome.html:18 fas/templates/welcome.html:18
 msgid ""
@@ -1319,321 +1347,324 @@ msgid ""
 "href=\"https://fedorahosted.org/fas2\">https://fedorahosted.org/fas2/</a>"
 " or stop by #fedora-admin on irc.freenode.net."
 msgstr ""
+"Benvenuti nel Fedora Accounts System 2.  Si prega di inviare le segnalazioni d'errore su <a "
+"href=\"https://fedorahosted.org/fas2\">https://fedorahosted.org/fas2/</a>"
+" oppure fermandosi su #fedora-admin su irc.freenode.net."
 
 #: build/lib/fas/templates/welcome.html:22 fas/templates/welcome.html:22
 msgid "New Account"
-msgstr ""
+msgstr "Nuovo account"
 
 #: build/lib/fas/templates/welcome.html:23 fas/templates/welcome.html:23
 msgid "Why Join?"
-msgstr ""
+msgstr "Perchè partecipare?"
 
 #: build/lib/fas/templates/cla/index.html:10 fas/templates/cla/index.html:10
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "Fedora Contributor License Agreement"
 
 #: build/lib/fas/templates/cla/index.html:11
 #: build/lib/fas/templates/cla/index.html:13 fas/templates/cla/index.html:11
 #: fas/templates/cla/index.html:13
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Versione testuale</a>"
 
 #: build/lib/fas/templates/cla/index.html:15
 msgid "You have already sucessfully complete the CLA."
-msgstr ""
+msgstr "Hai già completato la CLA con successo."
 
 #: build/lib/fas/templates/cla/index.html:20 fas/templates/cla/index.html:20
 msgid "I agree"
-msgstr ""
+msgstr "Sono daccordo"
 
 #: build/lib/fas/templates/cla/index.html:21 fas/templates/cla/index.html:21
 msgid "I do not agree"
-msgstr ""
+msgstr "Non sono daccordo"
 
 #: build/lib/fas/templates/group/edit.html:7 fas/templates/group/edit.html:7
 msgid "Edit Group"
-msgstr ""
+msgstr "Edita gruppo"
 
 #: build/lib/fas/templates/group/edit.html:10 fas/templates/group/edit.html:10
 #, python-format
 msgid "Edit Group: %s"
-msgstr ""
+msgstr "Edita gruppo: %s"
 
 #: build/lib/fas/templates/group/edit.html:13
 #: build/lib/fas/templates/group/new.html:18 fas/templates/group/edit.html:13
 #: fas/templates/group/new.html:18
 msgid "Display Name:"
-msgstr ""
+msgstr "Nome visualizzato:"
 
 #: build/lib/fas/templates/group/edit.html:18
 #: build/lib/fas/templates/group/new.html:28 fas/templates/group/edit.html:18
 #: fas/templates/group/new.html:28
 msgid "Group Type:"
-msgstr ""
+msgstr "Tipo di gruppo:"
 
 #: build/lib/fas/templates/group/edit.html:23
 #: build/lib/fas/templates/group/new.html:23 fas/templates/group/edit.html:23
 #: fas/templates/group/new.html:23
 msgid "Group Owner:"
-msgstr ""
+msgstr "Proprietario del gruppo:"
 
 #: build/lib/fas/templates/group/edit.html:28
 #: build/lib/fas/templates/group/new.html:33
 #: build/lib/fas/templates/group/view.html:41 fas/templates/group/edit.html:28
 #: fas/templates/group/new.html:33 fas/templates/group/view.html:41
 msgid "Needs Sponsor:"
-msgstr ""
+msgstr "Necessita sponsorizzazione:"
 
 #: build/lib/fas/templates/group/edit.html:34
 #: build/lib/fas/templates/group/new.html:38
 #: build/lib/fas/templates/group/view.html:45 fas/templates/group/edit.html:34
 #: fas/templates/group/new.html:38 fas/templates/group/view.html:45
 msgid "Self Removal:"
-msgstr ""
+msgstr "Auto rimozione:"
 
 #: build/lib/fas/templates/group/edit.html:40 fas/templates/group/edit.html:40
 msgid "Group Prerequisite:"
-msgstr ""
+msgstr "Prerequisito del gruppo:"
 
 #: build/lib/fas/templates/group/edit.html:46 fas/templates/group/edit.html:46
 msgid "Group Join Message:"
-msgstr ""
+msgstr "Messaggio d'ingresso al gruppo:"
 
 #: build/lib/fas/templates/group/edit.html:51
 #: build/lib/fas/templates/user/edit.html:80 fas/templates/group/edit.html:51
 #: fas/templates/user/edit.html:80
 msgid "Save!"
-msgstr ""
+msgstr "Salva!"
 
 #: build/lib/fas/templates/group/invite.html:7
 #: build/lib/fas/templates/group/invite.html:10
 #: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
 msgid "Invite a new community member!"
-msgstr ""
+msgstr "Invita un nuovo membro della comunità!"
 
 #: build/lib/fas/templates/group/invite.html:14
 #: fas/templates/group/invite.html:14
 msgid "To email:"
-msgstr ""
+msgstr "Destinatario:"
 
 #: build/lib/fas/templates/group/invite.html:15
 #: fas/templates/group/invite.html:15
 msgid "From:"
-msgstr ""
+msgstr "Mittente:"
 
 #: build/lib/fas/templates/group/invite.html:16
 #: fas/templates/group/invite.html:16
 msgid "Subject:"
-msgstr ""
+msgstr "Soggetto:"
 
 #: build/lib/fas/templates/group/invite.html:17
 #: fas/templates/group/invite.html:17
 msgid "Message:"
-msgstr ""
+msgstr "Messaggio:"
 
 #: build/lib/fas/templates/group/invite.html:39
 #: fas/templates/group/invite.html:39
 msgid "Send!"
-msgstr ""
+msgstr "Spedisci!"
 
 #: build/lib/fas/templates/group/list.html:7 fas/templates/group/list.html:7
 msgid "Groups List"
-msgstr ""
+msgstr "Elenco gruppi"
 
 #: build/lib/fas/templates/group/list.html:19
 #: build/lib/fas/templates/user/list.html:11 fas/templates/group/list.html:19
 #: fas/templates/user/list.html:11
 #, python-format
 msgid "List (%s)"
-msgstr ""
+msgstr "Elenco (%s)"
 
 #: build/lib/fas/templates/group/list.html:20 fas/templates/group/list.html:20
 msgid "Search Groups"
-msgstr ""
+msgstr "Cerca gruppi"
 
 #: build/lib/fas/templates/group/list.html:22 fas/templates/group/list.html:22
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr ""
+msgstr "\"*\" è una wildcard (Es: \"cvs*\")"
 
 #: build/lib/fas/templates/group/list.html:25 fas/templates/group/list.html:25
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: build/lib/fas/templates/group/list.html:28
 #: build/lib/fas/templates/user/list.html:19 fas/templates/group/list.html:28
 #: fas/templates/user/list.html:19
 msgid "Results"
-msgstr ""
+msgstr "Risultati"
 
 #: build/lib/fas/templates/group/list.html:31
 #: build/lib/fas/templates/user/list.html:22 fas/templates/group/list.html:31
 #: fas/templates/user/list.html:22
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 #: build/lib/fas/templates/group/list.html:36 fas/templates/group/list.html:36
 msgid "Group"
-msgstr ""
+msgstr "Gruppo"
 
 #: build/lib/fas/templates/group/list.html:36 fas/templates/group/list.html:36
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 #: build/lib/fas/templates/group/list.html:36 fas/templates/group/list.html:36
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #: build/lib/fas/templates/group/list.html:44
 #: build/lib/fas/templates/group/view.html:22
 #: build/lib/fas/templates/user/view.html:70 fas/templates/group/list.html:44
 #: fas/templates/group/view.html:22 fas/templates/user/view.html:70
 msgid "Approved"
-msgstr ""
+msgstr "Approvato"
 
 #: build/lib/fas/templates/group/list.html:45
 #: build/lib/fas/templates/group/view.html:23 fas/templates/group/list.html:45
 #: fas/templates/group/view.html:23
 msgid "Unapproved"
-msgstr ""
+msgstr "Non approvato"
 
 #: build/lib/fas/templates/group/new.html:7
 #: build/lib/fas/templates/group/new.html:10 fas/templates/group/new.html:7
 #: fas/templates/group/new.html:10
 msgid "Create a new FAS Group"
-msgstr ""
+msgstr "Crea un nuovo gruppo FAS"
 
 #: build/lib/fas/templates/group/new.html:13 fas/templates/group/new.html:13
 msgid "Group Name:"
-msgstr ""
+msgstr "Nome gruppo:"
 
 #: build/lib/fas/templates/group/new.html:43 fas/templates/group/new.html:43
 msgid "Must Belong To:"
-msgstr ""
+msgstr "Deve appartenere a:"
 
 #: build/lib/fas/templates/group/new.html:48
 #: build/lib/fas/templates/group/view.html:49 fas/templates/group/new.html:48
 #: fas/templates/group/view.html:49
 msgid "Join Message:"
-msgstr ""
+msgstr "Messaggio di adesione:"
 
 #: build/lib/fas/templates/group/new.html:53 fas/templates/group/new.html:53
 msgid "Create!"
-msgstr ""
+msgstr "Crea!"
 
 #: build/lib/fas/templates/group/view.html:7
 #: build/lib/fas/templates/user/view.html:77 fas/templates/group/view.html:7
 #: fas/templates/user/view.html:77
 msgid "View Group"
-msgstr ""
+msgstr "Mostra gruppo"
 
 #: build/lib/fas/templates/group/view.html:21 fas/templates/group/view.html:21
 msgid "My Status:"
-msgstr ""
+msgstr "Stato:"
 
 #: build/lib/fas/templates/group/view.html:24 fas/templates/group/view.html:24
 msgid "Not a Member"
-msgstr ""
+msgstr "Non appartenente"
 
 #: build/lib/fas/templates/group/view.html:32 fas/templates/group/view.html:32
 msgid "Remove me"
-msgstr ""
+msgstr "Rimuovimi"
 
 #: build/lib/fas/templates/group/view.html:34
 #: build/lib/fas/templates/user/view.html:17 fas/templates/group/view.html:34
 #: fas/templates/user/view.html:17
 msgid "(edit)"
-msgstr ""
+msgstr "(edita)"
 
 #: build/lib/fas/templates/group/view.html:37
 #: build/lib/fas/templates/openid/id.html:16 fas/templates/group/view.html:37
 #: fas/templates/openid/id.html:16
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: build/lib/fas/templates/group/view.html:38 fas/templates/group/view.html:38
 msgid "Description:"
-msgstr ""
+msgstr "Descrizione:"
 
 #: build/lib/fas/templates/group/view.html:39 fas/templates/group/view.html:39
 msgid "Owner:"
-msgstr ""
+msgstr "Proprietario:"
 
 #: build/lib/fas/templates/group/view.html:40 fas/templates/group/view.html:40
 msgid "Type:"
-msgstr ""
+msgstr "Tipo:"
 
 #: build/lib/fas/templates/group/view.html:42
 #: build/lib/fas/templates/group/view.html:46 fas/templates/group/view.html:42
 #: fas/templates/group/view.html:46
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: build/lib/fas/templates/group/view.html:43
 #: build/lib/fas/templates/group/view.html:47 fas/templates/group/view.html:43
 #: fas/templates/group/view.html:47
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: build/lib/fas/templates/group/view.html:50 fas/templates/group/view.html:50
 msgid "Prerequisite:"
-msgstr ""
+msgstr "Prerequisito:"
 
 #: build/lib/fas/templates/group/view.html:53 fas/templates/group/view.html:53
 msgid "Created:"
-msgstr ""
+msgstr "Creato:"
 
 #: build/lib/fas/templates/group/view.html:55 fas/templates/group/view.html:55
 msgid "Add User:"
-msgstr ""
+msgstr "Aggiungi utente:"
 
 #: build/lib/fas/templates/group/view.html:71 fas/templates/group/view.html:71
 msgid "Members"
-msgstr ""
+msgstr "Appartenenti"
 
 #: build/lib/fas/templates/group/view.html:75
 #: build/lib/fas/templates/user/list.html:27 fas/templates/group/view.html:75
 #: fas/templates/user/list.html:27
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: build/lib/fas/templates/group/view.html:77 fas/templates/group/view.html:77
 msgid "Date Added"
-msgstr ""
+msgstr "Data aggiunta"
 
 #: build/lib/fas/templates/group/view.html:78 fas/templates/group/view.html:78
 msgid "Date Approved"
-msgstr ""
+msgstr "Data approvata"
 
 #: build/lib/fas/templates/group/view.html:79 fas/templates/group/view.html:79
 msgid "Approval"
-msgstr ""
+msgstr "Approvazione"
 
 #: build/lib/fas/templates/group/view.html:80 fas/templates/group/view.html:80
 msgid "Role Type"
-msgstr ""
+msgstr "Tipo ruolo"
 
 #: build/lib/fas/templates/group/view.html:81 fas/templates/group/view.html:81
 msgid "Action"
-msgstr ""
+msgstr "Azione"
 
 #: build/lib/fas/templates/group/view.html:87
 #: build/lib/fas/templates/group/view.html:90
 #: build/lib/fas/templates/user/view.html:71 fas/templates/group/view.html:87
 #: fas/templates/group/view.html:90 fas/templates/user/view.html:71
 msgid "None"
-msgstr ""
+msgstr "Nulla"
 
 #: build/lib/fas/templates/openid/about.html:10
 #: build/lib/fas/templates/openid/trusted.html:10
 #: fas/templates/openid/about.html:10 fas/templates/openid/trusted.html:10
 msgid "Fedora Project OpenID Provider"
-msgstr ""
+msgstr "Fedora Project OpenID Provider"
 
 #: build/lib/fas/templates/openid/id.html:11 fas/templates/openid/id.html:11
 #, python-format
 msgid "User %s"
-msgstr ""
+msgstr "Utente %s"
 
 #: build/lib/fas/templates/openid/id.html:14
 #: build/lib/fas/templates/user/new.html:13
@@ -1641,18 +1672,18 @@ msgstr ""
 #: fas/templates/openid/id.html:14 fas/templates/user/new.html:13
 #: fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr ""
+msgstr "Username:"
 
 #: build/lib/fas/templates/openid/trusted.html:15
 #: fas/templates/openid/trusted.html:15
 #, python-format
 msgid "Allow <strong>%s</strong> to authenticate to your OpenID identity?"
-msgstr ""
+msgstr "Consentire a <strong>%s</strong> di autenticarsi alla tua identità OpenID?"
 
 #: build/lib/fas/templates/openid/trusted.html:16
 #: fas/templates/openid/trusted.html:16
 msgid "Submit"
-msgstr ""
+msgstr "Invia"
 
 #: build/lib/fas/templates/user/changepass.html:7
 #: build/lib/fas/templates/user/changepass.html:10
@@ -1661,64 +1692,64 @@ msgstr ""
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
 msgid "Change Password"
-msgstr ""
+msgstr "Cambio password"
 
 #: build/lib/fas/templates/user/changepass.html:13
 #: fas/templates/user/changepass.html:13
 msgid "Current Password:"
-msgstr ""
+msgstr "Password corrente:"
 
 #: build/lib/fas/templates/user/changepass.html:14
 #: build/lib/fas/templates/user/verifypass.html:13
 #: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
 msgid "New Password:"
-msgstr ""
+msgstr "Nuova password:"
 
 #: build/lib/fas/templates/user/changepass.html:15
 #: build/lib/fas/templates/user/verifypass.html:14
 #: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Conferma password:"
 
 #: build/lib/fas/templates/user/edit.html:7 fas/templates/user/edit.html:7
 msgid "Edit Account"
-msgstr ""
+msgstr "Modifica account"
 
 #: build/lib/fas/templates/user/edit.html:10 fas/templates/user/edit.html:10
 #, python-format
 msgid "Edit Account (%s)"
-msgstr ""
+msgstr "Modifica account (%s)"
 
 #: build/lib/fas/templates/user/edit.html:13 fas/templates/user/edit.html:13
 msgid "Human Name"
-msgstr ""
+msgstr "Nome umano"
 
 #: build/lib/fas/templates/user/edit.html:19 fas/templates/user/edit.html:19
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: build/lib/fas/templates/user/edit.html:22
 #: build/lib/fas/templates/user/view.html:24 fas/templates/user/edit.html:22
 #: fas/templates/user/view.html:24
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(in attesa di cambio a %(email)s - <a href=\"%(url)s\">annulla</a>)"
 
 #: build/lib/fas/templates/user/edit.html:31 fas/templates/user/edit.html:31
 msgid "Telephone Number"
-msgstr ""
+msgstr "Numero telefono"
 
 #: build/lib/fas/templates/user/edit.html:41 fas/templates/user/edit.html:41
 msgid "IRC Nick"
-msgstr ""
+msgstr "Nick IRC"
 
 #: build/lib/fas/templates/user/edit.html:57 fas/templates/user/edit.html:57
 msgid "Time Zone"
-msgstr ""
+msgstr "Fuso orario"
 
 #: build/lib/fas/templates/user/edit.html:75 fas/templates/user/edit.html:75
 msgid "Comments"
-msgstr ""
+msgstr "Commenti"
 
 #: build/lib/fas/templates/user/edit.html:81
 #: build/lib/fas/templates/user/verifyemail.html:17
@@ -1726,48 +1757,48 @@ msgstr ""
 #: fas/templates/user/edit.html:81 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: build/lib/fas/templates/user/list.html:7 fas/templates/user/list.html:7
 msgid "Users List"
-msgstr ""
+msgstr "Elenco utenti"
 
 #: build/lib/fas/templates/user/list.html:13 fas/templates/user/list.html:13
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" è una wildcard (Es: \"ric*\")"
 
 #: build/lib/fas/templates/user/list.html:38
 #: build/lib/fas/templates/user/view.html:45 fas/templates/user/list.html:38
 #: fas/templates/user/view.html:45
 msgid "CLA Done"
-msgstr ""
+msgstr "CLA completata"
 
 #: build/lib/fas/templates/user/list.html:39
 #: build/lib/fas/templates/user/view.html:46 fas/templates/user/list.html:39
 #: fas/templates/user/view.html:46
 msgid "Not Done"
-msgstr ""
+msgstr "Non completata"
 
 #: build/lib/fas/templates/user/new.html:7
 #: build/lib/fas/templates/user/new.html:10 fas/templates/user/new.html:7
 #: fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr ""
+msgstr "Iscriviti per un Fedora account"
 
 #: build/lib/fas/templates/user/new.html:17 fas/templates/user/new.html:17
 msgid "Full Name:"
-msgstr ""
+msgstr "Nome completo:"
 
 #: build/lib/fas/templates/user/new.html:21
 #: build/lib/fas/templates/user/resetpass.html:14
 #: build/lib/fas/templates/user/view.html:22 fas/templates/user/new.html:21
 #: fas/templates/user/resetpass.html:14 fas/templates/user/view.html:22
 msgid "Email:"
-msgstr ""
+msgstr "Email:"
 
 #: build/lib/fas/templates/user/new.html:38 fas/templates/user/new.html:38
 msgid "Sign up!"
-msgstr ""
+msgstr "Iscriviti!"
 
 #: build/lib/fas/templates/user/resetpass.html:7
 #: build/lib/fas/templates/user/resetpass.html:10
@@ -1778,143 +1809,143 @@ msgstr ""
 #: fas/templates/user/resetpass.html:16 fas/templates/user/verifypass.html:7
 #: fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr ""
+msgstr "Reset password"
 
 #: build/lib/fas/templates/user/resetpass.html:15
 #: fas/templates/user/resetpass.html:15
 msgid "Encrypt/Sign password reset email"
-msgstr ""
+msgstr "Cifra/Firma l'email di reset della password"
 
 #: build/lib/fas/templates/user/verifyemail.html:7
 #: build/lib/fas/templates/user/verifyemail.html:10
 #: fas/templates/user/verifyemail.html:7 fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr ""
+msgstr "Conferma la richiesta di cambio email"
 
 #: build/lib/fas/templates/user/verifyemail.html:14
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "Si desidera veramente cambiare l'email a: %s?"
 
 #: build/lib/fas/templates/user/verifyemail.html:16
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #: build/lib/fas/templates/user/view.html:7 fas/templates/user/view.html:7
 msgid "View Account"
-msgstr ""
+msgstr "Mostra account"
 
 #: build/lib/fas/templates/user/view.html:15 fas/templates/user/view.html:15
 msgid "Your Fedora Account"
-msgstr ""
+msgstr "Il tuo account Fedora"
 
 #: build/lib/fas/templates/user/view.html:16 fas/templates/user/view.html:16
 #, python-format
 msgid "%s's Fedora Account"
-msgstr ""
+msgstr "Account Fedora di %s"
 
 #: build/lib/fas/templates/user/view.html:17 fas/templates/user/view.html:17
 msgid "Account Details"
-msgstr ""
+msgstr "Dettagli account"
 
 #: build/lib/fas/templates/user/view.html:20 fas/templates/user/view.html:20
 msgid "Account Name:"
-msgstr ""
+msgstr "Nome account:"
 
 #: build/lib/fas/templates/user/view.html:21 fas/templates/user/view.html:21
 msgid "Real Name:"
-msgstr ""
+msgstr "Nome reale:"
 
 #: build/lib/fas/templates/user/view.html:27 fas/templates/user/view.html:27
 msgid "Telephone Number:"
-msgstr ""
+msgstr "Numero di telefono:"
 
 #: build/lib/fas/templates/user/view.html:28 fas/templates/user/view.html:28
 msgid "Postal Address:"
-msgstr ""
+msgstr "Indirizzo postale:"
 
 #: build/lib/fas/templates/user/view.html:30 fas/templates/user/view.html:30
 msgid "IRC Nick:"
-msgstr ""
+msgstr "Nick IRC:"
 
 #: build/lib/fas/templates/user/view.html:31 fas/templates/user/view.html:31
 msgid "PGP Key:"
-msgstr ""
+msgstr "Chiave PGP:"
 
 #: build/lib/fas/templates/user/view.html:32 fas/templates/user/view.html:32
 msgid "Public SSH Key:"
-msgstr ""
+msgstr "Chiave pubblica SSH:"
 
 #: build/lib/fas/templates/user/view.html:36 fas/templates/user/view.html:36
 msgid "Comments:"
-msgstr ""
+msgstr "Commenti:"
 
 #: build/lib/fas/templates/user/view.html:37 fas/templates/user/view.html:37
 msgid "Valid"
-msgstr ""
+msgstr "Valido"
 
 #: build/lib/fas/templates/user/view.html:38 fas/templates/user/view.html:38
 msgid "Account Status:"
-msgstr ""
+msgstr "Status account:"
 
 #: build/lib/fas/templates/user/view.html:39 fas/templates/user/view.html:39
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #: build/lib/fas/templates/user/view.html:40 fas/templates/user/view.html:40
 msgid "Vacation"
-msgstr ""
+msgstr "Vacante"
 
 #: build/lib/fas/templates/user/view.html:41 fas/templates/user/view.html:41
 msgid "Inactive"
-msgstr ""
+msgstr "Inattivo"
 
 #: build/lib/fas/templates/user/view.html:42 fas/templates/user/view.html:42
 msgid "Pinged"
-msgstr ""
+msgstr "Pingato"
 
 #: build/lib/fas/templates/user/view.html:44 fas/templates/user/view.html:44
 msgid "CLA:"
-msgstr ""
+msgstr "CLA:"
 
 #: build/lib/fas/templates/user/view.html:46 fas/templates/user/view.html:46
 msgid "Complete it!"
-msgstr ""
+msgstr "Completa!"
 
 #: build/lib/fas/templates/user/view.html:50 fas/templates/user/view.html:50
 msgid "Your Roles"
-msgstr ""
+msgstr "Ruoli"
 
 #: build/lib/fas/templates/user/view.html:51 fas/templates/user/view.html:51
 #, python-format
 msgid "%s's Roles"
-msgstr ""
+msgstr "Ruoli di %s"
 
 #: build/lib/fas/templates/user/view.html:68 fas/templates/user/view.html:68
 msgid "Status:"
-msgstr ""
+msgstr "Stato:"
 
 #: build/lib/fas/templates/user/view.html:74 fas/templates/user/view.html:74
 msgid "Tools:"
-msgstr ""
+msgstr "Strumenti:"
 
 #: build/lib/fas/templates/user/view.html:78 fas/templates/user/view.html:78
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "Invita un nuovo membro..."
 
 #: build/lib/fas/templates/user/view.html:79 fas/templates/user/view.html:79
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "Gestisci l'appartenenza al gruppo..."
 
 #: build/lib/fas/templates/user/view.html:80 fas/templates/user/view.html:80
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "Gestisci i dettagli del gruppo..."
 
 #: build/lib/fas/templates/user/view.html:84 fas/templates/user/view.html:84
 msgid "Queue:"
-msgstr ""
+msgstr "Coda:"
 
 #: build/lib/fas/templates/user/view.html:88 fas/templates/user/view.html:88
 #, python-format
@@ -1922,8 +1953,10 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
 msgstr ""
+"<strong>%(user)s</strong> ha richiesto approvazione per aderire al gruppo "
+"<strong>%(unapproved_role.group)s</strong>."
 
 #: fas/templates/cla/index.html:15
 msgid "You have already successfully completed the CLA."
-msgstr ""
+msgstr "Hai già completato con successo la CLA."
 
