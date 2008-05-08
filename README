@@ -140,6 +140,12 @@ WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
 </Directory>
 
 #EOF
+
+Finally edit fas.wsgi and add the proper values for your setup and start the
+server with:
+
+/etc/init.d/httpd start
+
 --------------------
 Enabling Local Users
 --------------------
