@@ -382,19 +382,19 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                     Groups.name=='cla_done',
                     PersonRoles.role_status=='approved')
                 ).distinct().order_by('username').execute()
-        cla_approved = list(approved)
+        cla_approved = [dict(row) for row in approved]
 
         unapproved = select([People.username, People.id, People.human_name,
             People.ssh_key, People.password]).where(and_(
                 People.username.like(re_search),
                 not_(People.id.in_([p['id'] for p in cla_approved])))
                 ).distinct().order_by('username').execute()
-        cla_unapproved = list(unapproved)
+        cla_unapproved = [dict(row) for row in unapproved]
 
         if not (cla_approved or cla_unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
 
-        return dict(people=cla_approved, unapproved_people=cla_unapproved,
+        return dict(people=cla_unapproved, unapproved_people=cla_unapproved,
                 search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
