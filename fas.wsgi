@@ -1,4 +1,7 @@
 #!/usr/bin/python
+import pkg_resources
+pkg_resources.require('CherryPy <= 3.0alpha')
+
 import sys
 sys.path.append('/home/mmcgrath/git/fas/fas/')
 sys.path.append('/home/mmcgrath/git/fas/')
