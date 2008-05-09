@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-23 22:56-0400\n"
-"PO-Revision-Date: 2008-05-07 22:10+0800\n"
+"PO-Revision-Date: 2008-05-09 18:28+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: build/lib/fas/auth.py:138 fas/auth.py:138
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
+msgstr "在申请加入此组之前您需要有 %s成员身份"
 
 #: build/lib/fas/cla.py:70 fas/cla.py:70
 msgid "You have already completed the CLA."
@@ -51,11 +51,10 @@ msgid "Welcome, %s"
 msgstr "欢迎, %s"
 
 #: build/lib/fas/controllers.py:115 fas/controllers.py:115
-#, fuzzy
 msgid ""
 "The credentials you supplied were not correct or did not grant access to "
 "this resource."
-msgstr "您提供的证件不正确或者不具备此资源的权限."
+msgstr "您提供的证件不正确或者不具备访问此资源的权限."
 
 #: build/lib/fas/controllers.py:118 fas/controllers.py:118
 msgid "You must provide your credentials before accessing this resource."
@@ -174,13 +173,11 @@ msgstr "您不能担保 '%s'"
 
 #: build/lib/fas/group.py:346 fas/group.py:346
 #, python-format
-#, fuzzy
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s 不能在 %(group)s 中担保: %(error)s"
 
 #: build/lib/fas/group.py:352 fas/group.py:352
 #, python-format
-#, fuzzy
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -188,9 +185,10 @@ msgid ""
 "propagate into the e-mail aliases and CVS repository within an hour.\n"
 "\n"
 "%(joinmsg)s\n"
-msgstr "\n"
+msgstr ""
+"\n"
 "%(name)s <%(email)s> 担保您成为 Fedora账户系统%(group)s\n"
-"组成员. 如果适用的话, 变更将在一小时内发送到电子邮件 aliases及CVS repository中.\n"
+"组成员. 如果适用的话, 变更将在一小时内发送到关联的电子邮件地址及CVS资源中.\n"
 "\n"
 "%(joinmsg)s\n"
 
@@ -211,17 +209,16 @@ msgstr "无法从 %(group)s 中删除%(user)s: %(error)s"
 
 #: build/lib/fas/group.py:389 fas/group.py:389
 #, python-format
-#, fuzzy
 msgid ""
 "\n"
 "%(name)s <%(email)s> has removed you from the '%(group)s'\n"
 "group of the Fedora Accounts System This change is effective\n"
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
-msgstr "\n"
+msgstr ""
+"\n"
 "%(name)s <%(email)s> 已将您从Fedora账户系统的 '%(group)s'\n"
-"组中删除. 此变更在有新操作时将立即生效, 并在一小时内发送到电子邮件\n"
-"aliases.\n"
+"组中删除. 此变更在有新操作时将立即生效, 并在一小时内发送到关联的电子邮件地址.\n"
 
 #: build/lib/fas/group.py:396 fas/group.py:396
 #, python-format
@@ -235,23 +232,22 @@ msgstr "您无法升级 '%s'"
 
 #: build/lib/fas/group.py:420 fas/group.py:420
 #, python-format
-#, fuzzy
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在%(group)s中升级: %(error)s"
 
 #: build/lib/fas/group.py:429 fas/group.py:429
 #, python-format
-#, fuzzy
 msgid ""
 "\n"
 "%(name)s <%(email)s> has upgraded you to %(status)s status in the\n"
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr "\n"
-"%(name)s <%(email)s> 将您升级为Fedora账户系统 '%(group)s' 组中的\n"
+msgstr ""
+"\n"
+"%(name)s <%(email)s> 将您升级到Fedora账户系统 '%(group)s' 组中的\n"
 "%(status)s 状态.此变更将在有新操作时立即生效, 并将在一小时内发送到\n"
-"电子邮件 aliases.\n"
+"关联的电子邮件.\n"
 
 #: build/lib/fas/group.py:436 fas/group.py:436
 #, python-format
@@ -265,7 +261,6 @@ msgstr "您无法降级 '%s'"
 
 #: build/lib/fas/group.py:459 fas/group.py:459
 #, python-format
-#, fuzzy
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在%(group)s中降级: %(error)s"
 
@@ -278,6 +273,10 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(name)s <%(email)s>已将您在Fedora账户系统 '%(group)s'组中的状态降为\n"
+" %(status)s. 此更改将在有新的操作时立刻生效, 并会在一小时内发送至关联的电子邮箱\n"
+""
 
 #: build/lib/fas/group.py:474 fas/group.py:474
 #, python-format
@@ -307,7 +306,16 @@ msgid ""
 "very smart and talented people.\n"
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
-msgstr ""
+msgstr "\n"
+"%(name)s <%(email)s> 邀请您加入Fedora Project!  我们是一个通过采用完全自由\n"
+"和开源的软件(FOSS)开发完整操作系统的开发者及用户组成的社区.  %(name)s 相信您有\n"
+"能力来为Fedora社区做出杰出贡献, 并相信您也对此贡献抱有兴趣.\n"
+"\n"
+"您怎样与Fedora社区协作来使用和发挥您的技能呢?  请参考http://fedoraproject.org/join-fedora for some ideas.\n"
+"我们不仅是软件开发者的社区 -- 我们也是您的一个平台,无论您是艺术家, 网站制作人, 作家\n"
+"还是普通人.  随着您与团队中其他聪明富有才能的人员的工作,您将会得到进步.\n"
+"\n"
+"Fedora 及 FOSS 正在改变世界 -- 快来成为它的一员吧!"
 
 #: build/lib/fas/group.py:539 fas/group.py:539
 #, python-format
@@ -370,7 +378,7 @@ msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
 "you or to encrypt information so that only the recipients can read it.  This "
 "can be used when a password reset is sent to your email.</p>"
-msgstr ""
+msgstr "<p>GPG 密匙一般用来验证来自您的消息或邮件或者用来加密信息以使得只对接收者看见.  当您的密码重设信息发到您的电子邮箱时就会用到.</p>"
 
 #: build/lib/fas/help.py:13 fas/help.py:13
 msgid "Telephone"
@@ -383,7 +391,7 @@ msgid ""
 "from the Fedora Project may need to contact you.  For more information see "
 "our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
-msgstr ""
+msgstr "<p>需要它来完成 <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  在某些时间紧急的时候某个Fedora Project成员需要联系您.  有关更多信息请看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
 
 #: build/lib/fas/help.py:14 build/lib/fas/templates/user/edit.html:36
 #: fas/help.py:14 fas/templates/user/edit.html:36
@@ -396,7 +404,7 @@ msgid ""
 "Legal/Licenses/CLA\">CLA</a>.  This should be a mailing address where you "
 "can be contacted.  See our <a href=\"http://fedoraproject.org/wiki/Legal/"
 "PrivacyPolicy\">Privacy Policy</a> about any concerns.</p>"
-msgstr ""
+msgstr "<p>需要它来完成 <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  这应当是能够联系您的一个邮件地址.  若有任何疑问请看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
 
 #: build/lib/fas/help.py:15 fas/help.py:15
 msgid "Timezone (Optional)"
@@ -438,6 +446,7 @@ msgid ""
 "recommended for anyone interested in getting involved in the Fedora Project."
 "</p>"
 msgstr ""
+"<p>为了使您能够成为完全的Fedora贡献者您必须完成<a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License Agreement</a>.  此许可是您与Red Hat之间的合法协议.  完全状态允许成员提交内容及代码,向任何有兴趣加入Fedora Project的人推荐使用此状态.</p>"
 
 #: build/lib/fas/help.py:19 build/lib/fas/templates/user/edit.html:51
 #: fas/help.py:19 fas/templates/user/edit.html:51
@@ -451,10 +460,11 @@ msgid ""
 "keygen\" for more information on creating your key.  Once created you will "
 "want to upload ~/.ssh/id_dsa.pub or ~/.ssh/id_rsa.pub</p>"
 msgstr ""
+"<p>许多资源通过公匙来工作.  通过向我们上传您的公匙, 您可登录到我们的服务器上.  输入 \"man ssh-"
+"keygen\" 来获取更多关于创建您公匙的信息.  在您创建后您需要上传 ~/.ssh/id_dsa.pub 或者 ~/.ssh/id_rsa.pub</p>"
 
 #: build/lib/fas/help.py:20 build/lib/fas/templates/user/edit.html:67
 #: fas/help.py:20 fas/templates/user/edit.html:67
-#, fuzzy
 msgid "Locale"
 msgstr "所在地"
 
@@ -476,6 +486,7 @@ msgid ""
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"../about\">about page</a>.</p>"
 msgstr ""
+"<p>申请加入某个组就像找一份工作一样, 这确实要花点时间才能加入.  许多组都有它们自己的批准或担保规定.  更多有关账户系统如何工作的信息请见 <a href=\"../about\">about page</a>.</p>"
 
 #: build/lib/fas/help.py:23 build/lib/fas/templates/group/view.html:107
 #: fas/help.py:23 fas/templates/group/view.html:107
@@ -500,6 +511,7 @@ msgid ""
 "li><li>From sponsor -> administrator</li><li>administrators cannot be "
 "upgraded beyond administrator</li></ul></p>"
 msgstr ""
+"<p>升级本组中成员的状态 <ul><li>来自用户 -> 至担保人</li><li>来自担保人 -> 管理员</li><li>管理员无法升级为管理员外的状态</li></ul></p>"
 
 #: build/lib/fas/help.py:25 build/lib/fas/templates/group/view.html:115
 #: fas/help.py:25 fas/templates/group/view.html:115
@@ -532,13 +544,13 @@ msgid "Sponsor"
 msgstr "资助者"
 
 #: build/lib/fas/help.py:27 fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
-msgstr "<p>担保人或管理员可担保用户加入到组中.  一旦用户申请加入到组中, 请到组页面并点批准来担保该用户.  担保用户意味着您在批准一个用户并要指导和回答他们的问题.</p>"
+msgstr ""
+"<p>担保人或管理员可担保用户加入到组中.  一旦用户申请加入到组中, 请到组页面并点批准来担保该用户.  担保用户意味着您在批准一个用户并要指导和回答他们的问题.</p>"
 
 #: build/lib/fas/help.py:28 fas/help.py:28
 msgid "Add User"
@@ -566,7 +578,7 @@ msgstr "显示名称"
 
 #: build/lib/fas/help.py:30 fas/help.py:30
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p>更具可读性的组名称</p>"
 
 #: build/lib/fas/help.py:31 fas/help.py:31
 msgid "Group Owner"
@@ -574,7 +586,7 @@ msgstr "组所有者"
 
 #: build/lib/fas/help.py:31 fas/help.py:31
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
+msgstr "<p>运作此组的所有者名称</p>"
 
 #: build/lib/fas/help.py:32 fas/help.py:32
 msgid "Group Type"
@@ -587,6 +599,7 @@ msgid ""
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
 msgstr ""
+"<p>尽管有些包括'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', 和 'mtn'的值存在.但通常情况此格留为空白是安全的.  仅当此组要终止获取shell访问或委托访问像fedorahosted之类的地方时才需要此值.</p>"
 
 #: build/lib/fas/help.py:33 fas/help.py:33
 msgid "Needs Sponsor"
@@ -601,6 +614,7 @@ msgid ""
 "wrong.  If this box is unchecked, this means that only approval is needed "
 "and no relationship is recorded about who did the approving</p>"
 msgstr ""
+"<p>如果您的组需要担保资格的话 (推荐), 这意味着用户通过了担保者的批准.  这样的关系会记录到账户系统中.  如果用户A担保用户N, 那么当浏览该组的成员时, 人们就能够知道当用户N有错误时该联系用户A.  如果不选此项, 这意味着仅批准而不记录是谁做的批准</p>"
 
 #: build/lib/fas/help.py:34 fas/help.py:34
 msgid "Self Removal"
@@ -646,6 +660,7 @@ msgid ""
 "not a package maintainer there is no need to worry about the client side "
 "cert</p>"
 msgstr ""
+"<p>客户端认证通常用于保障向Fedora上传程序包或其它像 koji 之类的验证目的的权限.  如果您不是程序包维护者则您无需担忧客户端认证</p>"
 
 #: build/lib/fas/model.py:133 fas/model.py:134
 msgid "user is already in this group"
@@ -790,7 +805,6 @@ msgstr "欢迎来到Fedora Project!"
 
 #: build/lib/fas/user.py:414 fas/user.py:401
 #, python-format
-#, fuzzy
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -835,7 +849,27 @@ msgstr "\n"
 "\n"
 "请到https://admin.fedoraproject.org/accounts/ to change it.\n"
 "\n"
-"欢迎来到Fedora Project. "
+"欢迎来到Fedora Project. 现在您已注册了一个账户,想必您已迫不及待的要开始做些\n"
+"贡献了, 请牢记我们希望这封邮件能够引导您到正确的方向使得贡献的的过程变得尽可能\n"
+"的简单.\n"
+"\n"
+"Fedora是一个有很多要发展的令人兴奋的工程, 您可以多种多样的方式, 使用\n"
+"各种不同类型的技能来贡献. 要查找众多您可以为Fedora贡献的方法, 您可以\n"
+"访问我们的加入页,此页提供了我们现有的不同角色的更多信息.\n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"如果您已了解了您如何贡献Fedora, 并找到了与您兴趣相关的组, 则有另外几步来让您开始.\n"
+"\n"
+"这些步骤之中最重要的是要将您自己加入到您所感兴趣的小组或工程的邮件列表中 - 如果\n"
+"您对不止一组的工作有兴趣, 则可无限制的尽您所愿的加入到更多的组邮件列表中! 这是因为\n"
+"邮件列表是组织多数工作和任务的地方, 所以在这个之中可确保信息的时效性.\n"
+"\n"
+"在这一步完成之后, 表较明智的做法是发一个简短的自我介绍到邮件列表中以便其他人了解您\n"
+"的经历及您将如何帮助. 由此组内已有的成员会帮助您找到您做为一位Fedora贡献人的立足点.\n"
+"\n"
+"最后, Fedora Project的所有人员在此表示, 期待与您一起工作!\n"
+"\n"
 
 #: build/lib/fas/user.py:455 fas/user.py:442
 msgid "An account has already been registered with that email address."
@@ -957,6 +991,7 @@ msgid "Etiquette"
 msgstr "规定"
 
 #: build/lib/fas/templates/about.html:13 fas/templates/about.html:13
+#, fuzzy
 msgid ""
 "People shouldn't assume that by applying for a group that they're then in "
 "that group.  Consider it like applying for another job.  It often takes "
@@ -968,12 +1003,14 @@ msgid ""
 "depending on the group.  It's best to know you will get sponsored before you "
 "apply."
 msgstr ""
+"各位不能假设通过申请加入某个组就会进入那个组.  想想它像是在应聘另一份工作一样.  通常要有段时间.  为了提高成功的可能性, 不妨先了解一下您要申请加入的组并能结识组内的某个成员.  找找具有担保或管理权限的成员询问一下他们是否有时间指导您.  准备好至少几天的时间了解组的情况, 做一些mundain 工作, 加入到邮件列表中.  根据各组情况的不同, 这个过程可能会持续几周.  最好是在您申请之前能够获知您已被担保."
 
 #: build/lib/fas/templates/about.html:14 fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
 msgstr "用户, 资助人, 管理员"
 
 #: build/lib/fas/templates/about.html:15 fas/templates/about.html:15
+#, fuzzy
 msgid ""
 "Once you're in the group, you're in the group.  Sponsorship and "
 "Administrators typically have special access in the group in questions.  "
@@ -984,6 +1021,7 @@ msgid ""
 "sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
+"一旦您加入到该组,那您就是该组的成员.  担保人及管理员在组中in questions 有着特殊的权限.  某些组将担保资格水平视为较高的involvement, 比如具有部分的组拥有资格.  但随着账户系统的发展,本质很简单.  担保人可批准新用户的加入及使普通用户变为担保人.  然而他们无法降级或删除其它担保人.  也不能以任何方式变更管理员.  管理员可对组中任何人做任意操作."
 
 #: build/lib/fas/templates/error.html:7 build/lib/fas/templates/home.html:7
 #: build/lib/fas/templates/cla/index.html:7
@@ -1005,8 +1043,9 @@ msgid "The following error(s) have occured with your request:"
 msgstr "您的请求发生如下错误:"
 
 #: build/lib/fas/templates/home.html:11 fas/templates/home.html:11
+#, fuzzy
 msgid "Todo queue:"
-msgstr ""
+msgstr "待做列表:"
 
 #: build/lib/fas/templates/home.html:17 fas/templates/home.html:17
 #, python-format
@@ -1014,6 +1053,7 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join <a href=\"group/view/%"
 "(group)s\">%(group)s</a>."
 msgstr ""
+"<strong>%(user)s</strong>申请批准加入<a href=\"group/view/%(group)s\">%(group)s</a>."
 
 #: build/lib/fas/templates/home.html:24 fas/templates/home.html:24
 #, python-format
@@ -1135,7 +1175,7 @@ msgstr "新闻"
 
 #: build/lib/fas/templates/master.html:74 fas/templates/master.html:74
 msgid "Locale:"
-msgstr ""
+msgstr "所在地:"
 
 #: build/lib/fas/templates/master.html:78 fas/templates/master.html:78
 msgid "OK"
@@ -1199,7 +1239,7 @@ msgstr "Fedora Contributor License Agreement"
 #: fas/templates/cla/index.html:13
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Text 版本</a>"
 
 #: build/lib/fas/templates/cla/index.html:15
 msgid "You have already sucessfully complete the CLA."
@@ -1255,7 +1295,6 @@ msgid "Self Removal:"
 msgstr "自我移除:"
 
 #: build/lib/fas/templates/group/edit.html:40 fas/templates/group/edit.html:40
-#, fuzzy
 msgid "Group Prerequisite:"
 msgstr "组前提:"
 
@@ -1565,7 +1604,7 @@ msgstr "电子邮件"
 #: fas/templates/user/view.html:24
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(待定更改至 %(email)s - <a href=\"%(url)s\">取消</a>)"
 
 #: build/lib/fas/templates/user/edit.html:31 fas/templates/user/edit.html:31
 msgid "Telephone Number"
@@ -1645,9 +1684,8 @@ msgstr "重设密码"
 
 #: build/lib/fas/templates/user/resetpass.html:15
 #: fas/templates/user/resetpass.html:15
-#, fuzzy
 msgid "Encrypt/Sign password reset email"
-msgstr "加密/Sign 密码重设邮件"
+msgstr "加密/登录密码重设邮件"
 
 #: build/lib/fas/templates/user/verifyemail.html:7
 #: build/lib/fas/templates/user/verifyemail.html:10
@@ -1787,6 +1825,7 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join <strong>%"
 "(unapproved_role.group)s</strong>."
 msgstr ""
+"<strong>%(user)s</strong> 申请批准加入 <strong>%(unapproved_role.group)s</strong>."
 
 #: fas/templates/cla/index.html:15
 msgid "You have already successfully completed the CLA."
