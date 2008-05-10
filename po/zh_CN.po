@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-25 16:32-0400\n"
-"PO-Revision-Date: 2008-05-10 12:48+0800\n"
+"PO-Revision-Date: 2008-05-10 20:15+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -579,7 +579,7 @@ msgstr ""
 #: build/lib/fas/templates/group/view.html:98 fas/help.py:48
 #: fas/templates/group/view.html:76 fas/templates/group/view.html:98
 msgid "Sponsor"
-msgstr "资助者"
+msgstr "担保人"
 
 #: build/lib/fas/help.py:48 fas/help.py:48
 msgid ""
@@ -1372,7 +1372,7 @@ msgstr "组拥有者:"
 #: build/lib/fas/templates/group/view.html:41 fas/templates/group/edit.html:28
 #: fas/templates/group/new.html:33 fas/templates/group/view.html:41
 msgid "Needs Sponsor:"
-msgstr "需要资助人:"
+msgstr "需要担保人:"
 
 #: build/lib/fas/templates/group/edit.html:34
 #: build/lib/fas/templates/group/new.html:38
