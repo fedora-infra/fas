@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-25 16:32-0400\n"
-"PO-Revision-Date: 2008-05-10 20:15+0800\n"
+"PO-Revision-Date: 2008-05-10 23:51+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -32,8 +32,7 @@ msgstr "您还没有完成CLA"
 msgid ""
 "To complete the CLA, we must have your telephone number and postal address.  "
 "Please ensure they have been filled out."
-msgstr ""
-"要完成CLA，需要填入您的电话号码及地址，  请确认已经填写."
+msgstr "要完成CLA，需要填入您的电话号码及地址，  请确认已经填写."
 
 #: build/lib/fas/cla.py:112 fas/cla.py:115
 #, python-format
@@ -44,8 +43,7 @@ msgstr "您不能加入到'%s'组"
 #, python-format
 msgid ""
 "You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr ""
-"您已经成功完成CLA, 您现在已加入'%s'组."
+msgstr "您已经成功完成CLA, 您现在已加入'%s'组."
 
 #: build/lib/fas/controllers.py:147 fas/controllers.py:152
 #, python-format
@@ -56,8 +54,7 @@ msgstr "欢迎, %s"
 msgid ""
 "The credentials you supplied were not correct or did not grant access to "
 "this resource."
-msgstr ""
-"您提供的证件不正确或者不具备访问此资源的权限."
+msgstr "您提供的证件不正确或者不具备访问此资源的权限."
 
 #: build/lib/fas/controllers.py:165 fas/controllers.py:170
 msgid "You must provide your credentials before accessing this resource."
@@ -112,8 +109,7 @@ msgstr "'%s'组无法创建."
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
-msgstr ""
-"'%(group)s'组已创建，但做为组管理员无法添加 '%(user)s'."
+msgstr "'%(group)s'组已创建，但做为组管理员无法添加 '%(user)s'."
 
 #: build/lib/fas/group.py:222 fas/group.py:222
 #, python-format
@@ -499,8 +495,7 @@ msgstr "所在地"
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr ""
-"<p>对非讲英语人士来说这可以允许他们选择自己的所在地.</p>"
+msgstr "<p>对非讲英语人士来说这可以允许他们选择自己的所在地.</p>"
 
 #: build/lib/fas/help.py:43 build/lib/fas/templates/group/list.html:47
 #: fas/help.py:43 fas/templates/group/list.html:47
@@ -516,8 +511,8 @@ msgid ""
 "works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
 "<p>申请加入某个组就像找一份工作一样, 这确实要花点时间才能加入.  许多组都有它"
-"们自己的批准或担保规定.  更多有关账户系统如何工作的信息请见 "
-"<a href=\"%s\">about page</a>.</p>"
+"们自己的批准或担保规定.  更多有关账户系统如何工作的信息请见 <a href=\"%s"
+"\">about page</a>.</p>"
 
 #: build/lib/fas/help.py:44 build/lib/fas/templates/group/view.html:107
 #: fas/help.py:44 fas/templates/group/view.html:107
@@ -579,7 +574,7 @@ msgstr ""
 #: build/lib/fas/templates/group/view.html:98 fas/help.py:48
 #: fas/templates/group/view.html:76 fas/templates/group/view.html:98
 msgid "Sponsor"
-msgstr "担保人"
+msgstr "资助者"
 
 #: build/lib/fas/help.py:48 fas/help.py:48
 msgid ""
@@ -600,8 +595,7 @@ msgstr "添加用户"
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
-msgstr ""
-"<p>手动添加用户至组.  在此处填入他们的用户名并点 'Add'</p>"
+msgstr "<p>手动添加用户至组.  在此处填入他们的用户名并点 'Add'</p>"
 
 #: build/lib/fas/help.py:50 fas/help.py:50
 msgid "Group Name"
@@ -764,8 +758,7 @@ msgstr "'%s' 已存在."
 #: build/lib/fas/user.py:81 fas/user.py:81
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
-"为防止邮件循环, 您的电子邮件地址不能是 @fedoraproject.org."
+msgstr "为防止邮件循环, 您的电子邮件地址不能是 @fedoraproject.org."
 
 #: build/lib/fas/user.py:97 fas/user.py:97
 #, python-format
@@ -813,8 +806,7 @@ msgstr ""
 msgid ""
 "  Before your new email takes effect, you must confirm it.  You should "
 "receive an email with instructions shortly."
-msgstr ""
-"在您的新邮件地址生效之前,您必须确认.您将会收到一封简要介绍."
+msgstr "在您的新邮件地址生效之前,您必须确认.您将会收到一封简要介绍."
 
 #: build/lib/fas/user.py:321 fas/user.py:333
 #, python-format
@@ -834,8 +826,7 @@ msgstr "没有符合'%s'的用户"
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
-msgstr ""
-"您已取消待定的邮件地址更改.邮件更改无效."
+msgstr "您已取消待定的邮件地址更改.邮件更改无效."
 
 #: build/lib/fas/user.py:362 build/lib/fas/user.py:378 fas/user.py:375
 #: fas/user.py:391
@@ -943,8 +934,7 @@ msgstr "已有账户使用那个邮件地址注册."
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
-msgstr ""
-"您的密码已以电子邮件形式发送给您.请用此密码登录后再修改您的密码."
+msgstr "您的密码已以电子邮件形式发送给您.请用此密码登录后再修改您的密码."
 
 #: build/lib/fas/user.py:501 fas/user.py:514
 msgid "Your password could not be changed."
@@ -1068,7 +1058,7 @@ msgid ""
 "time.  For best odds of success, learn about the group you're applying for "
 "and get to know someone in the group.  Find someone with sponsor or admin "
 "access and ask them if they'd have time to mentor you.  Plan on spending at "
-"least a few days learning about the group, doing a mundain task, "
+"least a few days learning about the group, doing a mundane task, "
 "participating on the mailing list.  Sometimes this process can take weeks "
 "depending on the group.  It's best to know you will get sponsored before you "
 "apply."
@@ -1076,9 +1066,9 @@ msgstr ""
 "各位不能假设通过申请加入某个组就会进入那个组.  想想它像是在应聘另一份工作一"
 "样.  通常要有段时间.  为了提高成功的可能性, 不妨先了解一下您要申请加入的组并"
 "能结识组内的某个成员.  找找具有担保或管理权限的成员询问一下他们是否有时间指导"
-"您.  准备好至少几天的时间了解组的情况, 做一些简单的工作, 加入到邮件列表"
-"中.  根据各组情况的不同, 这个过程可能会持续几周.  最好是在您申请之前能够获知"
-"您已被担保."
+"您.  准备好至少几天的时间了解组的情况, 做一些简单的工作, 加入到邮件列表中.  "
+"根据各组情况的不同, 这个过程可能会持续几周.  最好是在您申请之前能够获知您已被"
+"担保."
 
 #: build/lib/fas/templates/about.html:14 fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
@@ -1096,10 +1086,10 @@ msgid ""
 "Administrators can do anything to anyone in the group."
 msgstr ""
 "一旦您加入到该组,那您就是该组的成员.  担保人及管理员在组中有更多的管理权限.  "
-"某些组使用担保者身份以表示组中某人与该组有着更多的关联, 比如具有部分的组拥有资"
-"格.  但随着账户系统的发展,本质很简单.  担保人可批准新用户的加入及使普通用户变"
-"为担保人.  然而他们无法降级或删除其它担保人.  也不能以任何方式变更管理员.  管"
-"理员可对组中任何人做任意操作."
+"某些组使用担保者身份以表示组中某人与该组有着更多的关联, 比如具有部分的组拥有"
+"资格.  但随着账户系统的发展,本质很简单.  担保人可批准新用户的加入及使普通用户"
+"变为担保人.  然而他们无法降级或删除其它担保人.  也不能以任何方式变更管理员.  "
+"管理员可对组中任何人做任意操作."
 
 #: build/lib/fas/templates/error.html:7 build/lib/fas/templates/home.html:7
 #: build/lib/fas/templates/cla/index.html:7
@@ -1128,7 +1118,8 @@ msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s</a></strong> requests approval to "
 "join <a href=\"group/view/%(group)s\">%(group)s</a>."
 msgstr ""
-"<strong><a href=\"%(userview)s\">%(user)s</a></strong>申请批准加入<a href=\"group/view/%(group)s\">%(group)s</a>."
+"<strong><a href=\"%(userview)s\">%(user)s</a></strong>申请批准加入<a href="
+"\"group/view/%(group)s\">%(group)s</a>."
 
 #: build/lib/fas/templates/home.html:24 fas/templates/home.html:24
 #, python-format
@@ -1372,7 +1363,7 @@ msgstr "组拥有者:"
 #: build/lib/fas/templates/group/view.html:41 fas/templates/group/edit.html:28
 #: fas/templates/group/new.html:33 fas/templates/group/view.html:41
 msgid "Needs Sponsor:"
-msgstr "需要担保人:"
+msgstr "需要资助人:"
 
 #: build/lib/fas/templates/group/edit.html:34
 #: build/lib/fas/templates/group/new.html:38
@@ -1922,15 +1913,13 @@ msgstr "已有用户使用那个邮件地址."
 msgid ""
 "I certify that the above information (my name, address, and phone number) "
 "are accurate to the best of my knowledge."
-msgstr ""
-"我保证以上信息 (姓名, 地址, 及电话号码) 准确无误."
+msgstr "我保证以上信息 (姓名, 地址, 及电话号码) 准确无误."
 
 #: fas/templates/cla/index.html:23
 #, python-format
 msgid ""
 "To update any of this information, <a href=\"%s\">edit your account</a>."
-msgstr ""
-"要更新此信息任何部分, <a href=\"%s\">编辑您的账户</a>."
+msgstr "要更新此信息任何部分, <a href=\"%s\">编辑您的账户</a>."
 
 #: plugins/dummy_plugin/fas_dummy/templates/index.html:11
 msgid "Dummy Plugin!"
