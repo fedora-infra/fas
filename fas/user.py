@@ -394,7 +394,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         if not (cla_approved or cla_unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
 
-        return dict(people=cla_unapproved, unapproved_people=cla_unapproved,
+        return dict(people=cla_approved, unapproved_people=cla_unapproved,
                 search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
