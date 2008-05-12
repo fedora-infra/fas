@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  py:strip="True">
+  <div py:def="search_box(url_fragment)">
+    <form method="get" action="${tg.url(url_fragment)}">
+      <p>${_('"*" is a wildcard (Ex: "cvs*")')}</p>
+      <div>
+        <input type="text" value="${search}" name="search" size="15 "/>
+        <input type="submit" value="${_('Search')}" />
+      </div>
+    </form>
+    <h3>${_('Results')}</h3>
+    <ul class="letters">
+      <li py:for="letter in 'abcdefghijklmnopqrstuvwxyz'.upper()"><a href="${tg.url('%s/%s*' % (url_fragment, letter))}">${letter}</a></li>
+      <li><a href="${tg.url('%s/*' % url_fragment)}">${_('All')}</a></li>
+    </ul>
+  </div>
+</html>

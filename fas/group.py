@@ -26,7 +26,7 @@ from turbogears.database import session
 import cherrypy
 import sqlalchemy
 from sqlalchemy import select, func
-from sqlalchemy.sql import literal_column
+from sqlalchemy.sql import literal_column, and_
 
 import fas
 from fas.model import (People, PeopleTable, PersonRoles, PersonRolesTable, \
@@ -166,8 +166,40 @@ class Group(controllers.Controller):
             turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
-        else:
-            return dict(group=group)
+       
+        # Also return information on who is not sponsored
+        unsponsored = PersonRoles.query.join('group').filter(and_(
+            PersonRoles.role_status=='unapproved', Groups.name==groupname))
+        unsponsored.jsonProps = {'PersonRoles': ['member']}
+        return dict(group=group, sponsor_queue=unsponsored)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @validate(validators=GroupView())
+    @error_handler(error)
+    @expose(template="fas.templates.group.members", allow_json=True)
+    def members(self, groupname, search=u'a*'):
+        '''View group'''
+        if not isinstance(search, unicode) and isinstance(search, basestring):
+            search = unicode(search, 'utf-8', 'replace')
+
+        re_search = search.translate({ord(u'*'): ur'%'}).lower()
+
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if not canViewGroup(person, group):
+            turbogears.flash(_("You cannot view '%s'") % group.name)
+            turbogears.redirect('/group/list')
+            return dict()
+
+        # return all members of this group that fit the search criteria
+        members = PersonRoles.query.join('group').join('member').filter(and_(
+            Groups.name==groupname,
+            People.username.like(re_search)
+            ))
+        group.jsonProps = {'PersonRoles': ['member']}
+        return dict(group=group, members=members, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")

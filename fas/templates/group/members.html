@@ -4,8 +4,10 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <xi:include href="member-list.html" />
+  <xi:include href="../search-box.html" />
+
   <head>
-    <title>${_('View Group')}</title>
+    <title>${_('View Group Members')}</title>
   </head>
 
   <body>
@@ -31,47 +33,14 @@
     </form>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
     <script py:if="group in person.memberships" type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
-    <h3>Group Details <a py:if="can_admin" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>
-    <div class="userbox">
-      <dl>
-        <dt>${_('Name:')}</dt><dd>${group.name}&nbsp;</dd>
-        <dt>${_('Description:')}</dt><dd>${group.display_name}&nbsp;</dd>
-        <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
-        <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
-        <dt>${_('Needs Sponsor:')}</dt><dd>
-        <py:if test="group.needs_sponsor">${_('Yes')}</py:if>
-        <py:if test="not group.needs_sponsor">${_('No')}</py:if>
-        &nbsp;</dd>
-        <dt>${_('Self Removal:')}</dt><dd>
-        <py:if test="group.user_can_remove">${_('Yes')}</py:if>
-        <py:if test="not group.user_can_remove">${_('No')}</py:if>
-        &nbsp;</dd>
-        <dt>${_('Join Message:')}</dt><dd>${group.joinmsg}&nbsp;</dd>
-        <dt>${_('Prerequisite:')}</dt>
-            <dd py:if="group.prerequisite">${group.prerequisite.name}&nbsp;</dd>
-            <dd py:if="not group.prerequisite">&nbsp;</dd>
-        <dt>${_('Created:')}</dt><dd>${group.creation}&nbsp;</dd>
-        <py:if test="can_sponsor">
-        <dt>${_('Add User:')}</dt>
-        <dd>
-          <form action="${tg.url('/group/apply/%s' % group.name)}">
-            <input type='text' size='15' name='targetname'/>
-            <input type="submit" value="${('Add')}" />
-            <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
-          </form>
-        </dd>
-        </py:if>
-      </dl>
-    </div>
     <!--
     TODO: Implement this :)
     <h3 py:if='me.fedoraRoleStatus == "approved"'>${_('Invite')}</h3>
     <span py:if='me.fedoraRoleStatus == "approved"'>${form(action='modifyGroup', value=value, method='get')}</span>
     -->
-    <a href="${tg.url('/group/members/%s' % group.name)}"><h3>${_('View Member List')}</h3></a>
-    <div py:if="can_sponsor">
-      <h3>${_('Sponsorship Queue')}</h3>
-      ${member_table(sponsor_queue, group, person)}
-    </div>
+    <h3><a href="${tg.url('/group/view/%s' % group.name)}">${_('Group Details')}</a></h3>
+    ${search_box('/group/members/%s' % group.name)}
+    <h3>${_('Members')}</h3>
+    ${member_table(members, group, person)}
   </body>
 </html>

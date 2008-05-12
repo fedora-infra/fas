@@ -3,6 +3,8 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
+  <xi:include href="../search-box.html" />
+
   <head>
     <title>${_('Groups List')}</title>
   </head>
@@ -18,18 +20,7 @@
 
     <h2>${_('List (%s)') % search}</h2>
     <h3>${_('Search Groups')}</h3>
-    <form method="get" action="${tg.url('/group/list')}">
-      <p>${_('"*" is a wildcard (Ex: "cvs*")')}</p>
-      <div>
-        <input type="text" value="${search}" name="search" size="15 "/>
-        <input type="submit" value="${_('Search')}" />
-      </div>
-    </form>
-    <h3>${_('Results')}</h3>
-    <ul class="letters">
-      <li py:for="letter in 'abcdefghijklmnopqrstuvwxyz'.upper()"><a href="${tg.url('/group/list/%s*' % letter)}">${letter}</a></li>
-      <li><a href="${tg.url('/group/list/*')}">${_('All')}</a></li>
-    </ul>
+    ${search_box('/group/list')}
 
     <table py:if="groups">
       <thead>
