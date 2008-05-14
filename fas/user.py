@@ -242,10 +242,22 @@ class User(controllers.Controller):
             personal = True
         else:
             personal = False
-        if isAdmin(person):
+        # TODO: We can do this without a db lookup by using something like
+        # if groupname in identity.groups: pass
+        # We may want to do that in auth.isAdmin() though. -Toshio
+        user = People.by_username(turbogears.identity.current.user_name)
+        if isAdmin(user):
             admin = True
             # TODO: Should admins be able to see personal info?  If so, enable this.  
             # Either way, let's enable this after the testing period.
+            # 
+            # 2008-5-14 I'd enable this in the template via
+            # <py:if test='personal or admin'>click to change</py:if>
+            # that way you can have different messages for an admin viewing
+            # their own page via
+            # <py:if test='personal'>My Account</py:if>
+            # <py:if test="not personal">${user}'s Account</py:if>
+            # -Toshio
             #personal = True
         else:
             admin = False

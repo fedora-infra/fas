@@ -42,7 +42,10 @@
         <span py:if="person.status == 'pinged'" class="approved">${_('Pinged')}</span>
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
         <dt>${_('CLA:')}</dt><dd>
-        <span py:if="cla" class="approved">${_('CLA Done')}</span>
+        <span py:if="cla" class="approved">${_('CLA Done')}
+          <py:if test="admin">
+          <a href="${tg.url('/cla/reject/%s' % person.username)}">${_('(Reject CLA)')}</a></py:if>
+        </span>
         <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Complete it!')}</a>)</py:if></span>
         <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script></dd>
       </dl>

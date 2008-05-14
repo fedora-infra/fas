@@ -25,14 +25,42 @@ from turbogears.database import session
 
 import cherrypy
 
+from sqlalchemy.exceptions import SQLError
+
 from datetime import datetime
 import re
 import turbomail
 from genshi.template.plugin import TextTemplateEnginePlugin
 
+from fedora.tg.util import request_format
+
 from fas.model import People
 from fas.model import Log
 from fas.auth import *
+# import * isn't good practice.  Remove when we have all the improts in the
+# line below:
+from fas.auth import isAdmin
+import fas
+
+# Group name for people having signed the CLA
+CLAGROUPNAME = config.get('cla_fedora_group')
+CLAMETAGROUPNAME = config.get('cla_done_group')
+
+def cla_dependent(group):
+    '''
+    Check whether a group has the cla in its prerequisite chain.
+
+    Arguments:
+    :group: group to check
+
+    Returns: True if the group requires the cla_group_name otherwise
+    '''
+    if not group.prerequisite_id:
+        if group.name == CLAGROUPNAME or group.name == CLAMETAGROUPNAME:
+            return True
+        return False
+
+    return cla_dependent(group.prerequisite)
 
 class CLA(controllers.Controller):
 
@@ -82,6 +110,46 @@ class CLA(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
+    @expose(template="fas.templates.user.view")
+    def reject(self, personName):
+        '''Reject a user's CLA.
+
+        This method will remove a user from the CLA group and any other groups
+        that they are in that require the CLA.  It is used when a person has
+        to fulfill some more legal requirements before having a valid CLA.
+
+        Arguments
+        :personName: Name of the person to reject.
+        '''
+        exc = None
+        user = People.by_username(turbogears.identity.current.user_name)
+        if not isAdmin(user):
+            # Only admins can use this
+            turbogears.flash(_('You are not allowed to reject CLAs.'))
+            exc = 'NotAuthorized'
+        else:
+            # Unapprove the cla and all dependent groups
+            person = People.by_username(personName)
+            for role in person.approved_roles:
+                if cla_dependent(role.group):
+                    role.role_status = 'unapproved'
+            try:
+                session.flush()
+            except SQLError, e:
+                turbogears.flash(_('Error removing cla and dependent groups' \
+                        ' for %(person)s\n Error was: %(error)s') %
+                        {'person': personName, 'error': str(e)})
+                exc = 'sqlalchemy.SQLError'
+
+            turbogears.flash(_('CLA Successfully Removed.'))
+
+        if exc and request_format() == 'json':
+            return dict(exc=exc)
+        else:
+            turbogears.redirect('/user/view/%s' % personName)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error)
     @expose(template="fas.templates.cla.index")
     def send(self, confirm=False, agree=False):
         '''Send CLA'''
@@ -101,44 +169,63 @@ class CLA(controllers.Controller):
         if not confirm:
             turbogears.flash(_('You must confirm that your personal information is accurate.'))
             turbogears.redirect('/cla/')
-        groupname = config.get('cla_fedora_group')
-        group = Groups.by_name(groupname)
+        group = Groups.by_name(CLAGROUPNAME)
         try:
             # Everything is correct.
-            person.apply(group, person) # Apply...
+            person.apply(group, person) # Apply for the new group
             session.flush()
+        except fas.ApplyError, e:
+            # This just means the user already is a member (probably
+            # unapproved) of this group
+            pass
+        except Exception, e:
+            print e
+            # TODO: If apply succeeds and sponsor fails, the user has
+            # to remove themselves from the CLA group before they can
+            # complete the CLA and go through the above try block again.
+            turbogears.flash(_("You could not be added to the '%s' group. 1111") % group.name)
+            turbogears.redirect('/cla/')
+            return dict()
+
+        try:
+            # Everything is correct.
             person.sponsor(group, person) # Sponsor!
+            session.flush()
+        except fas.SponsorError:
+            turbogears.flash(_("You are already a part of the '%s' group.") % group.name)
+            turbogears.redirect('/cla/')
         except:
             # TODO: If apply succeeds and sponsor fails, the user has
             # to remove themselves from the CLA group before they can
             # complete the CLA and go through the above try block again.
-            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+            turbogears.flash(_("You could not be added to the '%s' group. 222") % group.name)
             turbogears.redirect('/cla/')
-            return dict()
-        else:
-            dt = datetime.utcnow()
-            Log(author_id=person.id, description='Completed CLA', changetime=dt)
-            message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
-            message.plain = '''
+
+        dt = datetime.utcnow()
+        Log(author_id=person.id, description='Completed CLA', changetime=dt)
+        message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
+        message.plain = '''
 Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
 Email: %(email)s
 Date: %(date)s
 
+If you need to revoke it, please visit this link:
+    https://admin.fedoraproject.org/accounts/cla/reject/%(username)s
+
 === CLA ===
 
 ''' % {'username': person.username,
-    'human_name': person.human_name,
-    'email': person.email,
-    'postal_address': person.postal_address,
-    'telephone': person.telephone,
-    'facsimile': person.facsimile,
-    'date': dt.ctime(),}
-            # Sigh..  if only there were a nicer way.
-            plugin = TextTemplateEnginePlugin()
-            message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
-            turbomail.enqueue(message)
-            turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
-            turbogears.redirect('/user/view/%s' % person.username)
-            return dict()
-
+'human_name': person.human_name,
+'email': person.email,
+'postal_address': person.postal_address,
+'telephone': person.telephone,
+'facsimile': person.facsimile,
+'date': dt.ctime(),}
+        # Sigh..  if only there were a nicer way.
+        plugin = TextTemplateEnginePlugin()
+        message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
+        turbomail.enqueue(message)
+        turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
+        turbogears.redirect('/user/view/%s' % person.username)
+        return dict()
