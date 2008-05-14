@@ -493,6 +493,7 @@ mapper(Groups, GroupsTable, properties = {
     'owner': relation(People, uselist=False,
         primaryjoin = GroupsTable.c.owner_id==PeopleTable.c.id),
     'prerequisite': relation(Groups, uselist=False,
+        remote_side=[GroupsTable.c.id],
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
     })
 # GroupRoles are complex because the group is a member of a group and thus
