@@ -93,9 +93,9 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            m = re.match('^(rsa|dsa|ssh-rsa|ssh-dss) [ \t]*[^ \t]+.*$', keyline)
+            m = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
             if not m:
-                raise validators.Invalid(_('Error - Not a valid ssh key: %s') % keyline, value, state)
+                raise validators.Invalid(_('Error - Not a valid RSA SSH key: %s') % keyline, value, state)
 
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
