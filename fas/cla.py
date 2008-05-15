@@ -42,26 +42,13 @@ from fas.auth import *
 from fas.auth import isAdmin
 import fas
 
-# Group name for people having signed the CLA
-CLAGROUPNAME = config.get('cla_fedora_group')
-CLAMETAGROUPNAME = config.get('cla_done_group')
-
-def cla_dependent(group):
-    '''
-    Check whether a group has the cla in its prerequisite chain.
-
-    Arguments:
-    :group: group to check
-
-    Returns: True if the group requires the cla_group_name otherwise
-    '''
-    if group.name == CLAGROUPNAME or group.name == CLAMETAGROUPNAME:
-        return True
-    if group.prerequisite_id:
-        return cla_dependent(group.prerequisite)
-    return False
-
 class CLA(controllers.Controller):
+
+    # Group name for people having signed the CLA
+    CLAGROUPNAME = config.get('cla_fedora_group')
+    # Meta group for everyone who has satisfied the requirements of the CLA
+    # (By signing or having a corporate signatue or, etc)
+    CLAMETAGROUPNAME = config.get('cla_done_group')
 
     def __init__(self):
         '''Create a CLA Controller.'''
@@ -77,6 +64,21 @@ class CLA(controllers.Controller):
             turbogears.redirect('/user/edit/%s' % username)
         cla = CLADone(person)
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
+
+    def _cla_dependent(self, group):
+        '''
+        Check whether a group has the cla in its prerequisite chain.
+
+        Arguments:
+        :group: group to check
+
+        Returns: True if the group requires the cla_group_name otherwise
+        '''
+        if group.name in (self.CLAGROUPNAME, self.CLAMETAGROUPNAME):
+            return True
+        if group.prerequisite_id:
+            return self._cla_dependent(group.prerequisite)
+        return False
 
     def jsonRequest(self):
         return 'tg_format' in cherrypy.request.params and \
@@ -130,7 +132,7 @@ class CLA(controllers.Controller):
             # Unapprove the cla and all dependent groups
             person = People.by_username(personName)
             for role in person.approved_roles:
-                if cla_dependent(role.group):
+                if self._cla_dependent(role.group):
                     role.role_status = 'unapproved'
             try:
                 session.flush()
@@ -205,7 +207,7 @@ Thanks!
         if not confirm:
             turbogears.flash(_('You must confirm that your personal information is accurate.'))
             turbogears.redirect('/cla/')
-        group = Groups.by_name(CLAGROUPNAME)
+        group = Groups.by_name(self.CLAGROUPNAME)
         try:
             # Everything is correct.
             person.apply(group, person) # Apply for the new group
