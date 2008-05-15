@@ -104,12 +104,12 @@ in, then run::
   tg-admin shell
 
 
---------------------
+----------------------------
 Apache + mod_wsgi deployment
---------------------
+----------------------------
 
 WSGI or, Web Server Gateway Interface is a specification to allow servers and
-applications to communicate with eachother.  It's one method that allows Turbo
+applications to communicate with each other.  It's one method that allows Turbo
 Gears to scale properly.  To install it run:
 
   # yum -y install httpd mod_wsgi
