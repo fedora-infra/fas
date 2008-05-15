@@ -110,7 +110,7 @@ class CLA(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
-    @expose(template="fas.templates.user.view")
+    @expose(template="fas.templates.user.view", allow_json=True)
     def reject(self, personName):
         '''Reject a user's CLA.
 
@@ -141,10 +141,47 @@ class CLA(controllers.Controller):
                         {'person': personName, 'error': str(e)})
                 exc = 'sqlalchemy.SQLError'
 
+        if not exc:
+            # Send a message that the ICLA has been revoked
+            dt = datetime.utcnow()
+            Log(author_id=user.id, description='Revoked %s CLA' % person.username, changetime=dt)
+            message = turbomail.Message(config.get('accounts_email'), person.email, 'Fedora ICLA Revoked')
+            message.plain = '''
+Hello %(human_name)s,
+
+We're sorry to bother you but we had to reject your CLA for now because
+information you provided has been deemed incorrect.  Common causes of this
+are using a name, address, or phone number that isn't real [1]_.  If you could
+edit your account [2]_ to fix any of these problems and resubmit the CLA we
+would appreciate it.
+
+.. [1]: Why does it matter that we have your real name, address and phone
+        number?   It's because the CLA is a legal document and should we ever
+        need to contact you about one of your contributions (as an example,
+        because someone contacts *us* claiming that it was really they who
+        own the copyright to the contribution) we might need to contact you
+        for more information about what's going on.
+
+.. [2]: Edit your account by logging in at this URL:
+        https://admin.fedoraproject.org/accounts/user/edit/%(username)s
+
+If you have questions about what specifically might be the problem with your
+account, please contact us at accounts@fedoraproject.org.
+
+Thanks!
+    ''' % {'username': person.username,
+    'human_name': person.human_name, }
+            turbomail.enqueue(message)
+
+            # Yay, sweet success!
             turbogears.flash(_('CLA Successfully Removed.'))
 
-        if exc and request_format() == 'json':
-            return dict(exc=exc)
+        # and now we're done
+        if request_format() == 'json':
+            returnVal = {}
+            if exc:
+                returnVal['exc'] = exc
+            return returnVal
         else:
             turbogears.redirect('/user/view/%s' % personName)
 
