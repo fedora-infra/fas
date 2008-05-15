@@ -28,15 +28,13 @@ System.
 
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
-from turbogears.identity.saprovider import SqlAlchemyIdentity, \
-        SqlAlchemyIdentityProvider
 from turbogears.database import session
 from turbogears.util import load_class
 
 import cherrypy
 
 import gettext
-t = gettext.translation('python-fedora', '/usr/share/locale', fallback=True)
+t = gettext.translation('fas', '/usr/share/locale', fallback=True)
 _ = t.ugettext
 
 import crypt
@@ -52,13 +50,13 @@ except NameError:
 # Global class references --
 # these will be set when the provider is initialised.
 user_class = None
-visit_identity_class = None
-### FIXME: Pick one of visit_class or visit_identity_class
 visit_class = None
 
-class SaFasIdentity(SqlAlchemyIdentity):
+class SaFasIdentity(object):
     def __init__(self, visit_key, user=None):
-        super(SaFasIdentity, self).__init__(visit_key, user)
+        if user:
+            self._user = user
+        self.visit_key = visit_key
 
     def _get_user(self):
         try:
@@ -68,9 +66,7 @@ class SaFasIdentity(SqlAlchemyIdentity):
             pass
         # Attempt to load the user. After this code executes, there *WILL* be
         # a _user attribute, even if the value is None.
-        ### TG: Difference: Can't use the inherited method b/c of global var
-
-        visit = visit_identity_class.query.filter_by(visit_key = self.visit_key).first()
+        visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
         if not visit:
             self._user = None
             return None
@@ -94,6 +90,26 @@ class SaFasIdentity(SqlAlchemyIdentity):
         return self.user.username
     user_name = property(_get_user_name)
 
+    ### TG: Same as TG-1.0.4.3
+    def _get_anonymous(self):
+        return not self.user
+    anonymous = property(_get_anonymous)
+
+    ### TG: Same as TG-1.0.4.3
+    def _get_permissions(self):
+        try:
+            return self._permissions
+        except AttributeError:
+            # Permissions haven't been computed yet
+            pass
+        if not self.user:
+            self._permissions = frozenset()
+        else:
+            self._permissions = frozenset([
+                p.permission_name for p in self.user.permissions])
+        return self._permissions
+    permissions = property(_get_permissions)
+
     def _get_groups(self):
         try:
             return self._groups
@@ -109,6 +125,7 @@ class SaFasIdentity(SqlAlchemyIdentity):
         return self._groups
     groups = property(_get_groups)
 
+    ### TG: same as TG-1.0.4.3
     def logout(self):
         '''
         Remove the link between this identity and the visit.
@@ -116,8 +133,7 @@ class SaFasIdentity(SqlAlchemyIdentity):
         if not self.visit_key:
             return
         try:
-            ### TG: Difference: Can't inherit b/c this uses a global var
-            visit = visit_identity_class.query.filter_by(visit_key=self.visit_key).first()
+            visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
             session.delete(visit)
             # Clear the current identity
             anon = SqlAlchemyIdentity(None,None)
@@ -127,31 +143,27 @@ class SaFasIdentity(SqlAlchemyIdentity):
         else:
             session.flush()
 
-class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
+class SaFasIdentityProvider(object):
     '''
     IdentityProvider that authenticates users against the fedora account system
     '''
     def __init__(self):
-        global visit_identity_class
         global user_class
-        ### FIXME: We only need visit_identity_class or visit_class
         global visit_class
 
         user_class_path = config.get("identity.saprovider.model.user", None)
         user_class = load_class(user_class_path)
-        visit_identity_class_path = config.get("identity.saprovider.model.visit", None)
+        visit_class_path = config.get("identity.saprovider.model.visit", None)
         log.info(_("Loading: %(visitmod)s") % \
-                {'visitmod': visit_identity_class_path})
-        visit_identity_class = load_class(visit_identity_class_path)
-        ### FIXME: Pick one of visit_class or visit_identity_class
-        visit_class = visit_identity_class
+                {'visitmod': visit_class_path})
+        visit_class = load_class(visit_class_path)
 
     def create_provider_model(self):
         '''
         Create the database tables if they don't already exist.
         '''
         class_mapper(user_class).local_table.create(checkfirst=True)
-        class_mapper(visit_identity_class).local_table.create(checkfirst=True)
+        class_mapper(visit_class).local_table.create(checkfirst=True)
 
     def validate_identity(self, user_name, password, visit_key):
         '''
@@ -183,9 +195,9 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
         log.info("associating user (%s) with visit (%s)", user.username,
                   visit_key)
         # Link the user to the visit
-        link = visit_identity_class.query.filter_by(visit_key=visit_key).first()
+        link = visit_class.query.filter_by(visit_key=visit_key).first()
         if not link:
-            link = visit_identity_class()
+            link = visit_class()
             link.visit_key = visit_key
             link.user_id = user.id
             link.ssl = using_ssl
