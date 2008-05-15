@@ -55,12 +55,11 @@ def cla_dependent(group):
 
     Returns: True if the group requires the cla_group_name otherwise
     '''
-    if not group.prerequisite_id:
-        if group.name == CLAGROUPNAME or group.name == CLAMETAGROUPNAME:
-            return True
-        return False
-
-    return cla_dependent(group.prerequisite)
+    if group.name == CLAGROUPNAME or group.name == CLAMETAGROUPNAME:
+        return True
+    if group.prerequisite_id:
+        return cla_dependent(group.prerequisite)
+    return False
 
 class CLA(controllers.Controller):
 
