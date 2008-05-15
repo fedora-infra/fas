@@ -53,6 +53,8 @@ except NameError:
 # these will be set when the provider is initialised.
 user_class = None
 visit_identity_class = None
+### FIXME: Pick one of visit_class or visit_identity_class
+visit_class = None
 
 class SaFasIdentity(SqlAlchemyIdentity):
     def __init__(self, visit_key, user=None):
@@ -132,6 +134,8 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
     def __init__(self):
         global visit_identity_class
         global user_class
+        ### FIXME: We only need visit_identity_class or visit_class
+        global visit_class
 
         user_class_path = config.get("identity.saprovider.model.user", None)
         user_class = load_class(user_class_path)
@@ -139,6 +143,8 @@ class SaFasIdentityProvider(SqlAlchemyIdentityProvider):
         log.info(_("Loading: %(visitmod)s") % \
                 {'visitmod': visit_identity_class_path})
         visit_identity_class = load_class(visit_identity_class_path)
+        ### FIXME: Pick one of visit_class or visit_identity_class
+        visit_class = visit_identity_class
 
     def create_provider_model(self):
         '''
