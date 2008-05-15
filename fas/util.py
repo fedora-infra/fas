@@ -29,7 +29,7 @@ log = logging.getLogger('fas.util')
 
 def available_languages():
     """Return available languages for a given domain."""
-    available_languages = ['en']
+    available_languages = ['en', 'de', 'hu', 'pl', 'zh_CN']
     return available_languages
     # *sigh* Hardcoding is less pain.
     available_languages = []
