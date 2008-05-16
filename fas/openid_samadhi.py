@@ -107,7 +107,10 @@ class OpenID(controllers.Controller):
 
     def openidserver_checkidrequest(self, openid_request):
         isauthorized = self.openidserver_isauthorized(openid_request.identity, openid_request.trust_root)
-        if isauthorized == 'always':
+        if not isauthorized:
+            return self.openidserver_respond(openid_request.answer(False))
+
+        elif isauthorized == 'always':
             return self.openidserver_respond(openid_request.answer(True))
 
         elif openid_request.immediate or isauthorized == 'never':
