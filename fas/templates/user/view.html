@@ -26,6 +26,7 @@
         </dd>
         <py:if test="personal"><dt>${_('Telephone Number:')}</dt><dd>${person.telephone}&nbsp;</dd></py:if>
         <py:if test="personal"><dt>${_('Postal Address:')}</dt><dd>${person.postal_address}&nbsp;</dd></py:if>
+        <dt>${_('Country:')}</dt><dd>${person.country_code}&nbsp;</dd>
         <!--<dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>-->
         <dt>${_('IRC Nick:')}</dt><dd>${person.ircnick}&nbsp;</dd>
         <dt>${_('PGP Key:')}</dt><dd>${person.gpg_keyid}&nbsp;</dd>

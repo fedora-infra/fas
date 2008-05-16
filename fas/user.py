@@ -130,6 +130,7 @@ class UserSave(validators.Schema):
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
+    country_code = validators.String(max=2, strip=True)
 
 class UserCreate(validators.Schema):
     username = validators.All(
@@ -293,7 +294,7 @@ class User(controllers.Controller):
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
+    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC', country_code=''):
         languages = available_languages()
 
         username = turbogears.identity.current.user_name
@@ -342,6 +343,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             target.comments = comments
             target.locale = locale
             target.timezone = timezone
+            target.country_code = country_code
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
             return dict(target=target, languages=languages)
