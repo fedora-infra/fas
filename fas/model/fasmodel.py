@@ -260,6 +260,7 @@ class People(SABase):
             :passwordtoken: used when the user needs to reset a password
             :password_changed: last time the user changed the password
             :postal_address: user's postal address
+            :country_code: user's country
             :telephone: user's telephone number
             :facsimile: user's FAX number
 
@@ -284,6 +285,7 @@ class People(SABase):
             del props['password']
             del props['password_changed']
             del props['postal_address']
+            del props['country_code']
             del props['telephone']
             del props['facsimile']
 
@@ -294,10 +296,12 @@ class People(SABase):
                 del props['emailtoken']
                 del props['passwordtoken']
                 if identity.current.user.username != self.username:
-                    # Only system accounts, admins, or the user themselves can see these fields
+                    # Only system accounts, admins, or the user themselves
+                    # can see these fields
                     del props['unverified_email']
                     del props['password']
                     del props['postal_address']
+                    del props['country_code']
                     del props['password_changed']
                     del props['telephone']
                     del props['facsimile']

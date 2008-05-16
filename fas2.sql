@@ -50,6 +50,7 @@ CREATE TABLE people (
     unverified_email TEXT,
     comments TEXT,
     postal_address TEXT,
+    country_code char(2),
     telephone TEXT,
     facsimile TEXT,
     affiliation TEXT,
