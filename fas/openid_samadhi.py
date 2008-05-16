@@ -111,7 +111,7 @@ class OpenID(controllers.Controller):
         if identity.current.anonymous:
             return redirect('/openid/login', url=request.browser_url)
 
-        elif not isauthorized:
+        elif isauthorized == False:
             return self.openidserver_respond(openid_request.answer(False))
 
         elif isauthorized == 'always':
