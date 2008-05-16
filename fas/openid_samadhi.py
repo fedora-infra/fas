@@ -107,7 +107,11 @@ class OpenID(controllers.Controller):
 
     def openidserver_checkidrequest(self, openid_request):
         isauthorized = self.openidserver_isauthorized(openid_request.identity, openid_request.trust_root)
-        if not isauthorized:
+
+        if identity.current.anonymous:
+            return redirect('/openid/login', url=request.browser_url)
+
+        elif not isauthorized:
             return self.openidserver_respond(openid_request.answer(False))
 
         elif isauthorized == 'always':
@@ -115,9 +119,6 @@ class OpenID(controllers.Controller):
 
         elif openid_request.immediate or isauthorized == 'never':
             return self.openidserver_respond(openid_request.answer(False))
-
-        elif identity.current.anonymous:
-            return redirect('/openid/login', url=request.browser_url)
 
         else:
             session.acquire_lock()
