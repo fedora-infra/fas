@@ -68,10 +68,8 @@ class CLA(controllers.Controller):
             code_len = len(person.country_code)
         except TypeError:
             code_len = 0
-        print "%s - %s" % (person.country_code, code_len)
         if not person.telephone or not person.postal_address or code_len != 2 or person.country_code=='  ':
             turbogears.flash('A valid postal Address, country and telephone number are required to complete the CLA.  Please fill them out below.')
-            turbogears.redirect('/user/edit/%s' % username)
         cla = CLADone(person)
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
 
