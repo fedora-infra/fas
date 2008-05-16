@@ -47,7 +47,9 @@
         <label for="country_code">${_('Country')}:</label>
         <select name="country_code">
             <option value=''>${_('Select Country')}</option>
-            <option py:for="code in sorted(GeoIP.country_names.keys())" value="${code}" py:attrs="dict(selected=(code==target.country_code and 'True' or None ))" py:if="code not in bad_codes">${code} - ${GeoIP.country_names[code]}</option>
+            <option py:for="code, country in sorted(GeoIP.country_names.items(), lambda x, y: cmp(x[1], y[1]))"
+              py:attrs="dict(selected=(code==target.country_code and 'True' or None ))"
+              value="${code}" py:if="code not in bad_codes">${country}(${code})</option>
         </select>
         <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country_code')}'});</script>
       </div>

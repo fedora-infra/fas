@@ -27,6 +27,7 @@ from fas.auth import *
 
 class Help(controllers.Controller):
     help = { 'none' :               [_('Error'), _('<p>We could not find that help item</p>')],
+            'cla_accuracy': [_('Accuracy of CLA Information'), _('<p>The CLA is a legal document.  We need to have accurate information attached to it just in case we ever need to contact you about a contribution that you make to the project.  Imagine if we were to get a call from a lawyer at some other company claiming that they own the copyright to your work and we have to tell them we have a right to use it because "Mickey Moose" contributed it to us and we have no telephone number or address to contact them!  Potentially a very sticky situation.</p>')],
             'user_ircnick' :        [_('IRC Nick (Optional)'), _('<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please register your nick on irc.freenode.net first, then fill this in so people can find you online when they need to</p>')],
             'user_email' :  [_('Email (Required)'), _('<p>This email address should be your prefered email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>')],
             'user_human_name' :     [_('Full Name (Required)'), _('<p>Your Human Name or "real life" name</p>')],

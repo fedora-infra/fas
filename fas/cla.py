@@ -29,6 +29,7 @@ from sqlalchemy.exceptions import SQLError
 
 from datetime import datetime
 import re
+import GeoIP
 import turbomail
 from genshi.template.plugin import TextTemplateEnginePlugin
 
@@ -49,6 +50,10 @@ class CLA(controllers.Controller):
     # Meta group for everyone who has satisfied the requirements of the CLA
     # (By signing or having a corporate signatue or, etc)
     CLAMETAGROUPNAME = config.get('cla_done_group')
+
+    # Values legal in phone numbers
+    PHONEDIGITS = ('0','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+',
+            '-', ')' ,'(', ' ')
 
     def __init__(self):
         '''Create a CLA Controller.'''
@@ -193,7 +198,7 @@ Thanks!
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error)
     @expose(template="fas.templates.cla.index")
-    def send(self, confirm=False, agree=False):
+    def send(self, human_name, telephone, postal_address, country_code, confirm=False, agree=False):
         '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -204,13 +209,46 @@ Thanks!
         if not agree:
             turbogears.flash(_("You have not completed the CLA."))
             turbogears.redirect('/user/view/%s' % person.username)
-        if not person.telephone or \
-            not person.postal_address:
-            turbogears.flash(_('To complete the CLA, we must have your telephone number and postal address.  Please ensure they have been filled out.'))
-            turbogears.redirect('/user/edit/%s' % username)
         if not confirm:
             turbogears.flash(_('You must confirm that your personal information is accurate.'))
             turbogears.redirect('/cla/')
+
+        # Compare old information to new to see if any changes have been made
+        if human_name and person.human_name != human_name:
+            person.human_name = human_name
+        if telephone and person.telephone != telephone:
+            person.telephone = telephone
+        if postal_address and person.postal_address != postal_address:
+            person.postal_address = postal_address
+        if country_code and person.country_code != country_code:
+            person.country_code = country_code
+        # Save it to the database
+        try:
+            session.flush()
+        except Exception, e:
+            turbogears.flash(_("Your updated information could not be saved."))
+            turbogears.redirect('/cla/')
+            return dict()
+        
+        # Heuristics to detect bad data
+        if not person.telephone or \
+                not person.postal_address or \
+                not person.human_name or \
+                not person.country_code:
+            turbogears.flash(_('To complete the CLA, we must have your name, telephone number, postal address, and country.  Please ensure they have been filled out.'))
+            turbogears.redirect('/cla/')
+
+        if person.country_code not in GeoIP.country_codes:
+            turbogears.flash(_('To complete the CLA, a valid country code must be specified.  Please select one now.'))
+            turbogears.redirect('/cla/')
+        if [True for char in person.telephone if char not in self.PHONEDIGITS]:
+            turbogears.flash(_('Telephone numbers can only consist of numbers, "-", "+", "(", ")", or " ".  Please reenter using only those characters.'))
+            turbogears.redirect('/cla/')
+        if not [True for char in person.postal_address if char.isspace()]:
+            # Error if the postal address is only one word
+            turbogears.flash(_('Can the postal system really deliver to that address?'))
+            turbogears.redirect('/cla/')
+
         group = Groups.by_name(self.CLAGROUPNAME)
         try:
             # Everything is correct.
@@ -221,11 +259,7 @@ Thanks!
             # unapproved) of this group
             pass
         except Exception, e:
-            print e
-            # TODO: If apply succeeds and sponsor fails, the user has
-            # to remove themselves from the CLA group before they can
-            # complete the CLA and go through the above try block again.
-            turbogears.flash(_("You could not be added to the '%s' group. 1111") % group.name)
+            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
             turbogears.redirect('/cla/')
             return dict()
 
@@ -237,10 +271,7 @@ Thanks!
             turbogears.flash(_("You are already a part of the '%s' group.") % group.name)
             turbogears.redirect('/cla/')
         except:
-            # TODO: If apply succeeds and sponsor fails, the user has
-            # to remove themselves from the CLA group before they can
-            # complete the CLA and go through the above try block again.
-            turbogears.flash(_("You could not be added to the '%s' group. 222") % group.name)
+            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
             turbogears.redirect('/cla/')
 
         dt = datetime.utcnow()
