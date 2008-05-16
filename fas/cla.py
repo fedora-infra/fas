@@ -59,8 +59,13 @@ class CLA(controllers.Controller):
         '''Display the CLAs (and accept/do not accept buttons)'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if not person.telephone or not person.postal_address:
-            turbogears.flash('A valid postal Address and telephone number are required to complete the CLA.  Please fill them out below.')
+        try:
+            code_len = len(person.country_code)
+        except TypeError:
+            code_len = 0
+        print "%s - %s" % (person.country_code, code_len)
+        if not person.telephone or not person.postal_address or code_len != 2 or person.country_code=='  ':
+            turbogears.flash('A valid postal Address, country and telephone number are required to complete the CLA.  Please fill them out below.')
             turbogears.redirect('/user/edit/%s' % username)
         cla = CLADone(person)
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
@@ -176,7 +181,6 @@ Thanks!
 
             # Yay, sweet success!
             turbogears.flash(_('CLA Successfully Removed.'))
-
         # and now we're done
         if request_format() == 'json':
             returnVal = {}
@@ -257,6 +261,7 @@ If you need to revoke it, please visit this link:
 'human_name': person.human_name,
 'email': person.email,
 'postal_address': person.postal_address,
+'country_code': person.country_code,
 'telephone': person.telephone,
 'facsimile': person.facsimile,
 'date': dt.ctime(),}
