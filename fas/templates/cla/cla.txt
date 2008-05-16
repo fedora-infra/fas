@@ -32,6 +32,8 @@
     Address:
 ${person.postal_address}
 
+    Country: ${person.country_code}
+
     Telephone: ${person.telephone}
 
     Facsimile: ${person.facsimile}
