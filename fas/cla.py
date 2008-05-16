@@ -150,9 +150,9 @@ Hello %(human_name)s,
 
 We're sorry to bother you but we had to reject your CLA for now because
 information you provided has been deemed incorrect.  Common causes of this
-are using a name, address, or phone number that isn't real [1]_.  If you could
-edit your account [2]_ to fix any of these problems and resubmit the CLA we
-would appreciate it.
+are using a name, address/country, or phone number that isn't accurate [1]_.  
+If you could edit your account [2]_ to fix any of these problems and resubmit
+the CLA we would appreciate it.
 
 .. [1]: Why does it matter that we have your real name, address and phone
         number?   It's because the CLA is a legal document and should we ever
