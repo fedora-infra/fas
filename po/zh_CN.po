@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-25 16:32-0400\n"
-"PO-Revision-Date: 2008-05-10 23:51+0800\n"
+"PO-Revision-Date: 2008-05-16 14:18+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -489,13 +489,13 @@ msgstr ""
 #: build/lib/fas/help.py:41 build/lib/fas/templates/user/edit.html:67
 #: fas/help.py:41 fas/templates/user/edit.html:67
 msgid "Locale"
-msgstr "所在地"
+msgstr "语言"
 
 #: build/lib/fas/help.py:41 fas/help.py:41
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr "<p>对非讲英语人士来说这可以允许他们选择自己的所在地.</p>"
+msgstr "<p>对非讲英语人士来说这可以允许他们选择自己的语言.</p>"
 
 #: build/lib/fas/help.py:43 build/lib/fas/templates/group/list.html:47
 #: fas/help.py:43 fas/templates/group/list.html:47
@@ -1244,7 +1244,7 @@ msgstr "新闻"
 
 #: build/lib/fas/templates/master.html:74 fas/templates/master.html:75
 msgid "Locale:"
-msgstr "所在地:"
+msgstr "语言:"
 
 #: build/lib/fas/templates/master.html:78 fas/templates/master.html:79
 msgid "OK"
