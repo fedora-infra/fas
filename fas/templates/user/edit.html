@@ -49,7 +49,7 @@
             <option value=''>${_('Select Country')}</option>
             <option py:for="code in sorted(GeoIP.country_names.keys())" value="${code}" py:attrs="dict(selected=(code==target.country_code and 'True' or None ))" py:if="code not in bad_codes">${code} - ${GeoIP.country_names[code]}</option>
         </select>
-        <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country')}'});</script>
+        <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country_code')}'});</script>
       </div>
       <div class="field">
         <label for="ircnick">${_('IRC Nick')}:</label>

@@ -181,7 +181,6 @@ Thanks!
 
             # Yay, sweet success!
             turbogears.flash(_('CLA Successfully Removed.'))
-
         # and now we're done
         if request_format() == 'json':
             returnVal = {}
@@ -262,6 +261,7 @@ If you need to revoke it, please visit this link:
 'human_name': person.human_name,
 'email': person.email,
 'postal_address': person.postal_address,
+'country_code': person.country_code,
 'telephone': person.telephone,
 'facsimile': person.facsimile,
 'date': dt.ctime(),}
