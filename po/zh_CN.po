@@ -1,19 +1,19 @@
 # zh_CN translation of fas.
 # Copyright (C) Year Free Software Foundation, Inc.
 # TianShixiong <tiansworld@gmail.com>, 2008.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fas VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-16 18:11-0400\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2008-05-17 13:59-0400\n"
 "PO-Revision-Date: 2008-05-17 22:42+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: fas/auth.py:159
 #, python-format
@@ -57,23 +57,21 @@ msgstr "您的更新信息无法保存."
 msgid ""
 "To complete the CLA, we must have your name, telephone number, postal "
 "address, and country.  Please ensure they have been filled out."
-msgstr ""
-"要完成CLA，需要填入您的电话号码,地址及国家.  请确认已经填写."
+msgstr "要完成CLA，需要填入您的电话号码,地址及国家.  请确认已经填写."
 
 #: fas/cla.py:240
 msgid ""
 "To complete the CLA, a valid country code must be specified.  Please select "
 "one now."
-msgstr ""
-"要完成CLA, 必须指定有效的国家代码.  请选择."
+msgstr "要完成CLA, 必须指定有效的国家代码.  请选择."
 
 #: fas/cla.py:243
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter using only those characters."
 msgstr ""
-"电话号码中只能包含数字, \"-\", \"+\", \"(\", \")\", "
-"或 \" \".  请仅使用这些字符重新输入号码."
+"电话号码中只能包含数字, \"-\", \"+\", \"(\", \")\", 或 \" \".  请仅使用这些字"
+"符重新输入号码."
 
 #: fas/cla.py:247
 msgid "Can the postal system really deliver to that address?"
@@ -400,7 +398,10 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number or address to "
 "contact them!  Potentially a very sticky situation.</p>"
 msgstr ""
-"<p>CLA为合法文档.  我们需要您提交准确的信息仅仅为了在需要了解关于您对项目所做的贡献时与您进行联系.  想象一下如果我们接到其他公司律师的电话声称他们拥有您所做的工作的版权而我们只能告诉他们我们仅有使用权力原因是\"Mickey Moose\"为我们做了贡献而我们没有任何联系他们的电话号码或是地址!  这是个很麻烦的情况.</p>"
+"<p>CLA为合法文档.  我们需要您提交准确的信息仅仅为了在需要了解关于您对项目所做"
+"的贡献时与您进行联系.  想象一下如果我们接到其他公司律师的电话声称他们拥有您所"
+"做的工作的版权而我们只能告诉他们我们仅有使用权力原因是\"Mickey Moose\"为我们"
+"做了贡献而我们没有任何联系他们的电话号码或是地址!  这是个很麻烦的情况.</p>"
 
 #: fas/help.py:31
 msgid "IRC Nick (Optional)"
@@ -540,8 +541,8 @@ msgid ""
 "Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
 "<p>许多资源通过公匙来工作.  通过向我们上传您的公匙, 您可登录到我们的服务器"
-"上.  输入 \"man ssh-keygen\" 来获取更多关于创建您公匙的信息(必须为 RSA 密匙).  "
-"在您创建后您需要上传 ~/.ssh/id_rsa.pub</p>"
+"上.  输入 \"man ssh-keygen\" 来获取更多关于创建您公匙的信息(必须为 RSA 密"
+"匙).  在您创建后您需要上传 ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:42 fas/templates/user/edit.html:83
 msgid "Locale"
@@ -1394,8 +1395,7 @@ msgstr "选择国家"
 msgid ""
 "I certify that the above information (my name, address, country, and phone "
 "number) are accurate to the best of my knowledge."
-msgstr ""
-"我保证以上信息 (姓名, 地址, 国家及电话号码) 准确无误."
+msgstr "我保证以上信息 (姓名, 地址, 国家及电话号码) 准确无误."
 
 #: fas/templates/cla/index.html:57
 msgid "I agree"
