@@ -3,19 +3,19 @@ import pkg_resources
 pkg_resources.require('CherryPy <= 3.0alpha')
 
 import sys
-sys.path.append('/home/ricky/work/fedora/fas/fas/')
-sys.path.append('/home/ricky/work/fedora/fas/')
+sys.path.append('/home/mmcgrath/git/fas/fas/')
+sys.path.append('/home/mmcgrath/git/fas/')
 sys.stdout = sys.stderr
 
 import os
-os.environ['PYTHON_EGG_CACHE'] = '/home/ricky/work/fedora/fas/fas.egg-info/'
+os.environ['PYTHON_EGG_CACHE'] = '/home/mmcgrath/git/fas/fas.egg-info/'
 
 import atexit
 import cherrypy
 import cherrypy._cpwsgi
 import turbogears
 
-turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
+turbogears.update_config(configfile="/home/mmcgrath/git/fas/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'server.environment': 'development'}})
 turbogears.config.update({'global': {'autoreload.on': False}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
