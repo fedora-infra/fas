@@ -15,7 +15,7 @@
   </head>
   <body>
     <p>
-    ${Markup(_('Welcome to the Fedora Accounts System 2.  Please submit bugs to &lt;a href="https://fedorahosted.org/fas/"&gt;https://fedorahosted.org/fas/&lt;/a&gt; or stop by #fedora-admin on irc.freenode.net.'))}
+    ${Markup(_('Welcome to the Fedora Accounts System 2.  Please submit bugs to &lt;a href="%(url)s"&gt;%(url)s&lt;/a&gt; or stop by #fedora-admin on irc.freenode.net.') % {'url': 'https://fedorahosted.org/fas/'})}
     </p>
     <ul>
       <li><a href="${tg.url('/login')}">${_('Log In')}</a></li>
