@@ -24,12 +24,17 @@
 
     <table py:if="groups">
       <thead>
-        <tr><th>${_('Group')}</th><th>${_('Description')}</th><th>${_('Status')}</th></tr>
+        <tr><th>${_('Group')}</th><th>${_('Description')}</th>
+          <th>${_('Group Type')}</th><th>${_('Prerequisite')}</th>
+          <th>${_('Status')}</th></tr>
       </thead>
       <tbody>
         <tr py:for="group in groups">
           <td><a href="${tg.url('/group/view/%s' % group.name)}">${group.name}</a></td>
-          <td>${ group.display_name }</td>
+          <td>${group.display_name}</td>
+          <td>${group.group_type}</td>
+          <td py:if="group.prerequisite_id">${group.prerequisite.name}</td>
+          <td py:if="not group.prerequisite_id">${_('None')}</td>
           <td>
             <a py:if="group in person.memberships" href="${tg.url('/group/view/%s' % group.name)}">
               <span class="approved" py:if="group in person.approved_memberships">${_('Approved')}</span>
