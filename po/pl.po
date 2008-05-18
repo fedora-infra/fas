@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-17 13:59-0400\n"
-"PO-Revision-Date: 2008-04-29 20:15+0200\n"
+"PO-Revision-Date: 2008-05-18 23:19+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,9 +20,8 @@ msgstr ""
 "Członkostwo w %s jest wymagane przed pozwoleniem na aplikację do tej grupy"
 
 #: fas/cla.py:137
-#, fuzzy
 msgid "You are not allowed to reject CLAs."
-msgstr "Nie wypełniłeś CLA."
+msgstr "Nie masz uprawnień do odrzucania CLA."
 
 #: fas/cla.py:148
 #, python-format
@@ -30,10 +29,12 @@ msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
 msgstr ""
+"Błąd podczas usuwania CLA i zależnych grup dla %(person)s\n"
+" Błąd: %(error)s"
 
 #: fas/cla.py:186
 msgid "CLA Successfully Removed."
-msgstr ""
+msgstr "Pomyślnie usunięto CLA."
 
 #: fas/cla.py:204
 msgid "You have already completed the CLA."
@@ -48,34 +49,34 @@ msgid "You must confirm that your personal information is accurate."
 msgstr "Musisz potwierdzić, że informacje osobiste są prawdziwe."
 
 #: fas/cla.py:227
-#, fuzzy
 msgid "Your updated information could not be saved."
-msgstr "Nie można zmienić hasła."
+msgstr "Nie można zapisać zaktualizowanych informacji."
 
 #: fas/cla.py:236
-#, fuzzy
 msgid ""
 "To complete the CLA, we must have your name, telephone number, postal "
 "address, and country.  Please ensure they have been filled out."
 msgstr ""
-"Aby wypełnić CLA, musimy znać twój numer telefonu i adres pocztowy. Upewnij "
-"się, że je podałeś."
+"Aby wypełnić CLA, musimy znać twoje imię i nazwisko, numer telefonu, adres "
+"pocztowy oraz kraj. Upewnij się, że je podałeś."
 
 #: fas/cla.py:240
 msgid ""
 "To complete the CLA, a valid country code must be specified.  Please select "
 "one now."
-msgstr ""
+msgstr "Aby wypełnić CLA, musisz podać prawidłowy kod kraju. Wybierz go teraz."
 
 #: fas/cla.py:243
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter using only those characters."
 msgstr ""
+"Numery telefonu mogą zawierać tylko cyfry, \"-\", \"+\", \"(\", \")\", lub "
+"\" \". Ponownie podaj telefon używając tylko tych znaków."
 
 #: fas/cla.py:247
 msgid "Can the postal system really deliver to that address?"
-msgstr ""
+msgstr "Czy poczta może być dostarczana pod ten adres?"
 
 #: fas/cla.py:260 fas/cla.py:272
 #, python-format
@@ -83,9 +84,9 @@ msgid "You could not be added to the '%s' group."
 msgstr "Nie można dodać do grupy \"%s\"."
 
 #: fas/cla.py:269
-#, fuzzy, python-format
+#, python-format
 msgid "You are already a part of the '%s' group."
-msgstr "Nie jesteś w grupie \"%s\"."
+msgstr "Już jesteś w grupie \"%s\"."
 
 #: fas/cla.py:301
 #, python-format
@@ -396,7 +397,7 @@ msgstr "<p>Nie można znaleźć tego elementu pomocy</p>"
 
 #: fas/help.py:30
 msgid "Accuracy of CLA Information"
-msgstr ""
+msgstr "Prawidłowość informacji CLA"
 
 #: fas/help.py:30
 msgid ""
@@ -408,6 +409,13 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number or address to "
 "contact them!  Potentially a very sticky situation.</p>"
 msgstr ""
+"<p>CLA jest dokumentem prawniczym. Należy dołączyć do niego prawidłowe "
+"informacje w razie, gdybyśmy musieli się skontaktować z tobą w sprawie "
+"twojego współudziału w projekcie. Wyobraź sobie, że zadzwonił do nas prawnik "
+"z innej firmy twierdzącej, że posiada prawa autorskie do twojej pracy, a my "
+"musimy im odpowiedzieć, że to nieprawda, ponieważ \"Myszka Miki\" dała nam "
+"ten kod, ale nie mamy żadnego numeru telefonu ani adresu do niej! To "
+"potencjalnie bardzo śliska sprawa.</p>"
 
 #: fas/help.py:31
 msgid "IRC Nick (Optional)"
@@ -544,12 +552,10 @@ msgstr ""
 "p>"
 
 #: fas/help.py:41 fas/templates/user/edit.html:67
-#, fuzzy
 msgid "Public RSA SSH Key"
-msgstr "Publiczny klucz SSH"
+msgstr "Publiczny klucz SSH RSA"
 
 #: fas/help.py:41
-#, fuzzy
 msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
@@ -559,7 +565,7 @@ msgstr ""
 "<p>Wiele zasobów wymaga uwierzytelniania przez klucz publiczny. Wysyłając "
 "nam klucz publiczny będziesz mógł zalogować się na nasze serwery. Podaj "
 "\"man ssh-keygen\", aby dowiedzieć się więcej o tworzeniu klucza. Po "
-"utworzeniu wyślij plik ~/.ssh/id_dsa.pub lub ~/.ssh/id_rsa.pub</p>"
+"utworzeniu wyślij plik ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:42 fas/templates/user/edit.html:83
 msgid "Locale"
@@ -573,7 +579,7 @@ msgstr "<p>Pozwala na wybranie języka.</p>"
 
 #: fas/help.py:43
 msgid "Country Code"
-msgstr ""
+msgstr "Kod kraju"
 
 #: fas/help.py:45 fas/templates/group/list.html:38
 msgid "Apply"
@@ -830,9 +836,9 @@ msgstr ""
 "org\"."
 
 #: fas/user.py:98
-#, fuzzy, python-format
+#, python-format
 msgid "Error - Not a valid RSA SSH key: %s"
-msgstr "Błąd - nieprawidłowy klucz SSH: %s"
+msgstr "Błąd - nieprawidłowy klucz SSH RSA: %s"
 
 #: fas/user.py:107
 #, python-format
@@ -1448,19 +1454,18 @@ msgstr "Numer telefonu"
 
 #: fas/templates/cla/index.html:43 fas/templates/user/edit.html:47
 msgid "Country"
-msgstr ""
+msgstr "Kraj"
 
 #: fas/templates/cla/index.html:45 fas/templates/user/edit.html:49
 msgid "Select Country"
-msgstr ""
+msgstr "Wybierz kraj"
 
 #: fas/templates/cla/index.html:54
-#, fuzzy
 msgid ""
 "I certify that the above information (my name, address, country, and phone "
 "number) are accurate to the best of my knowledge."
 msgstr ""
-"Potwierdzam, że powyższe informacje (imię i nazwisko, adres oraz numer "
+"Potwierdzam, że powyższe informacje (imię i nazwisko, adres, kraj oraz numer "
 "telefonu) są prawdziwe, zgodnie z moją najlepszą wiedzą."
 
 #: fas/templates/cla/index.html:57
@@ -1603,9 +1608,8 @@ msgid "None"
 msgstr "Brak"
 
 #: fas/templates/group/members.html:10
-#, fuzzy
 msgid "View Group Members"
-msgstr "Wyświetl grupę"
+msgstr "Wyświetl członków grupy"
 
 #: fas/templates/group/members.html:23 fas/templates/group/view.html:21
 msgid "My Status:"
@@ -1620,9 +1624,8 @@ msgid "Remove me"
 msgstr "Usuń mnie"
 
 #: fas/templates/group/members.html:41
-#, fuzzy
 msgid "Group Details"
-msgstr "Zarządzaj szczegółami grupy..."
+msgstr "Szczegóły grupy"
 
 #: fas/templates/group/members.html:43
 msgid "Members"
@@ -1693,13 +1696,12 @@ msgid "Add User:"
 msgstr "Dodaj użytkownika:"
 
 #: fas/templates/group/view.html:71
-#, fuzzy
 msgid "View Member List"
-msgstr "Członkowie"
+msgstr "Wyświetl listę członków"
 
 #: fas/templates/group/view.html:73
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "Kolejka sponsorowania"
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
@@ -1849,7 +1851,7 @@ msgstr "Adres pocztowy:"
 
 #: fas/templates/user/view.html:29
 msgid "Country:"
-msgstr ""
+msgstr "Kraj:"
 
 #: fas/templates/user/view.html:31
 msgid "IRC Nick:"
@@ -1897,7 +1899,7 @@ msgstr "CLA:"
 
 #: fas/templates/user/view.html:48
 msgid "Reject CLA"
-msgstr ""
+msgstr "Odrzuć CLA"
 
 #: fas/templates/user/view.html:50
 msgid "Complete it!"
@@ -1948,23 +1950,3 @@ msgstr ""
 #: plugins/dummy_plugin/fas_dummy/templates/index.html:11
 msgid "Dummy Plugin!"
 msgstr "Przykładowa wtyczka!"
-
-#~ msgid "The OpenID request could not be decoded."
-#~ msgstr "Nie można rozszyfrować żądania OpenID."
-
-#~ msgid "Fedora Project OpenID Provider"
-#~ msgstr "Dostawca OpenID Projektu Fedora"
-
-#~ msgid "User %s"
-#~ msgstr "Użytkownik %s"
-
-#~ msgid "Allow <strong>%s</strong> to authenticate to your OpenID identity?"
-#~ msgstr "Pozwolić <strong>%s</strong> na uwierzytelnianie tożsamości OpenID?"
-
-#~ msgid "Submit"
-#~ msgstr "Wyślij"
-
-#~ msgid ""
-#~ "To update any of this information, <a href=\"%s\">edit your account</a>."
-#~ msgstr ""
-#~ "Aby zaktualizować informacje, <a href=\"%s\">zmodyfikuj swoje konto</a>."
