@@ -1,11 +1,11 @@
 #!/usr/bin/python
-import pkg_resources
-pkg_resources.require('CherryPy <= 3.0alpha')
-
 import sys
 sys.path.append('/home/mmcgrath/git/fas/fas/')
 sys.path.append('/home/mmcgrath/git/fas/')
 sys.stdout = sys.stderr
+
+import pkg_resources
+pkg_resources.require('CherryPy <= 3.0alpha')
 
 import os
 os.environ['PYTHON_EGG_CACHE'] = '/home/mmcgrath/git/fas/fas.egg-info/'
