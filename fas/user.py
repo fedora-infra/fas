@@ -485,11 +485,17 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
-    def create(self, username, human_name, email, telephone=None, postal_address=None):
+    def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
         # TODO: Ensure that e-mails are unique?
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
-        #           their password) withing X days.  
+        #           their password) withing X days.
+        
+        # Check that the user claims to be over 13 otherwise it puts us in a
+        # legally sticky situation.
+        if not age_check:
+            turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
+            turbogears.redirect('/')
         try:
             person = People()
             person.username = username
