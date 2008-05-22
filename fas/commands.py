@@ -35,6 +35,16 @@ cherrypy.lowercase_api = True
 class ConfigurationError(Exception):
     pass
 
+import turbogears.startup
+
+class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
+    def before_main(self):
+        if hasattr(cherrypy.request, "params"):
+            cherrypy.request.params_backup = cherrypy.request.params
+        super(MyNestedVariablesFilter, self).before_main()
+
+turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
+
 def start():
     '''Start the CherryPy application server.'''
     setupdir = os.path.dirname(os.path.dirname(__file__))
