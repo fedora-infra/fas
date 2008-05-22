@@ -382,6 +382,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
         # When called as /user/list/?search=* search is a unicode type.
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
 
@@ -390,16 +393,17 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 PersonRolesTable, PersonRoles.person_id==People.id).join(
                         GroupsTable, PersonRoles.group_id==Groups.id)
 
-        approved = select([People.username, People.id, People.human_name,
-            People.ssh_key, People.password], from_obj=PeopleGroupsTable
+        columns = [People.username, People.id, People.human_name, People.ssh_key]
+        if identity.in_group('fas-system'):
+            columns.append(People.password)
+        approved = select(columns, from_obj=PeopleGroupsTable
             ).where(and_(People.username.like(re_search),
                     Groups.name=='cla_done',
                     PersonRoles.role_status=='approved')
                 ).distinct().order_by('username').execute()
         cla_approved = [dict(row) for row in approved]
 
-        unapproved = select([People.username, People.id, People.human_name,
-            People.ssh_key, People.password]).where(and_(
+        unapproved = select(columns).where(and_(
                 People.username.like(re_search),
                 not_(People.id.in_([p['id'] for p in cla_approved])))
                 ).distinct().order_by('username').execute()
