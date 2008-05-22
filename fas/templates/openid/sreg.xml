@@ -15,7 +15,7 @@
     <tr py:for="field in fields">
       <td>${data_fields[field]}</td>
       <td py:choose="">
-	<span class="stored_information" py:when="field == 'nickname' and tg.identity.user.user_name is not None">${tg.identity.user.user_name}</span>
+	<span class="stored_information" py:when="field == 'nickname' and tg.identity.user.username is not None">${tg.identity.user.username}</span>
 	<span class="stored_information" py:when="field == 'email' and tg.identity.user.email_address is not None">${tg.identity.user.email_address}</span>
 	<span class="stored_information" py:when="field == 'fullname' and tg.identity.user.display_name is not None">${tg.identity.user.display_name}</span>
 	<span class="no_information" py:otherwise="">No information on file</span>

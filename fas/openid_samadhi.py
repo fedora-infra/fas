@@ -76,12 +76,8 @@ class OpenID(controllers.Controller):
 
     @expose()
     def openidserver(self, *args, **kw):
-        params = {}
-        old_params = request.params['openid']
-        for param in old_params:
-            params['openid.' + param] = old_params[param]
         try:
-            openid_request = self.openid.decodeRequest(params)
+            openid_request = self.openid.decodeRequest(request.paramMap)
         except server.ProtocolError, openid_error:
             return self.openidserver_respond(openid_error)
 
