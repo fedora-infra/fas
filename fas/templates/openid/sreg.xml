@@ -17,7 +17,7 @@
       <td py:choose="">
 	<span class="stored_information" py:when="field == 'nickname' and tg.identity.user.username is not None">${tg.identity.user.username}</span>
 	<span class="stored_information" py:when="field == 'email' and tg.identity.user.email is not None">${tg.identity.user.email}</span>
-	<span class="stored_information" py:when="field == 'fullname' and tg.identity.user.display_name is not None">${tg.identity.user.display_name}</span>
+	<span class="stored_information" py:when="field == 'fullname' and tg.identity.user.human_name is not None">${tg.identity.user.human_name}</span>
 	<span class="no_information" py:otherwise="">No information on file</span>
       </td>
       <td py:if="not required">
