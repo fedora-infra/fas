@@ -231,6 +231,12 @@ create table visit_identity (
     ssl boolean
 );
 
+create table session (
+  id varchar(40),
+  data text,
+  expiration_time timestamp
+);
+
 --
 -- When the fedorabugs role is updated for a person, add them to bugzilla queue.
 --
