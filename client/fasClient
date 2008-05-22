@@ -573,6 +573,7 @@ if __name__ == '__main__':
         if not opts.no_ssh_keys:
             fas.create_ssh_keys()
         fas.rm_tempdir()
+        fas.logout()
     if opts.aliases:
         try:
             fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
@@ -583,6 +584,7 @@ if __name__ == '__main__':
         fas.make_aliases_txt()
         fas.install_aliases_txt()
         fas.rm_tempdir()
+        fas.logout()
 
     if not (opts.install or opts.enable or opts.disable or opts.aliases):
         parser.print_help()
