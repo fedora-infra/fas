@@ -85,7 +85,7 @@ class GroupCreate(validators.Schema):
     group_type = ValidGroupType
 
 class GroupSave(validators.Schema):
-    groupname = validators.All(KnownGroup, validators.String(max=32, min=3))
+    groupname = validators.All(KnownGroup, validators.String(max=32, min=2))
     display_name = validators.NotEmpty
     owner = KnownUser
     prerequisite = KnownGroup
