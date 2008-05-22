@@ -311,6 +311,9 @@ class Group(controllers.Controller):
             return dict(group=group)
 
     @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="genshi-text:fas.templates.group.list",
+            as_format="plain", accept_format="text/plain",
+            format="text", content_type='text/plain; charset=utf-8')
     @expose(template="fas.templates.group.list", allow_json=True)
     def list(self, search='*'):
         username = turbogears.identity.current.user_name

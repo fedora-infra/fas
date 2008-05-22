@@ -16,24 +16,34 @@
       <div class="field">
         <label for="human_name">${_('Full Name:')}</label>
         <input type="text" id="human_name" name="human_name" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_human_name')}'});</script>
       </div>
       <div class="field">
         <label for="email">${_('Email:')}</label>
         <input type="text" id="email" name="email" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
       </div>
       <!--
       <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email:')}</label>
         <input type="text" id="mail" name="fedoraPersonBugzillaMail" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_bugzilla_mail')}'});</script>
       </div>
       <div class="field">
         <label for="telephone">${_('Telephone Number:')}</label>
         <input type="text" id="telephone" name="telephone" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_telephone')}'});</script>
       </div>
       <div class="field">
         <label for="postal_address">${_('Postal Address:')}</label>
         <textarea id="postal_address" name="postal_address"></textarea>
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_postal_address')}'});</script>
       </div>-->
+      <div class="field">
+        <label for="age_check">${_('I am 13 years of age or older')}</label>
+        <input type="checkbox" id="age_check" name="age_check" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_age_check')}'});</script>
+      </div>
       <div class="field">
         <input type="submit" value="${_('Sign up!')}" />
       </div>

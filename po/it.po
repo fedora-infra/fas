@@ -1,21 +1,21 @@
 # translation of fas.master.po to Italiano
 # This file is distributed under the same license as the FAS project.
-#
 # Francesco Tombolini <tombo@adamantio.net>, 2008.
+# Silvio Pierro <perplesso82@gmail.com>,2008.Francesco Tombolini <tombo@adamantio.net>, 2008.
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: fas.master\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-25 16:32-0400\n"
-"PO-Revision-Date: 2008-05-08 17:27+0200\n"
-"Last-Translator: Francesco Tombolini <tombo@adamantio.net>\n"
-"Language-Team: Italiano <fedora-trans-it@redhat.com>\n"
+"PO-Revision-Date: 2008-05-15 16:57+0200\n"
+"Last-Translator: Silvio Pierro <perplesso82@gmail.com>\n"
+"Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.1\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: build/lib/fas/auth.py:159 fas/auth.py:159
 #, python-format
@@ -104,7 +104,7 @@ msgstr "Non è possibile vedere '%s'"
 #: build/lib/fas/group.py:176 build/lib/fas/group.py:192 fas/group.py:176
 #: fas/group.py:192
 msgid "Only FAS adminstrators can create groups."
-msgstr "Solo gli amministratori FAS possono creare gruppi."
+msgstr "Solo gli amministratori di FAS possono creare gruppi."
 
 #: build/lib/fas/group.py:210 fas/group.py:210
 #, python-format
@@ -142,7 +142,7 @@ msgstr "I dettagli del gruppo sono stati salvati."
 #: build/lib/fas/group.py:299 fas/group.py:299
 #, python-format
 msgid "No Groups found matching '%s'"
-msgstr "Non è stato trovato alcun gruppo coincidente con '%s'"
+msgstr "Non è stato trovato alcun gruppo corrispondente a '%s'"
 
 #: build/lib/fas/group.py:317 fas/group.py:317
 #, python-format
@@ -200,7 +200,7 @@ msgstr ""
 "%(name)s <%(email)s> ti ha sponsorizzato per appartenere al gruppo %(group)"
 "s\n"
 "del Fedora account system. Se applicabile, questo cambiamento dovrà\n"
-"propagarsi negli alias e-mail e repositori CVS entro un ora.\n"
+"propagarsi negli alias e-mail e repository CVS entro un ora.\n"
 "\n"
 "%(joinmsg)s\n"
 
@@ -247,7 +247,7 @@ msgstr "Non è possibile promuovere '%s'"
 #: build/lib/fas/group.py:441 fas/group.py:441
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr "%(name)s non si può essere promosso in %(group)s: %(error)s"
+msgstr "%(name)s non può essere promosso in %(group)s: %(error)s"
 
 #: build/lib/fas/group.py:450 fas/group.py:450
 #, python-format
@@ -289,7 +289,7 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 "\n"
-"%(name)s <%(email)s> è stato degradato allo stato di %(status)s nel\n"
+"%(name)s <%(email)s> ti ha degradato allo stato di %(status)s nel\n"
 "gruppo '%(group)s' del Fedora Accounts System. Questo cambiamento ha\n"
 "effetto immediato sulle nuove operazioni, e sarà propagato\n"
 "negli alias e-mail entro un ora.\n"
@@ -511,7 +511,7 @@ msgid ""
 msgstr ""
 "<p>Molte risorse richiedono un autenticazione con chiave pubblica per "
 "funzionare.  Inviandoci la tua chiave pubblica, potrai entrare sui nostri "
-"server.  Scrivi \"man ssh-keygen\" per maggiori informazioni sulla creazione "
+"server.  Digita \"man ssh-keygen\" per maggiori informazioni sulla creazione "
 "della chiave.  Una volta creata dovrai inviarci la ~/.ssh/id_dsa.pub o ~/."
 "ssh/id_rsa.pub</p>"
 
@@ -639,7 +639,7 @@ msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
 msgstr ""
-"<p>Aggiungere manualmente un utente ad un gruppo.  Porre il nome utente in "
+"<p>Aggiunge manualmente un utente ad un gruppo.  Porre il nome utente in "
 "questo campo e cliccare 'Aggiungi'</p>"
 
 #: build/lib/fas/help.py:50 fas/help.py:50
@@ -681,7 +681,7 @@ msgid ""
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
 msgstr ""
-"<p>Normalmente è corretto lasciare questo campo in bianco.  Comunque alcuni "
+"<p>Normalmente è corretto lasciare questo campo vuoto.  Comunque alcuni "
 "valori includono 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', ed 'mtn'.  "
 "Questi valori sono importanti solamente se il gruppo è finalizzato ad "
 "ottenere accesso shell o accesso al commit da qualche parte come "
@@ -717,7 +717,7 @@ msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
-"<p>Potranno gli utenti essere in grado di rimuoversi da questo gruppo senza "
+"<p>Gli utenti potranno essere in grado di rimuoversi da questo gruppo senza "
 "l'intervento di uno sponsor / amministratore ?  (consigliato si)</p>"
 
 #: build/lib/fas/help.py:56 fas/help.py:56
@@ -977,6 +977,25 @@ msgstr ""
 "sui differenti ruoli disponibili.\n"
 "\n"
 "http://fedoraproject.org/it/join-fedora\n"
+"\n"
+"Se sai già in che modo vuoi contribuire a Fedora, ed hai già trovato il gruppo\n"
+"che attualmente lavora nell'area di tuo interesse, allora ci sono ancora\n"
+"pochi passi per te prima di essere operativo\n"
+"\n"
+"Il primo di questi è quello di registrarsi sulla mailing list del gruppo o\n"
+"progetto al quale sei interessato - e se sei interessato a lavorare in piu di\n"
+"un gruppo, sentiti libero di registrarti a quante mailing list ti interessano!\n"
+"Questo perchè le mailing list sono il posto dove viene organizzata la maggior\n"
+"parte del lavoro e vengono assegnati gli incarichi, così per far parte del\n"
+"cerchio assicurati di stare al passo dei messaggi.\n"
+"\n"
+"Una volta fatto ciò, sarebbe probabilmente saggio inviare una breve\n"
+"introduzione alla lista facendo sapere quali esperienze possiedi e come\n"
+"vorresti aiutare. Da qui, i membri presenti nel team ti aiuteranno a trovare\n"
+"il modo di contributore a Fedora.\n"
+"\n"
+"E infine, da tutti noi del Fedora Project, noi guardiamo al futuro per\n"
+"lavorare con te!\n"
 
 #: build/lib/fas/user.py:463 fas/user.py:476
 msgid "An account has already been registered with that email address."
@@ -1123,7 +1142,7 @@ msgid ""
 "time.  For best odds of success, learn about the group you're applying for "
 "and get to know someone in the group.  Find someone with sponsor or admin "
 "access and ask them if they'd have time to mentor you.  Plan on spending at "
-"least a few days learning about the group, doing a mundane task, "
+"least a few days learning about the group, doing a mundain task, "
 "participating on the mailing list.  Sometimes this process can take weeks "
 "depending on the group.  It's best to know you will get sponsored before you "
 "apply."
@@ -1979,7 +1998,7 @@ msgstr ""
 
 #: fas/cla.py:102
 msgid "You must confirm that your personal information is accurate."
-msgstr "Confermare l'accuratezza delle informazioni personali."
+msgstr "Bisogna confermare l'accuratezza delle informazioni personali."
 
 #: fas/user.py:305
 msgid "Somebody is already using that email address."

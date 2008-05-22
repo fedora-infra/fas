@@ -27,7 +27,7 @@ Before you can get started, make sure to have the following packages installed
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz python-babel babel
+  python-psycopg2 pytz python-babel babel python-GeoIP python-openid
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
@@ -104,12 +104,12 @@ in, then run::
   tg-admin shell
 
 
---------------------
+----------------------------
 Apache + mod_wsgi deployment
---------------------
+----------------------------
 
 WSGI or, Web Server Gateway Interface is a specification to allow servers and
-applications to communicate with eachother.  It's one method that allows Turbo
+applications to communicate with each other.  It's one method that allows Turbo
 Gears to scale properly.  To install it run:
 
   # yum -y install httpd mod_wsgi

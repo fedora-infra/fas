@@ -57,6 +57,14 @@ def get_locale(locale=None):
 
 config.update({'i18n.get_locale': get_locale})
 
+def get_db():
+    """
+    Return a DB connection for CherryPy sessions
+    """
+    return turbogears.database.get_engine().raw_connection()
+
+config.update({'session_filter.get_db': get_db})
+
 def add_custom_stdvars(vars):
   return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)

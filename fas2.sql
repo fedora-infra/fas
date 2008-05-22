@@ -50,6 +50,7 @@ CREATE TABLE people (
     unverified_email TEXT,
     comments TEXT,
     postal_address TEXT,
+    country_code char(2),
     telephone TEXT,
     facsimile TEXT,
     affiliation TEXT,
@@ -228,6 +229,12 @@ create table visit_identity (
     user_id INTEGER references people(id),
     -- True if the user was authenticated using SSL
     ssl boolean
+);
+
+create table session (
+  id varchar(40),
+  data text,
+  expiration_time timestamp
 );
 
 --

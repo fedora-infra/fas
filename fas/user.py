@@ -130,6 +130,7 @@ class UserSave(validators.Schema):
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
+    country_code = validators.String(max=2, strip=True)
 
 class UserCreate(validators.Schema):
     username = validators.All(
@@ -293,7 +294,7 @@ class User(controllers.Controller):
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC'):
+    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC', country_code=''):
         languages = available_languages()
 
         username = turbogears.identity.current.user_name
@@ -342,6 +343,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             target.comments = comments
             target.locale = locale
             target.timezone = timezone
+            target.country_code = country_code
         except TypeError:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
             return dict(target=target, languages=languages)
@@ -380,6 +382,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
         # When called as /user/list/?search=* search is a unicode type.
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
 
@@ -388,16 +393,17 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 PersonRolesTable, PersonRoles.person_id==People.id).join(
                         GroupsTable, PersonRoles.group_id==Groups.id)
 
-        approved = select([People.username, People.id, People.human_name,
-            People.ssh_key, People.password], from_obj=PeopleGroupsTable
+        columns = [People.username, People.id, People.human_name, People.ssh_key]
+        if identity.in_group('fas-system'):
+            columns.append(People.password)
+        approved = select(columns, from_obj=PeopleGroupsTable
             ).where(and_(People.username.like(re_search),
                     Groups.name=='cla_done',
                     PersonRoles.role_status=='approved')
                 ).distinct().order_by('username').execute()
         cla_approved = [dict(row) for row in approved]
 
-        unapproved = select([People.username, People.id, People.human_name,
-            People.ssh_key, People.password]).where(and_(
+        unapproved = select(columns).where(and_(
                 People.username.like(re_search),
                 not_(People.id.in_([p['id'] for p in cla_approved])))
                 ).distinct().order_by('username').execute()
@@ -483,11 +489,17 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @validate(validators=UserCreate())
     @error_handler(error)
     @expose(template='fas.templates.new')
-    def create(self, username, human_name, email, telephone=None, postal_address=None):
+    def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
         # TODO: Ensure that e-mails are unique?
         #       Also, perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
-        #           their password) withing X days.  
+        #           their password) withing X days.
+        
+        # Check that the user claims to be over 13 otherwise it puts us in a
+        # legally sticky situation.
+        if not age_check:
+            turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
+            turbogears.redirect('/')
         try:
             person = People()
             person.username = username
