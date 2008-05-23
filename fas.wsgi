@@ -14,6 +14,15 @@ import atexit
 import cherrypy
 import cherrypy._cpwsgi
 import turbogears
+import turbogears.startup
+
+class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
+    def before_main(self):
+        if hasattr(cherrypy.request, "params"):
+            cherrypy.request.params_backup = cherrypy.request.params
+        super(MyNestedVariablesFilter, self).before_main()
+
+turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'server.environment': 'development'}})
