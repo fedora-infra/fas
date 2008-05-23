@@ -66,8 +66,7 @@ class SamadhiAssociation(object):
 
     @classmethod
     def remove(cls, server_url, handle):
-        a = cls.query.filter_by(server_url = server_url, handle = handle).one()
-        if a is not None:
+        for a in cls.query.filter_by(server_url = server_url, handle = handle):
             session.delete(a)
 
 mapper(SamadhiAssociation, samadhi_associations_table)
