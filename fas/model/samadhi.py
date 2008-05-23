@@ -62,7 +62,7 @@ class SamadhiAssociation(object):
         if handle is None:
             return cls.query.filter_by(server_url = server_url).order_by(issued.desc()).first()
         else:
-            return cls.query.filter_by(server_url = server_url, handle = handle).one()
+            return cls.query.filter_by(server_url = server_url, handle = handle).order_by(issued.desc()).first()
 
     @classmethod
     def remove(cls, server_url, handle):
@@ -99,11 +99,13 @@ class SamadhiStore(OpenIDStore):
 
     def getAssociation(self, server_url, handle=None):
         a = SamadhiAssociation.get(server_url, handle)
-        return OpenIDAssociation(a.handle,
-                                 a.secret,
-                                 a.issued,
-                                 a.lifetime,
-                                 a.assoc_type)
+        if a:
+            return OpenIDAssociation(a.handle,
+                                     a.secret,
+                                     a.issued,
+                                     a.lifetime,
+                                     a.assoc_type)
+        return None
 
     def removeAssociation(self, server_url, handle):
         SamadhiAssociation.remove(server_url, handle)
