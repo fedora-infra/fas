@@ -1,19 +1,19 @@
 # zh_CN translation of fas.
 # Copyright (C) Year Free Software Foundation, Inc.
 # TianShixiong <tiansworld@gmail.com>, 2008.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: fas VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-23 21:38-0400\n"
-"PO-Revision-Date: 2008-05-17 22:42+0800\n"
+"PO-Revision-Date: 2008-05-24 14:03+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: fas/auth.py:159
 #, python-format
@@ -560,7 +560,7 @@ msgstr "国家代码"
 
 #: fas/help.py:44
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "必须13岁以上"
 
 #: fas/help.py:44
 msgid ""
@@ -570,6 +570,7 @@ msgid ""
 "our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
+"<p>出于对儿童隐私的考虑, 我们并非有意接受13岁以下儿童的个人信息. 并非有意允许13岁以下儿童注册成为本站点成员或购买本站点的服务及产品.并非有意搜集或诱惑未满13岁儿童的个人信息.</p>"
 
 #: fas/help.py:45 fas/templates/group/list.html:43
 msgid "Apply"
@@ -768,7 +769,6 @@ msgid "Client Side Cert"
 msgstr "客户端认证"
 
 #: fas/help.py:60
-#, fuzzy
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages "
 "to Fedora or for other authentication purposes like with koji.  You should "
@@ -776,7 +776,7 @@ msgid ""
 "maintainer there is no need to worry about the client side cert</p>"
 msgstr ""
 "<p>客户端认证通常用于保障向Fedora上传程序包或其它像 koji 之类的验证目的的权"
-"限.  如果您不是程序包维护者则您无需担忧客户端认证</p>"
+"限.  您应保存此证书至 ~/.fedora.cert.  如果您不是程序包维护者则您无需担忧客户端认证</p>"
 
 #: fas/safasprovider.py:157
 #, python-format
@@ -901,6 +901,7 @@ msgid ""
 "We do not knowingly collect or solicit personal information about children "
 "under 13."
 msgstr ""
+"我们表示歉意但出于对儿童隐私的考虑, 我们并非有意接受13岁以下儿童的个人信息. 并非有意允许13岁以下儿童注册成为本站点成员或购买本站点的服务及产品.并非有意搜集或诱惑未满13岁儿童的个人信息."
 
 #: fas/user.py:513
 msgid "Welcome to the Fedora Project!"
@@ -1282,7 +1283,7 @@ msgstr "登录"
 
 #: fas/templates/master.html:61
 msgid "Home"
-msgstr "Home"
+msgstr "主页"
 
 #: fas/templates/master.html:65
 msgid "New Group"
@@ -1518,9 +1519,8 @@ msgid "Description"
 msgstr "描述"
 
 #: fas/templates/group/list.html:28
-#, fuzzy
 msgid "Prerequisite"
-msgstr "前提:"
+msgstr "前提"
 
 #: fas/templates/group/list.html:29
 msgid "Status"
@@ -1663,30 +1663,29 @@ msgstr "担保列表"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "这是一个OpenID服务器"
 
 #: fas/templates/openid/about.html:12
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">这</a> 是一个OpenID服务器结点."
 
 #: fas/templates/openid/about.html:13
-#, fuzzy
 msgid "For more information about OpenID, see:"
-msgstr "您的更新信息无法保存."
+msgstr "关于更多OpenID的信息, 见:"
 
 #: fas/templates/openid/about.html:16
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "OpenID社区网站, 此库的主页."
 
 #: fas/templates/openid/about.html:18
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "官方OpenID网站."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:27
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "认证OpenID请求?"
 
 #: fas/templates/openid/authorizesite.html:12
 msgid ""
@@ -1695,21 +1694,19 @@ msgid ""
 "URL listed below. (If you are using a delegated identity, the site will take "
 "care of reversing the delegation on its own.)"
 msgstr ""
+"一个新地址要求您确认身份.  如果您同意,代表以下信任主机的地址将会被通知,您控制以下列出的身份URL.(如果您使用转受身份, 此地址会转换此授权为其本身的.)"
 
 #: fas/templates/openid/authorizesite.html:15
-#, fuzzy
 msgid "Identity:"
-msgstr "新身份标识"
+msgstr "身份:"
 
 #: fas/templates/openid/authorizesite.html:19
-#, fuzzy
 msgid "Trust Root:"
-msgstr "信任的主机"
+msgstr "信任的主机:"
 
 #: fas/templates/openid/authorizesite.html:23
-#, fuzzy
 msgid "Allow this authentication to proceed?"
-msgstr "需要验证"
+msgstr "允许此验证继续吗?"
 
 #: fas/templates/openid/authorizesite.html:33
 msgid "yes"
@@ -1720,9 +1717,8 @@ msgid "no"
 msgstr "否"
 
 #: fas/templates/openid/welcome.html:9
-#, fuzzy
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr "欢迎来到Fedora Project!"
+msgstr "欢迎来到Fedora OpenID Provider"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1730,15 +1726,16 @@ msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a href="
 "\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
+"您以 %(username)s登录. 您的OpenID身份URL是<a href=\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
 msgstr "注销"
 
 #: fas/templates/openid/welcome.html:24
-#, fuzzy, python-format
+#, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr "<a href=\"%(url)s\">Text 版本</a>"
+msgstr "您不是 <a href=\"%(url)s\">已登录</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
@@ -1827,7 +1824,8 @@ msgstr "电子邮件:"
 
 #: fas/templates/user/new.html:43
 msgid "I am 13 years of age or older"
-msgstr ""
+msgstr "我已满或超过13岁"
+""
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
