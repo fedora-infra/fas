@@ -85,7 +85,7 @@ class OpenID(controllers.Controller):
             return self.respond(openid_error)
 
         if openid_request is None:
-            return dict(tg_template = "samadhi.templates.openid.about",
+            return dict(tg_template = "fas.templates.openid.about",
                         endpoint_url = endpoint_url)
 
         elif openid_request.mode in ["checkid_immediate", "checkid_setup"]:
@@ -170,7 +170,7 @@ class OpenID(controllers.Controller):
                     'fullname': identity.current.user.human_name,
                     'timezone': identity.current.user.timezone,
                     }
-                for field in values:
+                for field in values.keys():
                     if kw['sreg']['send'][field] != 'yes':
                         del(values[field])
             sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, values)

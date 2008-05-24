@@ -30,7 +30,7 @@ turbogears.config.update({'global': {'autoreload.on': False}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
 turbogears.config.update({'global': {'server.webpath': '/accounts'}})
 turbogears.config.update({'global': {'base_url_filter.on': True}})
-turbogears.config.update({'global': {'base_url_filter.base_url': 'http://admin.fedora.riczho.dyndns.org/accounts'}})
+turbogears.config.update({'global': {'base_url_filter.base_url': 'http://admin.fedora.riczho.dyndns.org'}})
 
 import fas.controllers
 
