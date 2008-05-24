@@ -43,7 +43,7 @@ def build_url(newpath):
 login_url = build_url('/login')
 id_base_url = build_url('/openid/id')
 endpoint_url = build_url('/openid/server')
-yadis_url = build_url('/openid/yadis')
+yadis_base_url = build_url('/openid/yadis')
 
 class OpenID(controllers.Controller):
     def __init__(self, *args, **kw):
