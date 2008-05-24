@@ -42,7 +42,7 @@ def build_url(newpath):
 
 login_url = build_url('/login')
 id_base_url = build_url('/openid/id')
-endpoint_url = build_url('/openid/openidserver')
+endpoint_url = build_url('/openid/server')
 yadis_url = build_url('/openid/yadis')
 
 class OpenID(controllers.Controller):
@@ -57,40 +57,44 @@ class OpenID(controllers.Controller):
 
     @expose(template="fas.templates.openid.id")
     def id(self, *args, **kw):
-        return dict(endpoint_url = endpoint_url,
-                    yadis_url = yadis_url,
-                    yadis_path='/'.join(args))
+        results = dict(endpoint_url = endpoint_url,
+                       yadis_url = build_url(yadis_base_url + '/' + '/'.join(args)),
+                       user_url = None)
+            
+        if len(args) >= 1:
+            results['user_url'] = build_url(id_base_url + '/' + '/'.join(args)),
+
+        return results
 
     @expose(template="fas.templates.openid.yadis", format="xml", content_type="application/xrds+xml")
     def yadis(self, *args, **kw):
-        if len(args) != 1:
-            redirect('/')
-        return dict(discover = discover,
-                    endpoint_url = endpoint_url,
-                    user_url = build_url(id_base_url + '/' + args[0]))
+        results = dict(discover = discover,
+                       endpoint_url = endpoint_url,
+                       yadis_url = build_url(yadis_base_url + '/' + '/'.join(args)),
+                       user_url = None)
 
-    @expose(template="fas.templates.openid.serveryadis", format="xml", content_type="application/xrds+xml")
-    def serveryadis(self):
-        return dict(discover = discover,
-                    endpoint_url=endpoint_url)
+        if len(args) >= 1:
+            results['user_url'] = build_url(id_base_url + '/' + '/'.join(args)),
+        return results
 
     @expose()
-    def openidserver(self, *args, **kw):
+    def server(self, *args, **kw):
         try:
             openid_request = self.openid.decodeRequest(request.params_backup)
         except server.ProtocolError, openid_error:
-            return self.openidserver_respond(openid_error)
+            return self.respond(openid_error)
 
         if openid_request is None:
-            return dict(tg_template="fas.templates.openid.about", endpoint_url=endpoint_url)
+            return dict(tg_template = "samadhi.templates.openid.about",
+                        endpoint_url = endpoint_url)
 
         elif openid_request.mode in ["checkid_immediate", "checkid_setup"]:
-            return self.openidserver_checkidrequest(openid_request)
+            return self.checkidrequest(openid_request)
 
         else:
-            return self.openidserver_respond(self.openid.handleRequest(openid_request))
+            return self.respond(self.openid.handleRequest(openid_request))
 
-    def openidserver_isauthorized(self, openid_identity, openid_trust_root):
+    def isauthorized(self, openid_identity, openid_trust_root):
         if identity.current.anonymous:
             return False
 
@@ -101,27 +105,27 @@ class OpenID(controllers.Controller):
 
         return session.get(key)
 
-    def openidserver_checkidrequest(self, openid_request):
-        isauthorized = self.openidserver_isauthorized(openid_request.identity, openid_request.trust_root)
+    def checkidrequest(self, openid_request):
+        isauthorized = self.isauthorized(openid_request.identity, openid_request.trust_root)
 
         if identity.current.anonymous:
             return redirect('/openid/login', url=request.browser_url)
 
         elif isauthorized == False:
-            return self.openidserver_respond(openid_request.answer(False))
+            return self.respond(openid_request.answer(False))
 
         elif isauthorized == 'always':
-            return self.openidserver_respond(openid_request.answer(True))
+            return self.respond(openid_request.answer(True))
 
         elif openid_request.immediate or isauthorized == 'never':
-            return self.openidserver_respond(openid_request.answer(False))
+            return self.respond(openid_request.answer(False))
 
         else:
             session.acquire_lock()
             session['last_request'] = openid_request
-            return self.openidserver_showdecidepage(openid_request)
+            return self.showdecidepage(openid_request)
 
-    def openidserver_showdecidepage(self, openid_request):
+    def showdecidepage(self, openid_request):
         sreg_req = sreg.SRegRequest.fromOpenIDRequest(openid_request)
 
         return dict(tg_template='fas.templates.openid.authorizesite',
@@ -130,7 +134,7 @@ class OpenID(controllers.Controller):
                     sreg_req = sreg_req,
                     data_fields = sreg.data_fields)
 
-    def openidserver_respond(self, openid_response):
+    def respond(self, openid_response):
         try:
             webresponse = self.openid.encodeResponse(openid_response)
             response.status = webresponse.code
@@ -183,7 +187,7 @@ class OpenID(controllers.Controller):
             session.acquire_lock()
             session[(openid_request.identity, openid_request.trust_root)] = remember_value
 
-        return self.openidserver_respond(openid_response)
+        return self.respond(openid_response)
 
     @expose()
     @identity.require(identity.not_anonymous())
