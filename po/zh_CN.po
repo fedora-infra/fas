@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fas VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2008-05-17 13:59-0400\n"
+"POT-Creation-Date: 2008-05-23 21:38-0400\n"
 "PO-Revision-Date: 2008-05-17 22:42+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -93,30 +93,30 @@ msgid ""
 "You have successfully completed the CLA.  You are now in the '%s' group."
 msgstr "您已经成功完成CLA, 您现在已加入'%s'组."
 
-#: fas/controllers.py:152
+#: fas/controllers.py:160
 #, python-format
 msgid "Welcome, %s"
 msgstr "欢迎, %s"
 
-#: fas/controllers.py:167
+#: fas/controllers.py:175
 msgid ""
 "The credentials you supplied were not correct or did not grant access to "
 "this resource."
 msgstr "您提供的证件不正确或者不具备访问此资源的权限."
 
-#: fas/controllers.py:170
+#: fas/controllers.py:178
 msgid "You must provide your credentials before accessing this resource."
 msgstr "您必须提供您的证书才能访问此资源."
 
-#: fas/controllers.py:173
+#: fas/controllers.py:181
 msgid "Please log in."
 msgstr "请登录"
 
-#: fas/controllers.py:184
+#: fas/controllers.py:192
 msgid "You have successfully logged out."
 msgstr "您已成功登出."
 
-#: fas/controllers.py:196 fas/user.py:115
+#: fas/controllers.py:204 fas/user.py:115
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "语言 '%s' 不存在."
@@ -174,22 +174,22 @@ msgstr "组详情无法保存."
 msgid "The group details have been saved."
 msgstr "组详情已保存."
 
-#: fas/group.py:335
+#: fas/group.py:338
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "没有找到符合 '%s'的组"
 
-#: fas/group.py:353
+#: fas/group.py:356
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s不能应用于 %(group)s中."
 
-#: fas/group.py:361
+#: fas/group.py:364
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s不能应用于 %(group)s中: %(error)s."
 
-#: fas/group.py:372
+#: fas/group.py:375
 #, python-format
 msgid ""
 "\n"
@@ -205,22 +205,22 @@ msgstr ""
 "\n"
 "请到 %(url)s 做出决定.  \n"
 
-#: fas/group.py:379
+#: fas/group.py:382
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s 已加入到%(group)s 中!"
 
-#: fas/group.py:396
+#: fas/group.py:399
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "您不能担保 '%s'"
 
-#: fas/group.py:403
+#: fas/group.py:406
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s 不能在 %(group)s 中担保: %(error)s"
 
-#: fas/group.py:409
+#: fas/group.py:412
 #, python-format
 msgid ""
 "\n"
@@ -236,22 +236,22 @@ msgstr ""
 "\n"
 "%(joinmsg)s\n"
 
-#: fas/group.py:417
+#: fas/group.py:420
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "'%s' 已被担保!"
 
-#: fas/group.py:434
+#: fas/group.py:437
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "您不能从'%(group)s' 中删除 '%(user)s'."
 
-#: fas/group.py:441
+#: fas/group.py:444
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "无法从 %(group)s 中删除%(user)s: %(error)s"
 
-#: fas/group.py:446
+#: fas/group.py:449
 #, python-format
 msgid ""
 "\n"
@@ -265,22 +265,22 @@ msgstr ""
 "组中删除. 此变更在有新操作时将立即生效, 并在一小时内发送到关联的电子邮件地"
 "址.\n"
 
-#: fas/group.py:453
+#: fas/group.py:456
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s 已从 %(group)s中删除"
 
-#: fas/group.py:470
+#: fas/group.py:473
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "您无法升级 '%s'"
 
-#: fas/group.py:477
+#: fas/group.py:480
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在%(group)s中升级: %(error)s"
 
-#: fas/group.py:486
+#: fas/group.py:489
 #, python-format
 msgid ""
 "\n"
@@ -294,22 +294,22 @@ msgstr ""
 "%(status)s 状态.此变更将在有新操作时立即生效, 并将在一小时内发送到\n"
 "关联的电子邮件.\n"
 
-#: fas/group.py:493
+#: fas/group.py:496
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s 已升级!"
 
-#: fas/group.py:509
+#: fas/group.py:512
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "您无法降级 '%s'"
 
-#: fas/group.py:516
+#: fas/group.py:519
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在%(group)s中降级: %(error)s"
 
-#: fas/group.py:524
+#: fas/group.py:527
 #, python-format
 msgid ""
 "\n"
@@ -323,16 +323,16 @@ msgstr ""
 " %(status)s. 此更改将在有新的操作时立刻生效, 并会在一小时内发送至关联的电子邮"
 "箱\n"
 
-#: fas/group.py:531
+#: fas/group.py:534
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s 已被降级!"
 
-#: fas/group.py:599
+#: fas/group.py:602
 msgid "Come join The Fedora Project!"
 msgstr "加入 The Fedora Project!"
 
-#: fas/group.py:600
+#: fas/group.py:603
 #, python-format
 msgid ""
 "\n"
@@ -366,12 +366,12 @@ msgstr ""
 "\n"
 "Fedora 及 FOSS 正在改变世界 -- 快来成为它的一员吧!"
 
-#: fas/group.py:617
+#: fas/group.py:620
 #, python-format
 msgid "Message sent to: %s"
 msgstr "消息发送至: %s"
 
-#: fas/group.py:620
+#: fas/group.py:623
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "您没在 '%s' 组."
@@ -558,7 +558,20 @@ msgstr "<p>对非讲英语人士来说这可以允许他们选择自己的语言
 msgid "Country Code"
 msgstr "国家代码"
 
-#: fas/help.py:45 fas/templates/group/list.html:38
+#: fas/help.py:44
+msgid "Must be over 13 Years"
+msgstr ""
+
+#: fas/help.py:44
+msgid ""
+"<p>Out of special concern for children's privacy, we do not knowingly accept "
+"online personal information from children under the age of 13. We do not "
+"knowingly allow children under the age of 13 to become registered members of "
+"our sites or buy products and services on our sites. We do not knowingly "
+"collect or solicit personal information about children under 13.</p>"
+msgstr ""
+
+#: fas/help.py:45 fas/templates/group/list.html:43
 msgid "Apply"
 msgstr "申请"
 
@@ -679,7 +692,7 @@ msgstr "组所有者"
 msgid "<p>The name of the owner who will run this group</p>"
 msgstr "<p>运作此组的所有者名称</p>"
 
-#: fas/help.py:55
+#: fas/help.py:55 fas/templates/group/list.html:28
 msgid "Group Type"
 msgstr "组类别"
 
@@ -755,11 +768,12 @@ msgid "Client Side Cert"
 msgstr "客户端认证"
 
 #: fas/help.py:60
+#, fuzzy
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages "
-"to Fedora or for other authentication purposes like with koji.  If you are "
-"not a package maintainer there is no need to worry about the client side "
-"cert</p>"
+"to Fedora or for other authentication purposes like with koji.  You should "
+"save this certificate to ~/.fedora.cert.  If you are not a package "
+"maintainer there is no need to worry about the client side cert</p>"
 msgstr ""
 "<p>客户端认证通常用于保障向Fedora上传程序包或其它像 koji 之类的验证目的的权"
 "限.  如果您不是程序包维护者则您无需担忧客户端认证</p>"
@@ -850,39 +864,49 @@ msgstr "您的账户信息无法保存:%s"
 msgid "Your account details have been saved."
 msgstr "您的账户信息已被保存."
 
-#: fas/user.py:409
+#: fas/user.py:413
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "没有符合'%s'的用户"
 
-#: fas/user.py:440
+#: fas/user.py:444
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
 msgstr "您已取消待定的邮件地址更改.邮件更改无效."
 
-#: fas/user.py:444 fas/user.py:460
+#: fas/user.py:448 fas/user.py:464
 msgid "You do not have any pending email changes."
 msgstr "您没有待定邮件更改."
 
-#: fas/user.py:448 fas/user.py:464
+#: fas/user.py:452 fas/user.py:468
 msgid "Invalid email change token."
 msgstr "无效的电子邮件变更."
 
-#: fas/user.py:473
+#: fas/user.py:477
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "您已成功修改邮件地址为'%s'"
 
-#: fas/user.py:481
+#: fas/user.py:485
 msgid "No need to sign up, you have an account!"
 msgstr "无需注册,您已有账户!"
 
-#: fas/user.py:503
+#: fas/user.py:501
+msgid ""
+"We're sorry but out of special concern for children's privacy, we do not "
+"knowingly accept online personal information from children under the age of "
+"13. We do not knowingly allow children under the age of 13 to become "
+"registered members of our sites or buy products and services on our sites. "
+"We do not knowingly collect or solicit personal information about children "
+"under 13."
+msgstr ""
+
+#: fas/user.py:513
 msgid "Welcome to the Fedora Project!"
 msgstr "欢迎来到Fedora Project!"
 
-#: fas/user.py:504
+#: fas/user.py:514
 #, python-format
 msgid ""
 "\n"
@@ -957,45 +981,45 @@ msgstr ""
 "最后, Fedora Project的所有人员在此表示, 期待与您一起工作!\n"
 "\n"
 
-#: fas/user.py:545
+#: fas/user.py:555
 msgid "An account has already been registered with that email address."
 msgstr "已有账户使用那个邮件地址注册."
 
-#: fas/user.py:549
+#: fas/user.py:559
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr "您的密码已以电子邮件形式发送给您.请用此密码登录后再修改您的密码."
 
-#: fas/user.py:583
+#: fas/user.py:593
 msgid "Your password could not be changed."
 msgstr "您的密码无法更改."
 
-#: fas/user.py:586
+#: fas/user.py:596
 msgid "Your password has been changed."
 msgstr "您的密码已更改."
 
-#: fas/user.py:594
+#: fas/user.py:604
 msgid "You are already logged in!"
 msgstr "您已登录!"
 
-#: fas/user.py:604
+#: fas/user.py:614
 msgid "You are already logged in."
 msgstr "您已经登录."
 
-#: fas/user.py:610
+#: fas/user.py:620
 msgid "Username email combo does not exist!"
 msgstr "该用户名邮件组合不存在!"
 
-#: fas/user.py:613
+#: fas/user.py:623
 msgid "username + email combo unknown."
 msgstr "未知用户名+电子邮件组合."
 
-#: fas/user.py:616
+#: fas/user.py:626
 msgid "Fedora Project Password Reset"
 msgstr "Fedora Project密码重设"
 
-#: fas/user.py:617
+#: fas/user.py:627
 #, python-format
 msgid ""
 "\n"
@@ -1008,45 +1032,45 @@ msgstr ""
 "要修改您的密码(或取消请求),请访问\n"
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:629
+#: fas/user.py:639
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
 msgstr "此用户没有GPG密匙ID,因此无法发送加密邮件."
 
-#: fas/user.py:633
+#: fas/user.py:643
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "您的密匙无法从subeys.pgp.net恢复."
 
-#: fas/user.py:655
+#: fas/user.py:665
 msgid "Your password reset email could not be encrypted."
 msgstr "您的密码重设邮件不能加密."
 
-#: fas/user.py:661
+#: fas/user.py:671
 msgid "A password reset URL has been emailed to you."
 msgstr "密码重设链接已通过电子邮件发送给您."
 
-#: fas/user.py:671 fas/user.py:691
+#: fas/user.py:681 fas/user.py:701
 msgid "You do not have any pending password changes."
 msgstr "您没有待定的密码更改."
 
-#: fas/user.py:675 fas/user.py:696
+#: fas/user.py:685 fas/user.py:706
 msgid "Invalid password change token."
 msgstr "无效的密码更改."
 
-#: fas/user.py:680
+#: fas/user.py:690
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr "您已取消密码重设.密码更改无效."
 
-#: fas/user.py:705
+#: fas/user.py:715
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "您已成功重设密码.现在您可以在下面登录."
 
-#: fas/user.py:744
+#: fas/user.py:754
 msgid "Before generating a certificate, you must first complete the CLA."
 msgstr "在生成认证之前,您必须完成CLA."
 
@@ -1493,16 +1517,26 @@ msgstr "组"
 msgid "Description"
 msgstr "描述"
 
-#: fas/templates/group/list.html:27
+#: fas/templates/group/list.html:28
+#, fuzzy
+msgid "Prerequisite"
+msgstr "前提:"
+
+#: fas/templates/group/list.html:29
 msgid "Status"
 msgstr "状态"
 
-#: fas/templates/group/list.html:35 fas/templates/group/members.html:24
+#: fas/templates/group/list.html:37 fas/templates/group/member-list.html:26
+#: fas/templates/group/member-list.html:29 fas/templates/user/view.html:75
+msgid "None"
+msgstr "无"
+
+#: fas/templates/group/list.html:40 fas/templates/group/members.html:24
 #: fas/templates/group/view.html:22 fas/templates/user/view.html:74
 msgid "Approved"
 msgstr "已验证"
 
-#: fas/templates/group/list.html:36 fas/templates/group/members.html:25
+#: fas/templates/group/list.html:41 fas/templates/group/members.html:25
 #: fas/templates/group/view.html:23
 msgid "Unapproved"
 msgstr "未验证"
@@ -1530,11 +1564,6 @@ msgstr "角色类型"
 #: fas/templates/group/member-list.html:20
 msgid "Action"
 msgstr "动作"
-
-#: fas/templates/group/member-list.html:26
-#: fas/templates/group/member-list.html:29 fas/templates/user/view.html:75
-msgid "None"
-msgstr "无"
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
@@ -1632,6 +1661,85 @@ msgstr "浏览组列表"
 msgid "Sponsorship Queue"
 msgstr "担保列表"
 
+#: fas/templates/openid/about.html:7
+msgid "This is an OpenID server"
+msgstr ""
+
+#: fas/templates/openid/about.html:12
+msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
+msgstr ""
+
+#: fas/templates/openid/about.html:13
+#, fuzzy
+msgid "For more information about OpenID, see:"
+msgstr "您的更新信息无法保存."
+
+#: fas/templates/openid/about.html:16
+msgid "An OpenID community web site, home of this library."
+msgstr ""
+
+#: fas/templates/openid/about.html:18
+msgid "The official OpenID web site."
+msgstr ""
+
+#: fas/templates/openid/authorizesite.html:7
+#: fas/templates/openid/authorizesite.html:11
+#: fas/templates/openid/authorizesite.html:27
+msgid "Approve OpenID Request?"
+msgstr ""
+
+#: fas/templates/openid/authorizesite.html:12
+msgid ""
+"A new site has asked to confirm your identity.  If you approve, the site "
+"represented by the trust root below will be told that you control identity "
+"URL listed below. (If you are using a delegated identity, the site will take "
+"care of reversing the delegation on its own.)"
+msgstr ""
+
+#: fas/templates/openid/authorizesite.html:15
+#, fuzzy
+msgid "Identity:"
+msgstr "新身份标识"
+
+#: fas/templates/openid/authorizesite.html:19
+#, fuzzy
+msgid "Trust Root:"
+msgstr "信任的主机"
+
+#: fas/templates/openid/authorizesite.html:23
+#, fuzzy
+msgid "Allow this authentication to proceed?"
+msgstr "需要验证"
+
+#: fas/templates/openid/authorizesite.html:33
+msgid "yes"
+msgstr "是"
+
+#: fas/templates/openid/authorizesite.html:34
+msgid "no"
+msgstr "否"
+
+#: fas/templates/openid/welcome.html:9
+#, fuzzy
+msgid "Welcome to the Fedora OpenID Provider"
+msgstr "欢迎来到Fedora Project!"
+
+#: fas/templates/openid/welcome.html:16
+#, python-format
+msgid ""
+"You are logged in as %(username)s. Your OpenID identity URL is <a href="
+"\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
+msgstr ""
+
+#: fas/templates/openid/welcome.html:19
+msgid "Logout"
+msgstr "注销"
+
+#: fas/templates/openid/welcome.html:24
+#, fuzzy, python-format
+msgid "You are not <a href=\"%(url)s\">logged in</a>."
+msgstr "<a href=\"%(url)s\">Text 版本</a>"
+
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
 msgid "Change Password"
@@ -1712,12 +1820,16 @@ msgstr "用户名："
 msgid "Full Name:"
 msgstr "全名:"
 
-#: fas/templates/user/new.html:21 fas/templates/user/resetpass.html:14
+#: fas/templates/user/new.html:22 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:22
 msgid "Email:"
 msgstr "电子邮件:"
 
-#: fas/templates/user/new.html:38
+#: fas/templates/user/new.html:43
+msgid "I am 13 years of age or older"
+msgstr ""
+
+#: fas/templates/user/new.html:48
 msgid "Sign up!"
 msgstr "注册!"
 
@@ -1876,9 +1988,8 @@ msgstr ""
 "<strong>%(user)s</strong> 申请批准加入 <strong>%(unapproved_role.group)s</"
 "strong>."
 
-#: plugins/dummy_plugin/fas_dummy/templates/index.html:11
-msgid "Dummy Plugin!"
-msgstr "虚拟插件!"
+#~ msgid "Dummy Plugin!"
+#~ msgstr "虚拟插件!"
 
 #~ msgid "The OpenID request could not be decoded."
 #~ msgstr "此OpenID请求不能被解码."
@@ -3134,9 +3245,6 @@ msgstr "虚拟插件!"
 
 #~ msgid "Authentication"
 #~ msgstr "身份验证"
-
-#~ msgid "Authentication Required"
-#~ msgstr "需要验证"
 
 #~ msgid "Authentication failed"
 #~ msgstr "身份验证失败"
@@ -6882,9 +6990,6 @@ msgstr "虚拟插件!"
 #~ msgid "Login failed."
 #~ msgstr "登录失败。"
 
-#~ msgid "Logout"
-#~ msgstr "注销"
-
 #~ msgid "Logout..."
 #~ msgstr "注销..."
 
@@ -7661,9 +7766,6 @@ msgstr "虚拟插件!"
 
 #~ msgid "New Game"
 #~ msgstr "新游戏"
-
-#~ msgid "New Identity"
-#~ msgstr "新身份标识"
 
 #~ msgid "New Mail"
 #~ msgstr "新邮件"
@@ -10885,9 +10987,6 @@ msgstr "虚拟插件!"
 #~ msgid "Trinidad and Tobago"
 #~ msgstr "特立尼达和多巴哥"
 
-#~ msgid "Trusted Hosts"
-#~ msgstr "信任的主机"
-
 #~ msgid "Tunisia"
 #~ msgstr "突尼斯"
 
@@ -12392,9 +12491,6 @@ msgstr "虚拟插件!"
 #~ msgid "never"
 #~ msgstr "从不"
 
-#~ msgid "no"
-#~ msgstr "否"
-
 #~ msgid "none"
 #~ msgstr "无"
 
@@ -12544,9 +12640,6 @@ msgstr "虚拟插件!"
 
 #~ msgid "yellow"
 #~ msgstr "黄"
-
-#~ msgid "yes"
-#~ msgstr "是"
 
 #~ msgid "zero"
 #~ msgstr "零"

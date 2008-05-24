@@ -176,7 +176,7 @@ Localization
 To generate the POT file (located in the po/ subdirectory), run the
 following from the top level directory:
 
-  pybabel extract -F pybabel.conf -o po/fas.pot .
+  pybabel extract -F pybabel.conf -o po/fas.pot fas/
 
 Message merging should be done manually using msgmerge at this point:
 
