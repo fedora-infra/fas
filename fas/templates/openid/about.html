@@ -4,18 +4,18 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>This is an OpenID server</title>
+    <title>${_('This is an OpenID server')}</title>
   </head>
 
   <body>
     <div class="message">
-      <p><a href="$endpoint_url">This</a> is an OpenID server endpoint.</p>
-      <p>For more information about OpenID, see:</p>
+      <p>${Markup(_('&lt;a href="$endpoint_url"&gt;This&lt;/a&gt; is an OpenID server endpoint.'))}</p>
+      <p>${_('For more information about OpenID, see:')}</p>
       <dl>
         <dt><a href="http://www.openidenabled.com/">http://www.openidenabled.com/</a></dt>
-        <dd>An OpenID community web site, home of this library.</dd>
+        <dd>${_('An OpenID community web site, home of this library.')}</dd>
         <dt><a href="http://www.openid.net/">http://www.openid.net/</a></dt>
-        <dd>The official OpenID web site.</dd>
+        <dd>${_('The official OpenID web site.')}</dd>
       </dl>
     </div>
   </body>

@@ -122,28 +122,13 @@ class OpenID(controllers.Controller):
             return self.openidserver_showdecidepage(openid_request)
 
     def openidserver_showdecidepage(self, openid_request):
-        expected_identity = build_url(id_base_url + '/' + identity.current.user_name)
-
         sreg_req = sreg.SRegRequest.fromOpenIDRequest(openid_request)
 
-        if openid_request.idSelect():
-            return dict(tg_template='fas.templates.openid.idselect',
-                        id_url_base=id_url_base,
-                        sreg_req = sreg_req)
-
-        elif expected_identity == openid_request.identity:
-            return dict(tg_template='fas.templates.openid.authorizesite',
-                        identity = openid_request.identity,
-                        trust_root = openid_request.trust_root,
-                        sreg_req = sreg_req,
-                        data_fields = sreg.data_fields)
-
-        else:
-            return dict(tg_template='fas.templates.openid.loginasdifferentuser',
-                        identity = openid_request.identity,
-                        trust_root = openid_request.trust_root,
-                        expected_identity = expected_identity,
-                        sreg_req = sreg_req)
+        return dict(tg_template='fas.templates.openid.authorizesite',
+                    identity = openid_request.identity,
+                    trust_root = openid_request.trust_root,
+                    sreg_req = sreg_req,
+                    data_fields = sreg.data_fields)
 
     def openidserver_respond(self, openid_response):
         try:
@@ -168,19 +153,24 @@ class OpenID(controllers.Controller):
         # TODO: check to make sure that request was found in session
         remember_value = ''
 
-        if 'login_as' in kw:
-            pass
-
-        if openid_request.idSelect():
-            openid_identity = build_url(id_base_url + '/' + kw['identifier'])
-        else:
-            openid_identity = openid_request.identity
-
-        trust_root = openid_request.trust_root
-
         if 'yes' in kw:
             openid_response = openid_request.answer(True)
             remember_value = 'always'
+            sreg_req = sreg.SRegRequest.fromOpenIDRequest(openid_request)
+            fields = sreg_req.allRequestedFields()
+            values = {}
+            if 'sreg' in kw and 'send' in kw['sreg']:
+                values = {
+                    'nickname': identity.current.user.username,
+                    'email': identity.current.user.email,
+                    'fullname': identity.current.user.human_name,
+                    'timezone': identity.current.user.timezone,
+                    }
+                for field in values:
+                    if kw['sreg']['send'][field] != 'yes':
+                        del(values[field])
+            sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, values)
+            sreg_resp.toMessage(openid_response.fields)
         
         elif 'no' in kw:
             openid_response = openid_request.answer(False)
@@ -191,7 +181,7 @@ class OpenID(controllers.Controller):
 
         if kw.get('remember', 'no') == 'yes':
             session.acquire_lock()
-            session[(openid_identity, trust_root)] = remember_value
+            session[(openid_request.identity, openid_request.trust_root)] = remember_value
 
         return self.openidserver_respond(openid_response)
 

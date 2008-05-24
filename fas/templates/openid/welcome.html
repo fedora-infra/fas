@@ -6,20 +6,23 @@
   <head>
     <!--TODO: Change???-->
     <meta content="http://riczho.dyndns.org:8088/serveryadis" http-equiv="x-xrds-location"/>
-    <title>Welcome to the Fedora OpenID Provider</title>
+    <title>${_('Welcome to the Fedora OpenID Provider')}</title>
   </head>
 
   <body>
     <div class="login" py:choose="">
       <py:when test="not tg.identity.anonymous">
-      <p>You are logged in as ${tg.identity.user_name}. Your OpenID identity URL is
-      <tt><a href="$id_base_url/$tg.identity.user_name">$id_base_url/$tg.identity.user_name</a></tt></p>
       <p>
-      <a href="${tg.url('/logout')}">Logout</a>
+      ${Markup(_('You are logged in as %(username)s. Your OpenID identity URL is &lt;a href="$id_base_url/$tg.identity.user_name"&gt;%(id_base_url)s/%(username)s&lt;/a&gt;') % {'username': tg.identity.user.username, 'id_base_url': id_base_url})}
+      </p>
+      <p>
+      <a href="${tg.url('/logout')}">${_('Logout')}</a>
       </p>
       </py:when>
       <py:otherwise>
-      <p>You are not <a href="$login_url">logged in</a>.</p>
+      <p>
+      ${Markup(_('You are not &lt;a href="%(url)s"&gt;logged in&lt;/a&gt;.') % {'url': tg.url('/login')})}
+      </p>
       </py:otherwise>
     </div>
   </body>

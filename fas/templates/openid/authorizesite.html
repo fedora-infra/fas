@@ -4,35 +4,34 @@
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
   <head>
-    <title>Approve OpenID Request?</title>
+    <title>${_('Approve OpenID Request?')}</title>
   </head>
 
   <body>
-    <h1>Approve OpenID Request?</h1>
-    <p>A new site has asked to confirm your identity.  If you
-    approve, the site represented by the trust root below will
-    be told that you control identity URL listed below. (If
-    you are using a delegated identity, the site will take
-    care of reversing the delegation on its own.)</p>
+    <h1>${_('Approve OpenID Request?')}</h1>
+    <p>${_('A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)')}</p>
     <table>
       <tr>
-        <td>Identity:</td>
+        <td>${_('Identity:')}</td>
         <td>$identity</td>
       </tr>
       <tr>
-        <td>Trust Root:</td>
+        <td>${_('Trust Root:')}</td>
         <td>$trust_root</td>
       </tr>
     </table>
-    <p>Allow this authentication to proceed?</p>
+    <p>${_('Allow this authentication to proceed?')}</p>
     <form method="post" action="${tg.url('/openid/allow')}">
       <xi:include href="sreg.xml"></xi:include>
       <fieldset>
-        <legend>Approve OpenID Request?</legend>
+        <legend>${_('Approve OpenID Request?')}</legend>
+        <!--
+        Disable this for now, as it's not too complete.
         <input type="checkbox" id="remember" name="remember" value="yes"/>
-        <label for="remember">Remember this decision</label><br/>
-        <input type="submit" name="yes" value="yes"/>
-        <input type="submit" name="no" value="no"/>
+        <label for="remember">${_('Remember this decision')}</label><br/>
+        -->
+        <input type="submit" name="yes" value="${_('yes')}"/>
+        <input type="submit" name="no" value="${_('no')}"/>
       </fieldset>
     </form>
   </body>

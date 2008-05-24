@@ -6,29 +6,29 @@
      py:if="sreg_req.wereFieldsRequested()">
   <table py:def="sreg_fields_form(fields, required)">
     <tr>
-      <th>Field</th>
-      <th>Stored Value</th>
-      <th py:if="not required">Send Value?</th>
-      <th>Override?</th>
-      <th>Update stored information?</th>
+      <th>${_('Field')}</th>
+      <th>${_('Stored Value')}</th>
+      <th py:if="not required">${_('Send Value?')}</th>
     </tr>
     <tr py:for="field in fields">
       <td>${data_fields[field]}</td>
       <td py:choose="">
-	<span class="stored_information" py:when="field == 'nickname' and tg.identity.user.username is not None">${tg.identity.user.username}</span>
-	<span class="stored_information" py:when="field == 'email' and tg.identity.user.email is not None">${tg.identity.user.email}</span>
-	<span class="stored_information" py:when="field == 'fullname' and tg.identity.user.human_name is not None">${tg.identity.user.human_name}</span>
-	<span class="no_information" py:otherwise="">No information on file</span>
+        <span class="stored_information" py:when="field == 'nickname' and tg.identity.user.username is not None">
+          ${tg.identity.user.username}
+        </span>
+        <span class="stored_information" py:when="field == 'email' and tg.identity.user.email is not None">
+          ${tg.identity.user.email}
+        </span>
+        <span class="stored_information" py:when="field == 'fullname' and tg.identity.user.human_name is not None">
+          ${tg.identity.user.human_name}
+        </span>
+        <span class="stored_information" py:when="field == 'timezone' and tg.identity.user.timezone is not None">
+          ${tg.identity.user.timezone}
+        </span>
+        <span class="no_information" py:otherwise="">${_('No information on file')}</span>
       </td>
       <td py:if="not required">
-	<input type="checkbox" name="sreg.send.${field}"/>
-      </td>
-      <td>
-	<input type="checkbox" name="sreg.override.${field}"/>
-	<input type="text" name="sreg.override_value.${field}" size="40"/>
-      </td>
-      <td>
-	<input type="checkbox" name="sreg.update_stored.${field}"/>
+	    <input type="checkbox" name="sreg.send.${field}" value="yes" />
       </td>
     </tr>
   </table>
