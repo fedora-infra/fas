@@ -65,7 +65,7 @@ class OpenID(controllers.Controller):
     def error(self, tg_errors=None):
         '''Show a friendly error message'''
         if not tg_errors:
-            turbogears.redirect('/')
+            redirect('/')
         return dict(tg_errors=tg_errors)
 
     @validate(validators=UserID())
@@ -123,11 +123,16 @@ class OpenID(controllers.Controller):
     def checkidrequest(self, openid_request):
         isauthorized = self.isauthorized(openid_request.identity, openid_request.trust_root)
 
+        trust_root = openid_request.trust_root
         session.acquire_lock()
-        session['last_request'] = openid_request
+        request_dict = {trust_root: openid_request}
+        if 'last_request' in session:
+            session['last_request'].update(request_dict)
+        else:
+            session['last_request'] = request_dict
 
         if identity.current.anonymous:
-            return redirect('/openid/login')
+            return redirect('/openid/login', trust_root=trust_root)
 
         elif isauthorized == False:
             return self.respond(openid_request.answer(False))
@@ -168,9 +173,12 @@ class OpenID(controllers.Controller):
         
     @expose()
     def allow(self, *args, **kw):
-        openid_request = session.get('last_request')
+        trust_root = kw['trust_root']
+        openid_request = self.request_from_session(trust_root)
+        if not openid_request:
+            flash(_('Your last OpenID request could not be retrieved.  Try re-authenticating to the OpenID consumer.'))
+            return redirect('/')
 
-        # TODO: check to make sure that request was found in session
         remember_value = ''
 
         if 'yes' in kw:
@@ -207,8 +215,17 @@ class OpenID(controllers.Controller):
 
     @expose()
     @identity.require(identity.not_anonymous())
-    def login(self):
+    def login(self, trust_root):
         """Force the user to login, then go back to checkidrequest"""
-        openid_request = session.get('last_request')
+        openid_request = self.request_from_session(trust_root)
+        if not openid_request:
+            flash(_('Your last OpenID request could not be retrieved.  Try re-authenticating to the OpenID consumer.'))
+            return redirect('/')
+
         return self.checkidrequest(openid_request)
 
+    def request_from_session(self, trust_root):
+        if 'last_request' in session:
+            if trust_root in session['last_request']:
+                return session['last_request'][trust_root]
+        return None

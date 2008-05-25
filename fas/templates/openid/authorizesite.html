@@ -26,16 +26,17 @@
     ${_('Allow this authentication to proceed?')}
     </p>
     <form method="post" action="${tg.url('/openid/allow')}">
+     <input type="hidden" name="trust_root" value="$trust_root" />
       <xi:include href="sreg.xml"></xi:include>
       <fieldset>
         <legend>${_('Approve OpenID Request?')}</legend>
         <!--
         Disable this for now, as it's not too complete.
-        <input type="checkbox" id="remember" name="remember" value="yes"/>
-        <label for="remember">${_('Remember this decision')}</label><br/>
+        <input type="checkbox" id="remember" name="remember" value="yes" />
+        <label for="remember">${_('Remember this decision')}</label><br />
         -->
-        <input type="submit" name="yes" value="${_('yes')}"/>
-        <input type="submit" name="no" value="${_('no')}"/>
+        <input type="submit" name="yes" value="${_('yes')}" />
+        <input type="submit" name="no" value="${_('no')}" />
       </fieldset>
     </form>
   </body>
