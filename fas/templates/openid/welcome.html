@@ -13,7 +13,7 @@
     <div class="login" py:choose="">
       <py:when test="not tg.identity.anonymous">
       <p>
-      ${Markup(_('You are logged in as %(username)s. Your OpenID identity URL is &lt;a href="$id_base_url/$tg.identity.user_name"&gt;%(id_base_url)s/%(username)s&lt;/a&gt;') % {'username': tg.identity.user.username, 'id_base_url': id_base_url})}
+      ${Markup(_('You are logged in as %(username)s. Your OpenID identity URL is &lt;a href="%(id_base_url)s/%(username)s"&gt;%(id_base_url)s/%(username)s&lt;/a&gt;') % {'username': tg.identity.user.username, 'id_base_url': id_base_url})}
       </p>
       <p>
       <a href="${tg.url('/logout')}">${_('Logout')}</a>

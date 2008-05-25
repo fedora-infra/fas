@@ -13,6 +13,8 @@
   </head>
 
   <body>
-
+    <h2>
+      ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
+    </h2>
   </body>
 </html>

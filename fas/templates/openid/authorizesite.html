@@ -9,7 +9,9 @@
 
   <body>
     <h1>${_('Approve OpenID Request?')}</h1>
-    <p>${_('A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)')}</p>
+    <p>
+    ${_('A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)')}
+    </p>
     <table>
       <tr>
         <td>${_('Identity:')}</td>
@@ -20,7 +22,9 @@
         <td>$trust_root</td>
       </tr>
     </table>
-    <p>${_('Allow this authentication to proceed?')}</p>
+    <p>
+    ${_('Allow this authentication to proceed?')}
+    </p>
     <form method="post" action="${tg.url('/openid/allow')}">
       <xi:include href="sreg.xml"></xi:include>
       <fieldset>

@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Samadhi.  If not, see <http://www.gnu.org/licenses/>.
 
-from turbogears import controllers, expose, flash
+from turbogears import controllers, expose, flash, validators, validate, error_handler
 from fas import model
 
 from turbogears import identity, redirect, config
@@ -36,6 +36,9 @@ from openid.consumer import discover
 
 from urlparse import urljoin
 
+from fas.user import KnownUser
+from fas.model import People
+
 def build_url(newpath):
     base_url = config.get('samadhi.baseurl')
     return urljoin(base_url, tg_url(newpath))
@@ -44,6 +47,9 @@ login_url = build_url('/login')
 id_base_url = build_url('/openid/id')
 endpoint_url = build_url('/openid/server')
 yadis_base_url = build_url('/openid/yadis')
+
+class UserID(validators.Schema):
+    username = KnownUser
 
 class OpenID(controllers.Controller):
     def __init__(self, *args, **kw):
@@ -55,26 +61,35 @@ class OpenID(controllers.Controller):
     def index(self):
         return dict(login_url = login_url, id_base_url = id_base_url)
 
-    @expose(template="fas.templates.openid.id")
-    def id(self, *args, **kw):
-        results = dict(endpoint_url = endpoint_url,
-                       yadis_url = build_url(yadis_base_url + '/' + '/'.join(args)),
-                       user_url = None)
-            
-        if len(args) >= 1:
-            results['user_url'] = build_url(id_base_url + '/' + '/'.join(args)),
+    @expose(template="fas.templates.error")
+    def error(self, tg_errors=None):
+        '''Show a friendly error message'''
+        if not tg_errors:
+            turbogears.redirect('/')
+        return dict(tg_errors=tg_errors)
 
+    @validate(validators=UserID())
+    @error_handler(error)
+    @expose(template="fas.templates.openid.id")
+    def id(self, username):
+        person = People.by_username(username)
+        results = dict(endpoint_url = endpoint_url,
+                       yadis_url = build_url(yadis_base_url + '/' + username),
+                       user_url = build_url(id_base_url + '/' + username),
+                       person=person)
+            
         return results
 
     @expose(template="fas.templates.openid.yadis", format="xml", content_type="application/xrds+xml")
-    def yadis(self, *args, **kw):
+    def yadis(self, username=None):
         results = dict(discover = discover,
                        endpoint_url = endpoint_url,
                        yadis_url = build_url(yadis_base_url + '/' + '/'.join(args)),
                        user_url = None)
 
-        if len(args) >= 1:
-            results['user_url'] = build_url(id_base_url + '/' + '/'.join(args)),
+        if username:
+            results['user_url'] = build_url(id_base_url + '/' + username)
+
         return results
 
     @expose()
