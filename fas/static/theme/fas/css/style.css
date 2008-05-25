@@ -497,3 +497,15 @@ form .field input, form .field textarea
   margin: 2ex 0;
 }
 
+
+
+fieldset
+{
+  border: none;
+  margin: 0 0 3ex;
+}
+
+legend
+{
+  font-weight: bold;
+}
