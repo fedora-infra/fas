@@ -2,9 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
-  <xi:include href="../master.html" />
   <head>
-    <title>An Identity Page</title>
+    <title>${_('OpenID Identity Page')}</title>
     <link rel="openid.server" href="${endpoint_url}" />
     <link rel="openid.delegate" href="${user_url}" />
     <link rel="openid2.provider" href="${endpoint_url}" />
@@ -13,8 +12,11 @@
   </head>
 
   <body>
-    <h2>
+    <h1>
       ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
-    </h2>
+    </h1>
+    <p>
+    ${Markup(_('Part of the &lt;a href="https://admin.fedoraproject.org/"&gt;Fedora Account System&lt;a&gt;.'))}
+    </p>
   </body>
 </html>
