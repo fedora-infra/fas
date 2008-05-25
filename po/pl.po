@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-23 21:38-0400\n"
-"PO-Revision-Date: 2008-05-18 23:19+0200\n"
+"PO-Revision-Date: 2008-05-24 22:16+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -583,7 +583,7 @@ msgstr "Kod kraju"
 
 #: fas/help.py:44
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "Musisz mieć ponad 13 lat"
 
 #: fas/help.py:44
 msgid ""
@@ -593,6 +593,12 @@ msgid ""
 "our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
+"<p>Z powodu wyjątkowej uwagi poświęconej prywatności dzieci, nie akceptujemy "
+"przez sieć informacji osobistych od dzieci poniżej 13 roku życia. Nie "
+"pozwalamy dzieciom poniżej 13 roku życia zostawania zarejestrowanymi "
+"członkami naszych stron lub kupowania produktów lub usług na naszych "
+"stronach. Nie zbieramy informacji osobistych o dzieciach poniżej 13 roku "
+"życia.</p>"
 
 #: fas/help.py:45 fas/templates/group/list.html:43
 msgid "Apply"
@@ -810,7 +816,6 @@ msgid "Client Side Cert"
 msgstr "Certyfikat ze strony klienta"
 
 #: fas/help.py:60
-#, fuzzy
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages "
 "to Fedora or for other authentication purposes like with koji.  You should "
@@ -818,9 +823,10 @@ msgid ""
 "maintainer there is no need to worry about the client side cert</p>"
 msgstr ""
 "<p>Certyfikat ze strony klienta jest zwykle używany do zapewniania dostępu "
-"do wysyłania pakietów do Fedory lub innych zadań związanych z Koji. Jeśli "
-"nie jesteś opiekunem pakietu, nie musisz przejmować się certyfikatem ze "
-"strony klienta</p>"
+"do wysyłania pakietów do Fedory lub innych zadań uwierzytelniania, takich "
+"jak Koji. Powinieneś zapisać ten certyfikat jako ~/.fedora.cert. Jeśli nie "
+"jesteś opiekunem pakietu, nie musisz przejmować się certyfikatem ze strony "
+"klienta</p>"
 
 #: fas/safasprovider.py:157
 #, python-format
@@ -953,6 +959,12 @@ msgid ""
 "We do not knowingly collect or solicit personal information about children "
 "under 13."
 msgstr ""
+"Przepraszamy, ale z powodu wyjątkowej uwagi poświęconej prywatności dzieci, "
+"nie akceptujemy przez sieć informacji osobistych od dzieci poniżej 13 roku "
+"życia. Nie pozwalamy dzieciom poniżej 13 roku życia zostawania "
+"zarejestrowanymi członkami naszych stron lub kupowania produktów lub usług "
+"na naszych stronach. Nie zbieramy informacji osobistych o dzieciach poniżej "
+"13 roku życia."
 
 #: fas/user.py:513
 msgid "Welcome to the Fedora Project!"
@@ -1589,9 +1601,8 @@ msgid "Description"
 msgstr "Opis"
 
 #: fas/templates/group/list.html:28
-#, fuzzy
 msgid "Prerequisite"
-msgstr "Wymagania wstępne:"
+msgstr "Wymagania wstępne"
 
 #: fas/templates/group/list.html:29
 msgid "Status"
@@ -1734,30 +1745,29 @@ msgstr "Kolejka sponsorowania"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "To jest serwer OpenID"
 
 #: fas/templates/openid/about.html:12
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">To</a> jest punkt końcowy serwera OpenID."
 
 #: fas/templates/openid/about.html:13
-#, fuzzy
 msgid "For more information about OpenID, see:"
-msgstr "Nie można zapisać zaktualizowanych informacji."
+msgstr "Aby dowiedzieć się więcej o OpenID, zobacz:"
 
 #: fas/templates/openid/about.html:16
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "Strona WWW społeczności OpenID, strona domowa tej biblioteki."
 
 #: fas/templates/openid/about.html:18
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "Oficjalna strona WWW OpenID."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:27
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "Zaakceptować żądanie OpenID?"
 
 #: fas/templates/openid/authorizesite.html:12
 msgid ""
@@ -1766,32 +1776,34 @@ msgid ""
 "URL listed below. (If you are using a delegated identity, the site will take "
 "care of reversing the delegation on its own.)"
 msgstr ""
+"Nowa strona poprosiła o potwierdzenie twojej tożsamości. Jeśli "
+"zaakceptujesz, strona reprezentowana przez zaufany root będzie wiedziała, że "
+"kontrolujesz poniższy adres tożsamości (jeśli używasz oddelegowanej "
+"tożsamości, strona sama zajmie się przekierowaniem)."
 
 #: fas/templates/openid/authorizesite.html:15
 msgid "Identity:"
-msgstr ""
+msgstr "Tożsamość:"
 
 #: fas/templates/openid/authorizesite.html:19
 msgid "Trust Root:"
-msgstr ""
+msgstr "Zaufany root:"
 
 #: fas/templates/openid/authorizesite.html:23
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "Pozwolić na kontynuowanie tego uwierzytelnienia?"
 
 #: fas/templates/openid/authorizesite.html:33
-#, fuzzy
 msgid "yes"
-msgstr "Tak"
+msgstr "tak"
 
 #: fas/templates/openid/authorizesite.html:34
 msgid "no"
-msgstr ""
+msgstr "nie"
 
 #: fas/templates/openid/welcome.html:9
-#, fuzzy
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr "Witaj w Projekcie Fedora!"
+msgstr "Witaj w dostawcy OpenID Fedory"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1799,16 +1811,17 @@ msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a href="
 "\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
+"Jesteś zalogowany jako %(username)s. URL tożsamości OpenID to <a href="
+"\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
-#, fuzzy
 msgid "Logout"
 msgstr "Wyloguj się"
 
 #: fas/templates/openid/welcome.html:24
-#, fuzzy, python-format
+#, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr "<a href=\"%(url)s\">Wersja tekstowa</a>"
+msgstr "Nie jesteś <a href=\"%(url)s\">zalogowany</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
@@ -1897,7 +1910,7 @@ msgstr "E-mail:"
 
 #: fas/templates/user/new.html:43
 msgid "I am 13 years of age or older"
-msgstr ""
+msgstr "Mam 13 lat lub więcej"
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
@@ -2057,6 +2070,3 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
-
-#~ msgid "Dummy Plugin!"
-#~ msgstr "Przykładowa wtyczka!"
