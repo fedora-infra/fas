@@ -84,7 +84,7 @@ class OpenID(controllers.Controller):
     def yadis(self, username=None):
         results = dict(discover = discover,
                        endpoint_url = endpoint_url,
-                       yadis_url = build_url(yadis_base_url + '/' + '/'.join(args)),
+                       yadis_url = build_url(yadis_base_url + '/' + username),
                        user_url = None)
 
         if username:
