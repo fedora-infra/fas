@@ -108,8 +108,11 @@ class OpenID(controllers.Controller):
     def checkidrequest(self, openid_request):
         isauthorized = self.isauthorized(openid_request.identity, openid_request.trust_root)
 
+        session.acquire_lock()
+        session['last_request'] = openid_request
+
         if identity.current.anonymous:
-            return redirect('/openid/login', url=request.browser_url)
+            return redirect('/openid/login')
 
         elif isauthorized == False:
             return self.respond(openid_request.answer(False))
@@ -121,8 +124,6 @@ class OpenID(controllers.Controller):
             return self.respond(openid_request.answer(False))
 
         else:
-            session.acquire_lock()
-            session['last_request'] = openid_request
             return self.showdecidepage(openid_request)
 
     def showdecidepage(self, openid_request):
@@ -191,6 +192,8 @@ class OpenID(controllers.Controller):
 
     @expose()
     @identity.require(identity.not_anonymous())
-    def login(self, url):
-        """Force the user to login, while preserving the originating URL"""
-        redirect(url)
+    def login(self):
+        """Force the user to login, then go back to checkidrequest"""
+        openid_request = session.get('last_request')
+        return self.checkidrequest(openid_request)
+
