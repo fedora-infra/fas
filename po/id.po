@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fedorahosted.org website\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2008-05-23 21:38-0400\n"
+"POT-Creation-Date: 2008-05-24 20:47-0400\n"
 "PO-Revision-Date: 2008-04-02 16:16+0700\n"
 "Last-Translator: Dapid Candra <dapidc@gmail.com>\n"
 "Language-Team: Indonesian <fedora-trans-id@redhat.com>\n"
@@ -1515,29 +1515,29 @@ msgstr ""
 msgid "This is an OpenID server"
 msgstr ""
 
-#: fas/templates/openid/about.html:12
+#: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
 msgstr ""
 
-#: fas/templates/openid/about.html:13
+#: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
 msgstr ""
 
-#: fas/templates/openid/about.html:16
+#: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
 msgstr ""
 
-#: fas/templates/openid/about.html:18
+#: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
 msgstr ""
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
-#: fas/templates/openid/authorizesite.html:27
+#: fas/templates/openid/authorizesite.html:31
 msgid "Approve OpenID Request?"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:12
+#: fas/templates/openid/authorizesite.html:13
 msgid ""
 "A new site has asked to confirm your identity.  If you approve, the site "
 "represented by the trust root below will be told that you control identity "
@@ -1545,24 +1545,29 @@ msgid ""
 "care of reversing the delegation on its own.)"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:15
+#: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:19
+#: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:23
+#: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:33
+#: fas/templates/openid/authorizesite.html:37
 msgid "yes"
 msgstr ""
 
-#: fas/templates/openid/authorizesite.html:34
+#: fas/templates/openid/authorizesite.html:38
 msgid "no"
+msgstr ""
+
+#: fas/templates/openid/id.html:17
+#, python-format
+msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
 msgstr ""
 
 #: fas/templates/openid/welcome.html:9
@@ -1572,8 +1577,8 @@ msgstr ""
 #: fas/templates/openid/welcome.html:16
 #, python-format
 msgid ""
-"You are logged in as %(username)s. Your OpenID identity URL is <a href="
-"\"$id_base_url/$tg.identity.user_name\">%(id_base_url)s/%(username)s</a>"
+"You are logged in as %(username)s. Your OpenID identity URL is <a href=\"%"
+"(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
 
 #: fas/templates/openid/welcome.html:19
