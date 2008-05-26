@@ -2,6 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  from turbogears import config
+  _ = lambda text: tg.gettext(text)
+  ?>
   <head>
     <title>${_('OpenID Identity Page')}</title>
     <link rel="openid.server" href="${endpoint_url}" />
