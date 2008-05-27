@@ -1,6 +1,6 @@
 include fas2.sql
 include README COPYING TODO
-include *.cfg *.conf *.wsgi
+include *.cfg *.conf *.wsgi *.spec
 include convert.py start-fas
 include client/*.conf
 include fas/config/*
