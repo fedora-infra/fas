@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2008-05-27 15:27-0400\n"
+"POT-Creation-Date: 2008-05-27 18:53-0400\n"
 "PO-Revision-Date: 2008-05-26 23:58+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -195,47 +195,42 @@ msgstr "%(user)s nie może wysłać aplikacji do %(group)s."
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s nie może wysłać aplikacji do %(group)s: %(error)s"
 
-#: fas/group.py:375
+#: fas/group.py:391
+#, python-format
+msgid "Application to the '%(group)s' group"
+msgstr ""
+
+#: fas/group.py:393
 #, python-format
 msgid ""
 "\n"
-"Fedora user %(user)s, aka %(name)s <%(email)s> has requested\n"
-"membership for %(applicant)s (%(applicant_name)s) in the %(group)s group and "
-"needs a sponsor.\n"
+"Thank you for applying for the %(group)s group.  \n"
 "\n"
-"Please go to %(url)s to take action.  \n"
+"%(joinmsg)s\n"
 msgstr ""
-"\n"
-"Użytkownik Fedory %(user)s, znany też jako %(name)s <%(email)s> poprosił o\n"
-"członkostwo dla %(applicant)s (%(applicant_name)s) w grupie %(group)s i "
-"potrzebuje sponsora.\n"
-"\n"
-"Przejdź do %(url)s, aby go zasponsorować.  \n"
 
-#: fas/group.py:382
+#: fas/group.py:403
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s wysłał aplikację do %(group)s!"
 
-#: fas/group.py:399
+#: fas/group.py:420
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Nie można zasponsorować \"%s\""
 
-#: fas/group.py:406
+#: fas/group.py:427
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "Nie można zasponsorować %(user)s w %(group)s: %(error)s"
 
-#: fas/group.py:412
-#, python-format
+#: fas/group.py:433
+#, fuzzy, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and CVS repository within an hour.\n"
-"\n"
-"%(joinmsg)s\n"
 msgstr ""
 "\n"
 "%(name)s <%(email)s> zasponsorował twoje członkostwo w grupie %(group)s\n"
@@ -244,22 +239,22 @@ msgstr ""
 "\n"
 "%(joinmsg)s\n"
 
-#: fas/group.py:420
+#: fas/group.py:439
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "\"%s\" został zasponsorowany!"
 
-#: fas/group.py:437
+#: fas/group.py:456
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Nie możesz usunąć \"%(user)s\" z \"%(group)s\"."
 
-#: fas/group.py:444
+#: fas/group.py:463
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "Nie można usunąć %(user)s z %(group)s: %(error)s"
 
-#: fas/group.py:449
+#: fas/group.py:468
 #, python-format
 msgid ""
 "\n"
@@ -273,22 +268,22 @@ msgstr ""
 "systemu kont Fedory. Ta zmiana jest natychmiastowa dla nowych operacji i \n"
 "powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
 
-#: fas/group.py:456
+#: fas/group.py:475
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s został usunięty z %(group)s"
 
-#: fas/group.py:473
+#: fas/group.py:492
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Nie można awansować \"%s\""
 
-#: fas/group.py:480
+#: fas/group.py:499
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "Nie można awansować %(name)s w %(group)s: %(error)s"
 
-#: fas/group.py:489
+#: fas/group.py:508
 #, python-format
 msgid ""
 "\n"
@@ -302,22 +297,22 @@ msgstr ""
 "\"%(group)s\" systemu kont Fedory. Ta zmiana jest natychmiastowa dla nowych\n"
 "operacji i powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
 
-#: fas/group.py:496
+#: fas/group.py:515
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s został awansowany!"
 
-#: fas/group.py:512
+#: fas/group.py:531
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Nie można zdegradować \"%s\""
 
-#: fas/group.py:519
+#: fas/group.py:538
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "Nie można degradować %(name)s w %(group)s: %(error)s"
 
-#: fas/group.py:527
+#: fas/group.py:546
 #, python-format
 msgid ""
 "\n"
@@ -331,16 +326,16 @@ msgstr ""
 "\"%(group)s\" systemu kont Fedory. Ta zmiana jest natychmiastowa dla nowych\n"
 "operacji i powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
 
-#: fas/group.py:534
+#: fas/group.py:553
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s został zdegradowany!"
 
-#: fas/group.py:602
+#: fas/group.py:621
 msgid "Come join The Fedora Project!"
 msgstr "Przyłącz się do Projektu Fedora!"
 
-#: fas/group.py:603
+#: fas/group.py:622
 #, python-format
 msgid ""
 "\n"
@@ -377,12 +372,12 @@ msgstr ""
 "\n"
 "Fedora i FOSS zmieniają świat - zostań częścią nas!"
 
-#: fas/group.py:620
+#: fas/group.py:639
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Wysłano wiadomość do %s"
 
-#: fas/group.py:623
+#: fas/group.py:642
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Nie jesteś w grupie \"%s\"."
@@ -983,7 +978,8 @@ msgid ""
 "You have created a new Fedora account!\n"
 "Your new password is: %s\n"
 "\n"
-"Please go to https://admin.fedoraproject.org/accounts/ to change it.\n"
+"Please go to https://admin.fedoraproject.org/accounts/user/changepass\n"
+"to change it.\n"
 "\n"
 "Welcome to the Fedora Project. Now that you've signed up for an\n"
 "account you're probably desperate to start contributing, and with that\n"
@@ -1021,7 +1017,7 @@ msgstr ""
 "Utworzono nowe konto Fedory!\n"
 "Nowe hasło to: %s\n"
 "\n"
-"Przejdź do https://admin.fedoraproject.org/fas/, aby je zmienić.\n"
+"Przejdź do https://admin.fedoraproject.org/fas/user/changepass, aby je zmienić.\n"
 "\n"
 "Witaj w Projekcie Fedora. Teraz, kiedy założyłeś konto, prawdopodobnie\n"
 "desperacko chcesz zacząć tworzenie, a z myślą o tym mamy nadzieję, że ten\n"
@@ -1054,45 +1050,45 @@ msgstr ""
 "A na koniec: wszyscy członkowie Projektu Fedora nie mogą się doczekać, aby\n"
 "z tobą pracować!\n"
 
-#: fas/user.py:555
+#: fas/user.py:556
 msgid "An account has already been registered with that email address."
 msgstr "Konto zostało już zarejestrowane za pomocą tego adresu e-mail."
 
-#: fas/user.py:559
+#: fas/user.py:560
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr "Hasło zostało wysłane e-mailem. Zaloguj się za jego pomocą i zmień je"
 
-#: fas/user.py:593
+#: fas/user.py:594
 msgid "Your password could not be changed."
 msgstr "Nie można zmienić hasła."
 
-#: fas/user.py:596
+#: fas/user.py:597
 msgid "Your password has been changed."
 msgstr "Zmieniono hasło."
 
-#: fas/user.py:604
+#: fas/user.py:605
 msgid "You are already logged in!"
 msgstr "Jesteś już zalogowany!"
 
-#: fas/user.py:614
+#: fas/user.py:615
 msgid "You are already logged in."
 msgstr "Jesteś już zalogowany."
 
-#: fas/user.py:620
+#: fas/user.py:621
 msgid "Username email combo does not exist!"
 msgstr "Kombinacja nazwy użytkownika i adresu e-mail nie istnieje!"
 
-#: fas/user.py:623
+#: fas/user.py:624
 msgid "username + email combo unknown."
 msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail"
 
-#: fas/user.py:626
+#: fas/user.py:627
 msgid "Fedora Project Password Reset"
 msgstr "Resetowanie hasła Projektu Fedora"
 
-#: fas/user.py:627
+#: fas/user.py:628
 #, python-format
 msgid ""
 "\n"
@@ -1105,7 +1101,7 @@ msgstr ""
 "Aby zmienić hasło (lub anulować żądanie), odwiedź\n"
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:639
+#: fas/user.py:640
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
@@ -1113,39 +1109,39 @@ msgstr ""
 "Ten użytkownik nie ustawił identyfikatora klucza GPG, więc nie można wysłać "
 "zaszyfrowanego e-maila."
 
-#: fas/user.py:643
+#: fas/user.py:644
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Nie można pobrać klucza z subkeys.pgp.net"
 
-#: fas/user.py:665
+#: fas/user.py:666
 msgid "Your password reset email could not be encrypted."
 msgstr "Nie można zaszyfrować e-maila resetowania hasła."
 
-#: fas/user.py:671
+#: fas/user.py:672
 msgid "A password reset URL has been emailed to you."
 msgstr "Adres resetowania hasła został wysłany e-mailem."
 
-#: fas/user.py:681 fas/user.py:701
+#: fas/user.py:682 fas/user.py:702
 msgid "You do not have any pending password changes."
 msgstr "Brak oczekujących zmian haseł."
 
-#: fas/user.py:685 fas/user.py:706
+#: fas/user.py:686 fas/user.py:707
 msgid "Invalid password change token."
 msgstr "Nieprawidłowy token zmiany hasła."
 
-#: fas/user.py:690
+#: fas/user.py:691
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr "Anulowano resetowanie hasła. Token zmiany hasła został unieważniony."
 
-#: fas/user.py:715
+#: fas/user.py:716
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "Pomyślnie zresetowano hasło. Możesz się teraz zalogować."
 
-#: fas/user.py:754
+#: fas/user.py:755
 msgid "Before generating a certificate, you must first complete the CLA."
 msgstr "Przed utworzeniem certyfikatu musisz wypełnić CLA."
 
@@ -2091,3 +2087,19 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
+
+#~ msgid ""
+#~ "\n"
+#~ "Fedora user %(user)s, aka %(name)s <%(email)s> has requested\n"
+#~ "membership for %(applicant)s (%(applicant_name)s) in the %(group)s group "
+#~ "and needs a sponsor.\n"
+#~ "\n"
+#~ "Please go to %(url)s to take action.  \n"
+#~ msgstr ""
+#~ "\n"
+#~ "Użytkownik Fedory %(user)s, znany też jako %(name)s <%(email)s> poprosił "
+#~ "o\n"
+#~ "członkostwo dla %(applicant)s (%(applicant_name)s) w grupie %(group)s i "
+#~ "potrzebuje sponsora.\n"
+#~ "\n"
+#~ "Przejdź do %(url)s, aby go zasponsorować.  \n"

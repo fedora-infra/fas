@@ -365,20 +365,41 @@ class Group(controllers.Controller):
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
-                # TODO: How do we handle gettext calls for these kinds of emails?
+                # TODO: How do we handle gettext calls for these kinds of emails?  Different sponsors might have different language preferences.
                 # TODO: CC to right place, put a bit more thought into how to most elegantly do this
                 # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
-                message = turbomail.Message(config.get('accounts_email'), '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}, \
+                sponsors_email = '%(group)s-sponsors@%(host)s' % {'group': group.name, 'host': config.get('email_host')}
+
+                sponsor_message = turbomail.Message(config.get('accounts_email'), sponsors_email, \
                     "Fedora '%(group)s' sponsor needed for %(user)s" % {'user': target.username, 'group': group.name})
                 url = config.get('base_url_filter.base_url') + turbogears.url('/group/view/%s' % groupname)
 
-                message.plain = _('''
+                sponsor_message.plain = '''
 Fedora user %(user)s, aka %(name)s <%(email)s> has requested
 membership for %(applicant)s (%(applicant_name)s) in the %(group)s group and needs a sponsor.
 
 Please go to %(url)s to take action.  
-''') % {'user': person.username, 'name': person.human_name, 'applicant': target.username, 'applicant_name': target.human_name, 'email': person.email, 'url': url, 'group': group.name}
-                turbomail.enqueue(message)
+''' % { 'user': person.username,
+    'name': person.human_name,
+    'applicant': target.username,
+    'applicant_name': target.human_name,
+    'email': person.email,
+    'url': url,
+    'group': group.name }
+
+                join_message = turbomail.Message(sponsors_email, target.email, \
+                    _("Application to the '%(group)s' group") % {'user': target.username, 'group': group.name})
+
+                join_message.plain = _('''
+Thank you for applying for the %(group)s group.  
+
+%(joinmsg)s
+''') % { 'user': person.username,
+    'joinmsg': group.joinmsg,
+    'group': group.name }
+
+                turbomail.enqueue(join_message)
+                turbomail.enqueue(sponsor_message)
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
                     {'user': target.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -413,9 +434,7 @@ Please go to %(url)s to take action.
 %(name)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
 propagate into the e-mail aliases and CVS repository within an hour.
-
-%(joinmsg)s
-''') % {'group': group.name, 'name': person.human_name, 'email': person.email, 'joinmsg': group.joinmsg}
+''') % {'group': group.name, 'name': person.human_name, 'email': person.email}
                 turbomail.enqueue(message)
                 turbogears.flash(_("'%s' has been sponsored!") % target.human_name)
                 turbogears.redirect('/group/view/%s' % group.name)

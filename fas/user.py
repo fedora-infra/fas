@@ -515,7 +515,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 You have created a new Fedora account!
 Your new password is: %s
 
-Please go to https://admin.fedoraproject.org/accounts/ to change it.
+Please go to https://admin.fedoraproject.org/accounts/user/changepass
+to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
 account you're probably desperate to start contributing, and with that
