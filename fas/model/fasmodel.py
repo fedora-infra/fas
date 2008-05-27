@@ -68,6 +68,8 @@ BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
 RequestsTable = Table('requests', metadata, autoload=True)
 
+SessionTable = Table('session', metadata, autoload=True)
+
 #
 # Selects for filtering roles
 #
@@ -458,9 +460,15 @@ class VisitIdentity(SABase):
     '''
     pass
 
+class Session(SABase):
+    '''Session'''
+    pass
+
 #
 # set up mappers between tables and classes
 #
+
+mapper(Session, SessionTable)
 
 #
 # mappers for filtering roles

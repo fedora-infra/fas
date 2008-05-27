@@ -47,6 +47,56 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+import datetime
+
+try:
+      import cPickle as pickle
+except ImportError:
+      import pickle
+
+class SQLAlchemyStorage:
+    def __init__(self):
+        pass
+
+    def load(self, id):
+        s = Session.query.get(id)
+        if not s:
+            return None
+        expiration_time = s.expiration_time
+        pickled_data = s.data
+        data = pickle.loads(pickled_data.encode('utf-8'))
+        return (data, expiration_time)
+
+    def delete(self, id=None):
+        if id is None:
+            id = cherrypy.session.id
+        s = Session.query.get(id)
+        session.delete(s)
+        session.flush()
+
+    def save(self, id, data, expiration_time):
+        pickled_data = pickle.dumps(data)
+        s = Session.query.get(id)
+        if not s:
+            s = Session()
+        s.id = id
+        s.data = pickled_data
+        s.expiration_time = expiration_time
+        session.flush()
+
+    def acquire_lock(self):
+        pass
+
+    def release_lock(self):
+        pass
+
+    def clean_up(self, sess):
+        result = SessionTable.delete(
+            SessionTable.c.expiration_time.__lt__(datetime.datetime.now())
+            ).execute()
+
+config.update({'session_filter.storage_class': SQLAlchemyStorage})
+
 def get_locale(locale=None):
     if locale:
         return locale
@@ -57,14 +107,6 @@ def get_locale(locale=None):
 
 config.update({'i18n.get_locale': get_locale})
 
-if config.get("session_filter.on", None) == True:
-    if config.get("session_filter.storage_type", None) == "PostgreSQL":
-        import psycopg2
-
-        def get_db():
-            return psycopg2.connect(config.get('sessions.postgres.dsn'))
-
-        config.update({'session_filter.get_db': get_db})
 
 def add_custom_stdvars(vars):
   return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})

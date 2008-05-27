@@ -235,7 +235,7 @@ create table visit_identity (
 );
 
 create table session (
-  id varchar(40),
+  id varchar(40) primary key,
   data text,
   expiration_time timestamp
 );

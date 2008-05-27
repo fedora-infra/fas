@@ -124,7 +124,6 @@ class OpenID(controllers.Controller):
         isauthorized = self.isauthorized(openid_request.identity, openid_request.trust_root)
 
         trust_root = openid_request.trust_root
-        session.acquire_lock()
         request_dict = {trust_root: openid_request}
         if 'last_request' in session:
             session['last_request'].update(request_dict)
@@ -208,7 +207,6 @@ class OpenID(controllers.Controller):
             assert False, 'strange allow post %s' % kw
 
         if kw.get('remember', 'no') == 'yes':
-            session.acquire_lock()
             session[(openid_request.identity, openid_request.trust_root)] = remember_value
 
         return self.respond(openid_response)
