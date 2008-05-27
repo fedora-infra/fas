@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.3.2
-Release:        2%{?dist}
+Version:        0.8.4
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -27,6 +27,7 @@ Requires: python-genshi
 Requires: pytz
 Requires: python-openid
 Requires: python-GeoIP
+Requires: pyOpenSSL
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -87,6 +88,10 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Tue May 27 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4-1
+- Upstream released a new version
+- Added pyOpenSSL
+
 * Fri May 16 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.3.2-2
 - Upstream released a new version
 - Added python-GeoIP

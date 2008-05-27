@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-24 20:47-0400\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2008-05-27 15:27-0400\n"
 "PO-Revision-Date: 2008-05-26 23:58+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -94,12 +94,12 @@ msgid ""
 "You have successfully completed the CLA.  You are now in the '%s' group."
 msgstr "Pomyślnie wypełniłeś CLA. Jesteś teraz w grupie \"%s\"."
 
-#: fas/controllers.py:160
+#: fas/controllers.py:203
 #, python-format
 msgid "Welcome, %s"
 msgstr "Witaj, %s"
 
-#: fas/controllers.py:175
+#: fas/controllers.py:218
 msgid ""
 "The credentials you supplied were not correct or did not grant access to "
 "this resource."
@@ -107,20 +107,20 @@ msgstr ""
 "Podane dane uwierzytelniające nie są poprawne lub nie gwarantują dostępu do "
 "tego zasobu."
 
-#: fas/controllers.py:178
+#: fas/controllers.py:221
 msgid "You must provide your credentials before accessing this resource."
 msgstr ""
 "Musisz podać dane uwierzytelniające zanim uzyskasz dostęp do tego zasobu."
 
-#: fas/controllers.py:181
+#: fas/controllers.py:224
 msgid "Please log in."
 msgstr "Zaloguj się."
 
-#: fas/controllers.py:192
+#: fas/controllers.py:235
 msgid "You have successfully logged out."
 msgstr "Wylogowano pomyślnie."
 
-#: fas/controllers.py:204 fas/user.py:115
+#: fas/controllers.py:247 fas/user.py:115
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Język \"%s\" jest niedostępny."
@@ -828,6 +828,12 @@ msgstr ""
 "jesteś opiekunem pakietu, nie musisz przejmować się certyfikatem ze strony "
 "klienta</p>"
 
+#: fas/openid_samadhi.py:178 fas/openid_samadhi.py:220
+msgid ""
+"Your last OpenID request could not be retrieved.  Try re-authenticating to "
+"the OpenID consumer."
+msgstr ""
+
 #: fas/safasprovider.py:157
 #, python-format
 msgid "Loading: %(visitmod)s"
@@ -1143,24 +1149,24 @@ msgstr "Pomyślnie zresetowano hasło. Możesz się teraz zalogować."
 msgid "Before generating a certificate, you must first complete the CLA."
 msgstr "Przed utworzeniem certyfikatu musisz wypełnić CLA."
 
-#: fas/model/fasmodel.py:135
+#: fas/model/fasmodel.py:137
 msgid "user is already in this group"
 msgstr "użytkownik jest już w tej grupie"
 
-#: fas/model/fasmodel.py:148 fas/model/fasmodel.py:163
-#: fas/model/fasmodel.py:219
+#: fas/model/fasmodel.py:150 fas/model/fasmodel.py:165
+#: fas/model/fasmodel.py:221
 msgid "user is not a member"
 msgstr "użytkownik nie jest członkiem"
 
-#: fas/model/fasmodel.py:152
+#: fas/model/fasmodel.py:154
 msgid "administrators cannot be upgraded any further"
 msgstr "administratorów nie można już wyżej awansować"
 
-#: fas/model/fasmodel.py:167
+#: fas/model/fasmodel.py:169
 msgid "users cannot be downgraded any further"
 msgstr "użytkowników nie można już niżej zdegradować"
 
-#: fas/model/fasmodel.py:176
+#: fas/model/fasmodel.py:178
 msgid "user is not an unapproved member"
 msgstr "użytkownik nie jest zaakceptowanym członkiem"
 
@@ -1765,7 +1771,7 @@ msgstr "Oficjalna strona WWW OpenID."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
-#: fas/templates/openid/authorizesite.html:31
+#: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
 msgstr "Zaakceptować żądanie OpenID?"
 
@@ -1793,18 +1799,28 @@ msgstr "Zaufany root:"
 msgid "Allow this authentication to proceed?"
 msgstr "Pozwolić na kontynuowanie tego uwierzytelnienia?"
 
-#: fas/templates/openid/authorizesite.html:37
+#: fas/templates/openid/authorizesite.html:38
 msgid "yes"
 msgstr "tak"
 
-#: fas/templates/openid/authorizesite.html:38
+#: fas/templates/openid/authorizesite.html:39
 msgid "no"
 msgstr "nie"
 
-#: fas/templates/openid/id.html:17
+#: fas/templates/openid/id.html:10
+msgid "OpenID Identity Page"
+msgstr ""
+
+#: fas/templates/openid/id.html:20
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
 msgstr "To jest tożsamość OpenID dla %(human_name)s (%(username)s)"
+
+#: fas/templates/openid/id.html:23
+msgid ""
+"Part of the <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
+"System<a>."
+msgstr ""
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
