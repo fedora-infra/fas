@@ -57,13 +57,13 @@ def get_locale(locale=None):
 
 config.update({'i18n.get_locale': get_locale})
 
-def get_db():
-    """
-    Return a DB connection for CherryPy sessions
-    """
-    return turbogears.database.get_engine().raw_connection()
-
-config.update({'session_filter.get_db': get_db})
+if config.get("session_filter.on", None) == True:
+    if config.get("session_filter.storage_type", None) == "PostgreSQL":
+        import psycopg2
+        config.update(
+                {'session_filter.get_db': psycopg2.connect(
+                    config.get('sessions.postgres.dsn'))
+                    })
 
 def add_custom_stdvars(vars):
   return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
