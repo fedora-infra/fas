@@ -77,7 +77,7 @@ Additional scripts that work as clients to the accounts system.
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README TODO COPYING fas2.sql
+%doc README TODO COPYING fas2.sql fas.spec
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
