@@ -141,6 +141,9 @@ create index person_roles_group_id_idx on person_roles(group_id);
 -- Open to reevaluation.
 cluster person_roles_group_id_idx on person_roles;
 
+-- View for mod_auth_pgsql
+create view user_group as select username, name as groupname from people as p, groups as g, person_roles as r where r.person_id=p.id and r.group_id=g.id and r.role_status='approved'; 
+
 CREATE TABLE group_roles (
     member_id INTEGER NOT NULL REFERENCES groups(id),
     group_id INTEGER NOT NULL REFERENCES groups(id),
