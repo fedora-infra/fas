@@ -1,19 +1,19 @@
 # zh_CN translation of fas.
 # Copyright (C) Year Free Software Foundation, Inc.
 # TianShixiong <tiansworld@gmail.com>, 2008.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: fas VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-24 20:47-0400\n"
-"PO-Revision-Date: 2008-05-24 14:03+0800\n"
+"PO-Revision-Date: 2008-05-27 19:58+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: fas/auth.py:159
 #, python-format
@@ -1725,20 +1725,20 @@ msgstr "否"
 #: fas/templates/openid/id.html:17
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "这是 %(human_name)s (%(username)s)的OpenID身份"
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
 msgstr "欢迎来到Fedora OpenID Provider"
 
 #: fas/templates/openid/welcome.html:16
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a href=\"%"
 "(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
-"您以 %(username)s登录. 您的OpenID身份URL是<a href=\"$id_base_url/$tg."
-"identity.user_name\">%(id_base_url)s/%(username)s</a>"
+"您以 %(username)s登录. 您的OpenID身份URL是<a href=\"%"
+"(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
