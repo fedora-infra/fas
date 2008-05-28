@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fas\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2008-05-27 18:53-0400\n"
+"POT-Creation-Date: 2008-05-28 02:03-0400\n"
 "PO-Revision-Date: 2008-03-24 09:03-0300\n"
 "Last-Translator: Diego Búrigo Zacarão <diegobz@projetofedora.org>\n"
 "Language-Team: Brazilian Portuguese <fedora-docs-br@redhat.com>\n"
@@ -168,35 +168,35 @@ msgstr "O grupo: '%s' foi criado."
 msgid "You cannot edit '%s'."
 msgstr "Você não pode editar '%s'."
 
-#: fas/group.py:307
+#: fas/group.py:312
 msgid "The group details could not be saved."
 msgstr "Os detalhes do grupo não puderam ser salvos."
 
-#: fas/group.py:309
+#: fas/group.py:314
 msgid "The group details have been saved."
 msgstr "O detalhes do grupo foram salvos."
 
-#: fas/group.py:338
+#: fas/group.py:343
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Nenhum grupo encontrado combinando com '%s'"
 
-#: fas/group.py:356
+#: fas/group.py:361
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr ""
 
-#: fas/group.py:364
+#: fas/group.py:369
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:391
+#: fas/group.py:396
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr ""
 
-#: fas/group.py:393
+#: fas/group.py:398
 #, python-format
 msgid ""
 "\n"
@@ -205,22 +205,22 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr ""
 
-#: fas/group.py:403
+#: fas/group.py:408
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr ""
 
-#: fas/group.py:420
+#: fas/group.py:425
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Você não pode patrocinar '%s'"
 
-#: fas/group.py:427
+#: fas/group.py:432
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:433
+#: fas/group.py:438
 #, python-format
 msgid ""
 "\n"
@@ -229,22 +229,22 @@ msgid ""
 "propagate into the e-mail aliases and CVS repository within an hour.\n"
 msgstr ""
 
-#: fas/group.py:439
+#: fas/group.py:444
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr ""
 
-#: fas/group.py:456
+#: fas/group.py:461
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr ""
 
-#: fas/group.py:463
+#: fas/group.py:468
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:468
+#: fas/group.py:473
 #, python-format
 msgid ""
 "\n"
@@ -254,22 +254,22 @@ msgid ""
 "aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:475
+#: fas/group.py:480
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr ""
 
-#: fas/group.py:492
+#: fas/group.py:497
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr ""
 
-#: fas/group.py:499
+#: fas/group.py:504
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:508
+#: fas/group.py:513
 #, python-format
 msgid ""
 "\n"
@@ -279,22 +279,22 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:515
+#: fas/group.py:520
 #, python-format
 msgid "%s has been upgraded!"
 msgstr ""
 
-#: fas/group.py:531
+#: fas/group.py:536
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr ""
 
-#: fas/group.py:538
+#: fas/group.py:543
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr ""
 
-#: fas/group.py:546
+#: fas/group.py:551
 #, python-format
 msgid ""
 "\n"
@@ -304,16 +304,16 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:553
+#: fas/group.py:558
 #, python-format
 msgid "%s has been downgraded!"
 msgstr ""
 
-#: fas/group.py:621
+#: fas/group.py:626
 msgid "Come join The Fedora Project!"
 msgstr ""
 
-#: fas/group.py:622
+#: fas/group.py:627
 #, python-format
 msgid ""
 "\n"
@@ -334,29 +334,29 @@ msgid ""
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
 
-#: fas/group.py:639
+#: fas/group.py:644
 #, python-format
 msgid "Message sent to: %s"
 msgstr ""
 
-#: fas/group.py:642
+#: fas/group.py:647
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr ""
 
-#: fas/help.py:29 fas/help.py:71
+#: fas/help.py:27 fas/help.py:74
 msgid "Error"
 msgstr ""
 
-#: fas/help.py:29 fas/help.py:71
+#: fas/help.py:27 fas/help.py:74
 msgid "<p>We could not find that help item</p>"
 msgstr ""
 
-#: fas/help.py:30
+#: fas/help.py:28
 msgid "Accuracy of CLA Information"
 msgstr ""
 
-#: fas/help.py:30
+#: fas/help.py:28
 msgid ""
 "<p>The CLA is a legal document.  We need to have accurate information "
 "attached to it just in case we ever need to contact you about a contribution "
@@ -367,52 +367,52 @@ msgid ""
 "contact them!  Potentially a very sticky situation.</p>"
 msgstr ""
 
-#: fas/help.py:31
+#: fas/help.py:29
 msgid "IRC Nick (Optional)"
 msgstr ""
 
-#: fas/help.py:31
+#: fas/help.py:29
 msgid ""
 "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please "
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
 msgstr ""
 
-#: fas/help.py:32
+#: fas/help.py:30
 msgid "Email (Required)"
 msgstr ""
 
-#: fas/help.py:32
+#: fas/help.py:30
 msgid ""
 "<p>This email address should be your prefered email contact and will be used "
 "to send various official emails to.  This is also where your @fedoraproject."
 "org email will get forwarded</p>"
 msgstr ""
 
-#: fas/help.py:33
+#: fas/help.py:31
 msgid "Full Name (Required)"
 msgstr ""
 
-#: fas/help.py:33
+#: fas/help.py:31
 msgid "<p>Your Human Name or \"real life\" name</p>"
 msgstr ""
 
-#: fas/help.py:34 fas/templates/user/edit.html:62
+#: fas/help.py:32 fas/templates/user/edit.html:62
 msgid "GPG Key ID"
 msgstr ""
 
-#: fas/help.py:34
+#: fas/help.py:32
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
 "you or to encrypt information so that only the recipients can read it.  This "
 "can be used when a password reset is sent to your email.</p>"
 msgstr ""
 
-#: fas/help.py:35
+#: fas/help.py:33
 msgid "Telephone"
 msgstr ""
 
-#: fas/help.py:35 fas/help.py:43
+#: fas/help.py:33 fas/help.py:41
 msgid ""
 "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/"
 "Legal/Licenses/CLA\">CLA</a>.  Sometimes during a time of emergency someone "
@@ -421,12 +421,12 @@ msgid ""
 "Policy</a></p>"
 msgstr ""
 
-#: fas/help.py:36 fas/templates/cla/index.html:38
+#: fas/help.py:34 fas/templates/cla/index.html:38
 #: fas/templates/user/edit.html:42
 msgid "Postal Address"
 msgstr ""
 
-#: fas/help.py:36
+#: fas/help.py:34
 msgid ""
 "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/"
 "Legal/Licenses/CLA\">CLA</a>.  This should be a mailing address where you "
@@ -434,37 +434,37 @@ msgid ""
 "PrivacyPolicy\">Privacy Policy</a> about any concerns.</p>"
 msgstr ""
 
-#: fas/help.py:37
+#: fas/help.py:35
 msgid "Timezone (Optional)"
 msgstr ""
 
-#: fas/help.py:37
+#: fas/help.py:35
 msgid "<p>Please specify the time zone you are in.</p>"
 msgstr ""
 
-#: fas/help.py:38
+#: fas/help.py:36
 msgid "Comments (Optional)"
 msgstr ""
 
-#: fas/help.py:38
+#: fas/help.py:36
 msgid "<p>Misc comments about yourself.</p>"
 msgstr ""
 
-#: fas/help.py:39 fas/templates/user/list.html:27
+#: fas/help.py:37 fas/templates/user/list.html:27
 msgid "Account Status"
 msgstr ""
 
-#: fas/help.py:39
+#: fas/help.py:37
 msgid ""
 "<p>Shows account status, possible values include<ul><li>Valid</"
 "li><li>Disabled</li><li>Expired</li></ul></p>"
 msgstr ""
 
-#: fas/help.py:40
+#: fas/help.py:38
 msgid "CLA"
 msgstr ""
 
-#: fas/help.py:40
+#: fas/help.py:38
 msgid ""
 "<p>In order to become a full Fedora contributor you must complete the <a "
 "href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor "
@@ -474,11 +474,11 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: fas/help.py:41 fas/templates/user/edit.html:67
+#: fas/help.py:39 fas/templates/user/edit.html:67
 msgid "Public RSA SSH Key"
 msgstr ""
 
-#: fas/help.py:41
+#: fas/help.py:39
 msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
@@ -486,25 +486,25 @@ msgid ""
 "Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
 
-#: fas/help.py:42 fas/templates/user/edit.html:83
+#: fas/help.py:40 fas/templates/user/edit.html:83
 msgid "Locale"
 msgstr ""
 
-#: fas/help.py:42
+#: fas/help.py:40
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
 msgstr ""
 
-#: fas/help.py:43
+#: fas/help.py:41
 msgid "Country Code"
 msgstr ""
 
-#: fas/help.py:44
+#: fas/help.py:42
 msgid "Must be over 13 Years"
 msgstr ""
 
-#: fas/help.py:44
+#: fas/help.py:42
 msgid ""
 "<p>Out of special concern for children's privacy, we do not knowingly accept "
 "online personal information from children under the age of 13. We do not "
@@ -513,11 +513,11 @@ msgid ""
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
 
-#: fas/help.py:45 fas/templates/group/list.html:43
+#: fas/help.py:43 fas/templates/group/list.html:43
 msgid "Apply"
 msgstr ""
 
-#: fas/help.py:45
+#: fas/help.py:43
 #, python-format
 msgid ""
 "<p>Applying for a group is like applying for a job and it can certainly take "
@@ -526,56 +526,56 @@ msgid ""
 "works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
 
-#: fas/help.py:46 fas/templates/group/member-list.html:46
+#: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
 msgstr ""
 
-#: fas/help.py:46
+#: fas/help.py:44
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in "
 "the group.  They will need to re-apply to get in.  Admins can remove anyone, "
 "Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
 
-#: fas/help.py:47 fas/templates/group/member-list.html:50
+#: fas/help.py:45 fas/templates/group/member-list.html:50
 msgid "Upgrade"
 msgstr ""
 
-#: fas/help.py:47
+#: fas/help.py:45
 msgid ""
 "<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</"
 "li><li>From sponsor -> administrator</li><li>administrators cannot be "
 "upgraded beyond administrator</li></ul></p>"
 msgstr ""
 
-#: fas/help.py:48 fas/templates/group/member-list.html:54
+#: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
 msgstr ""
 
-#: fas/help.py:48
+#: fas/help.py:46
 msgid ""
 "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to "
 "sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded "
 "below user, you may want to remove them</li></ul></p>"
 msgstr ""
 
-#: fas/help.py:49 fas/templates/group/member-list.html:41
+#: fas/help.py:47 fas/templates/group/member-list.html:41
 msgid "Approve"
 msgstr ""
 
-#: fas/help.py:49
+#: fas/help.py:47
 msgid ""
 "<p>A sponsor or administrator can approve users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "approve the user.</p>"
 msgstr ""
 
-#: fas/help.py:50 fas/templates/group/member-list.html:15
+#: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
 msgstr ""
 
-#: fas/help.py:50
+#: fas/help.py:48
 msgid ""
 "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
@@ -583,47 +583,47 @@ msgid ""
 "user and may mentor and answer their questions as they come up.</p>"
 msgstr ""
 
-#: fas/help.py:51
+#: fas/help.py:49
 msgid "Add User"
 msgstr ""
 
-#: fas/help.py:51
+#: fas/help.py:49
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
 msgstr ""
 
-#: fas/help.py:52
+#: fas/help.py:50
 msgid "Group Name"
 msgstr ""
 
-#: fas/help.py:52
+#: fas/help.py:50
 msgid ""
 "<p>The name of the group you'd like to create.  It should be alphanumeric "
 "though '-'s are allowed</p>"
 msgstr ""
 
-#: fas/help.py:53
+#: fas/help.py:51
 msgid "Display Name"
 msgstr ""
 
-#: fas/help.py:53
+#: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
 msgstr ""
 
-#: fas/help.py:54
+#: fas/help.py:52
 msgid "Group Owner"
 msgstr ""
 
-#: fas/help.py:54
+#: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
 msgstr ""
 
-#: fas/help.py:55 fas/templates/group/list.html:28
+#: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
 msgstr ""
 
-#: fas/help.py:55
+#: fas/help.py:53
 msgid ""
 "<p>Normally it is safe to leave this blank.  Though some values include "
 "'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only "
@@ -631,11 +631,60 @@ msgid ""
 "access somewhere like fedorahosted.</p>"
 msgstr ""
 
-#: fas/help.py:56
-msgid "Needs Sponsor"
+#: fas/help.py:54
+msgid "Group URL (Optional)"
+msgstr ""
+
+#: fas/help.py:54
+msgid ""
+"<p>A URL or wiki page for the group (for example, <a href=\"https://"
+"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
+"Infrastructure</a>).</p>"
+msgstr ""
+
+#: fas/help.py:55
+msgid "Group Mailing List (Optional)"
+msgstr ""
+
+#: fas/help.py:55
+msgid ""
+"<p>A mailing list for the group (for example, fedora-infrastructure-"
+"list@redhat.com).</p>"
 msgstr ""
 
 #: fas/help.py:56
+msgid "Group Mailing List URL (Optional)"
+msgstr ""
+
+#: fas/help.py:56
+msgid ""
+"<p>A URL for the group's mailing list (for example, <a href=\"http://www."
+"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
+"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+msgstr ""
+
+#: fas/help.py:57
+msgid "Group IRC Channel (Optional)"
+msgstr ""
+
+#: fas/help.py:57
+msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
+msgstr ""
+
+#: fas/help.py:58
+msgid "Group IRC Network (Optional)"
+msgstr ""
+
+#: fas/help.py:58
+msgid ""
+"<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
+msgstr ""
+
+#: fas/help.py:59
+msgid "Needs Sponsor"
+msgstr ""
+
+#: fas/help.py:59
 msgid ""
 "<p>If your group requires sponsorship (recommended), this means that when a "
 "user is approved by a sponsor.  That relationship is recorded in the account "
@@ -645,21 +694,21 @@ msgid ""
 "and no relationship is recorded about who did the approving</p>"
 msgstr ""
 
-#: fas/help.py:57
+#: fas/help.py:60
 msgid "Self Removal"
 msgstr ""
 
-#: fas/help.py:57
+#: fas/help.py:60
 msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
 
-#: fas/help.py:58
+#: fas/help.py:61
 msgid "Must Belong To"
 msgstr ""
 
-#: fas/help.py:58
+#: fas/help.py:61
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  <b>This value cannot be removed without administrative "
@@ -667,22 +716,22 @@ msgid ""
 "group.</p>"
 msgstr ""
 
-#: fas/help.py:59
+#: fas/help.py:62
 msgid "Join Message"
 msgstr ""
 
-#: fas/help.py:59
+#: fas/help.py:62
 msgid ""
-"<p>This message will go out to users when they join the group.  It should be "
-"informative and offer tips about what to do next.  A description of the "
-"group would also be valuable here</p>"
+"<p>This message will go out to users when they apply to the group.  It "
+"should be informative and offer tips about what to do next.  A description "
+"of the group would also be valuable here</p>"
 msgstr ""
 
-#: fas/help.py:60
+#: fas/help.py:63
 msgid "Client Side Cert"
 msgstr ""
 
-#: fas/help.py:60
+#: fas/help.py:63
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages "
 "to Fedora or for other authentication purposes like with koji.  You should "
@@ -951,24 +1000,24 @@ msgstr ""
 msgid "Before generating a certificate, you must first complete the CLA."
 msgstr ""
 
-#: fas/model/fasmodel.py:137
+#: fas/model/fasmodel.py:136
 msgid "user is already in this group"
 msgstr ""
 
-#: fas/model/fasmodel.py:150 fas/model/fasmodel.py:165
-#: fas/model/fasmodel.py:221
+#: fas/model/fasmodel.py:149 fas/model/fasmodel.py:164
+#: fas/model/fasmodel.py:220
 msgid "user is not a member"
 msgstr ""
 
-#: fas/model/fasmodel.py:154
+#: fas/model/fasmodel.py:153
 msgid "administrators cannot be upgraded any further"
 msgstr ""
 
-#: fas/model/fasmodel.py:169
+#: fas/model/fasmodel.py:168
 msgid "users cannot be downgraded any further"
 msgstr ""
 
-#: fas/model/fasmodel.py:178
+#: fas/model/fasmodel.py:177
 msgid "user is not an unapproved member"
 msgstr ""
 
@@ -1295,29 +1344,49 @@ msgstr ""
 msgid "Group Type:"
 msgstr ""
 
-#: fas/templates/group/edit.html:23 fas/templates/group/new.html:23
+#: fas/templates/group/edit.html:23 fas/templates/group/view.html:43
+msgid "URL:"
+msgstr ""
+
+#: fas/templates/group/edit.html:28 fas/templates/group/view.html:47
+msgid "Mailing List:"
+msgstr ""
+
+#: fas/templates/group/edit.html:33
+msgid "Mailing List URL:"
+msgstr ""
+
+#: fas/templates/group/edit.html:38
+msgid "IRC Channel:"
+msgstr ""
+
+#: fas/templates/group/edit.html:43
+msgid "IRC Network:"
+msgstr ""
+
+#: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
 msgstr ""
 
-#: fas/templates/group/edit.html:28 fas/templates/group/new.html:33
-#: fas/templates/group/view.html:41
+#: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
+#: fas/templates/group/view.html:60
 msgid "Needs Sponsor:"
 msgstr ""
 
-#: fas/templates/group/edit.html:34 fas/templates/group/new.html:38
-#: fas/templates/group/view.html:45
+#: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
+#: fas/templates/group/view.html:64
 msgid "Self Removal:"
 msgstr ""
 
-#: fas/templates/group/edit.html:40
+#: fas/templates/group/edit.html:65
 msgid "Group Prerequisite:"
 msgstr ""
 
-#: fas/templates/group/edit.html:46
+#: fas/templates/group/edit.html:71
 msgid "Group Join Message:"
 msgstr ""
 
-#: fas/templates/group/edit.html:51 fas/templates/user/edit.html:96
+#: fas/templates/group/edit.html:76 fas/templates/user/edit.html:96
 msgid "Save!"
 msgstr ""
 
@@ -1449,7 +1518,7 @@ msgstr ""
 msgid "Must Belong To:"
 msgstr ""
 
-#: fas/templates/group/new.html:48 fas/templates/group/view.html:49
+#: fas/templates/group/new.html:48 fas/templates/group/view.html:68
 msgid "Join Message:"
 msgstr ""
 
@@ -1481,31 +1550,35 @@ msgstr ""
 msgid "Type:"
 msgstr ""
 
-#: fas/templates/group/view.html:42 fas/templates/group/view.html:46
+#: fas/templates/group/view.html:54
+msgid "IRC:"
+msgstr ""
+
+#: fas/templates/group/view.html:61 fas/templates/group/view.html:65
 msgid "Yes"
 msgstr ""
 
-#: fas/templates/group/view.html:43 fas/templates/group/view.html:47
+#: fas/templates/group/view.html:62 fas/templates/group/view.html:66
 msgid "No"
 msgstr ""
 
-#: fas/templates/group/view.html:50
+#: fas/templates/group/view.html:69
 msgid "Prerequisite:"
 msgstr ""
 
-#: fas/templates/group/view.html:53
+#: fas/templates/group/view.html:72
 msgid "Created:"
 msgstr ""
 
-#: fas/templates/group/view.html:55
+#: fas/templates/group/view.html:74
 msgid "Add User:"
 msgstr ""
 
-#: fas/templates/group/view.html:71
+#: fas/templates/group/view.html:90
 msgid "View Member List"
 msgstr ""
 
-#: fas/templates/group/view.html:73
+#: fas/templates/group/view.html:92
 msgid "Sponsorship Queue"
 msgstr ""
 
