@@ -59,7 +59,6 @@ genshi.encoding="utf-8"
 
 # Sessions
 session_filter.on = True
-session_filter.storage_type = 'PostgreSQL'
 
 # i18n
 i18n.run_template_filter = True
