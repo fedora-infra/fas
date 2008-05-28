@@ -394,15 +394,16 @@ class Groups(SABase):
         '''
         props = super(Groups, self).__json__()
 
-        if identity.current.anonymous:
-            # Anonymous users can't see any of these
-            del props['email']
+        # These columns no longer exist, but here's an example of restricting info.
+        #if identity.current.anonymous:
+        #    # Anonymous users can't see any of these
+        #    del props['email']
 
-        if not identity.in_group('fas-system'):
-            if not identity.in_group('accounts'):
-                # Only admins can see internal_comments
-                del props['unverified_email']
-                del props['emailtoken']
+        #if not identity.in_group('fas-system'):
+        #    if not identity.in_group('accounts'):
+        #        # Only admins can see internal_comments
+        #        del props['unverified_email']
+        #        del props['emailtoken']
 
         return props
 
