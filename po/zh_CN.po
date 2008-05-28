@@ -1,19 +1,19 @@
 # zh_CN translation of fas.
 # Copyright (C) Year Free Software Foundation, Inc.
 # TianShixiong <tiansworld@gmail.com>, 2008.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: fas VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-28 02:03-0400\n"
-"PO-Revision-Date: 2008-05-27 19:58+0800\n"
+"PO-Revision-Date: 2008-05-28 22:26+0800\n"
 "Last-Translator: TianShixiong <tiansworld@gmail.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: fas/auth.py:159
 #, python-format
@@ -192,7 +192,7 @@ msgstr "%(user)s不能应用于 %(group)s中: %(error)s."
 #: fas/group.py:396
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr "申请加入 '%(group)s' 组"
 
 #: fas/group.py:398
 #, python-format
@@ -202,6 +202,10 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"感谢申请加入 '%(group)s'组  \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:408
 #, python-format
@@ -219,7 +223,7 @@ msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s 不能在 %(group)s 中担保: %(error)s"
 
 #: fas/group.py:438
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -230,7 +234,7 @@ msgstr ""
 "%(name)s <%(email)s> 担保您成为 Fedora账户系统%(group)s\n"
 "组成员. 如果适用的话, 变更将在一小时内发送到关联的电子邮件地址及CVS资源中.\n"
 "\n"
-"%(joinmsg)s\n"
+""
 
 #: fas/group.py:444
 #, python-format
@@ -707,9 +711,8 @@ msgstr ""
 "fedorahosted之类的地方时才需要此值.</p>"
 
 #: fas/help.py:54
-#, fuzzy
 msgid "Group URL (Optional)"
-msgstr "IRC昵称(可选)"
+msgstr "组URL (可选)"
 
 #: fas/help.py:54
 msgid ""
@@ -717,20 +720,23 @@ msgid ""
 "fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
 "Infrastructure</a>).</p>"
 msgstr ""
+"<p>该组的URL或维基页面 (比如, <a href=\"https://fedoraproject.org/wiki/"
+"Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "组邮件列表 (可选)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
+"<p>针对该组的邮件列表 (比如, edora-infrastructure-list@redhat.com)</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "组邮件列表URL (可选)"
 
 #: fas/help.py:56
 msgid ""
@@ -738,25 +744,25 @@ msgid ""
 "redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 msgstr ""
+"<p>该组的邮件列表URL (or example, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>)</p>"
 
 #: fas/help.py:57
-#, fuzzy
 msgid "Group IRC Channel (Optional)"
-msgstr "IRC昵称(可选)"
+msgstr "组IRC频道 (可选)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>该组的IRC频道 (比如, #fedora-admin)</p>"
 
 #: fas/help.py:58
-#, fuzzy
 msgid "Group IRC Network (Optional)"
-msgstr "IRC昵称(可选)"
+msgstr "组IRC网络 (可选)"
 
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
+"<p>该组IRC频道的IRC网络 (比如 Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -806,7 +812,6 @@ msgid "Join Message"
 msgstr "加入消息"
 
 #: fas/help.py:62
-#, fuzzy
 msgid ""
 "<p>This message will go out to users when they apply to the group.  It "
 "should be informative and offer tips about what to do next.  A description "
@@ -835,6 +840,7 @@ msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating to "
 "the OpenID consumer."
 msgstr ""
+"您上次OpenID的请求无法恢复.  请尝试向OpenID用户重新验证."
 
 #: fas/safasprovider.py:157
 #, python-format
@@ -968,7 +974,7 @@ msgid "Welcome to the Fedora Project!"
 msgstr "欢迎来到Fedora Project!"
 
 #: fas/user.py:514
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -1013,14 +1019,13 @@ msgstr ""
 "您已创建一个新的Fedora 账户!\n"
 "您的新密码是: %s\n"
 "\n"
-"请到https://admin.fedoraproject.org/accounts/user/changepass to change it.\n"
+"请到https://admin.fedoraproject.org/accounts/user/changepass 修改.\n"
 "\n"
 "欢迎来到Fedora Project. 现在您已注册了一个账户,想必您已迫不及待的要开始做些\n"
 "贡献了, 请牢记我们希望这封邮件能够引导您到正确的方向使得贡献的的过程变得尽可"
-"能\n"
-"的简单.\n"
+"能的简单.\n"
 "\n"
-"Fedora是一个有很多要发展的令人兴奋的工程, 您可以多种多样的方式, 使用\n"
+"Fedora是一个有很多要发展的令人兴奋的项目, 您可以多种多样的方式, 使用\n"
 "各种不同类型的技能来贡献. 要查找众多您可以为Fedora贡献的方法, 您可以\n"
 "访问我们的加入页,此页提供了我们现有的不同角色的更多信息.\n"
 "\n"
@@ -1510,24 +1515,23 @@ msgstr "组类别:"
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:43
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:47
 msgid "Mailing List:"
-msgstr ""
+msgstr "邮件列表:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "邮件列表URL:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "IRC频道:"
 
 #: fas/templates/group/edit.html:43
-#, fuzzy
 msgid "IRC Network:"
-msgstr "IRC昵称:"
+msgstr "IRC网络:"
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
@@ -1716,9 +1720,8 @@ msgid "Type:"
 msgstr "类型："
 
 #: fas/templates/group/view.html:54
-#, fuzzy
 msgid "IRC:"
-msgstr "IRC昵称:"
+msgstr "IRC:"
 
 #: fas/templates/group/view.html:61 fas/templates/group/view.html:65
 msgid "Yes"
@@ -1806,7 +1809,7 @@ msgstr "否"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "OpenID 身份页面"
 
 #: fas/templates/openid/id.html:20
 #, python-format
@@ -1818,6 +1821,8 @@ msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
 "System<a>."
 msgstr ""
+"Fedora账户系统的一部分 <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
+"System<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
