@@ -98,10 +98,11 @@ CREATE TABLE groups (
     name VARCHAR(32) UNIQUE NOT NULL,
     -- tg_group::display_name
     display_name TEXT,
-    -- Unlike users, groups can share email addresses
-    email TEXT,
-    emailtoken TEXT,
-    unverified_email TEXT,
+    url TEXT,
+    mailing_list TEXT,
+    mailing_list_url TEXT,
+    irc_channel TEXT,
+    irc_network TEXT,
     owner_id INTEGER NOT NULL REFERENCES people(id),
     group_type VARCHAR(16),
     needs_sponsor BOOLEAN DEFAULT FALSE,
@@ -143,27 +144,6 @@ cluster person_roles_group_id_idx on person_roles;
 
 -- View for mod_auth_pgsql
 create view user_group as select username, name as groupname from people as p, groups as g, person_roles as r where r.person_id=p.id and r.group_id=g.id and r.role_status='approved'; 
-
-CREATE TABLE group_roles (
-    member_id INTEGER NOT NULL REFERENCES groups(id),
-    group_id INTEGER NOT NULL REFERENCES groups(id),
-    role_type text NOT NULL,
-    role_status text DEFAULT 'unapproved',
-    internal_comments text,
-    sponsor_id INTEGER REFERENCES people(id),
-    creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    approval TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    primary key (member_id, group_id),
-    check (role_status in ('approved', 'unapproved')),
-    check (role_type in ('user', 'administrator', 'sponsor'))
-);
-
-create index group_roles_member_id_idx on group_roles(member_id);
-create index group_roles_group_id_idx on group_roles(group_id);
--- We could cluster on either member or group.  The choice of member is
--- because member pages will be viewed more frequently.
--- Open to reevaluation.
-cluster group_roles_group_id_idx on group_roles;
 
 -- action r == remove
 -- action a == add
@@ -353,7 +333,7 @@ create trigger email_bugzilla_sync before update on people
   for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, group_roles, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, bugzilla_queue, configs, person_seq, visit, visit_identity, log, log_id_seq TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
 INSERT INTO people (id, username, human_name, password, email) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost');

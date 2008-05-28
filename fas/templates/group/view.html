@@ -38,6 +38,25 @@
         <dt>${_('Description:')}</dt><dd>${group.display_name}&nbsp;</dd>
         <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
+
+        <py:if test="group.url">
+        <dt>${_('URL:')}</dt><dd><a href="${group.url}">${group.url}</a>&nbsp;</dd>
+        </py:if>
+
+        <py:if test="group.mailing_list">
+        <dt>${_('Mailing List:')}</dt><dd>
+        <py:if test="group.mailing_list_url"><a href="${group.mailing_list_url}">${group.mailing_list}</a></py:if>
+        <py:if test="not group.mailing_list_url">${group.mailing_list}</py:if>&nbsp;
+        </dd>
+        </py:if>
+
+        <py:if test="group.irc_channel">
+        <dt>${_('IRC:')}</dt><dd>
+        ${group.irc_channel}<py:if test="group.irc_network"> (${group.irc_network})</py:if>
+        &nbsp;
+        </dd>
+        </py:if>
+
         <dt>${_('Needs Sponsor:')}</dt><dd>
         <py:if test="group.needs_sponsor">${_('Yes')}</py:if>
         <py:if test="not group.needs_sponsor">${_('No')}</py:if>

@@ -278,7 +278,7 @@ class Group(controllers.Controller):
     @validate(validators=GroupSave())
     @error_handler(error)
     @expose(template="fas.templates.group.edit")
-    def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
+    def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', url='', mailing_list='', mailing_list_url='', irc_channel='', irc_network='', joinmsg=''):
         '''Edit a group'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -300,6 +300,11 @@ class Group(controllers.Controller):
                     group.prerequisite = prerequisite
                 else:
                     group.prerequisite = None
+                group.url = url
+                group.mailing_list = mailing_list
+                group.mailing_list_url = mailing_list_url
+                group.irc_channel = irc_channel
+                group.irc_network = irc_network
                 group.joinmsg = joinmsg
                 # Log here
                 session.flush()

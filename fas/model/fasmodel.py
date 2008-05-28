@@ -63,7 +63,6 @@ PersonRolesTable = Table('person_roles', metadata, autoload=True)
 
 ConfigsTable = Table('configs', metadata, autoload=True)
 GroupsTable = Table('groups', metadata, autoload=True)
-GroupRolesTable = Table('group_roles', metadata, autoload=True)
 BugzillaQueueTable = Table('bugzilla_queue', metadata, autoload=True)
 LogTable = Table('log', metadata, autoload=True)
 RequestsTable = Table('requests', metadata, autoload=True)
@@ -407,10 +406,6 @@ class Groups(SABase):
 
         return props
 
-class GroupRoles(SABase):
-    '''Record groups that are members of other groups.'''
-    pass
-
 class BugzillaQueue(SABase):
     '''Queued up changes that need to be applied to bugzilla.'''
     def __repr__(cls):
@@ -507,16 +502,6 @@ mapper(Groups, GroupsTable, properties = {
     'prerequisite': relation(Groups, uselist=False,
         remote_side=[GroupsTable.c.id],
         primaryjoin = GroupsTable.c.prerequisite_id==GroupsTable.c.id)
-    })
-# GroupRoles are complex because the group is a member of a group and thus
-# is referencing the same table.
-mapper(GroupRoles, GroupRolesTable, properties = {
-    'member': relation(Groups, backref = 'group_roles',
-        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.member_id),
-    'group': relation(Groups, backref = 'group_members',
-        primaryjoin = GroupsTable.c.id==GroupRolesTable.c.group_id),
-    'sponsor': relation(People, uselist=False,
-        primaryjoin = GroupRolesTable.c.sponsor_id==PeopleTable.c.id)
     })
 mapper(BugzillaQueue, BugzillaQueueTable, properties = {
     'group': relation(Groups, lazy = False, backref = 'pending'),

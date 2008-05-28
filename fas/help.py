@@ -23,8 +23,6 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import session
 
-from fas.auth import *
-
 class Help(controllers.Controller):
     help = { 'none' :               [_('Error'), _('<p>We could not find that help item</p>')],
             'cla_accuracy': [_('Accuracy of CLA Information'), _('<p>The CLA is a legal document.  We need to have accurate information attached to it just in case we ever need to contact you about a contribution that you make to the project.  Imagine if we were to get a call from a lawyer at some other company claiming that they own the copyright to your work and we have to tell them we have a right to use it because "Mickey Moose" contributed it to us and we have no telephone number or address to contact them!  Potentially a very sticky situation.</p>')],
@@ -53,6 +51,11 @@ class Help(controllers.Controller):
             'group_display_name':   [_('Display Name'), _('''<p>More human readable name of the group</p>''')],
             'group_owner':          [_('Group Owner'), _('''<p>The name of the owner who will run this group</p>''')],
             'group_type':           [_('Group Type'), _('''<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
+            'group_url':            [_('Group URL (Optional)'), _('''<p>A URL or wiki page for the group (for example, <a href="https://fedoraproject.org/wiki/Infrastructure">https://fedoraproject.org/wiki/Infrastructure</a>).</p>''')],
+            'group_mailing_list':     [_('Group Mailing List (Optional)'), _('''<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>''')],
+            'group_mailing_list_url': [_('Group Mailing List URL (Optional)'), _('''<p>A URL for the group's mailing list (for example, <a href="http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>''')],
+            'group_irc_channel': [_('Group IRC Channel (Optional)'), _('''<p>An IRC channel for the group (for example, #fedora-admin).</p>''')],
+            'group_irc_network': [_('Group IRC Network (Optional)'), _('''<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>''')],
             'group_needs_sponsor':  [_('Needs Sponsor'), _('''<p>If your group requires sponsorship (recommended), this means that when a user is approved by a sponsor.  That relationship is recorded in the account system.  If user A sponsors user N, then in viewing the members of this group, people will know to contact user A about user N if something goes wrong.  If this box is unchecked, this means that only approval is needed and no relationship is recorded about who did the approving</p>''')],
             'group_self_removal':   [_('Self Removal'), _('''<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>''')],
             'group_prerequisite':   [_('Must Belong To'), _('''<p>Before a user can join this group, they must belong to the group listed in this box.  <b>This value cannot be removed without administrative intervention, only changed</b>.  Recommended values are for the 'cla_done' group.</p>''')],

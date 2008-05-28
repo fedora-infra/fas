@@ -20,6 +20,31 @@
         <script type="text/javascript">var group_type = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_type')}'});</script>
       </div>
       <div class="field">
+        <label for="url">${_('URL:')}</label>
+        <input type="text" id="url" name="url" value="${group.url}" />
+        <script type="text/javascript">var url = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_url')}'});</script>
+      </div>
+      <div class="field">
+        <label for="mailing_list">${_('Mailing List:')}</label>
+        <input type="text" id="mailing_list" name="mailing_list" value="${group.mailing_list}" />
+        <script type="text/javascript">var mailing_list = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_mailing_list')}'});</script>
+      </div>
+      <div class="field">
+        <label for="mailing_list_url">${_('Mailing List URL:')}</label>
+        <input type="text" id="mailing_list_url" name="mailing_list_url" value="${group.mailing_list_url}" />
+        <script type="text/javascript">var mailing_list_url = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_mailing_list_url')}'});</script>
+      </div>
+      <div class="field">
+        <label for="irc_channel">${_('IRC Channel:')}</label>
+        <input type="text" id="irc_channel" name="irc_channel" value="${group.irc_channel}" />
+        <script type="text/javascript">var irc_channel = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_irc_channel')}'});</script>
+      </div>
+      <div class="field">
+        <label for="irc_network">${_('IRC Network:')}</label>
+        <input type="text" id="irc_network" name="irc_network" value="${group.irc_network}" />
+        <script type="text/javascript">var irc_network = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_irc_network')}'});</script>
+      </div>
+      <div class="field">
         <label for="owner">${_('Group Owner:')}</label>
         <input type="text" id="owner" name="owner" value="${group.owner.username}" />
         <script type="text/javascript">var group_owner = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_owner')}'});</script>
@@ -34,7 +59,7 @@
         <label for="user_can_remove">${_('Self Removal:')}</label>
         <input py:if="group.user_can_remove" type="checkbox" id="user_can_remove" name="user_can_remove" value="1" checked="checked" />
         <input py:if="not group.user_can_remove" type="checkbox" id="user_can_remove" name="user_can_remove" value="1" />
-        &nbsp;<script type="text/javascript">var group_self_removal = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_self_removal')}'});</script>
+        <script type="text/javascript">var group_self_removal = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_self_removal')}'});</script>
       </div>
       <div class="field">
         <label for="prerequisite">${_('Group Prerequisite:')}</label>
