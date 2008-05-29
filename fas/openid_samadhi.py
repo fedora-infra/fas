@@ -186,6 +186,7 @@ class OpenID(controllers.Controller):
             sreg_req = sreg.SRegRequest.fromOpenIDRequest(openid_request)
             fields = sreg_req.allRequestedFields()
             values = {}
+            send_values = {}
             if 'sreg' in kw and 'send' in kw['sreg']:
                 values = {
                     'nickname': identity.current.user.username,
@@ -193,10 +194,12 @@ class OpenID(controllers.Controller):
                     'fullname': identity.current.user.human_name,
                     'timezone': identity.current.user.timezone,
                     }
-                for field in values.keys():
-                    if kw['sreg']['send'][field] != 'yes':
-                        del(values[field])
-            sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, values)
+
+                for field in [f for f in kw['sreg']['send'] if kw['sreg']['send'] == 'yes']:
+                    if field in values:
+                        send_values[field] = values[field]
+
+            sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, send_values)
             sreg_resp.toMessage(openid_response.fields)
         
         elif 'no' in kw:
