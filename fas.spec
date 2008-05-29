@@ -40,7 +40,7 @@ that works with the Account System.
 %package clients
 Summary: Clients for the Fedora Account System
 Group: Applications/System
-Requires: python-fedora
+Requires: python-fedora >= 0.2.99.6
 Requires: rhpl
 
 %description clients
