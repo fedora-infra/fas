@@ -41,6 +41,7 @@
         <span py:if="person.status == 'vacation'" class="approved">${_('Vacation')}</span>
         <span py:if="person.status == 'inactive'" class="unapproved">${_('Inactive')}</span>
         <span py:if="person.status == 'pinged'" class="approved">${_('Pinged')}</span>
+        <span py:if="person.status == 'admin_disabled'" class="unapproved">${_('Disabled')}</span>
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script></dd>
         <dt>${_('CLA:')}</dt><dd>
         <span py:if="cla" class="approved">${_('CLA Done')}

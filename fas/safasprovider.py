@@ -24,8 +24,6 @@ This plugin provides authentication of passwords against the Fedora Account
 System.
 '''
 
-
-
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
 from turbogears.database import session
@@ -70,16 +68,21 @@ class SaFasIdentity(object):
         if not visit:
             self._user = None
             return None
-
         # I hope this is a safe place to double-check the SSL variables.
         # TODO: Double check my logic with this - is it unnecessary to
         # check that the username matches up?
         if visit.ssl:
             if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
-                session.delete(visit)
+                self.logout()
                 return None
-
         self._user = user_class.query.get(visit.user_id)
+        visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
+        if self._user.status in ('inactive', 'admin_disabled'):
+            log.warning("User %(username)s has status %(status)s, logging them out." % \
+                { 'username': self._user.username, 'status': self._user.status })
+            self.logout()
+            None
+
         return self._user
     user = property(_get_user)
 
@@ -185,6 +188,11 @@ class SaFasIdentityProvider(object):
         user = user_class.query.filter_by(username=user_name).first()
         if not user:
             log.warning("No such user: %s", user_name)
+            return None
+
+        if user.status in ('inactive', 'admin_disabled'):
+            log.warning("User %(username)s has status %(status)s" % \
+                { 'username': user_name, 'status': user.status })
             return None
 
         if not using_ssl:

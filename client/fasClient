@@ -399,6 +399,7 @@ class MakeShellAccounts(BaseClient):
         print " Timezone: %s" % person['timezone']
         print " IRC Nick: %s" % person['ircnick']
         print " Locale: %s" % person['locale']
+        print " Status: %s" % person['status']
         print " Approved Groups: "
         approved = False
         for group in person['approved_memberships']:

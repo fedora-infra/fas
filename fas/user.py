@@ -49,6 +49,9 @@ from random import Random
 import sha
 from base64 import b64encode
 
+import pytz
+from datetime import datetime
+
 class KnownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):
@@ -121,6 +124,7 @@ class UserSave(validators.Schema):
         validators.String(not_empty=True, max=42),
         validators.Regex(regex='^[^\n:<>]+$'),
         )
+    status = validators.OneOf(['active', 'vacation', 'inactive', 'pinged', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
     email = validators.All(
         validators.Email(not_empty=True, strip=True, max=128),
@@ -245,7 +249,7 @@ class User(controllers.Controller):
             personal = False
         # TODO: We can do this without a db lookup by using something like
         # if groupname in identity.groups: pass
-        # We may want to do that in auth.isAdmin() though. -Toshio
+        # We may want to do that in isAdmin() though. -Toshio
         user = People.by_username(turbogears.identity.current.user_name)
         if isAdmin(user):
             admin = True
@@ -280,6 +284,8 @@ class User(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
+        admin = isAdmin(person)
+
         if targetname:
             target = People.by_username(targetname)
         else:
@@ -288,13 +294,13 @@ class User(controllers.Controller):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
-        return dict(target=target, languages=languages)
+        return dict(target=target, languages=languages, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC', country_code=''):
+    def save(self, targetname, human_name, telephone, postal_address, email, status, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC', country_code=''):
         languages = available_languages()
 
         username = turbogears.identity.current.user_name
@@ -308,6 +314,13 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s', target.username)
             return dict()
         try:
+            if target.status != status:
+                if (status in ('admin_disabled') or target.status in ('admin_disabled')) and \
+                    not isAdmin(person):
+                    turbogears.flash(_('Only administrator can enable or disable an account.'))
+                    return dict()
+                target.status = status
+                target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
             if target.email != email:
                 test = None
@@ -398,8 +411,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             columns.append(People.password)
         approved = select(columns, from_obj=PeopleGroupsTable
             ).where(and_(People.username.like(re_search),
-                    Groups.name=='cla_done',
-                    PersonRoles.role_status=='approved')
+                Groups.name=='cla_done',
+                PersonRoles.role_status=='approved')
                 ).distinct().order_by('username').execute()
         cla_approved = [dict(row) for row in approved]
 
@@ -407,6 +420,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 People.username.like(re_search),
                 not_(People.id.in_([p['id'] for p in cla_approved])))
                 ).distinct().order_by('username').execute()
+
         cla_unapproved = [dict(row) for row in unapproved]
 
         if not (cla_approved or cla_unapproved):
@@ -620,8 +634,13 @@ forward to working with you!
         except InvalidRequestError:
             turbogears.flash(_('Username email combo does not exist!'))
             turbogears.redirect('/user/resetpass')
+
         if email != person.email:
             turbogears.flash(_("username + email combo unknown."))
+            return dict()
+        if person.status in ('admin_disabled'):
+            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
+                {'admin_email': config.get('accounts_email')})
             return dict()
         token = generate_token()
         message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
@@ -678,6 +697,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @validate(validators=VerifyPass())
     def verifypass(self, username, token, cancel=False):
         person = People.by_username(username)
+        if person.status in ('admin_disabled'):
+            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
+                {'admin_email': config.get('accounts_email')})
+            return dict()
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
             turbogears.redirect('/login')
@@ -698,21 +721,34 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
+        if person.status in ('admin_disabled'):
+            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
+                {'admin_email': config.get('accounts_email')})
+            return dict()
+
+        # Re-enabled!
+        if person.status in ('invalid'):
+            target.status = 'active'
+            target.status_change = datetime.now(pytz.utc)
+
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
             turbogears.redirect('/login')
             return dict()
+
         if person.passwordtoken != token:
             person.emailtoken = ''
             turbogears.flash(_('Invalid password change token.'))
             turbogears.redirect('/login')
             return dict()
+
         ''' Log this '''
         newpass = generate_password(password)
         person.password = newpass['hash']
         person.passwordtoken = ''
         Log(author_id=person.id, description='Password changed')
         session.flush()
+
         turbogears.flash(_('You have successfully reset your password.  You should now be able to login below.'))
         turbogears.redirect('/login')
         return dict()

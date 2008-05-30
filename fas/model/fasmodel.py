@@ -361,10 +361,6 @@ class Groups(SABase):
 
     # People in the group
     people = association_proxy('roles', 'member')
-    # Groups in the group
-    groups = association_proxy('group_members', 'member')
-    # Groups that this group belongs to
-    memberships = association_proxy('group_roles', 'group')
 
     def __json__(self):
         '''We want to make sure we keep a tight reign on sensistive information.
