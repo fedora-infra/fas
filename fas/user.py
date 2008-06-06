@@ -107,7 +107,7 @@ class ValidUsername(validators.FancyValidator):
     def validate_python(self, value, state):
         username_blacklist = config.get('username_blacklist')
         if re.compile(username_blacklist).match(value):
-          raise validators.Invalid(_("'%s' is an illegal username.") % value, value, state)
+          raise validators.Invalid(_("'%s' is an illegal username.  A valid username must only contain lowercase alphanumeric characters, and must start with a letter.") % value, value, state)
 
 class ValidLanguage(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
