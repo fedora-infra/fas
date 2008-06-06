@@ -20,7 +20,7 @@
         <dt>${_('Account Name:')}</dt><dd>${person.username}</dd>
         <dt>${_('Real Name:')}</dt><dd>${person.human_name}</dd>
         <dt>${_('Email:')}</dt><dd>${person.email}
-        <span py:if="(personal or admin) and person.unverified_email and person.emailtoken">
+        <span py:if="personal and person.unverified_email and person.emailtoken">
           ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': person.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
         </span>
         </dd>
