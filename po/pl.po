@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-28 02:03-0400\n"
-"PO-Revision-Date: 2008-05-26 23:58+0200\n"
+"PO-Revision-Date: 2008-06-02 23:55+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "%(user)s nie może wysłać aplikacji do %(group)s: %(error)s"
 #: fas/group.py:396
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr "Aplikacja do grupy \"%(group)s\""
 
 #: fas/group.py:398
 #, python-format
@@ -208,6 +208,10 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"Dziękujemy za dołączenie do grupy %(group)s.  \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:408
 #, python-format
@@ -225,7 +229,7 @@ msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "Nie można zasponsorować %(user)s w %(group)s: %(error)s"
 
 #: fas/group.py:438
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -236,8 +240,6 @@ msgstr ""
 "%(name)s <%(email)s> zasponsorował twoje członkostwo w grupie %(group)s\n"
 "systemu kont Fedory. Jeśli to potrzebne, ta zmiana powinna zostać zgłoszona\n"
 "aliasom e-mail i repozytorium CVS w ciągu godziny.\n"
-"\n"
-"%(joinmsg)s\n"
 
 #: fas/group.py:444
 #, python-format
@@ -744,9 +746,8 @@ msgstr ""
 "powłoki lub wysyłania w miejscu takim jak fedorahosted.</p>"
 
 #: fas/help.py:54
-#, fuzzy
 msgid "Group URL (Optional)"
-msgstr "Pseudonim na IRC-u (opcjonalny)"
+msgstr "URL grupy (opcjonalny)"
 
 #: fas/help.py:54
 msgid ""
@@ -754,20 +755,25 @@ msgid ""
 "fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
 "Infrastructure</a>).</p>"
 msgstr ""
+"<p>URL lub strona wiki grupy (na przykład <a href=\"https://"
+"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
+"Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "Lista mailingowa grupy (opcjonalna)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
+"<p>Lista mailingowa grupy (na przykład fedora-infrastructure-"
+"list@redhat.com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "URL listy mailingowej grupy (opcjonalny)"
 
 #: fas/help.py:56
 msgid ""
@@ -775,25 +781,27 @@ msgid ""
 "redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 msgstr ""
+"<p>URL listy mailingowej grupy (na przykład <a href=\"http://www."
+"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
+"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
 #: fas/help.py:57
-#, fuzzy
 msgid "Group IRC Channel (Optional)"
-msgstr "Pseudonim na IRC-u (opcjonalny)"
+msgstr "Kanał IRC grupy (opcjonalny)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>Kanał IRC grupy (na przykład #fedora-admin).</p>"
 
 #: fas/help.py:58
-#, fuzzy
 msgid "Group IRC Network (Optional)"
-msgstr "Pseudonim na IRC-u (opcjonalny)"
+msgstr "Sieć IRC grupy (opcjonalna)"
 
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
+"<p>Sieć IRC kanału grupy (na przykład Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -849,7 +857,6 @@ msgid "Join Message"
 msgstr "Wiadomość o dołączeniu"
 
 #: fas/help.py:62
-#, fuzzy
 msgid ""
 "<p>This message will go out to users when they apply to the group.  It "
 "should be informative and offer tips about what to do next.  A description "
@@ -857,7 +864,7 @@ msgid ""
 msgstr ""
 "<p>Ta wiadomość zostanie wysłana do użytkowników dołączających do grupy. "
 "Powinna zawierać informacje i wskazówki na temat dalszych działań. Także "
-"opis grupy może być tutaj wartościowy</p>"
+"opis grupy może być tutaj przydatny</p>"
 
 #: fas/help.py:63
 msgid "Client Side Cert"
@@ -881,6 +888,8 @@ msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating to "
 "the OpenID consumer."
 msgstr ""
+"Nie można pobrać ostatniego żądania OpenID. Spróbuj ponownie uwierzytelnić "
+"do klienta OpenID."
 
 #: fas/safasprovider.py:157
 #, python-format
@@ -1587,24 +1596,23 @@ msgstr "Typ grupy:"
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:43
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:47
 msgid "Mailing List:"
-msgstr ""
+msgstr "Lista mailingowa:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "URL listy mailingowej:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "Kanał IRC:"
 
 #: fas/templates/group/edit.html:43
-#, fuzzy
 msgid "IRC Network:"
-msgstr "Pseudonim na IRC-u:"
+msgstr "Sieć IRC:"
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
@@ -1793,9 +1801,8 @@ msgid "Type:"
 msgstr "Typ:"
 
 #: fas/templates/group/view.html:54
-#, fuzzy
 msgid "IRC:"
-msgstr "Pseudonim na IRC-u:"
+msgstr "IRC:"
 
 #: fas/templates/group/view.html:61 fas/templates/group/view.html:65
 msgid "Yes"
@@ -1885,7 +1892,7 @@ msgstr "nie"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "Strona tożsamości OpenID"
 
 #: fas/templates/openid/id.html:20
 #, python-format
@@ -1897,6 +1904,7 @@ msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
 "System<a>."
 msgstr ""
+"Część <a href=\"https://admin.fedoraproject.org/\">Systemu kont Fedory<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2167,19 +2175,3 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
-
-#~ msgid ""
-#~ "\n"
-#~ "Fedora user %(user)s, aka %(name)s <%(email)s> has requested\n"
-#~ "membership for %(applicant)s (%(applicant_name)s) in the %(group)s group "
-#~ "and needs a sponsor.\n"
-#~ "\n"
-#~ "Please go to %(url)s to take action.  \n"
-#~ msgstr ""
-#~ "\n"
-#~ "Użytkownik Fedory %(user)s, znany też jako %(name)s <%(email)s> poprosił "
-#~ "o\n"
-#~ "członkostwo dla %(applicant)s (%(applicant_name)s) w grupie %(group)s i "
-#~ "potrzebuje sponsora.\n"
-#~ "\n"
-#~ "Przejdź do %(url)s, aby go zasponsorować.  \n"
