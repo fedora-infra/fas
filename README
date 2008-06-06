@@ -27,7 +27,7 @@ Before you can get started, make sure to have the following packages installed
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz python-babel babel python-GeoIP python-openid
+  python-psycopg2 pytz python-babel babel python-GeoIP python-openid python-fedora
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
