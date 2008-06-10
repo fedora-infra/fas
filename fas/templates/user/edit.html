@@ -16,7 +16,7 @@
     <h2>${_('Edit Account (%s)') % target.username}</h2>
     <form action="${tg.url('/user/save/%s' % target.username)}" method="post" enctype="multipart/form-data">
       <div class="field">
-        <label for="human_name">${_('Human Name')}:</label>
+        <label for="human_name">${_('Full Name')}:</label>
         <input type="text" id="human_name" name="human_name" value="${target.human_name}" />
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_human_name')}'});</script>
       </div>

@@ -133,7 +133,7 @@ class Plugins(controllers.Controller):
             pluginClass = pluginEntry.load()
             plugin = pluginClass()
             if hasattr(plugin, method):
-                return plugin.__getattribute__(method)()
+                return plugin.__getattribute__(method)(*args, **kwargs)
             else:
                 return dict(message='No method named %(method)s in plugin %(plugin)s' % {'method': method, 'plugin': pluginName})
         return dict(message='Plugin %(plugin)s not found' % {'plugin': pluginName})
