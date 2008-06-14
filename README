@@ -7,7 +7,7 @@ Fedora Account System
 	  Toshio Kuratomi
 :Contact: fedora-infrastructure-list@redhat.com
 :Date: Wed, 26 March, 2008
-:README Version: 0.2
+:For FAS version: 0.8.x
 
 The Fedora Account System holds information on Fedora Contributors to give
 them access to the wonderful things that Fedora has.
@@ -18,6 +18,20 @@ This is a TurboGears_ project. It can be started by running the start-fas
 script.
 
 .. _TurboGears: http://www.turbogears.org
+
+---------
+Upgrading
+---------
+When upgrading from 0.8.3 to 0.8.4 there are some new database fields in the
+groups table.  These are ``mailing_list`` and ``mailing_list_url``.  You need
+to add those to your database like this::
+
+  alter table groups add column mailing_list text;
+  alter table groups add column mailing_list_url text;
+
+These fields let you specify a mailing list that the group uses (useful if you
+want others to be able to mail your group when they encounter issues) and a url
+where the user can look at list archives and subscribe.
 
 -------------
 Prerequisites
