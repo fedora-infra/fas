@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  import genshi.template.plugin
+  master = genshi.template.plugin.MarkupTemplateEnginePlugin().load_template('fas.templates.master')
+  ?>
+  <xi:include href="${master.filename}" />
+  <head>
+    <title>${_('Voip')}</title>
+  </head>
+  <body>
+    <h3>${_('Voip Settings')} <a href="${tg.url('/asterisk/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
+    <div class="userbox">
+      <dl>
+        <dt>${_('Extension:')}</dt><dd>5${str(person.id)[:2]}-${str(person.id)[2:]}</dd>
+        <dt>${_('VOIP Active:')}</dt><dd py:if="configs['enabled'] == '0'">Disabled</dd><dd py:if="configs['enabled'] == '1'">Enabled</dd>
+        <dt>${_('VOIP Password:')}</dt><dd>${configs['pass']}</dd>
+        <dt>${_('SIP Address:')}</dt><dd>sip:${person.username}@fedoraproject.org</dd>
+        <dt>${_('SMS Notification:')}</dt><dd><font color='grey'>Not Yet Available</font></dd>
+      </dl>
+    </div>
+  </body>
+</html>
