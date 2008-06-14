@@ -251,7 +251,7 @@ steps.  When installed things will be much simpler::
   ./start-fas
 
 You should then be able to browse to::
-  http://localhost:8088/accounts/plugins/Dummy/index
+  http://localhost:8088/accounts/dummy
 
 and see some simple output from the dummy plugin.
 

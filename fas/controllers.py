@@ -42,6 +42,8 @@ from fas.openid_samadhi import OpenID
 from fas.auth import *
 from fas.util import available_languages
 
+import plugin
+
 import os
 import sys
 reload(sys)
@@ -112,32 +114,6 @@ def add_custom_stdvars(vars):
   return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
-class Plugins(controllers.Controller):
-    def __init__(self):
-        ''' Create this plugins thing '''
-        pass
-
-    @expose(format='json')
-    def index(self):
-        '''List available plugins'''
-        return dict(message='Eventually this should return a list of available plugins')
-
-    @expose(format='json')
-    def default(self, pluginName, *args, **kwargs):
-        if len(args):
-            method = args[0]
-        else:
-            method = 'index'
-        for pluginEntry in pkg_resources.iter_entry_points('fas.plugins',
-                pluginName):
-            pluginClass = pluginEntry.load()
-            plugin = pluginClass()
-            if hasattr(plugin, method):
-                return plugin.__getattribute__(method)(*args, **kwargs)
-            else:
-                return dict(message='No method named %(method)s in plugin %(plugin)s' % {'method': method, 'plugin': pluginName})
-        return dict(message='Plugin %(plugin)s not found' % {'plugin': pluginName})
-
 # from fas import json
 # import logging
 # log = logging.getLogger("fas.controllers")
@@ -145,20 +121,21 @@ class Plugins(controllers.Controller):
 #TODO: Appropriate flash icons for errors, etc.
 # mmcgrath wonders if it will be handy to expose an encrypted mailer with fas over json for our apps
 
-class Root(controllers.RootController):
+class Root(plugin.RootController):
 
     user = User()
     group = Group()
     cla = CLA()
     json = JsonRequest()
     help = Help()
-    #plugins = init_plugins()['dummy_plugin'][0]
-    plugins = Plugins()
 
     openid = OpenID()
 
     # TODO: Find a better place for this.
     os.environ['GNUPGHOME'] = config.get('gpghome')
+
+    def getpluginident(self):
+        return 'fas'
 
     @expose(template="fas.templates.welcome", allow_json=True)
     def index(self):

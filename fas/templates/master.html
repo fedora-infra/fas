@@ -5,6 +5,7 @@
   py:strip="">
   <?python
   from turbogears import config
+  import fas.sidebar as sidebar
   _ = lambda text: tg.gettext(text)
   ?>
   <head py:match="head" py:attrs="select('@*')">
@@ -60,13 +61,7 @@
           <ul>
             <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
-            <div py:if="not tg.identity.anonymous and ('sysadmin' in tg.identity.groups or 'accounts' in tg.identity.groups)" py:strip=''>
-              <!-- TODO: Make these use auth.py -->
-              <li><a href="${tg.url('/group/new')}">${_('New Group')}</a></li>
-              <li><a href="${tg.url('/user/list')}">${_('User List')}</a></li>
-            </div>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Group List')}</a></li>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/group/list/A*')}">${_('Apply For a new Group')}</a></li>
+	    <li py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
             <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
           </ul>
           <div py:if="tg.identity.anonymous and tg.available_languages" id="language">
