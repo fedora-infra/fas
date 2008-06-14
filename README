@@ -7,7 +7,7 @@ Fedora Account System
 	  Toshio Kuratomi
 :Contact: fedora-infrastructure-list@redhat.com
 :Date: Wed, 26 March, 2008
-:README Version: 0.2
+:For FAS version: 0.8.x
 
 The Fedora Account System holds information on Fedora Contributors to give
 them access to the wonderful things that Fedora has.
@@ -19,6 +19,44 @@ script.
 
 .. _TurboGears: http://www.turbogears.org
 
+---------
+Upgrading
+---------
+
+0.8.4 => 0.8.5
+==============
+
+When upgrading to 0.8.5 the database schema changed slightly.  The configs
+table now has a unique constraint to prevent duplicates being entered.  Use
+this to update your existing schema::
+
+  sudo -u postgres psql fas2
+  alter table configs add unique (person_id, application, attribute);
+  alter table configs ALTER COLUMN person_id set not null;
+
+0.8.3 => 0.8.4
+==============
+
+When upgrading from 0.8.3 to 0.8.4 there are some new database fields in the
+groups table.  These are:
+
+  :mailing_list: Specify a mailing list address that others can use to contact the group.
+  :mailing_list_url: A url where others can look at list archives and sign up.
+  :country_code: Two digit country code for where the user is from.
+
+You need to add those to your database like this::
+
+  sudo -u postgres psql fas2
+  alter table groups add column mailing_list text;
+  alter table groups add column mailing_list_url text;
+  alter table groups add column country_code char(2);
+
+The country code functionality also makes use of python-GeoIP.  This should
+be installed as a dependency if you use the fas rpms.  Otherwise you need to
+install that manually::
+
+  sudo yum -y install python-GeoIP
+
 -------------
 Prerequisites
 -------------
@@ -27,7 +65,8 @@ Before you can get started, make sure to have the following packages installed
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz python-babel babel python-GeoIP python-openid python-fedora
+  python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
+  python-fedora
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 

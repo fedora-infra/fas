@@ -76,15 +76,16 @@ cluster people_status_idx on people;
 
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
-    person_id integer references people(id),
+    person_id integer references people(id) not null,
     application TEXT not null,
     attribute TEXT not null,
     -- The value should be a simple value or a json string.
     -- Please create more config keys rather than abusing this with
     -- large datastructures.
     value TEXT,
-    check (application in ('asterisk', 'moin', 'myfedora' ,'openid'))
+    check (application in ('asterisk', 'moin', 'myfedora' ,'openid')),
     -- Might end up removing openid, depending on how far we take the provider
+    unique (person_id, application, attribute)
 );
 
 create index configs_person_id_idx on configs(person_id);

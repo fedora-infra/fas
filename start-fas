@@ -6,7 +6,7 @@ This script is only needed during development for running from the project
 directory. When the project is installed, easy_install will create a
 proper start script.
 '''
-
+__requires__='fas'
 import sys
 from fas.commands import start, ConfigurationError
 
