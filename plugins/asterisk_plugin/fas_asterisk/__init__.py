@@ -126,6 +126,18 @@ class AsteriskPlugin(controllers.Controller):
         turbogears.redirect("/asterisk/")
         return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(format="json", allow_json=True)
+    def dump(self):
+        asterisk_attrs = {}
+        for attr in Configs.query.filter_by(application='asterisk').all():
+            try:
+                asterisk_attrs[attr.person_id]
+            except KeyError:
+                asterisk_attrs[attr.person_id] = {}
+            asterisk_attrs[attr.person_id][attr.attribute] = attr.value
+        return dict(asterisk_attrs=asterisk_attrs)
+    
     @classmethod
     def initPlugin(cls, controller):
         cls.log = logging.getLogger('plugin.asterisk')
