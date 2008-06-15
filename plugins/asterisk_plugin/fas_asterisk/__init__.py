@@ -15,17 +15,8 @@ from fas.model import People, PeopleTable, PersonRolesTable, GroupsTable, Config
 from fas.model import Log
 
 from fas.auth import *
+from fas.user import KnownUser
 from fas.util import available_languages
-
-class KnownUser(validators.FancyValidator):
-    '''Make sure that a user already exists'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        try:
-            p = People.by_username(value)
-        except InvalidRequestError:
-            raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
 
 class AsteriskSave(validators.Schema):
     targetname = KnownUser
@@ -36,13 +27,9 @@ def get_configs(configs_list):
     configs = {}
     for config in configs_list:
         configs[config.attribute] = config.value
-    try:
-        configs['enabled']
-    except KeyError:
+    if 'enabled' not in configs:
         configs['enabled'] = '0'
-    try:
-        configs['pass']
-    except KeyError:
+    if 'pass' not in configs:
         configs['pass'] = 'Not Defined'
     return configs
 
@@ -131,9 +118,7 @@ class AsteriskPlugin(controllers.Controller):
     def dump(self):
         asterisk_attrs = {}
         for attr in Configs.query.filter_by(application='asterisk').all():
-            try:
-                asterisk_attrs[attr.person_id]
-            except KeyError:
+            if attr.person_id not in asterisk_attrs:
                 asterisk_attrs[attr.person_id] = {}
             asterisk_attrs[attr.person_id][attr.attribute] = attr.value
         return dict(asterisk_attrs=asterisk_attrs)
