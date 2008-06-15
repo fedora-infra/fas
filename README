@@ -30,26 +30,28 @@ When upgrading to 0.8.5 the database schema changed slightly.  The configs
 table now has a unique constraint to prevent duplicates being entered.  Use
 this to update your existing schema::
 
-  sudo -u postgres psql fas2
-  alter table configs add unique (person_id, application, attribute);
-  alter table configs ALTER COLUMN person_id set not null;
+  sudo -u postgres psql fas2 < updates/fas2-0.8.3_to_0.8.4.sql
 
 0.8.3 => 0.8.4
 ==============
 
-When upgrading from 0.8.3 to 0.8.4 there are some new database fields in the
-groups table.  These are:
+When upgrading from 0.8.3 to 0.8.4 there are some new database changes:
 
-  :mailing_list: Specify a mailing list address that others can use to contact the group.
-  :mailing_list_url: A url where others can look at list archives and sign up.
-  :country_code: Two digit country code for where the user is from.
+  :groups.url: URL where others can look for information about the group
+  :groups.mailing_list: Specify a mailing list address that others can use to
+  	contact the group
+  :groups.mailing_list_url: A url where others can look at list archives and
+  	sign up
+  :groups.irc_network: IRC network on which the IRC channel is
+  :groups.irc_channel: IRC channel where communication with the group occurs
+  :people.country_code: Two digit country code for where the user is from
+  :user_group: View that allows mod_auth_pgsql to work with the db
+  :session: Table for doing OpenID sessions.
 
-You need to add those to your database like this::
+You can add these to your database by running the sql commands in
+``updates/fas2-0.8.3_to_0.8.4.sql`` like this::
 
-  sudo -u postgres psql fas2
-  alter table groups add column mailing_list text;
-  alter table groups add column mailing_list_url text;
-  alter table groups add column country_code char(2);
+  sudo -u postgres psql fas2 < updates/fas2-0.8.3_to_0.8.4.sql
 
 The country code functionality also makes use of python-GeoIP.  This should
 be installed as a dependency if you use the fas rpms.  Otherwise you need to
