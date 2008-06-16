@@ -27,6 +27,11 @@
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_pass')}'});</script>
       </div>
       <div class="field">
+        <label for="asterisk_voicemail">${_('Voicemail')}:</label>
+        <input disabled="1" type="text" size="24" id="asterisk_voicemail" name="asterisk_voicemail" value="Enabled" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_voicemail')}'});</script>
+      </div>
+      <div class="field">
         <label for="asterisk_sms">${_('SMS Notification')}:</label>
         <input disabled="1" type="text" size="24" id="asterisk_sms" name="asterisk_sms" value="Not Yet Available" />
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_sms')}'});</script>

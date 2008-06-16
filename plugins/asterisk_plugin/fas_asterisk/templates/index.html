@@ -14,11 +14,31 @@
     <h3>${_('Voip Settings')} <a href="${tg.url('/asterisk/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
-        <dt>${_('Extension:')}</dt><dd>5${str(person.id)[:2]}-${str(person.id)[2:]}</dd>
-        <dt>${_('VOIP Active:')}</dt><dd py:if="configs['enabled'] == '0'">Disabled</dd><dd py:if="configs['enabled'] == '1'">Enabled</dd>
-        <dt>${_('VOIP Password:')}</dt><dd>${configs['pass']}</dd>
-        <dt>${_('SIP Address:')}</dt><dd>sip:${person.username}@fedoraproject.org</dd>
-        <dt>${_('SMS Notification:')}</dt><dd><font color='grey'>Not Yet Available</font></dd>
+        <dt>${_('Extension:')}</dt>
+        <dd>5${str(person.id)[:2]}-${str(person.id)[2:]} 
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_extension')}'});</script>
+        </dd>
+        <dt>${_('VOIP Active:')}</dt>
+        <dd py:if="configs['enabled'] == '0'">
+          Disabled
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_enabled')}'});</script>
+        </dd>
+        <dd py:if="configs['enabled'] == '1'">
+          Enabled
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_enabled')}'});</script>
+        </dd>
+        <dt>${_('VOIP Password:')}</dt><dd>${configs['pass']}
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_pass')}'});</script>
+        </dd>
+        <dt>${_('SIP Address:')}</dt><dd>sip:${person.username}@fedoraproject.org
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_sip_address')}'});</script>
+        </dd>
+        <dt>${_('Voicemail:')}</dt><dd><font color='grey'>Enabled</font>
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_voicemail')}'});</script>
+        </dd>
+        <dt>${_('SMS Notification:')}</dt><dd><font color='grey'>Not Yet Available</font>
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_sms')}'});</script>
+        </dd>
       </dl>
     </div>
   </body>
