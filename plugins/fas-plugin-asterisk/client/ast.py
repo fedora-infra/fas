@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Note: this requires python-genshi 0.5 or higher to run (deps on NewTextTemplate)
 
 import os
@@ -77,7 +78,8 @@ alternateexts = ${userid}
 {% end %}\
 """)
 
-    return template.generate(users=users).render()
+    # Returns a unicode object if encoding is None
+    return template.generate(users=users).render(encoding=None)
 
 def mk_tempdir():
     temp = tempfile.mkdtemp('-tmp', 'fas-', os.path.join(prefix + config.get('global', 'temp').strip('"')))
