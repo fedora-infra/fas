@@ -35,7 +35,7 @@ Asterisk plugin for FAS2
 %{__rm} -rf %{buildroot}
 %{__python} setup.py install --skip-build --root %{buildroot}
 
- 
+
 %clean
 %{__rm} -rf %{buildroot}
 
