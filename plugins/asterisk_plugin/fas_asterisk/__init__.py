@@ -126,7 +126,7 @@ class AsteriskPlugin(controllers.Controller):
     @expose(template="fas.templates.help")
     def help(self, id='none'):
         help = { 'none' :               [_('Error'), _('<p>We could not find that help item</p>')],
-            'asterisk_pass':        [_('Asterisk Password'), _('<p>Your Asterisk password needs to be numeric only and should not match your Fedora Password.</p>')],
+            'asterisk_pass':        [_('Asterisk Password'), _('<p>Your Asterisk password needs to be numeric only and should not match your Fedora Password.  <b> You will use this password to log in to asterisk <u>not</u> your normal user account password.</b></p>')],
             'asterisk_enabled':     [_('Asterisk Active?'), _('<p>If set to false, your asterisk extension will not exist and you will not get calls nor be able to log in.  If set to enabled you will be able to receive calls and log in</p>')],
             'asterisk_voicemail':   [_('Asterisk Voicemail'), _('<p>Would you like to receive voice mail when people call and you are not around?  It will come to you via email and an attachment</p>')],
             'asterisk_sms':         [_('Asterisk SMS Notification'), _('<p>When someone leaves you an email, a notification will get sent to this address.  It will not contain the actual message, just a notification that a message is waiting.</p>')],
