@@ -96,21 +96,18 @@ class AsteriskPlugin(controllers.Controller):
             turbogears.redirect('/user/view/%s', target.username)
             return dict()
 
-        
+        new_configs = {'enabled': asterisk_enabled, 'pass': asterisk_pass}
         cur_configs = Configs.query.filter_by(person_id=target.id, application='asterisk').all()
-        if len(cur_configs) == 0:
-            configs = Configs(application='asterisk', attribute='pass', value=asterisk_pass)
-            target.configs.append(configs)
-            print asterisk_enabled
-            configs = Configs(application='asterisk', attribute='enabled', value=asterisk_enabled)
-            target.configs.append(configs)
-        else:
-            for config in cur_configs:
-                if config.attribute == 'pass':
-                    config.value = asterisk_pass
-                elif config.attribute == 'enabled':
-                    config.value = asterisk_enabled
-        turbogears.redirect("/asterisk/")
+
+        for config in cur_configs:
+            for new_config in new_configs:
+                if config.attribute = new_config:
+                    config.value = new_configs[new_config]
+                    del(new_configs[new_config])
+        for config in new_configs:
+            c = Configs(application='asterisk', attribute=config, value=new_configs[config])
+            target.configs.append(c)
+
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
