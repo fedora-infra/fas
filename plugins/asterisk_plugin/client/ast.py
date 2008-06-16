@@ -16,7 +16,7 @@ import sys
 
 from shutil import move, rmtree
 
-def generateUsersConf(FAS_URL=FAS_URL):
+def generateUsersConf(FAS_URL):
     fas = AccountSystem(FAS_URL)
 
     fas.username = config.get('global', 'login').strip('"')
@@ -158,10 +158,10 @@ if __name__ == '__main__':
         prefix = config.get('global', 'prefix').strip('"')
 
     if opts.display:
-        conf = generateUsersConf()
+        conf = generateUsersConf(FAS_URL)
         sys.stdout.write(conf)
     elif opts.install:
-        conf = generateUsersConf()
+        conf = generateUsersConf(FAS_URL)
         temp = mk_tempdir()
         write_users_conf(conf, temp)
         install_users_conf(temp)
