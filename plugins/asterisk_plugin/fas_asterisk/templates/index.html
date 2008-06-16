@@ -14,7 +14,7 @@
     <h3>${_('Voip Settings')} <a href="${tg.url('/asterisk/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
-        <dt>${_('Extension:')}</dt><dd>5${str(person.id)[:2]}-${str(person.id)[2:]}</dd>
+        <dt>${_('Extension:')}</dt><dd>${'5%06d' % person.id}</dd>
         <dt>${_('VOIP Active:')}</dt><dd py:if="configs['enabled'] == '0'">Disabled</dd><dd py:if="configs['enabled'] == '1'">Enabled</dd>
         <dt>${_('VOIP Password:')}</dt><dd>${configs['pass']}</dd>
         <dt>${_('SIP Address:')}</dt><dd>sip:${person.username}@fedoraproject.org</dd>
