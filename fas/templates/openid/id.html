@@ -19,6 +19,9 @@
     <h1>
       ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
     </h1>
+    <div py:if="tg_flash" class="flash">
+      ${tg_flash}
+    </div>
     <p>
     ${Markup(_('Part of the &lt;a href="https://admin.fedoraproject.org/"&gt;Fedora Account System&lt;a&gt;.'))}
     </p>
