@@ -8,7 +8,7 @@ Summary:        Asterisk plugin for FAS2
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        fas-asterisk_plugin-0.1.tar.gz
+Source0:        fas-plugin-asterisk-0.1.tar.gz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildArch:      noarch
