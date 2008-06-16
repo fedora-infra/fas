@@ -157,7 +157,10 @@ if __name__ == '__main__':
     else:
         prefix = config.get('global', 'prefix').strip('"')
 
-    if opts.install:
+    if opts.display:
+        conf = generateUsersConf()
+        sys.stdout.write(conf)
+    elif opts.install:
         conf = generateUsersConf()
         temp = mk_tempdir()
         write_users_conf(conf, temp)
