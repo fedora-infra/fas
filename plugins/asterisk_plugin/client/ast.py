@@ -16,65 +16,6 @@ import sys
 
 from shutil import move, rmtree
 
-log = logging.getLogger('fas')
-
-parser = optparse.OptionParser()
-
-parser.add_option('-i', '--install',
-                  dest = 'install',
-                  default = False,
-                  action = 'store_true',
-                  help = _('Download and sync most recent content'))
-parser.add_option('-c', '--config',
-                  dest = 'CONFIG_FILE',
-                  default = '/etc/fas.conf',
-                  metavar = 'CONFIG_FILE',
-                  help = _('Specify config file (default "%default")'))
-parser.add_option('-s', '--server',
-                  dest = 'FAS_URL',
-                  default = None,
-                  metavar = 'FAS_URL',
-                  help = _('Specify URL of fas server.'))
-parser.add_option('-d', '--display',
-                  dest = 'display',
-                  default = False,
-                  action = 'store_true',
-                  help = _('Print file to std out.'))
-parser.add_option('-p', '--prefix',
-                  dest = 'prefix',
-                  default = None,
-                  metavar = 'prefix',
-                  help = _('Specify install prefix.  Useful for testing'))
-parser.add_option('--debug',
-                  dest = 'debug',
-                  default = False,
-                  action = 'store_true',
-                  help = _('Enable debugging messages'))
-
-(opts, args) = parser.parse_args()
-
-log = logging.getLogger('fas')
-
-try:
-    config = ConfigParser.ConfigParser()
-    if os.path.exists(opts.CONFIG_FILE):
-        config.read(opts.CONFIG_FILE)
-    elif os.path.exists('fas.conf'):
-        config.read('fas.conf')
-        print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
-    else:
-        print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
-        sys.exit(5)
-except ConfigParser.MissingSectionHeaderError, e:
-    print >> sys.stderr, "Config file does not have proper formatting - %s" % e
-    sys.exit(6)
-
-FAS_URL = config.get('global', 'url').strip('"')
-if opts.prefix:
-    prefix = opts.prefix
-else:
-    prefix = config.get('global', 'prefix').strip('"')
-
 def generateUsersConf(FAS_URL=FAS_URL):
     fas = AccountSystem(FAS_URL)
 
@@ -157,6 +98,65 @@ def install_users_conf(temp):
 
 
 if __name__ == '__main__':
+    log = logging.getLogger('fas')
+
+    parser = optparse.OptionParser()
+
+    parser.add_option('-i', '--install',
+                      dest = 'install',
+                      default = False,
+                      action = 'store_true',
+                      help = _('Download and sync most recent content'))
+    parser.add_option('-c', '--config',
+                      dest = 'CONFIG_FILE',
+                      default = '/etc/fas.conf',
+                      metavar = 'CONFIG_FILE',
+                      help = _('Specify config file (default "%default")'))
+    parser.add_option('-s', '--server',
+                      dest = 'FAS_URL',
+                      default = None,
+                      metavar = 'FAS_URL',
+                      help = _('Specify URL of fas server.'))
+    parser.add_option('-d', '--display',
+                      dest = 'display',
+                      default = False,
+                      action = 'store_true',
+                      help = _('Print file to std out.'))
+    parser.add_option('-p', '--prefix',
+                      dest = 'prefix',
+                      default = None,
+                      metavar = 'prefix',
+                      help = _('Specify install prefix.  Useful for testing'))
+    parser.add_option('--debug',
+                      dest = 'debug',
+                      default = False,
+                      action = 'store_true',
+                      help = _('Enable debugging messages'))
+
+    (opts, args) = parser.parse_args()
+
+    log = logging.getLogger('fas')
+
+    try:
+        config = ConfigParser.ConfigParser()
+        if os.path.exists(opts.CONFIG_FILE):
+            config.read(opts.CONFIG_FILE)
+        elif os.path.exists('fas.conf'):
+            config.read('fas.conf')
+            print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
+        else:
+            print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
+            sys.exit(5)
+    except ConfigParser.MissingSectionHeaderError, e:
+        print >> sys.stderr, "Config file does not have proper formatting - %s" % e
+        sys.exit(6)
+
+    FAS_URL = config.get('global', 'url').strip('"')
+    if opts.prefix:
+        prefix = opts.prefix
+    else:
+        prefix = config.get('global', 'prefix').strip('"')
+
     if opts.install:
         conf = generateUsersConf()
         temp = mk_tempdir()
