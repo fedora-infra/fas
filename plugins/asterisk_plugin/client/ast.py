@@ -69,7 +69,6 @@ realm = fedoraproject.org
 [${username}]
 fullname = ${human_name}
 email = ${username}@fedoraproject.org
-secret = ${username}
 md5secret = ${md5secret}
 hasvoicemail = yes
 context = from-contributor
