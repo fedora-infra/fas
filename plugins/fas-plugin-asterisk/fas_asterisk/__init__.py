@@ -112,11 +112,13 @@ class AsteriskPlugin(controllers.Controller):
             for new_config in new_configs:
                 if config.attribute == new_config:
                     config.value = new_configs[new_config]
-                    del(new_configs[new_config])
+#                    del(new_configs[new_config])
         for config in new_configs:
             c = Configs(application='asterisk', attribute=config, value=new_configs[config])
             target.configs.append(c)
 
+        turbogears.flash(_("Changes saved.  Please allow up to 1 hour for changes to be realized."))
+        turbogears.redirect('/asterisk/')
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
