@@ -91,7 +91,20 @@ def generateUsersConf(FAS_URL=FAS_URL):
     
     userids = [user[u'person_id'] for user in asterisk_group[u'approved_roles']]
     userids.sort()
-    
+
+    users = []
+    for userid in userids:
+        try:
+            if asterisk_attrs[u'%s' % userid]['enabled'] == u'1':
+                person = people[userid]
+                users.append(('5%06d' % userid,
+                        person[u'username'],
+                        person[u'human_name'],
+                        md5.new('%s:fedoraproject.org:%s' % (person[u'username'],
+                                                            asterisk_attrs[u'%s' % userid]['pass'])).hexdigest()))
+        except KeyError:
+            pass
+
     template = NewTextTemplate(""";
 [general]
 callwaiting = yes
@@ -122,20 +135,7 @@ context = from-contributor
 alternateexts = ${userid}
 {% end %}\
 """)
-    
-    users = []
-    for userid in userids:
-        try:
-            if asterisk_attrs[u'%s' % userid]['enabled'] == u'1':
-                person = people[userid]
-                users.append(('5%06d' % userid,
-                        person[u'username'],
-                        person[u'human_name'],
-                        md5.new('%s:fedoraproject.org:%s' % (person[u'username'],
-                                                            asterisk_attrs[u'%s' % userid]['pass'])).hexdigest()))
-        except KeyError:
-            pass
-    
+
     return template.generate(users=users).render()
 
 def mk_tempdir():
