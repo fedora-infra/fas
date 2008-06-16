@@ -18,7 +18,7 @@
         <dd>${'5%06d' % person.id} 
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_extension')}'});</script>
         </dd>
-        <dt>${_('VOIP Active:')}</dt>
+        <dt>${_('VoIP Active:')}</dt>
         <dd py:if="configs['enabled'] == '0'">
           Disabled
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_enabled')}'});</script>
@@ -27,7 +27,7 @@
           Enabled
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_enabled')}'});</script>
         </dd>
-        <dt>${_('VOIP Password:')}</dt><dd>${configs['pass']}
+        <dt>${_('VoIP Password:')}</dt><dd>${configs['pass']}
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_pass')}'});</script>
         </dd>
         <dt>${_('SIP Address:')}</dt><dd>sip:${person.username}@fedoraproject.org
