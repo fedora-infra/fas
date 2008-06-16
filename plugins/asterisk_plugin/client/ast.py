@@ -89,10 +89,6 @@ def generateUsersConf(FAS_URL=FAS_URL):
     asterisk_group = fas.group_by_name('cla_done')
     asterisk_attrs = fas.send_request('asterisk/dump')['asterisk_attrs']
     
-    
-    #for k, v in  asterisk_group.items():
-    #    print k
-    
     userids = [user[u'person_id'] for user in asterisk_group[u'approved_roles']]
     userids.sort()
     
