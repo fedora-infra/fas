@@ -110,7 +110,7 @@ class AsteriskPlugin(controllers.Controller):
 
         for config in cur_configs:
             for new_config in new_configs:
-                if config.attribute = new_config:
+                if config.attribute == new_config:
                     config.value = new_configs[new_config]
                     del(new_configs[new_config])
         for config in new_configs:
