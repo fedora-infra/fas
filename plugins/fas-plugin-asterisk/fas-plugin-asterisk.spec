@@ -1,6 +1,6 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-Name:           fas-asterisk_plugin
+Name:           fas-plugin-asterisk
 Version:        0.1
 Release:        1%{?dist}
 Summary:        Asterisk plugin for FAS2

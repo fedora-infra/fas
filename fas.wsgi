@@ -2,6 +2,7 @@
 import sys
 sys.path.append('/home/ricky/work/fedora/fas/fas/')
 sys.path.append('/home/ricky/work/fedora/fas/')
+sys.path.append('/home/ricky/work/fedora/fas/plugins/fas-plugin-asterisk')
 sys.stdout = sys.stderr
 
 import pkg_resources
