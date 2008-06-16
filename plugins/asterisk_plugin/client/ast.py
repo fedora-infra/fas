@@ -93,35 +93,35 @@ def generateUsersConf(FAS_URL=FAS_URL):
     userids.sort()
     
     template = NewTextTemplate(""";
-    [general]
-    callwaiting = yes
-    threewaycalling = yes
-    callwaitingcallerid = yes
-    transfer = yes
-    canpark = yes
-    cancallforward = yes
-    callreturn = yes
-    callgroup = 1
-    pickupgroup = 1
-    hassip = yes
-    host = dynamic
-    hasiax = no
-    hash323 = no
-    hasmanager = no
-    hasvoicemail = yes
-    realm = fedoraproject.org
-    {% for userid, username, human_name, md5secret in users %}\
-    
-    [${username}]
-    fullname = ${human_name}
-    email = ${username}@fedoraproject.org
-    secret = ${username}
-    md5secret = ${md5secret}
-    hasvoicemail = yes
-    context = from-contributor
-    alternateexts = ${userid}
-    {% end %}\
-    """)
+[general]
+callwaiting = yes
+threewaycalling = yes
+callwaitingcallerid = yes
+transfer = yes
+canpark = yes
+cancallforward = yes
+callreturn = yes
+callgroup = 1
+pickupgroup = 1
+hassip = yes
+host = dynamic
+hasiax = no
+hash323 = no
+hasmanager = no
+hasvoicemail = yes
+realm = fedoraproject.org
+{% for userid, username, human_name, md5secret in users %}\
+
+[${username}]
+fullname = ${human_name}
+email = ${username}@fedoraproject.org
+secret = ${username}
+md5secret = ${md5secret}
+hasvoicemail = yes
+context = from-contributor
+alternateexts = ${userid}
+{% end %}\
+""")
     
     users = []
     for userid in userids:
