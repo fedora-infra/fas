@@ -38,6 +38,7 @@ from urlparse import urljoin
 
 from fas.user import KnownUser
 from fas.model import People
+from fas.auth import CLADone
 
 def build_url(newpath):
     base_url = config.get('samadhi.baseurl')
@@ -73,6 +74,8 @@ class OpenID(controllers.Controller):
     @expose(template="fas.templates.openid.id")
     def id(self, username):
         person = People.by_username(username)
+        if not CLADone(person):
+            flash(_('This OpenID will not be active until the user has signed the CLA.'))
         results = dict(endpoint_url = endpoint_url,
                        yadis_url = build_url(yadis_base_url + '/' + username),
                        user_url = build_url(id_base_url + '/' + username),
@@ -111,6 +114,11 @@ class OpenID(controllers.Controller):
 
     def isauthorized(self, openid_identity, openid_trust_root):
         if identity.current.anonymous:
+            return False
+
+        username = identity.current.user.username
+        person = People.by_username(username)
+        if not CLADone(person):
             return False
 
         if build_url(id_base_url + '/' + identity.current.user_name) != openid_identity:
