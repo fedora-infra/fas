@@ -109,10 +109,10 @@ class AsteriskPlugin(controllers.Controller):
         cur_configs = Configs.query.filter_by(person_id=target.id, application='asterisk').all()
 
         for config in cur_configs:
-            for new_config in new_configs:
+            for new_config in new_configs.keys():
                 if config.attribute == new_config:
                     config.value = new_configs[new_config]
-#                    del(new_configs[new_config])
+                    del(new_configs[new_config])
         for config in new_configs:
             c = Configs(application='asterisk', attribute=config, value=new_configs[config])
             target.configs.append(c)
