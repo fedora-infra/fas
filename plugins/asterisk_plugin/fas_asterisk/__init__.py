@@ -21,7 +21,7 @@ from fas.util import available_languages
 class AsteriskSave(validators.Schema):
     targetname = KnownUser
     asterisk_enabled = validators.OneOf(['0', '1'], not_empty=True)
-    asterisk_pass = validators.Int(min=4, max=8, not_empty=True)
+    asterisk_pass = validators.String(min=6, not_empty=True)
 
 def get_configs(configs_list):
     configs = {}

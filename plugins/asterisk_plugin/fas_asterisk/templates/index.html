@@ -8,14 +8,14 @@
   ?>
   <xi:include href="${master.filename}" />
   <head>
-    <title>${_('Voip')}</title>
+    <title>${_('VoIP')}</title>
   </head>
   <body>
-    <h3>${_('Voip Settings')} <a href="${tg.url('/asterisk/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
+    <h3>${_('VoIP Settings')} <a href="${tg.url('/asterisk/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
     <div class="userbox">
       <dl>
         <dt>${_('Extension:')}</dt>
-        <dd>5${str(person.id)[:2]}-${str(person.id)[2:]} 
+        <dd>${'5%06d' % person.id} 
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/asterisk/help/asterisk_extension')}'});</script>
         </dd>
         <dt>${_('VOIP Active:')}</dt>
