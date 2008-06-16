@@ -77,18 +77,18 @@ else:
 
 def generateUsersConf(FAS_URL=FAS_URL):
     fas = AccountSystem(FAS_URL)
-    
+
     fas.username = config.get('global', 'login').strip('"')
     fas.password = config.get('global', 'password').strip('"')
     if not fas.authenticate(fas.username, fas.password):
         print "Could not authenticate"
         sys.exit(-1)
-    
+
     people = fas.people_by_id()
-    
+
     asterisk_group = fas.group_by_name('cla_done')
     asterisk_attrs = fas.send_request('asterisk/dump')['asterisk_attrs']
-    
+
     userids = [user[u'person_id'] for user in asterisk_group[u'approved_roles']]
     userids.sort()
 
