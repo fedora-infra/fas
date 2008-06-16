@@ -14,7 +14,7 @@ excludeDataDirs.extend(standard_exclude_directories)
 package_data = find_package_data(where='fas_asterisk', package='fas_asterisk', exclude=excludeFiles, exclude_directories=excludeDataDirs,)
 
 setup(
-    name = "fas-asterisk_plugin",
+    name = "fas-asterisk-plugin",
     version = "0.1",
     packages = find_packages(),
 

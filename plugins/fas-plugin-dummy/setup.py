@@ -16,7 +16,7 @@ data_files = [('__init__.py', filter(os.path.isfile, glob.glob('__init__.py'))),
               ('templates', filter(os.path.isfile, glob.glob('templates/*html')))
 ]
 setup(
-    name = "FAS Dummy Plugin",
+    name = "fas-plugin-dummy",
     version = "0.1",
     packages = find_packages(),
 
