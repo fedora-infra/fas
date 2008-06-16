@@ -44,6 +44,8 @@ class AsteriskPlugin(controllers.Controller):
     def index(self):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
+        if not CLADone(person):
+            turbogears.flash(_('You must sign the CLA to have access to this service.'))
         if turbogears.identity.current.user_name == username:
             personal = True
         else:
@@ -78,7 +80,10 @@ class AsteriskPlugin(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         target = People.by_username(targetname)
-
+        if not CLADone(target):
+            turbogears.flash(_('You must sign the CLA to have access to this service.'))
+            turbogears.redirect('/user/view/%s', target.username)
+            return dict()
         admin = isAdmin(person)
         configs = get_configs(Configs.query.filter_by(person_id=target.id, application='asterisk').all())
         return dict(admin=admin, person=person, configs=configs,target=target)
@@ -90,10 +95,14 @@ class AsteriskPlugin(controllers.Controller):
     def save(self, targetname, asterisk_enabled, asterisk_pass):
         person = People.by_username(turbogears.identity.current.user_name)
         target = People.by_username(targetname)
+        if not CLADone(target):
+            turbogears.flash(_('You must sign the CLA to have access to this service.'))
+            turbogears.redirect('/user/view/%s', target.username)
+            return dict()
         
         if not canEditUser(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
-            turbogears.redirect('/user/view/%s', target.username)
+            turbogears.redirect('/asterisk')
             return dict()
 
         new_configs = {'enabled': asterisk_enabled, 'pass': asterisk_pass}
