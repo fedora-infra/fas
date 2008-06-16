@@ -9,8 +9,12 @@ import logging
 from rhpl.translate import _
 from genshi.template import NewTextTemplate
 import md5
+import tempfile
+import codecs
 
 import sys
+
+from shutil import move, rmtree
 
 log = logging.getLogger('fas')
 
@@ -21,11 +25,6 @@ parser.add_option('-i', '--install',
                   default = False,
                   action = 'store_true',
                   help = _('Download and sync most recent content'))
-parser.add_option('-I', '--info',
-                  dest = 'info_username',
-                  default = False,
-                  metavar = 'info_username',
-                  help = _('Get info about a user'))
 parser.add_option('-c', '--config',
                   dest = 'CONFIG_FILE',
                   default = '/etc/fas.conf',
@@ -36,6 +35,11 @@ parser.add_option('-s', '--server',
                   default = None,
                   metavar = 'FAS_URL',
                   help = _('Specify URL of fas server.'))
+parser.add_option('-d', '--display',
+                  dest = 'display',
+                  default = False,
+                  action = 'store_true',
+                  help = _('Print file to std out.'))
 parser.add_option('-p', '--prefix',
                   dest = 'prefix',
                   default = None,
@@ -71,68 +75,97 @@ if opts.prefix:
 else:
     prefix = config.get('global', 'prefix').strip('"')
 
-fas = AccountSystem(FAS_URL)
+def generateUsersConf(FAS_URL=FAS_URL):
+    fas = AccountSystem(FAS_URL)
+    
+    fas.username = config.get('global', 'login').strip('"')
+    fas.password = config.get('global', 'password').strip('"')
+    if not fas.authenticate(fas.username, fas.password):
+        print "Could not authenticate"
+        sys.exit(-1)
+    
+    people = fas.people_by_id()
+    
+    asterisk_group = fas.group_by_name('cla_done')
+    asterisk_attrs = fas.send_request('asterisk/dump')['asterisk_attrs']
+    
+    
+    #for k, v in  asterisk_group.items():
+    #    print k
+    
+    userids = [user[u'person_id'] for user in asterisk_group[u'approved_roles']]
+    userids.sort()
+    
+    template = NewTextTemplate(""";
+    [general]
+    callwaiting = yes
+    threewaycalling = yes
+    callwaitingcallerid = yes
+    transfer = yes
+    canpark = yes
+    cancallforward = yes
+    callreturn = yes
+    callgroup = 1
+    pickupgroup = 1
+    hassip = yes
+    host = dynamic
+    hasiax = no
+    hash323 = no
+    hasmanager = no
+    hasvoicemail = yes
+    realm = fedoraproject.org
+    {% for userid, username, human_name, md5secret in users %}\
+    
+    [${username}]
+    fullname = ${human_name}
+    email = ${username}@fedoraproject.org
+    secret = ${username}
+    md5secret = ${md5secret}
+    hasvoicemail = yes
+    context = from-contributor
+    alternateexts = ${userid}
+    {% end %}\
+    """)
+    
+    users = []
+    for userid in userids:
+        try:
+            if asterisk_attrs[u'%s' % userid]['enabled'] == u'1':
+                person = people[userid]
+                users.append(('5%06d' % userid,
+                        person[u'username'],
+                        person[u'human_name'],
+                        md5.new('%s:fedoraproject.org:%s' % (person[u'username'],
+                                                            asterisk_attrs[u'%s' % userid]['pass'])).hexdigest()))
+        except KeyError:
+            pass
+    
+    return template.generate(users=users).render()
 
-fas.username = config.get('global', 'login').strip('"')
-fas.password = config.get('global', 'password').strip('"')
-if not fas.authenticate(fas.username, fas.password):
-    print "Could not authenticate"
-    sys.exit(-1)
+def mk_tempdir():
+    temp = tempfile.mkdtemp('-tmp', 'fas-', os.path.join(prefix + config.get('global', 'temp').strip('"')))
+    return temp
 
-people = fas.people_by_id()
+def rm_tempdir(temp):
+    rmtree(temp)
 
-asterisk_group = fas.group_by_name('cla_done')
-asterisk_attrs = fas.send_request('asterisk/dump')['asterisk_attrs']
+def write_users_conf(contents, temp):
+    users_conf_file = codecs.open(temp + '/users.conf', mode='w', encoding='utf-8')
+    users_conf_file.write(contents)
 
-
-#for k, v in  asterisk_group.items():
-#    print k
-
-userids = [user[u'person_id'] for user in asterisk_group[u'approved_roles']]
-userids.sort()
-
-template = NewTextTemplate(""";
-[general]
-callwaiting = yes
-threewaycalling = yes
-callwaitingcallerid = yes
-transfer = yes
-canpark = yes
-cancallforward = yes
-callreturn = yes
-callgroup = 1
-pickupgroup = 1
-hassip = yes
-host = dynamic
-hasiax = no
-hash323 = no
-hasmanager = no
-hasvoicemail = yes
-realm = fedoraproject.org
-{% for userid, username, human_name, md5secret in users %}\
-
-[${username}]
-fullname = ${human_name}
-email = ${username}@fedoraproject.org
-secret = ${username}
-md5secret = ${md5secret}
-hasvoicemail = yes
-context = from-contributor
-alternateexts = ${userid}
-{% end %}\
-""")
-
-users = []
-for userid in userids:
+def install_users_conf(temp):
     try:
-        if asterisk_attrs[u'%s' % userid]['enabled'] == u'1':
-            person = people[userid]
-            users.append(('5%06d' % userid,
-                    person[u'username'],
-                    person[u'human_name'],
-                    md5.new('%s:fedoraproject.org:%s' % (person[u'username'],
-                                                        asterisk_attrs[u'%s' % userid]['pass'])).hexdigest()))
-    except KeyError:
-        pass
+        move(temp + '/users.conf', os.path.join(prefix + '/etc/asterisk/users.conf'))
+    except IOError, e:
+        print "ERROR: Could not write users.conf - %s" % e
 
-print template.generate(users=users).render()
+
+if __name__ == '__main__':
+    if opts.install:
+        conf = generateUsersConf()
+        temp = mk_tempdir()
+        write_users_conf(conf, temp)
+        install_users_conf(temp)
+        rm_tempdir(temp)
+    else:
+        parser.print_help()
