@@ -82,7 +82,7 @@ class AsteriskPlugin(controllers.Controller):
         target = People.by_username(targetname)
         if not CLADone(target):
             turbogears.flash(_('You must sign the CLA to have access to this service.'))
-            turbogears.redirect('/user/view/%s', target.username)
+            turbogears.redirect('/user/view/%s' % target.username)
             return dict()
         admin = isAdmin(person)
         configs = get_configs(Configs.query.filter_by(person_id=target.id, application='asterisk').all())
@@ -97,7 +97,7 @@ class AsteriskPlugin(controllers.Controller):
         target = People.by_username(targetname)
         if not CLADone(target):
             turbogears.flash(_('You must sign the CLA to have access to this service.'))
-            turbogears.redirect('/user/view/%s', target.username)
+            turbogears.redirect('/user/view/%s' % target.username)
             return dict()
         
         if not canEditUser(person, target):
