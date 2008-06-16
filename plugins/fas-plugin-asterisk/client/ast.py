@@ -62,8 +62,8 @@ host = dynamic
 hasiax = no
 hash323 = no
 hasmanager = no
-hasvoicemail = yes
-realm = fedoraproject.org
+allowsubscribe = yes
+subscribecontext=fedorapeople
 {% for userid, username, human_name, md5secret in users %}\
 
 [${username}]
@@ -71,6 +71,7 @@ fullname = ${human_name}
 email = ${username}@fedoraproject.org
 md5secret = ${md5secret}
 hasvoicemail = yes
+delete = yes
 context = from-contributor
 alternateexts = ${userid}
 {% end %}\
