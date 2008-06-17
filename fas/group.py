@@ -135,7 +135,7 @@ class Group(controllers.Controller):
             turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
-       
+
         # Also return information on who is not sponsored
         unsponsored = PersonRoles.query.join('group').filter(and_(
             PersonRoles.role_status=='unapproved', Groups.name==groupname))

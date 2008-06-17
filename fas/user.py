@@ -318,7 +318,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 
           list of usernames with information about whether the user is
           approved in cla_done
-       
+
         The json information is useful so we probably want to create a new
         method for it at some point.  One which returns the list of users with
         more complete information about themselves.  Then this method can
