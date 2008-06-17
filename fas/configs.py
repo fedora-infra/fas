@@ -176,6 +176,8 @@ class Config(controllers.Controller):
             config.person = People.query.filter_by(username=username).one()
 
         try:
+            # ScopedSession really does have a flush() method
+            # pylint: disable-msg=E1101
             session.flush()
         except SQLError, e:
             flash(_('Error saving the config to the database: %s' % (e)))
