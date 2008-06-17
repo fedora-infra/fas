@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     if opts.display:
         conf = generateUsersConf(FAS_URL)
-        sys.stdout.write(conf)
+        sys.stdout.write(conf.encode('utf-8'))
     elif opts.install:
         conf = generateUsersConf(FAS_URL)
         temp = mk_tempdir()
