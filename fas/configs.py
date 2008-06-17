@@ -153,8 +153,9 @@ class Config(controllers.Controller):
         # methods even if they could be functions. (R0201)
         # pylint: disable-msg=R0201
 
-        # Verify user is allowed to view this config
-        if not canEditUser(identity.current.user_name, username):
+        # Verify user is allowed to set this config
+        target = People.by_username(username)
+        if not canEditUser(identity.current.user, target):
             flash(_('You cannot edit configs for %s') % username)
             if request_format() == 'json':
                 return dict(exc='AuthorizationError')
