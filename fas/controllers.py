@@ -33,6 +33,7 @@ import pkg_resources
 from fas import release
 from fas.user import User
 from fas.group import Group
+from fas.configs import Config
 from fas.cla import CLA
 from fas.json_request import JsonRequest
 from fas.help import Help
@@ -127,12 +128,14 @@ class Root(plugin.RootController):
     group = Group()
     cla = CLA()
     json = JsonRequest()
+    config = Config()
     help = Help()
 
     openid = OpenID()
 
-    # TODO: Find a better place for this.
-    os.environ['GNUPGHOME'] = config.get('gpghome')
+    def __init__(self):
+        # TODO: Find a better place for this.
+        os.environ['GNUPGHOME'] = config.get('gpghome')
 
     def getpluginident(self):
         return 'fas'
