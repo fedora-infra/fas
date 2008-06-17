@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-16 17:25-0400\n"
-"PO-Revision-Date: 2008-06-02 23:55+0200\n"
+"PO-Revision-Date: 2008-06-17 14:55+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -521,13 +521,12 @@ msgid "Account Status"
 msgstr "Stan konta"
 
 #: fas/help.py:37
-#, fuzzy
 msgid ""
 "<p>Shows account status, possible values include<ul><li>active</"
 "li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Wyświetla stan konta, możliwe wartości to <ul><li>Prawidłowe</"
-"li><li>Wyłączone</li><li>Wygasło</li></ul></p>"
+"<p>Wyświetla stan konta, możliwe wartości to <ul><li>aktywne</"
+"li><li>urlop</li><li>nieaktywne</li></ul></p>"
 
 #: fas/help.py:38
 msgid "CLA"
@@ -885,7 +884,7 @@ msgstr ""
 
 #: fas/openid_samadhi.py:78
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "To OpenID nie będzie aktywne, dopóki użytkownik nie podpisze CLA."
 
 #: fas/openid_samadhi.py:186 fas/openid_samadhi.py:231
 msgid ""
@@ -933,6 +932,8 @@ msgid ""
 "'%s' is an illegal username.  A valid username must only contain lowercase "
 "alphanumeric characters, and must start with a letter."
 msgstr ""
+"\"%s\" jest niedozwoloną nazwą użytkownika. Prawidłowa nazwa użytkownika "
+"może zawierać tylko znaki alfanumeryczne i musi zaczynać się od litery."
 
 #: fas/user.py:294
 #, python-format
@@ -945,9 +946,8 @@ msgid "You do not have permission to edit '%s'"
 msgstr "Nie masz uprawnień do modyfikowania \"%s\""
 
 #: fas/user.py:320
-#, fuzzy
 msgid "Only administrator can enable or disable an account."
-msgstr "Tylko administratorzy FAS mogą tworzyć grupy."
+msgstr "Tylko administratorzy włączać i wyłączać konta."
 
 #: fas/user.py:332
 msgid "Somebody is already using that email address."
@@ -1164,6 +1164,8 @@ msgid ""
 "Your account is currently disabled.  For more information, please contact %"
 "(admin_email)s"
 msgstr ""
+"Konto jest obecnie wyłączone. Aby dowiedzieć się więcej, skontaktuj się z %"
+"(admin_email)s"
 
 #: fas/user.py:646
 msgid "Fedora Project Password Reset"
@@ -1421,7 +1423,7 @@ msgstr "Dołącz do Fedory"
 
 #: fas/templates/master.html:40
 msgid "Communicate"
-msgstr "Komunikacjua"
+msgstr "Komunikacja"
 
 #: fas/templates/master.html:41
 msgid "Help/Documentation"
@@ -1548,9 +1550,8 @@ msgid "You have already successfully completed the CLA."
 msgstr "Już wypełniłeś CLA."
 
 #: fas/templates/cla/index.html:28 fas/templates/user/edit.html:19
-#, fuzzy
 msgid "Full Name"
-msgstr "Imię i nazwisko:"
+msgstr "Imię i nazwisko"
 
 #: fas/templates/cla/index.html:33 fas/templates/user/edit.html:37
 msgid "Telephone Number"
@@ -2111,7 +2112,7 @@ msgstr "Aktywne"
 
 #: fas/templates/user/view.html:41
 msgid "Vacation"
-msgstr "Wakacje"
+msgstr "Urlop"
 
 #: fas/templates/user/view.html:42
 msgid "Inactive"
@@ -2123,7 +2124,7 @@ msgstr "Odpytane"
 
 #: fas/templates/user/view.html:44
 msgid "Disabled"
-msgstr ""
+msgstr "Wyłączone"
 
 #: fas/templates/user/view.html:46
 msgid "CLA:"
@@ -2178,24 +2179,3 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
-
-#~ msgid "'%s' is an illegal username."
-#~ msgstr "\"%s\" jest niedozwoloną nazwą użytkownika."
-
-#~ msgid "New Group"
-#~ msgstr "Nowa grupa"
-
-#~ msgid "User List"
-#~ msgstr "Lista użytkowników"
-
-#~ msgid "Group List"
-#~ msgstr "Lista grup"
-
-#~ msgid "Apply For a new Group"
-#~ msgstr "Wyślij aplikację nowej grupy"
-
-#~ msgid "Human Name"
-#~ msgstr "Imię i nazwisko człowieka"
-
-#~ msgid "Real Name:"
-#~ msgstr "Imię i nazwisko:"
