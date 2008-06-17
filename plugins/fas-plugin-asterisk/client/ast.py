@@ -17,14 +17,7 @@ import sys
 
 from shutil import move, rmtree
 
-def generateUsersConf(FAS_URL):
-    fas = AccountSystem(FAS_URL)
-
-    fas.username = config.get('global', 'login').strip('"')
-    fas.password = config.get('global', 'password').strip('"')
-    if not fas.authenticate(fas.username, fas.password):
-        print "Could not authenticate"
-        sys.exit(-1)
+def generateUsersConf(fas):
 
     people = fas.people_by_id()
 
@@ -164,14 +157,23 @@ if __name__ == '__main__':
     else:
         prefix = config.get('global', 'prefix').strip('"')
 
-    if opts.display:
-        conf = generateUsersConf(FAS_URL)
-        sys.stdout.write(conf.encode('utf-8'))
-    elif opts.install:
-        conf = generateUsersConf(FAS_URL)
-        temp = mk_tempdir()
-        write_users_conf(conf, temp)
-        install_users_conf(temp)
-        rm_tempdir(temp)
+    if opts.display or opts.install:
+        fas = AccountSystem(FAS_URL)
+
+        fas.username = config.get('global', 'login').strip('"')
+        fas.password = config.get('global', 'password').strip('"')
+        if not fas.authenticate(fas.username, fas.password):
+            print "Could not authenticate"
+            sys.exit(-1)
+
+        users_conf = generateUsersConf(fas)
+
+        if opts.display:
+            sys.stdout.write(users_conf.encode('utf-8'))
+        else:
+            temp = mk_tempdir()
+            write_users_conf(users_conf, temp)
+            install_users_conf(temp)
+            rm_tempdir(temp)
     else:
         parser.print_help()
