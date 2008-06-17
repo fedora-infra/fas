@@ -151,7 +151,11 @@ if __name__ == '__main__':
         print >> sys.stderr, "Config file does not have proper formatting - %s" % e
         sys.exit(6)
 
-    FAS_URL = config.get('global', 'url').strip('"')
+    if opts.FAS_URL:
+        FAS_URL = opts.FAS_URL
+    else:
+        FAS_URL = config.get('global', 'url').strip('"')
+
     if opts.prefix:
         prefix = opts.prefix
     else:
