@@ -32,42 +32,14 @@ import fas
 from fas.model import (People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable)
 from fas.auth import *
-from fas.user import KnownUser
 
 import re
 import turbomail
 
-class KnownGroup(validators.FancyValidator):
-    '''Make sure that a group already exists'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        try:
-            g = Groups.by_name(value)
-        except InvalidRequestError:
-            raise validators.Invalid(_("The group '%s' does not exist.") % value, value, state)
+from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, KnownUser
 
-class UnknownGroup(validators.FancyValidator):
-    '''Make sure that a group doesn't already exist'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        try:
-            g = Groups.by_name(value)
-        except InvalidRequestError:
-            pass
-        else:
-            raise validators.Invalid(_("The group '%s' already exists.") % value, value, state)
-
-class ValidGroupType(validators.FancyValidator):
-    '''Make sure that a group type is valid'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        if value not in ('system', 'bugzilla','cvs', 'bzr', 'git', \
-            'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
-            'tracking', 'user'):
-            raise validators.Invalid(_("Invalid group type.") % value, value, state)
+class GroupView(validators.Schema):
+    groupname = KnownGroup
 
 class GroupCreate(validators.Schema):
 
@@ -83,6 +55,9 @@ class GroupCreate(validators.Schema):
         )
     prerequisite = KnownGroup
     group_type = ValidGroupType
+
+class GroupEdit(validators.Schema):
+    groupname = KnownGroup
 
 class GroupSave(validators.Schema):
     groupname = validators.All(KnownGroup, validators.String(max=32, min=2))
@@ -110,12 +85,6 @@ class GroupUpgrade(validators.Schema):
 class GroupDowngrade(validators.Schema):
     groupname = KnownGroup
     targetname = KnownUser
-
-class GroupView(validators.Schema):
-    groupname = KnownGroup
-
-class GroupEdit(validators.Schema):
-    groupname = KnownGroup
 
 class GroupInvite(validators.Schema):
     groupname = KnownGroup

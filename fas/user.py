@@ -20,13 +20,12 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 #
 import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler, config
+from turbogears import controllers, expose, identity, \
+        validate, validators, error_handler, config
 from turbogears.database import session
 import cherrypy
 
 import turbomail
-
-import sqlalchemy
 
 import os
 import re
@@ -45,78 +44,17 @@ from fas import openssl_fas
 from fas.auth import *
 from fas.util import available_languages
 
-from random import Random
-import sha
-from base64 import b64encode
-
 import pytz
 from datetime import datetime
 
-class KnownUser(validators.FancyValidator):
-    '''Make sure that a user already exists'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        try:
-            p = People.by_username(value)
-        except InvalidRequestError:
-            raise validators.Invalid(_("'%s' does not exist.") % value, value, state)
+from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
+        ValidLanguage, UnknownUser, ValidUsername
 
-class UnknownUser(validators.FancyValidator):
-    '''Make sure that a user doesn't already exist'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        try:
-            p = People.by_username(value)
-        except InvalidRequestError:
-            return
-        except:
-            raise validators.Invalid(_("Error: Could not create - '%s'") % value, value, state)
+class UserView(validators.Schema):
+    username = KnownUser
 
-        raise validators.Invalid(_("'%s' already exists.") % value, value, state)
-
-class NonFedoraEmail(validators.FancyValidator):
-    '''Make sure that an email address is not @fedoraproject.org'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        if value.endswith('@fedoraproject.org'):
-            raise validators.Invalid(_("To prevent email loops, your email address cannot be @fedoraproject.org."), value, state)
-
-class ValidSSHKey(validators.FancyValidator):
-    ''' Make sure the ssh key uploaded is valid '''
-    def _to_python(self, value, state):
-        
-        return value.file.read()
-    def validate_python(self, value, state):
-#        value = value.file.read()
-        keylines = value.split('\n')
-        for keyline in keylines:
-            if not keyline:
-                continue
-            keyline = keyline.strip()
-            m = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
-            if not m:
-                raise validators.Invalid(_('Error - Not a valid RSA SSH key: %s') % keyline, value, state)
-
-class ValidUsername(validators.FancyValidator):
-    '''Make sure that a username isn't blacklisted'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        username_blacklist = config.get('username_blacklist')
-        if re.compile(username_blacklist).match(value):
-          raise validators.Invalid(_("'%s' is an illegal username.  A valid username must only contain lowercase alphanumeric characters, and must start with a letter.") % value, value, state)
-
-class ValidLanguage(validators.FancyValidator):
-    '''Make sure that a username isn't blacklisted'''
-    def _to_python(self, value, state):
-        return value.strip()
-    def validate_python(self, value, state):
-        if value not in available_languages():
-          raise validators.Invalid(_('The language \'%s\' is not available.') % value, value, state)
-
+class UserEdit(validators.Schema):
+    targetname = KnownUser
 
 class UserSave(validators.Schema):
     targetname = KnownUser
@@ -161,23 +99,18 @@ class UserSetPassword(validators.Schema):
     passwordcheck = validators.String
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
+class VerifyPass(validators.Schema):
+    username = KnownUser
+
 class UserResetPassword(validators.Schema):
     # TODO (after we're done with most testing): Add complexity requirements?
     password = validators.String(min=8)
     passwordcheck = validators.String
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
-class UserView(validators.Schema):
-    username = KnownUser
-
-class UserEdit(validators.Schema):
-    targetname = KnownUser
-
-class SendToken(validators.Schema):
-    username = KnownUser
-
-class VerifyPass(validators.Schema):
-    username = KnownUser
+### FIXME: If not going to be used, delete
+#class SendToken(validators.Schema):
+#    username = KnownUser
 
 def generate_password(password=None, length=16):
     ''' Generate Password '''
@@ -762,7 +695,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
       if CLADone(person):
           person.certificate_serial = person.certificate_serial + 1
 
-          pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024);
+          pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
 
           digest = config.get('openssl_digest')
           expire = config.get('openssl_expire')
