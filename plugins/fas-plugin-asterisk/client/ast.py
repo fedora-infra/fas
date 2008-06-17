@@ -129,6 +129,11 @@ if __name__ == '__main__':
                       default = None,
                       metavar = 'prefix',
                       help = _('Specify install prefix.  Useful for testing'))
+    parser.add_option('-r', '--reload',
+                      dest = 'reload',
+                      default = False
+                      action = 'store_true',
+                      help = _('Reload Asterisk after installing configuration files.'))
     parser.add_option('--debug',
                       dest = 'debug',
                       default = False,
