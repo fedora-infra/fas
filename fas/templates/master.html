@@ -6,7 +6,7 @@
   <?python
   from turbogears import config
   import fas.sidebar as sidebar
-  _ = lambda text: tg.gettext(text)
+  _ = tg.gettext
   ?>
   <head py:match="head" py:attrs="select('@*')">
     <link href="${tg.url('/static/theme/%s/css/style.css') % config.get('theme')}" rel="stylesheet" type="text/css" />
