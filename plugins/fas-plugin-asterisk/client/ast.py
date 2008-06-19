@@ -65,6 +65,7 @@ fullname = ${human_name}
 email = ${username}@fedoraproject.org
 md5secret = ${md5secret}
 hasvoicemail = yes
+hasdirectory = yes
 delete = yes
 context = from-contributor
 alternateexts = ${userid}
