@@ -10,6 +10,7 @@ import logging
 from rhpl.translate import _
 from genshi.template import NewTextTemplate
 import md5
+import sha
 import tempfile
 import codecs
 
@@ -72,26 +73,24 @@ alternateexts = ${userid}
 {% end %}\
 """)
 
-    # Returns a unicode object if encoding is None
-    return template.generate(users=users).render(encoding=None)
+    return template.generate(users=users).render(encoding='utf-8')
 
-def mk_tempdir():
-    temp = tempfile.mkdtemp('-tmp', 'fas-', os.path.join(prefix + config.get('global', 'temp').strip('"')))
-    return temp
-
-def rm_tempdir(temp):
-    rmtree(temp)
-
-def write_users_conf(contents, temp):
-    users_conf_file = codecs.open(temp + '/users.conf', mode='w', encoding='utf-8')
-    users_conf_file.write(contents)
-
-def install_users_conf(temp):
+def install_file(content, filename):
+    new_hash = sha.new(content).digest()
     try:
-        move(temp + '/users.conf', os.path.join(prefix + '/etc/asterisk/users.conf'))
-    except IOError, e:
-        print "ERROR: Could not write users.conf - %s" % e
-
+        old_hash = sha.new(file(filename, 'r').read()).digest()
+        if old_hash == new_hash:
+            return False
+    except IOError:
+        # if we can't open/read the file it may not exist so try writing a new one
+        pass
+    tempname = filename + '.' + file('/dev/random').read(4).encode('hex')
+    try:
+        file(tempname, 'w').write(content)
+        os.rename(tempname, filename)
+    except:
+        os.unlink(tempname)
+    return True
 
 if __name__ == '__main__':
     log = logging.getLogger('fas')
@@ -174,11 +173,9 @@ if __name__ == '__main__':
         users_conf = generateUsersConf(fas)
 
         if opts.display:
-            sys.stdout.write(users_conf.encode('utf-8'))
+            sys.stdout.write(users_conf)
         else:
-            temp = mk_tempdir()
-            write_users_conf(users_conf, temp)
-            install_users_conf(temp)
-            rm_tempdir(temp)
+            users_conf_changed = install_file(users_conf, os.path.join(prefix, '/etc/asterisk/users.conf'))
+
     else:
         parser.print_help()
