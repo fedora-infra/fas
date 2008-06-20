@@ -13,6 +13,7 @@ import md5
 import sha
 import tempfile
 import codecs
+from asterisk.manager import Manager
 
 import sys
 
@@ -176,6 +177,14 @@ if __name__ == '__main__':
             sys.stdout.write(users_conf)
         else:
             users_conf_changed = install_file(users_conf, os.path.join(prefix, '/etc/asterisk/users.conf'))
+
+            if users_conf_changed and opts.reload and prefix == '/':
+                manager = Manager()
+                manager.connect('127.0.0.1')
+                manager.login('fas','fas')
+                manager.command('sip reload')
+                manager.command('dialplan reload')
+                manager.command('module reload app_voicemail_plain.so')
 
     else:
         parser.print_help()
