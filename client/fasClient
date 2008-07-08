@@ -585,12 +585,12 @@ if __name__ == '__main__':
     if opts.disable:
         disable()
     if opts.info_username:
-        fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
         fas.user_info(opts.info_username)
         sys.exit(1)
     if opts.install:
         try:
-            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
+            fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)
