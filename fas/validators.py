@@ -43,6 +43,7 @@ from fas.model import People, Groups
 
 ### HACK: TurboGears/FormEncode requires that we use a dummy _ function for
 # error messages.
+# http://docs.turbogears.org/1.0/Internationalization#id13
 def _(s):
     return s
 
