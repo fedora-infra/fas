@@ -126,7 +126,7 @@ class Group(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=GroupMembers())
+    @validate(validators=GroupView())
     @error_handler(error)
     @expose(template="fas.templates.group.view", allow_json=True)
     def view(self, groupname):
@@ -147,7 +147,7 @@ class Group(controllers.Controller):
         return dict(group=group, sponsor_queue=unsponsored)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=GroupView())
+    @validate(validators=GroupMembers())
     @error_handler(error)
     @expose(template="fas.templates.group.members", allow_json=True)
     def members(self, groupname, search=u'a*', order_by='username'):
