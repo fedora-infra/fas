@@ -34,21 +34,27 @@
 #   pretty much covers it (C0111)
 
 import re
-# This assigns a value to "_"
-# pylint: disable-msg=W0611
-import turbogears
-# pylint: enable-msg=W0611
+
 from turbogears import validators, config
 from sqlalchemy.exceptions import InvalidRequestError
 from fas.util import available_languages
 
 from fas.model import People, Groups
 
+### HACK: TurboGears/FormEncode requires that we use a dummy _ function for
+# error messages.
+# http://docs.turbogears.org/1.0/Internationalization#id13
+def _(s):
+    return s
+
 class KnownGroup(validators.FancyValidator):
     '''Make sure that a group already exists'''
+    messages = {'no_group': _("The group '%(group)s' does not exist.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         try:
@@ -56,14 +62,17 @@ class KnownGroup(validators.FancyValidator):
             # pylint: disable-msg=W0612
             group = Groups.by_name(value)
         except InvalidRequestError:
-            raise validators.Invalid(_("The group '%s' does not exist.")
-                    % value, value, state)
+            raise validators.Invalid(self.message('no_group', group=value),
+                    value, state)
 
 class UnknownGroup(validators.FancyValidator):
     '''Make sure that a group doesn't already exist'''
+    messages = {'exists': _("The group '%(group)s' already exists.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         try:
@@ -73,20 +82,23 @@ class UnknownGroup(validators.FancyValidator):
         except InvalidRequestError:
             pass
         else:
-            raise validators.Invalid(_("The group '%s' already exists.")
-                    % value, value, state)
+            raise validators.Invalid(self.message('exists', group=value),
+                    value, state)
 
 class ValidGroupType(validators.FancyValidator):
     '''Make sure that a group type is valid'''
+    messages = {'invalid_type': _('Invalid group type: %(type)s.')}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value not in ('system', 'bugzilla', 'cvs', 'bzr', 'git', \
             'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
             'tracking', 'user'):
-            raise validators.Invalid(_("Invalid group type.") % value,
+            raise validators.Invalid(self.message('invalid_type', type=value),
                     value, state)
 
 class ValidRoleSort(validators.FancyValidator):
@@ -103,9 +115,12 @@ class ValidRoleSort(validators.FancyValidator):
 
 class KnownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
+    messages = {'no_user': _("'%(user)s' does not exist.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         try:
@@ -113,12 +128,14 @@ class KnownUser(validators.FancyValidator):
             # pylint: disable-msg=W0612
             people = People.by_username(value)
         except InvalidRequestError:
-            # pylint: disable-msg=E0602
-            raise validators.Invalid(_("'%s' does not exist.") % value,
+            raise validators.Invalid(self.message('no_user', user=value),
                     value, state)
 
 class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
+    messages = {'create_error': _("Error: Could not create - '%(user)s'"),
+            'exists': _("'%(user)s' already exists.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
@@ -132,29 +149,34 @@ class UnknownUser(validators.FancyValidator):
         except InvalidRequestError:
             return
         except:
-            # pylint: disable-msg=E0602
-            raise validators.Invalid(_("Error: Could not create - '%s'") %
-                    value, value, state)
+            raise validators.Invalid(self.message('create_error', user=value),
+                    value, state)
 
-        raise validators.Invalid(_("'%s' already exists.") % value,
+        raise validators.Invalid(self.message('exists', user=value),
                 value, state)
 
 class NonFedoraEmail(validators.FancyValidator):
     '''Make sure that an email address is not @fedoraproject.org'''
+    message = {'no_loop': _('To prevent email loops, your email address'
+        ' cannot be @fedoraproject.org.')}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value.endswith('@fedoraproject.org'):
-            raise validators.Invalid(_("To prevent email loops, your email"
-                    " address cannot be @fedoraproject.org."), value, state)
+            raise validators.Invalid(self.message('no_loop'), value, state)
 
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
+    messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.file.read()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
 #        value = value.file.read()
@@ -165,30 +187,36 @@ class ValidSSHKey(validators.FancyValidator):
             keyline = keyline.strip()
             validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
             if not validline:
-                raise validators.Invalid(_('Error - Not a valid RSA SSH key:'
-                        ' %s') % keyline, value, state)
+                raise validators.Invalid(self.message('invalid_key',
+                        key=keyline), value, state)
 
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
+    message = {'blacklist': _("'%(username)s' is an illegal username.  A valid"
+        " username must only contain lowercase alphanumeric characters, and"
+        " must start with a letter.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         username_blacklist = config.get('username_blacklist')
         if re.compile(username_blacklist).match(value):
-            raise validators.Invalid(_("'%s' is an illegal username.  A valid"
-                " username must only contain lowercase alphanumeric"
-                " characters, and must start with a letter.") % value,
-                value, state)
+            raise validators.Invalid(self.message('blacklist', username=value),
+                    value, state)
 
 class ValidLanguage(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
+    messages = {'not_available': _("The language '%(lang)s' is not available.")}
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.strip()
+
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value not in available_languages():
-            raise validators.Invalid(_('The language \'%s\' is not available.')
-                  % value, value, state)
+            raise validators.Invalid(self.message('not_available', lang=value),
+                    value, state)
