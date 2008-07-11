@@ -36,10 +36,14 @@ from fas.auth import *
 import re
 import turbomail
 
-from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, KnownUser
+from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, ValidRoleSort, KnownUser
 
 class GroupView(validators.Schema):
     groupname = KnownGroup
+
+class GroupMembers(validators.Schema):
+    groupname = KnownGroup
+    order_by = ValidRoleSort
 
 class GroupCreate(validators.Schema):
 
@@ -122,7 +126,7 @@ class Group(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @validate(validators=GroupView())
+    @validate(validators=GroupMembers())
     @error_handler(error)
     @expose(template="fas.templates.group.view", allow_json=True)
     def view(self, groupname):
@@ -146,8 +150,15 @@ class Group(controllers.Controller):
     @validate(validators=GroupView())
     @error_handler(error)
     @expose(template="fas.templates.group.members", allow_json=True)
-    def members(self, groupname, search=u'a*'):
+    def members(self, groupname, search=u'a*', order_by='username'):
         '''View group'''
+        sort_map = { 'username': 'username',
+            'sponsor': None,
+            'creation': PersonRoles.c.creation,
+            'approval': PersonRoles.c.approval,
+            'role_status': PersonRoles.c.role_status,
+            'role_type': PersonRoles.c.role_type,
+            }
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
 
@@ -163,10 +174,11 @@ class Group(controllers.Controller):
             return dict()
 
         # return all members of this group that fit the search criteria
-        members = PersonRoles.query.join('group').join('member').filter(and_(
-            Groups.name==groupname,
-            People.username.like(re_search)
-            ))
+        #members = PersonRoles.query.join('group').join('member').filter(and_(
+            #Groups.name==groupname,
+            #People.username.like(re_search)
+            #)).order_by(order_by)
+        members = PersonRoles.query.filter_by(group=group).filter(PersonRoles.member.has(People.username.like(re_search))).order_by(sort_map[order_by]).all()
         group.jsonProps = {'PersonRoles': ['member']}
         return dict(group=group, members=members, search=search)
 

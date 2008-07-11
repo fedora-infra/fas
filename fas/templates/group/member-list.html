@@ -11,16 +11,16 @@
     ?>
     <thead>
       <tr>
-        <th>${_('Username')}</th>
-        <th>${_('Sponsor')}</th>
-        <th>${_('Date Added')}</th>
-        <th>${_('Date Approved')}</th>
-        <th>${_('Approval')}</th>
-        <th>${_('Role Type')}</th>
+        <th><a href="?order_by=username">${_('Username')}</a></th>
+        <th><a href="?order_by=sponsor">${_('Sponsor')}</a></th>
+        <th><a href="?order_by=creation">${_('Date Added')}</a></th>
+        <th><a href="?order_by=approval">${_('Date Approved')}</a></th>
+        <th><a href="?order_by=role_status">${_('Approval')}</a></th>
+        <th><a href="?order_by=role_type">${_('Role Type')}</a></th>
         <th py:if="can_sponsor">${_('Action')}</th>
       </tr>
     </thead>
-    <tr py:for="role in sorted(members, lambda x,y: cmp(x.member.username, y.member.username))">
+    <tr py:for="role in members">
       <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
       <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
       <td py:if='not role.sponsor'>${_('None')}</td>

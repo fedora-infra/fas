@@ -89,6 +89,18 @@ class ValidGroupType(validators.FancyValidator):
             raise validators.Invalid(_("Invalid group type.") % value,
                     value, state)
 
+class ValidRoleSort(validators.FancyValidator):
+    '''Make sure that a role sort key is valid'''
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip()
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        if value not in ('username', 'role_type', 'role_status', \
+            'creation', 'approval'):
+            raise validators.Invalid(_("Invalid sort key.") % value,
+                    value, state)
+
 class KnownUser(validators.FancyValidator):
     '''Make sure that a user already exists'''
     def _to_python(self, value, state):

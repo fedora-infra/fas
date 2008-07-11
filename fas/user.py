@@ -319,6 +319,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
           list of usernames with information about whether the user is
           approved in cla_done
 
+        supybot-fedora uses the email attribute
+
         The json information is useful so we probably want to create a new
         method for it at some point.  One which returns the list of users with
         more complete information about themselves.  Then this method can
@@ -339,7 +341,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 PersonRolesTable, PersonRoles.person_id==People.id).join(
                         GroupsTable, PersonRoles.group_id==Groups.id)
 
-        columns = [People.username, People.id, People.human_name, People.ssh_key]
+        columns = [People.username, People.id, People.human_name, People.ssh_key, People.email]
         if identity.in_group('fas-system'):
             columns.append(People.password)
         approved = select(columns, from_obj=PeopleGroupsTable
