@@ -133,6 +133,7 @@ class Root(plugin.RootController):
     def __init__(self):
         # TODO: Find a better place for this.
         os.environ['GNUPGHOME'] = config.get('gpghome')
+        plugin.RootController.__init__(self)
 
     def getpluginident(self):
         return 'fas'
