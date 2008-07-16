@@ -692,6 +692,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @error_handler(error)
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
     def gencert(self):
+      from cherrypy import response
+      response.headers["content-disposition"] = "attachment"
       username = turbogears.identity.current.user_name
       person = People.by_username(username) 
       if CLADone(person):
