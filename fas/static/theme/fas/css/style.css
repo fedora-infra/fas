@@ -233,7 +233,7 @@ a
 
 .userbox dt
 {
-  width: 20ex;
+  width: 32ex;
   float: left;
   text-align: right;
   font-weight: bold;
@@ -241,7 +241,7 @@ a
 
 .userbox dd
 {
-  margin-left: 24ex;
+  margin-left: 36ex;
 }
 
 .account
@@ -453,7 +453,7 @@ form .field label
 {
   float: left;
   clear: left;
-  width: 16ex;
+  width: 32ex;
   text-align: right;
   padding: 0 2ex 0 0;
 }
