@@ -39,6 +39,8 @@
         <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
 
+	<dt>${_('Approved Members:')}</dt><dd>${len(group.approved_roles)}&nbsp;</dd>
+
         <py:if test="group.url">
         <dt>${_('URL:')}</dt><dd><a href="${group.url}">${group.url}</a>&nbsp;</dd>
         </py:if>
