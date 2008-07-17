@@ -5,6 +5,7 @@ Fedora Account System
 :Authors: Ricky Zhou
 	  Mike McGrath
 	  Toshio Kuratomi
+	  Yaakov Nemoy
 :Contact: fedora-infrastructure-list@redhat.com
 :Date: Wed, 26 March, 2008
 :For FAS version: 0.8.x
@@ -22,6 +23,23 @@ script.
 ---------
 Upgrading
 ---------
+
+0.8.5 => future
+===============
+
+From 0.8.5 and onward we will be using SQLAlchemy Migrate to handle database
+upgrades.  To use it, it assumes you have already installed fas2.sql into your
+posgresql database. The instructions for installing SQLAlchemy-Migrate on top
+can be found below in the installation instructions.  
+
+At the moment, sqlalchemy-migrate is not yet packaged for Fedora.  Preliminary source
+packages can be found here:
+
+http://toshio.fedorapeople.org/packages/python-migrate-0.4.4-3.fc9.src.rpm
+
+Preliminary binary packages can be found here:
+
+http://ynemoy.fedorapeople.org/repo/python-migrate-0.4.4-3.fc9.noarch.rpm
 
 0.8.4 => 0.8.5
 ==============
@@ -118,6 +136,20 @@ the data and import the schema::
   sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
   sudo -u postgres psql < fas2.sql
+  
+Import changes to make your database current with the latest development version.
+  sqlalchemy-migrate version_control postgres://fedora:password@localhost/fas2 #one time
+  sqlalchemy-migrate manage manage.py --repository=database --url=postgres://fedora:password@localhost/fas2 #one time
+  python manage.py upgrade #everytime you pull changes that include DB updates
+
+Don't forget, do *not* comit your manage.py scriptlet. 'manage.py' is included in
+.gitignore, but if you use another name, .gitignore can't ignore it.  It is
+specific to your development environment.
+
+You can find out more about how to use SQLAlchemy-Migrate here:
+
+http://code.google.com/p/sqlalchemy-migrate/
+
 
 The last thing to do is configure the application to use your settings.
 You'll need to edit fas.cfg and change the following lines::

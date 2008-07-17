@@ -14,4 +14,4 @@ build
 gnupg
 locale
 ssl
-
+manage.py
