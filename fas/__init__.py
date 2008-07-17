@@ -22,6 +22,9 @@
 from fas import release
 __version__ = release.VERSION
 
+SHARE_CC_GROUP = 'share_country_code'
+SHARE_LOC_GROUP = 'share_location'
+
 class FASError(Exception):
     '''FAS Error'''
     pass

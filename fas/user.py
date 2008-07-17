@@ -49,6 +49,8 @@ from datetime import datetime
 
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
+        
+import fas
 
 class UserView(validators.Schema):
     username = KnownUser
@@ -223,17 +225,23 @@ class User(controllers.Controller):
             target = People.by_username(targetname)
         else:
             target = person
+            
         if not canEditUser(person, target):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
+        
         return dict(target=target, languages=languages, admin=admin)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserSave())
     @error_handler(error)
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, email, status, ssh_key=None, ircnick=None, gpg_keyid=None, comments='', locale='en', timezone='UTC', country_code=''):
+    def save(self, targetname, human_name, telephone, postal_address, 
+             email, status, ssh_key=None, ircnick=None, gpg_keyid=None, 
+             comments='', locale='en', timezone='UTC', country_code='',
+             latitude=None, longitude=None, share_location=False,
+             share_country_code=True):
         languages = available_languages()
 
         username = turbogears.identity.current.user_name
@@ -290,8 +298,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             target.locale = locale
             target.timezone = timezone
             target.country_code = country_code
-        except TypeError:
+            target.latitude = latitude and float(latitude) or None
+            target.longitude = longitude and float(longitude) or None
+            target.set_share_cc(share_country_code)
+            target.set_share_loc(share_location)
+        except TypeError, e:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
+            turbogears.redirect("/user/edit/%s" % target.username)
             return dict(target=target, languages=languages)
         else:
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)

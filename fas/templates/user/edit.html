@@ -32,7 +32,8 @@
 <!--      <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email')}:</label>
         <input type="text" id="fedoraPersonBugzillaMail" name="fedoraPersonBugzillaMail" value="${target.username}" />
-      </div> -->
+      </div>
+-->
       <div class="field">
         <label for="telephone">${_('Telephone Number')}:</label>
         <input type="text" id="telephone" name="telephone" value="${target.telephone}" />
@@ -52,6 +53,29 @@
               value="${code}" py:if="code not in bad_codes">${country}(${code})</option>
         </select>
         <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country_code')}'});</script>
+      </div>
+      <div class="field">
+	<label for="share_country_code">${_('Share Country Code')}:</label>
+	<input type="checkbox" id="share_country_code" name="share_country_code"
+	       py:attrs="dict(checked=(target.get_share_cc() and True or None))" />
+	<!-- Unfortunately, checked can't be used as a boolean, only as a flag.  Silly HTML4 standard -->
+        <script type="text/javascript">var hb_share_cc = new HelpBalloon({dataURL: '${tg.url('/help/get_help/share_country_code')}'});</script>
+      </div>
+      <div class="field">
+	<label for="latitude">${_('Latitude')}:</label>
+	<input type="text" id="latitude" name="latitude" value="${target.latitude}" />
+        <script type="text/javascript">var hb_latitude = new HelpBalloon({dataURL: '${tg.url('/help/get_help/latitude_and_longitude')}'});</script>
+      </div>
+      <div class="field">
+	<label for="longitude">${_('Longitude')}:</label>
+	<input type="text" id="longitude" name="longitude" value="${target.longitude}" />
+        <script type="text/javascript">var hb_longitude = new HelpBalloon({dataURL: '${tg.url('/help/get_help/latitude_and_longitude')}'});</script>
+      </div>
+      <div class="field">
+	<label for="share_location">${_('Share Location')}:</label>
+	<input type="checkbox" id="share_location" name="share_location"
+	        py:attrs="dict(checked=(target.get_share_loc()  and True or None))" />
+        <script type="text/javascript">var hb_share_loc = new HelpBalloon({dataURL: '${tg.url('/help/get_help/share_location')}'});</script>
       </div>
       <div class="field">
         <label for="ircnick">${_('IRC Nick')}:</label>

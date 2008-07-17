@@ -50,6 +50,7 @@ import turbogears
 
 from fedora.tg.json import SABase
 import fas
+from fas import SHARE_CC_GROUP, SHARE_LOC_GROUP
 
 # Bind us to the database defined in the config file.
 get_engine()
@@ -221,7 +222,47 @@ class People(SABase):
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             session.delete(role)
-
+            
+    def set_share_cc(self, value):
+        share_cc_group = Groups.by_name(SHARE_CC_GROUP)
+        if value:
+            try:
+                self.apply(share_cc_group, self)
+                self.sponsor(share_cc_group, self)
+            except fas.ApplyError:
+                pass
+            except fas.SponsorError:
+                pass
+        else:
+            try:
+                self.remove(share_cc_group, self)
+            except fas.SponsorError:
+                pass
+    
+    def get_share_cc(self):
+        return Groups.by_name(SHARE_CC_GROUP) in self.memberships
+    
+    def set_share_loc(self, value):
+        share_loc_group = Groups.by_name(SHARE_LOC_GROUP)
+        if value:
+            try:
+                self.apply(share_loc_group, self)
+                self.sponsor(share_loc_group, self)
+            except fas.ApplyError:
+                pass
+            except fas.SponsorError:
+                pass
+        else:
+            try:
+                self.remove(share_loc_group, self)
+            except fas.SponsorError:
+                pass
+    
+    def get_share_loc(self):
+        return Groups.by_name(SHARE_LOC_GROUP) in self.memberships
+    
+    
+    
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
 

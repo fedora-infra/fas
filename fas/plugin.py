@@ -72,6 +72,7 @@ class PluginControllerMixin(object):
 class RootController(controllers.RootController, PluginControllerMixin):
     def __init__(self, *args, **kwargs):
         super(controllers.RootController, self).__init__(*args, **kwargs)
+        PluginControllerMixin.__init__(self, *args, **kwargs)
         self.plugins = []
         self.loadplugins()
     
