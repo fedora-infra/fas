@@ -50,6 +50,11 @@
         <script type="text/javascript">var group_join_message = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_join_message')}'});</script>
       </div>
       <div class="field">
+        <label for="apply_rules">${_('Rules for Application:')}</label>
+        <textarea id="apply_rules" name="apply_rules"></textarea>
+        <script type="text/javascript">var apply_rules_message = new HelpBalloon({dataURL: '${tg.url('/help/get_help/apply_rules_message')}'});</script>
+      </div>
+      <div class="field">
         <input type="submit" value="${_('Create!')}" />
       </div>
     </form>

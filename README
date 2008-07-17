@@ -135,9 +135,10 @@ plpython language available on new databases, create a postgres user to manage
 the data and import the schema::
   sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
-  sudo -u postgres psql < fas2.sql
+  sudo -u fedora psql < fas2.sql
   
 Import changes to make your database current with the latest development version.
+NOTE: In other distros, the command might just be 'migrate'
   sqlalchemy-migrate version_control postgres://fedora:password@localhost/fas2 #one time
   sqlalchemy-migrate manage manage.py --repository=database --url=postgres://fedora:password@localhost/fas2 #one time
   python manage.py upgrade #everytime you pull changes that include DB updates

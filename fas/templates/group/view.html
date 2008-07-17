@@ -23,7 +23,7 @@
       <span py:if="group in person.memberships and not group in person.approved_memberships" class="unapproved">${_('Unapproved')}</span>
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
-    <form py:if="not group in person.memberships" action="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}">
+    <form py:if="not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}">
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
         <input type="submit" value="${('Apply!')}" />
@@ -38,6 +38,8 @@
         <dt>${_('Description:')}</dt><dd>${group.display_name}&nbsp;</dd>
         <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
+
+	<dt>${_('Rules for Application:')}</dt><dd>${group.apply_rules}&nbsp;</dd>
 
 	<dt>${_('Approved Members:')}</dt><dd>${len(group.approved_roles)}&nbsp;</dd>
 
