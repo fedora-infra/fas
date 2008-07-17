@@ -260,6 +260,10 @@ class User(controllers.Controller):
                     not isAdmin(person):
                     turbogears.flash(_('Only administrator can enable or disable an account.'))
                     return dict()
+                Log(author_id=person.id, description='%(person)s\'s status changed from %(old)s to %(new)s' % \
+                    {'person': target.username,
+                     'old': target.status,
+                     'new': status})
                 target.status = status
                 target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
