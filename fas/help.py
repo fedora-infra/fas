@@ -20,8 +20,7 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 #
 import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
-from turbogears.database import session
+from turbogears import controllers, expose
 
 class Help(controllers.Controller):
     help = { 'none' :               [_('Error'), _('<p>We could not find that help item</p>')],
@@ -68,8 +67,12 @@ class Help(controllers.Controller):
 
     @expose(template="fas.templates.help")
     def get_help(self, id='none'):
+        ### FIXME: we should rename id => helpid as id is a builtin
+        helpid = id
+        del id
+
         try:
-            helpItem = self.help[id]
+            helpItem = self.help[helpid]
         except KeyError:
             return dict(title=_('Error'), helpItem=[_('Error'), _('<p>We could not find that help item</p>')])
         return dict(help=helpItem)

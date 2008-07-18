@@ -43,7 +43,9 @@ log = logging.getLogger('turbogears.identity.safasprovider')
 try:
     set, frozenset
 except NameError:
-    from sets import Set as set, ImmutableSet as frozenset
+    # We need a set type on earlier pythons. (W0622)
+    from sets import Set as set # pylint: disable-msg=W0622
+    from sets import ImmutableSet as frozenset # pylint: disable-msg=W0622
 
 # Global class references --
 # these will be set when the provider is initialised.
@@ -139,7 +141,7 @@ class SaFasIdentity(object):
             visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
             session.delete(visit)
             # Clear the current identity
-            anon = SqlAlchemyIdentity(None,None)
+            anon = SaFasIdentity(None,None)
             identity.set_current_identity(anon)
         except:
             pass
@@ -232,7 +234,9 @@ class SaFasIdentityProvider(object):
         Returns: True if the password matches the username.  Otherwise False.
           Can return False for problems within the Account System as well.
         '''
-        
+        # TG identity providers take user_name in case an external provider
+        # needs it so we can't get rid of it. (W0613)
+        # pylint: disable-msg=W0613
         return user.password == crypt.crypt(password, user.password)
 
     def load_identity(self, visit_key):

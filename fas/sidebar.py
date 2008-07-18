@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears import identity
 
 # A list of functions to call to get the various entries that
 #   should be shown in the sidebar

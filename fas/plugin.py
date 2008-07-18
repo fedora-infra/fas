@@ -22,7 +22,6 @@
 import turbogears.controllers as controllers
 import turbogears.startup as startup
 import pkg_resources
-import logging
 
 class BadPathException(Exception):
     pass
@@ -54,7 +53,7 @@ class PluginControllerMixin(object):
     def getpluginident(controller):
         '''The string returned by this method is prepended to ".plugins"
         in order to search for plugins'''
-        raise NotImplementedException('Whoops! Forgot to override getpluginident!')
+        raise NotImplementedError('Whoops! Forgot to override getpluginident!')
 
     def loadplugins(controller):
         for pluginEntry in pkg_resources.iter_entry_points('%s.plugins' %

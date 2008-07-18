@@ -18,7 +18,10 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
-#
+
+# @error_handler() takes a reference to the error() method defined in the
+# class (E0602)
+
 import turbogears
 from turbogears import controllers, expose, identity, \
         validate, validators, error_handler, config
@@ -36,21 +39,19 @@ import random
 import subprocess
 from OpenSSL import crypto
 
-from sqlalchemy.sql import select, and_, not_
-from fas.model import People, PeopleTable, PersonRolesTable, GroupsTable
-from fas.model import Log
-
-from fas import openssl_fas
-from fas.auth import *
-from fas.util import available_languages
-
 import pytz
 from datetime import datetime
 
+from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
+from sqlalchemy.sql import select, and_, not_
+
+from fas.model import PeopleTable, PersonRolesTable, GroupsTable
+from fas.model import People, PersonRoles, Groups, Log
+from fas import openssl_fas
+from fas.auth import isAdmin, CLADone, canEditUser
+from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
-        
-import fas
 
 class UserView(validators.Schema):
     username = KnownUser
@@ -122,7 +123,8 @@ def generate_password(password=None, length=16):
         # Exclude 1,l and 0,O
         chars = '23456789abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'
         password = ''
-        for i in xrange(length):
+        # char_num is just a counter for the loop (W0612)
+        for char_num in xrange(length): # pylint: disable-msg=W0612
             password += random.choice(chars)
 
     secret['hash'] = crypt.crypt(password, "$1$%s" % generate_salt(8))
@@ -133,14 +135,16 @@ def generate_password(password=None, length=16):
 def generate_salt(length=8):
     chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     salt = ''
-    for i in xrange(length):
+    # char_num is just a counter for the loop (W0612)
+    for char_num in xrange(length): # pylint: disable-msg=W0612
         salt += random.choice(chars)
     return salt
 
 def generate_token(length=32):
     chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     token = ''
-    for i in xrange(length):
+    # char_num is just a counter for the loop (W0612)
+    for char_num in xrange(length): # pylint: disable-msg=W0612
         token += random.choice(chars)
     return token
 
@@ -150,11 +154,11 @@ class User(controllers.Controller):
         '''Create a User Controller.
         '''
 
-    @identity.require(turbogears.identity.not_anonymous())
+    @identity.require(identity.not_anonymous())
     def index(self):
         '''Redirect to view
         '''
-        turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+        turbogears.redirect('/user/view/%s' % identity.current.user_name)
 
     def jsonRequest(self):
         return 'tg_format' in cherrypy.request.params and \
@@ -168,24 +172,24 @@ class User(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
-    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserView())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.view", allow_json=True)
     def view(self, username=None):
         '''View a User.
         '''
         if not username:
-            username = turbogears.identity.current.user_name
+            username = identity.current.user_name
         person = People.by_username(username)
-        if turbogears.identity.current.user_name == username:
+        if identity.current.user_name == username:
             personal = True
         else:
             personal = False
         # TODO: We can do this without a db lookup by using something like
         # if groupname in identity.groups: pass
         # We may want to do that in isAdmin() though. -Toshio
-        user = People.by_username(turbogears.identity.current.user_name)
+        user = People.by_username(identity.current.user_name)
         if isAdmin(user):
             admin = True
             # TODO: Should admins be able to see personal info?  If so, enable this.  
@@ -207,16 +211,16 @@ class User(controllers.Controller):
                 }
         return dict(person=person, cla=cla, personal=personal, admin=admin)
 
-    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserEdit())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.edit")
     def edit(self, targetname=None):
         '''Edit a user
         '''
         languages = available_languages()
 
-        username = turbogears.identity.current.user_name
+        username = identity.current.user_name
         person = People.by_username(username)
 
         admin = isAdmin(person)
@@ -225,17 +229,17 @@ class User(controllers.Controller):
             target = People.by_username(targetname)
         else:
             target = person
-            
+
         if not canEditUser(person, target):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
-        
+
         return dict(target=target, languages=languages, admin=admin)
 
-    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserSave())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, postal_address, 
              email, status, ssh_key=None, ircnick=None, gpg_keyid=None, 
@@ -244,7 +248,7 @@ class User(controllers.Controller):
              share_country_code=True):
         languages = available_languages()
 
-        username = turbogears.identity.current.user_name
+        username = identity.current.user_name
         target = targetname
         person = People.by_username(username)
         target = People.by_username(target)
@@ -315,9 +319,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
+    @identity.require(identity.not_anonymous())
     def list(self, search=u'a*'):
         '''List users
 
@@ -347,9 +351,6 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
         # When called as /user/list/?search=* search is a unicode type.
-        username = turbogears.identity.current.user_name
-        person = People.by_username(username)
-
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
 
@@ -381,9 +382,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         return dict(people=cla_approved, unapproved_people=cla_unapproved,
                 search=search)
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(format='json')
+    @identity.require(identity.not_anonymous())
     def email_list(self, search=u'*'):
         ### FIXME: Should port this to a validator
         # Work around a bug in TG (1.0.4.3-2)
@@ -399,11 +400,11 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             emails[person.username] = person.email
         return dict(emails=emails)
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.user.verifyemail')
     def verifyemail(self, token, cancel=False):
-        username = turbogears.identity.current.user_name
+        username = identity.current.user_name
         person = People.by_username(username)
         if cancel:
             person.emailtoken = ''
@@ -420,11 +421,11 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             return dict()
         return dict(person=person, token=token)
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose()
+    @identity.require(identity.not_anonymous())
     def setemail(self, token):
-        username = turbogears.identity.current.user_name
+        username = identity.current.user_name
         person = People.by_username(username)
         if not (person.unverified_email and person.emailtoken):
             turbogears.flash(_('You do not have any pending email changes.'))
@@ -444,16 +445,16 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.new')
     def new(self):
-        if turbogears.identity.not_anonymous():
+        if identity.not_anonymous():
             turbogears.flash(_('No need to sign up, you have an account!'))
-            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+            turbogears.redirect('/user/view/%s' % identity.current.user_name)
         return dict()
 
     @validate(validators=UserCreate())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
         # TODO: Ensure that e-mails are unique?
@@ -471,6 +472,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             person.username = username
             person.human_name = human_name
             person.telephone = telephone
+            person.postal_address = postal_address
             person.email = email
             person.password = '*'
             person.status = 'active'
@@ -527,18 +529,18 @@ forward to working with you!
             turbogears.redirect('/user/changepass')
             return dict()
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
         return dict()
 
-    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=UserSetPassword())
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")
-    def setpass(self, currentpassword, password, passwordcheck):
-        username = turbogears.identity.current.user_name
+    def setpass(self, currentpassword, password, passwordcheck): # pylint: disable-msg=W0613
+        username = identity.current.user_name
         person  = People.by_username(username)
 
 #        current_encrypted = generate_password(currentpassword)
@@ -561,25 +563,26 @@ forward to working with you!
             return dict()
         else:   
             turbogears.flash(_("Your password has been changed."))
-            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+            turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
 
-    @error_handler(error)
+    ### FIXME: error_handler does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.resetpass")
     def resetpass(self):
-        if turbogears.identity.not_anonymous():
+        if identity.not_anonymous():
             turbogears.flash(_('You are already logged in!'))
-            turbogears.redirect('/user/view/%s' % turbogears.identity.current.user_name)
+            turbogears.redirect('/user/view/%s' % identity.current.user_name)
         return dict()
 
-    @error_handler(error)
+    ### FIXME: error_handler does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.resetpass")
     def sendtoken(self, username, email, encrypted=False):
-        import turbomail
         # Logged in
-        if turbogears.identity.current.user_name:
+        if identity.current.user_name:
             turbogears.flash(_("You are already logged in."))
-            turbogears.redirect('/user/view/%s', turbogears.identity.current.user_name)
+            turbogears.redirect('/user/view/%s', identity.current.user_name)
             return dict()
         try:
             person = People.by_username(username)
@@ -644,7 +647,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         turbogears.redirect('/login')  
         return dict()
 
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.verifypass")
     @validate(validators=VerifyPass())
     def verifypass(self, username, token, cancel=False):
@@ -668,7 +671,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
         return dict(person=person, token=token)
 
-    @error_handler(error)
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose()
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
@@ -680,8 +683,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
         # Re-enabled!
         if person.status in ('invalid'):
-            target.status = 'active'
-            target.status_change = datetime.now(pytz.utc)
+            person.status = 'active'
+            person.status_change = datetime.now(pytz.utc)
 
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
@@ -705,14 +708,15 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         turbogears.redirect('/login')
         return dict()
 
-    @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
+    ### FIXME: Without a validator, error_handler() does nothing
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
+    @identity.require(identity.not_anonymous())
     def gencert(self):
       from cherrypy import response
       response.headers["content-disposition"] = "attachment"
-      username = turbogears.identity.current.user_name
-      person = People.by_username(username) 
+      username = identity.current.user_name
+      person = People.by_username(username)
       if CLADone(person):
           person.certificate_serial = person.certificate_serial + 1
 

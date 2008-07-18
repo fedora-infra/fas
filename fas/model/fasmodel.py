@@ -32,13 +32,13 @@ from sqlalchemy import Table, Column, ForeignKey
 from sqlalchemy.orm import relation
 # import some datatypes for table columns from SQLAlchemy
 # (see http://www.sqlalchemy.org/docs/04/types.html for more)
-from sqlalchemy import String, Unicode, Integer, DateTime, Boolean
+from sqlalchemy import String, Integer, DateTime, Boolean
 # A few sqlalchemy tricks:
 # Allow viewing foreign key relations as a dictionary
-from sqlalchemy.orm.collections import column_mapped_collection, attribute_mapped_collection
+from sqlalchemy.orm.collections import attribute_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy import select, and_
+from sqlalchemy import and_
 
 from sqlalchemy.exceptions import InvalidRequestError
 
@@ -368,12 +368,12 @@ class Groups(SABase):
     '''Group that people can belong to.'''
 
     @classmethod
-    def by_id(cls, id):
+    def by_id(cls, group_id):
         '''
         A class method that can be used to search groups
         based on their unique id
         '''
-        return cls.query.filter_by(id=id).one()
+        return cls.query.filter_by(id=group_id).one()
 
     @classmethod
     def by_email_address(cls, email):

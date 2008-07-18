@@ -19,16 +19,16 @@ def retrieve_cert_from_file(certfile):
     cert = crypto.load_certificate(crypto.FILETYPE_PEM, buf)
     return cert
 
-def createKeyPair(type, bits):
+def createKeyPair(key_type, bits):
     """
     Create a public/private key pair.
 
-    Arguments: type - Key type, must be one of TYPE_RSA and TYPE_DSA
+    Arguments: key_type - Key type, must be one of TYPE_RSA and TYPE_DSA
                bits - Number of bits to use in the key
     Returns:   The public/private key pair in a PKey object
     """
     pkey = crypto.PKey()
-    pkey.generate_key(type, bits)
+    pkey.generate_key(key_type, bits)
     return pkey
 
 def createCertRequest(pkey, digest="md5", **name):

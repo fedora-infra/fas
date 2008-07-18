@@ -20,7 +20,7 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 #
 import turbogears
-from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
+from turbogears import controllers, expose, identity, error_handler, config
 from turbogears.database import session
 
 import cherrypy
@@ -28,19 +28,14 @@ import cherrypy
 from sqlalchemy.exceptions import SQLError
 
 from datetime import datetime
-import re
 import GeoIP
 import turbomail
 from genshi.template.plugin import TextTemplateEnginePlugin
 
 from fedora.tg.util import request_format
 
-from fas.model import People
-from fas.model import Log
-from fas.auth import *
-# import * isn't good practice.  Remove when we have all the improts in the
-# line below:
-from fas.auth import isAdmin
+from fas.model import People, Groups, Log
+from fas.auth import isAdmin, CLADone
 import fas
 
 class CLA(controllers.Controller):
@@ -99,26 +94,33 @@ class CLA(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    ### FIXME: error_handler() does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
+    ### FIXME: type overrides a builtin *and* it's not used in the method.
+    # Can we remove it?
     def text(self, type=None):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         return dict(person=person, date=datetime.utcnow().ctime())
 
+    ### FIXME: error_handler() does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
+    ### FIXME: type overrides a builtin *and* it's not used in the method.
+    # Can we remove it?
     def download(self, type=None):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         return dict(person=person, date=datetime.utcnow().ctime())
 
+    ### FIXME: error_handler() does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
     @expose(template="fas.templates.user.view", allow_json=True)
     def reject(self, personName):
         '''Reject a user's CLA.
@@ -193,8 +195,9 @@ Thanks!
         else:
             turbogears.redirect('/user/view/%s' % personName)
 
+    ### FIXME: error_handler() does nothing without a validator
+    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error)
     @expose(template="fas.templates.cla.index")
     def send(self, human_name, telephone, postal_address, country_code, confirm=False, agree=False):
         '''Send CLA'''
@@ -223,7 +226,7 @@ Thanks!
         # Save it to the database
         try:
             session.flush()
-        except Exception, e:
+        except Exception:
             turbogears.flash(_("Your updated information could not be saved."))
             turbogears.redirect('/cla/')
             return dict()
@@ -252,11 +255,11 @@ Thanks!
             # Everything is correct.
             person.apply(group, person) # Apply for the new group
             session.flush()
-        except fas.ApplyError, e:
+        except fas.ApplyError:
             # This just means the user already is a member (probably
             # unapproved) of this group
             pass
-        except Exception, e:
+        except Exception:
             turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
             turbogears.redirect('/cla/')
             return dict()

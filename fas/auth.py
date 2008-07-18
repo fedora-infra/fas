@@ -19,16 +19,15 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #
-from turbogears import config
-
-from fas.model import Groups
-from fas.model import PersonRoles
-from fas.model import People
-
-from sqlalchemy.exceptions import *
-import turbogears
 
 import re
+
+from turbogears import config
+import turbogears
+
+from sqlalchemy.exceptions import InvalidRequestError
+
+from fas.model import PersonRoles
 
 def isAdmin(person):
     '''

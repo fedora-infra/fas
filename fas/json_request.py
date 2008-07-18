@@ -22,14 +22,11 @@
 import turbogears
 from turbogears import controllers, expose, identity
 
+from sqlalchemy.exceptions import InvalidRequestError
 import sqlalchemy
 
 from fas.model import People
 from fas.model import Groups
-from fas.model import Log
-from fas.model import BugzillaQueue
-
-from fas.auth import *
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
@@ -44,8 +41,12 @@ class JsonRequest(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
     def person_by_id(self, id):
+        ### FIXME: we should rename id => userid as id is a builtin
+        userid = id
+        del id
+
         try:
-            person = People.by_id(id)
+            person = People.by_id(userid)
             person.jsonProps = {
                     'People': ('approved_memberships', 'unapproved_memberships')
                     }
@@ -68,8 +69,12 @@ class JsonRequest(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
     def group_by_id(self, id):
+        ### FIXME: we should rename id => groupid as id is a builtin
+        groupid = id
+        del id
+
         try:
-            group = Groups.by_id(id)
+            group = Groups.by_id(groupid)
             group.jsonProps = {'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)
         except InvalidRequestError:

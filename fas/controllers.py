@@ -19,16 +19,13 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #
-from turbogears import controllers, expose, config
-from model import *
-from turbogears import identity, redirect, widgets, validate, validators, error_handler
-from cherrypy import request, response
+from turbogears import expose, config, identity, redirect
+from turbogears.database import session
+from cherrypy import request
 
-from turbogears import exception_handler
 import turbogears
 import cherrypy
 import time
-import pkg_resources
 
 from fas import release
 from fas.user import User
@@ -37,13 +34,15 @@ from fas.configs import Config
 from fas.cla import CLA
 from fas.json_request import JsonRequest
 from fas.help import Help
+from fas.model import Session, People
+from fas.model import SessionTable
 
 from fas.openid_samadhi import OpenID
 
-from fas.auth import *
+from fas.auth import CLADone
 from fas.util import available_languages
 
-import plugin
+from fas import plugin
 
 import os
 
@@ -54,6 +53,8 @@ try:
 except ImportError:
       import pickle
 
+### FIXME: If cherrypy isn't using keyword args to call these methods, we should
+# rename from id => sessionid as id is a builtin.
 class SQLAlchemyStorage:
     def __init__(self):
         pass
@@ -108,8 +109,8 @@ def get_locale(locale=None):
 config.update({'i18n.get_locale': get_locale})
 
 
-def add_custom_stdvars(vars):
-  return vars.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
+def add_custom_stdvars(variables):
+  return variables.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
 # from fas import json
@@ -167,7 +168,7 @@ class Root(plugin.RootController):
 
         This shows a small login box to type in your username and password
         from the Fedora Account System.
-        
+
         Arguments:
         :forward_url: The url to send to once authentication succeeds
         :previous_url: The url that sent us to the login page
