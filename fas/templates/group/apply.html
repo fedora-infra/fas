@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../master.html" />
+  <xi:include href="member-list.html" />
+  <head>
+    <title>${_('Apply to Group')}</title>
+  </head>
+
+  <body>
+    <?python
+    from fas import auth
+    from fas.model import People
+    person = People.by_username(tg.identity.user.username)
+       ?>
+    <h2>${group.display_name} (${group.name})</h2>
+    <h3>${_('Group Rules')}</h3>
+    <p>The administrator for this group has set a few rules.  There may be tasks you need to do before you can join. They are as follows</p>
+    <p>${group.apply_rules}</p>
+    <h3>Have you read all the rules, and followed all instructions?</h3>
+    <form action="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}">
+      <div>
+        <input type="submit" value="${('Apply!')}" />
+      </div>
+    </form>
+  </body>
+</html>

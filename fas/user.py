@@ -468,6 +468,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
             turbogears.redirect('/')
         try:
+            person = People.by_email_address(email)
+        except InvalidRequestError:
+            pass
+        else:
+            turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
+            turbogears.redirect("/")
+        try:
             person = People()
             person.username = username
             person.human_name = human_name

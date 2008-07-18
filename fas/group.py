@@ -202,7 +202,9 @@ class Group(controllers.Controller):
     @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
-    def create(self, name, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', joinmsg=''):
+    def create(self, name, display_name, owner, group_type, 
+               needs_sponsor=0, user_can_remove=1, prerequisite='', 
+               joinmsg='', apply_rules='None'):
         '''Create a group'''
 
         groupname = name
@@ -225,6 +227,7 @@ class Group(controllers.Controller):
                 prerequisite = Groups.by_name(prerequisite)
                 group.prerequisite = prerequisite
             group.joinmsg = joinmsg
+            group.apply_rules = apply_rules
             # Log here
             session.flush()
         except TypeError:
@@ -263,7 +266,10 @@ class Group(controllers.Controller):
     @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.edit")
-    def save(self, groupname, display_name, owner, group_type, needs_sponsor=0, user_can_remove=1, prerequisite='', url='', mailing_list='', mailing_list_url='', irc_channel='', irc_network='', joinmsg=''):
+    def save(self, groupname, display_name, owner, group_type, 
+             needs_sponsor=0, user_can_remove=1, prerequisite='', 
+             url='', mailing_list='', mailing_list_url='', irc_channel='', 
+             irc_network='', joinmsg='', apply_rules="None"):
         '''Edit a group'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -291,6 +297,7 @@ class Group(controllers.Controller):
                 group.irc_channel = irc_channel
                 group.irc_network = irc_network
                 group.joinmsg = joinmsg
+                group.apply_rules = apply_rules
                 # Log here
                 session.flush()
             except:
@@ -327,6 +334,34 @@ class Group(controllers.Controller):
         if not len(groups):
             turbogears.flash(_("No Groups found matching '%s'") % search)
         return dict(groups=groups, search=search, memberships=memberships)
+
+    @validate(validators=GroupApply())
+    @error_handler(error) # pylint: disable-msg=E0602
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='fas.templates.group.apply')
+    def application_screen(self, groupname, targetname=None):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        if not targetname:
+            target = person
+        else:
+            target = People.by_username(targetname)
+        group = Groups.by_name(groupname)
+
+        if group.apply_rules == None or len(group.apply_rules) < 1:
+            turbogears.redirect('/group/apply/%s/%s' % (group.name, target.username))
+
+        if group in target.memberships:
+            turbogears.flash('You are already a member of %s!' % group.name)
+            turbogears.redirect('/group/view/%s' % group.name)
+
+        if not canApplyGroup(person, group, target):
+            turbogears.flash(_('%(user)s can not apply to %(group)s.') % \
+                {'user': target.username, 'group': group.name })
+            turbogears.redirect('/group/view/%s' % group.name)
+            return dict()
+        else:
+            return dict(group=group)
 
     @validate(validators=GroupApply())
     @error_handler(error) # pylint: disable-msg=E0602
