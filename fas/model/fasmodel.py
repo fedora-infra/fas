@@ -38,7 +38,7 @@ from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy.orm.collections import attribute_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy import and_
+from sqlalchemy import and_, select
 
 from sqlalchemy.exceptions import InvalidRequestError
 
@@ -80,6 +80,74 @@ UnApprovedRolesSelect = PersonRolesTable.select(and_(
     PeopleTable.c.id==PersonRolesTable.c.person_id,
     PersonRolesTable.c.role_status!='approved')).alias('unapproved')
 
+#
+# Selects for filtering people data
+#
+
+# The user can't see the *token fields or internal comments
+PeopleSelfSelect = select((PeopleTable.c.id,
+    PeopleTable.c.username,
+    PeopleTable.c.human_name,
+    PeopleTable.c.gpg_keyid,
+    PeopleTable.c.ssh_key,
+    PeopleTable.c.password,
+    PeopleTable.c.password_changed,
+    PeopleTable.c.email,
+    PeopleTable.c.unverified_email,
+    PeopleTable.c.comments,
+    PeopleTable.c.postal_address,
+    PeopleTable.c.country_code,
+    PeopleTable.c.telephone,
+    PeopleTable.c.facsimile,
+    PeopleTable.c.affiliation,
+    PeopleTable.c.certificate_serial,
+    PeopleTable.c.creation,
+    PeopleTable.c.ircnick,
+    PeopleTable.c.last_seen,
+    PeopleTable.c.status,
+    PeopleTable.c.status_change,
+    PeopleTable.c.locale,
+    PeopleTable.c.timezone,
+    PeopleTable.c.latitude,
+    PeopleTable.c.longitude))
+
+# Additionally remove telephone/facimile, postal_address, and password fields
+PeopleOtherPublicSelect = select((PeopleTable.c.id,
+    PeopleTable.c.username,
+    PeopleTable.c.human_name,
+    PeopleTable.c.gpg_keyid,
+    PeopleTable.c.ssh_key,
+    PeopleTable.c.email,
+    PeopleTable.c.comments,
+    PeopleTable.c.country_code,
+    PeopleTable.c.affiliation,
+    PeopleTable.c.certificate_serial,
+    PeopleTable.c.creation,
+    PeopleTable.c.ircnick,
+    PeopleTable.c.last_seen,
+    PeopleTable.c.status,
+    PeopleTable.c.status_change,
+    PeopleTable.c.locale,
+    PeopleTable.c.timezone,
+    PeopleTable.c.latitude,
+    PeopleTable.c.longitude))
+
+# If the user opts-out of the publicly available info, this all gets hidden
+PeopleOtherPrivateSelect = select((PeopleTable.c.id,
+    PeopleTable.c.username,
+    PeopleTable.c.comments,
+    PeopleTable.c.certificate_serial,
+    PeopleTable.c.creation,
+    PeopleTable.c.last_seen,
+    PeopleTable.c.status,
+    PeopleTable.c.status_change))
+
+# If you're accessing this information anonymously, you get:
+PeopleAnonSelect = select((PeopleTable.c.id,
+    PeopleTable.c.username,
+    PeopleTable.c.comments,
+    PeopleTable.c.creation))
+
 # The identity schema -- These must follow some conventions that TG
 # understands and are shared with other Fedora services via the python-fedora
 # module.
@@ -103,6 +171,9 @@ visit_identity_table = Table('visit_identity', metadata,
 
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
+
+    admin_group = config.get('admingroup', 'accounts')
+    system_group = config.get('systemgroup', 'fas-system')
 
     @classmethod
     def by_id(cls, id):
@@ -222,7 +293,7 @@ class People(SABase):
         else:
             role = PersonRoles.query.filter_by(member=cls, group=group).one()
             session.delete(role)
-            
+
     def set_share_cc(self, value):
         share_cc_group = Groups.by_name(SHARE_CC_GROUP)
         if value:
@@ -238,10 +309,10 @@ class People(SABase):
                 self.remove(share_cc_group, self)
             except fas.SponsorError:
                 pass
-    
+
     def get_share_cc(self):
         return Groups.by_name(SHARE_CC_GROUP) in self.memberships
-    
+
     def set_share_loc(self, value):
         share_loc_group = Groups.by_name(SHARE_LOC_GROUP)
         if value:
@@ -257,98 +328,53 @@ class People(SABase):
                 self.remove(share_loc_group, self)
             except fas.SponsorError:
                 pass
-    
+
     def get_share_loc(self):
         return Groups.by_name(SHARE_LOC_GROUP) in self.memberships
-    
-    
-    
+
+    def filter_private(self):
+        '''Filter out data marked private unless the user is authorized.
+
+        Some data in this class can only be released if the user has not asked
+        for it to be private.  Calling this method will filter the information
+        out so it doesn't go anywhere.
+
+        This method will return a data structure with the information allowed.
+        If it's an admin, then the data structure will be self.  If it's
+        anything else, parts of the information will be removed.  We do this by
+        returning a mapped selectable that has less information in it.  Other
+        than having less data, each of those objects should act the same way
+        that this class does.
+
+        Note that it is not foolproof.  For instance, a template could be
+        written that traverses from people to groups to a different person
+        and retrieves information from there.  However, this would not be a
+        standard use of this method so we should know when we're doing
+        non-standard things and filter the data there as well.
+        '''
+        # Full disclosure to admins
+        if identity.current.in_group(admin_group) or \
+                identity.current.in_group(system_group):
+            return self
+
+        # The user themselves gets everything except internal_comments
+        if identity.current.user.username != self.username:
+            return PeopleSelf.by_username(self.username)
+
+        # Anonymous users get very little
+        if identity.current.anonymous:
+            return PeopleAnon.by_username(self.username)
+        elif self.privacy:
+            # Dealing with another user.  If the record they're viewing has
+            # privact set, restrict what goes out more.
+            return PeopleOtherPrivate.by_username(self.username)
+        else:
+            # All other people can get a moderate amount... but only if
+            # privacy is not set.
+            return PeopleOtherPublic.by_username(self.username)
+
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
-
-    def __json__(self):
-        '''We want to make sure we keep a tight reign on sensistive information.
-        Thus we strip out certain information unless a user is an admin or the
-        current user.
-
-        Current access restrictions
-        ===========================
-
-        Anonymous users can see:
-            :id: The id in the account system and on the shell servers
-            :username: Username in FAS
-            :human_name: Human name of the person
-            :comments: Comments that the user leaves about themselves
-            :creation: Date this account was created
-            :ircnick: User's nickname on IRC
-            :last_seen: timestamp the user last logged into anything tied to
-                the account system 
-            :status: Whether the user is active, inactive, on vacation, etc
-            :status_change: timestamp that the status was last updated
-            :locale: User's default locale for Fedora Services
-            :timezone: User's timezone
-            :latitude: Used for constructing maps of contributors
-            :longitude: Used for contructing maps of contributors
-
-        Authenticated Users add:
-            :ssh_key: Public key for connecting to over ssh
-            :gpg_keyid: gpg key of the user
-            :affiliation: company or group the user wishes to identify with
-            :certificate_serial: serial number of the user's Fedora SSL
-                Certificate
-
-        User Themselves add:
-            :password: hashed password to identify the user
-            :passwordtoken: used when the user needs to reset a password
-            :password_changed: last time the user changed the password
-            :postal_address: user's postal address
-            :country_code: user's country
-            :telephone: user's telephone number
-            :facsimile: user's FAX number
-
-        Admins gets access to this final field as well:
-            :internal_comments: Comments an admin wants to write about a user
-
-        Note: There are a few other resources that are not located directly in
-        the People structure that you are likely to want to pass to consuming
-        code like email address and groups.  Please see the documentation on
-        SABase.__json__() to find out how to set jsonProps to handle those.
-        '''
-        props = super(People, self).__json__()
-
-        if identity.current.anonymous:
-            # Anonymous users can't see any of these
-            del props['email']
-            del props['unverified_email']
-            del props['ssh_key']
-            del props['gpg_keyid']
-            del props['affiliation']
-            del props['certificate_serial']
-            del props['password']
-            del props['password_changed']
-            del props['postal_address']
-            del props['country_code']
-            del props['telephone']
-            del props['facsimile']
-
-        if not identity.in_group('fas-system'):
-            if not identity.in_group('accounts'):
-                # Only admins can see internal_comments
-                del props['internal_comments']
-                del props['emailtoken']
-                del props['passwordtoken']
-                if identity.current.user.username != self.username:
-                    # Only system accounts, admins, or the user themselves
-                    # can see these fields
-                    del props['unverified_email']
-                    del props['password']
-                    del props['postal_address']
-                    del props['country_code']
-                    del props['password_changed']
-                    del props['telephone']
-                    del props['facsimile']
-
-        return props
 
     memberships = association_proxy('roles', 'group')
     approved_memberships = association_proxy('approved_roles', 'group')
@@ -472,6 +498,21 @@ class UnApprovedRoles(PersonRoles):
     '''Only show Roles that are not approved.'''
     pass
 
+# These classes are for mapping the People data with restrictions.  Since some
+# of the information shouldn't be revealed, we map to selectables that only
+# have the public data.
+class PeopleSelf(People):
+    pass
+
+class PeopleAnon(People):
+    pass
+
+class PeopleOtherPrivate(People):
+    pass
+
+class PeopleOtherPublic(People):
+    pass
+
 #
 # Classes for the SQLAlchemy Visit Manager
 #
@@ -513,6 +554,64 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
     'group': relation(Groups, backref='unapproved_roles', lazy = False)
     })
 
+
+#
+# Mappers for filtering People Information
+#
+
+mapper(PeopleSelf, PeopleSelfSelect, properties = {
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    'group_roles': relation(PersonRoles, viewonly=True,
+        collection_class = attribute_mapped_collection('groupname'),
+        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
+        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
+    'approved_roles': relation(ApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+    })
+
+mapper(PeopleAnon, PeopleAnonSelect, properties = {
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    'group_roles': relation(PersonRoles, viewonly=True,
+        collection_class = attribute_mapped_collection('groupname'),
+        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
+        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
+    'approved_roles': relation(ApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+    })
+
+mapper(PeopleOtherPrivate, PeopleOtherPrivateSelect, properties = {
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    'group_roles': relation(PersonRoles, viewonly=True,
+        collection_class = attribute_mapped_collection('groupname'),
+        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
+        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
+    'approved_roles': relation(ApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+    })
+
+mapper(PeopleOtherPublic, PeopleOtherPublicSelect, properties = {
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    'group_roles': relation(PersonRoles, viewonly=True,
+        collection_class = attribute_mapped_collection('groupname'),
+        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
+        foreign_keys=[]),
+    'approved_roles': relation(ApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles, backref='member',
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+    })
+
+
+#
+# General Mappers
+#
+
 mapper(People, PeopleTable, properties = {
     # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
     'group_roles': relation(PersonRoles,
@@ -523,6 +622,7 @@ mapper(People, PeopleTable, properties = {
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
     })
+
 mapper(PersonRoles, PersonRolesTable, properties = {
     'member': relation(People, backref = 'roles', lazy = False,
         primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
