@@ -40,7 +40,7 @@ def isAdmin(person):
     except KeyError:
         return False
     return False
-    
+
 def canAdminGroup(person, group, role=None):
     '''
     Returns True if the user is allowed to act as an admin for a group
