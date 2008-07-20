@@ -83,7 +83,6 @@ UnApprovedRolesSelect = PersonRolesTable.select(and_(
 #
 # Selects for filtering people data
 #
-
 # The user can't see the *token fields or internal comments
 PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
@@ -109,7 +108,7 @@ PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.locale,
     PeopleTable.c.timezone,
     PeopleTable.c.latitude,
-    PeopleTable.c.longitude))
+    PeopleTable.c.longitude)).alias('people')
 
 # Additionally remove telephone/facimile, postal_address, and password fields
 PeopleOtherPublicSelect = select((PeopleTable.c.id,
@@ -130,8 +129,7 @@ PeopleOtherPublicSelect = select((PeopleTable.c.id,
     PeopleTable.c.locale,
     PeopleTable.c.timezone,
     PeopleTable.c.latitude,
-    PeopleTable.c.longitude))
-
+    PeopleTable.c.longitude)).alias('people')
 # If the user opts-out of the publicly available info, this all gets hidden
 PeopleOtherPrivateSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
@@ -140,13 +138,12 @@ PeopleOtherPrivateSelect = select((PeopleTable.c.id,
     PeopleTable.c.creation,
     PeopleTable.c.last_seen,
     PeopleTable.c.status,
-    PeopleTable.c.status_change))
-
+    PeopleTable.c.status_change)).alias('people')
 # If you're accessing this information anonymously, you get:
 PeopleAnonSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
     PeopleTable.c.comments,
-    PeopleTable.c.creation))
+    PeopleTable.c.creation)).alias('people')
 
 # The identity schema -- These must follow some conventions that TG
 # understands and are shared with other Fedora services via the python-fedora
@@ -558,55 +555,51 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
 #
 # Mappers for filtering People Information
 #
-
 mapper(PeopleSelf, PeopleSelfSelect, properties = {
-    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
-    'group_roles': relation(PersonRoles, viewonly=True,
+    'group_roles': relation(PersonRoles,
         collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
-        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
-    'approved_roles': relation(ApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+        primaryjoin = PeopleSelfSelect.c.id == PersonRolesTable.c.person_id),
+    'approved_roles': relation(ApprovedRoles,
+        primaryjoin = PeopleSelfSelect.c.id == ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles,
+        primaryjoin = PeopleSelfSelect.c.id == UnApprovedRoles.c.person_id)
     })
 
 mapper(PeopleAnon, PeopleAnonSelect, properties = {
-    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
     'group_roles': relation(PersonRoles, viewonly=True,
         collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
-        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
-    'approved_roles': relation(ApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+        primaryjoin = PeopleAnonSelect.c.id == PersonRolesTable.c.person_id),
+    'approved_roles': relation(ApprovedRoles,
+        primaryjoin = PeopleAnonSelect.c.id == ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles,
+        primaryjoin = PeopleAnonSelect.c.id == UnApprovedRoles.c.person_id)
     })
 
 mapper(PeopleOtherPrivate, PeopleOtherPrivateSelect, properties = {
-    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
-    'group_roles': relation(PersonRoles, viewonly=True,
+    'group_roles': relation(PersonRoles,
         collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
-        foreign_keys=[PersonRolesTable.c.person_id], remote_side=[PeopleSelfSelect.c.id]),
-    'approved_roles': relation(ApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+        primaryjoin = PeopleOtherPrivateSelect.c.id \
+                == PersonRolesTable.c.person_id),
+    'approved_roles': relation(ApprovedRoles,
+        primaryjoin = PeopleOtherPrivateSelect.c.id \
+                == ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles,
+        primaryjoin = PeopleOtherPrivateSelect.c.id \
+                == UnApprovedRoles.c.person_id)
     })
 
 mapper(PeopleOtherPublic, PeopleOtherPublicSelect, properties = {
-    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
-    'group_roles': relation(PersonRoles, viewonly=True,
+    'group_roles': relation(PersonRoles,
         collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id,
-        foreign_keys=[]),
-    'approved_roles': relation(ApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+        primaryjoin = PeopleOtherPublicSelect.c.id \
+                == PersonRolesTable.c.person_id),
+    'approved_roles': relation(ApprovedRoles,
+        primaryjoin = PeopleOtherPublicSelect.c.id \
+                == ApprovedRoles.c.person_id),
+    'unapproved_roles': relation(UnApprovedRoles,
+        primaryjoin = PeopleOtherPublicSelect.c.id \
+                == UnApprovedRoles.c.person_id)
     })
-
 
 #
 # General Mappers
