@@ -32,14 +32,9 @@ upgrades.  To use it, it assumes you have already installed fas2.sql into your
 posgresql database. The instructions for installing SQLAlchemy-Migrate on top
 can be found below in the installation instructions.  
 
-At the moment, sqlalchemy-migrate is not yet packaged for Fedora.  Preliminary source
-packages can be found here:
+sqlalchemy-migrate will need to be installed.  To do so, run:
 
-http://toshio.fedorapeople.org/packages/python-migrate-0.4.4-3.fc9.src.rpm
-
-Preliminary binary packages can be found here:
-
-http://ynemoy.fedorapeople.org/repo/python-migrate-0.4.4-3.fc9.noarch.rpm
+ sudo yum -y install python-migrate
 
 0.8.4 => 0.8.5
 ==============
@@ -86,7 +81,7 @@ Before you can get started, make sure to have the following packages installed
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
   python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
-  python-fedora
+  python-fedora python-migrate
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
