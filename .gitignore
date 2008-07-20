@@ -15,3 +15,5 @@ gnupg
 locale
 ssl
 manage.py
+.project
+.pydevproject
