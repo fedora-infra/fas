@@ -166,11 +166,12 @@ visit_identity_table = Table('visit_identity', metadata,
 # Mapped Classes
 #
 
+admin_group = config.get('admingroup', 'accounts')
+system_group = config.get('systemgroup', 'fas-system')
+
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
 
-    admin_group = config.get('admingroup', 'accounts')
-    system_group = config.get('systemgroup', 'fas-system')
 
     @classmethod
     def by_id(cls, id):
@@ -596,15 +597,21 @@ mapper(VisitIdentity, visit_identity_table,
 def FilterClass(table):
     class SomeClass(People):
         pass
-    mapper(SomeClass, table, properties = {
-        'group_roles': relation(PersonRoles,
-            collection_class = attribute_mapped_collection('groupname'),
-            primaryjoin = table.c.id == PersonRolesTable.c.person_id),
-        'approved_roles': relation(ApprovedRoles,
-            primaryjoin = table.c.id == ApprovedRoles.c.person_id),
-        'unapproved_roles': relation(UnApprovedRoles,
-            primaryjoin = table.c.id == UnApprovedRoles.c.person_id)
-        })
+    mapper(SomeClass, table, properties = dict(
+        group_roles= relation(PersonRoles,
+                              collection_class = 
+                                attribute_mapped_collection('groupname'),
+                              primaryjoin = 
+                              table.c.id == PersonRolesTable.c.person_id),
+        approved_roles= relation(ApprovedRoles,
+                                 primaryjoin = 
+                                 table.c.id == ApprovedRoles.c.person_id),
+        unapproved_roles= relation(UnApprovedRoles,
+                                   primaryjoin = 
+                                    table.c.id == UnApprovedRoles.c.person_id),
+        roles= relation(PersonRoles,
+                        primaryjoin = 
+                            PersonRolesTable.c.person_id==table.c.id)))
     return SomeClass
 
 PeopleSelf = FilterClass(PeopleSelfSelect)
