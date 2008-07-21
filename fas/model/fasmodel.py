@@ -356,7 +356,7 @@ class People(SABase):
             return self
 
         # The user themselves gets everything except internal_comments
-        if identity.current.user_name != self.username:
+        if identity.current.user_name == self.username:
             return PeopleSelf.by_username(self.username)
 
         # Anonymous users get very little
@@ -550,12 +550,12 @@ mapper(People, PeopleTable, properties = {
     'approved_roles': relation(ApprovedRoles, backref='member',
         primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id)
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id),
+    'roles': relation(PersonRoles, backref='member',
+        primaryjoin = PersonRolesTable.c.person_id==PeopleTable.c.id)
     })
 
 mapper(PersonRoles, PersonRolesTable, properties = {
-    'member': relation(People, backref = 'roles', lazy = False,
-        primaryjoin=PersonRolesTable.c.person_id==PeopleTable.c.id),
     'group': relation(Groups, backref='roles', lazy = False,
         primaryjoin=PersonRolesTable.c.group_id==GroupsTable.c.id),
     'sponsor': relation(People, uselist=False,
