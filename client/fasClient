@@ -374,7 +374,7 @@ class MakeShellAccounts(BaseClient):
 
     def group_list(self, search='*'):
         params = {'search' : search}
-        request = self.send_request('group/list', auth=True, input=params)
+        request = self.send_request('group/list', req_params=params, auth=True)
         self.groups = request['groups']
         memberships = {}
         for group in self.groups:
@@ -390,7 +390,7 @@ class MakeShellAccounts(BaseClient):
 
     def user_info(self, username):
         params = {'username' : username}
-        data = self.send_request('user/view', auth=True, input=params)
+        data = self.send_request('user/view', req_params=params, auth=True)
         person = data['person']
         print person
         print "User: %s" % person['username']
@@ -421,12 +421,12 @@ class MakeShellAccounts(BaseClient):
 
     def people_list(self, search='*'):
         params = {'search' : search}
-        data = self.send_request('user/list', auth=True, input=params)
+        data = self.send_request('user/list', req_params=params, auth=True)
         self.people = data['people'] + data['unapproved_people']
 
     def email_list(self, search='*'):
         params = {'search' : search}
-        self.emails = self.send_request('user/email_list', auth=True, input=params)['emails']
+        self.emails = self.send_request('user/email_list', req_params=params, auth=True)['emails']
         return self.emails
 
     def make_group_db(self):
