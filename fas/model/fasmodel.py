@@ -350,12 +350,12 @@ class People(SABase):
         non-standard things and filter the data there as well.
         '''
         # Full disclosure to admins
-        if identity.current.in_group(admin_group) or \
-                identity.current.in_group(system_group):
+        if identity.in_group(admin_group) or \
+                identity.in_group(system_group):
             return self
 
         # The user themselves gets everything except internal_comments
-        if identity.current.user.username != self.username:
+        if identity.current.user_name != self.username:
             return PeopleSelf.by_username(self.username)
 
         # Anonymous users get very little
