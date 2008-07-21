@@ -25,28 +25,21 @@ Model for the Fedora Account System
 '''
 from datetime import datetime
 import pytz
-from turbogears.database import metadata, mapper, get_engine
-# import some basic SQLAlchemy classes for declaring the data model
-# (see http://www.sqlalchemy.org/docs/04/ormtutorial.html)
+from turbogears.database import metadata, mapper, get_engine, session
+from turbogears import identity, config
+import turbogears
+
 from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy.orm import relation
-# import some datatypes for table columns from SQLAlchemy
-# (see http://www.sqlalchemy.org/docs/04/types.html for more)
 from sqlalchemy import String, Integer, DateTime, Boolean
+from sqlalchemy import and_, select, literal_column
+from sqlalchemy.orm import relation
+from sqlalchemy.exceptions import InvalidRequestError
+
 # A few sqlalchemy tricks:
 # Allow viewing foreign key relations as a dictionary
 from sqlalchemy.orm.collections import attribute_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy import and_, select
-
-from sqlalchemy.exceptions import InvalidRequestError
-
-from turbogears.database import session
-
-from turbogears import identity, config
-
-import turbogears
 
 from fedora.tg.json import SABase
 import fas
@@ -90,8 +83,10 @@ PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.gpg_keyid,
     PeopleTable.c.ssh_key,
     PeopleTable.c.password,
+    literal_column('Null').label('passwordtoken'),
     PeopleTable.c.password_changed,
     PeopleTable.c.email,
+    literal_column('Null').label('emailtoken'),
     PeopleTable.c.unverified_email,
     PeopleTable.c.comments,
     PeopleTable.c.postal_address,
@@ -101,6 +96,7 @@ PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.affiliation,
     PeopleTable.c.certificate_serial,
     PeopleTable.c.creation,
+    literal_column('Null').label('internal_comments'),
     PeopleTable.c.ircnick,
     PeopleTable.c.last_seen,
     PeopleTable.c.status,
@@ -108,7 +104,8 @@ PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.locale,
     PeopleTable.c.timezone,
     PeopleTable.c.latitude,
-    PeopleTable.c.longitude)).alias('people')
+    PeopleTable.c.longitude,
+    PeopleTable.c.privacy)).alias('people')
 
 # Additionally remove telephone/facimile, postal_address, and password fields
 PeopleOtherPublicSelect = select((PeopleTable.c.id,
@@ -116,12 +113,21 @@ PeopleOtherPublicSelect = select((PeopleTable.c.id,
     PeopleTable.c.human_name,
     PeopleTable.c.gpg_keyid,
     PeopleTable.c.ssh_key,
+    literal_column('Null').label('password'),
+    literal_column('Null').label('passwordtoken'),
+    literal_column('Null').label('password_changed'),
     PeopleTable.c.email,
+    literal_column('Null').label('emailtoken'),
+    literal_column('Null').label('unverified_email'),
     PeopleTable.c.comments,
+    literal_column('Null').label('postal_address'),
     PeopleTable.c.country_code,
+    literal_column('Null').label('telephone'),
+    literal_column('Null').label('facsimile'),
     PeopleTable.c.affiliation,
     PeopleTable.c.certificate_serial,
     PeopleTable.c.creation,
+    literal_column('Null').label('internal_comments'),
     PeopleTable.c.ircnick,
     PeopleTable.c.last_seen,
     PeopleTable.c.status,
@@ -129,21 +135,70 @@ PeopleOtherPublicSelect = select((PeopleTable.c.id,
     PeopleTable.c.locale,
     PeopleTable.c.timezone,
     PeopleTable.c.latitude,
-    PeopleTable.c.longitude)).alias('people')
+    PeopleTable.c.longitude,
+    PeopleTable.c.privacy)).alias('people')
+
 # If the user opts-out of the publicly available info, this all gets hidden
 PeopleOtherPrivateSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
+    literal_column('Null').label('human_name'),
+    literal_column('Null').label('gpg_keyid'),
+    literal_column('Null').label('ssh_key'),
+    literal_column('Null').label('password'),
+    literal_column('Null').label('passwordtoken'),
+    literal_column('Null').label('password_changed'),
+    literal_column('Null').label('email'),
+    literal_column('Null').label('emailtoken'),
+    literal_column('Null').label('unverified_email'),
     PeopleTable.c.comments,
+    literal_column('Null').label('postal_address'),
+    literal_column('Null').label('country_code'),
+    literal_column('Null').label('telephone'),
+    literal_column('Null').label('facsimile'),
+    literal_column('Null').label('affiliation'),
     PeopleTable.c.certificate_serial,
     PeopleTable.c.creation,
+    literal_column('Null').label('internal_comments'),
+    literal_column('Null').label('ircnick'),
     PeopleTable.c.last_seen,
     PeopleTable.c.status,
-    PeopleTable.c.status_change)).alias('people')
+    PeopleTable.c.status_change,
+    literal_column('Null').label('locale'),
+    literal_column('Null').label('timezone'),
+    literal_column('Null').label('latitude'),
+    literal_column('Null').label('longitude'),
+    PeopleTable.c.privacy)).alias('people')
+
 # If you're accessing this information anonymously, you get:
 PeopleAnonSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
+    literal_column('Null').label('human_name'),
+    literal_column('Null').label('gpg_keyid'),
+    literal_column('Null').label('ssh_key'),
+    literal_column('Null').label('password'),
+    literal_column('Null').label('passwordtoken'),
+    literal_column('Null').label('password_changed'),
+    literal_column('Null').label('email'),
+    literal_column('Null').label('emailtoken'),
+    literal_column('Null').label('unverified_email'),
     PeopleTable.c.comments,
-    PeopleTable.c.creation)).alias('people')
+    literal_column('Null').label('postal_address'),
+    literal_column('Null').label('country_code'),
+    literal_column('Null').label('telephone'),
+    literal_column('Null').label('facsimile'),
+    literal_column('Null').label('affiliation'),
+    literal_column('Null').label('certificate_serial'),
+    PeopleTable.c.creation,
+    literal_column('Null').label('internal_comments'),
+    literal_column('Null').label('ircnick'),
+    literal_column('Null').label('last_seen'),
+    literal_column('Null').label('status'),
+    literal_column('Null').label('status_change'),
+    literal_column('Null').label('locale'),
+    literal_column('Null').label('timezone'),
+    literal_column('Null').label('latitude'),
+    literal_column('Null').label('longitude'),
+    PeopleTable.c.privacy)).alias('people')
 
 # The identity schema -- These must follow some conventions that TG
 # understands and are shared with other Fedora services via the python-fedora
