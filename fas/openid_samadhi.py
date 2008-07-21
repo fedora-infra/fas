@@ -222,8 +222,8 @@ class OpenID(controllers.Controller):
 
         return self.respond(openid_response)
 
-    @expose()
     @identity.require(identity.not_anonymous())
+    @expose()
     def login(self, trust_root):
         """Force the user to login, then go back to checkidrequest"""
         openid_request = self.request_from_session(trust_root)

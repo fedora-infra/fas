@@ -172,9 +172,9 @@ class User(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=UserView())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.view", allow_json=True)
     def view(self, username=None):
         '''View a User.
@@ -211,9 +211,9 @@ class User(controllers.Controller):
                 }
         return dict(person=person, cla=cla, personal=personal, admin=admin)
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=UserEdit())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.edit")
     def edit(self, targetname=None):
         '''Edit a user
@@ -237,9 +237,9 @@ class User(controllers.Controller):
 
         return dict(target=target, languages=languages, admin=admin)
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, postal_address, 
              email, status, ssh_key=None, ircnick=None, gpg_keyid=None, 
@@ -319,9 +319,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
+    @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
-    @identity.require(identity.not_anonymous())
     def list(self, search=u'a*'):
         '''List users
 
@@ -382,9 +382,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         return dict(people=cla_approved, unapproved_people=cla_unapproved,
                 search=search)
 
+    @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(format='json')
-    @identity.require(identity.not_anonymous())
     def email_list(self, search=u'*'):
         ### FIXME: Should port this to a validator
         # Work around a bug in TG (1.0.4.3-2)
@@ -400,8 +400,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             emails[person.username] = person.email
         return dict(emails=emails)
 
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.verifyemail')
     def verifyemail(self, token, cancel=False):
         username = identity.current.user_name
@@ -421,9 +421,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             return dict()
         return dict(person=person, token=token)
 
+    @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose()
-    @identity.require(identity.not_anonymous())
     def setemail(self, token):
         username = identity.current.user_name
         person = People.by_username(username)
@@ -536,15 +536,15 @@ forward to working with you!
             turbogears.redirect('/user/changepass')
             return dict()
 
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
         return dict()
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=UserSetPassword())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck): # pylint: disable-msg=W0613
         username = identity.current.user_name
@@ -716,9 +716,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict()
 
     ### FIXME: Without a validator, error_handler() does nothing
+    @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
-    @identity.require(identity.not_anonymous())
     def gencert(self):
       from cherrypy import response
       response.headers["content-disposition"] = "attachment"

@@ -39,6 +39,7 @@ class AsteriskPlugin(controllers.Controller):
     def __init__(self):
         '''Create Asterisk Controller.'''
         self.path = ''
+
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas_asterisk.templates.index")
     def index(self):

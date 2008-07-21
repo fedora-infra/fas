@@ -129,9 +129,9 @@ class Group(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupView())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.view", allow_json=True)
     def view(self, groupname):
         '''View group'''
@@ -150,9 +150,9 @@ class Group(controllers.Controller):
         unsponsored.jsonProps = {'PersonRoles': ['member']}
         return dict(group=group, sponsor_queue=unsponsored)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupMembers())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.members", allow_json=True)
     def members(self, groupname, search=u'a*', order_by='username'):
         '''View group'''
@@ -198,9 +198,9 @@ class Group(controllers.Controller):
             turbogears.redirect('/')
         return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupCreate())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.new")
     def create(self, name, display_name, owner, group_type, 
                needs_sponsor=0, user_can_remove=1, prerequisite='', 
@@ -247,9 +247,9 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupEdit())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.edit")
     def edit(self, groupname):
         '''Display edit group form'''
@@ -262,9 +262,9 @@ class Group(controllers.Controller):
             turbogears.redirect('/group/view/%s' % group.name)
         return dict(group=group)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupSave())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.group.edit")
     def save(self, groupname, display_name, owner, group_type, 
              needs_sponsor=0, user_can_remove=1, prerequisite='', 
@@ -335,9 +335,9 @@ class Group(controllers.Controller):
             turbogears.flash(_("No Groups found matching '%s'") % search)
         return dict(groups=groups, search=search, memberships=memberships)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.group.apply')
     def application_screen(self, groupname, targetname=None):
         username = turbogears.identity.current.user_name
@@ -363,9 +363,9 @@ class Group(controllers.Controller):
         else:
             return dict(group=group)
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.group.view')
     def apply(self, groupname, targetname=None):
         '''Apply to a group'''
@@ -430,9 +430,9 @@ Thank you for applying for the %(group)s group.
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupSponsor())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.group.view')
     def sponsor(self, groupname, targetname):
         '''Sponsor user'''
@@ -464,9 +464,9 @@ propagate into the e-mail aliases and CVS repository within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupRemove())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.group.view')
     def remove(self, groupname, targetname):
         '''Remove user from group'''
@@ -501,9 +501,9 @@ aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupUpgrade())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas.templates.group.view')
     def upgrade(self, groupname, targetname):
         '''Upgrade user in group'''
@@ -577,8 +577,8 @@ into the e-mail aliases within an hour.
             return dict()
 
     ### FIXME: error_handler() does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.group.dump", format="text",
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
@@ -619,9 +619,9 @@ into the e-mail aliases within an hour.
 
         return dict(people=filteredPeople)
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.group.invite')
     def invite(self, groupname):
         username = turbogears.identity.current.user_name
@@ -630,9 +630,9 @@ into the e-mail aliases within an hour.
 
         return dict(person=person, group=group)
 
+    @identity.require(identity.not_anonymous())
     @validate(validators=GroupSendInvite())
     @error_handler(error) # pylint: disable-msg=E0602
-    @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.group.invite')
     def sendinvite(self, groupname, target):
         username = turbogears.identity.current.user_name

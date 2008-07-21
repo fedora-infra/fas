@@ -95,8 +95,8 @@ class CLA(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     ### FIXME: error_handler() does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
     ### FIXME: type overrides a builtin *and* it's not used in the method.
     # Can we remove it?
@@ -107,8 +107,8 @@ class CLA(controllers.Controller):
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
     ### FIXME: type overrides a builtin *and* it's not used in the method.
     # Can we remove it?
@@ -119,8 +119,8 @@ class CLA(controllers.Controller):
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.view", allow_json=True)
     def reject(self, personName):
         '''Reject a user's CLA.
@@ -196,8 +196,8 @@ Thanks!
             turbogears.redirect('/user/view/%s' % personName)
 
     ### FIXME: error_handler() does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.cla.index")
     def send(self, human_name, telephone, postal_address, country_code, confirm=False, agree=False):
         '''Send CLA'''

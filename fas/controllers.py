@@ -150,8 +150,8 @@ class Root(plugin.RootController):
             turbogears.redirect('/home')
         return dict(now=time.ctime())
 
-    @expose(template="fas.templates.home", allow_json=True)
     @identity.require(identity.not_anonymous())
+    @expose(template="fas.templates.home", allow_json=True)
     def home(self):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
