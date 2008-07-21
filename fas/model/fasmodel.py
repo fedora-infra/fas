@@ -495,21 +495,6 @@ class UnApprovedRoles(PersonRoles):
     '''Only show Roles that are not approved.'''
     pass
 
-# These classes are for mapping the People data with restrictions.  Since some
-# of the information shouldn't be revealed, we map to selectables that only
-# have the public data.
-class PeopleSelf(People):
-    pass
-
-class PeopleAnon(People):
-    pass
-
-class PeopleOtherPrivate(People):
-    pass
-
-class PeopleOtherPublic(People):
-    pass
-
 #
 # Classes for the SQLAlchemy Visit Manager
 #
@@ -551,55 +536,6 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
     'group': relation(Groups, backref='unapproved_roles', lazy = False)
     })
 
-
-#
-# Mappers for filtering People Information
-#
-mapper(PeopleSelf, PeopleSelfSelect, properties = {
-    'group_roles': relation(PersonRoles,
-        collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleSelfSelect.c.id == PersonRolesTable.c.person_id),
-    'approved_roles': relation(ApprovedRoles,
-        primaryjoin = PeopleSelfSelect.c.id == ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles,
-        primaryjoin = PeopleSelfSelect.c.id == UnApprovedRoles.c.person_id)
-    })
-
-mapper(PeopleAnon, PeopleAnonSelect, properties = {
-    'group_roles': relation(PersonRoles, viewonly=True,
-        collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleAnonSelect.c.id == PersonRolesTable.c.person_id),
-    'approved_roles': relation(ApprovedRoles,
-        primaryjoin = PeopleAnonSelect.c.id == ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles,
-        primaryjoin = PeopleAnonSelect.c.id == UnApprovedRoles.c.person_id)
-    })
-
-mapper(PeopleOtherPrivate, PeopleOtherPrivateSelect, properties = {
-    'group_roles': relation(PersonRoles,
-        collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleOtherPrivateSelect.c.id \
-                == PersonRolesTable.c.person_id),
-    'approved_roles': relation(ApprovedRoles,
-        primaryjoin = PeopleOtherPrivateSelect.c.id \
-                == ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles,
-        primaryjoin = PeopleOtherPrivateSelect.c.id \
-                == UnApprovedRoles.c.person_id)
-    })
-
-mapper(PeopleOtherPublic, PeopleOtherPublicSelect, properties = {
-    'group_roles': relation(PersonRoles,
-        collection_class = attribute_mapped_collection('groupname'),
-        primaryjoin = PeopleOtherPublicSelect.c.id \
-                == PersonRolesTable.c.person_id),
-    'approved_roles': relation(ApprovedRoles,
-        primaryjoin = PeopleOtherPublicSelect.c.id \
-                == ApprovedRoles.c.person_id),
-    'unapproved_roles': relation(UnApprovedRoles,
-        primaryjoin = PeopleOtherPublicSelect.c.id \
-                == UnApprovedRoles.c.person_id)
-    })
 
 #
 # General Mappers
@@ -649,3 +585,29 @@ mapper(Log, LogTable)
 mapper(Visit, visits_table)
 mapper(VisitIdentity, visit_identity_table,
         properties=dict(users=relation(People, backref='visit_identity')))
+
+#
+# Mappers for filtering People Information
+#
+# These classes are for mapping the People data with restrictions.  Since some
+# of the information shouldn't be revealed, we map to selectables that only
+# have the public data.
+
+def FilterClass(table):
+    class SomeClass(People):
+        pass
+    mapper(SomeClass, table, properties = {
+        'group_roles': relation(PersonRoles,
+            collection_class = attribute_mapped_collection('groupname'),
+            primaryjoin = table.c.id == PersonRolesTable.c.person_id),
+        'approved_roles': relation(ApprovedRoles,
+            primaryjoin = table.c.id == ApprovedRoles.c.person_id),
+        'unapproved_roles': relation(UnApprovedRoles,
+            primaryjoin = table.c.id == UnApprovedRoles.c.person_id)
+        })
+    return SomeClass
+
+PeopleSelf = FilterClass(PeopleSelfSelect)
+PeopleAnon = FilterClass(PeopleAnonSelect)
+PeopleOtherPrivate = FilterClass(PeopleOtherPrivateSelect)
+PeopleOtherPublic = FilterClass(PeopleOtherPublicSelect)
