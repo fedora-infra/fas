@@ -24,7 +24,7 @@ def stockentries():
         entries.append(('User List', '/user/list'))
     if not identity.current.anonymous:
         entries.append(('Group List', '/group/list/A*'))
-        entries.append(('Apply for a new Group', '/group/list/A*'))
+        entries.append(('Join a Group', '/group/list/A*'))
     return entries
 
 entryfuncs.append(stockentries)
