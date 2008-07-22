@@ -47,7 +47,7 @@ class JsonRequest(controllers.Controller):
 
         try:
             person = People.by_id(userid)
-            person.jsonProps = {
+            person.json_props = {
                     'People': ('approved_memberships', 'unapproved_memberships')
                     }
             return dict(success=True, person=person)
@@ -59,7 +59,7 @@ class JsonRequest(controllers.Controller):
     def person_by_username(self, username):
         try:
             person = People.by_username(username)
-            person.jsonProps = {
+            person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
             return dict(success=True, person=person)
@@ -75,7 +75,8 @@ class JsonRequest(controllers.Controller):
 
         try:
             group = Groups.by_id(groupid)
-            group.jsonProps = {'Groups': ('approved_roles', 'unapproved_roles')}
+            group.json_props = {
+                    'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)
         except InvalidRequestError:
             return dict(success=False)
@@ -85,7 +86,8 @@ class JsonRequest(controllers.Controller):
     def group_by_name(self, groupname):
         try:
             group = Groups.by_name(groupname)
-            group.jsonProps = {'Groups': ('approved_roles', 'unapproved_roles')}
+            group.json_props = {
+                    'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)
         except InvalidRequestError:
             return dict(success=False)

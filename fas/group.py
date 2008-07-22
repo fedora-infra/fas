@@ -147,7 +147,7 @@ class Group(controllers.Controller):
         # Also return information on who is not sponsored
         unsponsored = PersonRoles.query.join('group').filter(and_(
             PersonRoles.role_status=='unapproved', Groups.name==groupname))
-        unsponsored.jsonProps = {'PersonRoles': ['member']}
+        unsponsored.json_props = {'PersonRoles': ['member']}
         return dict(group=group, sponsor_queue=unsponsored)
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -183,7 +183,7 @@ class Group(controllers.Controller):
             #People.username.like(re_search)
             #)).order_by(order_by)
         members = PersonRoles.query.filter_by(group=group).filter(PersonRoles.member.has(People.username.like(re_search))).order_by(sort_map[order_by]).all()
-        group.jsonProps = {'PersonRoles': ['member']}
+        group.json_props = {'PersonRoles': ['member']}
         return dict(group=group, members=members, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())

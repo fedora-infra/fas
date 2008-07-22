@@ -206,7 +206,7 @@ class User(controllers.Controller):
         else:
             admin = False
         cla = CLADone(person)
-        person.jsonProps = {
+        person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
         return dict(person=person, cla=cla, personal=personal, admin=admin)
