@@ -156,6 +156,7 @@ class Root(plugin.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
+        person = person.filter_private()
         return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")

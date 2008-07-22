@@ -615,7 +615,7 @@ if __name__ == '__main__':
         fas.logout()
     if opts.aliases:
         try:
-            fas = MakeShellAccounts(FAS_URL, config.get('global', 'login').strip('"'), config.get('global', 'password').strip('"'), opts.debug)
+            fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
         except AuthError, e:
             print >> sys.stderr, e
             sys.exit(1)

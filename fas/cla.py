@@ -63,9 +63,13 @@ class CLA(controllers.Controller):
             code_len = len(person.country_code)
         except TypeError:
             code_len = 0
-        if not person.telephone or not person.postal_address or code_len != 2 or person.country_code=='  ':
-            turbogears.flash('A valid postal Address, country and telephone number are required to complete the CLA.  Please fill them out below.')
+        if not person.telephone or not person.postal_address or code_len != 2 \
+                or person.country_code=='  ':
+            turbogears.flash('A valid postal Address, country and telephone'
+                    ' number are required to complete the CLA.  Please fill'
+                    ' them out below.')
         cla = CLADone(person)
+        person = person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
 
     def _cla_dependent(self, group):
@@ -104,6 +108,7 @@ class CLA(controllers.Controller):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
+        person = person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
@@ -116,6 +121,7 @@ class CLA(controllers.Controller):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
+        person = person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
@@ -230,7 +236,7 @@ Thanks!
             turbogears.flash(_("Your updated information could not be saved."))
             turbogears.redirect('/cla/')
             return dict()
-        
+
         # Heuristics to detect bad data
         if not person.telephone or \
                 not person.postal_address or \
