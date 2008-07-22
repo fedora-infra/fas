@@ -114,9 +114,16 @@ Then just start the postgres database:
 -------
 Hacking
 -------
+
+Get the code
+============
+
 If you want to hack on the Account System you need to checkout the module.
   git clone git://git.fedorahosted.org/git/fas
   cd fas
+
+Generate Metadata
+=================
 
 Once you are inside you're fresh checkout, you need to regenerate some files
 that are created by the build script, setup.py::
@@ -125,27 +132,35 @@ that are created by the build script, setup.py::
 This will create the fas.egg-info directory which has metadata about the
 program.  It allows things like the identity provider to work.
 
+Start up Postgres
+=================
+
 Do any configuration necessary and start up the postgres server.  Then make the
 plpython language available on new databases, create a postgres user to manage
 the data and import the schema::
   sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
   sudo -u fedora psql < fas2.sql
-  
-Import changes to make your database current with the latest development version.
+
+The you need to import changes to make your database current with the latest
+development version.
+
 NOTE: In other distros, the command might just be 'migrate'
-  sqlalchemy-migrate version_control postgres://fedora:password@localhost/fas2 #one time
+::
+  sqlalchemy-migrate version_control postgres://fedora:password@localhost/fas2 ./database #one time
   sqlalchemy-migrate manage manage.py --repository=database --url=postgres://fedora:password@localhost/fas2 #one time
   python manage.py upgrade #everytime you pull changes that include DB updates
 
-Don't forget, do *not* comit your manage.py scriptlet. 'manage.py' is included in
-.gitignore, but if you use another name, .gitignore can't ignore it.  It is
-specific to your development environment.
+Don't forget, do *not* commit your manage.py scriptlet. 'manage.py' is
+included in .gitignore, but if you use another name, .gitignore can't ignore
+it.  It is specific to your development environment.
 
 You can find out more about how to use SQLAlchemy-Migrate here:
 
 http://code.google.com/p/sqlalchemy-migrate/
 
+Configure FAS Settings
+======================
 
 The last thing to do is configure the application to use your settings.
 You'll need to edit fas.cfg and change the following lines::
@@ -159,10 +174,17 @@ You'll need to edit fas.cfg and change the following lines::
   base_url_filter.base_url = "http://localhost:8088/accounts"
 
 You may also need to change some of the directories and settings in
-fas/config/app.cfg.  
+fas/config/app.cfg.
+
+OpenID
+======
 
 For OpenID support, run tg-admin -c fas.cfg sql create to create the
 OpenID tables.
+
+
+Start the Server
+================
 
 You should then be able to start the server and test things out::
   ./start-fas
