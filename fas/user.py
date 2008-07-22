@@ -76,6 +76,7 @@ class UserSave(validators.Schema):
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
     country_code = validators.String(max=2, strip=True)
+    privacy = validators.Bool
 
 class UserCreate(validators.Schema):
     username = validators.All(
