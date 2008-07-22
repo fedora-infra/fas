@@ -614,7 +614,7 @@ into the e-mail aliases within an hour.
             sponsorship = dict(pair for pair in sponsorCount.execute())
 
         # We filter this so that sending information via json is quick(er)
-        filterPrivacy = (p[0].filter_private(), p[1]) for p in people)
+        filterPrivacy = ((p[0].filter_private(), p[1]) for p in people)
         filteredPeople = ((p[0].username, p[0].email, p[0].human_name, p[1],
                 sponsorship.get(p[0].username, 0)) for p in filterPrivacy)
         sortedPeople = sorted(filteredPeople)
