@@ -76,7 +76,7 @@ install that manually::
 Prerequisites
 -------------
 Before you can get started, make sure to have the following packages installed
-(example being from Fedora 8 with a local postgres database server)::
+(example being from Fedora 8 with a local postgresql database server)::
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
