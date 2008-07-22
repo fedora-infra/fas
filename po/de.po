@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-06-16 17:25-0400\n"
-"PO-Revision-Date: 2008-07-22 09:06+0100\n"
+"PO-Revision-Date: 2008-07-22 17:57+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -508,7 +508,7 @@ msgstr "Sie müssen älter als 13 Jahre sein"
 
 #: fas/help.py:42
 msgid "<p>Out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13.</p>"
-msgstr ""
+msgstr "<p>Wir entschuldigen uns, aber wir haben spezielle Vorbehalte, wenn es um die Privatsphäre von Kinder geht. Wir akzeptieren bewusst keine persönlichen Online-Informationen von Kindern unter 13 Jahren. Wir erlauben bewusst Kindern unter 13 Jahren nicht registrierte Mitglieder unserer Seite zu werden oder Produkte und Dienstleistungen auf unserer Seite zu kaufen. Wir sammeln oder bemühen uns bewusst nicht um perönliche Informationen über Kinder unter 13 Jahren.</p>"
 
 #: fas/help.py:43
 #: fas/templates/group/list.html:43
@@ -815,7 +815,7 @@ msgstr "Sie brauchen Sich nicht einzutragen. Sie haben ein Konto!"
 
 #: fas/user.py:515
 msgid "We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."
-msgstr ""
+msgstr "Wir entschuldigen uns, aber wir haben spezielle Vorbehalte, wenn es um die Privatsphäre von Kinder geht. Wir akzeptieren bewusst keine persönlichen Online-Informationen von Kindern unter 13 Jahren. Wir erlauben bewusst Kindern unter 13 Jahren nicht registrierte Mitglieder unserer Seite zu werden oder Produkte und Dienstleistungen auf unserer Seite zu kaufen. Wir sammeln oder bemühen uns bewusst nicht um perönliche Informationen über Kinder unter 13 Jahren."
 
 #: fas/user.py:527
 msgid "Welcome to the Fedora Project!"
@@ -828,11 +828,14 @@ msgstr "Willkommen beim Fedora-Projekt!"
 # \n
 # Bitte gehen Sie zu https://admin.fedoraproject.org/accounts/ , um es zu ändern.\n
 # \n
-# Willkommen beim Fedora-Projekt. Now that you've signed up for an\n
-# account you're probably desperate to start contributing, and with that\n
-# in mind we hope this e-mail might guide you in the right direction to\n
-# make this process as easy as possible.\n
+# Willkommen beim Fedora-Projekt. Nun da Sie sich für ein Konto angemeldet\n
+# haben, wollen Sie sicher beginnen beim Mitarbeiten und damit im Kopf, \n
+# hoffen wir, dass diese Nachricht Sie sicher und möglichst einfach durch\n
+# den Prozess leiten kann. \n
 # \n
+# Fedora ist ein aussergewöhnliches Projekt, wo eine Menge los ist 
+# und Sie auf viele Wege mitarbeiten können unter Verwendung von
+# unterschiedlichsten Fähigkeiten.
 # Fedora is an exciting project with lots going on, and you can\n
 # contribute in a huge number of ways, using all sorts of different\n
 # skill sets. To find out about the different ways you can contribute to\n
@@ -841,9 +844,9 @@ msgstr "Willkommen beim Fedora-Projekt!"
 # \n
 # http://fedoraproject.org/de/join-fedora\n
 # \n
-# If you already know how you want to contribute to Fedora, and have\n
-# found the group already working in the area you're interested in, then\n
-# there are a few more steps for you to get going.\n
+# Wenn Sie bereits wissen, wie Sie bei Fedora mitarbeiten wollen und die\n
+# Gruppe schon gefunden haben, die in diesem Bereich arbeitet, dann\n
+# nüssen Sie nur noch ein paar Schritte absolvieren.\n
 # \n
 # Foremost amongst these is to sign up for the team or project's mailing\n
 # list that you're interested in - and if you're interested in more than\n
