@@ -108,7 +108,7 @@ class ValidRoleSort(validators.FancyValidator):
         return value.strip()
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
-        if value not in ('username', 'role_type', 'role_status', \
+        if value not in ('username', 'sponsor', 'role_type', 'role_status', \
             'creation', 'approval'):
             raise validators.Invalid(_("Invalid sort key.") % value,
                     value, state)

@@ -156,12 +156,12 @@ class Group(controllers.Controller):
     @expose(template="fas.templates.group.members", allow_json=True)
     def members(self, groupname, search=u'a*', order_by='username'):
         '''View group'''
-        sort_map = { 'username': 'username',
-            'sponsor': None,
-            'creation': PersonRoles.c.creation,
-            'approval': PersonRoles.c.approval,
-            'role_status': PersonRoles.c.role_status,
-            'role_type': PersonRoles.c.role_type,
+        sort_map = { 'username': 'people_1.username',
+            'creation': 'person_roles_creation',
+            'approval': 'person_roles_approval',
+            'role_status': 'person_roles_role_status',
+            'role_type': 'person_roles_role_type',
+            'sponsor': 'people_2.username',
             }
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
@@ -178,11 +178,11 @@ class Group(controllers.Controller):
             return dict()
 
         # return all members of this group that fit the search criteria
-        #members = PersonRoles.query.join('group').join('member').filter(and_(
-            #Groups.name==groupname,
-            #People.username.like(re_search)
-            #)).order_by(order_by)
-        members = PersonRoles.query.filter_by(group=group).filter(PersonRoles.member.has(People.username.like(re_search))).order_by(sort_map[order_by]).all()
+        members = PersonRoles.query.join('group').join('member', aliased=True).filter(
+            People.username.like(re_search)
+            ).join('sponsor', aliased=True).filter(
+            Groups.name==groupname,
+            ).order_by(sort_map[order_by])
         group.json_props = {'PersonRoles': ['member']}
         return dict(group=group, members=members, search=search)
 
