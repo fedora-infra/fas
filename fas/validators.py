@@ -62,7 +62,7 @@ class KnownGroup(validators.FancyValidator):
             # pylint: disable-msg=W0612
             group = Groups.by_name(value)
         except InvalidRequestError:
-            raise validators.Invalid(self.message('no_group', group=value),
+            raise validators.Invalid(self.message('no_group', state, group=value),
                     value, state)
 
 class UnknownGroup(validators.FancyValidator):
@@ -82,7 +82,7 @@ class UnknownGroup(validators.FancyValidator):
         except InvalidRequestError:
             pass
         else:
-            raise validators.Invalid(self.message('exists', group=value),
+            raise validators.Invalid(self.message('exists', state, group=value),
                     value, state)
 
 class ValidGroupType(validators.FancyValidator):
@@ -98,7 +98,7 @@ class ValidGroupType(validators.FancyValidator):
         if value not in ('system', 'bugzilla', 'cvs', 'bzr', 'git', \
             'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
             'tracking', 'user'):
-            raise validators.Invalid(self.message('invalid_type', type=value),
+            raise validators.Invalid(self.message('invalid_type', state, type=value),
                     value, state)
 
 class ValidRoleSort(validators.FancyValidator):
@@ -128,7 +128,7 @@ class KnownUser(validators.FancyValidator):
             # pylint: disable-msg=W0612
             people = People.by_username(value)
         except InvalidRequestError:
-            raise validators.Invalid(self.message('no_user', user=value),
+            raise validators.Invalid(self.message('no_user', state, user=value),
                     value, state)
 
 class UnknownUser(validators.FancyValidator):
@@ -149,10 +149,10 @@ class UnknownUser(validators.FancyValidator):
         except InvalidRequestError:
             return
         except:
-            raise validators.Invalid(self.message('create_error', user=value),
+            raise validators.Invalid(self.message('create_error', state, user=value),
                     value, state)
 
-        raise validators.Invalid(self.message('exists', user=value),
+        raise validators.Invalid(self.message('exists', state, user=value),
                 value, state)
 
 class NonFedoraEmail(validators.FancyValidator):
@@ -167,7 +167,7 @@ class NonFedoraEmail(validators.FancyValidator):
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value.endswith('@fedoraproject.org'):
-            raise validators.Invalid(self.message('no_loop'), value, state)
+            raise validators.Invalid(self.message('no_loop', state), value, state)
 
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
@@ -187,7 +187,7 @@ class ValidSSHKey(validators.FancyValidator):
             keyline = keyline.strip()
             validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
             if not validline:
-                raise validators.Invalid(self.message('invalid_key',
+                raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
 
 class ValidUsername(validators.FancyValidator):
@@ -204,7 +204,7 @@ class ValidUsername(validators.FancyValidator):
         # pylint: disable-msg=C0111
         username_blacklist = config.get('username_blacklist')
         if re.compile(username_blacklist).match(value):
-            raise validators.Invalid(self.message('blacklist', username=value),
+            raise validators.Invalid(self.message('blacklist', state, username=value),
                     value, state)
 
 class ValidLanguage(validators.FancyValidator):
@@ -218,5 +218,5 @@ class ValidLanguage(validators.FancyValidator):
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value not in available_languages():
-            raise validators.Invalid(self.message('not_available', lang=value),
+            raise validators.Invalid(self.message('not_available', state, lang=value),
                     value, state)
