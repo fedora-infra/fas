@@ -43,7 +43,7 @@ When upgrading to 0.8.5 the database schema changed slightly.  The configs
 table now has a unique constraint to prevent duplicates being entered.  Use
 this to update your existing schema::
 
-  sudo -u postgres psql fas2 < updates/fas2-0.8.3_to_0.8.4.sql
+  sudo -u postgres psql fas2 < updates/fas2-0.8.4_to_0.8.5.sql
 
 0.8.3 => 0.8.4
 ==============
