@@ -194,6 +194,10 @@ class Root(plugin.RootController):
         forward_url=None
         previous_url= request.path
 
+        if identity.was_login_attempted() and request.fas_provided_username:
+            print 'FIXME: Do something with this:', request.fas_identity_failure_reason
+            pass
+
         if identity.was_login_attempted():
             msg=_("The credentials you supplied were not correct or "
                    "did not grant access to this resource.")

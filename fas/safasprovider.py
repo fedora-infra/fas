@@ -181,7 +181,22 @@ class SaFasIdentityProvider(object):
             user: a provider dependant object (TG_User or similar)
             groups: a set of group IDs
             permissions: a set of permission IDs
+
+        Side Effects:
+        :cherrypy.request.fas_provided_username: set to user_name
+        :cherrypy.request.fas_identity_failure_reason: if we fail to validate
+            the user, set to the reason validation failed.  Values can be:
+            :no_user: The username was not present in the db.
+            :status_inactive: User is disabled but can reset their password
+                to restore service.
+            :status_admin_disabled: User is disabled and has to talk to an
+                admin before they are re-enabled.
+            :bad_password: The username and password do not match.
         '''
+        # Save the user provided username so we can do other checks on it in
+        # outside of this method.
+        cherrypy.request.fas_provided_username = user_name
+        cherrypy.request.fas_identity_failure_reason = None
         using_ssl = False
         if not user_name:
             if cherrypy.request.headers['X-Client-Verify'] == 'SUCCESS':
@@ -190,16 +205,20 @@ class SaFasIdentityProvider(object):
         user = user_class.query.filter_by(username=user_name).first()
         if not user:
             log.warning("No such user: %s", user_name)
+            cherrypy.request.fas_identity_failure_reason = 'no_user'
             return None
 
         if user.status in ('inactive', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s" % \
                 { 'username': user_name, 'status': user.status })
+            cherrypy.request.fas_identity_failure_reason = 'status_%s' \
+                    % user.status
             return None
 
         if not using_ssl:
             if not self.validate_password(user, user_name, password):
                 log.info("Passwords don't match for user: %s", user_name)
+                cherrypy.request.fas_identity_failure_reason = 'bad_password'
                 return None
 
         log.info("associating user (%s) with visit (%s)", user.username,
