@@ -39,6 +39,7 @@
     <span py:if='me.fedoraRoleStatus == "approved"'>${form(action='modifyGroup', value=value, method='get')}</span>
     -->
     <h3><a href="${tg.url('/group/view/%s' % group.name)}">${_('Group Details')}</a></h3>
+    ${types('/group/members/%s/%s' % (group.name, search), ['administrator', 'sponsor', 'user'])}
     ${search_box('/group/members/%s' % group.name)}
     <h3>${_('Members')}</h3>
     ${member_table(members, group, person)}

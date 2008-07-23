@@ -154,7 +154,8 @@ class Group(controllers.Controller):
     @validate(validators=GroupMembers())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.group.members", allow_json=True)
-    def members(self, groupname, search=u'a*', order_by='username'):
+    def members(self, groupname, search=u'a*', role_type=None,
+                order_by='username'):
         '''View group'''
         sort_map = { 'username': 'people_1.username',
             'creation': 'person_roles_creation',
@@ -183,6 +184,8 @@ class Group(controllers.Controller):
             ).join('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
+        if role_type:
+            members = members.filter(PersonRoles.role_type==role_type)
         group.json_props = {'PersonRoles': ['member']}
         return dict(group=group, members=members, search=search)
 
@@ -582,7 +585,7 @@ into the e-mail aliases within an hour.
     @expose(template="genshi-text:fas.templates.group.dump", format="text",
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
-    def dump(self, groupname=None):
+    def dump(self, groupname=None, role_type=None):
         sponsorTables = PeopleTable.join(PersonRolesTable,
                 People.id==PersonRoles.sponsor_id)
         if not groupname:
@@ -604,6 +607,8 @@ into the e-mail aliases within an hour.
                         PersonRoles.group).add_column(
                             PersonRoles.role_type).filter(
                                 Groups.name==groupname).order_by('username')
+            if role_type:
+                people = people.filter(PersonRoles.c.role_type==role_type)
 
             # retrieve sponsorship info:
             sponsorCount = select(
