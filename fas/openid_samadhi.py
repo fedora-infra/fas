@@ -201,6 +201,7 @@ class OpenID(controllers.Controller):
                     'email': identity.current.user.email,
                     'fullname': identity.current.user.human_name,
                     'timezone': identity.current.user.timezone,
+                    'country': identity.current.user.country_code,
                     }
 
                 for field in [f for f in kw['sreg']['send'] if kw['sreg']['send'] == 'yes']:

@@ -25,6 +25,9 @@
         <span class="stored_information" py:when="field == 'timezone' and tg.identity.user.timezone is not None">
           ${tg.identity.user.timezone}
         </span>
+        <span class="stored_information" py:when="field == 'country' and tg.identity.user.country is not None">
+          ${tg.identity.user.country}
+        </span>
         <span class="no_information" py:otherwise="">${_('No information on file')}</span>
       </td>
       <td py:if="not required">
