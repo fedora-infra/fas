@@ -83,7 +83,6 @@ class UserCreate(validators.Schema):
         UnknownUser,
         ValidUsername(not_empty=True),
         validators.String(max=32, min=3),
-        validators.Regex(regex='^[a-z][a-z0-9]+$'),
     )
     human_name = validators.All(
         validators.String(not_empty=True, max=42),

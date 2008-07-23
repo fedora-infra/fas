@@ -192,9 +192,14 @@ class ValidSSHKey(validators.FancyValidator):
 
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
-    message = {'blacklist': _("'%(username)s' is an illegal username.  A valid"
-        " username must only contain lowercase alphanumeric characters, and"
-        " must start with a letter.")}
+    username_regex = re.compile(r'^[a-z][a-z0-9]+$')
+    username_blacklist = re.compile(config.get('username_blacklist'))
+
+    messages = {'invalid_username': _("'%(username)s' is an illegal username.  "
+        "A valid username must only contain lowercase alphanumeric characters, "
+        "and must start with a letter."),
+        'blacklist': _("'%(username)s' is an blacklisted username.  Please "
+        "choose a different one.")}
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
@@ -202,8 +207,10 @@ class ValidUsername(validators.FancyValidator):
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
-        username_blacklist = config.get('username_blacklist')
-        if re.compile(username_blacklist).match(value):
+        if not self.username_regex.match(value):
+            raise validators.Invalid(self.message('invalid_username', state,
+                username=value), value, state)
+        if self.username_blacklist.match(value):
             raise validators.Invalid(self.message('blacklist', state, username=value),
                     value, state)
 
