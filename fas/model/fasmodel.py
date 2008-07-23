@@ -107,6 +107,38 @@ PeopleSelfSelect = select((PeopleTable.c.id,
     PeopleTable.c.longitude,
     PeopleTable.c.privacy)).alias('people')
 
+# The thirdparty can't see the *token fields, internal comments
+# or the password
+PeopleThirdPartySelect = select((PeopleTable.c.id,
+    PeopleTable.c.username,
+    PeopleTable.c.human_name,
+    PeopleTable.c.gpg_keyid,
+    PeopleTable.c.ssh_key,
+    literal_column('Null').label('password'),
+    literal_column('Null').label('passwordtoken'),
+    PeopleTable.c.password_changed,
+    PeopleTable.c.email,
+    literal_column('Null').label('emailtoken'),
+    PeopleTable.c.unverified_email,
+    PeopleTable.c.comments,
+    PeopleTable.c.postal_address,
+    PeopleTable.c.country_code,
+    PeopleTable.c.telephone,
+    PeopleTable.c.facsimile,
+    PeopleTable.c.affiliation,
+    PeopleTable.c.certificate_serial,
+    PeopleTable.c.creation,
+    literal_column('Null').label('internal_comments'),
+    PeopleTable.c.ircnick,
+    PeopleTable.c.last_seen,
+    PeopleTable.c.status,
+    PeopleTable.c.status_change,
+    PeopleTable.c.locale,
+    PeopleTable.c.timezone,
+    PeopleTable.c.latitude,
+    PeopleTable.c.longitude,
+    PeopleTable.c.privacy)).alias('people')
+
 # Additionally remove telephone/facimile, postal_address, and password fields
 PeopleOtherPublicSelect = select((PeopleTable.c.id,
     PeopleTable.c.username,
@@ -223,6 +255,7 @@ visit_identity_table = Table('visit_identity', metadata,
 
 admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
+thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
@@ -409,6 +442,10 @@ class People(SABase):
         if identity.in_group(admin_group) or \
                 identity.in_group(system_group):
             return self
+
+        # thirdparty users don't get passwords. they have their own.
+        if identity.in_group(thirdparty_group):
+            return PeopleThirdParty.by_username(self.username)
 
         # The user themselves gets everything except internal_comments
         if identity.current.user_name == self.username:
@@ -673,3 +710,4 @@ PeopleSelf = FilterClass(PeopleSelfSelect)
 PeopleAnon = FilterClass(PeopleAnonSelect)
 PeopleOtherPrivate = FilterClass(PeopleOtherPrivateSelect)
 PeopleOtherPublic = FilterClass(PeopleOtherPublicSelect)
+PeopleThirdParty = FilterClass(PeopleThirdPartySelect)
