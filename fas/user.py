@@ -497,7 +497,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 You have created a new Fedora account!
 Your new password is: %s
 
-Please go to https://admin.fedoraproject.org/accounts/user/changepass
+Please go to http://%s%s/user/changepass
 to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
@@ -531,7 +531,7 @@ your feet as a Fedora contributor.
 
 And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
-''') % newpass['pass']
+''') % (newpass['pass'], config.get('base_url_filter.base_url'), config.get('server.webpath'))
             turbomail.enqueue(message)
             person.password = newpass['hash']
         except IntegrityError:
