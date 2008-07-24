@@ -53,6 +53,10 @@ from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
 
+admin_group = config.get('admingroup', 'accounts')
+system_group = config.get('systemgroup', 'fas-system')
+thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+
 class UserView(validators.Schema):
     username = KnownUser
 
@@ -359,31 +363,32 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             search = unicode(search, 'utf-8', 'replace')
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
-        PeopleGroupsTable = PeopleTable.join(
-                PersonRolesTable, PersonRoles.person_id==People.id).join(
-                        GroupsTable, PersonRoles.group_id==Groups.id)
 
-        columns = [People.username, People.id, People.human_name, People.ssh_key, People.email]
-        if identity.in_group('fas-system'):
-            columns.append(People.password)
-        approved = select(columns, from_obj=PeopleGroupsTable
-            ).where(and_(People.username.like(re_search),
-                Groups.name=='cla_done',
-                PersonRoles.role_status=='approved')
-                ).distinct().order_by('username').execute()
-        cla_approved = [dict(row) for row in approved]
+        # Query db for all users,add_column( select as cla_done 
+        ### FIXME: This is a hack.  have to figure out how to get the additional
+        # join conditions in without resorting to raw sql.  The two syntaxes
+        # to do this in SQL are:
+        # select p.username, (select role_status from person_roles join groups
+        # on group_id = id where person_id = p.id and name = 'test') as
+        # cla_done from people as p;
+        #
+        # select username, role_status from people left outer join
+        # (person_roles join groups on group_id = groups.id and name = 'test')
+        # on person_id = people.id;
+        people = People.query.add_column(PersonRolesTable.c.role_status).from_statement("select people.*, person_roles.role_status from people left outer join (person_roles join groups on group_id = groups.id and name='cla_done') on person_id = people.id order by people.username")
 
-        unapproved = select(columns).where(and_(
-                People.username.like(re_search),
-                not_(People.id.in_([p['id'] for p in cla_approved])))
-                ).distinct().order_by('username').execute()
+        approved = []
+        unapproved = []
+        for person in people.all():
+            if person[1] == 'approved':
+                approved.append(person[0].filter_private())
+            else:
+                unapproved.append(person[0].filter_private())
 
-        cla_unapproved = [dict(row) for row in unapproved]
-
-        if not (cla_approved or cla_unapproved):
+        if not (approved or unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
 
-        return dict(people=cla_approved, unapproved_people=cla_unapproved,
+        return dict(people=approved, unapproved_people=unapproved,
                 search=search)
 
     @identity.require(identity.not_anonymous())
