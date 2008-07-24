@@ -395,6 +395,20 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(format='json')
     def email_list(self, search=u'*'):
+        '''Return a username to email address mapping.
+
+        Note: If the caller is not authorized to view the email address of a
+        particular user, username@fedoraproject.org will be put there instead.
+        These are typically email aliases to the user's email address but
+        please be aware that the aliases only exist if the user is approved in
+        at least one group (so not every username will have an email alias).
+
+        Keyword arguments:
+        :search: filter the results by this search string.  * is a wildcard and
+            the filter is anchored to the beginning of the username by default.
+
+        Returns: a mapping of usernames to email addresses.
+        '''
         ### FIXME: Should port this to a validator
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
@@ -405,9 +419,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
-        people = people.filter_private()
-        for person in people:
-            emails[person.username] = person.email
+        for person in (p.filter_private() for p in people):
+            emails[person.username] = person.email or '%s@fedoraproject.org' \
+                    % person.username
         return dict(emails=emails)
 
     @identity.require(identity.not_anonymous())
