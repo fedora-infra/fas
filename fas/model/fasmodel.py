@@ -441,27 +441,32 @@ class People(SABase):
         # Full disclosure to admins
         if identity.in_group(admin_group) or \
                 identity.in_group(system_group):
-            return self
+            person = self
 
         # thirdparty users don't get passwords. they have their own.
-        if identity.in_group(thirdparty_group):
-            return PeopleThirdParty.by_username(self.username)
+        elif identity.in_group(thirdparty_group):
+            person = PeopleThirdParty.by_username(self.username)
 
         # The user themselves gets everything except internal_comments
-        if identity.current.user_name == self.username:
-            return PeopleSelf.by_username(self.username)
+        elif identity.current.user_name == self.username:
+            person = PeopleSelf.by_username(self.username)
 
         # Anonymous users get very little
-        if identity.current.anonymous:
-            return PeopleAnon.by_username(self.username)
+        elif identity.current.anonymous:
+            person = PeopleAnon.by_username(self.username)
         elif self.privacy:
             # Dealing with another user.  If the record they're viewing has
-            # privact set, restrict what goes out more.
-            return PeopleOtherPrivate.by_username(self.username)
+            # privacy set, restrict what goes out more.
+            person = PeopleOtherPrivate.by_username(self.username)
         else:
             # All other people can get a moderate amount... but only if
             # privacy is not set.
-            return PeopleOtherPublic.by_username(self.username)
+            person = PeopleOtherPublic.by_username(self.username)
+
+        # Make sure json_props is set on the new class
+        if hasattr(self, 'json_props'):
+            person.json_props = self.json_props
+        return person
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
