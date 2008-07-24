@@ -716,7 +716,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
 
         # Re-enabled!
-        if person.status in ('invalid'):
+        if person.status in ('inactive'):
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
 
