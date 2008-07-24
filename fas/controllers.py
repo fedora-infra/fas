@@ -28,7 +28,7 @@ import cherrypy
 import time
 
 from fas import release
-from fas.user import User
+from fas.user import User, generate_token
 from fas.group import Group
 from fas.configs import Config
 from fas.cla import CLA
@@ -195,10 +195,18 @@ class Root(plugin.RootController):
         previous_url= request.path
 
         if identity.was_login_attempted() and request.fas_provided_username:
-            print 'FIXME: Do something with this:', request.fas_identity_failure_reason
-            pass
-
-        if identity.was_login_attempted():
+            if request.fas_identity_failure_reason == 'status_inactive':
+                username = request.fas_provided_username
+                token = generate_token() 
+                person = People.by_username(username)
+                person.passwordtoken = token
+                redirect('/user/verifypass/%s/%s' % (username, token))
+            if request.fas_identity_failure_reason == 'status_account_disabled':
+                msg=_("Your account is currently disabled.  For more information, " + \
+                      "please contact %(admin_email)s" % \
+                  {'admin_email': config.get('accounts_email')})
+                redirect('/home')
+        elif identity.was_login_attempted():
             msg=_("The credentials you supplied were not correct or "
                    "did not grant access to this resource.")
         elif identity.get_identity_errors():
