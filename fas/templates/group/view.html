@@ -36,7 +36,7 @@
       <dl>
         <dt>${_('Name:')}</dt><dd>${group.name}&nbsp;</dd>
         <dt>${_('Description:')}</dt><dd>${group.display_name}&nbsp;</dd>
-        <dt>${_('Owner:')}</dt><dd>${group.owner.username}&nbsp;</dd>
+        <dt>${_('Owner:')}</dt><dd><a href="${tg.url('/user/view/%s') % group.owner.username}">${group.owner.username}</a></dd>
         <dt>${_('Type:')}</dt><dd>${group.group_type}&nbsp;</dd>
 
 	<dt>${_('Rules for Application:')}</dt><dd>${group.apply_rules}&nbsp;</dd>
