@@ -77,7 +77,7 @@
         <py:if test="can_sponsor">
         <dt>${_('Add User:')}</dt>
         <dd>
-          <form action="${tg.url('/group/apply/%s' % group.name)}">
+          <form action="${tg.url('/group/application_screen/%s' % group.name)}">
             <input type='text' size='15' name='targetname'/>
             <input type="submit" value="${('Add')}" />
             <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
