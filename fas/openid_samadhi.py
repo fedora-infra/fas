@@ -74,13 +74,14 @@ class OpenID(controllers.Controller):
     @expose(template="fas.templates.openid.id")
     def id(self, username):
         person = People.by_username(username)
+        person = person.filter_private()
         if not CLADone(person):
             flash(_('This OpenID will not be active until the user has signed the CLA.'))
         results = dict(endpoint_url = endpoint_url,
                        yadis_url = build_url(yadis_base_url + '/' + username),
                        user_url = build_url(id_base_url + '/' + username),
                        person=person)
-            
+
         return results
 
     @expose(template="fas.templates.openid.yadis", format="xml", content_type="application/xrds+xml")
@@ -167,7 +168,7 @@ class OpenID(controllers.Controller):
             webresponse = self.openid.encodeResponse(openid_response)
             response.status = webresponse.code
             response.headers.update(webresponse.headers)
-            
+
             if webresponse.body:
                 return webresponse.body
             return ''
@@ -177,7 +178,7 @@ class OpenID(controllers.Controller):
             response.status = 400
             response.headers['Content-type'] = 'text/plain; charset=UTF-8'
             return text
-        
+
     @expose()
     def allow(self, *args, **kw):
         trust_root = kw['trust_root']
@@ -210,7 +211,7 @@ class OpenID(controllers.Controller):
 
             sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, send_values)
             sreg_resp.toMessage(openid_response.fields)
-        
+
         elif 'no' in kw:
             openid_response = openid_request.answer(False)
             remember_value = 'never'
