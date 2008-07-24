@@ -158,8 +158,8 @@ class MakeShellAccounts(BaseClient):
 
     def rm_tempdir(self):
         rmtree(self.temp)
-    
-    
+
+
     def valid_groups(self):
         ''' Create a dict of valid groups, including that of group_type '''
         if not self.groups:
@@ -180,7 +180,7 @@ class MakeShellAccounts(BaseClient):
                 else:
                     valid_groups[restriction].append(group)
         self.valid_groups = valid_groups
-    
+
     def valid_group(self, name, restriction=None):
         ''' Determine if group is valid on the system '''
         if restriction:
@@ -190,7 +190,7 @@ class MakeShellAccounts(BaseClient):
                 if name in self.valid_groups[restrict_key]:
                     return True
         return False
-    
+
     def valid_user(self, username):
         ''' Is the user valid on this system '''
         if not self.valid_groups:
@@ -205,7 +205,7 @@ class MakeShellAccounts(BaseClient):
         except KeyError:
             return False
         return False
-    
+
     def ssh_key(self, person):
         ''' determine what ssh key a user should have '''
         for group in self.valid_groups['groups']:
@@ -267,9 +267,13 @@ class MakeShellAccounts(BaseClient):
 
     def passwd_text(self, people=None):
         i = 0
+        # Touch shadow and secure the permissions
+        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+        shadow_file.close()
+        os.chmod(self.temp + '/shadow.txt', 00600)
+
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
-        os.chmod(self.temp + '/shadow.txt', 00400)
         if not self.people:
             self.people_list()
         for person in self.people:
@@ -352,7 +356,7 @@ class MakeShellAccounts(BaseClient):
                     i = i + 1
             except KeyError:
                 continue
-                
+
         for group in self.groups:
             gid = group['id']
             name = group['name']
@@ -417,7 +421,7 @@ class MakeShellAccounts(BaseClient):
         if unapproved == False:
             print "    None"
 
-        
+
 
     def people_list(self, search='*'):
         params = {'search' : search}
@@ -438,25 +442,26 @@ class MakeShellAccounts(BaseClient):
         os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
         os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
         os.chmod(self.temp + '/shadow.db', 00400)
+        os.chmod(self.temp + '/shadow.txt', 00400)
 
     def install_passwd_db(self):
         try:
             move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
         except IOError, e:
             print "ERROR: Could not write passwd db - %s" % e
-    
+
     def install_shadow_db(self):
         try:
             move(self.temp + '/shadow.db', os.path.join(prefix + '/var/db/shadow.db'))
         except IOError, e:
             print "ERROR: Could not write shadow db - %s" % e
-    
+
     def install_group_db(self):
         try:
             move(self.temp + '/group.db', os.path.join(prefix + '/var/db/group.db'))
         except IOError, e:
             print "ERROR: Could not write group db - %s" % e
-    
+
     def create_homedirs(self):
         ''' Create homedirs and home base dir if they do not exist '''
         home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
@@ -538,7 +543,7 @@ class MakeShellAccounts(BaseClient):
             for role in members:
                 email_file.write("%s-%s: %s\n" % (name, role, ','.join(members[role])))
         email_file.close()
-                    
+
 def enable():
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
@@ -598,7 +603,9 @@ if __name__ == '__main__':
             print >> sys.stderr, 'Could not connect to %s - %s' % (FAS_URL, e.reason[1])
             sys.exit(9)
         fas.mk_tempdir()
+        print fas.temp
         fas.make_group_db()
+        print fas.temp
         fas.make_passwd_db()
         if not opts.no_group:
             fas.install_group_db()
