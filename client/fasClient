@@ -603,9 +603,7 @@ if __name__ == '__main__':
             print >> sys.stderr, 'Could not connect to %s - %s' % (FAS_URL, e.reason[1])
             sys.exit(9)
         fas.mk_tempdir()
-        print fas.temp
         fas.make_group_db()
-        print fas.temp
         fas.make_passwd_db()
         if not opts.no_group:
             fas.install_group_db()
