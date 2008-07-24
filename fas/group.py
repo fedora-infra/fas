@@ -501,7 +501,7 @@ aliases within an hour.
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
-                redirect_url = request.headers.get('Referer', '/group/members/%s/A*' % group.name)
+                redirect_url = cherrypy.request.headers.get('Referer', '/group/members/%s/A*' % group.name)
                 turbogears.redirect(redirect_url)
             return dict()
 
