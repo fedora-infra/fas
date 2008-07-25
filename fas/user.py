@@ -257,6 +257,7 @@ class User(controllers.Controller):
         target = targetname
         person = People.by_username(username)
         target = People.by_username(target)
+        email = email.lower()
         emailflash = ''
 
         if not canEditUser(person, target):
@@ -481,11 +482,12 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
-        # TODO: Ensure that e-mails are unique?
-        #       Also, perhaps implement a timeout- delete account
+        # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.
-        
+
+        # Lowercase email for consistency (and uniqueness checking)
+        email = email.lower()
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
@@ -714,7 +716,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
 
         # Re-enabled!
-        if person.status in ('invalid'):
+        if person.status in ('inactive'):
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
 
