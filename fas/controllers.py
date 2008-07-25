@@ -104,7 +104,12 @@ def get_locale(locale=None):
     try:
         return turbogears.identity.current.user.locale
     except AttributeError:
-        return turbogears.i18n.utils._get_locale()
+        pass
+    try:
+        return cherrypy.request.simple_cookie['fas_locale'].value
+    except KeyError:
+        pass
+    return turbogears.i18n.utils._get_locale()
 
 config.update({'i18n.get_locale': get_locale})
 
@@ -239,7 +244,8 @@ class Root(plugin.RootController):
             turbogears.flash(_('The language \'%s\' is not available.') % locale)
             redirect(request.headers.get("Referer", "/"))
             return dict()
-        turbogears.i18n.set_session_locale(locale)
+        #turbogears.i18n.set_session_locale(locale)
+        cherrypy.response.simple_cookie['fas_locale'] = locale
         redirect(request.headers.get("Referer", "/"))
         return dict()
 
