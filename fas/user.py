@@ -364,18 +364,16 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
 
-        # Query db for all users,add_column( select as cla_done 
-        ### FIXME: This is a hack.  have to figure out how to get the additional
-        # join conditions in without resorting to raw sql.  The two syntaxes
-        # to do this in SQL are:
-        # select p.username, (select role_status from person_roles join groups
-        # on group_id = id where person_id = p.id and name = 'test') as
-        # cla_done from people as p;
-        #
-        # select username, role_status from people left outer join
-        # (person_roles join groups on group_id = groups.id and name = 'test')
-        # on person_id = people.id;
-        people = People.query.add_column(PersonRolesTable.c.role_status).from_statement("select people.*, person_roles.role_status from people left outer join (person_roles join groups on group_id = groups.id and name='cla_done') on person_id = people.id order by people.username")
+        # Query db for all users and their status in cla_done
+        RoleGroupJoin = PersonRolesTable.join(GroupsTable,
+                and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
+        PeopleJoin = PeopleTable.outerjoin(RoleGroupJoin,
+                PersonRoles.person_id==People.id)
+
+        stmt = select([PeopleTable, PersonRolesTable.c.role_status],
+                from_obj=[PeopleJoin]).order_by(People.username)
+        people = People.query.add_column(PersonRoles.role_status
+                ).from_statement(stmt)
 
         approved = []
         unapproved = []
