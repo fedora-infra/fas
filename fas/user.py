@@ -42,6 +42,7 @@ from OpenSSL import crypto
 import pytz
 from datetime import datetime
 
+from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select, and_, not_
 
@@ -257,7 +258,6 @@ class User(controllers.Controller):
         target = targetname
         person = People.by_username(username)
         target = People.by_username(target)
-        email = email.lower()
         emailflash = ''
 
         if not canEditUser(person, target):
@@ -278,22 +278,17 @@ class User(controllers.Controller):
                 target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
             if target.email != email:
-                test = None
-                try:
-                    test = People.by_email_address(email)
-                except:
-                    pass
+                test = sqlalchemy.select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).fetchall()
                 if test:
                     turbogears.flash(_('Somebody is already using that email address.'))
                     target = target.filter_private()
                     return dict(target=target, languages=languages)
-                else:
-                    token = generate_token()
-                    target.unverified_email = email
-                    target.emailtoken = token
-                    message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
-                    # TODO: Make this email friendlier. 
-                    message.plain = _('''
+                token = generate_token()
+                target.unverified_email = email
+                target.emailtoken = token
+                message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
+                # TODO: Make this email friendlier. 
+                message.plain = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
 ownership of this email by visiting the following URL (you will need to
@@ -301,8 +296,8 @@ login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 ''') % token
-                    emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
-                    turbomail.enqueue(message)
+                emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
+                turbomail.enqueue(message)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -487,20 +482,16 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.
 
-        # Lowercase email for consistency (and uniqueness checking)
-        email = email.lower()
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
             turbogears.redirect('/')
-        try:
-            person = People.by_email_address(email)
-        except InvalidRequestError:
-            pass
-        else:
+        test = sqlalchemy.select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).fetchall()
+        if test:
             turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
             turbogears.redirect("/")
+            return dict()
         try:
             person = People()
             person.username = username
@@ -555,7 +546,7 @@ forward to working with you!
             turbomail.enqueue(message)
             person.password = newpass['hash']
         except IntegrityError:
-            turbogears.flash(_("An account has already been registered with that email address."))
+            turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
             turbogears.redirect('/user/new')
             return dict()
         else:
