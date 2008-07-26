@@ -1,18 +1,16 @@
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: fas\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-16 17:25-0400\n"
-"PO-Revision-Date: 2008-05-27 07:55+0100\n"
+"PO-Revision-Date: 2008-07-26 06:56+0200\n"
 "Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);"
 
 #: fas/auth.py:159
 #, python-format
@@ -200,7 +198,7 @@ msgstr "%(user)s nem tudott jelentkezni %(group)s csoportba: %(error)s"
 #: fas/group.py:396
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr "Jelentkezés „%(group)s” csoportba"
 
 #: fas/group.py:398
 #, python-format
@@ -210,6 +208,10 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"Köszönjük, hogy jelentkezett %(group)s csoportba.  \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:408
 #, python-format
@@ -227,7 +229,7 @@ msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s nem támogatható %(group)s csoportban: %(error)s"
 
 #: fas/group.py:438
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(name)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -238,8 +240,6 @@ msgstr ""
 "%(name)s <%(email)s> támogatta az ön tagságát %(group)s\n"
 "Fedora számlarendszer csoportban. Ha kell, ezt a változást továbbítják\n"
 "az email álnevekre és a CVS tárolókba egy órán belül.\n"
-"\n"
-"%(joinmsg)s\n"
 
 #: fas/group.py:444
 #, python-format
@@ -529,13 +529,12 @@ msgid "Account Status"
 msgstr "Számla állapot"
 
 #: fas/help.py:37
-#, fuzzy
 msgid ""
 "<p>Shows account status, possible values include<ul><li>active</"
 "li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Számla állapotot mutat. Lehetséges értékek:<ul><li>Érvényes</"
-"li><li>Letiltva</li><li>Lejárt</li></ul></p>"
+"<p>Számla állapotot mutat. Lehetséges értékek:<ul><li>tevékeny</"
+"li><li>szünetel</li><li>tétlen</li></ul></p>"
 
 #: fas/help.py:38
 msgid "CLA"
@@ -757,9 +756,8 @@ msgstr ""
 "mint amilyen a fedorahosted.</p>"
 
 #: fas/help.py:54
-#, fuzzy
 msgid "Group URL (Optional)"
-msgstr "IRC becenév (nem szükséges)"
+msgstr "Csoport URL (nem szükséges)"
 
 #: fas/help.py:54
 msgid ""
@@ -767,20 +765,25 @@ msgid ""
 "fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
 "Infrastructure</a>).</p>"
 msgstr ""
+"<p>A csoport URL vagy wiki lapja (például: <a href=\"https://"
+"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
+"Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "Csoport levelező lista (nem szükséges)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
+"<p>A csoport levelező listája (például: fedora-infrastructure-"
+"list@redhat.com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "Csoport levelező lista URL (nem szükséges)"
 
 #: fas/help.py:56
 msgid ""
@@ -788,25 +791,27 @@ msgid ""
 "redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 msgstr ""
+"<p>A csoport levelező listájának URL-je (például: <a·href=\"http://www."
+"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
+"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
 #: fas/help.py:57
-#, fuzzy
 msgid "Group IRC Channel (Optional)"
-msgstr "IRC becenév (nem szükséges)"
+msgstr "Csoport IRC csatorna (nem szükséges)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>A csoport IRC csatornája (például: #fedora-admin).</p>"
 
 #: fas/help.py:58
-#, fuzzy
 msgid "Group IRC Network (Optional)"
-msgstr "IRC becenév (nem szükséges)"
+msgstr "Csoport IRC hálózat (nem szükséges)"
 
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
+"<p>A csoport·IRC·csatornájának IRC hálózata·(például:·Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -862,13 +867,12 @@ msgid "Join Message"
 msgstr "Kísérő szöveg"
 
 #: fas/help.py:62
-#, fuzzy
 msgid ""
 "<p>This message will go out to users when they apply to the group.  It "
 "should be informative and offer tips about what to do next.  A description "
 "of the group would also be valuable here</p>"
 msgstr ""
-"<p>Ez az üzenet megy ki a használókhoz, amikor csatlakoznak a csoporthoz. "
+"<p>Ez az üzenet megy ki a használókhoz, amikor jelentkeznek a csoportba. "
 "Legyen tájékoztató jellegű, és ajánljon ötleteket a következő lépéseket "
 "illetően! Egy leírás a csoportról szintén értékes lenne itt.</p>"
 
@@ -891,13 +895,15 @@ msgstr ""
 
 #: fas/openid_samadhi.py:78
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "Ez az OpenID tétlen lesz, amíg a használó nem írja alá a CLA-t."
 
 #: fas/openid_samadhi.py:186 fas/openid_samadhi.py:231
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating to "
 "the OpenID consumer."
 msgstr ""
+"Az ön utolsó OpenID kérelmét nem sikerült behozni.  Próbálja magát újra "
+"hitelesíteni az OpenID fogyasztónál."
 
 #: fas/safasprovider.py:160
 #, python-format
@@ -936,6 +942,8 @@ msgid ""
 "'%s' is an illegal username.  A valid username must only contain lowercase "
 "alphanumeric characters, and must start with a letter."
 msgstr ""
+"'%s' érvénytelen név.  Egy érvényes név csak kisbetűket, számokat "
+"tartalmazhat, és betűvel kezdődik."
 
 #: fas/user.py:294
 #, python-format
@@ -948,9 +956,8 @@ msgid "You do not have permission to edit '%s'"
 msgstr "Nincs jogosultsága „%s” szerkesztésére"
 
 #: fas/user.py:320
-#, fuzzy
 msgid "Only administrator can enable or disable an account."
-msgstr "Csak FAS adminisztrátorok teremthetnek csoportokat."
+msgstr "Csak adminisztrátor engedélyezhet illetve tilthat számlát."
 
 #: fas/user.py:332
 msgid "Somebody is already using that email address."
@@ -1172,6 +1179,8 @@ msgid ""
 "Your account is currently disabled.  For more information, please contact %"
 "(admin_email)s"
 msgstr ""
+"Az ön számláját letiltották.  További tájékoztatásért kérem üzenjen ide: "
+"%(admin_email)s"
 
 #: fas/user.py:646
 msgid "Fedora Project Password Reset"
@@ -1561,9 +1570,8 @@ msgid "You have already successfully completed the CLA."
 msgstr "Önnek már sikerült befejeznie a CLA-t."
 
 #: fas/templates/cla/index.html:28 fas/templates/user/edit.html:19
-#, fuzzy
 msgid "Full Name"
-msgstr "Teljes név:"
+msgstr "Teljes név"
 
 #: fas/templates/cla/index.html:33 fas/templates/user/edit.html:37
 msgid "Telephone Number"
@@ -1612,24 +1620,23 @@ msgstr "Csoport típus"
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:43
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:47
 msgid "Mailing List:"
-msgstr ""
+msgstr "Levelező lista:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "Levelező lista URL:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "IRC csatorna:"
 
 #: fas/templates/group/edit.html:43
-#, fuzzy
 msgid "IRC Network:"
-msgstr "IRC becenév:"
+msgstr "IRC hálózat:"
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
@@ -1818,9 +1825,8 @@ msgid "Type:"
 msgstr "Típus:"
 
 #: fas/templates/group/view.html:54
-#, fuzzy
 msgid "IRC:"
-msgstr "IRC becenév:"
+msgstr "IRC:"
 
 #: fas/templates/group/view.html:61 fas/templates/group/view.html:65
 msgid "Yes"
@@ -1910,7 +1916,7 @@ msgstr "nem"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "OpenID azonosító lap"
 
 #: fas/templates/openid/id.html:20
 #, python-format
@@ -1922,6 +1928,7 @@ msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
 "System<a>."
 msgstr ""
+"A·<a·href=\"https://admin.fedoraproject.org/\">Fedora·Számlarendszer<a> része."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2137,7 +2144,7 @@ msgstr "Megpingetve"
 
 #: fas/templates/user/view.html:44
 msgid "Disabled"
-msgstr ""
+msgstr "Letiltva"
 
 #: fas/templates/user/view.html:46
 msgid "CLA:"
