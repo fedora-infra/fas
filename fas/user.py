@@ -195,6 +195,7 @@ class User(controllers.Controller):
         # if groupname in identity.groups: pass
         # We may want to do that in isAdmin() though. -Toshio
         user = People.by_username(identity.current.user_name)
+        admin = False
         if isAdmin(user):
             admin = True
             # TODO: Should admins be able to see personal info?  If so, enable this.  
@@ -208,8 +209,6 @@ class User(controllers.Controller):
             # <py:if test="not personal">${user}'s Account</py:if>
             # -Toshio
             #personal = True
-        else:
-            admin = False
         cla = CLADone(person)
         person = person.filter_private()
         person.json_props = {
@@ -278,11 +277,11 @@ class User(controllers.Controller):
                 target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
             if target.email != email:
-                test = sqlalchemy.select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).fetchall()
+                test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
                 if test:
                     turbogears.flash(_('Somebody is already using that email address.'))
-                    target = target.filter_private()
-                    return dict(target=target, languages=languages)
+                    turbogears.redirect("/user/edit/%s" % target.username)
+                    return dict()
                 token = generate_token()
                 target.unverified_email = email
                 target.emailtoken = token
@@ -316,8 +315,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         except TypeError, e:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
             turbogears.redirect("/user/edit/%s" % target.username)
-            target = target.filter_private()
-            return dict(target=target, languages=languages)
+            return dict()
         else:
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
@@ -487,7 +485,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
             turbogears.redirect('/')
-        test = sqlalchemy.select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).fetchall()
+        test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
         if test:
             turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
             turbogears.redirect("/")
