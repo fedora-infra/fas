@@ -73,5 +73,5 @@ def fake_call(self, environ, start_response):
 
 setattr(EvalException, '__call__', fake_call)
 
-application = EvalException(application, global_conf={'debug': True})
+#application = EvalException(application, global_conf={'debug': True})
 
