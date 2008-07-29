@@ -1,8 +1,8 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fas\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2008-06-16 17:25-0400\n"
 "PO-Revision-Date: 2008-07-26 06:56+0200\n"
 "Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: fas/auth.py:159
 #, python-format
@@ -765,9 +765,9 @@ msgid ""
 "fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
 "Infrastructure</a>).</p>"
 msgstr ""
-"<p>A csoport URL vagy wiki lapja (például: <a href=\"https://"
-"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
-"Infrastructure</a>).</p>"
+"<p>A csoport URL vagy wiki lapja (például: <a href=\"https://fedoraproject."
+"org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>)."
+"</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
@@ -778,8 +778,8 @@ msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
-"<p>A csoport levelező listája (például: fedora-infrastructure-"
-"list@redhat.com).</p>"
+"<p>A csoport levelező listája (például: fedora-infrastructure-list@redhat."
+"com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
@@ -810,8 +810,7 @@ msgstr "Csoport IRC hálózat (nem szükséges)"
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
-"<p>A csoport·IRC·csatornájának IRC hálózata·(például:·Freenode).</p>"
+msgstr "<p>A csoport·IRC·csatornájának IRC hálózata·(például:·Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -1179,8 +1178,8 @@ msgid ""
 "Your account is currently disabled.  For more information, please contact %"
 "(admin_email)s"
 msgstr ""
-"Az ön számláját letiltották.  További tájékoztatásért kérem üzenjen ide: "
-"%(admin_email)s"
+"Az ön számláját letiltották.  További tájékoztatásért kérem üzenjen ide: %"
+"(admin_email)s"
 
 #: fas/user.py:646
 msgid "Fedora Project Password Reset"
@@ -1928,7 +1927,8 @@ msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
 "System<a>."
 msgstr ""
-"A·<a·href=\"https://admin.fedoraproject.org/\">Fedora·Számlarendszer<a> része."
+"A·<a·href=\"https://admin.fedoraproject.org/\">Fedora·Számlarendszer<a> "
+"része."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
