@@ -196,8 +196,9 @@ class Root(plugin.RootController):
                 forward_url = turbogears.url('/')
             raise redirect(forward_url)
 
-        forward_url=None
-        previous_url= request.path
+        forward_url = None
+        previous_url = request.path
+        msg = None
 
         if identity.was_login_attempted() and request.fas_provided_username:
             if request.fas_identity_failure_reason == 'status_inactive':
