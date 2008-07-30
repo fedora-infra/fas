@@ -305,7 +305,8 @@ If you need to revoke it, please visit this link:
 'date': dt.ctime(),}
         # Sigh..  if only there were a nicer way.
         plugin = TextTemplateEnginePlugin()
-        message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
+        #message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
+        message.plain += plugin.transform(dict(person=person), 'fas.templates.cla.cla').render(method='text', encoding=None)
         turbomail.enqueue(message)
         turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
         turbogears.redirect('/user/view/%s' % person.username)
