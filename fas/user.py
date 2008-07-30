@@ -506,7 +506,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 You have created a new Fedora account!
 Your new password is: %s
 
-Please go to http://%s%s/user/changepass
+Please go to %s%s/user/changepass
 to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
