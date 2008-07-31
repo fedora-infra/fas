@@ -17,10 +17,10 @@
 
   <body>
     <h1>
-      <span py:when="person.human_name" py:strip="">
+      <span py:if="person.human_name" py:strip="">
         ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
       </span>
-      <span py:otherwise="" py:strip="">
+      <span py:if="not person.human_name" py:strip="">
         ${_('This is an OpenID identity for %(username)s') % {'username': person.username}}
       </span>
     </h1>
