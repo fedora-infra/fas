@@ -210,7 +210,7 @@ class User(controllers.Controller):
             # -Toshio
             #personal = True
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
@@ -240,7 +240,7 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
 
-        target = target.filter_private()
+        target.filter_private()
         return dict(target=target, languages=languages, admin=admin)
 
     @identity.require(identity.not_anonymous())
@@ -373,10 +373,11 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         approved = []
         unapproved = []
         for person in people.all():
+            person[0].filter_private()
             if person[1] == 'approved':
-                approved.append(person[0].filter_private())
+                approved.append(person[0])
             else:
-                unapproved.append(person[0].filter_private())
+                unapproved.append(person[0])
 
         if not (approved or unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
@@ -412,7 +413,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
-        for person in (p.filter_private() for p in people):
+        # Run filter_private via side effect
+        for person, discard in ((p, p.filter_private()) for p in people):
             emails[person.username] = person.email or '%s@fedoraproject.org' \
                     % person.username
         return dict(emails=emails)
@@ -437,7 +439,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect('/user/view/%s' % username)
             return dict()
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @identity.require(identity.not_anonymous())
@@ -692,7 +694,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
             turbogears.redirect('/login')
             return dict()
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @error_handler(error) # pylint: disable-msg=E0602

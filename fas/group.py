@@ -597,8 +597,6 @@ into the e-mail aliases within an hour.
                     from_obj = sponsorTables).group_by(People.username)
             sponsorship = dict(pair for pair in sponsorCount.execute())
         else:
-            people = []
-
             # Retrieve necessary info about the users who are approved in
             # this group
             people = People.query.join('roles').filter(
@@ -617,8 +615,9 @@ into the e-mail aliases within an hour.
                     ).group_by(People.username).where(Groups.name==groupname)
             sponsorship = dict(pair for pair in sponsorCount.execute())
 
+        # Run filter_private via side effect
+        filterPrivacy = ((p[0], p[1], p[0].filter_private()) for p in people)
         # We filter this so that sending information via json is quick(er)
-        filterPrivacy = ((p[0].filter_private(), p[1]) for p in people)
         filteredPeople = ((p[0].username, p[0].email, p[0].human_name, p[1],
                 sponsorship.get(p[0].username, 0)) for p in filterPrivacy)
         sortedPeople = sorted(filteredPeople)
@@ -634,7 +633,7 @@ into the e-mail aliases within an hour.
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, group=group)
 
     @identity.require(identity.not_anonymous())
@@ -670,5 +669,5 @@ Fedora and FOSS are changing the world -- come be a part of it!''') % {'user': p
         else:
             turbogears.flash(_("You are not in the '%s' group.") % group.name)
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(target=target, person=person, group=group)

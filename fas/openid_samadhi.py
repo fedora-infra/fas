@@ -74,7 +74,7 @@ class OpenID(controllers.Controller):
     @expose(template="fas.templates.openid.id")
     def id(self, username):
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         if not CLADone(person):
             flash(_('This OpenID will not be active until the user has signed the CLA.'))
         results = dict(endpoint_url = endpoint_url,

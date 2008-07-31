@@ -11,7 +11,7 @@
     from fas import auth
     from fas.model import People
     viewer = People.by_username(tg.identity.user.username)
-    person = person.filter_private()
+    viewer.filter_private()
     ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
     <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.username}</h2>

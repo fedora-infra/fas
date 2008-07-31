@@ -69,7 +69,7 @@ class CLA(controllers.Controller):
                     ' number are required to complete the CLA.  Please fill'
                     ' them out below.')
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
 
     def _cla_dependent(self, group):
@@ -108,7 +108,7 @@ class CLA(controllers.Controller):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
@@ -121,7 +121,7 @@ class CLA(controllers.Controller):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
