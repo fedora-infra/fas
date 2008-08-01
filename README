@@ -212,7 +212,6 @@ next create a configuration file in /etc/httpd/conf.d/accounts.conf with the
 following information in it:
 
 # File Start
-
 WSGISocketPrefix /tmp/wsgi
 
 # Repress TG's stdoutput
@@ -222,13 +221,13 @@ WSGIRestrictStdout On
 WSGIRestrictSignal Off
 
 # These are the real tunables
-WSGIDaemonProcess daemon processes=2 threads=2
+WSGIDaemonProcess daemon processes=2 threads=2 maximum-requests=1000 user=fas display-name=fas inactivity-timeout=30
 WSGIPythonOptimize 2
 
 WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
 
 <Directory /path/to/turbogears/fas/>
-    WSGIProcessGroup daemon
+    WSGIProcessGroup fas
     Order deny,allow
     Allow from all
 </Directory>
