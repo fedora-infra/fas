@@ -157,7 +157,7 @@ class UnknownUser(validators.FancyValidator):
 
 class NonFedoraEmail(validators.FancyValidator):
     '''Make sure that an email address is not @fedoraproject.org'''
-    message = {'no_loop': _('To prevent email loops, your email address'
+    messages = {'no_loop': _('To prevent email loops, your email address'
         ' cannot be @fedoraproject.org.')}
 
     def _to_python(self, value, state):
