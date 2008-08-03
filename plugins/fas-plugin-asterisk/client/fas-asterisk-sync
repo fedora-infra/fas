@@ -3,7 +3,7 @@
 # Note: this requires python-genshi 0.5 or higher to run (deps on NewTextTemplate)
 
 import os
-from fedora.accounts.fas2 import *
+from fedora.client.fas2 import AccountSystem
 import ConfigParser
 import optparse
 import logging
@@ -167,9 +167,6 @@ if __name__ == '__main__':
 
         fas.username = config.get('global', 'login').strip('"')
         fas.password = config.get('global', 'password').strip('"')
-        if not fas.authenticate(fas.username, fas.password):
-            print "Could not authenticate"
-            sys.exit(-1)
 
         users_conf = generateUsersConf(fas)
 
