@@ -181,7 +181,7 @@ class Group(controllers.Controller):
         # return all members of this group that fit the search criteria
         members = PersonRoles.query.join('group').join('member', aliased=True).filter(
             People.username.like(re_search)
-            ).join('sponsor', aliased=True).filter(
+            ).outerjoin('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
         if role_type:
