@@ -210,11 +210,5 @@ def canDowngradeUser(person, group, target):
     # Group admins can downgrade anybody.
     if canAdminGroup(person, group):
         return True
-    # Sponsors can only downgrade sponsors.  
-    # The controller should handle the case where the target
-    # is already a normal user.  
-    elif canSponsorGroup(person, group) and \
-        not canAdminGroup(person, group):
-        return True
     return False
 
