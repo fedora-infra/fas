@@ -303,14 +303,12 @@ class People(SABase):
             self.ssh_key = None
             self.password = None
             self.password_changed = None
-            self.email = None
             self.unverified_email = None
             self.postal_address = None
             self.country_code = None
             self.telephone = None
             self.facsimile = None
             self.affiliation = None
-            self.ircnick = None
             self.locale = None
             self.timezone = None
             self.latitude = None
