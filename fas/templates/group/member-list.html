@@ -11,7 +11,7 @@
     ?>
     <thead>
       <tr>
-        <th><a href="?order_by=username">${_('Username')}</a></th>
+        <th><a href="?order_by=username">${_('User')}</a></th>
         <th><a href="?order_by=sponsor">${_('Sponsor')}</a></th>
         <th><a href="?order_by=creation">${_('Date Added')}</a></th>
         <th><a href="?order_by=approval">${_('Date Approved')}</a></th>
@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tr py:for="role in members">
-      <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}</a></td>
+      <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}<br />${role.member.email}</a></td>
       <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
       <td py:if='not role.sponsor'>${_('None')}</td>
       <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
