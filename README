@@ -212,7 +212,7 @@ next create a configuration file in /etc/httpd/conf.d/accounts.conf with the
 following information in it:
 
 # File Start
-WSGISocketPrefix /tmp/wsgi
+WSGISocketPrefix /var/run/wsgi
 
 # Repress TG's stdoutput
 WSGIRestrictStdout On
