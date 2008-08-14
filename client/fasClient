@@ -107,6 +107,11 @@ parser.add_option('-a', '--aliases',
                      default = False,
                      action = 'store_true',
                      help = _('Sync mail aliases'))
+parser.add_option('--nosession',
+                     dest = 'nosession',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Disable the creation of ~/.fedora_session'))
 parser.add_option('--debug',
                      dest = 'debug',
                      default = False,
@@ -590,7 +595,7 @@ if __name__ == '__main__':
     if opts.disable:
         disable()
     if opts.info_username:
-        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug, cache_session=opts.nosession)
         fas.user_info(opts.info_username)
         sys.exit(1)
     if opts.install:
