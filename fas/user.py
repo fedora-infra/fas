@@ -698,19 +698,15 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict(person=person, token=token)
 
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose()
+    @expose(template="fas.templates.user.verifypass")
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
         if person.status in ('admin_disabled'):
             turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
                 {'admin_email': config.get('accounts_email')})
+            turbogears.redirect('/login')
             return dict()
-
-        # Re-enabled!
-        if person.status in ('inactive'):
-            person.status = 'active'
-            person.status_change = datetime.now(pytz.utc)
 
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
@@ -722,6 +718,17 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             turbogears.flash(_('Invalid password change token.'))
             turbogears.redirect('/login')
             return dict()
+
+        # Re-enabled!
+        if person.status in ('inactive'):
+            # Check that the password has changed.
+            import crypt
+            if crypt.crypt(password, person.password) == person.password:
+                turbogears.flash(_('Your password can not be the same as your old password.'))
+                return dict(person=person, token=token)
+            person.status = 'active'
+            person.status_change = datetime.now(pytz.utc)
+
 
         ''' Log this '''
         newpass = generate_password(password)

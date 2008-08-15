@@ -202,16 +202,18 @@ class Root(plugin.RootController):
 
         if identity.was_login_attempted() and request.fas_provided_username:
             if request.fas_identity_failure_reason == 'status_inactive':
-                username = request.fas_provided_username
-                token = generate_token() 
-                person = People.by_username(username)
-                person.passwordtoken = token
-                redirect('/user/verifypass/%s/%s' % (username, token))
+                turbogears.flash(_('Your old password has expired.  Please reset your password below.'))
+                redirect('/user/resetpass')
+                #username = request.fas_provided_username
+                #token = generate_token()
+                #person = People.by_username(username)
+                #person.passwordtoken = token
+                #redirect('/user/verifypass/%s/%s' % (username, token))
             if request.fas_identity_failure_reason == 'status_account_disabled':
                 msg=_("Your account is currently disabled.  For more information, " + \
                       "please contact %(admin_email)s" % \
                   {'admin_email': config.get('accounts_email')})
-                redirect('/home')
+                redirect('/login')
         elif identity.was_login_attempted():
             msg=_("The credentials you supplied were not correct or "
                    "did not grant access to this resource.")
