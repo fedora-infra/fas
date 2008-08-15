@@ -1,0 +1,3 @@
+include fas_show/__init__.py
+include fas_show/templates/*.html
+include fas_show/templates/*.py
