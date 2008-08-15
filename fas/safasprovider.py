@@ -257,6 +257,12 @@ class SaFasIdentityProvider(object):
         Returns: True if the password matches the username.  Otherwise False.
           Can return False for problems within the Account System as well.
         '''
+        # crypt.crypt(stuff, '') == ''
+        # Just kill any possibility of blanks.
+        if not user.password:
+            return False
+        if not password:
+            return False
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
