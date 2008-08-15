@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.4.3
+Version:        0.8.4.4
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -40,7 +40,7 @@ that works with the Account System.
 %package clients
 Summary: Clients for the Fedora Account System
 Group: Applications/System
-Requires: python-fedora >= 0.2.99.6
+Requires: python-fedora >= 0.3
 Requires: rhpl
 
 %description clients
@@ -88,6 +88,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Thu Aug 14 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.4-1
+- Upstream released a new version.
+
 * Tue Jul 29 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.3-1
 - Upstream released a new version.
 
