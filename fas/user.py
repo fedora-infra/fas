@@ -744,7 +744,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
       username = identity.current.user_name
       person = People.by_username(username)
       if CLADone(person):
-          person.certificate_serial = person.certificate_serial + 1
+          eng = turbogears.database.get_engine()
+          serial = eng.execute(serial_seq)
 
           pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
 
@@ -765,7 +766,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
               emailAddress=person.email,
               )
 
-          cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
+          cert = openssl_fas.createCertificate(req, (cacert, cakey), serial, (0, expire), digest='md5')
           certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
           keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
           return dict(cla=True, cert=certdump, key=keydump)

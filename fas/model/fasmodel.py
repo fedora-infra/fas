@@ -29,7 +29,7 @@ from turbogears.database import metadata, mapper, get_engine, session
 from turbogears import identity, config
 import turbogears
 
-from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy import Table, Column, ForeignKey, Sequence
 from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy import and_, select, literal_column
 from sqlalchemy.orm import relation
@@ -89,6 +89,8 @@ visit_identity_table = Table('visit_identity', metadata,
     Column('user_id', Integer, ForeignKey('people.id'), index=True),
     Column('ssl', Boolean)
 )
+
+serial_seq = Sequence('serial_seq')
 
 #
 # Mapped Classes
