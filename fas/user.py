@@ -781,14 +781,33 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
             certfile = tempfile.NamedTemporaryFile()
 
-            ret = subprocess.call([config.get('opensslexec'), 'ca',
-                '-config', config.get('openssl_ca_config'),
-                '-cert', cafile, '-keyfile', cafile, '-policy', 'policy_match',
-                '-out', certfile.name, '-in', reqfile.name, '-batch'])
+            indexfile = open(config.get('openssl_ca_index'))
+            for entry in indexfile:
+                attrs = entry.split();
+                if attrs[0] != 'V':
+                    continue
+                # the index line looks something like this:
+                # R   090816180424Z   080816190734Z   01  unknown /C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                dn = attrs[5]
+                serial = attrs[3]
+                info = {}
+                for pair in dn.split('/'):
+                    if pair:
+                        key, value = pair.split('=')
+                        info[key] = value
+                if info['CN'] == person.username:
+                    # revoke old certs
+                    subprocess.call([config.get('makeexec'), '-C',
+                        config.get('openssl_ca_dir'), 'revoke'
+                        'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
+
+            ret = subprocess.call([config.get('makeexec'), '-C',
+                config.get('openssl_ca_dir'), 'sign'
+                'req=%s' % reqfile.name, 'cert=%s' % certfile.name])
 
             reqfile.close()
             #x = os.popen4("openssl ca -config %s -cert %s -keyfile %s -policy policy_match -out %s/pub -in %s/req -batch" \
-	    #% (arow['config'], CA_upload_file, CA_upload_file, arow['tmpdir'], arow['tmpdir']))
+            #% (arow['config'], CA_upload_file, CA_upload_file, arow['tmpdir'], arow['tmpdir']))
             if ret != 0:
                 turbogears.flash(_('Your certificate could not be generated.'))
                 turbogears.redirect('/home')
