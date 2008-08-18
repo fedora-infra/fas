@@ -744,43 +744,64 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     ### FIXME: Without a validator, error_handler() does nothing
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
+    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
     def gencert(self):
-      from cherrypy import response
-      response.headers["content-disposition"] = "attachment"
-      username = identity.current.user_name
-      person = People.by_username(username)
-      if CLADone(person):
-          eng = turbogears.database.get_engine()
-          serial = eng.execute(serial_seq)
+        from cherrypy import response
+        import tempfile
+        response.headers["content-disposition"] = "attachment"
+        username = identity.current.user_name
+        person = People.by_username(username)
+        if CLADone(person):
+            eng = turbogears.database.get_engine()
+            serial = eng.execute(serial_seq)
 
-          pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
+            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
 
-          digest = config.get('openssl_digest')
-          expire = config.get('openssl_expire')
-          cafile = config.get('openssl_ca_file')
+            digest = config.get('openssl_digest')
+            expire = config.get('openssl_expire')
+            cafile = config.get('openssl_ca_file')
 
-          cakey = openssl_fas.retrieve_key_from_file(cafile)
-          cacert = openssl_fas.retrieve_cert_from_file(cafile)
+            cakey = openssl_fas.retrieve_key_from_file(cafile)
+            cacert = openssl_fas.retrieve_cert_from_file(cafile)
 
-          req = openssl_fas.createCertRequest(pkey, digest=digest,
-              C=config.get('openssl_c'),
-              ST=config.get('openssl_st'),
-              L=config.get('openssl_l'),
-              O=config.get('openssl_o'),
-              OU=config.get('openssl_ou'),
-              CN=person.username,
-              emailAddress=person.email,
-              )
+            req = openssl_fas.createCertRequest(pkey, digest=digest,
+                C=config.get('openssl_c'),
+                ST=config.get('openssl_st'),
+                L=config.get('openssl_l'),
+                O=config.get('openssl_o'),
+                OU=config.get('openssl_ou'),
+                CN=person.username,
+                emailAddress=person.email,
+            )
 
-          cert = openssl_fas.createCertificate(req, (cacert, cakey), serial, (0, expire), digest='md5')
-          certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
-          keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-          return dict(cla=True, cert=certdump, key=keydump)
-      else:
-          if self.jsonRequest():
-              return dict(cla=False)
-          turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
-          turbogears.redirect('/cla/')
+            reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
+            reqfile = tempfile.NamedTemporaryFile()
+            reqfile.write(reqdump)
+            reqfile.flush()
 
+            certfile = tempfile.NamedTemporaryFile()
+
+            ret = subprocess.call([config.get('opensslexec'), 'ca',
+                '-config', config.get('openssl_ca_config'),
+                '-cert', cafile, '-keyfile', cafile, '-policy', 'policy_match',
+                '-out', certfile.name, '-in', reqfile.name, '-batch'])
+
+            reqfile.close()
+            #x = os.popen4("openssl ca -config %s -cert %s -keyfile %s -policy policy_match -out %s/pub -in %s/req -batch" \
+	    #% (arow['config'], CA_upload_file, CA_upload_file, arow['tmpdir'], arow['tmpdir']))
+            if ret != 0:
+                turbogears.flash(_('Your certificate could not be generated.'))
+                turbogears.redirect('/home')
+                return dict()
+            #cert = openssl_fas.createCertificate(req, (cacert, cakey), serial, (0, expire), digest='md5')
+            #certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+            certdump = certfile.read()
+            certfile.close()
+            keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+            return dict(cla=True, cert=certdump, key=keydump)
+        else:
+            if self.jsonRequest():
+                return dict(cla=False)
+            turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
+            turbogears.redirect('/cla/')
 
