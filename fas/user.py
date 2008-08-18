@@ -787,31 +787,32 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     break
                 except OSError:
                     time.sleep(0.75)
-            indexfile = open(config.get('openssl_ca_index'))
-            for entry in indexfile:
-                attrs = entry.split();
-                if attrs[0] != 'V':
-                    continue
-                # the index line looks something like this:
-                # R   090816180424Z   080816190734Z   01  unknown /C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
-                dn = attrs[5]
-                serial = attrs[3]
-                info = {}
-                for pair in dn.split('/'):
-                    if pair:
-                        key, value = pair.split('=')
-                        info[key] = value
-                if info['CN'] == person.username:
-                    # revoke old certs
-                    subprocess.call([config.get('makeexec'), '-C',
-                        config.get('openssl_ca_dir'), 'revoke'
-                        'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
+            try:
+                indexfile = open(config.get('openssl_ca_index'))
+                for entry in indexfile:
+                    attrs = entry.split();
+                    if attrs[0] != 'V':
+                        continue
+                    # the index line looks something like this:
+                    # R   090816180424Z   080816190734Z   01  unknown /C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                    dn = attrs[5]
+                    serial = attrs[3]
+                    info = {}
+                    for pair in dn.split('/'):
+                        if pair:
+                            key, value = pair.split('=')
+                            info[key] = value
+                    if info['CN'] == person.username:
+                        # revoke old certs
+                        subprocess.call([config.get('makeexec'), '-C',
+                            config.get('openssl_ca_dir'), 'revoke'
+                            'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
 
-            ret = subprocess.call([config.get('makeexec'), '-C',
-                config.get('openssl_ca_dir'), 'sign'
-                'req=%s' % reqfile.name, 'cert=%s' % certfile.name])
-
-            os.rmdir(config.get('openssl_lockdir'))
+                ret = subprocess.call([config.get('makeexec'), '-C',
+                    config.get('openssl_ca_dir'), 'sign'
+                    'req=%s' % reqfile.name, 'cert=%s' % certfile.name])
+            finally:
+                os.rmdir(config.get('openssl_lockdir'))
 
             reqfile.close()
             #x = os.popen4("openssl ca -config %s -cert %s -keyfile %s -policy policy_match -out %s/pub -in %s/req -batch" \
