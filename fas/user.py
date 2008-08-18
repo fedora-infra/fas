@@ -745,9 +745,14 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     ### FIXME: Without a validator, error_handler() does nothing
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
+    @expose(template="genshi:fas.templates.user.gencertdisabled", allow_json=True, content_type='text/html')
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
     def gencert(self):
-        from cherrypy import response
+        from cherrypy import response, request
+        if not config.get('gencert', False):
+            # Certificate generation is disabled on this machine
+            # Return the error page
+            return dict()
         import tempfile
         response.headers["content-disposition"] = "attachment"
         username = identity.current.user_name
@@ -757,10 +762,6 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
             digest = config.get('openssl_digest')
             expire = config.get('openssl_expire')
-            cafile = config.get('openssl_ca_file')
-
-            cakey = openssl_fas.retrieve_key_from_file(cafile)
-            cacert = openssl_fas.retrieve_cert_from_file(cafile)
 
             req = openssl_fas.createCertRequest(pkey, digest=digest,
                 C=config.get('openssl_c'),
@@ -778,20 +779,21 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             reqfile.flush()
 
             certfile = tempfile.NamedTemporaryFile()
-            while 1:
+            while True:
                 try:
-                    os.mkdir(config.get('openssl_lockdir'))
+                    os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
                     break
                 except OSError:
                     time.sleep(0.75)
             try:
                 indexfile = open(config.get('openssl_ca_index'))
                 for entry in indexfile:
-                    attrs = entry.split();
+                    attrs = entry.split('\t')
                     if attrs[0] != 'V':
                         continue
                     # the index line looks something like this:
-                    # R   090816180424Z   080816190734Z   01  unknown /C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                    # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                    # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
                     dn = attrs[5]
                     serial = attrs[3]
                     info = {}
@@ -802,27 +804,25 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     if info['CN'] == person.username:
                         # revoke old certs
                         subprocess.call([config.get('makeexec'), '-C',
-                            config.get('openssl_ca_dir'), 'revoke'
+                            config.get('openssl_ca_dir'), 'revoke',
                             'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
 
-                ret = subprocess.call([config.get('makeexec'), '-C',
-                    config.get('openssl_ca_dir'), 'sign'
-                    'req=%s' % reqfile.name, 'cert=%s' % certfile.name])
+                command = [config.get('makeexec'), '-C',
+                        config.get('openssl_ca_dir'), 'sign',
+                        'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
+                ret = subprocess.call(command)
             finally:
-                os.rmdir(config.get('openssl_lockdir'))
+                os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
 
             reqfile.close()
-            #x = os.popen4("openssl ca -config %s -cert %s -keyfile %s -policy policy_match -out %s/pub -in %s/req -batch" \
-            #% (arow['config'], CA_upload_file, CA_upload_file, arow['tmpdir'], arow['tmpdir']))
             if ret != 0:
                 turbogears.flash(_('Your certificate could not be generated.'))
                 turbogears.redirect('/home')
                 return dict()
-            #cert = openssl_fas.createCertificate(req, (cacert, cakey), serial, (0, expire), digest='md5')
-            #certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
             certdump = certfile.read()
             certfile.close()
             keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+            cherrypy.request.headers['Accept'] = 'text'
             return dict(cla=True, cert=certdump, key=keydump)
         else:
             if self.jsonRequest():
