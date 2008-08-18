@@ -41,6 +41,7 @@ from OpenSSL import crypto
 
 import pytz
 from datetime import datetime
+import time
 
 from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
@@ -780,7 +781,12 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             reqfile.flush()
 
             certfile = tempfile.NamedTemporaryFile()
-
+            while 1:
+                try:
+                    os.mkdir(config.get('openssl_lockdir'))
+                    break
+                except OSError:
+                    time.sleep(0.75)
             indexfile = open(config.get('openssl_ca_index'))
             for entry in indexfile:
                 attrs = entry.split();
@@ -804,6 +810,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             ret = subprocess.call([config.get('makeexec'), '-C',
                 config.get('openssl_ca_dir'), 'sign'
                 'req=%s' % reqfile.name, 'cert=%s' % certfile.name])
+
+            os.rmdir(config.get('openssl_lockdir'))
 
             reqfile.close()
             #x = os.popen4("openssl ca -config %s -cert %s -keyfile %s -policy policy_match -out %s/pub -in %s/req -batch" \
