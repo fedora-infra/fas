@@ -753,9 +753,6 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         username = identity.current.user_name
         person = People.by_username(username)
         if CLADone(person):
-            eng = turbogears.database.get_engine()
-            serial = eng.execute(serial_seq)
-
             pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
 
             digest = config.get('openssl_digest')
