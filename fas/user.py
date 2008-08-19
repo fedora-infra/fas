@@ -823,7 +823,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             certfile.close()
             keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
             cherrypy.request.headers['Accept'] = 'text'
-            return dict(cla=True, cert=certdump, key=keydump)
+            return dict(tg_template="genshi-text:fas.templates.user.cert",
+                    cla=True, cert=certdump, key=keydump)
         else:
             if self.jsonRequest():
                 return dict(cla=False)
