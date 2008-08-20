@@ -758,7 +758,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         username = identity.current.user_name
         person = People.by_username(username)
         if CLADone(person):
-            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
+            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
 
             digest = config.get('openssl_digest')
             expire = config.get('openssl_expire')
