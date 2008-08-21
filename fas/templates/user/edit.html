@@ -129,8 +129,7 @@ Unfortunately, checked can't be used as a boolean, only as a flag.  Silly HTML4 
       <br />
       <div class="field">
         <label for="privacy ">${_('Privacy')}:</label>
-        <input py:attrs="dict(checked=(target.privacy and True or None))"
-          type="checkbox" id="privacy" name="privacy">${target.privacy}</input>
+        <input py:attrs="dict(checked=(target.privacy and True or None))" type="checkbox" id="privacy" name="privacy" />
         <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
       </div>
       <div class="field">

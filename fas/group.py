@@ -181,7 +181,7 @@ class Group(controllers.Controller):
         # return all members of this group that fit the search criteria
         members = PersonRoles.query.join('group').join('member', aliased=True).filter(
             People.username.like(re_search)
-            ).join('sponsor', aliased=True).filter(
+            ).outerjoin('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
         if role_type:
@@ -403,14 +403,12 @@ class Group(controllers.Controller):
                 url = config.get('base_url_filter.base_url') + turbogears.url('/group/view/%s' % groupname)
 
                 sponsor_message.plain = '''
-Fedora user %(user)s, aka %(name)s <%(email)s> has requested
-membership for %(applicant)s (%(applicant_name)s) in the %(group)s group and needs a sponsor.
+Fedora user %(user)s <%(email)s> has requested
+membership for %(applicant)s in the %(group)s group and needs a sponsor.
 
 Please go to %(url)s to take action.  
 ''' % { 'user': person.username,
-    'name': person.human_name,
     'applicant': target.username,
-    'applicant_name': target.human_name,
     'email': person.email,
     'url': url,
     'group': group.name }
@@ -458,12 +456,12 @@ Thank you for applying for the %(group)s group.
             else:
                 message = turbomail.Message(config.get('accounts_email'), target.email, "Your Fedora '%s' membership has been sponsored" % group.name)
                 message.plain = _('''
-%(name)s <%(email)s> has sponsored you for membership in the %(group)s
+%(user)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
 propagate into the e-mail aliases and CVS repository within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.email}
+''') % {'group': group.name, 'user': person.username, 'email': person.email}
                 turbomail.enqueue(message)
-                turbogears.flash(_("'%s' has been sponsored!") % target.human_name)
+                turbogears.flash(_("'%s' has been sponsored!") % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
@@ -493,15 +491,16 @@ propagate into the e-mail aliases and CVS repository within an hour.
             else:
                 message = turbomail.Message(config.get('accounts_email'), target.email, "Your Fedora '%s' membership has been removed" % group.name)
                 message.plain = _('''
-%(name)s <%(email)s> has removed you from the '%(group)s'
+%(user)s <%(email)s> has removed you from the '%(group)s'
 group of the Fedora Accounts System This change is effective
 immediately for new operations, and should propagate into the e-mail
 aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.email}
+''') % {'group': group.name, 'user': person.username, 'email': person.email}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
-                turbogears.redirect('/group/view/%s' % group.name)
+                redirect_url = cherrypy.request.headers.get('Referer', '/group/members/%s/A*' % group.name)
+                turbogears.redirect(redirect_url)
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -532,11 +531,11 @@ aliases within an hour.
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
                 message.plain = _('''
-%(name)s <%(email)s> has upgraded you to %(status)s status in the
+%(user)s <%(email)s> has upgraded you to %(status)s status in the
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.email, 'status': status}
+''') % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%s has been upgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -569,11 +568,11 @@ into the e-mail aliases within an hour.
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
                 message.plain = _('''
-%(name)s <%(email)s> has downgraded you to %(status)s status in the
+%(user)s <%(email)s> has downgraded you to %(status)s status in the
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''') % {'group': group.name, 'name': person.human_name, 'email': person.email, 'status': status}
+''') % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
                 turbomail.enqueue(message)
                 turbogears.flash(_('%s has been downgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -598,8 +597,6 @@ into the e-mail aliases within an hour.
                     from_obj = sponsorTables).group_by(People.username)
             sponsorship = dict(pair for pair in sponsorCount.execute())
         else:
-            people = []
-
             # Retrieve necessary info about the users who are approved in
             # this group
             people = People.query.join('roles').filter(
@@ -618,8 +615,9 @@ into the e-mail aliases within an hour.
                     ).group_by(People.username).where(Groups.name==groupname)
             sponsorship = dict(pair for pair in sponsorCount.execute())
 
+        # Run filter_private via side effect
+        filterPrivacy = ((p[0], p[1], p[0].filter_private()) for p in people)
         # We filter this so that sending information via json is quick(er)
-        filterPrivacy = ((p[0].filter_private(), p[1]) for p in people)
         filteredPeople = ((p[0].username, p[0].email, p[0].human_name, p[1],
                 sponsorship.get(p[0].username, 0)) for p in filterPrivacy)
         sortedPeople = sorted(filteredPeople)
@@ -635,7 +633,7 @@ into the e-mail aliases within an hour.
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, group=group)
 
     @identity.require(identity.not_anonymous())
@@ -650,10 +648,10 @@ into the e-mail aliases within an hour.
         if isApproved(person, group):
             message = turbomail.Message(person.email, target, _('Come join The Fedora Project!'))
             message.plain = _('''
-%(name)s <%(email)s> has invited you to join the Fedora
+%(user)s <%(email)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
-(FOSS).  %(name)s thinks that you have knowledge and skills
+(FOSS).  %(user)s thinks that you have knowledge and skills
 that make you a great fit for the Fedora community, and that you might
 be interested in contributing.
 
@@ -664,12 +662,12 @@ place for you whether you're an artist, a web site builder, a writer, or
 a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
-Fedora and FOSS are changing the world -- come be a part of it!''') % {'name': person.human_name, 'email': person.email}
+Fedora and FOSS are changing the world -- come be a part of it!''') % {'user': person.username, 'email': person.email}
             turbomail.enqueue(message)
             turbogears.flash(_('Message sent to: %s') % target)
             turbogears.redirect('/group/view/%s' % group.name)
         else:
             turbogears.flash(_("You are not in the '%s' group.") % group.name)
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(target=target, person=person, group=group)

@@ -167,7 +167,7 @@ setup(
         'TurboGears >= 1.0.4',
         'SQLAlchemy >= 0.4',
         'TurboMail',
-        'python_fedora >= 0.2.99.6'
+        'python_fedora >= 0.3'
     ],
     scripts = ['client/fasClient', 'client/restricted-shell'],
     zip_safe=False,

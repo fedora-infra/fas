@@ -17,7 +17,12 @@
 
   <body>
     <h1>
-      ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
+      <span py:if="person.human_name" py:strip="">
+        ${_('This is an OpenID identity for %(human_name)s (%(username)s)') % {'username': person.username, 'human_name': person.human_name}}
+      </span>
+      <span py:if="not person.human_name" py:strip="">
+        ${_('This is an OpenID identity for %(username)s') % {'username': person.username}}
+      </span>
     </h1>
     <div py:if="tg_flash" class="flash">
       ${tg_flash}

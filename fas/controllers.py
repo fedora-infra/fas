@@ -28,7 +28,7 @@ import cherrypy
 import time
 
 from fas import release
-from fas.user import User
+from fas.user import User, generate_token
 from fas.group import Group
 from fas.configs import Config
 from fas.cla import CLA
@@ -104,7 +104,12 @@ def get_locale(locale=None):
     try:
         return turbogears.identity.current.user.locale
     except AttributeError:
-        return turbogears.i18n.utils._get_locale()
+        pass
+    try:
+        return cherrypy.request.simple_cookie['fas_locale'].value
+    except KeyError:
+        pass
+    return turbogears.i18n.utils._get_locale()
 
 config.update({'i18n.get_locale': get_locale})
 
@@ -156,7 +161,7 @@ class Root(plugin.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, cla=cla)
 
     @expose(template="fas.templates.about")
@@ -191,14 +196,25 @@ class Root(plugin.RootController):
                 forward_url = turbogears.url('/')
             raise redirect(forward_url)
 
-        forward_url=None
-        previous_url= request.path
+        forward_url = None
+        previous_url = request.path
+        msg = None
 
         if identity.was_login_attempted() and request.fas_provided_username:
-            print 'FIXME: Do something with this:', request.fas_identity_failure_reason
-            pass
-
-        if identity.was_login_attempted():
+            if request.fas_identity_failure_reason == 'status_inactive':
+                turbogears.flash(_('Your old password has expired.  Please reset your password below.'))
+                redirect('/user/resetpass')
+                #username = request.fas_provided_username
+                #token = generate_token()
+                #person = People.by_username(username)
+                #person.passwordtoken = token
+                #redirect('/user/verifypass/%s/%s' % (username, token))
+            if request.fas_identity_failure_reason == 'status_account_disabled':
+                msg=_("Your account is currently disabled.  For more information, " + \
+                      "please contact %(admin_email)s" % \
+                  {'admin_email': config.get('accounts_email')})
+                redirect('/login')
+        elif identity.was_login_attempted():
             msg=_("The credentials you supplied were not correct or "
                    "did not grant access to this resource.")
         elif identity.get_identity_errors():
@@ -231,7 +247,8 @@ class Root(plugin.RootController):
             turbogears.flash(_('The language \'%s\' is not available.') % locale)
             redirect(request.headers.get("Referer", "/"))
             return dict()
-        turbogears.i18n.set_session_locale(locale)
+        #turbogears.i18n.set_session_locale(locale)
+        cherrypy.response.simple_cookie['fas_locale'] = locale
         redirect(request.headers.get("Referer", "/"))
         return dict()
 

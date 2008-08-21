@@ -29,7 +29,7 @@ from turbogears.database import metadata, mapper, get_engine, session
 from turbogears import identity, config
 import turbogears
 
-from sqlalchemy import Table, Column, ForeignKey
+from sqlalchemy import Table, Column, ForeignKey, Sequence
 from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy import and_, select, literal_column
 from sqlalchemy.orm import relation
@@ -73,165 +73,6 @@ UnApprovedRolesSelect = PersonRolesTable.select(and_(
     PeopleTable.c.id==PersonRolesTable.c.person_id,
     PersonRolesTable.c.role_status!='approved')).alias('unapproved')
 
-#
-# Selects for filtering people data
-#
-# The user can't see the *token fields or internal comments
-PeopleSelfSelect = select((PeopleTable.c.id,
-    PeopleTable.c.username,
-    PeopleTable.c.human_name,
-    PeopleTable.c.gpg_keyid,
-    PeopleTable.c.ssh_key,
-    PeopleTable.c.password,
-    literal_column('Null').label('passwordtoken'),
-    PeopleTable.c.password_changed,
-    PeopleTable.c.email,
-    literal_column('Null').label('emailtoken'),
-    PeopleTable.c.unverified_email,
-    PeopleTable.c.comments,
-    PeopleTable.c.postal_address,
-    PeopleTable.c.country_code,
-    PeopleTable.c.telephone,
-    PeopleTable.c.facsimile,
-    PeopleTable.c.affiliation,
-    PeopleTable.c.certificate_serial,
-    PeopleTable.c.creation,
-    literal_column('Null').label('internal_comments'),
-    PeopleTable.c.ircnick,
-    PeopleTable.c.last_seen,
-    PeopleTable.c.status,
-    PeopleTable.c.status_change,
-    PeopleTable.c.locale,
-    PeopleTable.c.timezone,
-    PeopleTable.c.latitude,
-    PeopleTable.c.longitude,
-    PeopleTable.c.privacy)).alias('people')
-
-# The thirdparty can't see the *token fields, internal comments
-# or the password
-PeopleThirdPartySelect = select((PeopleTable.c.id,
-    PeopleTable.c.username,
-    PeopleTable.c.human_name,
-    PeopleTable.c.gpg_keyid,
-    PeopleTable.c.ssh_key,
-    literal_column('Null').label('password'),
-    literal_column('Null').label('passwordtoken'),
-    PeopleTable.c.password_changed,
-    PeopleTable.c.email,
-    literal_column('Null').label('emailtoken'),
-    PeopleTable.c.unverified_email,
-    PeopleTable.c.comments,
-    PeopleTable.c.postal_address,
-    PeopleTable.c.country_code,
-    PeopleTable.c.telephone,
-    PeopleTable.c.facsimile,
-    PeopleTable.c.affiliation,
-    PeopleTable.c.certificate_serial,
-    PeopleTable.c.creation,
-    literal_column('Null').label('internal_comments'),
-    PeopleTable.c.ircnick,
-    PeopleTable.c.last_seen,
-    PeopleTable.c.status,
-    PeopleTable.c.status_change,
-    PeopleTable.c.locale,
-    PeopleTable.c.timezone,
-    PeopleTable.c.latitude,
-    PeopleTable.c.longitude,
-    PeopleTable.c.privacy)).alias('people')
-
-# Additionally remove telephone/facimile, postal_address, and password fields
-PeopleOtherPublicSelect = select((PeopleTable.c.id,
-    PeopleTable.c.username,
-    PeopleTable.c.human_name,
-    PeopleTable.c.gpg_keyid,
-    PeopleTable.c.ssh_key,
-    literal_column('Null').label('password'),
-    literal_column('Null').label('passwordtoken'),
-    literal_column('Null').label('password_changed'),
-    PeopleTable.c.email,
-    literal_column('Null').label('emailtoken'),
-    literal_column('Null').label('unverified_email'),
-    PeopleTable.c.comments,
-    literal_column('Null').label('postal_address'),
-    PeopleTable.c.country_code,
-    literal_column('Null').label('telephone'),
-    literal_column('Null').label('facsimile'),
-    PeopleTable.c.affiliation,
-    PeopleTable.c.certificate_serial,
-    PeopleTable.c.creation,
-    literal_column('Null').label('internal_comments'),
-    PeopleTable.c.ircnick,
-    PeopleTable.c.last_seen,
-    PeopleTable.c.status,
-    PeopleTable.c.status_change,
-    PeopleTable.c.locale,
-    PeopleTable.c.timezone,
-    PeopleTable.c.latitude,
-    PeopleTable.c.longitude,
-    PeopleTable.c.privacy)).alias('people')
-
-# If the user opts-out of the publicly available info, this all gets hidden
-PeopleOtherPrivateSelect = select((PeopleTable.c.id,
-    PeopleTable.c.username,
-    literal_column('Null').label('human_name'),
-    literal_column('Null').label('gpg_keyid'),
-    literal_column('Null').label('ssh_key'),
-    literal_column('Null').label('password'),
-    literal_column('Null').label('passwordtoken'),
-    literal_column('Null').label('password_changed'),
-    literal_column('Null').label('email'),
-    literal_column('Null').label('emailtoken'),
-    literal_column('Null').label('unverified_email'),
-    PeopleTable.c.comments,
-    literal_column('Null').label('postal_address'),
-    literal_column('Null').label('country_code'),
-    literal_column('Null').label('telephone'),
-    literal_column('Null').label('facsimile'),
-    literal_column('Null').label('affiliation'),
-    PeopleTable.c.certificate_serial,
-    PeopleTable.c.creation,
-    literal_column('Null').label('internal_comments'),
-    literal_column('Null').label('ircnick'),
-    PeopleTable.c.last_seen,
-    PeopleTable.c.status,
-    PeopleTable.c.status_change,
-    literal_column('Null').label('locale'),
-    literal_column('Null').label('timezone'),
-    literal_column('Null').label('latitude'),
-    literal_column('Null').label('longitude'),
-    PeopleTable.c.privacy)).alias('people')
-
-# If you're accessing this information anonymously, you get:
-PeopleAnonSelect = select((PeopleTable.c.id,
-    PeopleTable.c.username,
-    literal_column('Null').label('human_name'),
-    literal_column('Null').label('gpg_keyid'),
-    literal_column('Null').label('ssh_key'),
-    literal_column('Null').label('password'),
-    literal_column('Null').label('passwordtoken'),
-    literal_column('Null').label('password_changed'),
-    literal_column('Null').label('email'),
-    literal_column('Null').label('emailtoken'),
-    literal_column('Null').label('unverified_email'),
-    PeopleTable.c.comments,
-    literal_column('Null').label('postal_address'),
-    literal_column('Null').label('country_code'),
-    literal_column('Null').label('telephone'),
-    literal_column('Null').label('facsimile'),
-    literal_column('Null').label('affiliation'),
-    literal_column('Null').label('certificate_serial'),
-    PeopleTable.c.creation,
-    literal_column('Null').label('internal_comments'),
-    literal_column('Null').label('ircnick'),
-    literal_column('Null').label('last_seen'),
-    literal_column('Null').label('status'),
-    literal_column('Null').label('status_change'),
-    literal_column('Null').label('locale'),
-    literal_column('Null').label('timezone'),
-    literal_column('Null').label('latitude'),
-    literal_column('Null').label('longitude'),
-    PeopleTable.c.privacy)).alias('people')
-
 # The identity schema -- These must follow some conventions that TG
 # understands and are shared with other Fedora services via the python-fedora
 # module.
@@ -248,6 +89,8 @@ visit_identity_table = Table('visit_identity', metadata,
     Column('user_id', Integer, ForeignKey('people.id'), index=True),
     Column('ssl', Boolean)
 )
+
+serial_seq = Sequence('serial_seq')
 
 #
 # Mapped Classes
@@ -425,12 +268,12 @@ class People(SABase):
         for it to be private.  Calling this method will filter the information
         out so it doesn't go anywhere.
 
-        This method will return a data structure with the information allowed.
-        If it's an admin, then the data structure will be self.  If it's
-        anything else, parts of the information will be removed.  We do this by
-        returning a mapped selectable that has less information in it.  Other
-        than having less data, each of those objects should act the same way
-        that this class does.
+        This method will disconnect the data structure from being persisted in
+        the database and then remove the information that the user should not
+        be allowed to see.
+
+        If it's an admin, then all data will be returned.  If it's
+        anything else, parts of the information will be removed.
 
         Note that it is not foolproof.  For instance, a template could be
         written that traverses from people to groups to a different person
@@ -438,30 +281,80 @@ class People(SABase):
         standard use of this method so we should know when we're doing
         non-standard things and filter the data there as well.
         '''
+        # Disconnect this object from the database
+        session.expunge(self)
+
         # Full disclosure to admins
         if identity.in_group(admin_group) or \
                 identity.in_group(system_group):
-            return self
+            return
 
-        # thirdparty users don't get passwords. they have their own.
-        if identity.in_group(thirdparty_group):
-            return PeopleThirdParty.by_username(self.username)
-
-        # The user themselves gets everything except internal_comments
+        # The user themselves gets everything except internal_comments and
+        # *token fields (for verifying changes of email address, password.
+        self.passwordtoken = None
+        self.emailtoken = None
+        self.internal_comments = None
         if identity.current.user_name == self.username:
-            return PeopleSelf.by_username(self.username)
+            return
+
+        # If the user opts-out of the publically available info, this all gets
+        # hidden
+        if self.privacy:
+            self.human_name = None
+            self.gpg_keyid = None
+            self.ssh_key = None
+            self.password = None
+            self.password_changed = None
+            self.unverified_email = None
+            self.postal_address = None
+            self.country_code = None
+            self.telephone = None
+            self.facsimile = None
+            self.affiliation = None
+            self.locale = None
+            self.timezone = None
+            self.latitude = None
+            self.longitude = None
+        else:
+            # User has okayed giving out public info.  There's still some
+            # things that are private, though
+            self.password = None
+            self.password_changed = None
+            self.unverified_email = None
+            self.postal_address = None
+            self.telephone = None
+            self.facsimile = None
+
+        # Note: Currently third party systems follow the constraints for
+        # publically available andprivately available information so they
+        # don't need a separate check.
 
         # Anonymous users get very little
         if identity.current.anonymous:
-            return PeopleAnon.by_username(self.username)
-        elif self.privacy:
-            # Dealing with another user.  If the record they're viewing has
-            # privact set, restrict what goes out more.
-            return PeopleOtherPrivate.by_username(self.username)
-        else:
-            # All other people can get a moderate amount... but only if
-            # privacy is not set.
-            return PeopleOtherPublic.by_username(self.username)
+            self.human_name = None
+            self.gpg_keyid = None
+            self.ssh_key = None
+            self.password = None
+            self.passwordtoken = None
+            self.password_changed = None
+            self.email = None
+            self.emailtoken = None
+            self.unverified_email = None
+            self.postal_address = None
+            self.country_code = None
+            self.telephone = None
+            self.facsimile = None
+            self.affiliation = None
+            self.certificate_serial = None
+            self.internal_comments = None
+            self.ircnick = None
+            self.last_seen = None
+            self.status = None
+            self.status_change = None
+            self.locale = None
+            self.timezone = None
+            self.latitude = None
+            self.longitude = None
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
@@ -678,36 +571,3 @@ mapper(Log, LogTable)
 mapper(Visit, visits_table)
 mapper(VisitIdentity, visit_identity_table,
         properties=dict(users=relation(People, backref='visit_identity')))
-
-#
-# Mappers for filtering People Information
-#
-# These classes are for mapping the People data with restrictions.  Since some
-# of the information shouldn't be revealed, we map to selectables that only
-# have the public data.
-
-def FilterClass(table):
-    class SomeClass(People):
-        pass
-    mapper(SomeClass, table, properties = dict(
-        group_roles= relation(PersonRoles,
-                              collection_class = 
-                                attribute_mapped_collection('groupname'),
-                              primaryjoin = 
-                              table.c.id == PersonRolesTable.c.person_id),
-        approved_roles= relation(ApprovedRoles,
-                                 primaryjoin = 
-                                 table.c.id == ApprovedRoles.c.person_id),
-        unapproved_roles= relation(UnApprovedRoles,
-                                   primaryjoin = 
-                                    table.c.id == UnApprovedRoles.c.person_id),
-        roles= relation(PersonRoles,
-                        primaryjoin = 
-                            PersonRolesTable.c.person_id==table.c.id)))
-    return SomeClass
-
-PeopleSelf = FilterClass(PeopleSelfSelect)
-PeopleAnon = FilterClass(PeopleAnonSelect)
-PeopleOtherPrivate = FilterClass(PeopleOtherPrivateSelect)
-PeopleOtherPublic = FilterClass(PeopleOtherPublicSelect)
-PeopleThirdParty = FilterClass(PeopleThirdPartySelect)

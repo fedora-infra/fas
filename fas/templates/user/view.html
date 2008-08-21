@@ -11,7 +11,7 @@
     from fas import auth
     from fas.model import People
     viewer = People.by_username(tg.identity.user.username)
-    person = person.filter_private()
+    viewer.filter_private()
     ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
     <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.username}</h2>
@@ -94,6 +94,12 @@
           </span>
           <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/cla/')}">${_('Complete it!')}</a>)</py:if></span>
           <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
+        </dd>
+        <dt>${_('Privacy:')}</dt>
+        <dd>
+          <span py:if="person.privacy">Account Information Private</span>
+          <span py:if="not person.privacy">Account Information Public</span>
+          <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
         </dd>
       </dl>
     </div>

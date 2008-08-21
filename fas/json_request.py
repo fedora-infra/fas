@@ -50,7 +50,7 @@ class JsonRequest(controllers.Controller):
             person.json_props = {
                     'People': ('approved_memberships', 'unapproved_memberships')
                     }
-            person = person.filter_private()
+            person.filter_private()
             return dict(success=True, person=person)
         except InvalidRequestError:
             return dict(success=False)
@@ -63,7 +63,7 @@ class JsonRequest(controllers.Controller):
             person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
-            person = person.filter_private()
+            person.filter_private()
             return dict(success=True, person=person)
         except InvalidRequestError:
             return dict(success=False)

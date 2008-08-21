@@ -140,7 +140,7 @@ plpython language available on new databases, create a postgres user to manage
 the data and import the schema::
   sudo -u postgres createlang plpythonu template1
   sudo -u postgres createuser --encrypted --pwprompt fedora
-  sudo -u fedora psql < fas2.sql
+  sudo -u postgres psql < fas2.sql
 
 The you need to import changes to make your database current with the latest
 development version.
@@ -212,8 +212,7 @@ next create a configuration file in /etc/httpd/conf.d/accounts.conf with the
 following information in it:
 
 # File Start
-
-WSGISocketPrefix /tmp/wsgi
+WSGISocketPrefix /var/run/wsgi
 
 # Repress TG's stdoutput
 WSGIRestrictStdout On
@@ -222,13 +221,13 @@ WSGIRestrictStdout On
 WSGIRestrictSignal Off
 
 # These are the real tunables
-WSGIDaemonProcess daemon processes=2 threads=2
+WSGIDaemonProcess daemon processes=2 threads=2 maximum-requests=1000 user=fas display-name=fas inactivity-timeout=30
 WSGIPythonOptimize 2
 
 WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
 
 <Directory /path/to/turbogears/fas/>
-    WSGIProcessGroup daemon
+    WSGIProcessGroup fas
     Order deny,allow
     Allow from all
 </Directory>

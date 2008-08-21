@@ -196,11 +196,6 @@ def canUpgradeUser(person, group, target):
     # is already a group admin.
     if canAdminGroup(person, group):
         return True
-    # Sponsors can only upgrade non-sponsors (i.e. normal users)
-    # TODO: Don't assume that canSponsorGroup means that the user is a sponsor
-    elif canSponsorGroup(person, group) and \
-        not canSponsorGroup(target, group):
-        return True
     return False
 
 def canDowngradeUser(person, group, target):
@@ -209,12 +204,6 @@ def canDowngradeUser(person, group, target):
     '''
     # Group admins can downgrade anybody.
     if canAdminGroup(person, group):
-        return True
-    # Sponsors can only downgrade sponsors.  
-    # The controller should handle the case where the target
-    # is already a normal user.  
-    elif canSponsorGroup(person, group) and \
-        not canAdminGroup(person, group):
         return True
     return False
 

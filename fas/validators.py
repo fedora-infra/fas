@@ -157,7 +157,7 @@ class UnknownUser(validators.FancyValidator):
 
 class NonFedoraEmail(validators.FancyValidator):
     '''Make sure that an email address is not @fedoraproject.org'''
-    message = {'no_loop': _('To prevent email loops, your email address'
+    messages = {'no_loop': _('To prevent email loops, your email address'
         ' cannot be @fedoraproject.org.')}
 
     def _to_python(self, value, state):
@@ -193,7 +193,7 @@ class ValidSSHKey(validators.FancyValidator):
 class ValidUsername(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     username_regex = re.compile(r'^[a-z][a-z0-9]+$')
-    username_blacklist = re.compile(config.get('username_blacklist'))
+    username_blacklist = config.get('username_blacklist').split(',')
 
     messages = {'invalid_username': _("'%(username)s' is an illegal username.  "
         "A valid username must only contain lowercase alphanumeric characters, "
@@ -210,7 +210,7 @@ class ValidUsername(validators.FancyValidator):
         if not self.username_regex.match(value):
             raise validators.Invalid(self.message('invalid_username', state,
                 username=value), value, state)
-        if self.username_blacklist.match(value):
+        if value in self.username_blacklist:
             raise validators.Invalid(self.message('blacklist', state, username=value),
                     value, state)
 

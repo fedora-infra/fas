@@ -198,21 +198,18 @@ class SaFasIdentityProvider(object):
         cherrypy.request.fas_provided_username = user_name
         cherrypy.request.fas_identity_failure_reason = None
         using_ssl = False
+
         if not user_name:
             if cherrypy.request.headers['X-Client-Verify'] == 'SUCCESS':
                 user_name = cherrypy.request.headers['X-Client-CN']
+                cherrypy.request.fas_provided_username = user_name
                 using_ssl = True
+
         user = user_class.query.filter_by(username=user_name).first()
+
         if not user:
             log.warning("No such user: %s", user_name)
             cherrypy.request.fas_identity_failure_reason = 'no_user'
-            return None
-
-        if user.status in ('inactive', 'admin_disabled'):
-            log.warning("User %(username)s has status %(status)s" % \
-                { 'username': user_name, 'status': user.status })
-            cherrypy.request.fas_identity_failure_reason = 'status_%s' \
-                    % user.status
             return None
 
         if not using_ssl:
@@ -220,6 +217,13 @@ class SaFasIdentityProvider(object):
                 log.info("Passwords don't match for user: %s", user_name)
                 cherrypy.request.fas_identity_failure_reason = 'bad_password'
                 return None
+
+        if user.status in ('inactive', 'admin_disabled'):
+            log.warning("User %(username)s has status %(status)s" % \
+                { 'username': user_name, 'status': user.status })
+            cherrypy.request.fas_identity_failure_reason = 'status_%s' \
+                    % user.status
+            return None
 
         log.info("associating user (%s) with visit (%s)", user.username,
                   visit_key)
@@ -253,6 +257,12 @@ class SaFasIdentityProvider(object):
         Returns: True if the password matches the username.  Otherwise False.
           Can return False for problems within the Account System as well.
         '''
+        # crypt.crypt(stuff, '') == ''
+        # Just kill any possibility of blanks.
+        if not user.password:
+            return False
+        if not password:
+            return False
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613

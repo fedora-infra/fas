@@ -69,7 +69,7 @@ class CLA(controllers.Controller):
                     ' number are required to complete the CLA.  Please fill'
                     ' them out below.')
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
 
     def _cla_dependent(self, group):
@@ -108,7 +108,7 @@ class CLA(controllers.Controller):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
@@ -121,7 +121,7 @@ class CLA(controllers.Controller):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     ### FIXME: error_handler() does nothing without a validator
@@ -305,7 +305,8 @@ If you need to revoke it, please visit this link:
 'date': dt.ctime(),}
         # Sigh..  if only there were a nicer way.
         plugin = TextTemplateEnginePlugin()
-        message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
+        #message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
+        message.plain += plugin.transform(dict(person=person), 'fas.templates.cla.cla').render(method='text', encoding=None)
         turbomail.enqueue(message)
         turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
         turbogears.redirect('/user/view/%s' % person.username)

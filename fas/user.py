@@ -41,7 +41,9 @@ from OpenSSL import crypto
 
 import pytz
 from datetime import datetime
+import time
 
+from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select, and_, not_
 
@@ -52,6 +54,10 @@ from fas.auth import isAdmin, CLADone, canEditUser
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
+
+admin_group = config.get('admingroup', 'accounts')
+system_group = config.get('systemgroup', 'fas-system')
+thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
 class UserView(validators.Schema):
     username = KnownUser
@@ -190,6 +196,7 @@ class User(controllers.Controller):
         # if groupname in identity.groups: pass
         # We may want to do that in isAdmin() though. -Toshio
         user = People.by_username(identity.current.user_name)
+        admin = False
         if isAdmin(user):
             admin = True
             # TODO: Should admins be able to see personal info?  If so, enable this.  
@@ -203,10 +210,8 @@ class User(controllers.Controller):
             # <py:if test="not personal">${user}'s Account</py:if>
             # -Toshio
             #personal = True
-        else:
-            admin = False
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
@@ -236,7 +241,7 @@ class User(controllers.Controller):
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
 
-        target = target.filter_private()
+        target.filter_private()
         return dict(target=target, languages=languages, admin=admin)
 
     @identity.require(identity.not_anonymous())
@@ -273,22 +278,17 @@ class User(controllers.Controller):
                 target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
             if target.email != email:
-                test = None
-                try:
-                    test = People.by_email_address(email)
-                except:
-                    pass
+                test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
                 if test:
                     turbogears.flash(_('Somebody is already using that email address.'))
-                    target = target.filter_private()
-                    return dict(target=target, languages=languages)
-                else:
-                    token = generate_token()
-                    target.unverified_email = email
-                    target.emailtoken = token
-                    message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
-                    # TODO: Make this email friendlier. 
-                    message.plain = _('''
+                    turbogears.redirect("/user/edit/%s" % target.username)
+                    return dict()
+                token = generate_token()
+                target.unverified_email = email
+                target.emailtoken = token
+                message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
+                # TODO: Make this email friendlier. 
+                message.plain = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
 ownership of this email by visiting the following URL (you will need to
@@ -296,8 +296,8 @@ login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 ''') % token
-                    emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
-                    turbomail.enqueue(message)
+                emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
+                turbomail.enqueue(message)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -316,8 +316,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         except TypeError, e:
             turbogears.flash(_('Your account details could not be saved: %s') % e)
             turbogears.redirect("/user/edit/%s" % target.username)
-            target = target.filter_private()
-            return dict(target=target, languages=languages)
+            return dict()
         else:
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
@@ -359,37 +358,52 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             search = unicode(search, 'utf-8', 'replace')
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
-        PeopleGroupsTable = PeopleTable.join(
-                PersonRolesTable, PersonRoles.person_id==People.id).join(
-                        GroupsTable, PersonRoles.group_id==Groups.id)
 
-        columns = [People.username, People.id, People.human_name, People.ssh_key, People.email]
-        if identity.in_group('fas-system'):
-            columns.append(People.password)
-        approved = select(columns, from_obj=PeopleGroupsTable
-            ).where(and_(People.username.like(re_search),
-                Groups.name=='cla_done',
-                PersonRoles.role_status=='approved')
-                ).distinct().order_by('username').execute()
-        cla_approved = [dict(row) for row in approved]
+        # Query db for all users and their status in cla_done
+        RoleGroupJoin = PersonRolesTable.join(GroupsTable,
+                and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
+        PeopleJoin = PeopleTable.outerjoin(RoleGroupJoin,
+                PersonRoles.person_id==People.id)
 
-        unapproved = select(columns).where(and_(
-                People.username.like(re_search),
-                not_(People.id.in_([p['id'] for p in cla_approved])))
-                ).distinct().order_by('username').execute()
+        stmt = select([PeopleTable, PersonRolesTable.c.role_status],
+                from_obj=[PeopleJoin]).where(People.username.ilike(re_search)
+                        ).order_by(People.username)
+        people = People.query.add_column(PersonRoles.role_status
+                ).from_statement(stmt)
 
-        cla_unapproved = [dict(row) for row in unapproved]
+        approved = []
+        unapproved = []
+        for person in people.all():
+            person[0].filter_private()
+            if person[1] == 'approved':
+                approved.append(person[0])
+            else:
+                unapproved.append(person[0])
 
-        if not (cla_approved or cla_unapproved):
+        if not (approved or unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
 
-        return dict(people=cla_approved, unapproved_people=cla_unapproved,
+        return dict(people=approved, unapproved_people=unapproved,
                 search=search)
 
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(format='json')
     def email_list(self, search=u'*'):
+        '''Return a username to email address mapping.
+
+        Note: If the caller is not authorized to view the email address of a
+        particular user, username@fedoraproject.org will be put there instead.
+        These are typically email aliases to the user's email address but
+        please be aware that the aliases only exist if the user is approved in
+        at least one group (so not every username will have an email alias).
+
+        Keyword arguments:
+        :search: filter the results by this search string.  * is a wildcard and
+            the filter is anchored to the beginning of the username by default.
+
+        Returns: a mapping of usernames to email addresses.
+        '''
         ### FIXME: Should port this to a validator
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
@@ -400,9 +414,10 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
         people = People.query.filter(People.username.like(re_search)).order_by('username')
         emails = {}
-        people = people.filter_private()
-        for person in people:
-            emails[person.username] = person.email
+        # Run filter_private via side effect
+        for person, discard in ((p, p.filter_private()) for p in people):
+            emails[person.username] = person.email or '%s@fedoraproject.org' \
+                    % person.username
         return dict(emails=emails)
 
     @identity.require(identity.not_anonymous())
@@ -425,7 +440,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect('/user/view/%s' % username)
             return dict()
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @identity.require(identity.not_anonymous())
@@ -464,23 +479,20 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
-        # TODO: Ensure that e-mails are unique?
-        #       Also, perhaps implement a timeout- delete account
+        # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.
-        
+
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
             turbogears.redirect('/')
-        try:
-            person = People.by_email_address(email)
-        except InvalidRequestError:
-            pass
-        else:
+        test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        if test:
             turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
             turbogears.redirect("/")
+            return dict()
         try:
             person = People()
             person.username = username
@@ -497,7 +509,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 You have created a new Fedora account!
 Your new password is: %s
 
-Please go to http://%s%s/user/changepass
+Please go to %s%s/user/changepass
 to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
@@ -535,7 +547,7 @@ forward to working with you!
             turbomail.enqueue(message)
             person.password = newpass['hash']
         except IntegrityError:
-            turbogears.flash(_("An account has already been registered with that email address."))
+            turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
             turbogears.redirect('/user/new')
             return dict()
         else:
@@ -683,23 +695,19 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
             turbogears.redirect('/login')
             return dict()
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose()
+    @expose(template="fas.templates.user.verifypass")
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
         if person.status in ('admin_disabled'):
             turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
                 {'admin_email': config.get('accounts_email')})
+            turbogears.redirect('/login')
             return dict()
-
-        # Re-enabled!
-        if person.status in ('invalid'):
-            person.status = 'active'
-            person.status_change = datetime.now(pytz.utc)
 
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
@@ -711,6 +719,17 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             turbogears.flash(_('Invalid password change token.'))
             turbogears.redirect('/login')
             return dict()
+
+        # Re-enabled!
+        if person.status in ('inactive'):
+            # Check that the password has changed.
+            import crypt
+            if crypt.crypt(password, person.password) == person.password:
+                turbogears.flash(_('Your password can not be the same as your old password.'))
+                return dict(person=person, token=token)
+            person.status = 'active'
+            person.status_change = datetime.now(pytz.utc)
+
 
         ''' Log this '''
         newpass = generate_password(password)
@@ -726,42 +745,89 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     ### FIXME: Without a validator, error_handler() does nothing
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='text/plain; charset=utf-8', allow_json=True)
+    @expose(template="genshi:fas.templates.user.gencertdisabled", allow_json=True, content_type='text/html')
+    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
     def gencert(self):
-      from cherrypy import response
-      response.headers["content-disposition"] = "attachment"
-      username = identity.current.user_name
-      person = People.by_username(username)
-      if CLADone(person):
-          person.certificate_serial = person.certificate_serial + 1
+        from cherrypy import response, request
+        if not config.get('gencert', False):
+            # Certificate generation is disabled on this machine
+            # Return the error page
+            return dict()
+        import tempfile
+        response.headers["content-disposition"] = "attachment"
+        username = identity.current.user_name
+        person = People.by_username(username)
+        if CLADone(person):
+            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
 
-          pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 1024)
+            digest = config.get('openssl_digest')
+            expire = config.get('openssl_expire')
 
-          digest = config.get('openssl_digest')
-          expire = config.get('openssl_expire')
-          cafile = config.get('openssl_ca_file')
+            req = openssl_fas.createCertRequest(pkey, digest=digest,
+                C=config.get('openssl_c'),
+                ST=config.get('openssl_st'),
+                L=config.get('openssl_l'),
+                O=config.get('openssl_o'),
+                OU=config.get('openssl_ou'),
+                CN=person.username,
+                emailAddress=person.email,
+            )
 
-          cakey = openssl_fas.retrieve_key_from_file(cafile)
-          cacert = openssl_fas.retrieve_cert_from_file(cafile)
+            reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
+            reqfile = tempfile.NamedTemporaryFile()
+            reqfile.write(reqdump)
+            reqfile.flush()
 
-          req = openssl_fas.createCertRequest(pkey, digest=digest,
-              C=config.get('openssl_c'),
-              ST=config.get('openssl_st'),
-              L=config.get('openssl_l'),
-              O=config.get('openssl_o'),
-              OU=config.get('openssl_ou'),
-              CN=person.username,
-              emailAddress=person.email,
-              )
+            certfile = tempfile.NamedTemporaryFile()
+            while True:
+                try:
+                    os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
+                    break
+                except OSError:
+                    time.sleep(0.75)
+            try:
+                indexfile = open(config.get('openssl_ca_index'))
+                for entry in indexfile:
+                    attrs = entry.split('\t')
+                    if attrs[0] != 'V':
+                        continue
+                    # the index line looks something like this:
+                    # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                    # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
+                    dn = attrs[5]
+                    serial = attrs[3]
+                    info = {}
+                    for pair in dn.split('/'):
+                        if pair:
+                            key, value = pair.split('=')
+                            info[key] = value
+                    if info['CN'] == person.username:
+                        # revoke old certs
+                        subprocess.call([config.get('makeexec'), '-C',
+                            config.get('openssl_ca_dir'), 'revoke',
+                            'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
 
-          cert = openssl_fas.createCertificate(req, (cacert, cakey), person.certificate_serial, (0, expire), digest='md5')
-          certdump = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
-          keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-          return dict(cla=True, cert=certdump, key=keydump)
-      else:
-          if self.jsonRequest():
-              return dict(cla=False)
-          turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
-          turbogears.redirect('/cla/')
+                command = [config.get('makeexec'), '-C',
+                        config.get('openssl_ca_dir'), 'sign',
+                        'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
+                ret = subprocess.call(command)
+            finally:
+                os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
 
+            reqfile.close()
+            if ret != 0:
+                turbogears.flash(_('Your certificate could not be generated.'))
+                turbogears.redirect('/home')
+                return dict()
+            certdump = certfile.read()
+            certfile.close()
+            keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+            cherrypy.request.headers['Accept'] = 'text'
+            return dict(tg_template="genshi-text:fas.templates.user.cert",
+                    cla=True, cert=certdump, key=keydump)
+        else:
+            if self.jsonRequest():
+                return dict(cla=False)
+            turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
+            turbogears.redirect('/cla/')
 
