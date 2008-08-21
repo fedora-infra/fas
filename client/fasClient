@@ -532,19 +532,30 @@ class MakeShellAccounts(BaseClient):
         for group in self.groups:
             name = group['name']
             members = {}
-            members['members'] = []
-            members['sponsors'] = []
-            members['administrators'] = []
             for membership in self.memberships[name]:
                 role_type = membership['role_type']
                 person = self.usernames[membership['person_id']]
-                members['members'].append(person)
+                try:
+                    members['members'].append(person)
+                except KeyError:
+                    members['members'] = []
+                    members['members'].append(person)
                 if role_type == 'user':
                     continue
-                members['sponsors'].append(person)
+
+                try:
+                    members['sponsors'].append(person)
+                except KeyError:
+                    members['sponsors'] = []
+                    members['sponsors'].append(person)
                 if role_type == 'sponsor':
                     continue
-                members['administrators'].append(person)
+
+                try:
+                    members['administrators'].append(person)
+                except KeyError:
+                    members['administrators'] = []
+                    members['administrators'].append(person)
             for role in members:
                 email_file.write("%s-%s: %s\n" % (name, role, ','.join(members[role])))
         email_file.close()
