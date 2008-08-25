@@ -35,10 +35,10 @@ if __name__ == '__main__':
         if entry.action == 'r':
             # Remove the user's bugzilla group
             try:
-                server.bugzilla.updatePerms(entry.email, 'remove', (bzGroup,),
+                server.bugzilla.updatePerms(entry.email, 'rem', (bzGroup,),
                         BZUSER, BZPASS)
             except xmlrpclib.Fault, e:
-                if e.faultString.startswith('User Does Not Exist:'):
+                if e.faultCode == 504:
                     # It's okay, not having this user is equivalent to setting
                     # them to not have this group.
                     pass
@@ -50,7 +50,7 @@ if __name__ == '__main__':
             try:
                 server.bugzilla.addUser(entry.email, entry.person.human_name, BZUSER, BZPASS)
             except xmlrpclib.Fault, e:
-                if e.faultString.startswith('User Already Exists:'):
+                if e.faultCode == 500:
                     # It's okay, we just need to make sure the user has an
                     # account.
                     pass
