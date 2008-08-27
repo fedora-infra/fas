@@ -4,7 +4,7 @@
 
     Thank you for your interest in The Fedora Project (the
     "Project"). In order to clarify the intellectual property license
-    granted with Contributions from any person or entity, Red hat,
+    granted with Contributions from any person or entity, Red Hat,
     Inc. ("Red Hat"), as maintainer of the Project, must have a
     Contributor License Agreement (CLA) on file that has been signed
     by each Contributor, indicating agreement to the license terms
