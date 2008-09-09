@@ -1,0 +1,1 @@
+revoke all on table show_shows from group fedora;

@@ -6,6 +6,7 @@ from turbogears import controllers, expose, paginate, \
 from turbogears.database import session, metadata, mapper
 
 import cherrypy
+import re
 
 from sqlalchemy import Table, Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import relation, backref
@@ -16,7 +17,7 @@ import fas.sidebar as sidebar
 import logging
 import fas.plugin as plugin
 
-from fas.model.fasmodel import Groups, GroupsTable
+from fas.model.fasmodel import Groups, GroupsTable, People
 
 shows_table = Table('show_shows', metadata,
                     Column('id', Integer,
