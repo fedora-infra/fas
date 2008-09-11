@@ -30,6 +30,8 @@ shows_table = Table('show_shows', metadata,
                     Column('long_name', Text))
 
 class Show(object):
+    def by_name(self, name):
+        return self.query.filter_by(name=name).one()
     pass
 
 mapper(Show, shows_table,
@@ -75,9 +77,30 @@ class ShowPlugin(controllers.Controller):
 #            if canViewGroup(person, group):
 #                groups.append(group)
         if not len(results):
-            turbogears.flash(_("No Groups found matching '%s'") % search)
+            turbogears.flash(_("No Shows found matching '%s'") % search)
         return dict(shows=results, search=search)
     #, memberships=memberships)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
+    @expose(template="fas_show.templates.view", allow_json=True)
+    def view(self, show):
+        '''View Show'''
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        show = Show.by_name(groupname)
+
+        if not canViewGroup(person, show.group):
+            turbogears.flash(_("You cannot view '%s'") % show.name)
+            turbogears.redirect('/show/list')
+            return dict()
+
+        # Also return information on who is not sponsored
+        unsponsored = PersonRoles.query.join('group').filter(and_(
+            PersonRoles.role_status=='unapproved', Groups.name==show.group.name))
+        unsponsored.json_props = {'PersonRoles': ['member']}
+        
+        return dict(show=show)
 
 
     @classmethod
