@@ -368,8 +368,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 PersonRoles.person_id==People.id)
 
         stmt = select([PeopleTable, PersonRolesTable.c.role_status],
-                from_obj=[PeopleJoin]).where(People.username.ilike(re_search)
-                        ).order_by(People.username)
+                from_obj=[PeopleJoin]).where(and_(People.username.ilike(re_search),
+                        People.status=='active')).order_by(People.username)
         people = People.query.add_column(PersonRoles.role_status
                 ).from_statement(stmt)
 
