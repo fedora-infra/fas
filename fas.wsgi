@@ -33,7 +33,7 @@ turbogears.config.update({'global': {'server.throw_errors': True}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
 turbogears.config.update({'global': {'server.webpath': '/accounts'}})
 turbogears.config.update({'global': {'base_url_filter.on': True}})
-turbogears.config.update({'global': {'base_url_filter.base_url': 'http://admin.fedora.riczho.dyndns.org'}})
+turbogears.config.update({'global': {'base_url_filter.base_url': 'http://sphe.res.cmu.edu'}})
 
 import fas.controllers
 

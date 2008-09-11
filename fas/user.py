@@ -83,6 +83,8 @@ class UserSave(validators.Schema):
     postal_address = validators.String(max=512)
     country_code = validators.String(max=2, strip=True)
     privacy = validators.Bool
+    latitude = validators.Number
+    longitude = validators.Number
 
 class UserCreate(validators.Schema):
     username = validators.All(

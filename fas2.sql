@@ -28,10 +28,6 @@ CREATE SEQUENCE person_seq;
 -- TODO: Set this to start where our last person_id is
 SELECT setval('person_seq', 1111);
 
-CREATE SEQUENCE serial_seq;
--- TODO: Set this to start where our last cert serial is
-SELECT setval('person_seq', 1);
-
 CREATE TABLE people (
     -- tg_user::user_id
     id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('person_seq'),
@@ -338,7 +334,7 @@ create trigger email_bugzilla_sync before update on people
   for each row execute procedure bugzilla_sync_email();
 
 -- For Fas to connect to the database
-GRANT ALL ON TABLE people, groups, person_roles, bugzilla_queue, configs, configs_id_seq, person_seq, visit, visit_identity, log, log_id_seq, session, serial_seq TO GROUP fedora;
+GRANT ALL ON TABLE people, groups, person_roles, bugzilla_queue, configs, configs_id_seq, person_seq, visit, visit_identity, log, log_id_seq, session TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
 INSERT INTO people (id, username, human_name, password, email) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost');

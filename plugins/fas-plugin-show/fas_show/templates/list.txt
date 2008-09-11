@@ -1,0 +1,9 @@
+# group:description:type
+# Note: We might introduce another field, logged in user's status at the end
+# to match the html display at some point
+
+#for show in shows
+  #with output=':'.join((show.name, show.long_name, show.owner))
+${output}:None
+  #end
+#end

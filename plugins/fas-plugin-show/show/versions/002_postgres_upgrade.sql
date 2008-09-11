@@ -1,0 +1,1 @@
+grant all on table show_shows to group fedora;
