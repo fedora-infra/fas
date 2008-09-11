@@ -375,12 +375,13 @@ class MakeShellAccounts(BaseClient):
             except KeyError:
                 ''' No users exist in the group '''
                 pass
+            # This block catches group mappings for inactive users.  Needs to be fixed in tg
             try:
                 file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
                 file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
                 file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
             except UnboundLocalError:
-                print "%i %s" % (i, name)
+                pass
             i = i + 1
         file.close()
 
