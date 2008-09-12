@@ -10,6 +10,7 @@ import re
 
 from sqlalchemy import Table, Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import relation, backref
+from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
 
 from genshi.template.plugin import TextTemplateEnginePlugin
 
@@ -33,8 +34,8 @@ shows_table = Table('show_shows', metadata,
 
 class Show(object):
     @classmethod
-    def by_name(self, name):
-        return self.query.filter_by(name=name).one()
+    def by_name(cls, name):
+        return cls.query.filter_by(name=name).one()
     pass
 
 mapper(Show, shows_table,
@@ -51,8 +52,8 @@ class ShowPlugin(controllers.Controller):
 
     @expose(template="fas_show.templates.index")
     def index(self):
-        value = "my Val"
-        return dict(value=value)
+        turbogears.redirect('/show/list')
+        return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="genshi-text:fas_show.templates.list",
@@ -105,7 +106,43 @@ class ShowPlugin(controllers.Controller):
 #        unsponsored.json_props = {'PersonRoles': ['member']}
         
         return dict(show=show)
+    
+    @expose(template="fas_show.templates.join")
+    def join(self, show=None):
+        if not show:
+            turbogears.redirect('/show/list/')
+        if identity.not_anonymous():
+            identity.current.logout()
+        show = Show.by_name(show)
+        return dict(show=show)
 
+    @expose()
+    def add_user(self, show, username, human_name, email, telephone=None, 
+               postal_address=None, age_check=False):
+        if identity.not_anonymous():
+            identity.current.logout()
+        try:
+            self._root.user.create_user(username, human_name, email, 
+                                        telephone, postal_address, 
+                                        age_check, 
+                                        redirect='/show/join/%s' % show)
+        except IntegrityError:
+            turbogears.flash(_("Your account could not be created.  Please contact a Fedora Ambassador for assistance."))
+            turbogears.redirect('/show/fail/%s' % show)
+            return dict()
+        else:
+            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            turbogears.redirect('/show/success/%s' % show)
+
+        turbogears.redirect('/show/join/%s' % show)
+    
+    @expose(template='fas_show.templates.success')
+    def success(self, show):
+        return dict(show=show)
+    
+    @expose(template='fas_show.templates.fail')
+    def fail(self, show):
+        return dict(show=show)
 
     @classmethod
     def initPlugin(cls, controller):

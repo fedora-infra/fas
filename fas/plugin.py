@@ -41,6 +41,7 @@ class PluginControllerMixin(object):
         frag = getattr(controller, path[0], None)
         if frag is None:
             p = plugin()
+            p._root = controller
             setattr(controller, path[0], p)
             controller.plugins.append(p)
             return '/' + path[0] + '/', p
