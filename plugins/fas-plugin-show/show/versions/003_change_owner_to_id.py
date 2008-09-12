@@ -30,7 +30,6 @@ def upgrade():
                      shows_table.c.owner==PeopleTable.c.username).execute()
     for x in owners:
         shows_table.update(shows_table.c.id==x[0], values=dict(owner_id=x[2])).execute()
-    print owners
     
     drop_column(owner, shows_table)
     pass
