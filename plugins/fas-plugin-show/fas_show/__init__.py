@@ -16,6 +16,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 import fas.sidebar as sidebar
 import logging
 import fas.plugin as plugin
+from fas.auth import canViewGroup
 
 from fas.model.fasmodel import Groups, GroupsTable, People
 
@@ -30,6 +31,7 @@ shows_table = Table('show_shows', metadata,
                     Column('long_name', Text))
 
 class Show(object):
+    @classmethod
     def by_name(self, name):
         return self.query.filter_by(name=name).one()
     pass
@@ -82,13 +84,13 @@ class ShowPlugin(controllers.Controller):
     #, memberships=memberships)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
+#    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas_show.templates.view", allow_json=True)
     def view(self, show):
         '''View Show'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        show = Show.by_name(groupname)
+        show = Show.by_name(show)
 
         if not canViewGroup(person, show.group):
             turbogears.flash(_("You cannot view '%s'") % show.name)
@@ -96,9 +98,9 @@ class ShowPlugin(controllers.Controller):
             return dict()
 
         # Also return information on who is not sponsored
-        unsponsored = PersonRoles.query.join('group').filter(and_(
-            PersonRoles.role_status=='unapproved', Groups.name==show.group.name))
-        unsponsored.json_props = {'PersonRoles': ['member']}
+#        unsponsored = PersonRoles.query.join('group').filter(and_(
+#            PersonRoles.role_status=='unapproved', Groups.name==show.group.name))
+#        unsponsored.json_props = {'PersonRoles': ['member']}
         
         return dict(show=show)
 
