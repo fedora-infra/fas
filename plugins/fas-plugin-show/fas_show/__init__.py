@@ -25,7 +25,8 @@ shows_table = Table('show_shows', metadata,
                            autoincrement=True,
                            primary_key=True),
                     Column('name', Text),
-                    Column('owner', Text),
+                    Column('owner_id', Integer,
+                           ForeignKey('people.id')),
                     Column('group_id', Integer,
                            ForeignKey('groups.id')),
                     Column('long_name', Text))
@@ -38,7 +39,8 @@ class Show(object):
 
 mapper(Show, shows_table,
        properties= \
-        dict(group=relation(Groups, uselist=False, backref='show')))
+        dict(group=relation(Groups, uselist=False, backref='show'),
+             owner=relation(People, backref='shows')))
 
 class ShowPlugin(controllers.Controller):
     capabilities = ['show_plugin']

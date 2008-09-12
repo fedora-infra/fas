@@ -18,15 +18,15 @@
     can_sponsor = auth.canSponsorGroup(person, group)
     ?>
     <h2>${show.long_name} (${show.name})</h2>
-    <h3>${_('Owner:')} ${show.owner}</h3>
+    <h3>${_('Owner:')} ${show.owner.username}</h3>
     <h3>Show Details <!-- TODO: figure out canAdminShow
 			  <a py:if="can_admin" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a>--></h3>
     <div class="userbox">
       <dl>
         <dt>${_('Name:')}</dt><dd>${show.long_name}&nbsp;</dd>
         <dt>${_('Description:')}</dt><dd>To disseminate Fear Uncertainty and Doubt with a snazzy blue colour!</dd>
-        <dt>${_('Owner:')}</dt><dd><a href="${tg.url('/user/view/%s') % show.owner}">${show.owner}</a></dd>
-	<dt>${_('Team:')}</dt><dd><a href="${tg.url('/group/view/%s') % group.name}">${group.name}</a></dd>
+        <dt>${_('Owner:')}</dt><dd><a href="${tg.url('/user/view/%s') % show.owner.username}">${show.owner.human_name}</a></dd>
+	<dt>${_('Team:')}</dt><dd><a href="${tg.url('/group/view/%s') % group.name}">${group.display_name}</a></dd>
       </dl>
     </div>
   </body>
