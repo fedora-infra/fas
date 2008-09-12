@@ -8,15 +8,7 @@ metadata = MetaData(migrate_engine)
 owner = Column('owner', Text)
 owner_id = Column('owner_id', Integer)
 
-shows_table = Table('show_shows', metadata,
-                    Column('id', Integer,
-                           autoincrement=True,
-                           primary_key=True),
-                    Column('name', Text),
-                    owner,
-                    Column('group_id', Integer,
-                           ForeignKey('groups.id')),
-                    Column('long_name', Text))
+shows_table = Table('show_shows', metadata, autoload=True)
 
 PeopleTable = Table('people', metadata, autoload=True)
 
