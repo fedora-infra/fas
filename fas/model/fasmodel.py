@@ -296,6 +296,10 @@ class People(SABase):
         self.internal_comments = None
         if identity.current.user_name == self.username:
             return
+        
+        if identity.in_group(thirdparty_group):
+            self.password = None
+            return
 
         # If the user opts-out of the publically available info, this all gets
         # hidden
