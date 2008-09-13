@@ -573,6 +573,7 @@ forward to working with you!
 ''') % (newpass['pass'], config.get('base_url_filter.base_url'), config.get('server.webpath'))
         turbomail.enqueue(message)
         person.password = newpass['hash']
+        return person
         
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602

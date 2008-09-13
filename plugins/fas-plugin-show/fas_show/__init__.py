@@ -32,16 +32,32 @@ shows_table = Table('show_shows', metadata,
                            ForeignKey('groups.id')),
                     Column('long_name', Text))
 
+user_signups_table = \
+    Table('show_user_signups', metadata,
+          Column('id', Integer,
+                 autoincrement=True,
+                 primary_key=True),
+          Column('show_id', Integer,
+                 ForeignKey('show_shows.id')),
+          Column('people_id', Integer,
+                 ForeignKey('people.id'),
+                 unique=True))
+
+
 class Show(object):
     @classmethod
     def by_name(cls, name):
         return cls.query.filter_by(name=name).one()
     pass
 
+
 mapper(Show, shows_table,
        properties= \
         dict(group=relation(Groups, uselist=False, backref='show'),
-             owner=relation(People, backref='shows')))
+             owner=relation(People, backref='shows'),
+             user_signups=relation(People, 
+                                   backref=backref('show', uselist=False),
+                                   secondary=user_signups_table)))
 
 class ShowPlugin(controllers.Controller):
     capabilities = ['show_plugin']
@@ -122,10 +138,14 @@ class ShowPlugin(controllers.Controller):
         if identity.not_anonymous():
             identity.current.logout()
         try:
-            self._root.user.create_user(username, human_name, email, 
-                                        telephone, postal_address, 
-                                        age_check, 
-                                        redirect='/show/join/%s' % show)
+            user = \
+                self._root.user.create_user(username, human_name, email, 
+                                            telephone, postal_address, 
+                                            age_check, 
+                                            redirect='/show/join/%s' % show)
+            
+            show = Show.by_name(show)
+            user.show = show
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please contact a Fedora Ambassador for assistance."))
             turbogears.redirect('/show/fail/%s' % show)
@@ -164,4 +184,4 @@ class ShowPlugin(controllers.Controller):
             sidebar.entryfuncs.remove(self.sidebarentries)
             
     def sidebarentries(self):
-        return [('Show plugin', self.path)]
+        return [('Shows and Events', self.path)]

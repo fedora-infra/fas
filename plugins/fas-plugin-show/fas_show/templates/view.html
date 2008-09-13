@@ -3,7 +3,6 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../../../../fas/templates/master.html" />
-  <xi:include href="../../../../fas/templates/group/member-list.html" />
   <head>
     <title>${_('View Show')}</title>
   </head>
@@ -30,5 +29,21 @@
       </dl>
     </div>
     <h3><a href="${tg.url('/show/join/%s' % show.name)}">Sign Up!</a></h3>
+    <h3>Signed up people</h3>
+    <p>Total: ${len(show.user_signups)}</p>
+    <table>
+      <thead>
+	<tr>
+	  <th>${_('User Name:')}</th>
+	  <th>${_('Real Name:')}</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr py:for="person in show.user_signups">
+	  <td><a href="${tg.url('/user/view/%s') % person.username}">${person.human_name}</a></td>
+	  <td>${person.human_name}</td>
+	</tr>
+      </tbody>
+    </table>   
   </body>
 </html>
