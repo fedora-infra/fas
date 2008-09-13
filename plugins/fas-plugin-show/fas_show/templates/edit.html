@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../../../../fas/templates/master.html" />
+  <head>
+    <title>${_('Edit %s') % show.name}</title>
+  </head>
+  <body>
+    <h2>${_('Edit %s') % show.name}</h2>
+    <form action="${tg.url('/show/save')}" method="post">
+      <div class="field">
+        <label for="name">${_('Show Name:')}</label>
+        <input type="text" id="name" name="name" value="${show.name}" />
+        <script type="text/javascript">var show_name = new HelpBalloon({dataURL: '${tg.url('/show/help/get_help/show_name')}'});</script>
+      </div>
+      <div class="field">
+        <label for="display_name">${_('Display Name:')}</label>
+        <input type="text" id="display_name" name="display_name" value="${show.long_name}" />
+        <script type="text/javascript">var show_display_name = new HelpBalloon({dataURL: '${tg.url('/show/help/get_help/show_display_name')}'});</script>
+      </div>
+      <div class="field">
+        <label for="owner">${_('Show Owner:')}</label>
+        <input type="text" id="owner" name="owner" value="${show.owner.username}" />
+        <script type="text/javascript">var show_owner = new HelpBalloon({dataURL: '${tg.url('/show/help/get_help/show_owner')}'});</script>
+      </div>
+      <div class="field">
+        <label for="group_type">${_("Show Group:")}</label>
+        <input type="text" id="group" name="group" value="${show.group.name}" />
+        <script type="text/javascript">var group = new HelpBalloon({dataURL: '${tg.url('/show/help/get_help/group')}'});</script>
+      </div>
+      <div class="field">
+	<label for="description">${_("Description:")}</label>
+	<input type="textarea" id="description" name="description" value="${show.description}" />
+        <script type="text/javascript">var description = new HelpBalloon({dataURL: '${tg.url('/show/help/get_help/description')}'});</script>
+      </div>
+      <div class="field">
+        <input type="submit" value="${_('Save')}" />
+	<a href="/show/view/${show.name}">${_("Cancel")}</a>
+      </div>
+    </form>
+  </body>
+</html>

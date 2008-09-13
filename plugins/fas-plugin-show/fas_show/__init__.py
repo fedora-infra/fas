@@ -26,6 +26,7 @@ shows_table = Table('show_shows', metadata,
                            autoincrement=True,
                            primary_key=True),
                     Column('name', Text),
+                    Column('description', Text),
                     Column('owner_id', Integer,
                            ForeignKey('people.id')),
                     Column('group_id', Integer,
@@ -123,6 +124,45 @@ class ShowPlugin(controllers.Controller):
         
         return dict(show=show)
     
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='fas_show.templates.new')
+    def new(self):
+        return dict()
+    
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose()
+    def create(self, name, display_name, owner, group, description):
+        show = Show()
+        show.name = name
+        show.long_name = display_name
+        show.description = description
+        owner = People.by_username(owner)
+        show.owner = owner
+        group = Groups.by_name(group)
+        show.group = group
+        session.flush()
+        turbogears.redirect('/show/view/%s' % name)
+        return dict()
+    
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='fas_show.templates.edit')
+    def edit(self, show):
+        show = Show.by_name(show)
+        return dict(show=show)
+    
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose()
+    def save(self, name, display_name, owner, group, description):
+        show = Show.by_name(name)
+        show.name = name
+        show.long_name = display_name
+        show.description = description
+        owner = People.by_username(owner)
+        show.owner = owner
+        group = Groups.by_name(group)
+        show.group = group
+        session.flush()
+        turbogears.redirect('/show/view/%s' % name)
     @expose(template="fas_show.templates.join")
     def join(self, show=None):
         if not show:
