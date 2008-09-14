@@ -67,7 +67,15 @@ class ShowPlugin(controllers.Controller):
         '''Create a Show Controller.'''
         self.path = ''
 
+    @expose(template="fas.templates.error")
+    def error(self, tg_errors=None):
+        '''Show a friendly error message'''
+        if not tg_errors:
+            turbogears.redirect('/')
+        return dict(tg_errors=tg_errors)
+
     @expose(template="fas_show.templates.index")
+    @error_handler(error) # pylint: disable-msg=E0602
     def index(self):
         turbogears.redirect('/show/list')
         return dict()
@@ -77,34 +85,23 @@ class ShowPlugin(controllers.Controller):
             as_format="plain", accept_format="text/plain",
             format="text", content_type='text/plain; charset=utf-8')
     @expose(template="fas_show.templates.list", allow_json=True)
+    @error_handler(error) # pylint: disable-msg=E0602
     def list(self, search='*'):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-#        memberships = {}
-#        groups = []
         re_search = re.sub(r'\*', r'%', search).lower()
         results = Show.query.filter(Show.name.like(re_search)).order_by('name').all()
-# This code has been airlifted from groups
-# retained if we need this sort of logic in the future
-#        if self.jsonRequest():
-#            membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id, PersonRoles.c.role_type], PersonRoles.c.role_status=='approved').order_by(PersonRoles.c.group_id)
-#            members = membersql.execute()
-#            for member in members:
-#                try:
-#                    memberships[member[1]].append({'person_id': member[0], 'role_type': member[2]})
-#                except KeyError:
-#                    memberships[member[1]]=[{'person_id': member[0], 'role_type': member[2]}]
-#        for group in results:
-#            if canViewGroup(person, group):
-#                groups.append(group)
-        if not len(results):
+        shows = list()
+        for show in results:
+            if canViewGroup(person, show.group):
+                shows.append(show)
+        if not len(shows):
             turbogears.flash(_("No Shows found matching '%s'") % search)
-        return dict(shows=results, search=search)
-    #, memberships=memberships)
+        return dict(shows=shows, search=search)
 
     @identity.require(turbogears.identity.not_anonymous())
-#    @error_handler(error) # pylint: disable-msg=E0602
+    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas_show.templates.view", allow_json=True)
     def view(self, show):
         '''View Show'''
@@ -116,21 +113,17 @@ class ShowPlugin(controllers.Controller):
             turbogears.flash(_("You cannot view '%s'") % show.name)
             turbogears.redirect('/show/list')
             return dict()
-
-        # Also return information on who is not sponsored
-#        unsponsored = PersonRoles.query.join('group').filter(and_(
-#            PersonRoles.role_status=='unapproved', Groups.name==show.group.name))
-#        unsponsored.json_props = {'PersonRoles': ['member']}
-        
         return dict(show=show)
     
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas_show.templates.new')
+    @error_handler(error) # pylint: disable-msg=E0602
     def new(self):
         return dict()
     
     @identity.require(turbogears.identity.not_anonymous())
     @expose()
+    @error_handler(error) # pylint: disable-msg=E0602
     def create(self, name, display_name, owner, group, description):
         show = Show()
         show.name = name
@@ -146,12 +139,14 @@ class ShowPlugin(controllers.Controller):
     
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template='fas_show.templates.edit')
+    @error_handler(error) # pylint: disable-msg=E0602
     def edit(self, show):
         show = Show.by_name(show)
         return dict(show=show)
     
     @identity.require(turbogears.identity.not_anonymous())
     @expose()
+    @error_handler(error) # pylint: disable-msg=E0602
     def save(self, name, display_name, owner, group, description):
         show = Show.by_name(name)
         show.name = name
@@ -163,7 +158,9 @@ class ShowPlugin(controllers.Controller):
         show.group = group
         session.flush()
         turbogears.redirect('/show/view/%s' % name)
+
     @expose(template="fas_show.templates.join")
+    @error_handler(error) # pylint: disable-msg=E0602
     def join(self, show=None):
         if not show:
             turbogears.redirect('/show/list/')
@@ -173,6 +170,7 @@ class ShowPlugin(controllers.Controller):
         return dict(show=show)
 
     @expose()
+    @error_handler(error) # pylint: disable-msg=E0602
     def add_user(self, show, username, human_name, email, telephone=None, 
                postal_address=None, age_check=False):
         if identity.not_anonymous():
@@ -197,10 +195,12 @@ class ShowPlugin(controllers.Controller):
         turbogears.redirect('/show/join/%s' % show)
     
     @expose(template='fas_show.templates.success')
+    @error_handler(error) # pylint: disable-msg=E0602
     def success(self, show):
         return dict(show=show)
     
     @expose(template='fas_show.templates.fail')
+    @error_handler(error) # pylint: disable-msg=E0602
     def fail(self, show):
         return dict(show=show)
 
