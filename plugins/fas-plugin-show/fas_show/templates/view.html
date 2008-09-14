@@ -18,8 +18,9 @@
     ?>
     <h2>${show.long_name} (${show.name})</h2>
     <h3>${_('Owner:')} ${show.owner.username}</h3>
-    <h3>Show Details <!-- TODO: figure out canAdminShow -->
-			  <a py:if="can_admin" href="${tg.url('/show/edit/%s' % show.name)}">${_('(edit)')}</a></h3>
+    <h3>Show Details
+      <a py:if="can_admin" href="${tg.url('/show/edit/%s' % show.name)}">${_('(edit)')}</a>
+    </h3>
     <div class="userbox">
       <dl>
         <dt>${_('Name:')}</dt><dd>${show.long_name}&nbsp;</dd>
