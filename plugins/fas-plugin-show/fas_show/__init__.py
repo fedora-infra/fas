@@ -21,6 +21,8 @@ from fas.auth import canViewGroup
 
 from fas.model.fasmodel import Groups, GroupsTable, People
 
+from fas_show.help import Help
+
 shows_table = Table('show_shows', metadata,
                     Column('id', Integer,
                            autoincrement=True,
@@ -66,7 +68,8 @@ class ShowPlugin(controllers.Controller):
     def __init__(self):
         '''Create a Show Controller.'''
         self.path = ''
-
+        
+    help = Help()
     @expose(template="fas.templates.error")
     def error(self, tg_errors=None):
         '''Show a friendly error message'''
