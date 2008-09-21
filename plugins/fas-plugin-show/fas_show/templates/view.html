@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../../../../fas/templates/master.html" />
+  <head>
+    <title>${_('View Show')}</title>
+  </head>
+
+  <body>
+    <?python
+    from fas import auth
+    from fas.model import People
+    group = show.group
+    person = People.by_username(tg.identity.user.username)
+    can_admin = auth.canAdminGroup(person, group)
+    can_sponsor = auth.canSponsorGroup(person, group)
+    ?>
+    <h2>${show.long_name} (${show.name})</h2>
+    <h3>${_('Owner:')} ${show.owner.username}</h3>
+    <h3>Show Details
+      <a py:if="can_admin" href="${tg.url('/show/edit/%s' % show.name)}">${_('(edit)')}</a>
+    </h3>
+    <div class="userbox">
+      <dl>
+        <dt>${_('Name:')}</dt><dd>${show.long_name}&nbsp;</dd>
+        <dt>${_('Description:')}</dt><dd>${show.description}</dd>
+        <dt>${_('Owner:')}</dt><dd><a href="${tg.url('/user/view/%s') % show.owner.username}">${show.owner.human_name}</a></dd>
+	<dt>${_('Team:')}</dt><dd><a href="${tg.url('/group/view/%s') % group.name}">${group.display_name}</a></dd>
+      </dl>
+    </div>
+    <h3><a href="${tg.url('/show/join/%s' % show.name)}">Sign Up!</a></h3>
+    <h3>Signed up people</h3>
+    <p>Total: ${len(show.user_signups)}</p>
+    <table>
+      <thead>
+	<tr>
+	  <th>${_('User Name:')}</th>
+	  <th>${_('Real Name:')}</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr py:for="person in show.user_signups">
+	  <td><a href="${tg.url('/user/view/%s') % person.username}">${person.human_name}</a></td>
+	  <td>${person.human_name}</td>
+	</tr>
+      </tbody>
+    </table>   
+  </body>
+</html>

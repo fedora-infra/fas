@@ -18,34 +18,30 @@
 # Author(s): Yaakov Nemoy <ynemoy@redhat.com>
 #
 
-from sqlalchemy import *
-from migrate import *
-from migrate.changeset import *
+from sqlalchemy import MetaData, Table, Column, Integer, ForeignKey
+from migrate import migrate_engine
 
 metadata = MetaData(migrate_engine)
 
-shows_table = Table('show_shows', metadata,
-                    Column('id', Integer,
-                           autoincrement=True,
-                           primary_key=True),
-                    Column('name', Text),
-                    Column('owner', Text),
-                    Column('group_id', Integer),
-                    Column('long_name', Text))
+shows_table = Table('show_shows', metadata, autoload=True)
+PeopleTable = Table('people', metadata, autoload=True)
 
-GroupsTable = Table('groups', metadata, autoload=True)
-
-shows_group_fk = ForeignKeyConstraint([shows_table.c.group_id], 
-                                      [GroupsTable.c.id])
-
+user_signups_table = \
+    Table('show_user_signups', metadata,
+          Column('id', Integer,
+                 autoincrement=True,
+                 primary_key=True),
+          Column('show_id', Integer,
+                 ForeignKey('show_shows.id')),
+          Column('people_id', Integer,
+                 ForeignKey('people.id'),
+                 unique=True))
 
 def upgrade():
     # Upgrade operations go here. Don't create your own engine; use the engine
     # named 'migrate_engine' imported from migrate.
-    shows_table.create()
-    shows_group_fk.create()
+    user_signups_table.create()
 
 def downgrade():
     # Operations to reverse the above upgrade go here.
-    shows_group_fk.drop()
-    shows_table.drop()
+    user_signups_table.drop()

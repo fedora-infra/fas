@@ -480,7 +480,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
-    def create(self, username, human_name, email, telephone=None, postal_address=None, age_check=False):
+    def create(self, username, human_name, email, telephone=None, 
+               postal_address=None, age_check=False):
         # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.
@@ -490,24 +491,48 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
             turbogears.redirect('/')
-        test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        test = select([PeopleTable.c.username], 
+                      func.lower(PeopleTable.c.email)==email.lower())\
+                    .execute().fetchall()
         if test:
             turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
             turbogears.redirect("/")
             return dict()
         try:
-            person = People()
-            person.username = username
-            person.human_name = human_name
-            person.telephone = telephone
-            person.postal_address = postal_address
-            person.email = email
-            person.password = '*'
-            person.status = 'active'
-            session.flush()
-            newpass = generate_password()
-            message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
-            message.plain = _('''
+            self.create_user(username, human_name, email, telephone, 
+                             postal_address, age_check)
+        except IntegrityError:
+            turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
+            turbogears.redirect('/user/new')
+            return dict()
+        else:
+            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            turbogears.redirect('/user/changepass')
+            return dict()
+
+    def create_user(self, username, human_name, email, telephone=None, postal_address=None, age_check=False, redirect='/'):
+        # Check that the user claims to be over 13 otherwise it puts us in a
+        # legally sticky situation.
+        if not age_check:
+            turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
+            turbogears.redirect(redirect)
+        test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        if test:
+            turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
+            turbogears.redirect(redirect)
+            return dict()
+        person = People()
+        person.username = username
+        person.human_name = human_name
+        person.telephone = telephone
+        person.postal_address = postal_address
+        person.email = email
+        person.password = '*'
+        person.status = 'active'
+        session.flush()
+        newpass = generate_password()
+        message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
+        message.plain = _('''
 You have created a new Fedora account!
 Your new password is: %s
 
@@ -546,17 +571,10 @@ your feet as a Fedora contributor.
 And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
 ''') % (newpass['pass'], config.get('base_url_filter.base_url'), config.get('server.webpath'))
-            turbomail.enqueue(message)
-            person.password = newpass['hash']
-        except IntegrityError:
-            turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
-            turbogears.redirect('/user/new')
-            return dict()
-        else:
-            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
-            turbogears.redirect('/user/changepass')
-            return dict()
-
+        turbomail.enqueue(message)
+        person.password = newpass['hash']
+        return person
+        
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")

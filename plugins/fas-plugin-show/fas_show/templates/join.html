@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="../../../../fas/templates/master.html" />
+  <head>
+    <title>${_('Welcome to %s!') % show.long_name}</title>
+  </head>
+  <body>
+    <h2>${_('Welcome to %s!') % show.long_name}</h2>
+    <p>${_('Enter your name in this form, and register yourself in our system.')}
+	${_('Our Ambassador team will be able to get in contact with you after the show.')}</p>
+    <form action="${tg.url('/show/add_user/%s' % show.name)}" method="post">
+      <div class="field">
+        <label for="username">${_('Username:')}</label>
+        <input type="text" id="username" name="username" />
+      </div>
+      <div class="field">
+        <label for="human_name">${_('Full Name:')}</label>
+        <input type="text" id="human_name" name="human_name" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_human_name')}'});</script>
+      </div>
+      <div class="field">
+        <label for="email">${_('Email:')}</label>
+        <input type="text" id="email" name="email" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
+      </div>
+      <div class="field">
+        <label for="age_check">${_('I am 13 years of age or older')}</label>
+        <input type="checkbox" id="age_check" name="age_check" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_age_check')}'});</script>
+      </div>
+      <div class="field">
+        <input type="submit" value="${_('Sign up!')}" />
+      </div>
+    </form>
+  </body>
+</html>

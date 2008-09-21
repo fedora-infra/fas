@@ -20,32 +20,41 @@
 
 from sqlalchemy import *
 from migrate import *
-from migrate.changeset import *
+from migrate.changeset.schema import *
+import pdb
 
 metadata = MetaData(migrate_engine)
 
-shows_table = Table('show_shows', metadata,
-                    Column('id', Integer,
-                           autoincrement=True,
-                           primary_key=True),
-                    Column('name', Text),
-                    Column('owner', Text),
-                    Column('group_id', Integer),
-                    Column('long_name', Text))
+owner = Column('owner', Text)
+owner_id = Column('owner_id', Integer)
 
-GroupsTable = Table('groups', metadata, autoload=True)
+shows_table = Table('show_shows', metadata, autoload=True)
 
-shows_group_fk = ForeignKeyConstraint([shows_table.c.group_id], 
-                                      [GroupsTable.c.id])
-
+PeopleTable = Table('people', metadata, autoload=True)
 
 def upgrade():
     # Upgrade operations go here. Don't create your own engine; use the engine
     # named 'migrate_engine' imported from migrate.
-    shows_table.create()
-    shows_group_fk.create()
+    create_column(owner_id, shows_table)
+
+    owners = select([shows_table.c.id, shows_table.c.owner, 
+                     PeopleTable.c.id],
+                     shows_table.c.owner==PeopleTable.c.username).execute()
+    for x in owners:
+        shows_table.update(shows_table.c.id==x[0], values=dict(owner_id=x[2])).execute()
+    
+    drop_column(owner, shows_table)
+    pass
 
 def downgrade():
     # Operations to reverse the above upgrade go here.
-    shows_group_fk.drop()
-    shows_table.drop()
+    create_column(owner, shows_table)
+    
+    owners = select([shows_table.c.id, shows_table.c.owner_id, 
+                     PeopleTable.c.username],
+                     shows_table.c.owner_id==PeopleTable.c.id).execute()
+    for x in owners:
+        shows_table.update(shows_table.c.id==x[0], values=dict(owner=x[2])).execute()
+
+    drop_column(owner_id, shows_table)
+    pass
