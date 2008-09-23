@@ -327,21 +327,23 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
-    def dump(self, search=u'a*', groups='', restricted_groups=''):
+    def dump(self, search=u'a*', groups=''):
         
-        groups_to_return = groups.split(',')
-        group_types_to_return = restricted_groups.split(',')
-
+        groups_to_return_list = groups.split(',')
+        groups_to_return = []
         # Special Logic, find out all the people who are in more then one group
-        if restricted_groups.find('@all') != -1:
+        if '@all' in groups_to_return_list:
             g = Groups.query().filter(not_(Groups.name.ilike('cla%')))
             for group in g:
                 groups_to_return.append(group.name)
         
-        for group_type in group_types_to_return:
-            group_list = Groups.query.filter(Groups.c.group_type.in_([group_type.strip('@')]))
-            for group in group_list:
-                groups_to_return.append(group.name)
+        for group_type in groups_to_return_list:
+            if group_type.startswith('@'):
+                group_list = Groups.query.filter(Groups.c.group_type.in_([group_type.strip('@')]))
+                for group in group_list:
+                    groups_to_return.append(group.name)
+            else:
+                groups_to_return.append(group_type)
         people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.c.name.in_( groups_to_return ))
         
         # p becomes what we send back via json
@@ -350,13 +352,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             if strip_p.status == 'active':
                 p.append({
                     'username'  : strip_p.username,
-                    'id'        : strip_p.id,
-                    'ssh_key'   : strip_p.ssh_key,
-                    'human_name': strip_p.human_name,
-                    'password'  : strip_p.password 
+                    #'id'        : strip_p.id,
+                    #'ssh_key'   : strip_p.ssh_key,
+                    #'human_name': strip_p.human_name,
+                    #'password'  : strip_p.password 
                     })
 
-        return dict(people=p, search=search)
+        return dict(people=p, unapproved_people=[], search=search)
 
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602

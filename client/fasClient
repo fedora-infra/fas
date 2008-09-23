@@ -433,8 +433,11 @@ class MakeShellAccounts(BaseClient):
 
 
     def people_list(self, search='*'):
-        params = {'search' : search}
-        data = self.send_request('user/list', req_params=params, auth=True)
+        req_groups = config.get('host', 'groups').strip('"')
+        req_restricted_groups = config.get('host', 'ssh_restricted_groups').strip('"')
+        params = {'search' : search, 'groups': req_groups, 'restricted_groups': req_restricted_groups}
+        #params = {'search' : search }
+        data = self.send_request('user/dump', req_params=params, auth=True)
         self.people = data['people'] + data['unapproved_people']
 
     def email_list(self, search='*'):
