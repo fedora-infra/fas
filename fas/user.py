@@ -327,6 +327,40 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
+    def dump(self, search=u'a*', groups='', restricted_groups=''):
+        
+        groups_to_return = groups.split(',')
+        group_types_to_return = restricted_groups.split(',')
+
+        # Special Logic, find out all the people who are in more then one group
+        if restricted_groups.find('@all') != -1:
+            g = Groups.query().filter(not_(Groups.name.ilike('cla%')))
+            for group in g:
+                groups_to_return.append(group.name)
+        
+        for group_type in group_types_to_return:
+            group_list = Groups.query.filter(Groups.c.group_type.in_([group_type.strip('@')]))
+            for group in group_list:
+                groups_to_return.append(group.name)
+        people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.c.name.in_( groups_to_return ))
+        
+        # p becomes what we send back via json
+        p = []
+        for strip_p in people:
+            if strip_p.status == 'active':
+                p.append({
+                    'username'  : strip_p.username,
+                    'id'        : strip_p.id,
+                    'ssh_key'   : strip_p.ssh_key,
+                    'human_name': strip_p.human_name,
+                    'password'  : strip_p.password 
+                    })
+
+        return dict(people=p, search=search)
+
+    @identity.require(identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
+    @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search=u'a*'):
         '''List users
 
@@ -368,8 +402,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 PersonRoles.person_id==People.id)
 
         stmt = select([PeopleTable, PersonRolesTable.c.role_status],
-                from_obj=[PeopleJoin]).where(and_(People.username.ilike(re_search),
-                        People.status=='active')).order_by(People.username)
+                from_obj=[PeopleJoin]).where(People.username.ilike(re_search)
+                          ).order_by(People.username)
         people = People.query.add_column(PersonRoles.role_status
                 ).from_statement(stmt)
 
