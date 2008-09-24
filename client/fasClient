@@ -198,6 +198,8 @@ class MakeShellAccounts(BaseClient):
 
     def valid_user(self, username):
         ''' Is the user valid on this system '''
+        # As of right now, only valid users are returned by fas
+        return True
         if not self.valid_groups:
             self.valid_groups()
         if not self.group_mapping:
@@ -326,11 +328,17 @@ class MakeShellAccounts(BaseClient):
         for group in self.groups:
             gid = group['id']
             name = group['name']
+            
+                
             try:
                 ''' Shoot me now I know this isn't right '''
                 members = []
                 for member in self.memberships[name]:
-                    members.append(self.usernames[member['person_id']])
+                    try:
+                        members.append(self.usernames[member['person_id']])
+                    except KeyError:
+                        # User does not exist
+                        pass
                 memberships = ','.join(members)
                 self.group_mapping[name] = members
             except KeyError:
@@ -433,9 +441,10 @@ class MakeShellAccounts(BaseClient):
 
 
     def people_list(self, search='*'):
-        req_groups = config.get('host', 'groups').strip('"')
-        req_restricted_groups = config.get('host', 'ssh_restricted_groups').strip('"')
-        params = {'search' : search, 'groups': req_groups, 'restricted_groups': req_restricted_groups}
+        req_groups = "%s,%s,%s" % (config.get('host', 'groups').strip('"'),
+                                    config.get('host', 'restricted_groups').strip('"'),
+                                    config.get('host', 'ssh_restricted_groups').strip('"'))
+        params = {'search' : search, 'groups': req_groups }
         #params = {'search' : search }
         data = self.send_request('user/dump', req_params=params, auth=True)
         self.people = data['people'] + data['unapproved_people']

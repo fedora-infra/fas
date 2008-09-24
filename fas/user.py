@@ -349,13 +349,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         # p becomes what we send back via json
         p = []
         for strip_p in people:
-            if strip_p.status == 'active':
+            if strip_p.status == 'active' and 'cla_done' in strip_p.group_roles:
                 p.append({
                     'username'  : strip_p.username,
-                    #'id'        : strip_p.id,
-                    #'ssh_key'   : strip_p.ssh_key,
-                    #'human_name': strip_p.human_name,
-                    #'password'  : strip_p.password 
+                    'id'        : strip_p.id,
+                    'ssh_key'   : strip_p.ssh_key,
+                    'human_name': strip_p.human_name,
+                    'password'  : strip_p.password 
                     })
 
         return dict(people=p, unapproved_people=[], search=search)
