@@ -346,12 +346,13 @@ class Group(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if not targetname:
+            targetname = username
             target = person
         else:
             target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if group.apply_rules == None or len(group.apply_rules) < 1:
+        if username != targetname or group.apply_rules == None or len(group.apply_rules) < 1:
             turbogears.redirect('/group/apply/%s/%s' % (group.name, target.username))
 
         if group in target.memberships:
