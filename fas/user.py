@@ -135,7 +135,7 @@ def generate_password(password=None, length=16):
         for char_num in xrange(length): # pylint: disable-msg=W0612
             password += random.choice(chars)
 
-    secret['hash'] = crypt.crypt(password, "$1$%s" % generate_salt(8))
+    secret['hash'] = crypt.crypt(password.encode('utf-8'), "$1$%s" % generate_salt(8))
     secret['pass'] = password
 
     return secret
@@ -627,7 +627,7 @@ forward to working with you!
 
 #        current_encrypted = generate_password(currentpassword)
 #        print "PASS: %s %s" % (current_encrypted, person.password)
-        if not person.password == crypt.crypt(currentpassword, person.password):
+        if not person.password == crypt.crypt(currentpassword.encode('utf-8'), person.password):
             turbogears.flash('Your current password did not match')
             return dict()
         # TODO: Enable this when we need to.
@@ -780,7 +780,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         if person.status in ('inactive'):
             # Check that the password has changed.
             import crypt
-            if crypt.crypt(password, person.password) == person.password:
+            if crypt.crypt(password.encode('utf-8'), person.password) == person.password:
                 turbogears.flash(_('Your password can not be the same as your old password.'))
                 return dict(person=person, token=token)
             person.status = 'active'
