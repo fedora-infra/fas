@@ -283,7 +283,13 @@ Thanks!
 
         dt = datetime.utcnow()
         Log(author_id=person.id, description='Completed CLA', changetime=dt)
-        message = turbomail.Message(config.get('accounts_email'), config.get('legal_cla_email'), 'Fedora ICLA completed')
+        message = turbomail.Message(config.get('accounts_email'),
+                config.get('legal_cla_email'),
+                'Fedora ICLA completed for %(human_name)s (%(username)s)' %
+                {'username': person.username,
+                'human_name': person.human_name,
+                }
+                )
         message.plain = '''
 Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
