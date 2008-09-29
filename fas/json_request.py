@@ -27,6 +27,7 @@ import sqlalchemy
 
 from fas.model import People
 from fas.model import Groups
+from fas.model import PersonRoles
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
@@ -52,6 +53,19 @@ class JsonRequest(controllers.Controller):
                     }
             person.filter_private()
             return dict(success=True, person=person)
+        except InvalidRequestError:
+            return dict(success=False)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose("json", allow_json=True)
+    def fas_client(self):
+        output = [];
+        try:
+            roles = PersonRoles.query.all()
+            for role in roles:
+                role.member.filter_private()
+                output.append((role.member, role.role_type, role.group.name))
+            return dict(success=True, output=output)
         except InvalidRequestError:
             return dict(success=False)
 

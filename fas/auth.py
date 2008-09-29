@@ -89,7 +89,7 @@ def CLADone(person):
     '''
     Returns True if the user has completed the CLA
     '''
-    cla_done_group =config.get('cla_done_group')
+    cla_done_group = config.get('cla_done_group')
     try:
         if person.group_roles[cla_done_group].role_status == 'approved':
             return True
