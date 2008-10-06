@@ -64,7 +64,10 @@ class JsonRequest(controllers.Controller):
             roles = PersonRoles.query.all()
             for role in roles:
                 role.member.filter_private()
-                output.append((role.member, role.role_type, role.group.name))
+                output.append((role.member, 
+                               role.role_type, 
+                               role.group.name, 
+                               role.group.group_type))
             return dict(success=True, output=output)
         except InvalidRequestError:
             return dict(success=False)
