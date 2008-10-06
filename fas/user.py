@@ -457,25 +457,6 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             emails[person.username] = person.email or '%s@fedoraproject.org' \
                     % person.username
         return dict(emails=emails)
-    
-    @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
-    @expose(format='json')
-    def group_list(self, search=u'*'):
-        user_groups = session.query(People)\
-            .add_column(PersonRoles.role_type)\
-            .add_column(Groups.c.name)\
-            .filter(and_(People.c.id==PersonRoles.c.person_id, 
-                         Groups.c.id==PersonRoles.c.group_id, 
-                         PersonRoles.c.role_status=='approved'))\
-            .all()
-
-        # can someone figure out why these People don't have sessions?
-        # -ynemoy
-        user_groups = [(user.filter_private(), role, group) 
-                       for user, role, group 
-                       in user_groups]
-        return dict(users=user_groups)
 
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602

@@ -29,7 +29,6 @@ from turbogears.database import metadata, mapper, get_engine, session
 from turbogears import identity, config
 import turbogears
 
-import sqlalchemy.orm as orm
 from sqlalchemy import Table, Column, ForeignKey, Sequence
 from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy import and_, select, literal_column
@@ -283,13 +282,6 @@ class People(SABase):
         non-standard things and filter the data there as well.
         '''
         # Disconnect this object from the database
-        
-        # I've found a case where the session that owns self is not the session
-        # that the VM space that this module has that it points to.
-        # bonus points if you figure out what i mean, but sufficed to say
-        # this calls up the session more accurately
-        # -ynemoy
-        session = orm.session.Session.object_session(self)
         session.expunge(self)
 
         # Full disclosure to admins
@@ -367,8 +359,6 @@ class People(SABase):
             self.timezone = None
             self.latitude = None
             self.longitude = None
-        
-        return self
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
