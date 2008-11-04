@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.4.5
+Version:        0.8.4.6
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -56,7 +56,7 @@ Additional scripts that work as clients to the accounts system.
 
 %install
 %{__rm} -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --install-data='%{_datadir}' --root %{buildroot}
+%{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
@@ -88,6 +88,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Mon Nov 3 2008 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.4.6-1
+- New upstream release.
+
 * Thu Sep 11 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.4.5-1
 - Upstream released a new version.
 
