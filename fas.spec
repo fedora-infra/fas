@@ -84,6 +84,7 @@ Additional scripts that work as clients to the accounts system.
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 
 %files clients
+%defattr(-,root,root,-)
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/fas.conf
 
