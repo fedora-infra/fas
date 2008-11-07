@@ -17,6 +17,7 @@
 # permission of Red Hat, Inc.
 #
 # Red Hat Author(s): Mike McGrath <mmcgrath@redhat.com>
+#                    Toshio Kuratomi <tkuratom@redhat.com>
 #
 # TODO: put tmp files in a 700 tmp dir
 
@@ -116,7 +117,6 @@ parser.add_option('--debug',
                      action = 'store_true',
                      help = _('Enable debugging messages'))
 
-
 (opts, args) = parser.parse_args()
 
 log = logging.getLogger('fas')
@@ -162,7 +162,6 @@ class MakeShellAccounts(AccountSystem):
 
     def rm_tempdir(self):
         rmtree(self.temp)
-
 
     def valid_groups(self):
         ''' Create a dict of valid groups, including that of group_type '''
@@ -341,8 +340,7 @@ class MakeShellAccounts(AccountSystem):
         for group in self.groups:
             gid = group['id']
             name = group['name']
-            
-                
+
             try:
                 ''' Shoot me now I know this isn't right '''
                 members = []
@@ -357,7 +355,6 @@ class MakeShellAccounts(AccountSystem):
             except KeyError:
                 ''' No users exist in the group '''
                 pass
-
 
     def groups_text(self, groups=None, people=None):
         i = 0
@@ -450,8 +447,6 @@ class MakeShellAccounts(AccountSystem):
             unapproved = True
         if unapproved == False:
             print "    None"
-
-
 
     def people_list(self, search='*'):
         req_groups = "%s,%s,%s" % (config.get('host', 'groups').strip('"'),
