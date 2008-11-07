@@ -634,19 +634,27 @@ if __name__ == '__main__':
         enable()
     if opts.disable:
         disable()
-    if opts.info_username:
-        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug, cache_session=opts.nosession)
-        fas.user_info(opts.info_username)
+
+    if not (opts.install or opts.enable or opts.disable or opts.aliases):
+        parser.print_help()
+        sys.exit(0)
+
+    try:
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global',
+            'login').strip('"'), password=config.get('global',
+                'password').strip('"'), debug=opts.debug,
+            cache_session=opts.nosession)
+    except AuthError, e:
+        sys.stderr.write('%s\n' % str(e))
         sys.exit(1)
+    except URLError, e:
+        sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL,
+            e.reason[1]))
+        sys.exit(9)
+
+    if opts.info_username:
+        fas.user_info(opts.info_username)
     if opts.install:
-        try:
-            fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
-        except AuthError, e:
-            print >> sys.stderr, e
-            sys.exit(1)
-        except URLError, e:
-            print >> sys.stderr, 'Could not connect to %s - %s' % (FAS_URL, e.reason[1])
-            sys.exit(9)
         fas.mk_tempdir()
         fas.make_group_db()
         fas.make_passwd_db()
@@ -662,18 +670,12 @@ if __name__ == '__main__':
         if not opts.no_ssh_keys:
             fas.create_ssh_keys()
         fas.rm_tempdir()
-        fas.logout()
+
     if opts.aliases:
-        try:
-            fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
-        except AuthError, e:
-            print >> sys.stderr, e
-            sys.exit(1)
         fas.mk_tempdir()
         fas.make_aliases_txt()
         fas.install_aliases_txt()
         fas.rm_tempdir()
-        fas.logout()
 
-    if not (opts.install or opts.enable or opts.disable or opts.aliases):
-        parser.print_help()
+    fas.logout()
+    sys.exit(0)
