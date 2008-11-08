@@ -149,37 +149,16 @@ def _chown(arg, dir_name, files):
 
 class MakeShellAccounts(AccountSystem):
     temp = None
-    groups = None
-    memberships = None
+    _groups = []
+    _memberships = {}
     _group_mapping = {}
-    valid_groups = {}
+    _valid_groups = {}
     _emails = {}
     _people = []
     _people_by = {}
     _all_people = {}
 
     ### Validation ###
-
-    def valid_groups(self):
-        ''' Create a dict of valid groups, including that of group_type '''
-        if not self.groups:
-            self.group_list()
-        valid_groups = {'groups':[], 'restricted_groups':[], 'ssh_restricted_groups': []}
-        for restriction in valid_groups:
-            for group in config.get('host', restriction).strip('"').split(','):
-                if group == '':
-                    continue
-                if group == '@all':
-                    for grp in self.groups:
-                        if not grp['name'].startswith('cla'):
-                            valid_groups[restriction].append(grp['name'])
-                elif group.startswith('@'):
-                    for grp in self.groups:
-                        if grp['group_type'] == group[1:]:
-                            valid_groups[restriction].append(grp['name'])
-                else:
-                    valid_groups[restriction].append(group)
-        self.valid_groups = valid_groups
 
     def valid_group(self, name, restriction=None):
         ''' Determine if group is valid on the system '''
@@ -196,8 +175,6 @@ class MakeShellAccounts(AccountSystem):
         ''' Is the user valid on this system '''
         # As of right now, only valid users are returned by fas
         return True
-        if not self.valid_groups:
-            self.valid_groups()
         try:
             for restriction in self.valid_groups:
                 for group in self.valid_groups[restriction]:
@@ -222,23 +199,70 @@ class MakeShellAccounts(AccountSystem):
 
     all_people = property(_refresh_all_people)
 
-    def _refresh_group_mapping(self, force=False):
-        if self._group_mapping and not force:
-            return self._group_mapping
+    def _refresh_group_mapping(self, search='*', force=False):
+        self._refresh_group_info(search, force)
+        return self._group_mapping
 
+    group_mapping = property(_refresh_group_mapping)
+
+    def _refresh_memberships(self, search, force=False):
+        self._refresh_group_info(search, force)
+        return self._memberships
+
+    memberships = property(_refresh_memberships)
+
+    def _refresh_groups(self, search='*', force=False):
+        '''Returns all groups.'''
+        self._refresh_group_info(search, force)
+        return self._groups
+
+    groups = property (_refresh_groups)
+
+    def _refresh_valid_groups(self, search='*', force=False):
+        '''Return a dict of valid groups, including that of group_type '''
+        self._refresh_group_info(search, force)
+        return self._valid_groups
+
+    valid_groups = property (_refresh_valid_groups)
+
+    def _refresh_group_info(self, search='*', force=False):
+        '''Refresh all group related information.'''
+        if self._groups and self._memberships and self._group_mapping \
+                and self._valid_groups and not force:
+            return
+
+        # Retrieve the groups
+        params = {'search' : search}
+        request = self.send_request('group/list', req_params=params, auth=True)
+        self._groups = request['groups']
+
+        # Retrieve the memberships
+        memberships = {}
+        for group in self._groups:
+            memberships[group['name']] = []
+            try:
+                for member in request['memberships'][u'%s' % group['id']]:
+                    memberships[group['name']].append(member)
+            except KeyError:
+                # Not all groups have members
+                pass
+        self._memberships = memberships
+
+        # Retrieve the group_mapping
         group_mapping = {}
-        for group in self.groups:
+        for group in self._groups:
             gid = group['id']
             name = group['name']
 
             try:
                 ''' Shoot me now I know this isn't right '''
                 members = []
-                for member in self.memberships[name]:
+                for member in self._memberships[name]:
                     try:
-                        members.append(self.all_people[member['person_id']])
+                        members.append(self.people_by[member['person_id']]
+                                ['username'])
                     except KeyError:
-                        # User does not exist
+                        # User is not valid on this computer
                         pass
                 memberships = ','.join(members)
                 group_mapping[name] = members
@@ -246,30 +270,32 @@ class MakeShellAccounts(AccountSystem):
                 ''' No users exist in the group '''
                 pass
         self._group_mapping = group_mapping
-        return self._group_mapping
 
-    group_mapping = property(_refresh_group_mapping)
+        # And generate the valid groups
+        valid_groups = {'groups':[], 'restricted_groups':[],
+                'ssh_restricted_groups': []}
+        for restriction in valid_groups:
+            for group in config.get('host', restriction).strip('"').split(','):
+                if group == '':
+                    continue
+                if group == '@all':
+                    for grp in self._groups:
+                        if not grp['name'].startswith('cla'):
+                            valid_groups[restriction].append(grp['name'])
+                elif group.startswith('@'):
+                    for grp in self._groups:
+                        if grp['group_type'] == group[1:]:
+                            valid_groups[restriction].append(grp['name'])
+                else:
+                    valid_groups[restriction].append(group)
+        self._valid_groups = valid_groups
 
-    def group_list(self, search='*'):
-        params = {'search' : search}
-        request = self.send_request('group/list', req_params=params, auth=True)
-        self.groups = request['groups']
-        memberships = {}
-        for group in self.groups:
-            memberships[group['name']] = []
-            try:
-                for member in request['memberships'][u'%s' % group['id']]:
-                    memberships[group['name']].append(member)
-            except KeyError:
-                    pass
-        self.memberships = memberships
-        self.valid_groups()
-        return self.groups
+    valid_groups = property(_refresh_valid_groups)
 
     def _refresh_people(self, search='*', force=False):
         '''Return a list of people with accounts on this system.'''
         # Cached values present, return
-        if self._people and self._people_by and and not force:
+        if self._people and self._people_by and not force:
             return
 
         req_groups = "%s,%s,%s" % (config.get('host', 'groups').strip('"'),
