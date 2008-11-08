@@ -29,6 +29,7 @@ import tempfile
 import codecs
 import datetime
 import time
+import itertools
 
 from urllib2 import URLError
 from fedora.client import AccountSystem, AuthError, ServerError
@@ -149,12 +150,12 @@ def _chown(arg, dir_name, files):
 class MakeShellAccounts(AccountSystem):
     temp = None
     groups = None
-    people = None
     memberships = None
     group_mapping = {}
     valid_groups = {}
-    usernames = {}
     _emails = {}
+    _people = []
+    _people_by = {}
     _all_people = {}
 
     ### Validation ###
@@ -190,6 +191,7 @@ class MakeShellAccounts(AccountSystem):
                     return True
         return False
 
+    ### FIXME: Delete this or make it work correctly for remove_stale_home_dirs
     def valid_user(self, username):
         ''' Is the user valid on this system '''
         # As of right now, only valid users are returned by fas
@@ -209,17 +211,6 @@ class MakeShellAccounts(AccountSystem):
 
     ### Attributes ###
 
-    def get_usernames(self):
-        usernames = {}
-        if not self.people:
-            self.people_list()
-        for person in self.people:
-            uid = person['id']
-            if self.valid_user_group(uid):
-                username = person['username']
-                usernames[uid] = username
-        self.usernames = usernames
-
     def _refresh_all_people(self, force=False):
         '''Get a list of all people.
 
@@ -227,16 +218,13 @@ class MakeShellAccounts(AccountSystem):
         property.
         '''
         if not self._all_people or force:
-            usernames = self.people_by_id()
-            self._all_people = usernames
+            self._all_people = self.people_by_id()
 
         return self._all_people
 
     all_people = property(_refresh_all_people)
 
     def get_group_mapping(self):
-        if not self.usernames:
-            self.get_usernames()
         for group in self.groups:
             gid = group['id']
             name = group['name']
@@ -246,7 +234,7 @@ class MakeShellAccounts(AccountSystem):
                 members = []
                 for member in self.memberships[name]:
                     try:
-                        members.append(self.usernames[member['person_id']])
+                        members.append(self.all_people[member['person_id']])
                     except KeyError:
                         # User does not exist
                         pass
@@ -272,16 +260,47 @@ class MakeShellAccounts(AccountSystem):
         self.valid_groups()
         return self.groups
 
-    def people_list(self, search='*'):
+    def _refresh_people(self, search='*', force=False):
+        '''Return a list of people with accounts on this system.'''
+        # Cached values present, return
+        if self._people and self._people_by and and not force:
+            return
+
         req_groups = "%s,%s,%s" % (config.get('host', 'groups').strip('"'),
                                     config.get('host', 'restricted_groups').strip('"'),
                                     config.get('host', 'ssh_restricted_groups').strip('"'))
         params = {'search' : search, 'groups': req_groups }
-        #params = {'search' : search }
         data = self.send_request('user/dump', req_params=params, auth=True)
-        self.people = data['people'] + data['unapproved_people']
+        # Why did we include unapproved people before?
+        #self._people = data['people'] + data['unapproved_people']
+        self._people = data['people']
+
+        # Get a list of keys (username and userid) associated with a person.
+        # We can put both username and userid in a single dict because
+        # username is a string and id is an int
+        people = (((p['username'], p), (p['id'], p)) for p in data['people'])
+        # We now have a list of lists of key:value pairs like this::
+        #   [[(name1: p1), (id1: p1)], [(name2: p2), (id2: p2)]]
+        # Use '*' to remove the outer list, then itertools.chain() to combine
+        # the lists into one like this::
+        #   [(name1: p1), (id1: p1), (name2: p2), (id2: p2)]
+        # Finally, turn those key:value pairs into a dict
+        self._people_by = dict(itertools.chain(*people))
+
+    def _refresh_people_list(self, search='*', force=False):
+        self._refresh_people(search, force)
+        return self._people
+
+    people = property(_refresh_people_list)
+
+    def _refresh_people_by(self, search='*', force=False):
+        self._refresh_people(search, force)
+        return self._people_by
+
+    people_by = property(_refresh_people_by)
 
     def _refresh_emails(self, search='*', force=False):
+        '''Return email addresses for every user'''
         if not self._emails or force:
             params = {'search': search}
             self._emails = self.send_request('user/email_list',
@@ -382,24 +401,16 @@ class MakeShellAccounts(AccountSystem):
         file = open(self.temp + '/group.txt', 'w')
         if not self.groups:
             self.group_list()
-        if not self.people:
-            self.people_list()
-        if not self.usernames:
-            self.get_usernames()
         if not self.group_mapping:
             self.get_group_mapping()
         ''' First create all of our users/groups combo '''
         for person in self.people:
             uid = person['id']
-            try:
-                if self.valid_user(self.usernames[uid]):
-                    username = person['username']
-                    file.write("=%i %s:x:%i:\n" % (uid, username, uid))
-                    file.write("0%i %s:x:%i:\n" % (i, username, uid))
-                    file.write(".%s %s:x:%i:\n" % (username, username, uid))
-                    i = i + 1
-            except KeyError:
-                continue
+            username = person['username']
+            file.write("=%i %s:x:%i:\n" % (uid, username, uid))
+            file.write("0%i %s:x:%i:\n" % (i, username, uid))
+            file.write(".%s %s:x:%i:\n" % (username, username, uid))
+            i = i + 1
 
         for group in self.groups:
             gid = group['id']
@@ -408,7 +419,7 @@ class MakeShellAccounts(AccountSystem):
                 ''' Shoot me now I know this isn't right '''
                 members = []
                 for member in self.memberships[name]:
-                    members.append(self.usernames[member['person_id']])
+                    members.append(self.all_people[member['person_id']])
                 memberships = ','.join(members)
                 self.group_mapping[name] = members
             except KeyError:
@@ -433,23 +444,20 @@ class MakeShellAccounts(AccountSystem):
 
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
-        if not self.people:
-            self.people_list()
         for person in self.people:
             username = person['username']
-            if self.valid_user(username):
-                uid = person['id']
-                human_name = person['human_name']
-                password = person['password']
-                home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
-                shell = self.shell(username)
-                passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-                passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-                passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
-                shadow_file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
-                shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
-                shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
-                i = i + 1
+            uid = person['id']
+            human_name = person['human_name']
+            password = person['password']
+            home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
+            shell = self.shell(username)
+            passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+            shadow_file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
+            shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
+            shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+            i = i + 1
         passwd_file.close()
         shadow_file.close()
 
@@ -457,8 +465,6 @@ class MakeShellAccounts(AccountSystem):
         ''' update your mail aliases file '''
         if not self.groups:
             groups = self.group_list()
-        if not self.usernames:
-            self.get_usernames()
 
         email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
         email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
@@ -540,7 +546,7 @@ class MakeShellAccounts(AccountSystem):
             os.makedirs(home_base, mode=0755)
         for person in self.people:
             home_dir = os.path.join(home_base, person['username'])
-            if not os.path.exists(home_dir) and self.valid_user(person['username']):
+            if not os.path.exists(home_dir):
                 syslog.syslog('Creating homedir for %s' % person['username'])
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [person['id'], person['id']])
@@ -554,6 +560,8 @@ class MakeShellAccounts(AccountSystem):
             home_backup_dir = '/var/tmp/'
         users = os.listdir(home_base)
         for user in users:
+            ### FIXME: This is wrong.  valid_user() only returns True right now
+            # so this never runs
             if not self.valid_user(user):
                 if not os.path.exists(home_backup_dir):
                     os.makedirs(home_backup_dir)
@@ -566,17 +574,16 @@ class MakeShellAccounts(AccountSystem):
         home_base = prefix + config.get('users', 'home').strip('"')
         for person in self.people:
             username = person['username']
-            if self.valid_user(username):
-                ssh_dir = os.path.join(home_base, username, '.ssh')
-                if person['ssh_key']:
-                    key = self.ssh_key(person)
-                    if not os.path.exists(ssh_dir):
-                        os.makedirs(ssh_dir, mode=0700)
-                    f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
-                    f.write(key + '\n')
-                    f.close()
-                    os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
-                    os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
+            ssh_dir = os.path.join(home_base, username, '.ssh')
+            if person['ssh_key']:
+                key = self.ssh_key(person)
+                if not os.path.exists(ssh_dir):
+                    os.makedirs(ssh_dir, mode=0700)
+                f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
+                f.write(key + '\n')
+                f.close()
+                os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
+                os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
 
     ### Support ###
 
