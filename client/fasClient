@@ -205,7 +205,7 @@ class MakeShellAccounts(AccountSystem):
 
     group_mapping = property(_refresh_group_mapping)
 
-    def _refresh_memberships(self, search, force=False):
+    def _refresh_memberships(self, search='*', force=False):
         self._refresh_group_info(search, force)
         return self._memberships
 
@@ -449,7 +449,7 @@ class MakeShellAccounts(AccountSystem):
                 ''' Shoot me now I know this isn't right '''
                 members = []
                 for member in self.memberships[name]:
-                    members.append(self.all_people[member['person_id']])
+                    members.append(self.all_people[member['person_id']]['username'])
                 memberships = ','.join(members)
                 self.group_mapping[name] = members
             except KeyError:
