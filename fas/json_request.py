@@ -20,14 +20,16 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 #
 import turbogears
-from turbogears import controllers, expose, identity
+from turbogears import controllers, expose, identity, config
 
 from sqlalchemy.exceptions import InvalidRequestError
 import sqlalchemy
+from sqlalchemy import select
 
 from fas.model import People
 from fas.model import Groups
 from fas.model import PersonRoles
+from fas.model import PeopleTable
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
@@ -58,19 +60,64 @@ class JsonRequest(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
-    def fas_client(self):
-        output = [];
-        try:
-            roles = PersonRoles.query.all()
-            for role in roles:
-                role.member.filter_private()
-                output.append((role.member, 
-                               role.role_type, 
-                               role.group.name, 
-                               role.group.group_type))
-            return dict(success=True, output=output)
-        except InvalidRequestError:
-            return dict(success=False)
+    def fas_client(self, data=None):
+        admin_group = config.get('admingroup', 'accounts')
+        system_group = config.get('systemgroup', 'fas-system')
+        thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+
+        privs = {
+            'admin': False,
+            'system': False,
+            'thirdparty': False,
+        }
+
+        if identity.in_group(admin_group):
+            privs['admin'] = privs['system'] = privs['thirdparty'] = True
+        elif identity.in_group(system_group):
+            privs['system'] = privs['thirdparty'] = True
+        elif identity.in_group(thirdparty_group):
+            privs['thirdparty'] = True
+
+        if data == 'group_data':
+            groups = {}
+            groups_list = Groups.query.all()
+            for group in groups_list:
+                groups[group.name] = {
+                    'administrators': [],
+                    'sponsors': [],
+                    'users': [],
+                    'type': group.group_type
+                }
+                for role in group.roles:
+                    if role.role_type == 'administrator':
+                        groups[group.name]['administrators'].append(role.member.username)
+                    elif role.role_type == 'sponsor':
+                        groups[group.name]['sponsors'].append(role.member.username)
+                    elif role.role_type == 'user':
+                        groups[group.name]['users'].append(role.member.username)
+            return dict(success=True, data=groups)
+        elif data == 'user_data':
+            people = {}
+            people_list = select([
+                PeopleTable.c.username,
+                PeopleTable.c.password,
+                PeopleTable.c.ssh_key,
+                PeopleTable.c.email,
+                PeopleTable.c.status,
+                ]).execute().fetchall();
+            for person in people_list:
+                username = person[0]
+                people[username] = {
+                    'password': '*',
+                    'ssh_key': person[2],
+                    'email': person[3],
+                    'status': person[4]
+                }
+                if privs['system']:
+                    people[username]['password'] = person[1]
+            return dict(success=True, data=people)
+
+        return dict(success=False)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
