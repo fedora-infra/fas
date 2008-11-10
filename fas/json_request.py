@@ -25,6 +25,7 @@ from turbogears import controllers, expose, identity, config
 from sqlalchemy.exceptions import InvalidRequestError
 import sqlalchemy
 from sqlalchemy import select
+from sqlalchemy.orm import eagerload
 
 from fas.model import People
 from fas.model import Groups
@@ -80,7 +81,7 @@ class JsonRequest(controllers.Controller):
 
         if data == 'group_data':
             groups = {}
-            groups_list = Groups.query.all()
+            groups_list = Groups.query.options(eagerload('approved_roles')).all()
             for group in groups_list:
                 groups[group.name] = {
                     'administrators': [],
@@ -88,17 +89,18 @@ class JsonRequest(controllers.Controller):
                     'users': [],
                     'type': group.group_type
                 }
-                for role in group.roles:
+                for role in group.approved_roles:
                     if role.role_type == 'administrator':
-                        groups[group.name]['administrators'].append(role.member.username)
+                        groups[group.name]['administrators'].append(role.person_id)
                     elif role.role_type == 'sponsor':
-                        groups[group.name]['sponsors'].append(role.member.username)
+                        groups[group.name]['sponsors'].append(role.person_id)
                     elif role.role_type == 'user':
-                        groups[group.name]['users'].append(role.member.username)
+                        groups[group.name]['users'].append(role.person_id)
             return dict(success=True, data=groups)
         elif data == 'user_data':
             people = {}
             people_list = select([
+                PeopleTable.c.id,
                 PeopleTable.c.username,
                 PeopleTable.c.password,
                 PeopleTable.c.ssh_key,
@@ -108,13 +110,14 @@ class JsonRequest(controllers.Controller):
             for person in people_list:
                 username = person[0]
                 people[username] = {
+                    'id': person[1],
                     'password': '*',
-                    'ssh_key': person[2],
-                    'email': person[3],
-                    'status': person[4]
+                    'ssh_key': person[3],
+                    'email': person[4],
+                    'status': person[5]
                 }
                 if privs['system']:
-                    people[username]['password'] = person[1]
+                    people[username]['password'] = person[2]
             return dict(success=True, data=people)
 
         return dict(success=False)
