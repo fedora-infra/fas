@@ -108,16 +108,16 @@ class JsonRequest(controllers.Controller):
                 PeopleTable.c.status,
                 ]).execute().fetchall();
             for person in people_list:
-                username = person[0]
-                people[username] = {
-                    'id': person[1],
+                id = person[0]
+                people[id] = {
+                    'username': person[1],
                     'password': '*',
                     'ssh_key': person[3],
                     'email': person[4],
                     'status': person[5]
                 }
                 if privs['system']:
-                    people[username]['password'] = person[2]
+                    people[id]['password'] = person[2]
             return dict(success=True, data=people)
 
         return dict(success=False)
