@@ -167,8 +167,10 @@ class CLA(controllers.Controller):
 Hello %(human_name)s,
 
 We're sorry to bother you but we had to reject your CLA for now because
-information you provided has been deemed incorrect.  Common causes of this
-are using a name, address/country, or phone number that isn't accurate [1]_.  
+information you provided has been deemed incorrect.  The most common cause
+of this is people abbreviating their name like "B L Couper" instead of
+providing their actual full name "Bill Lay Couper".  Other causes of this
+include are using a address/country, or phone number that isn't accurate [1]_.
 If you could edit your account [2]_ to fix any of these problems and resubmit
 the CLA we would appreciate it.
 
