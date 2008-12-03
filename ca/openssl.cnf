@@ -105,9 +105,9 @@ string_mask = nombstr
 [ root_ca_distinguished_name ]
 commonName = Test CA
 countryName = US
-stateOrProvinceName = Pennsylvania
-localityName = Pittsburgh
-0.organizationName = Fedora
+stateOrProvinceName = North Carolina
+localityName = Raleigh
+0.organizationName = Fedora Project
 emailAddress = ricky@fedoraproject.org
 
 [ usr_cert ]

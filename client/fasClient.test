@@ -1,0 +1,201 @@
+#!/usr/bin/python
+import os
+import codecs
+from fedora.client import AccountSystem, AuthError, ServerError
+
+FAS_URL = 'http://sphe.res.cmu.edu/accounts/'
+
+class MakeShellAccounts(AccountSystem):
+    users = None
+    groups = None
+
+    # Users that are in cla_done + at least one other group
+    good_users = None
+
+    temp = '/tmp'
+
+    def get_data(self):
+        group_data = self.group_data()
+        user_data = self.user_data()
+        self.users = user_data
+        self.groups = group_data
+        cla_uids = self.groups['cla_done']['users'] + \
+            self.groups['cla_done']['sponsors'] + \
+            self.groups['cla_done']['administrators']
+
+        user_groupcount = {}
+        for uid in cla_uids:
+            user_groupcount[uid] = 0
+
+        for group in self.groups:
+            if group.startswith('cla_'):
+                continue
+            for uid in self.groups[group]['users'] + \
+                self.groups[group]['sponsors'] + \
+                self.groups[group]['administrators']:
+                if uid in user_groupcount:
+                    user_groupcount[uid] += 1
+
+        good_users = []
+        for uid in user_groupcount:
+            if user_groupcount[uid] > 0:
+                good_users.append(uid)
+
+        self.good_users = good_users
+
+
+    def passwd_text(self, groups=None, people=None):
+        i = 0
+        #home_dir_base = config.get('users', 'home').strip('"')
+        home_dir_base = '/home'
+
+        if self.users == None:
+            self.get_data()
+
+        # Touch shadow and secure the permissions
+        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+        shadow_file.close()
+        os.chmod(self.temp + '/shadow.txt', 00600)
+
+        passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
+        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+        for uid in self.users:
+            username = self.users[uid]['username']
+            human_name = username
+            password = self.users[uid]['password']
+            home_dir = "%s/%s" % (home_dir_base, username)
+            # TODO: shell = self.shell(username)
+            shell = '/bin/bash'
+
+            passwd_file.write("=%s %s:x:%s:%s:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write("0%i %s:x:%s:%s:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write(".%s %s:x:%s:%s:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+
+            shadow_file.write("=%s %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
+            shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
+            shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+            i += 1
+
+        passwd_file.close()
+        shadow_file.close()
+
+    def groups_text(self, groups=None, people=None):
+        i = 0
+        group_file = codecs.open(self.temp + '/group.txt', 'w')
+
+        if not self.groups or not self.users:
+            self.get_data()
+
+        # First create all of our users/groups combo
+        for uid in self.users:
+            username = self.users[uid]['username']
+            group_file.write("=%s %s:x:%s:\n" % (uid, username, uid))
+            group_file.write("0%i %s:x:%s:\n" % (i, username, uid))
+            group_file.write(".%s %s:x:%s:\n" % (username, username, uid))
+            i += 1
+
+        for group in self.groups:
+            gid = self.groups[group]['id']
+            members = []
+            memberships = ''
+
+            for member_uid in self.groups[group]['administrators']:
+                members.append(self.users[member_uid]['username'])
+                memberships = ','.join(members)
+
+            group_file.write("=%i %s:x:%i:%s\n" % (gid, group, gid, memberships))
+            group_file.write("0%i %s:x:%i:%s\n" % (i, group, gid, memberships))
+            group_file.write(".%s %s:x:%i:%s\n" % (group, group, gid, memberships))
+            i += 1
+
+        group_file.close()
+
+    def make_group_db(self):
+        self.groups_text()
+        os.system('makedb -o %s/group.db %s/group.txt' % (self.temp, self.temp))
+
+    def make_passwd_db(self):
+        self.passwd_text()
+        os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
+        os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
+        os.chmod(self.temp + '/shadow.db', 00400)
+        os.chmod(self.temp + '/shadow.txt', 00400)
+
+    def make_aliases_text(self):
+        if not self.groups or not self.users or not self.good_users:
+            self.get_data()
+
+        email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
+        #email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
+        email_file.write("# Generated by fasClient\n")
+        #for line in email_template.readlines():
+        #    email_file.write(line)
+
+        for uid in self.good_users:
+            uid = str(uid)
+            email_file.write("%s: %s\n" % (self.users[uid]['username'], self.users[uid]['email']))
+
+        for group in self.groups:
+            administrators = []
+            sponsors = []
+            members = []
+
+            for uid in self.groups[group]['users']:
+                if uid in self.good_users:
+                    email = self.users[str(uid)]['email']
+                    members.append(email)
+
+            for uid in self.groups[group]['sponsors']:
+                if uid in self.good_users:
+                    email = self.users[str(uid)]['email']
+                    sponsors.append(email)
+                    members.append(email)
+
+            for uid in self.groups[group]['administrators']:
+                if uid in self.good_users:
+                    email = self.users[str(uid)]['email']
+                    administrators.append(email)
+                    sponsors.append(email)
+                    members.append(email)
+
+            email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
+            email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
+            email_file.write('%s-members: %s\n' % (group, ','.join(members)))
+
+    def install_passwd_db(self):
+        try:
+            move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
+        except IOError, e:
+            print "ERROR: Could not install passwd db - %s" % e
+
+    def install_shadow_db(self):
+        try:
+            move(self.temp + '/shadow.db', os.path.join(prefix + '/var/db/shadow.db'))
+        except IOError, e:
+            print "ERROR: Could not install shadow db - %s" % e
+
+    def install_group_db(self):
+        try:
+            move(self.temp + '/group.db', os.path.join(prefix + '/var/db/group.db'))
+        except IOError, e:
+            print "ERROR: Could not install group db - %s" % e
+
+    def install_aliases(self):
+        move(self.temp + '/aliases', prefix + '/etc/aliases')
+        os.system("newaliases > /dev/null")
+
+if __name__ == '__main__':
+    try:
+        fas = MakeShellAccounts(FAS_URL, username='admin', password='fedoraproject', debug=True)
+    except AuthError, e:
+        sys.stderr.write('%s\n' % str(e))
+        sys.exit(1)
+    except URLError, e:
+        sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL, e.reason[1]))
+        sys.exit(9)
+
+    fas.passwd_text()
+    fas.groups_text()
+    fas.aliases_text()
+
+

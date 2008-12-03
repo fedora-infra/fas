@@ -84,6 +84,7 @@ class JsonRequest(controllers.Controller):
             groups_list = Groups.query.options(eagerload('approved_roles')).all()
             for group in groups_list:
                 groups[group.name] = {
+                    'id': group.id,
                     'administrators': [],
                     'sponsors': [],
                     'users': [],
