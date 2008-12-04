@@ -47,6 +47,8 @@ from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select, and_, not_
 
+from fedora.tg.util import request_format
+
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
@@ -363,8 +365,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search=u'a*'):
+    def list(self, search=u'a*', fields=None):
         '''List users
+
+        :kwarg search: Limit the users returned by the search string.  * is a
+            wildcard character.
+        :kwarg fields: Fields to return in the json request.  Default is
+            to return everything.
 
         This should be fixed up at some point.  Json data needs at least the
         following for fasClient to work::
@@ -397,6 +404,15 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
 
+        if isinstance(fields, basestring):
+            # If a string, then make a list
+            fields = [fields]
+        elif fields:
+            # This makes sure the field is a list
+            fields = list(fields)
+        else:
+            fields = []
+
         # Query db for all users and their status in cla_done
         RoleGroupJoin = PersonRolesTable.join(GroupsTable,
                 and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
@@ -413,10 +429,26 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         unapproved = []
         for person in people.all():
             person[0].filter_private()
+            # Current default is to return everything unless fields is set
+            if fields:
+                # If set, return only the fields that were requested
+                try:
+                    user = dict((field, getattr(person[0], field)) for field
+                            in fields)
+                except AttributeError, e:
+                    # An invalid field was given
+                    turbogears.flash(_('Invalid field specified: %(error)s') %
+                            {'error': e.message})
+                    if request_format() == 'json':
+                        return dict(exc='Invalid', tg_template='json')
+                    else:
+                        return dict(people=[], unapproved_people=[],
+                                search=search)
+
             if person[1] == 'approved':
-                approved.append(person[0])
+                approved.append(user)
             else:
-                unapproved.append(person[0])
+                unapproved.append(user)
 
         if not (approved or unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
