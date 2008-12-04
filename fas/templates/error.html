@@ -10,7 +10,7 @@
       {
         list-style: square;
         margin: 1ex 3ex;
-      } 
+      }
     </style>
   </head>
   <body>
@@ -18,7 +18,7 @@
     <p>${_('The following error(s) have occured with your request:')}</p>
     <ul>
       <li py:for="field, error in tg_errors.items()">
-      ${field}: ${str(error)}
+      ${field}: ${error}
       </li>
     </ul>
   </body>
