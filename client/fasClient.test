@@ -83,7 +83,7 @@ class MakeShellAccounts(AccountSystem):
         i = 0
         group_file = codecs.open(self.temp + '/group.txt', 'w')
 
-        if not self.groups or not self.users:
+        if self.groups is None or self.users is None:
             self.get_data()
 
         # First create all of our users/groups combo
@@ -122,7 +122,7 @@ class MakeShellAccounts(AccountSystem):
         os.chmod(self.temp + '/shadow.txt', 00400)
 
     def make_aliases_text(self):
-        if not self.groups or not self.users or not self.good_users:
+        if self.groups is None or self.users is None or self.good_users is None:
             self.get_data()
 
         email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
