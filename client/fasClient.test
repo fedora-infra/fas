@@ -49,7 +49,7 @@ class MakeShellAccounts(AccountSystem):
         #home_dir_base = config.get('users', 'home').strip('"')
         home_dir_base = '/home'
 
-        if self.users == None:
+        if self.users is None:
             self.get_data()
 
         # Touch shadow and secure the permissions
