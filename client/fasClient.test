@@ -158,9 +158,12 @@ class MakeShellAccounts(AccountSystem):
                     sponsors.append(email)
                     members.append(email)
 
-            email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
-            email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
-            email_file.write('%s-members: %s\n' % (group, ','.join(members)))
+            if administrators:
+                email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
+            if sponsors:
+                email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
+            if members:
+                email_file.write('%s-members: %s\n' % (group, ','.join(members)))
 
     def install_passwd_db(self):
         try:
