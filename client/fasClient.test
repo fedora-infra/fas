@@ -23,28 +23,34 @@ class MakeShellAccounts(AccountSystem):
             self.groups['cla_done']['sponsors'] + \
             self.groups['cla_done']['administrators']
 
+        group_types = {}
         user_groupcount = {}
         for uid in cla_uids:
             user_groupcount[uid] = 0
 
         for group in self.groups:
+            group_type = self.groups[group]['type']
+
             if group.startswith('cla_'):
                 continue
             for uid in self.groups[group]['users'] + \
                 self.groups[group]['sponsors'] + \
                 self.groups[group]['administrators']:
+                if group_type not in group_types:
+                    group_types[group_type] = set()
+                group_types[group_type].add(uid)
                 if uid in user_groupcount:
                     user_groupcount[uid] += 1
 
-        good_users = []
+        good_users = set()
         for uid in user_groupcount:
             if user_groupcount[uid] > 0:
-                good_users.append(uid)
+                good_users.add(uid)
 
         self.good_users = good_users
 
 
-    def passwd_text(self, groups=None, people=None):
+    def passwd_text(self, valid_groups=None, people=None):
         i = 0
         #home_dir_base = config.get('users', 'home').strip('"')
         home_dir_base = '/home'
@@ -60,6 +66,21 @@ class MakeShellAccounts(AccountSystem):
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
         for uid in self.users:
+            if valid_groups:
+                for group in valid_groups:
+                    if group.startswith('@'):
+                        group_type = group[1:]
+                        if group_type == 'all':
+                            # It's all good as long as a the user is in CLA + one group
+                            if uid not in self.good_user:
+                                continue
+                        if uid not in self.group_types[group_type]:
+                            continue
+                    else:
+                        if uid not in self.groups[group]['users'] or \
+                        uid not in self.groups[group]['sponsors'] or \
+                        uid not in self.groups[group]['administrators']:
+                            continue
             username = self.users[uid]['username']
             human_name = username
             password = self.users[uid]['password']
@@ -79,7 +100,7 @@ class MakeShellAccounts(AccountSystem):
         passwd_file.close()
         shadow_file.close()
 
-    def groups_text(self, groups=None, people=None):
+    def groups_text(self):
         i = 0
         group_file = codecs.open(self.temp + '/group.txt', 'w')
 
@@ -96,11 +117,11 @@ class MakeShellAccounts(AccountSystem):
 
         for group in self.groups:
             gid = self.groups[group]['id']
-            members = []
+            members = set()
             memberships = ''
 
             for member_uid in self.groups[group]['administrators']:
-                members.append(self.users[member_uid]['username'])
+                members.add(self.users[member_uid]['username'])
                 memberships = ','.join(members)
 
             group_file.write("=%i %s:x:%i:%s\n" % (gid, group, gid, memberships))
@@ -136,27 +157,27 @@ class MakeShellAccounts(AccountSystem):
             email_file.write("%s: %s\n" % (self.users[uid]['username'], self.users[uid]['email']))
 
         for group in self.groups:
-            administrators = []
-            sponsors = []
-            members = []
+            administrators = set()
+            sponsors = set()
+            members = set()
 
             for uid in self.groups[group]['users']:
                 if uid in self.good_users:
                     email = self.users[str(uid)]['email']
-                    members.append(email)
+                    members.add(email)
 
             for uid in self.groups[group]['sponsors']:
                 if uid in self.good_users:
                     email = self.users[str(uid)]['email']
-                    sponsors.append(email)
-                    members.append(email)
+                    sponsors.add(email)
+                    members.add(email)
 
             for uid in self.groups[group]['administrators']:
                 if uid in self.good_users:
                     email = self.users[str(uid)]['email']
-                    administrators.append(email)
-                    sponsors.append(email)
-                    members.append(email)
+                    administrators.add(email)
+                    sponsors.add(email)
+                    members.add(email)
 
             if administrators:
                 email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
