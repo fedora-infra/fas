@@ -106,8 +106,7 @@ class JsonRequest(controllers.Controller):
                 PeopleTable.c.password,
                 PeopleTable.c.ssh_key,
                 PeopleTable.c.email,
-                PeopleTable.c.status,
-                ]).execute().fetchall();
+                ], PeopleTable.c.status == 'active').execute().fetchall();
             for person in people_list:
                 id = person[0]
                 people[id] = {
@@ -115,7 +114,6 @@ class JsonRequest(controllers.Controller):
                     'password': '*',
                     'ssh_key': person[3],
                     'email': person[4],
-                    'status': person[5]
                 }
                 if privs['system']:
                     people[id]['password'] = person[2]
