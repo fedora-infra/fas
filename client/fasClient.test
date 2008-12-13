@@ -49,14 +49,64 @@ class MakeShellAccounts(AccountSystem):
 
         self.good_users = good_users
 
+    def filter_users(self, valid_groups=[], restricted_groups=[])
+        all_groups = valid_groups + restricted_groups
 
-    def passwd_text(self, valid_groups=None, people=None):
+        valid_users = {}
+        restricted_users = {}
+
+        for uid in self.users:
+            restricted = True
+            for group in all_groups:
+                if group.startswith('@'):
+                    # Filter by group type
+                    group_type = group[1:]
+                    if group_type == 'all':
+                        # It's all good as long as a the user is in CLA + one group
+                        if uid not in self.good_users:
+                            continue
+                    try:
+                        if uid not in self.group_types[group_type]:
+                            continue
+                    except KeyError:
+                        print >> sys.stderr, 'No such group type: %s' % group_type
+                else:
+                    # Filter by group
+                    try:
+                        if uid not in self.groups[group]['users'] or \
+                           uid not in self.groups[group]['sponsors'] or \
+                           uid not in self.groups[group]['administrators']:
+                            continue
+                        else:
+                            if group in valid_groups:
+                                restricted = False
+                    except KeyError:
+                        print >> sys.stderr, 'No such group: %s' % group
+
+            if restricted:
+                restricted_users[uid] = {}
+                restricted_users[uid]['shell'] = '/sbin/nologin'
+                restricted_users[uid]['ssh_cmd'] = 'restricted'
+                restricted_users[uid]['ssh_options'] = 'restricted'
+                #restricted_users[uid]['shell']j = config.get('users', 'restricted_shell').strip('"')
+                #restricted_users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app').strip('"')
+                #restricted_users[uid]['ssh_options'] = config.get('users', 'ssh_key_options').strip('"')
+            else:
+                valid_users['shell'] = '/bin/bash'
+                valid_users['ssh_cmd'] = ''
+                valid_users['ssh_options'] = ''
+
+            users = {}
+            users['valid'] = valid_users
+            users['restricted'] = restricted_users
+
+            return users
+
+
+    def passwd_text(self, people=[]):
         i = 0
         #home_dir_base = config.get('users', 'home').strip('"')
         home_dir_base = '/home'
-
-        if self.users is None:
-            self.get_data()
 
         # Touch shadow and secure the permissions
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
@@ -65,28 +115,12 @@ class MakeShellAccounts(AccountSystem):
 
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+
         for uid in self.users:
-            if valid_groups:
-                for group in valid_groups:
-                    if group.startswith('@'):
-                        group_type = group[1:]
-                        if group_type == 'all':
-                            # It's all good as long as a the user is in CLA + one group
-                            if uid not in self.good_user:
-                                continue
-                        if uid not in self.group_types[group_type]:
-                            continue
-                    else:
-                        if uid not in self.groups[group]['users'] or \
-                        uid not in self.groups[group]['sponsors'] or \
-                        uid not in self.groups[group]['administrators']:
-                            continue
             username = self.users[uid]['username']
             human_name = username
             password = self.users[uid]['password']
             home_dir = "%s/%s" % (home_dir_base, username)
-            # TODO: shell = self.shell(username)
-            shell = '/bin/bash'
 
             passwd_file.write("=%s %s:x:%s:%s:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write("0%i %s:x:%s:%s:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
@@ -103,9 +137,6 @@ class MakeShellAccounts(AccountSystem):
     def groups_text(self):
         i = 0
         group_file = codecs.open(self.temp + '/group.txt', 'w')
-
-        if self.groups is None or self.users is None:
-            self.get_data()
 
         # First create all of our users/groups combo
         for uid in self.users:
@@ -143,8 +174,6 @@ class MakeShellAccounts(AccountSystem):
         os.chmod(self.temp + '/shadow.txt', 00400)
 
     def make_aliases_text(self):
-        if self.groups is None or self.users is None or self.good_users is None:
-            self.get_data()
 
         email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
         #email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
@@ -218,6 +247,8 @@ if __name__ == '__main__':
         sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL, e.reason[1]))
         sys.exit(9)
 
+    fas.get_data()
+    fas.filter_users()
     fas.passwd_text()
     fas.groups_text()
     fas.aliases_text()
