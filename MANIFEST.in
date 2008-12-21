@@ -5,11 +5,8 @@ include convert.py start-fas
 include client/*.conf
 include fas/config/*
 include fas/static/*
-include fas/images/*
 include fas/static/images/balloons/*
 include fas/static/js/*
-include fas/static/theme/*
-include fas/static/theme/fas/*
 include fas/static/theme/fas/css/*
 include fas/static/theme/fas/images/*
 include fas/templates/cla/*.html
@@ -17,12 +14,10 @@ include fas/templates/cla/*.txt
 include fas/templates/group/*.html
 include fas/templates/group/*.txt
 include fas/templates/openid/*.html
-include fas/templates/openid/*.txt
 include fas/templates/openid/*.xml
 include fas/templates/user/*.html
 include fas/templates/user/*.txt
 include fas/templates/*.html
-include fas/templates/*.txt
 include po/LINGUAS
 include po/*.po
 include po/*.pot
