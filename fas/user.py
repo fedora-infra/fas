@@ -669,6 +669,7 @@ forward to working with you!
         newpass = generate_password(password)
         try:
             person.password = newpass['hash']
+            person.password_changed = datetime.now(pytz.utc)
             Log(author_id=person.id, description='Password changed')
         # TODO: Make this catch something specific.
         except:
@@ -822,6 +823,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         ''' Log this '''
         newpass = generate_password(password)
         person.password = newpass['hash']
+        person.password_changed = datetime.now(pytz.utc)
         person.passwordtoken = ''
         Log(author_id=person.id, description='Password changed')
         session.flush()
