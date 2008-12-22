@@ -67,6 +67,7 @@ CREATE TABLE people (
     timezone TEXT null DEFAULT 'UTC',
     latitude numeric,
     longitude numeric,
+    privacy BOOLEAN DEFAULT FALSE,
     check (status in ('active', 'vacation', 'inactive', 'pinged', 'admin_disabled'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
@@ -110,6 +111,7 @@ CREATE TABLE groups (
     user_can_remove BOOLEAN DEFAULT TRUE,
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
+    apply_rules TEXT,
     -- tg_group::created
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     check (group_type in ('system', 'bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
