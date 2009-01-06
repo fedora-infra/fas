@@ -444,6 +444,8 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                     else:
                         return dict(people=[], unapproved_people=[],
                                 search=search)
+            else:
+                user = person[0]
 
             if person[1] == 'approved':
                 approved.append(user)
