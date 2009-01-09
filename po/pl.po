@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-09 10:31-0500\n"
-"PO-Revision-Date: 2008-12-04 18:05+0100\n"
+"PO-Revision-Date: 2009-01-09 22:12+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1024,7 +1024,7 @@ msgstr "Zapisano szczegóły konta."
 #: fas/user.py:440
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "Podano nieprawidłowe pole: %(error)s"
 
 #: fas/user.py:456
 #, python-format
@@ -1096,7 +1096,7 @@ msgid "Welcome to the Fedora Project!"
 msgstr "Witaj w Projekcie Fedora!"
 
 #: fas/user.py:605
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -1140,9 +1140,10 @@ msgid ""
 msgstr ""
 "\n"
 "Utworzyłeś nowe konto Fedory!\n"
-"Nowe hasło to: %s\n"
+"Twoja nazwa użytkownika to: %(username)s\n"
+"Twoje nowe hasło to: %(password)s\n"
 "\n"
-"Przejdź do %s%s/user/changepass,\n"
+"Przejdź do %(base_url)s%(webpath)s/user/changepass,\n"
 "aby je zmienić.\n"
 "\n"
 "Witaj w Projekcie Fedora. Teraz, kiedy założyłeś konto, prawdopodobnie\n"
