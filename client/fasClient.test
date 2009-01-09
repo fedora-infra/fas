@@ -1,9 +1,123 @@
 #!/usr/bin/python
 import os
+import sys
 import codecs
+import logging
+import syslog
 from fedora.client import AccountSystem, AuthError, ServerError
 
-FAS_URL = 'http://sphe.res.cmu.edu/accounts/'
+import ConfigParser
+from optparse import OptionParser
+
+from shutil import move, rmtree, copytree
+from rhpl.translate import _
+
+parser = OptionParser()
+
+parser.add_option('-i', '--install',
+                     dest = 'install',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Download and sync most recent content'))
+parser.add_option('-I', '--info',
+                     dest = 'info_username',
+                     default = False,
+                     metavar = 'info_username',
+                     help = _('Get info about a user'))
+parser.add_option('-c', '--config',
+                     dest = 'CONFIG_FILE',
+                     default = '/etc/fas.conf',
+                     metavar = 'CONFIG_FILE',
+                     help = _('Specify config file (default "%default")'))
+parser.add_option('--nogroup',
+                     dest = 'no_group',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync group information'))
+parser.add_option('--nopasswd',
+                     dest = 'no_passwd',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync passwd information'))
+parser.add_option('--noshadow',
+                     dest = 'no_shadow',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not sync shadow information'))
+parser.add_option('--nohome',
+                     dest = 'no_home_dirs',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not create home dirs'))
+parser.add_option('--nossh',
+                     dest = 'no_ssh_keys',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Do not create ssh keys'))
+parser.add_option('-s', '--server',
+                     dest = 'FAS_URL',
+                     default = None,
+                     metavar = 'FAS_URL',
+                     help = _('Specify URL of fas server.'))
+parser.add_option('-p', '--prefix',
+                     dest = 'prefix',
+                     default = None,
+                     metavar = 'prefix',
+                     help = _('Specify install prefix.  Useful for testing'))
+parser.add_option('-e', '--enable',
+                     dest = 'enable',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Enable FAS synced shell accounts'))
+parser.add_option('-d', '--disable',
+                     dest = 'disable',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Disable FAS synced shell accounts'))
+parser.add_option('-a', '--aliases',
+                     dest = 'aliases',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Sync mail aliases'))
+parser.add_option('--nosession',
+                     dest = 'nosession',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Disable the creation of ~/.fedora_session'))
+parser.add_option('--debug',
+                     dest = 'debug',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Enable debugging messages'))
+
+(opts, args) = parser.parse_args()
+
+log = logging.getLogger('fas')
+
+try:
+    config = ConfigParser.ConfigParser()
+    if os.path.exists(opts.CONFIG_FILE):
+        config.read(opts.CONFIG_FILE)
+    elif os.path.exists('fas.conf'):
+        config.read('fas.conf')
+        print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
+    else:
+        print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
+        sys.exit(5)
+except ConfigParser.MissingSectionHeaderError, e:
+        print >> sys.stderr, "Config file does not have proper formatting - %s" % e
+        sys.exit(6)
+
+FAS_URL = config.get('global', 'url').strip('"')
+if opts.prefix:
+    prefix = opts.prefix
+else:
+    prefix = config.get('global', 'prefix').strip('"')
+
+def _chown(arg, dir_name, files):
+    os.chown(dir_name, arg[0], arg[1])
+    for file in files:
+        os.chown(os.path.join(dir_name, file), arg[0], arg[1])
 
 class MakeShellAccounts(AccountSystem):
     users = None
@@ -49,11 +163,15 @@ class MakeShellAccounts(AccountSystem):
 
         self.good_users = good_users
 
-    def filter_users(self, valid_groups=[], restricted_groups=[])
+    def filter_users(self, valid_groups=None, restricted_groups=None):
+        if valid_groups is None:
+            valid_groups = []
+        if restricted_groups is None:
+            restricted_groups = []
+
         all_groups = valid_groups + restricted_groups
 
-        valid_users = {}
-        restricted_users = {}
+        users = {}
 
         for uid in self.users:
             restricted = True
@@ -73,9 +191,9 @@ class MakeShellAccounts(AccountSystem):
                 else:
                     # Filter by group
                     try:
-                        if uid not in self.groups[group]['users'] or \
-                           uid not in self.groups[group]['sponsors'] or \
-                           uid not in self.groups[group]['administrators']:
+                        if int(uid) not in self.groups[group]['users'] and \
+                           int(uid) not in self.groups[group]['sponsors'] and \
+                           int(uid) not in self.groups[group]['administrators']:
                             continue
                         else:
                             if group in valid_groups:
@@ -83,30 +201,23 @@ class MakeShellAccounts(AccountSystem):
                     except KeyError:
                         print >> sys.stderr, 'No such group: %s' % group
 
+            users[uid] = {}
             if restricted:
-                restricted_users[uid] = {}
-                restricted_users[uid]['shell'] = '/sbin/nologin'
-                restricted_users[uid]['ssh_cmd'] = 'restricted'
-                restricted_users[uid]['ssh_options'] = 'restricted'
-                #restricted_users[uid]['shell']j = config.get('users', 'restricted_shell').strip('"')
-                #restricted_users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app').strip('"')
-                #restricted_users[uid]['ssh_options'] = config.get('users', 'ssh_key_options').strip('"')
+                users[uid]['shell'] = config.get('users', 'restricted_shell')
+                users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app')
+                users[uid]['ssh_options'] = config.get('users', 'ssh_key_options')
             else:
-                valid_users['shell'] = '/bin/bash'
-                valid_users['ssh_cmd'] = ''
-                valid_users['ssh_options'] = ''
+                users[uid]['shell'] = '/bin/bash'
+                users[uid]['ssh_cmd'] = ''
+                users[uid]['ssh_options'] = ''
 
-            users = {}
-            users['valid'] = valid_users
-            users['restricted'] = restricted_users
-
-            return users
+        return users
 
 
-    def passwd_text(self, people=[]):
+    def passwd_text(self, users=None):
         i = 0
         #home_dir_base = config.get('users', 'home').strip('"')
-        home_dir_base = '/home'
+        home_dir_base = '/tmp/home'
 
         # Touch shadow and secure the permissions
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
@@ -116,11 +227,12 @@ class MakeShellAccounts(AccountSystem):
         passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
         shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
 
-        for uid in self.users:
+        for uid in users:
             username = self.users[uid]['username']
             human_name = username
             password = self.users[uid]['password']
             home_dir = "%s/%s" % (home_dir_base, username)
+            shell = users[uid]['shell']
 
             passwd_file.write("=%s %s:x:%s:%s:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write("0%i %s:x:%s:%s:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
@@ -152,7 +264,7 @@ class MakeShellAccounts(AccountSystem):
             memberships = ''
 
             for member_uid in self.groups[group]['administrators']:
-                members.add(self.users[member_uid]['username'])
+                members.add(self.users[str(member_uid)]['username'])
                 memberships = ','.join(members)
 
             group_file.write("=%i %s:x:%i:%s\n" % (gid, group, gid, memberships))
@@ -176,7 +288,7 @@ class MakeShellAccounts(AccountSystem):
     def make_aliases_text(self):
 
         email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
-        #email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
+        #email_template = codecs.open(config.get('host', 'aliases_template'))
         email_file.write("# Generated by fasClient\n")
         #for line in email_template.readlines():
         #    email_file.write(line)
@@ -215,6 +327,40 @@ class MakeShellAccounts(AccountSystem):
             if members:
                 email_file.write('%s-members: %s\n' % (group, ','.join(members)))
 
+    def create_home_dirs(self):
+        ''' Create homedirs and home base dir if they do not exist '''
+        #home_dir_base = os.path.join(prefix + config.get('users', 'home'))
+        home_dir_base = '/tmp/home'
+        if not os.path.exists(home_dir_base):
+            os.makedirs(home_dir_base, mode=0755)
+        for uid in self.users:
+            username = self.users[uid]['username']
+            home_dir = os.path.join(home_dir_base, username)
+            if not os.path.exists(home_dir):
+                syslog.syslog('Creating homedir for %s' % username)
+                copytree('/etc/skel/', home_dir)
+                os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+
+    def create_ssh_keys(self, users):
+        ''' Create ssh keys '''
+        #home_dir_base = os.path.join(prefix + config.get('users', 'home'))
+        home_dir_base = '/tmp/home'
+        for uid in self.users:
+            username = self.users[uid]['username']
+            ssh_dir = os.path.join(home_dir_base, username, '.ssh')
+            if self.users[uid]['ssh_key']:
+                if users[uid]['ssh_cmd'] or users[uid]['ssh_options']:
+                   key = 'command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], self.users[uid]['ssh_key'])
+                else:
+                   key = self.users[uid]['ssh_key']
+                if not os.path.exists(ssh_dir):
+                    os.makedirs(ssh_dir, mode=0700)
+                f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
+                f.write(key + '\n')
+                f.close()
+                #os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
+                #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
+
     def install_passwd_db(self):
         try:
             move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
@@ -239,7 +385,7 @@ class MakeShellAccounts(AccountSystem):
 
 if __name__ == '__main__':
     try:
-        fas = MakeShellAccounts(FAS_URL, username='admin', password='fedoraproject', debug=True)
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login'), password=config.get('global', 'password'), debug=True)
     except AuthError, e:
         sys.stderr.write('%s\n' % str(e))
         sys.exit(1)
@@ -247,10 +393,22 @@ if __name__ == '__main__':
         sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL, e.reason[1]))
         sys.exit(9)
 
-    fas.get_data()
-    fas.filter_users()
-    fas.passwd_text()
-    fas.groups_text()
-    fas.aliases_text()
+    valid_groups = []
+    restricted_groups = []
 
+    valid_grouplist = config.get('host', 'groups')
+    restricted_grouplist = config.get('host', 'restricted_groups')
+
+    if valid_grouplist:
+        valid_groups = valid_grouplist.split(',')
+    if restricted_grouplist:
+        restricted_groups = restricted_grouplist.split(',')
+
+    fas.get_data()
+    users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
+    fas.passwd_text(users=users)
+    fas.groups_text()
+    fas.create_home_dirs()
+    fas.create_ssh_keys(users)
+    #fas.make_aliases_text()
 

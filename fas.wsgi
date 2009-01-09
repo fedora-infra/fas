@@ -33,14 +33,14 @@ turbogears.config.update({'global': {'server.throw_errors': True}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
 turbogears.config.update({'global': {'server.webpath': '/accounts'}})
 turbogears.config.update({'global': {'base_url_filter.on': True}})
-turbogears.config.update({'global': {'base_url_filter.base_url': 'http://sphe.res.cmu.edu'}})
+turbogears.config.update({'global': {'base_url_filter.base_url': 'http://localhost'}})
 
 import fas.controllers
 
 cherrypy.root = fas.controllers.Root()
 
 # Uncomment this (and the below) to use weberror for development
-#from weberror.evalexception import EvalException
+from weberror.evalexception import EvalException
 
 if cherrypy.server.state == 0:
     atexit.register(cherrypy.server.stop)
@@ -76,6 +76,6 @@ def fake_call(self, environ, start_response):
 # for testing.  This requires that python-weberror and its dependencies
 # are installed.  debug must be set on above, and mod_wsgi must only use
 # one process (don't specify processes= in the WSGIDaemonProcess directive.
-#setattr(EvalException, '__call__', fake_call)
-#application = EvalException(application, global_conf={'debug': True})
+setattr(EvalException, '__call__', fake_call)
+application = EvalException(application, global_conf={'debug': True})
 
