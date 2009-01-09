@@ -410,5 +410,5 @@ if __name__ == '__main__':
     fas.groups_text()
     fas.create_home_dirs()
     fas.create_ssh_keys(users)
-    #fas.make_aliases_text()
+    fas.make_aliases_text()
 

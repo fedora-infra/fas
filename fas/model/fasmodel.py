@@ -298,7 +298,7 @@ class People(SABase):
             return
         
         if identity.in_group(thirdparty_group):
-            self.password = None
+            self.password = '*'
             return
 
         # If the user opts-out of the publically available info, this all gets
@@ -307,7 +307,7 @@ class People(SABase):
             self.human_name = None
             self.gpg_keyid = None
             self.ssh_key = None
-            self.password = None
+            self.password = '*'
             self.password_changed = None
             self.unverified_email = None
             self.postal_address = None
@@ -322,7 +322,7 @@ class People(SABase):
         else:
             # User has okayed giving out public info.  There's still some
             # things that are private, though
-            self.password = None
+            self.password = '*'
             self.password_changed = None
             self.unverified_email = None
             self.postal_address = None
