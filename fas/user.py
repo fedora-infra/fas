@@ -604,9 +604,10 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
         message.plain = _('''
 You have created a new Fedora account!
-Your new password is: %s
+Your username is: %(username)s
+Your new password is: %(password)s
 
-Please go to %s%s/user/changepass
+Please go to %(base_url)s%(webpath)s/user/changepass
 to change it.
 
 Welcome to the Fedora Project. Now that you've signed up for an
@@ -640,7 +641,10 @@ your feet as a Fedora contributor.
 
 And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
-''') % (newpass['pass'], config.get('base_url_filter.base_url'), config.get('server.webpath'))
+''') % {'username': person.username,
+        'password': newpass['pass'],
+        'base_url': config.get('base_url_filter.base_url'),
+        'webpath': config.get('server.webpath')}
         turbomail.enqueue(message)
         person.password = newpass['hash']
         return person
