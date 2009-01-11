@@ -133,8 +133,15 @@ class Group(controllers.Controller):
     @validate(validators=GroupView())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.group.view", allow_json=True)
-    def view(self, groupname):
+    def view(self, groupname, order_by='username'):
         '''View group'''
+        sort_map = { 'username': 'people_1.username',
+            'creation': 'person_roles_creation',
+            'approval': 'person_roles_approval',
+            'role_status': 'person_roles_role_status',
+            'role_type': 'person_roles_role_type',
+            'sponsor': 'people_2.username',
+            }
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         group = Groups.by_name(groupname)
@@ -145,8 +152,12 @@ class Group(controllers.Controller):
             return dict()
 
         # Also return information on who is not sponsored
-        unsponsored = PersonRoles.query.join('group').filter(and_(
-            PersonRoles.role_status=='unapproved', Groups.name==groupname))
+        unsponsored = PersonRoles.query.join('group').join('member',
+            aliased=True).outerjoin('sponsor', aliased=True).filter(
+            and_(Groups.name==groupname,
+                PersonRoles.role_status=='unapproved')).order_by(sort_map[order_by])
+        #unsponsored = PersonRoles.query.join('group').filter(and_(
+        #    PersonRoles.role_status=='unapproved', Groups.name==groupname))
         unsponsored.json_props = {'PersonRoles': ['member']}
         return dict(group=group, sponsor_queue=unsponsored)
 
