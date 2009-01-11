@@ -49,6 +49,7 @@ from sqlalchemy.sql import select, and_, not_
 
 from fedora.tg.util import request_format
 
+import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
@@ -274,6 +275,17 @@ class User(controllers.Controller):
                     not isAdmin(person):
                     turbogears.flash(_('Only administrator can enable or disable an account.'))
                     return dict()
+                else:
+                    # TODO: revoke cert
+                    target.old_password = target.password
+                    target.password = '*'
+                    for group in target.memberships:
+                        if group.type == 'cla':
+                            continue
+                        try:
+                            target.remove(group, person)
+                        except fas.RemoveError:
+                            pass
                 Log(author_id=person.id, description='%(person)s\'s status changed from %(old)s to %(new)s' % \
                     {'person': target.username,
                      'old': target.status,
@@ -674,6 +686,7 @@ forward to working with you!
         #    return dict()
         newpass = generate_password(password)
         try:
+            person.old_password = person.password
             person.password = newpass['hash']
             person.password_changed = datetime.now(pytz.utc)
             Log(author_id=person.id, description='Password changed')
@@ -827,6 +840,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
         ''' Log this '''
         newpass = generate_password(password)
+        person.old_password = person.password
         person.password = newpass['hash']
         person.password_changed = datetime.now(pytz.utc)
         person.passwordtoken = ''
