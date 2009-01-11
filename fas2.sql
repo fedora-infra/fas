@@ -43,6 +43,7 @@ CREATE TABLE people (
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
+    old_password VARCHAR(127) NOT NULL,
     passwordtoken text null,
     password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     email TEXT not null unique,
@@ -68,7 +69,7 @@ CREATE TABLE people (
     latitude numeric,
     longitude numeric,
     privacy BOOLEAN DEFAULT FALSE,
-    check (status in ('active', 'vacation', 'inactive', 'pinged', 'admin_disabled'))
+    check (status in ('active', 'inactive', 'expired', 'admin_disabled'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 

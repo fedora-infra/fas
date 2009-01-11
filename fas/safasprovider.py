@@ -79,7 +79,7 @@ class SaFasIdentity(object):
                 return None
         self._user = user_class.query.get(visit.user_id)
         visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
-        if self._user.status in ('inactive', 'admin_disabled'):
+        if self._user.status in ('inactive', 'expired', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s, logging them out." % \
                 { 'username': self._user.username, 'status': self._user.status })
             self.logout()
@@ -189,6 +189,7 @@ class SaFasIdentityProvider(object):
             :no_user: The username was not present in the db.
             :status_inactive: User is disabled but can reset their password
                 to restore service.
+            :status_expired: User is expired, account is no more.
             :status_admin_disabled: User is disabled and has to talk to an
                 admin before they are re-enabled.
             :bad_password: The username and password do not match.
@@ -212,18 +213,18 @@ class SaFasIdentityProvider(object):
             cherrypy.request.fas_identity_failure_reason = 'no_user'
             return None
 
-        if not using_ssl:
-            if not self.validate_password(user, user_name, password):
-                log.info("Passwords don't match for user: %s", user_name)
-                cherrypy.request.fas_identity_failure_reason = 'bad_password'
-                return None
-
-        if user.status in ('inactive', 'admin_disabled'):
+        if user.status in ('inactive', 'expired', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s" % \
                 { 'username': user_name, 'status': user.status })
             cherrypy.request.fas_identity_failure_reason = 'status_%s' \
                     % user.status
             return None
+
+        if not using_ssl:
+            if not self.validate_password(user, user_name, password):
+                log.info("Passwords don't match for user: %s", user_name)
+                cherrypy.request.fas_identity_failure_reason = 'bad_password'
+                return None
 
         log.info("associating user (%s) with visit (%s)", user.username,
                   visit_key)

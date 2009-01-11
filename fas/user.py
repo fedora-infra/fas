@@ -73,7 +73,7 @@ class UserSave(validators.Schema):
         validators.String(not_empty=True, max=42),
         validators.Regex(regex='^[^\n:<>]+$'),
         )
-    status = validators.OneOf(['active', 'vacation', 'inactive', 'pinged', 'admin_disabled'])
+    status = validators.OneOf(['active', 'inactive', 'expired', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
     email = validators.All(
         validators.Email(not_empty=True, strip=True, max=128),
@@ -270,7 +270,7 @@ class User(controllers.Controller):
             return dict()
         try:
             if target.status != status:
-                if (status in ('admin_disabled') or target.status in ('admin_disabled')) and \
+                if (status in ('expired', 'admin_disabled') or target.status in ('expired', 'admin_disabled')) and \
                     not isAdmin(person):
                     turbogears.flash(_('Only administrator can enable or disable an account.'))
                     return dict()
@@ -714,9 +714,9 @@ forward to working with you!
         if email != person.email:
             turbogears.flash(_("username + email combo unknown."))
             return dict()
-        if person.status in ('admin_disabled'):
-            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
-                {'admin_email': config.get('accounts_email')})
+        if person.status in ('expired', 'admin_disabled'):
+            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
+                {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
         token = generate_token()
         message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
@@ -773,9 +773,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @validate(validators=VerifyPass())
     def verifypass(self, username, token, cancel=False):
         person = People.by_username(username)
-        if person.status in ('admin_disabled'):
-            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
-                {'admin_email': config.get('accounts_email')})
+        if person.status in ('expired', 'admin_disabled'):
+            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
+                {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
         if not person.passwordtoken:
             turbogears.flash(_('You do not have any pending password changes.'))
@@ -798,10 +798,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
-        if person.status in ('admin_disabled'):
-            turbogears.flash(_("Your account is currently disabled.  For more information, please contact %(admin_email)s") % \
-                {'admin_email': config.get('accounts_email')})
-            turbogears.redirect('/login')
+        if person.status in ('expired', 'admin_disabled'):
+            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
+                {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
 
         if not person.passwordtoken:
@@ -819,7 +818,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         if person.status in ('inactive'):
             # Check that the password has changed.
             import crypt
-            if crypt.crypt(password.encode('utf-8'), person.password) == person.password:
+            if crypt.crypt(password.encode('utf-8'), person.old_password) == person.old_password:
                 turbogears.flash(_('Your password can not be the same as your old password.'))
                 return dict(person=person, token=token)
             person.status = 'active'
