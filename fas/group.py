@@ -156,8 +156,6 @@ class Group(controllers.Controller):
             aliased=True).outerjoin('sponsor', aliased=True).filter(
             and_(Groups.name==groupname,
                 PersonRoles.role_status=='unapproved')).order_by(sort_map[order_by])
-        #unsponsored = PersonRoles.query.join('group').filter(and_(
-        #    PersonRoles.role_status=='unapproved', Groups.name==groupname))
         unsponsored.json_props = {'PersonRoles': ['member']}
         return dict(group=group, sponsor_queue=unsponsored)
 

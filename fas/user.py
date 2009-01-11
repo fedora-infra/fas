@@ -851,12 +851,18 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         turbogears.redirect('/login')
         return dict()
 
+    @identity.require(identity.not_anonymous())
+    @error_handler(error) # pylint: disable-msg=E0602
+    @expose(template="fas.templates.user.gencert")
+    def gencert(self):
+        return dict()
+
     ### FIXME: Without a validator, error_handler() does nothing
     @identity.require(identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi:fas.templates.user.gencertdisabled", allow_json=True, content_type='text/html')
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
-    def gencert(self):
+    def dogencert(self):
         from cherrypy import response, request
         if not config.get('gencert', False):
             # Certificate generation is disabled on this machine

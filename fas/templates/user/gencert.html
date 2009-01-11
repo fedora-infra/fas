@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  from turbogears import config
+  ?>
+  <xi:include href="../master.html" />
+  <head>
+    <title>${_('Certificate Generation')}</title>
+  </head>
+  <body>
+    <h2>${_('Certificate Generation')}</h2>
+    <p>
+    ${_('The link below allows you to generate a certificate to authenticate to Fedora\'s buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate.')}
+    </p>
+    <p>
+    <a href="${tg.url('/user/dogencert')}">${_('Generate a certificate')}</a> 
+    </p>
+  </body>
+</html>
