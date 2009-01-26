@@ -119,7 +119,7 @@ ${person.postal_address}
        You represent that your Contribution submission(s) include
        complete details of any third-party license or other
        restriction (including, but not limited to, related copyright,
-       atents and trademarks) of which you are personally aware and
+       patents and trademarks) of which you are personally aware and
        which are associated with any part of your Contribution.
 
     6. You are not expected to provide support for your Contributions,
