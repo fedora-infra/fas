@@ -205,15 +205,15 @@ class SaFasIdentityProvider(object):
     '''
     def __init__(self):
         super(SaFasIdentityProvider, self).__init__()
-        get = config.get
 
         global user_class
         global visit_class
 
-        user_class_path = get("identity.saprovider.model.user", None)
+        user_class_path = config.get("identity.saprovider.model.user", None)
         user_class = load_class(user_class_path)
-        visit_class_path = get("identity.saprovider.model.visit", None)
-        log.info("Loading: %s", visit_class_path)
+        visit_class_path = config.get("identity.saprovider.model.visit", None)
+        log.info(_("Loading: %(visitmod)s") % \
+                {'visitmod': visit_class_path})
         visit_class = load_class(visit_class_path)
 
     def create_provider_model(self):
@@ -265,7 +265,8 @@ class SaFasIdentityProvider(object):
                 cherrypy.request.fas_provided_username = user_name
                 using_ssl = True
 
-        user = user_class.query.filter_by(user_name=user_name).first()
+        user = user_class.query.filter_by(username=user_name).first()
+
         if not user:
             log.warning("No such user: %s", user_name)
             cherrypy.request.fas_identity_failure_reason = 'no_user'
