@@ -24,6 +24,12 @@ This plugin provides authentication of passwords against the Fedora Account
 System.
 '''
 
+import crypt
+try:
+    import hashlib.sha1 as Hash
+except ImportError:
+    import sha.new as Hash
+
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
 from turbogears.database import session
@@ -34,8 +40,6 @@ import cherrypy
 import gettext
 t = gettext.translation('fas', '/usr/share/locale', fallback=True)
 _ = t.ugettext
-
-import crypt
 
 import logging
 log = logging.getLogger('turbogears.identity.safasprovider')
@@ -64,6 +68,18 @@ class SaFasIdentity(object):
 
     def _get_user(self):
         '''Get user instance for this identity.'''
+        if (not '_csrf_token' in cherrypy.request.params or
+                cherrypy.request.params['_csrf_token'] !=
+                Hash(self.visit_key).hexdigest()):
+            log.info("Bad _csrf_token")
+            if '_csrf_token' in cherrypy.request.params:
+                log.info("visit: %s token: %s" % (self.visit_key,
+                    cherrypy.request.params['_csrf_token']))
+            else:
+                log.info('No _csrf_token present')
+            cherrypy.request.fas_identity_failure_reason = 'bad_csrf'
+            self._user = None
+            return None
         try:
             return self._user
         except AttributeError:
@@ -90,6 +106,10 @@ class SaFasIdentity(object):
             self._user = None
         return self._user
     user = property(_get_user)
+
+    def _get_token(self):
+        return Hash(self.visit_key).hexdigest()):
+    csrf_token = property(_get_token)
 
     def _get_user_name(self):
         '''Get user name of this identity.'''
