@@ -26,9 +26,10 @@ System.
 
 import crypt
 try:
-    import hashlib.sha1 as Hash
+    from hashlib import sha1 as sha_constructor
 except ImportError:
-    import sha.new as Hash
+    import sha
+    from sha import new as sha_constructor
 
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
@@ -66,11 +67,35 @@ class SaFasIdentity(object):
             if visit_key is not None:
                 self.login(using_ssl)
 
+    def __retrieve_user(self):
+        '''Attempt to load the user from the visit_key.
+
+        :returns: a user or None
+        '''
+        visit = self.visit_link
+        if visit:
+            user = user_class.query.get(visit.user_id)
+            # I hope this is a safe place to double-check the SSL variables.
+            # TODO: Double check my logic with this - is it unnecessary to
+            # check that the username matches up?
+            if visit.ssl:
+                if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
+                    self.logout()
+                    return None
+            if user.status in ('inactive', 'expired', 'admin_disabled'):
+                log.warning("User %(username)s has status %(status)s, logging them out." % \
+                    { 'username': user.username, 'status': user.status })
+                self.logout()
+                user = None
+        else:
+            user = None
+        return user
+
     def _get_user(self):
         '''Get user instance for this identity.'''
         if (not '_csrf_token' in cherrypy.request.params or
                 cherrypy.request.params['_csrf_token'] !=
-                Hash(self.visit_key).hexdigest()):
+                sha_constructor(self.visit_key).hexdigest()):
             log.info("Bad _csrf_token")
             if '_csrf_token' in cherrypy.request.params:
                 log.info("visit: %s token: %s" % (self.visit_key,
@@ -79,36 +104,19 @@ class SaFasIdentity(object):
                 log.info('No _csrf_token present')
             cherrypy.request.fas_identity_failure_reason = 'bad_csrf'
             self._user = None
-            return None
+
         try:
             return self._user
         except AttributeError:
             # User hasn't already been set
-            pass
-        # Attempt to load the user. After this code executes, there *will* be
-        # a _user attribute, even if the value is None.
-        visit = self.visit_link
-        if visit:
-            self._user = user_class.query.get(visit.user_id)
-            # I hope this is a safe place to double-check the SSL variables.
-            # TODO: Double check my logic with this - is it unnecessary to
-            # check that the username matches up?
-            if visit.ssl:
-                if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
-                    self.logout()
-                    return None
-            if self._user.status in ('inactive', 'expired', 'admin_disabled'):
-                log.warning("User %(username)s has status %(status)s, logging them out." % \
-                    { 'username': self._user.username, 'status': self._user.status })
-                self.logout()
-                self._user = None
-        else:
-            self._user = None
+            # Attempt to load the user. After this code executes, there *will*
+            # be a _user attribute, even if the value is None.
+            self._user = self.__retrieve_user()
         return self._user
     user = property(_get_user)
 
     def _get_token(self):
-        return Hash(self.visit_key).hexdigest()):
+        return sha_constructor(self.visit_key).hexdigest()
     csrf_token = property(_get_token)
 
     def _get_user_name(self):
@@ -132,6 +140,28 @@ class SaFasIdentity(object):
         '''Return true if not logged in.'''
         return not self.user
     anonymous = property(_get_anonymous)
+
+    def _get_only_token(self):
+        '''
+        In one specific instance in the login template we need to know whether
+        an anonymous user is just lacking a token.
+        '''
+        if hasattr(self, '_user') and self._user:
+            # User has a token and is authenticated
+            return False
+
+        if ('_csrf_token' in cherrypy.request.params and
+                cherrypy.request.params['_csrf_token'] ==
+                sha_constructor(self.visit_key).hexdigest()):
+            # User has a token already so they must login
+            return False
+
+        if self.__retrieve_user():
+            # If user is valid, just the token is missing
+            return True
+        # Else the user still has to login
+        return False
+    only_token = property(_get_only_token)
 
     ### TG: Same as TG-1.0.8
     def _get_permissions(self):
