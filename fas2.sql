@@ -43,7 +43,7 @@ CREATE TABLE people (
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
-    old_password VARCHAR(127) NOT NULL,
+    old_password VARCHAR(127) NOT NULL DEFAULT 'foo',
     passwordtoken text null,
     password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     email TEXT not null unique,
