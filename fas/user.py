@@ -611,6 +611,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         person.email = email
         person.password = '*'
         person.status = 'active'
+        person.old_password = generate_password()['hash']
         session.flush()
         newpass = generate_password()
         message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
