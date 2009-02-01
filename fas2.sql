@@ -43,7 +43,7 @@ CREATE TABLE people (
     ssh_key TEXT,
     -- tg_user::password
     password VARCHAR(127) NOT NULL,
-    old_password VARCHAR(127) NOT NULL DEFAULT 'foo',
+    old_password VARCHAR(127),
     passwordtoken text null,
     password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     email TEXT not null unique,
@@ -340,7 +340,7 @@ create trigger email_bugzilla_sync before update on people
 GRANT ALL ON TABLE people, groups, person_roles, bugzilla_queue, configs, configs_id_seq, person_seq, visit, visit_identity, log, log_id_seq, session TO GROUP fedora;
 
 -- Create default admin user - Default Password "admin"
-INSERT INTO people (id, username, human_name, password, email, old_password) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost', 'moo!');
+INSERT INTO people (id, username, human_name, password, email) VALUES (100001, 'admin', 'Admin User', '$1$djFfnacd$b6NFqFlac743Lb4sKWXj4/', 'root@localhost');
 
 -- Create default groups and populate
 INSERT INTO groups (id, name, display_name, owner_id, group_type, user_can_remove) VALUES (100002, 'cla_done', 'CLA Done Group', (SELECT id from people where username='admin'), 'cla', false);

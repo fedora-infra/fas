@@ -832,9 +832,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         if person.status in ('inactive'):
             # Check that the password has changed.
             import crypt
-            if crypt.crypt(password.encode('utf-8'), person.old_password) == person.old_password:
-                turbogears.flash(_('Your password can not be the same as your old password.'))
-                return dict(person=person, token=token)
+            if person.old_password:
+                if crypt.crypt(password.encode('utf-8'), person.old_password) == person.old_password:
+                    turbogears.flash(_('Your password can not be the same as your old password.'))
+                    return dict(person=person, token=token)
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
 
