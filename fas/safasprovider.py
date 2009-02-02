@@ -26,10 +26,10 @@ System.
 
 import crypt
 try:
-    from hashlib import sha1 as sha_constructor
+    from hashlib import sha1 as hash_constructor
 except ImportError:
     import sha
-    from sha import new as sha_constructor
+    from sha import new as hash_constructor
 
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
@@ -96,7 +96,7 @@ class SaFasIdentity(object):
         else:
             if (not '_csrf_token' in cherrypy.request.params or
                     cherrypy.request.params['_csrf_token'] !=
-                    sha_constructor(self.visit_key).hexdigest()):
+                    hash_constructor(self.visit_key).hexdigest()):
                 log.info("Bad _csrf_token")
                 if '_csrf_token' in cherrypy.request.params:
                     log.info("visit: %s token: %s" % (self.visit_key,
@@ -118,7 +118,7 @@ class SaFasIdentity(object):
 
     def _get_token(self):
         if self.visit_key:
-            return sha_constructor(self.visit_key).hexdigest()
+            return hash_constructor(self.visit_key).hexdigest()
         else:
             return ''
     csrf_token = property(_get_token)
@@ -150,19 +150,11 @@ class SaFasIdentity(object):
         In one specific instance in the login template we need to know whether
         an anonymous user is just lacking a token.
         '''
-        if hasattr(self, '_user') and self._user:
-            # User has a token and is authenticated
+        visit = self.visit_link
+        if visit and self.__retrieve_user(visit):
+            # user is valid, just the token is missing
             return True
 
-        if ('_csrf_token' in cherrypy.request.params and
-                cherrypy.request.params['_csrf_token'] ==
-                sha_constructor(self.visit_key).hexdigest()):
-            # User has a token already so they must login
-            return False
-
-        if self.__retrieve_user(self.visit_link):
-            # If user is valid, just the token is missing
-            return True
         # Else the user still has to login
         return False
     only_token = property(_get_only_token)
@@ -338,6 +330,10 @@ class SaFasIdentityProvider(object):
                 log.info("Passwords don't match for user: %s", user_name)
                 cherrypy.request.fas_identity_failure_reason = 'bad_password'
                 return None
+            # user + password is sufficient to prove the user is in
+            # control
+            cherrypy.request.params['_csrf_token'] = hash_constructor(
+                    visit_key).hexdigest()
 
         log.info("Associating user (%s) with visit (%s)",
             user_name, visit_key)
