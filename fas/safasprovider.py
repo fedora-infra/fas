@@ -35,6 +35,7 @@ from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
 from turbogears.database import session
 from turbogears.util import load_class
+from turbogears.identity import set_login_attempted
 
 import cherrypy
 
@@ -67,56 +68,59 @@ class SaFasIdentity(object):
             if visit_key is not None:
                 self.login(using_ssl)
 
-    def __retrieve_user(self):
+    def __retrieve_user(self, visit):
         '''Attempt to load the user from the visit_key.
 
         :returns: a user or None
         '''
-        visit = self.visit_link
-        if visit:
-            user = user_class.query.get(visit.user_id)
-            # I hope this is a safe place to double-check the SSL variables.
-            # TODO: Double check my logic with this - is it unnecessary to
-            # check that the username matches up?
-            if visit.ssl:
-                if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
-                    self.logout()
-                    return None
-            if user.status in ('inactive', 'expired', 'admin_disabled'):
-                log.warning("User %(username)s has status %(status)s, logging them out." % \
-                    { 'username': user.username, 'status': user.status })
+        user = user_class.query.get(visit.user_id)
+        # I hope this is a safe place to double-check the SSL variables.
+        # TODO: Double check my logic with this - is it unnecessary to
+        # check that the username matches up?
+        if visit.ssl:
+            if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
                 self.logout()
-                user = None
-        else:
+                return None
+        if user.status in ('inactive', 'expired', 'admin_disabled'):
+            log.warning("User %(username)s has status %(status)s, logging them out." % \
+                { 'username': user.username, 'status': user.status })
+            self.logout()
             user = None
         return user
 
     def _get_user(self):
         '''Get user instance for this identity.'''
-        if (not '_csrf_token' in cherrypy.request.params or
-                cherrypy.request.params['_csrf_token'] !=
-                sha_constructor(self.visit_key).hexdigest()):
-            log.info("Bad _csrf_token")
-            if '_csrf_token' in cherrypy.request.params:
-                log.info("visit: %s token: %s" % (self.visit_key,
-                    cherrypy.request.params['_csrf_token']))
-            else:
-                log.info('No _csrf_token present')
-            cherrypy.request.fas_identity_failure_reason = 'bad_csrf'
+        visit = self.visit_link
+        if not visit:
             self._user = None
+        else:
+            if (not '_csrf_token' in cherrypy.request.params or
+                    cherrypy.request.params['_csrf_token'] !=
+                    sha_constructor(self.visit_key).hexdigest()):
+                log.info("Bad _csrf_token")
+                if '_csrf_token' in cherrypy.request.params:
+                    log.info("visit: %s token: %s" % (self.visit_key,
+                        cherrypy.request.params['_csrf_token']))
+                else:
+                    log.info('No _csrf_token present')
+                cherrypy.request.fas_identity_failure_reason = 'bad_csrf'
+                self._user = None
 
-        try:
-            return self._user
-        except AttributeError:
-            # User hasn't already been set
-            # Attempt to load the user. After this code executes, there *will*
-            # be a _user attribute, even if the value is None.
-            self._user = self.__retrieve_user()
+            try:
+                return self._user
+            except AttributeError:
+                # User hasn't already been set
+                # Attempt to load the user. After this code executes, there
+                # *will* be a _user attribute, even if the value is None.
+                self._user = self.__retrieve_user(visit)
         return self._user
     user = property(_get_user)
 
     def _get_token(self):
-        return sha_constructor(self.visit_key).hexdigest()
+        if self.visit_key:
+            return sha_constructor(self.visit_key).hexdigest()
+        else:
+            return ''
     csrf_token = property(_get_token)
 
     def _get_user_name(self):
@@ -148,7 +152,7 @@ class SaFasIdentity(object):
         '''
         if hasattr(self, '_user') and self._user:
             # User has a token and is authenticated
-            return False
+            return True
 
         if ('_csrf_token' in cherrypy.request.params and
                 cherrypy.request.params['_csrf_token'] ==
@@ -156,7 +160,7 @@ class SaFasIdentity(object):
             # User has a token already so they must login
             return False
 
-        if self.__retrieve_user():
+        if self.__retrieve_user(self.visit_link):
             # If user is valid, just the token is missing
             return True
         # Else the user still has to login
@@ -230,12 +234,12 @@ class SaFasIdentity(object):
         '''Set the link between this identity and the visit.'''
         visit = self.visit_link
         if visit:
-            visit.user_id = self._user.user_id
+            visit.user_id = self._user.id
             visit.ssl = using_ssl
         else:
             visit = visit_class()
             visit.visit_key = self.visit_key
-            visit.user_id = self._user.user_id
+            visit.user_id = self._user.id
             visit.ssl = using_ssl
         session.flush()
 
@@ -375,7 +379,11 @@ class SaFasIdentityProvider(object):
             :groups: a set of group IDs
             :permissions: a set of permission IDs
         '''
-        return SaFasIdentity(visit_key)
+        ident = SaFasIdentity(visit_key)
+        if 'csrf_login' in cherrypy.request.params:
+            cherrypy.request.params.pop('csrf_login')
+            set_login_attempted(True)
+        return ident
 
     def anonymous_identity(self):
         '''Returns an anonymous user object
@@ -386,7 +394,6 @@ class SaFasIdentityProvider(object):
             :groups: a set of group IDs
             :permissions: a set of permission IDs
         '''
-
         return SaFasIdentity(None)
 
     def authenticated_identity(self, user):
