@@ -197,7 +197,7 @@ class Root(plugin.RootController):
             raise redirect(forward_url)
 
         forward_url = None
-        previous_url = request.path
+        previous_url = request.path_info
         msg = None
 
         if identity.was_login_attempted() and request.fas_provided_username:
