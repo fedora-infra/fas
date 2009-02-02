@@ -52,10 +52,8 @@
             <li><a href="${tg.url('/about')}">About</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/logout')}">${_('Log Out')}</a></li>
-            <li py:if="tg.identity.anonymous"><a href="${tg.url('/login')}">${_('Log In')}</a></li>
-            <!--
+            <li py:if="tg.identity.anonymous and not tg.identity.only_token"><a href="${tg.url('/login')}">${_('Log In')}</a></li>
             <li py:if="tg.identity.anonymous and tg.identity.only_token"><a href="${tg.url(tg.request.browser_url)}">Verify Login</a></li>
-            -->
           </ul>
         </div>
       </div>
