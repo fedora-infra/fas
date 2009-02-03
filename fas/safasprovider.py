@@ -28,7 +28,6 @@ import crypt
 try:
     from hashlib import sha1 as hash_constructor
 except ImportError:
-    import sha
     from sha import new as hash_constructor
 
 from sqlalchemy.orm import class_mapper
