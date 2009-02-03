@@ -16,6 +16,7 @@ import cherrypy
 import cherrypy._cpwsgi
 import turbogears
 import turbogears.startup
+import fedora.tg.util
 
 class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
     def before_main(self):
@@ -34,6 +35,8 @@ turbogears.config.update({'global': {'server.log_to_screen': False}})
 turbogears.config.update({'global': {'server.webpath': '/accounts'}})
 turbogears.config.update({'global': {'base_url_filter.on': True}})
 turbogears.config.update({'global': {'base_url_filter.base_url': 'http://localhost'}})
+
+turbogears.startup.call_on_startup.append(fedora.tg.util.enable_csrf)
 
 import fas.controllers
 
@@ -78,4 +81,3 @@ def fake_call(self, environ, start_response):
 # one process (don't specify processes= in the WSGIDaemonProcess directive.
 setattr(EvalException, '__call__', fake_call)
 application = EvalException(application, global_conf={'debug': True})
-
