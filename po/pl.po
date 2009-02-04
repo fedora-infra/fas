@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-21 17:01-0500\n"
-"PO-Revision-Date: 2009-01-09 22:12+0100\n"
+"PO-Revision-Date: 2009-02-04 20:48+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1202,13 +1202,13 @@ msgid "username + email combo unknown."
 msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail"
 
 #: fas/user.py:731 fas/user.py:790 fas/user.py:815
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
 msgstr ""
-"Konto jest obecnie wyłączone. Aby dowiedzieć się więcej, skontaktuj się z %"
-"(admin_email)s"
+"Konto ma obecnie stan %(status)s. Aby dowiedzieć się więcej, skontaktuj się "
+"z %(admin_email)s"
 
 #: fas/user.py:735
 msgid "Fedora Project Password Reset"
@@ -1430,7 +1430,6 @@ msgid "Users, Sponsors, Administrators"
 msgstr "Użytkownicy, sponsorzy i administratorzy"
 
 #: fas/templates/about.html:15
-#, fuzzy
 msgid ""
 "Once you're in the group, you're in the group.  Sponsorship and "
 "Administrators typically have special access in the group in questions.  "
@@ -2146,9 +2145,8 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 #: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
-#, fuzzy
 msgid "Certificate Generation"
-msgstr "Tworzenie certyfikatów jest wyłączone"
+msgstr "Tworzenie certyfikatu"
 
 #: fas/templates/user/gencert.html:15
 msgid ""
@@ -2158,10 +2156,15 @@ msgid ""
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
 msgstr ""
+"Poniższy odnośnik pozwala utworzyć certyfikat służący do uwierzytelniania na "
+"systemach budowania Fedory. Zauważ, że można mieć tylko jeden prawidłowy "
+"certyfikat w danym czasie. Kiedy utworzysz nowy certyfikat, wszystkie "
+"poprzednie zostaną odrzucone. Jeśli nie pracujesz nad pakietami Fedory, to "
+"obecnie prawdopodobnie nie potrzebujesz certyfikatu."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "Utwórz certyfikat"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
