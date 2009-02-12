@@ -478,9 +478,7 @@ class MakeShellAccounts(AccountSystem):
             username = person['username']
             uid = person['id']
             human_name = person['human_name']
-            password = '*'
-            if 'password' in person:
-                password = person['password']
+            password = person['password']
             home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
             shell = self.shell(username)
             passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
