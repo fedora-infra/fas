@@ -170,20 +170,6 @@ class MakeShellAccounts(AccountSystem):
                     return True
         return False
 
-    ### FIXME: Delete this or make it work correctly for remove_stale_home_dirs
-    def valid_user(self, username):
-        ''' Is the user valid on this system '''
-        # As of right now, only valid users are returned by fas
-        return True
-        try:
-            for restriction in self.valid_groups:
-                for group in self.valid_groups[restriction]:
-                    if username in self.group_mapping[group]:
-                        return True
-        except KeyError:
-            return False
-        return False
-
     ### Attributes ###
 
     def _refresh_all_people(self, force=False):
@@ -259,7 +245,7 @@ class MakeShellAccounts(AccountSystem):
                 members = []
                 for member in self._memberships[name]:
                     try:
-                        members.append(self.people_by[member['person_id']]
+                        members.append(self.all_people[member['person_id']]
                                 ['username'])
                     except KeyError:
                         # User is not valid on this computer
@@ -593,9 +579,7 @@ class MakeShellAccounts(AccountSystem):
             home_backup_dir = '/var/tmp/'
         users = os.listdir(home_base)
         for user in users:
-            ### FIXME: This is wrong.  valid_user() only returns True right now
-            # so this never runs
-            if not self.valid_user(user):
+            if user not in self.people_by:
                 if not os.path.exists(home_backup_dir):
                     os.makedirs(home_backup_dir)
                 syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
