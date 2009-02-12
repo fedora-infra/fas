@@ -363,6 +363,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         # p becomes what we send back via json
         p = []
         for strip_p in people:
+            strip_p.filter_private()
             if strip_p.status == 'active' and 'cla_done' in strip_p.group_roles:
                 p.append({
                     'username'  : strip_p.username,
