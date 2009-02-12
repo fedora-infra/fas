@@ -297,7 +297,7 @@ class People(SABase):
         if identity.current.user_name == self.username:
             return
 
-        # Nobody other than the user can get passwords.
+        # Nobody other than the user, admin, or system users can get passwords.
         self.password = '*'
         
 
