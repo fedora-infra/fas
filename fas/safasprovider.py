@@ -17,17 +17,24 @@
 #
 # Author(s): Toshio Kuratomi <tkuratom@redhat.com>
 #            Ricky Zhou <ricky@fedoraproject.org>
-#
+# Adapted from code in the TurboGears project licensed under the MIT license.
 
 '''
 This plugin provides authentication of passwords against the Fedora Account
 System.
 '''
 
+import crypt
+try:
+    from hashlib import sha1 as hash_constructor
+except ImportError:
+    from sha import new as hash_constructor
+
 from sqlalchemy.orm import class_mapper
 from turbogears import config, identity
 from turbogears.database import session
 from turbogears.util import load_class
+from turbogears.identity import set_login_attempted
 
 import cherrypy
 
@@ -35,15 +42,13 @@ import gettext
 t = gettext.translation('fas', '/usr/share/locale', fallback=True)
 _ = t.ugettext
 
-import crypt
-
 import logging
 log = logging.getLogger('turbogears.identity.safasprovider')
 
 try:
     set, frozenset
 except NameError:
-    # We need a set type on earlier pythons. (W0622)
+    # :W0622: We need a set type on earlier pythons.
     from sets import Set as set # pylint: disable-msg=W0622
     from sets import ImmutableSet as frozenset # pylint: disable-msg=W0622
 
@@ -53,23 +58,21 @@ user_class = None
 visit_class = None
 
 class SaFasIdentity(object):
-    def __init__(self, visit_key, user=None):
+    '''Identity that uses a model from a database (via SQLAlchemy).'''
+
+    def __init__(self, visit_key=None, user=None, using_ssl=False):
+        self.visit_key = visit_key
         if user:
             self._user = user
-        self.visit_key = visit_key
+            if visit_key is not None:
+                self.login(using_ssl)
 
-    def _get_user(self):
-        try:
-            return self._user
-        except AttributeError:
-            # User hasn't already been set
-            pass
-        # Attempt to load the user. After this code executes, there *WILL* be
-        # a _user attribute, even if the value is None.
-        visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
-        if not visit:
-            self._user = None
-            return None
+    def __retrieve_user(self, visit):
+        '''Attempt to load the user from the visit_key.
+
+        :returns: a user or None
+        '''
+        user = user_class.query.get(visit.user_id)
         # I hope this is a safe place to double-check the SSL variables.
         # TODO: Double check my logic with this - is it unnecessary to
         # check that the username matches up?
@@ -77,31 +80,87 @@ class SaFasIdentity(object):
             if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
                 self.logout()
                 return None
-        self._user = user_class.query.get(visit.user_id)
-        visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
-        if self._user.status in ('inactive', 'expired', 'admin_disabled'):
+        if user.status in ('inactive', 'expired', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s, logging them out." % \
-                { 'username': self._user.username, 'status': self._user.status })
+                { 'username': user.username, 'status': user.status })
             self.logout()
-            None
+            user = None
+        return user
 
+    def _get_user(self):
+        '''Get user instance for this identity.'''
+        visit = self.visit_link
+        if not visit:
+            self._user = None
+        else:
+            if (not '_csrf_token' in cherrypy.request.params or
+                    cherrypy.request.params['_csrf_token'] !=
+                    hash_constructor(self.visit_key).hexdigest()):
+                log.info("Bad _csrf_token")
+                if '_csrf_token' in cherrypy.request.params:
+                    log.info("visit: %s token: %s" % (self.visit_key,
+                        cherrypy.request.params['_csrf_token']))
+                else:
+                    log.info('No _csrf_token present')
+                cherrypy.request.fas_identity_failure_reason = 'bad_csrf'
+                self._user = None
+
+            try:
+                return self._user
+            except AttributeError:
+                # User hasn't already been set
+                # Attempt to load the user. After this code executes, there
+                # *will* be a _user attribute, even if the value is None.
+                self._user = self.__retrieve_user(visit)
         return self._user
     user = property(_get_user)
 
+    def _get_token(self):
+        if self.visit_key:
+            return hash_constructor(self.visit_key).hexdigest()
+        else:
+            return ''
+    csrf_token = property(_get_token)
+
     def _get_user_name(self):
+        '''Get user name of this identity.'''
         if not self.user:
             return None
         ### TG: Difference: Different name for the field
         return self.user.username
     user_name = property(_get_user_name)
 
-    ### TG: Same as TG-1.0.4.3
+    ### TG: Same as TG-1.0.8
+    def _get_user_id(self):
+        '''Get user id of this identity.'''
+        if not self.user:
+            return None
+        return self.user.user_id
+    user_id = property(_get_user_id)
+
+    ### TG: Same as TG-1.0.8
     def _get_anonymous(self):
+        '''Return true if not logged in.'''
         return not self.user
     anonymous = property(_get_anonymous)
 
-    ### TG: Same as TG-1.0.4.3
+    def _get_only_token(self):
+        '''
+        In one specific instance in the login template we need to know whether
+        an anonymous user is just lacking a token.
+        '''
+        visit = self.visit_link
+        if visit and self.__retrieve_user(visit):
+            # user is valid, just the token is missing
+            return True
+
+        # Else the user still has to login
+        return False
+    only_token = property(_get_only_token)
+
+    ### TG: Same as TG-1.0.8
     def _get_permissions(self):
+        '''Get set of permission names of this identity.'''
         try:
             return self._permissions
         except AttributeError:
@@ -110,12 +169,13 @@ class SaFasIdentity(object):
         if not self.user:
             self._permissions = frozenset()
         else:
-            self._permissions = frozenset([
-                p.permission_name for p in self.user.permissions])
+            self._permissions = frozenset(
+                [p.permission_name for p in self.user.permissions])
         return self._permissions
     permissions = property(_get_permissions)
 
     def _get_groups(self):
+        '''Get set of group names of this identity.'''
         try:
             return self._groups
         except AttributeError:
@@ -130,29 +190,67 @@ class SaFasIdentity(object):
         return self._groups
     groups = property(_get_groups)
 
-    ### TG: same as TG-1.0.4.3
-    def logout(self):
-        '''
-        Remove the link between this identity and the visit.
-        '''
-        if not self.visit_key:
-            return
+    def _get_group_ids(self):
+        '''Get set of group IDs of this identity.'''
         try:
-            visit = visit_class.query.filter_by(visit_key=self.visit_key).first()
-            session.delete(visit)
-            # Clear the current identity
-            anon = SaFasIdentity(None,None)
-            identity.set_current_identity(anon)
-        except:
+            return self._group_ids
+        except AttributeError:
+            # Groups haven't been computed yet
             pass
+        if not self.user:
+            self._group_ids = frozenset()
         else:
+            ### TG: Difference.  Our model has a many::many for people:groups
+            # And an association proxy that links them together
+            self._group_ids = frozenset([g.id for g in self.user.approved_memberships])
+        return self._group_ids
+    group_ids = property(_get_group_ids)
+
+    ### TG: Same as TG-1.0.8
+    def _get_visit_link(self):
+        '''Get the visit link to this identity.'''
+        if self.visit_key is None:
+            return None
+        return visit_class.query.filter_by(visit_key=self.visit_key).first()
+    visit_link = property(_get_visit_link)
+
+    ### TG: Same as TG-1.0.8
+    def _get_login_url(self):
+        '''Get the URL for the login page.'''
+        return identity.get_failure_url()
+    login_url = property(_get_login_url)
+
+    ### TG: Same as TG-1.0.8
+    def login(self, using_ssl=False):
+        '''Set the link between this identity and the visit.'''
+        visit = self.visit_link
+        if visit:
+            visit.user_id = self._user.id
+            visit.ssl = using_ssl
+        else:
+            visit = visit_class()
+            visit.visit_key = self.visit_key
+            visit.user_id = self._user.id
+            visit.ssl = using_ssl
+        session.flush()
+
+    ### TG: Same as TG-1.0.8
+    def logout(self):
+        '''Remove the link between this identity and the visit.'''
+        visit = self.visit_link
+        if visit:
+            session.delete(visit)
             session.flush()
+        # Clear the current identity
+        identity.set_current_identity(SaFasIdentity())
 
 class SaFasIdentityProvider(object):
     '''
     IdentityProvider that authenticates users against the fedora account system
     '''
     def __init__(self):
+        super(SaFasIdentityProvider, self).__init__()
+
         global user_class
         global visit_class
 
@@ -193,6 +291,12 @@ class SaFasIdentityProvider(object):
             :status_admin_disabled: User is disabled and has to talk to an
                 admin before they are re-enabled.
             :bad_password: The username and password do not match.
+
+        Arguments:
+        :arg user_name: user_name we're authenticating.  If None, we'll try
+            to lookup a username from SSL variables
+        :arg password: password to authenticate user_name with
+        :arg visit_key: visit_key from the user's session
         '''
         # Save the user provided username so we can do other checks on it in
         # outside of this method.
@@ -225,38 +329,29 @@ class SaFasIdentityProvider(object):
                 log.info("Passwords don't match for user: %s", user_name)
                 cherrypy.request.fas_identity_failure_reason = 'bad_password'
                 return None
+            # user + password is sufficient to prove the user is in
+            # control
+            cherrypy.request.params['_csrf_token'] = hash_constructor(
+                    visit_key).hexdigest()
 
-        log.info("associating user (%s) with visit (%s)", user.username,
-                  visit_key)
-        # Link the user to the visit
-        link = visit_class.query.filter_by(visit_key=visit_key).first()
-        if not link:
-            link = visit_class()
-            link.visit_key = visit_key
-            link.user_id = user.id
-            link.ssl = using_ssl
-        else:
-            link.user_id = user.id
-            link.ssl = using_ssl
-        session.flush()
-        return SaFasIdentity(visit_key, user)
+        log.info("Associating user (%s) with visit (%s)",
+            user_name, visit_key)
+        return SaFasIdentity(visit_key, user, using_ssl)
 
     def validate_password(self, user, user_name, password):
         '''
         Check the supplied user_name and password against existing credentials.
         Note: user_name is not used here, but is required by external
         password validation schemes that might override this method.
-        If you use SqlAlchemyIdentityProvider, but want to check the passwords
+        If you use SaFasIdentityProvider, but want to check the passwords
         against an external source (i.e. PAM, LDAP, Windows domain, etc),
-        subclass SqlAlchemyIdentityProvider, and override this method.
+        subclass SaFasIdentityProvider, and override this method.
 
-        Arguments:
         :user: User information.  Not used.
         :user_name: Given username.
         :password: Given, plaintext password.
-
-        Returns: True if the password matches the username.  Otherwise False.
-          Can return False for problems within the Account System as well.
+        :returns: True if the password matches the username.  Otherwise False.
+            Can return False for problems within the Account System as well.
         '''
         # crypt.crypt(stuff, '') == ''
         # Just kill any possibility of blanks.
@@ -272,30 +367,39 @@ class SaFasIdentityProvider(object):
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
 
-        Arguments:
-        :visit_key: The session key for whom we're looking up an identity.
-
-        Must return an object with the following properties:
-            user_name: original user name
-            user: a provider dependant object (TG_User or similar)
-            groups: a set of group IDs
-            permissions: a set of permission IDs
+        :arg visit_key: The session key for whom we're looking up an identity.
+        :return: an object with the following properties:
+            :user_name: original user name
+            :user: a provider dependant object (TG_User or similar)
+            :groups: a set of group IDs
+            :permissions: a set of permission IDs
         '''
-        return SaFasIdentity(visit_key)
+        ident = SaFasIdentity(visit_key)
+        if 'csrf_login' in cherrypy.request.params:
+            cherrypy.request.params.pop('csrf_login')
+            set_login_attempted(True)
+        return ident
 
     def anonymous_identity(self):
-        '''
-        Must return an object with the following properties:
-            user_name: original user name
-            user: a provider dependant object (TG_User or similar)
-            groups: a set of group IDs
-            permissions: a set of permission IDs
-        '''
+        '''Returns an anonymous user object
 
+        :return: an object with the following properties:
+            :user_name: original user name
+            :user: a provider dependant object (TG_User or similar)
+            :groups: a set of group IDs
+            :permissions: a set of permission IDs
+        '''
         return SaFasIdentity(None)
 
     def authenticated_identity(self, user):
         '''
         Constructs Identity object for user that has no associated visit_key.
+
+        :arg user: The user structure the identity is constructed from
+        :return: an object with the following properties:
+            :user_name: original user name
+            :user: a provider dependant object (TG_User or similar)
+            :groups: a set of group IDs
+            :permissions: a set of permission IDs
         '''
         return SaFasIdentity(None, user)

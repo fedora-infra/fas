@@ -213,7 +213,7 @@ setup(
                 'start-fas = fas.commands:start',
             ),
             'turbogears.identity.provider': (
-                'safas3 = fas.safasprovider:SaFasIdentityProvider',
+                'safas4 = fas.safasprovider:SaFasIdentityProvider',
             ),
     }
 )

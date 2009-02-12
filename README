@@ -75,6 +75,7 @@ install that manually::
 -------------
 Prerequisites
 -------------
+
 Before you can get started, make sure to have the following packages installed
 (example being from Fedora 8 with a local postgresql database server)::
 
