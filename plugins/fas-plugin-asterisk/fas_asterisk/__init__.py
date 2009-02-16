@@ -125,6 +125,9 @@ class AsteriskPlugin(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose(format="json", allow_json=True)
     def dump(self):
+        person = People.by_username(identity.current.user_name)
+        if isAdmin(person):
+            return dict()
         asterisk_attrs = {}
         for attr in Configs.query.filter_by(application='asterisk').all():
             if attr.person_id not in asterisk_attrs:
