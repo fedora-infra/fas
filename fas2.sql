@@ -45,7 +45,7 @@ CREATE TABLE people (
     password VARCHAR(127) NOT NULL,
     old_password VARCHAR(127),
     passwordtoken text null,
-    password_changed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    password_changed TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     email TEXT not null unique,
     emailtoken TEXT,
     unverified_email TEXT,

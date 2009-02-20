@@ -18,6 +18,10 @@ from fas.auth import *
 from fas.user import KnownUser
 from fas.util import available_languages
 
+admin_group = config.get('admingroup', 'accounts')
+system_group = config.get('systemgroup', 'fas-system')
+thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+
 class AsteriskSave(validators.Schema):
     targetname = KnownUser
     asterisk_enabled = validators.OneOf(['0', '1'], not_empty=True)
@@ -125,12 +129,16 @@ class AsteriskPlugin(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @expose(format="json", allow_json=True)
     def dump(self):
-        asterisk_attrs = {}
-        for attr in Configs.query.filter_by(application='asterisk').all():
-            if attr.person_id not in asterisk_attrs:
-                asterisk_attrs[attr.person_id] = {}
-            asterisk_attrs[attr.person_id][attr.attribute] = attr.value
-        return dict(asterisk_attrs=asterisk_attrs)
+        person = People.by_username(identity.current.user_name)
+        if identity.in_group(admin_group) or \
+            identity.in_group(system_group):
+            asterisk_attrs = {}
+            for attr in Configs.query.filter_by(application='asterisk').all():
+                if attr.person_id not in asterisk_attrs:
+                    asterisk_attrs[attr.person_id] = {}
+                asterisk_attrs[attr.person_id][attr.attribute] = attr.value
+            return dict(asterisk_attrs=asterisk_attrs)
+        return dict()
     
     @expose(template="fas.templates.help")
     def help(self, id='none'):

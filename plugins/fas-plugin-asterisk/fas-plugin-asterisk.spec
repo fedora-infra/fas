@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas-plugin-asterisk
-Version:        0.3
+Version:        0.6
 Release:        1%{?dist}
 Summary:        Asterisk plugin for FAS2
 
@@ -49,7 +49,16 @@ Asterisk plugin for FAS2
 
 
 %changelog
-* Mon Jun 16 2008 Ricky Zhou <mmcgrath@redhat.com> -0.3-1
+* Mon Feb 16 2009 Ricky Zhou <ricky@fedoraproject.org> -0.6-1
+- Allow systems users to get this info.
+
+* Mon Feb 16 2009 Ricky Zhou <ricky@fedoraproject.org> -0.5-1
+- Actually fix PIN security issue.
+
+* Mon Feb 16 2009 Ricky Zhou <ricky@fedoraproject.org> -0.4-1
+- Fix PIN security issue.
+
+* Mon Jun 16 2008 Ricky Zhou <ricky@fedoraproject.org> -0.3-1
 - Bugfix.
 
 * Mon Jun 16 2008 Mike McGrath <mmcgrath@redhat.com> -0.2-1

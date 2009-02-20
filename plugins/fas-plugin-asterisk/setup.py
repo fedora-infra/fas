@@ -15,7 +15,7 @@ package_data = find_package_data(where='fas_asterisk', package='fas_asterisk', e
 
 setup(
     name = "fas-plugin-asterisk",
-    version = "0.3",
+    version = "0.6",
     packages = find_packages(),
 
     package_data = package_data,
