@@ -72,14 +72,13 @@ class SaFasIdentity(object):
 
         :returns: a user or None
         '''
-        user = user_class.query.get(visit.user_id)
         # I hope this is a safe place to double-check the SSL variables.
         # TODO: Double check my logic with this - is it unnecessary to
         # check that the username matches up?
-        if visit.ssl:
-            if cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
-                self.logout()
-                return None
+        if visit.ssl and cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
+            self.logout()
+            return None
+        user = user_class.query.get(visit.user_id)
         if user.status in ('inactive', 'expired', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s, logging them out." % \
                 { 'username': user.username, 'status': user.status })
@@ -158,20 +157,10 @@ class SaFasIdentity(object):
         return False
     only_token = property(_get_only_token)
 
-    ### TG: Same as TG-1.0.8
     def _get_permissions(self):
         '''Get set of permission names of this identity.'''
-        try:
-            return self._permissions
-        except AttributeError:
-            # Permissions haven't been computed yet
-            pass
-        if not self.user:
-            self._permissions = frozenset()
-        else:
-            self._permissions = frozenset(
-                [p.permission_name for p in self.user.permissions])
-        return self._permissions
+        ### TG difference: No permissions in FAS
+        return frozenset()
     permissions = property(_get_permissions)
 
     def _get_groups(self):
