@@ -3,53 +3,13 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="master.html" />
+  <xi:include href="${tg.fedora_template('login.html')}" />
+
   <head>
     <title>${_('Login to the Fedora Accounts System')}</title>
-    <style type="text/css">
-      #content ul
-      {
-        list-style: square;
-        margin: 1ex 3ex;
-      }
-    </style>
   </head>
 
-<div py:def="hidden_vals">
-  <input py:if="forward_url" type="hidden" name="forward_url" value="${tg.url(forward_url)}" />
-  <div py:for="name,values in original_parameters.items()" py:strip="1">
-    <input py:for="value in isinstance(values, list) and values or [values]" py:if="name != '_csrf_token'"
-      type="hidden" name="${name}" value="${value}"/>
-  </div>
-</div>
-
-<body>
-    <h2>${_('Login')}</h2>
-    <p>${message}</p>
-    <form py:if="not tg.identity.only_token"
-      action="${tg.url(previous_url)}" method="post">
-      <div class="field"><label for="user_name">${_('User Name:')}</label> <input type="text" id="user_name" name="user_name" /></div>
-      <div class="field"><label for="password">${_('Password:')}</label> <input type="password" id="password" name="password" /></div>
-      <div class="field">
-        <input type="submit" name="login" value="${_('Login')}" />
-        ${hidden_vals()}
-      </div>
-    </form>
-    <form py:if="tg.identity.only_token"
-      action="${tg.url(previous_url)}" method="POST">
-      <p><a href="http://en.wikipedia.org/wiki/CSRF">${_('CSRF attacks')}</a>${_(''' are
-        a means for a malicious website to make a request of another web
-        server as the user who contacted the malicious web site.  This
-        purpose of this page is to help protect your account and this server
-        from attacks from such malicious web sites.  By clicking below, you
-        are proving that you are a person rather than just the web browser
-        forwarding your authentication cookies on behalf of a malicious
-        website.''')}</p>
-      <input type="submit" name="csrf_login" value="I am a human" />
-        ${hidden_vals()}
-    </form>
-    <ul>
-      <li><a href="${tg.url('/user/resetpass')}">${_('Forgot Password?')}</a></li>
-      <li><a href="${tg.url('/user/new')}">${_('Sign Up')}</a></li>
-    </ul>
+  <body>
+    <loginform>${message}</loginform>
   </body>
 </html>
