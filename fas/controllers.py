@@ -18,6 +18,7 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
+#            Toshio Kuratomi <tkuratom@redhat.com>
 #
 from turbogears import expose, config, identity, redirect
 from turbogears.database import session
@@ -26,6 +27,9 @@ from cherrypy import request
 import turbogears
 import cherrypy
 import time
+
+from fedora.tg import controllers as f_ctrlers
+from fedora.tg.util import request_format
 
 from fas import release
 from fas.user import User, generate_token
@@ -147,8 +151,7 @@ class Root(plugin.RootController):
     @expose(template="fas.templates.welcome", allow_json=True)
     def index(self):
         if turbogears.identity.not_anonymous():
-            if 'tg_format' in request.params \
-                    and request.params['tg_format'] == 'json':
+            if request_format() == 'json':
                 # redirects don't work with JSON calls.  This is a bit of a
                 # hack until we can figure out something better.
                 return dict()
@@ -169,40 +172,20 @@ class Root(plugin.RootController):
         return dict()
 
     @expose(template="fas.templates.login", allow_json=True)
-    def login(self, forward_url=None, previous_url=None, *args, **kwargs):
+    def login(self, forward_url=None, *args, **kwargs):
         '''Page to become authenticated to the Account System.
 
         This shows a small login box to type in your username and password
         from the Fedora Account System.
 
-        Arguments:
-        :forward_url: The url to send to once authentication succeeds
-        :previous_url: The url that sent us to the login page
+        :kwarg forward_url: The url to send to once authentication succeeds
         '''
-        if forward_url == '.':
-            forward_url = turbogears.url('/../home')
-        if not identity.current.anonymous \
-            and identity.was_login_attempted() \
-            and not identity.get_identity_errors():
-            # User is logged in
-            turbogears.flash(_('Welcome, %s') % People.by_username(turbogears.identity.current.user_name).human_name)
-            if 'tg_format' in request.params \
-                    and request.params['tg_format'] == 'json':
-                # When called as a json method, doesn't make any sense to
-                # redirect to a page.  Returning the logged in identity
-                # is better.
-                return dict(user=identity.current.user)
-            if not forward_url:
-                forward_url = turbogears.url('/')
-            raise redirect(forward_url)
-
-        forward_url = None
-        previous_url = request.path_info
-        msg = None
+        login_dict = f_ctrlers.login(forward_url=forward_url, *args, **kwargs)
 
         if identity.was_login_attempted() and request.fas_provided_username:
             if request.fas_identity_failure_reason == 'status_inactive':
-                turbogears.flash(_('Your old password has expired.  Please reset your password below.'))
+                turbogears.flash(_('Your old password has expired.  Please'
+                    ' reset your password below.'))
                 redirect('/user/resetpass')
                 #username = request.fas_provided_username
                 #token = generate_token()
@@ -210,36 +193,17 @@ class Root(plugin.RootController):
                 #person.passwordtoken = token
                 #redirect('/user/verifypass/%s/%s' % (username, token))
             if request.fas_identity_failure_reason == 'status_account_disabled':
-                msg=_("Your account is currently disabled.  For more information, " + \
-                      "please contact %(admin_email)s" % \
-                  {'admin_email': config.get('accounts_email')})
+                turbogears.flash(_('Your account is currently disabled.  For'
+                        ' more information, please contact %(admin_email)s' %
+                        {'admin_email': config.get('accounts_email')}))
                 redirect('/login')
-        elif identity.was_login_attempted():
-            msg=_("The credentials you supplied were not correct or "
-                   "did not grant access to this resource.")
-        elif identity.get_identity_errors():
-            msg=_("You must provide your credentials before accessing "
-                   "this resource.")
-        else:
-            msg=_("Please log in.")
-            forward_url= '.'
 
         cherrypy.response.status=403
-        return dict(message=msg, previous_url=previous_url, logging_in=True,
-                    original_parameters=request.params,
-                    forward_url=forward_url)
+        return login_dict
 
     @expose(allow_json=True)
     def logout(self):
-        identity.current.logout()
-        turbogears.flash(_('You have successfully logged out.'))
-        if 'tg_format' in request.params \
-                and request.params['tg_format'] == 'json':
-            # When called as a json method, doesn't make any sense to
-            # redirect to a page.  Returning the logged in identity
-            # is better.
-            return dict(status=True)
-        raise redirect('/')
+        return f_ctrlers.logout()
 
     @expose()
     def language(self, locale):
