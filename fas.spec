@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.4.8
+Version:        0.8.4.90
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -19,7 +19,7 @@ BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
 Requires: python-TurboMail
-Requires: python-fedora >= 0.3
+Requires: python-fedora >= 0.3.92
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
@@ -89,6 +89,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Sun Mar 1 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.4.90-1
+- Beta new upstream release with CSRF fixes.
+
 * Thu Feb 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.8-1
 - New upstream release that fixes some security issues.
 
