@@ -126,7 +126,6 @@ a
 
 #control
 {
-  width: 40ex;
   float: right;
   margin-right: 1ex;
 }
@@ -140,11 +139,25 @@ a
 #control ul li
 {
   display: inline;
+  color: #DED6A1;
   background: url(../images/control-separator.png) 0 50% no-repeat;
+  padding-left: 1ex;
+  padding-right: 1ex;
+}
+
+#control ul li form
+{
+  display: inline;
+}
+
+#control ul li form input
+{
+  display: inline;
 }
 
 #control a
 {
+  display: inline;
   color: #DED6A1;
   margin: 0 1.5ex;
 }
