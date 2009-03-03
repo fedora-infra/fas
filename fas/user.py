@@ -279,9 +279,7 @@ class User(controllers.Controller):
                     # TODO: revoke cert
                     target.old_password = target.password
                     target.password = '*'
-                    for group in target.memberships:
-                        if group.type == 'cla':
-                            continue
+                    for group in target.unapproved_memberships:
                         try:
                             target.remove(group, person)
                         except fas.RemoveError:
