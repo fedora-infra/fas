@@ -19,7 +19,7 @@ BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy >= 0.4
 Requires: python-TurboMail
-Requires: python-fedora >= 0.3.92
+Requires: python-fedora >= 0.3.9.92
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
