@@ -451,7 +451,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
                 except AttributeError, e:
                     # An invalid field was given
                     turbogears.flash(_('Invalid field specified: %(error)s') %
-                            {'error': e.message})
+                            {'error': str(e)})
                     if request_format() == 'json':
                         return dict(exc='Invalid', tg_template='json')
                     else:
