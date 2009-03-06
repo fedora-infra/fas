@@ -522,7 +522,7 @@ class MakeShellAccounts(AccountSystem):
                     members['administrators'] = []
                     members['administrators'].append(person)
             for role in members:
-                email_file.write("%s-%s: %s\n" % (name, role, ','.join(members[role])))
+                email_file.write("%s-%s: %s\n" % (name, role, ','.join(sorted(members[role]))))
         email_file.close()
 
     def make_group_db(self):
