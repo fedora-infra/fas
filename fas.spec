@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.4.90
+Version:        0.8.5
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -89,7 +89,7 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
-* Sun Mar 1 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.4.90-1
+* Sat Mar 7 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.5-1
 - Beta new upstream release with CSRF fixes.
 
 * Thu Feb 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.8-1
