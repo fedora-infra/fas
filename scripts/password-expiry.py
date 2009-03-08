@@ -43,8 +43,12 @@ if __name__ == '__main__':
     now = datetime.now(pytz.utc)
     
     people = People.query.all()
+    whitelist = config.get('whitelist').split(',')
     
     for person in people:
+        if person.username in whitelist:
+            # Don't disable whitelisted accounts
+            continue
         if person.status != 'active':
             # They're already deactivated.
             continue
