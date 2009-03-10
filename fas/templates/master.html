@@ -24,7 +24,7 @@
         <h1><a href="http://fedoraproject.org/">${_('Fedora')}</a></h1>
         <!-- TODO: Make this do something useful, talk about interface :)
         <div id="searchbox">
-          <form action="" method="get">
+          <form action="" method="post">
             <label for="q">${_('Search:')}</label>
             <input type="text" name="q" id="q" />
             <input type="submit" value="${_('Search')}" />
@@ -65,7 +65,7 @@
           </ul>
           <div py:if="tg.identity.anonymous and tg.available_languages" id="language">
             <!-- TODO: Should this be available to logged in users to (and actually change their DB entry?) -->
-            <form action="${tg.url('/language')}" method="get">
+            <form action="${tg.url('/language')}" method="post">
               <label for="locale">${_('Locale:')}</label>
               <select name="locale" id="locale">
                 <option py:for="language in tg.available_languages" value="${language}" py:attrs="{'selected': tg.lang == language and 'selected' or None}">${language}</option>

@@ -36,7 +36,7 @@
     <!--
     TODO: Implement this :)
     <h3 py:if='me.fedoraRoleStatus == "approved"'>${_('Invite')}</h3>
-    <span py:if='me.fedoraRoleStatus == "approved"'>${form(action='modifyGroup', value=value, method='get')}</span>
+    <span py:if='me.fedoraRoleStatus == "approved"'>${form(action=tg.url('modifyGroup'), value=value, method='post')}</span>
     -->
     <h3><a href="${tg.url('/group/view/%s' % group.name)}">${_('Group Details')}</a></h3>
     ${types('/group/members/%s/%s' % (group.name, search), ['administrator', 'sponsor', 'user'])}

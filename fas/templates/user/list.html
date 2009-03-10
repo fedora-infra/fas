@@ -8,7 +8,7 @@
   </head>
   <body>
     <h2>${_('List (%s)') % search}</h2>
-    <form method="get" action="${tg.url('/user/list')}">
+    <form method="post" action="${tg.url('/user/list')}">
       <p>${_('"*" is a wildcard (Ex: "ric*")')}</p>
       <div>
         <input type="text" value="${search}" name="search" size="15 "/>

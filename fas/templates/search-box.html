@@ -4,7 +4,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude"
   py:strip="True">
   <div py:def="search_box(url_fragment)">
-    <form method="get" action="${tg.url(url_fragment)}">
+    <form method="post" action="${tg.url(url_fragment)}">
       <p>${_('"*" is a wildcard (Ex: "cvs*")')}</p>
       <div>
         <input type="text" value="${search}" name="search" size="15 "/>
