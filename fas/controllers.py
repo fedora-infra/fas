@@ -182,11 +182,17 @@ class Root(plugin.RootController):
         '''
         login_dict = f_ctrlers.login(forward_url=forward_url, *args, **kwargs)
 
+        if not identity.current.anonymous and identity.was_login_attempted() \
+                and not identity.get_identity_errors():
+            # Success that needs to be passed back via json
+            return login_dict
+
         if identity.was_login_attempted() and request.fas_provided_username:
             if request.fas_identity_failure_reason == 'status_inactive':
                 turbogears.flash(_('Your old password has expired.  Please'
                     ' reset your password below.'))
-                redirect('/user/resetpass')
+                if request_format() != 'json':
+                    redirect('/user/resetpass')
                 #username = request.fas_provided_username
                 #token = generate_token()
                 #person = People.by_username(username)
@@ -196,9 +202,9 @@ class Root(plugin.RootController):
                 turbogears.flash(_('Your account is currently disabled.  For'
                         ' more information, please contact %(admin_email)s' %
                         {'admin_email': config.get('accounts_email')}))
-                redirect('/login')
+                if request_format() != 'json':
+                    redirect('/login')
 
-        cherrypy.response.status=403
         return login_dict
 
     @expose(allow_json=True)
