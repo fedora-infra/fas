@@ -8,7 +8,7 @@ from datetime import timedelta
 
 import turbogears
 from turbogears import config
-turbogears.update_config(configfile="/etc/password-expiry.cfg")
+turbogears.update_config(configfile="/etc/account-expiry.cfg")
 import turbomail
 from turbogears.database import session
 from fas.model import *
@@ -52,10 +52,10 @@ if __name__ == '__main__':
         if person.status != 'active':
             # They're already deactivated.
             continue
-        diff = now - person.password_changed
+        diff = now - person.last_seen
         if diff > MAX_AGE:
             person.status = 'inactive'
-            send_email(config.get('accounts_email'), person.email, 'Fedora Password Expiry', \
+            send_email(config.get('accounts_email'), person.email, 'Fedora Account Expiry', \
             '''Your Fedora Account password has expired, so your account has been
 disabled.  To reenable your account, please request a password reset at
 https://admin.fedoraproject.org/accounts/user/resetpass.  
@@ -66,10 +66,10 @@ accounts@fedoraproject.org.
 - Fedora Infrastructure Team
 ''')
         elif diff > WARN_AGE:
-            send_email(config.get('accounts_email'), person.email, 'Fedora Password Expiry Warning', \
-            '''Your Fedora Account password will expire in %(days)d days.  Please change your
-password at https://admin.fedoraproject.org/accounts/user/changepass
-as soon as possible to prevent your account from being disabled.  
+            send_email(config.get('accounts_email'), person.email, 'Fedora Account Expiry Warning', \
+            '''Your Fedora Account password will expire in %(days)d days.  Please login to
+FAS at https://admin.fedoraproject.org/accounts/ as soon as
+possible to prevent your account from being disabled.  
 
 - Fedora Infrastructure Team
 ''')

@@ -36,6 +36,9 @@ from turbogears.database import session
 from turbogears.util import load_class
 from turbogears.identity import set_login_attempted
 
+import pytz
+from datetime import datetime
+
 import cherrypy
 
 import gettext
@@ -325,6 +328,7 @@ class SaFasIdentityProvider(object):
 
         log.info("Associating user (%s) with visit (%s)",
             user_name, visit_key)
+        user.last_seen = datetime.now(pytz.utc)
         return SaFasIdentity(visit_key, user, using_ssl)
 
     def validate_password(self, user, user_name, password):
