@@ -595,7 +595,7 @@ class MakeShellAccounts(AccountSystem):
             if user not in self.people_by:
                 if not os.path.exists(home_backup_dir):
                     os.makedirs(home_backup_dir)
-                syslog.syslog('Resetting permissions on home directory for %s' % user)
+                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
                 target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
                 move(os.path.join(home_base, user), os.path.join(prefix + home_backup_dir, target))
                 # Code for chmod/chown
