@@ -500,6 +500,10 @@ class MakeShellAccounts(AccountSystem):
             for membership in self.memberships[name]:
                 role_type = membership['role_type']
                 person = self.all_people[membership['person_id']]['username']
+                if person not in sorted_emails:
+                    # If the person isn't in sorted_emails, their account has
+                    # been inactivated.  Don't add them to the group aliases
+                    continue
                 try:
                     members['members'].append(person)
                 except KeyError:

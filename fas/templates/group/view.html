@@ -77,7 +77,8 @@
         <py:if test="can_sponsor">
         <dt>${_('Add User:')}</dt>
         <dd>
-          <form action="${tg.url('/group/application_screen/%s' % group.name)}">
+          <form action="${tg.url('/group/application_screen/%s' % group.name)}"
+            method="post">
             <input type='text' size='15' name='targetname'/>
             <input type="submit" value="${('Add')}" />
             <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
@@ -89,7 +90,7 @@
     <!--
     TODO: Implement this :)
     <h3 py:if='me.fedoraRoleStatus == "approved"'>${_('Invite')}</h3>
-    <span py:if='me.fedoraRoleStatus == "approved"'>${form(action='modifyGroup', value=value, method='get')}</span>
+    <span py:if='me.fedoraRoleStatus == "approved"'>${form(action=tg.url('modifyGroup'), value=value, method='post')}</span>
     -->
     <a href="${tg.url('/group/members/%s' % group.name)}"><h3>${_('View Member List')}</h3></a>
     <div py:if="can_sponsor">

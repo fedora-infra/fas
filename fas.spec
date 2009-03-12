@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.5
+Version:        0.8.5.2
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -89,6 +89,12 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Thu Mar 12 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.5.2-1
+- Bugfix for fasClient alias generation and template fixes for the csrf token.
+
+* Mon Mar 9 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.5.1-1
+- Quick little bugfix for using the login method via json.
+
 * Sat Mar 7 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.5-1
 - Beta new upstream release with CSRF fixes.
 
