@@ -25,6 +25,7 @@ import sys
 import logging
 import syslog
 import os
+import glob
 import tempfile
 import codecs
 import datetime
@@ -565,14 +566,22 @@ class MakeShellAccounts(AccountSystem):
     def create_homedirs(self):
         ''' Create homedirs and home base dir if they do not exist '''
         home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
+        home_backup_dir = config.get('users', 'home_backup_dir').strip('"')
         if not os.path.exists(home_base):
             os.makedirs(home_base, mode=0755)
         for person in self.people:
             home_dir = os.path.join(home_base, person['username'])
             if not os.path.exists(home_dir):
-                syslog.syslog('Creating homedir for %s' % person['username'])
-                copytree('/etc/skel/', home_dir)
-                os.path.walk(home_dir, _chown, [person['id'], person['id']])
+                old_home_dir = glob.glob(os.path.join(home_backup_dir, person['username']) + '-*')
+                if old_home_dir:
+                    syslog.syslog('Restoring old homedir for %s' % person['username'])
+                    move(old_home_dir[0], home_dir)
+                else:
+                    syslog.syslog('Creating homedir for %s' % person['username'])
+                    copytree('/etc/skel/', home_dir)
+                    os.path.walk(home_dir, _chown, [person['id'], person['id']])
+            # Code for chmod/chown
+            #os.chmod(home_dir, something)
 
     def remove_stale_homedirs(self):
         ''' Remove homedirs of users that no longer have access '''
@@ -586,9 +595,13 @@ class MakeShellAccounts(AccountSystem):
             if user not in self.people_by:
                 if not os.path.exists(home_backup_dir):
                     os.makedirs(home_backup_dir)
-                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
+                syslog.syslog('Resetting permissions on home directory for %s' % user)
                 target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
                 move(os.path.join(home_base, user), os.path.join(prefix + home_backup_dir, target))
+                # Code for chmod/chown
+                #home_dir = os.path.join(home_base, user)
+                #os.chown(home_dir, 0, 0)
+                #os.chmod(home_dir, 0700)
 
     def create_ssh_keys(self):
         ''' Create ssh keys '''
