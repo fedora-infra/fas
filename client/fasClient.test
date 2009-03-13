@@ -572,9 +572,11 @@ if __name__ == '__main__':
     if opts.info_username:
         fas.user_info(opts.info_username)
 
+    if opts.install or opts.aliases:
+        fas.get_data()
+
     if opts.install:
         fas.mk_tempdir()
-        fas.get_data()
         users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
         fas.make_group_db()
         fas.make_passwd_db(users)
