@@ -249,12 +249,12 @@ class MakeShellAccounts(AccountSystem):
                     # Make sure that the most privileged group wins.
                     if uid not in users:
                         users[uid] = {}
-                        users[uid]['shell'] = config.get('users', 'shell')
-                        users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app')
-                        users[uid]['ssh_options'] = config.get('users', 'ssh_key_options')
+                        users[uid]['shell'] = config.get('users', 'shell').strip('"')
+                        users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app').strip('"')
+                        users[uid]['ssh_options'] = config.get('users', 'ssh_key_options').strip('"')
                 else:
                     users[uid] = {}
-                    users[uid]['shell'] = config.get('users', 'ssh_restricted_shell')
+                    users[uid]['shell'] = config.get('users', 'ssh_restricted_shell').strip('"')
                     users[uid]['ssh_cmd'] = ''
                     users[uid]['ssh_options'] = ''
         return users
