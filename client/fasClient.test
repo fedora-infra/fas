@@ -30,7 +30,7 @@ import datetime
 import subprocess
 import time
 from fedora.client import AccountSystem, AuthError, ServerError
-import cPickle as pickle
+#import cPickle as pickle
 
 
 import ConfigParser
@@ -157,13 +157,13 @@ class MakeShellAccounts(AccountSystem):
     temp = None
 
     def get_data(self):
-        #group_data = self.group_data()
+        group_data = self.group_data()
         #pickle.dump(group_data, open('group_data.pkl', 'w'))
-        #user_data = self.user_data()
+        user_data = self.user_data()
         #pickle.dump(user_data, open('user_data.pkl', 'w'))
         # Testing
-        group_data = pickle.load(open('group_data.pkl', 'r'))
-        user_data = pickle.load(open('user_data.pkl', 'r'))
+        #group_data = pickle.load(open('group_data.pkl', 'r'))
+        #user_data = pickle.load(open('user_data.pkl', 'r'))
 
         # The JSON output from FAS encodes dictionary keys as strings, but leaves
         # array elements as integers (in the case of group member UIDs).  This
