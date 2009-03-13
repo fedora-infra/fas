@@ -262,7 +262,6 @@ class MakeShellAccounts(AccountSystem):
     def passwd_text(self, users):
         i = 0
         home_dir_base = config.get('users', 'home').strip('"')
-        home_dir_base = '/tmp/home'
 
         # Touch shadow and secure the permissions
         shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
