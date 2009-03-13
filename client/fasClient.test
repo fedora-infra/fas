@@ -147,33 +147,51 @@ def _chown(arg, dir_name, files):
         os.chown(os.path.join(dir_name, file), arg[0], arg[1])
 
 class MakeShellAccounts(AccountSystem):
-    users = None
-    groups = None
+    _users = None
+    _groups = None
+    _good_users = None
+    _group_types = None
+    _temp = None
 
-    # Users that are in cla_done + at least one other group
-    good_users = None
-    group_types = None
+    def _make_tempdir(self, force=False):
+        '''Return a temporary directory'''
+        if not self._temp or force:
+            # Remove any existing temp directories
+            if self._temp:
+                rmtree(self._temp)
+            self._temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+        return self._temp
+    temp = property(_make_tempdir)
 
-    temp = None
+    def _refresh_users(self, force=False):
+        '''Return a list of users in FAS'''
+        # Cached values present, return
+        if not self._users or force:
+            self._users = self.user_data()
+        return self._users
 
-    def get_data(self):
-        group_data = self.group_data()
-        #pickle.dump(group_data, open('group_data.pkl', 'w'))
-        user_data = self.user_data()
-        #pickle.dump(user_data, open('user_data.pkl', 'w'))
-        # Testing
-        #group_data = pickle.load(open('group_data.pkl', 'r'))
-        #user_data = pickle.load(open('user_data.pkl', 'r'))
+    users = property(_refresh_users)
 
-        # The JSON output from FAS encodes dictionary keys as strings, but leaves
-        # array elements as integers (in the case of group member UIDs).  This
-        # normalizes them to all strings.
-        for group in group_data:
-            for role_type in ('administrators', 'sponsors', 'users'):
-                group_data[group][role_type] = [str(uid) for uid in group_data[group][role_type]]
+    def _refresh_groups(self, force=False):
+        '''Return a list of groups in FAS'''
+        # Cached values present, return
+        if not self._groups or force:
+            group_data = self.group_data()
+            # The JSON output from FAS encodes dictionary keys as strings, but leaves
+            # array elements as integers (in the case of group member UIDs).  This
+            # normalizes them to all strings.
+            for group in group_data:
+                for role_type in ('administrators', 'sponsors', 'users'):
+                    group_data[group][role_type] = [str(uid) for uid in group_data[group][role_type]]
+            self._groups = group_data
+        return self._groups
 
-        self.users = user_data
-        self.groups = group_data
+    groups = property(_refresh_groups)
+
+    def _refresh_good_users_group_types(self, force=False):
+        # Cached values present, return
+        if self._good_users and self._group_types and not force:
+            return
 
         cla_group = config.get('global', 'cla_group').strip('"')
         if cla_group not in self.groups:
@@ -192,7 +210,6 @@ class MakeShellAccounts(AccountSystem):
 
         for group in self.groups:
             group_type = self.groups[group]['type']
-
             if group.startswith('cla_'):
                 continue
             for uid in self.groups[group]['users'] + \
@@ -211,10 +228,25 @@ class MakeShellAccounts(AccountSystem):
             if uid in self.users and user_groupcount[uid] > 0:
                 good_users.add(uid)
 
-        self.good_users = good_users
-        self.group_types = group_types
+        self._good_users = good_users
+        self._group_types = group_types
+
+    def _refresh_good_users(self, force=False):
+        '''Return a list of users in who have CLA + 1 group'''
+        self._refresh_good_users_group_types(force)
+        return self._good_users
+
+    good_users = property(_refresh_good_users)
+
+    def _refresh_group_types(self, force=False):
+        '''Return a list of users in group with various types'''
+        self._refresh_good_users_group_types(force)
+        return self._group_types
+
+    group_types = property(_refresh_group_types)
 
     def filter_users(self, valid_groups=None, restricted_groups=None):
+        '''Return a list of users who get normal and restricted accounts on a machine'''
         if valid_groups is None:
             valid_groups = []
         if restricted_groups is None:
@@ -266,6 +298,7 @@ class MakeShellAccounts(AccountSystem):
         return users
 
     def passwd_text(self, users):
+        '''Create the text password file'''
         i = 0
         home_dir_base = config.get('users', 'home').strip('"')
 
@@ -297,11 +330,12 @@ class MakeShellAccounts(AccountSystem):
         shadow_file.close()
 
     def groups_text(self, users):
+        '''Create the text groups file'''
         i = 0
         group_file = codecs.open(os.path.join(self.temp, 'group.txt'), 'w')
 
         # First create all of our users/groups combo
-        # Only create user groups for users that exist on the system
+        # Only create user groups for users that actually exist on the system
         for uid in users:
             username = self.users[uid]['username']
             group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
@@ -332,10 +366,12 @@ class MakeShellAccounts(AccountSystem):
         group_file.close()
 
     def make_group_db(self, users):
+        '''Compile the groups file'''
         self.groups_text(users)
         subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'group.db'), os.path.join(self.temp, 'group.txt')])
 
     def make_passwd_db(self, users):
+        '''Compile the password and shadow files'''
         self.passwd_text(users)
         subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'passwd.db'), os.path.join(self.temp, 'passwd.txt')])
         subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'shadow.db'), os.path.join(self.temp, 'shadow.txt')])
@@ -343,6 +379,7 @@ class MakeShellAccounts(AccountSystem):
         os.chmod(os.path.join(self.temp, 'shadow.txt'), 00400)
 
     def make_aliases_text(self):
+        '''Create the aliases file'''
         email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
         try:
             email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
@@ -364,6 +401,7 @@ class MakeShellAccounts(AccountSystem):
 
             for uid in self.groups[group]['users']:
                 if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
                     members.add(username)
                 else:
@@ -373,6 +411,7 @@ class MakeShellAccounts(AccountSystem):
 
             for uid in self.groups[group]['sponsors']:
                 if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
                     sponsors.add(username)
                     members.add(username)
@@ -384,6 +423,7 @@ class MakeShellAccounts(AccountSystem):
 
             for uid in self.groups[group]['administrators']:
                 if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
                     administrators.add(username)
                     sponsors.add(username)
@@ -434,7 +474,7 @@ class MakeShellAccounts(AccountSystem):
                 #os.chmod(home_dir, 0700)
 
     def create_ssh_keys(self, users):
-        ''' Create ssh keys '''
+        ''' Create SSH keys '''
         home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
         for uid in users:
             username = self.users[uid]['username']
@@ -453,28 +493,33 @@ class MakeShellAccounts(AccountSystem):
                 os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
     def install_passwd_db(self):
+        '''Install the password database'''
         try:
             move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
         except IOError, e:
             print 'ERROR: Could not install passwd db: %s' % e
 
     def install_shadow_db(self):
+        '''Install the shadow database'''
         try:
             move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
         except IOError, e:
             print 'ERROR: Could not install shadow db: %s' % e
 
     def install_group_db(self):
+        '''Install the group database'''
         try:
             move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
         except IOError, e:
             print 'ERROR: Could not install group db: %s' % e
 
     def install_aliases(self):
+        '''Install the aliases file'''
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
         subprocess.call(['/usr/bin/newaliases'])
 
     def user_info(self, username):
+        '''Print information on a user'''
         person = self.person_by_username(username)
         if not person:
             print 'No such person: %s' % username
@@ -499,13 +544,13 @@ class MakeShellAccounts(AccountSystem):
         else:
             print '    None'
 
-    def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
-
-    def rm_tempdir(self):
-        rmtree(self.temp)
+    def cleanup(self):
+        '''Perform any necessary cleanup tasks'''
+        if self.temp:
+            rmtree(self.temp)
 
 def enable():
+    '''Enable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
     old = open('/etc/sysconfig/authconfig', 'r')
@@ -526,6 +571,7 @@ def enable():
     rmtree(temp)
 
 def disable():
+    '''Disable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
     old = open('/etc/sysconfig/authconfig', 'r')
     new = open(os.path.join(temp, 'authconfig'), 'w')
@@ -578,11 +624,7 @@ if __name__ == '__main__':
     if opts.info_username:
         fas.user_info(opts.info_username)
 
-    if opts.install or opts.aliases:
-        fas.get_data()
-
     if opts.install:
-        fas.mk_tempdir()
         users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
         fas.make_group_db(users)
         fas.make_passwd_db(users)
@@ -597,11 +639,10 @@ if __name__ == '__main__':
             fas.remove_stale_homedirs(users)
         if not opts.no_ssh_keys:
             fas.create_ssh_keys(users)
-        fas.rm_tempdir()
 
     if opts.aliases:
-        fas.mk_tempdir()
         fas.make_aliases_text()
         fas.install_aliases()
-        fas.rm_tempdir()
+
+    fas.cleanup()
 
