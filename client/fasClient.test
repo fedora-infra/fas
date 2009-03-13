@@ -290,12 +290,13 @@ class MakeShellAccounts(AccountSystem):
         passwd_file.close()
         shadow_file.close()
 
-    def groups_text(self):
+    def groups_text(self, users):
         i = 0
         group_file = codecs.open(os.path.join(self.temp, 'group.txt'), 'w')
 
         # First create all of our users/groups combo
-        for uid in self.users:
+        # Only create user groups for users that exist on the system
+        for uid in users:
             username = self.users[uid]['username']
             group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
             group_file.write('0%i %s:x:%s:\n' % (i, username, uid))
@@ -324,8 +325,8 @@ class MakeShellAccounts(AccountSystem):
 
         group_file.close()
 
-    def make_group_db(self):
-        self.groups_text()
+    def make_group_db(self, users):
+        self.groups_text(users)
         subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'group.db'), os.path.join(self.temp, 'group.txt')])
 
     def make_passwd_db(self, users):
@@ -577,7 +578,7 @@ if __name__ == '__main__':
     if opts.install:
         fas.mk_tempdir()
         users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
-        fas.make_group_db()
+        fas.make_group_db(users)
         fas.make_passwd_db(users)
         if not opts.no_group:
             fas.install_group_db()
