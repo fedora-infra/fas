@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -63,6 +63,7 @@ Additional scripts that work as clients to the accounts system.
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg %{buildroot}%{_sysconfdir}
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
+%{__install} -m 700 -d %{buildroot}%{_sharedstatedir}/fas
 %{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
 %find_lang %{name}
 
@@ -82,6 +83,7 @@ Additional scripts that work as clients to the accounts system.
 %{_datadir}/fas/
 %{_sbindir}/start-fas
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
+%attr(0700,root,root) %dir %{_sharedstatedir}/fas
 
 %files clients
 %defattr(-,root,root,-)
@@ -89,6 +91,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Thu Mar 13 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.5.2-2
+- Add /var/lib/fas directory.
+
 * Thu Mar 12 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.5.2-1
 - Bugfix for fasClient alias generation and template fixes for the csrf token.
 

@@ -30,7 +30,10 @@ import datetime
 import subprocess
 import time
 from fedora.client import AccountSystem, AuthError, ServerError
-#import cPickle as pickle
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 
 
 import ConfigParser
@@ -442,8 +445,10 @@ class MakeShellAccounts(AccountSystem):
             if members:
                 email_file.write('%s-members: %s\n' % (group, ','.join(members)))
 
-    def create_home_dirs(self, users):
+    def create_home_dirs(self, users, modes=None):
         ''' Create homedirs and home base dir if they do not exist '''
+        if modes is None:
+            modes = {}
         home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
         if not os.path.exists(home_dir_base):
             os.makedirs(home_dir_base, mode=0755)
@@ -454,6 +459,14 @@ class MakeShellAccounts(AccountSystem):
                 syslog.syslog('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+            else:
+                dir_stat = os.stat(home_dir)
+                if dir_stat.st_uid == 0:
+                    if username in modes:
+                        os.chmod(home_dir, modes[username])
+                    else:
+                        os.chmod(home_dir, 00755)
+                    os.path.walk(home_dir, _chown, [int(uid), int(uid)])
 
     def remove_stale_homedirs(self, users):
         ''' Remove homedirs of users that no longer have access '''
@@ -461,17 +474,17 @@ class MakeShellAccounts(AccountSystem):
         home_backup_dir = os.path.join(prefix, config.get('users', 'home_backup_dir').strip('"').lstrip('/'))
         valid_users = [self.users[uid]['username'] for uid in users]
         current_users = os.listdir(home_dir_base)
+        modes = {}
         for user in current_users:
             if user not in valid_users:
-                if not os.path.exists(home_backup_dir):
-                    os.makedirs(home_backup_dir)
-                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
-                target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
-                move(os.path.join(home_dir_base, user), os.path.join(home_backup_dir, target))
-                # Code for chmod/chown
-                #home_dir = os.path.join(home_dir_base, user)
-                #os.chown(home_dir, 0, 0)
-                #os.chmod(home_dir, 0700)
+                home_dir = os.path.join(home_dir_base, user)
+                dir_stat = os.stat(home_dir)
+                if dir_stat.st_uid != 0:
+                    modes[user] = dir_stat.st_mode
+                    syslog.syslog('Locking permissions on %s' % home_dir)
+                    os.path.walk(home_dir, _chown, [0, 0])
+                    os.chmod(home_dir, 00700)
+        return modes
 
     def create_ssh_keys(self, users):
         ''' Create SSH keys '''
@@ -635,8 +648,23 @@ if __name__ == '__main__':
         if not opts.no_shadow:
             fas.install_shadow_db()
         if not opts.no_home_dirs:
-            fas.create_home_dirs(users)
-            fas.remove_stale_homedirs(users)
+            try:
+                modefile = open(config.get('global', 'modefile'), 'r')
+                modes = pickle.load(modefile)
+            except IOError:
+                modes = {}
+            else:
+                modefile.close()
+            fas.create_home_dirs(users, modes=modes)
+            new_modes = fas.remove_stale_homedirs(users)
+            modes.update(new_modes)
+            try:
+                modefile = open(config.get('global', 'modefile'), 'w')
+                pickle.dump(modes, modefile)
+            except IOError:
+                pass
+            else:
+                modefile.close()
         if not opts.no_ssh_keys:
             fas.create_ssh_keys(users)
 
