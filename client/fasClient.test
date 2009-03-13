@@ -6,6 +6,7 @@ import tempfile
 import logging
 import syslog
 import datetime
+import subprocess
 import time
 from fedora.client import AccountSystem, AuthError, ServerError
 import cPickle as pickle
@@ -105,12 +106,12 @@ try:
         config.read(opts.CONFIG_FILE)
     elif os.path.exists('fas.conf'):
         config.read('fas.conf')
-        print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
+        print >> sys.stderr, 'Could not open %s, defaulting to ./fas.conf' % opts.CONFIG_FILE
     else:
-        print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
+        print >> sys.stderr, 'Could not open %s.' % opts.CONFIG_FILE
         sys.exit(5)
 except ConfigParser.MissingSectionHeaderError, e:
-        print >> sys.stderr, "Config file does not have proper formatting - %s" % e
+        print >> sys.stderr, 'Config file does not have proper formatting - %s' % e
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url').strip('"')
@@ -254,16 +255,16 @@ class MakeShellAccounts(AccountSystem):
             username = self.users[uid]['username']
             human_name = username
             password = self.users[uid]['password']
-            home_dir = "%s/%s" % (home_dir_base, username)
+            home_dir = '%s/%s' % (home_dir_base, username)
             shell = users[uid]['shell']
 
-            passwd_file.write("=%s %s:x:%s:%s:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-            passwd_file.write("0%i %s:x:%s:%s:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-            passwd_file.write(".%s %s:x:%s:%s:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write('=%s %s:x:%s:%s:%s:%s:%s\n' % (uid, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write('0%i %s:x:%s:%s:%s:%s:%s\n' % (i, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write('.%s %s:x:%s:%s:%s:%s:%s\n' % (username, username, uid, uid, human_name, home_dir, shell))
 
-            shadow_file.write("=%s %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
-            shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
-            shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
+            shadow_file.write('=%s %s:%s:99999:0:99999:7:::\n' % (uid, username, password))
+            shadow_file.write('0%i %s:%s:99999:0:99999:7:::\n' % (i, username, password))
+            shadow_file.write('.%s %s:%s:99999:0:99999:7:::\n' % (username, username, password))
             i += 1
 
         passwd_file.close()
@@ -276,9 +277,9 @@ class MakeShellAccounts(AccountSystem):
         # First create all of our users/groups combo
         for uid in self.users:
             username = self.users[uid]['username']
-            group_file.write("=%s %s:x:%s:\n" % (uid, username, uid))
-            group_file.write("0%i %s:x:%s:\n" % (i, username, uid))
-            group_file.write(".%s %s:x:%s:\n" % (username, username, uid))
+            group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
+            group_file.write('0%i %s:x:%s:\n' % (i, username, uid))
+            group_file.write('.%s %s:x:%s:\n' % (username, username, uid))
             i += 1
 
         for group in self.groups:
@@ -296,21 +297,21 @@ class MakeShellAccounts(AccountSystem):
                     pass
 
             memberships = ','.join(members)
-            group_file.write("=%i %s:x:%i:%s\n" % (gid, group, gid, memberships))
-            group_file.write("0%i %s:x:%i:%s\n" % (i, group, gid, memberships))
-            group_file.write(".%s %s:x:%i:%s\n" % (group, group, gid, memberships))
+            group_file.write('=%i %s:x:%i:%s\n' % (gid, group, gid, memberships))
+            group_file.write('0%i %s:x:%i:%s\n' % (i, group, gid, memberships))
+            group_file.write('.%s %s:x:%i:%s\n' % (group, group, gid, memberships))
             i += 1
 
         group_file.close()
 
     def make_group_db(self):
         self.groups_text()
-        os.system('makedb -o %s/group.db %s/group.txt' % (self.temp, self.temp))
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'group.db'), os.path.join(self.temp, 'group.txt')])
 
     def make_passwd_db(self, users):
         self.passwd_text(users)
-        os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
-        os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'passwd.db'), os.path.join(self.temp, 'passwd.txt')])
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'shadow.db'), os.path.join(self.temp, 'shadow.txt')])
         os.chmod(os.path.join(self.temp, 'shadow.db'), 00400)
         os.chmod(os.path.join(self.temp, 'shadow.txt'), 00400)
 
@@ -318,15 +319,16 @@ class MakeShellAccounts(AccountSystem):
         email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
         try:
             email_template = codecs.open(config.get('host', 'aliases_template'))
-        except IOError:
-            print >> sys.stderr, "Could not open aliases template %s, aborting." % config.get('host', 'aliases_template')
+        except IOError, e:
+            print >> sys.stderr, 'Could not open aliases template %s: %s' % (config.get('host', 'aliases_template'), e)
+            print >> sys.stderr, 'Aborting.'
             sys.exit(1)
-        email_file.write("# Generated by fasClient\n")
+        email_file.write('# Generated by fasClient\n')
         for line in email_template.readlines():
             email_file.write(line)
 
         for uid in self.good_users:
-            email_file.write("%s: %s\n" % (self.users[uid]['username'], self.users[uid]['email']))
+            email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
 
         for group in self.groups:
             administrators = set()
@@ -427,23 +429,23 @@ class MakeShellAccounts(AccountSystem):
         try:
             move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
         except IOError, e:
-            print "ERROR: Could not install passwd db - %s" % e
+            print 'ERROR: Could not install passwd db: %s' % e
 
     def install_shadow_db(self):
         try:
             move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
         except IOError, e:
-            print "ERROR: Could not install shadow db - %s" % e
+            print 'ERROR: Could not install shadow db: %s' % e
 
     def install_group_db(self):
         try:
             move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
         except IOError, e:
-            print "ERROR: Could not install group db - %s" % e
+            print 'ERROR: Could not install group db: %s' % e
 
     def install_aliases(self):
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
-        #os.system("newaliases > /dev/null")
+        subprocess.call(['/usr/bin/newaliases'])
 
     def user_info(self, username):
         person = self.person_by_username(username)
@@ -476,12 +478,55 @@ class MakeShellAccounts(AccountSystem):
     def rm_tempdir(self):
         rmtree(self.temp)
 
+def enable():
+    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+
+    old = open('/etc/sysconfig/authconfig', 'r')
+    new = open(temp + '/authconfig', 'w')
+    for line in old:
+        if line.startswith('USEDB'):
+            new.write('USEDB=yes\n')
+        else:
+            new.write(line)
+    new.close()
+    old.close()
+    try:
+        move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
+    except IOError, e:
+        print 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        sys.exit(5)
+    subprocess.call(['/usr/sbin/authconfig', '--updateall'])
+    rmtree(temp)
+
+def disable():
+    temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+    old = open('/etc/sysconfig/authconfig', 'r')
+    new = open(os.path.join(temp, 'authconfig'), 'w')
+    for line in old:
+        if line.startswith('USEDB'):
+            new.write('USEDB=no\n')
+        else:
+            new.write(line)
+    old.close()
+    new.close()
+    try:
+        move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
+    except IOError, e:
+        print 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        sys.exit(5)
+    subprocess.call(['/usr/sbin/authconfig', '--updateall'])
+    rmtree(temp)
 
 if __name__ == '__main__':
 
     if not (opts.install or opts.enable or opts.disable or opts.aliases or opts.info_username):
         parser.print_help()
         sys.exit(0)
+
+    if opts.enable:
+        enable()
+    if opts.disable:
+        disable()
 
     try:
         fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login'), password=config.get('global', 'password'), debug=opts.debug)
