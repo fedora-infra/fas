@@ -386,7 +386,7 @@ class MakeShellAccounts(AccountSystem):
             if not os.path.exists(home_dir):
                 syslog.syslog('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
-                #os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+                os.path.walk(home_dir, _chown, [int(uid), int(uid)])
 
     def remove_stale_homedirs(self, users):
         ''' Remove homedirs of users that no longer have access '''
@@ -423,7 +423,7 @@ class MakeShellAccounts(AccountSystem):
                 f.write(key + '\n')
                 f.close()
                 os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
-                #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
+                os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
     def install_passwd_db(self):
         try:
