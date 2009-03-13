@@ -2,9 +2,13 @@
 import os
 import sys
 import codecs
+import tempfile
 import logging
 import syslog
+import datetime
 from fedora.client import AccountSystem, AuthError, ServerError
+import cPickle as pickle
+
 
 import ConfigParser
 from optparse import OptionParser
@@ -125,20 +129,35 @@ class MakeShellAccounts(AccountSystem):
 
     # Users that are in cla_done + at least one other group
     good_users = None
+    group_types = None
 
     temp = '/tmp'
 
     def get_data(self):
-        group_data = self.group_data()
-        user_data = self.user_data()
+        #group_data = self.group_data()
+        #pickle.dump(group_data, open('group_data.pkl', 'w'))
+        #user_data = self.user_data()
+        #pickle.dump(user_data, open('user_data.pkl', 'w'))
+        # Testing
+        group_data = pickle.load(open('group_data.pkl', 'r'))
+        user_data = pickle.load(open('user_data.pkl', 'r'))
+
+        # The JSON output from FAS encodes dictionary keys as strings, but leaves
+        # array elements as integers (in the case of group member UIDs).  This
+        # normalizes them to all strings.
+        for group in group_data:
+            for role_type in ('administrators', 'sponsors', 'users'):
+                group_data[group][role_type] = [str(uid) for uid in group_data[group][role_type]]
+
         self.users = user_data
         self.groups = group_data
+        # TODO: Make 'cla_done' configurable.
         cla_uids = self.groups['cla_done']['users'] + \
             self.groups['cla_done']['sponsors'] + \
             self.groups['cla_done']['administrators']
 
-        group_types = {}
         user_groupcount = {}
+        group_types = {}
         for uid in cla_uids:
             user_groupcount[uid] = 0
 
@@ -158,10 +177,13 @@ class MakeShellAccounts(AccountSystem):
 
         good_users = set()
         for uid in user_groupcount:
-            if user_groupcount[uid] > 0:
+            # If the user is active, has signed a CLA, and is in at least one
+            # other group, add them to good_users.
+            if uid in self.users and user_groupcount[uid] > 0:
                 good_users.add(uid)
 
         self.good_users = good_users
+        self.group_types = group_types
 
     def filter_users(self, valid_groups=None, restricted_groups=None):
         if valid_groups is None:
@@ -173,59 +195,59 @@ class MakeShellAccounts(AccountSystem):
 
         users = {}
 
-        for uid in self.users:
-            restricted = True
-            for group in all_groups:
-                if group.startswith('@'):
-                    # Filter by group type
-                    group_type = group[1:]
-                    if group_type == 'all':
-                        # It's all good as long as a the user is in CLA + one group
-                        if uid not in self.good_users:
-                            continue
-                    try:
-                        if uid not in self.group_types[group_type]:
-                            continue
-                    except KeyError:
-                        print >> sys.stderr, 'No such group type: %s' % group_type
+        for group in all_groups:
+            uids = set()
+            restricted = group not in valid_groups
+
+            if group.startswith('@'):
+                # Filter by group type
+                group_type = group[1:]
+                if group_type == 'all':
+                    # It's all good as long as a the user is in CLA + one group
+                    uids.update(self.good_users)
                 else:
-                    # Filter by group
-                    try:
-                        if int(uid) not in self.groups[group]['users'] and \
-                           int(uid) not in self.groups[group]['sponsors'] and \
-                           int(uid) not in self.groups[group]['administrators']:
-                            continue
-                        else:
-                            if group in valid_groups:
-                                restricted = False
-                    except KeyError:
-                        print >> sys.stderr, 'No such group: %s' % group
-
-            users[uid] = {}
-            if restricted:
-                users[uid]['shell'] = config.get('users', 'restricted_shell')
-                users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app')
-                users[uid]['ssh_options'] = config.get('users', 'ssh_key_options')
+                    if group_type not in self.group_types:
+                        print >> sys.stderr, 'No such group type: %s' % group_type
+                        continue
+                    uids.update(self.group_types[group_type])
             else:
-                users[uid]['shell'] = '/bin/bash'
-                users[uid]['ssh_cmd'] = ''
-                users[uid]['ssh_options'] = ''
+                if group not in self.groups:
+                    print >> sys.stderr, 'No such group: %s' % group
+                    continue
+                uids.update(self.groups[group]['users'])
+                uids.update(self.groups[group]['sponsors'])
+                uids.update(self.groups[group]['administrators'])
 
+            for uid in uids:
+                if uid not in self.users:
+                    # The user is most likely inactive.
+                    continue
+                if restricted:
+                    # Make sure that the most privileged group wins.
+                    if uid not in users:
+                        users[uid] = {}
+                        users[uid]['shell'] = config.get('users', 'shell')
+                        users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app')
+                        users[uid]['ssh_options'] = config.get('users', 'ssh_key_options')
+                else:
+                    users[uid] = {}
+                    users[uid]['shell'] = config.get('users', 'ssh_restricted_shell')
+                    users[uid]['ssh_cmd'] = ''
+                    users[uid]['ssh_options'] = ''
         return users
 
-
-    def passwd_text(self, users=None):
+    def passwd_text(self, users):
         i = 0
-        #home_dir_base = config.get('users', 'home').strip('"')
+        home_dir_base = config.get('users', 'home').strip('"')
         home_dir_base = '/tmp/home'
 
         # Touch shadow and secure the permissions
-        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
         shadow_file.close()
-        os.chmod(self.temp + '/shadow.txt', 00600)
+        os.chmod(os.path.join(self.temp, 'shadow.txt'), 00600)
 
-        passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
-        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
+        passwd_file = codecs.open(os.path.join(self.temp, 'passwd.txt'), mode='w', encoding='utf-8')
+        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
 
         for uid in users:
             username = self.users[uid]['username']
@@ -248,7 +270,7 @@ class MakeShellAccounts(AccountSystem):
 
     def groups_text(self):
         i = 0
-        group_file = codecs.open(self.temp + '/group.txt', 'w')
+        group_file = codecs.open(os.path.join(self.temp, 'group.txt'), 'w')
 
         # First create all of our users/groups combo
         for uid in self.users:
@@ -263,10 +285,16 @@ class MakeShellAccounts(AccountSystem):
             members = set()
             memberships = ''
 
-            for member_uid in self.groups[group]['administrators']:
-                members.add(self.users[str(member_uid)]['username'])
-                memberships = ','.join(members)
+            for member_uid in self.groups[group]['administrators'] + \
+                self.groups[group]['sponsors'] + \
+                self.groups[group]['users']:
+                try:
+                    members.add(self.users[member_uid]['username'])
+                except KeyError:
+                    # This means that the user is most likely disabled.
+                    pass
 
+            memberships = ','.join(members)
             group_file.write("=%i %s:x:%i:%s\n" % (gid, group, gid, memberships))
             group_file.write("0%i %s:x:%i:%s\n" % (i, group, gid, memberships))
             group_file.write(".%s %s:x:%i:%s\n" % (group, group, gid, memberships))
@@ -278,23 +306,25 @@ class MakeShellAccounts(AccountSystem):
         self.groups_text()
         os.system('makedb -o %s/group.db %s/group.txt' % (self.temp, self.temp))
 
-    def make_passwd_db(self):
-        self.passwd_text()
+    def make_passwd_db(self, users):
+        self.passwd_text(users)
         os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
         os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
-        os.chmod(self.temp + '/shadow.db', 00400)
-        os.chmod(self.temp + '/shadow.txt', 00400)
+        os.chmod(os.path.join(self.temp, 'shadow.db'), 00400)
+        os.chmod(os.path.join(self.temp, 'shadow.txt'), 00400)
 
     def make_aliases_text(self):
-
-        email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
-        #email_template = codecs.open(config.get('host', 'aliases_template'))
+        email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
+        try:
+            email_template = codecs.open(config.get('host', 'aliases_template'))
+        except IOError:
+            print >> sys.stderr, "Could not open aliases template %s, aborting." % config.get('host', 'aliases_template')
+            sys.exit(1)
         email_file.write("# Generated by fasClient\n")
-        #for line in email_template.readlines():
-        #    email_file.write(line)
+        for line in email_template.readlines():
+            email_file.write(line)
 
         for uid in self.good_users:
-            uid = str(uid)
             email_file.write("%s: %s\n" % (self.users[uid]['username'], self.users[uid]['email']))
 
         for group in self.groups:
@@ -304,21 +334,33 @@ class MakeShellAccounts(AccountSystem):
 
             for uid in self.groups[group]['users']:
                 if uid in self.good_users:
-                    email = self.users[str(uid)]['email']
-                    members.add(email)
+                    username = self.users[uid]['username']
+                    members.add(username)
+                else:
+                    if uid in self.users:
+                        members.add(self.users[uid]['email'])
 
             for uid in self.groups[group]['sponsors']:
                 if uid in self.good_users:
-                    email = self.users[str(uid)]['email']
-                    sponsors.add(email)
-                    members.add(email)
+                    username = self.users[uid]['username']
+                    sponsors.add(username)
+                    members.add(username)
+                else:
+                    if uid in self.users:
+                        sponsors.add(self.users[uid]['email'])
+                        members.add(self.users[uid]['email'])
 
             for uid in self.groups[group]['administrators']:
                 if uid in self.good_users:
-                    email = self.users[str(uid)]['email']
-                    administrators.add(email)
-                    sponsors.add(email)
-                    members.add(email)
+                    username = self.users[uid]['username']
+                    administrators.add(username)
+                    sponsors.add(username)
+                    members.add(username)
+                else:
+                    if uid in self.users:
+                        administrators.add(self.users[uid]['email'])
+                        sponsors.add(self.users[uid]['email'])
+                        members.add(self.users[uid]['email'])
 
             if administrators:
                 email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
@@ -327,13 +369,12 @@ class MakeShellAccounts(AccountSystem):
             if members:
                 email_file.write('%s-members: %s\n' % (group, ','.join(members)))
 
-    def create_home_dirs(self):
+    def create_home_dirs(self, users):
         ''' Create homedirs and home base dir if they do not exist '''
-        #home_dir_base = os.path.join(prefix + config.get('users', 'home'))
-        home_dir_base = '/tmp/home'
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').lstrip('/'))
         if not os.path.exists(home_dir_base):
             os.makedirs(home_dir_base, mode=0755)
-        for uid in self.users:
+        for uid in users:
             username = self.users[uid]['username']
             home_dir = os.path.join(home_dir_base, username)
             if not os.path.exists(home_dir):
@@ -341,11 +382,28 @@ class MakeShellAccounts(AccountSystem):
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [int(uid), int(uid)])
 
+    def remove_stale_homedirs(self, users):
+        ''' Remove homedirs of users that no longer have access '''
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        home_backup_dir = os.path.join(prefix, config.get('users', 'home_backup_dir').strip('"').lstrip('/'))
+        valid_users = [self.users[uid]['username'] for uid in users]
+        current_users = os.listdir(home_dir_base)
+        for user in current_users:
+            if user not in valid_users:
+                if not os.path.exists(home_backup_dir):
+                    os.makedirs(home_backup_dir)
+                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
+                target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
+                move(os.path.join(home_dir_base, user), os.path.join(home_backup_dir, target))
+                # Code for chmod/chown
+                #home_dir = os.path.join(home_dir_base, user)
+                #os.chown(home_dir, 0, 0)
+                #os.chmod(home_dir, 0700)
+
     def create_ssh_keys(self, users):
         ''' Create ssh keys '''
-        #home_dir_base = os.path.join(prefix + config.get('users', 'home'))
-        home_dir_base = '/tmp/home'
-        for uid in self.users:
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').lstrip('/'))
+        for uid in users:
             username = self.users[uid]['username']
             ssh_dir = os.path.join(home_dir_base, username, '.ssh')
             if self.users[uid]['ssh_key']:
@@ -358,34 +416,46 @@ class MakeShellAccounts(AccountSystem):
                 f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
                 f.write(key + '\n')
                 f.close()
-                #os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
-                #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
+                os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
+                os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
     def install_passwd_db(self):
         try:
-            move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
+            move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
         except IOError, e:
             print "ERROR: Could not install passwd db - %s" % e
 
     def install_shadow_db(self):
         try:
-            move(self.temp + '/shadow.db', os.path.join(prefix + '/var/db/shadow.db'))
+            move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
         except IOError, e:
             print "ERROR: Could not install shadow db - %s" % e
 
     def install_group_db(self):
         try:
-            move(self.temp + '/group.db', os.path.join(prefix + '/var/db/group.db'))
+            move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
         except IOError, e:
             print "ERROR: Could not install group db - %s" % e
 
     def install_aliases(self):
-        move(self.temp + '/aliases', prefix + '/etc/aliases')
-        os.system("newaliases > /dev/null")
+        move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
+        #os.system("newaliases > /dev/null")
+
+    def mk_tempdir(self):
+        self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+
+    def rm_tempdir(self):
+        rmtree(self.temp)
+
 
 if __name__ == '__main__':
+
+    if not (opts.install or opts.enable or opts.disable or opts.aliases):
+        parser.print_help()
+        sys.exit(0)
+
     try:
-        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login'), password=config.get('global', 'password'), debug=True)
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login'), password=config.get('global', 'password'), debug=opts.debug)
     except AuthError, e:
         sys.stderr.write('%s\n' % str(e))
         sys.exit(1)
@@ -397,18 +467,34 @@ if __name__ == '__main__':
     restricted_groups = []
 
     valid_grouplist = config.get('host', 'groups')
-    restricted_grouplist = config.get('host', 'restricted_groups')
+    restricted_grouplist = config.get('host', 'ssh_restricted_groups')
 
     if valid_grouplist:
         valid_groups = valid_grouplist.split(',')
     if restricted_grouplist:
         restricted_groups = restricted_grouplist.split(',')
 
-    fas.get_data()
-    users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
-    fas.passwd_text(users=users)
-    fas.groups_text()
-    fas.create_home_dirs()
-    fas.create_ssh_keys(users)
-    fas.make_aliases_text()
+    fas.mk_tempdir()
+
+    if opts.install:
+        fas.get_data()
+        users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
+        fas.make_group_db()
+        fas.make_passwd_db(users)
+        if not opts.no_group:
+            fas.install_group_db()
+        if not opts.no_passwd:
+            fas.install_passwd_db()
+        if not opts.no_shadow:
+            fas.install_shadow_db()
+        if not opts.no_home_dirs:
+            fas.create_home_dirs(users)
+            fas.remove_stale_homedirs(users)
+        if not opts.no_ssh_keys:
+            fas.create_ssh_keys(users)
+
+    if opts.aliases:
+        fas.make_aliases_text()
+        fas.install_aliases()
+    fas.rm_tempdir()
 
