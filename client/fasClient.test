@@ -6,6 +6,7 @@ import tempfile
 import logging
 import syslog
 import datetime
+import time
 from fedora.client import AccountSystem, AuthError, ServerError
 import cPickle as pickle
 
@@ -337,6 +338,7 @@ class MakeShellAccounts(AccountSystem):
                     username = self.users[uid]['username']
                     members.add(username)
                 else:
+                    # Add their email if they aren't disabled.
                     if uid in self.users:
                         members.add(self.users[uid]['email'])
 
@@ -346,6 +348,7 @@ class MakeShellAccounts(AccountSystem):
                     sponsors.add(username)
                     members.add(username)
                 else:
+                    # Add their email if they aren't disabled.
                     if uid in self.users:
                         sponsors.add(self.users[uid]['email'])
                         members.add(self.users[uid]['email'])
@@ -357,6 +360,7 @@ class MakeShellAccounts(AccountSystem):
                     sponsors.add(username)
                     members.add(username)
                 else:
+                    # Add their email if they aren't disabled.
                     if uid in self.users:
                         administrators.add(self.users[uid]['email'])
                         sponsors.add(self.users[uid]['email'])
@@ -380,7 +384,7 @@ class MakeShellAccounts(AccountSystem):
             if not os.path.exists(home_dir):
                 syslog.syslog('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
-                os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+                #os.path.walk(home_dir, _chown, [int(uid), int(uid)])
 
     def remove_stale_homedirs(self, users):
         ''' Remove homedirs of users that no longer have access '''
@@ -417,7 +421,7 @@ class MakeShellAccounts(AccountSystem):
                 f.write(key + '\n')
                 f.close()
                 os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
-                os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
+                #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
     def install_passwd_db(self):
         try:
@@ -441,6 +445,31 @@ class MakeShellAccounts(AccountSystem):
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
         #os.system("newaliases > /dev/null")
 
+    def user_info(self, username):
+        person = self.person_by_username(username)
+        if not person:
+            print 'No such person: %s' % username
+            return
+        print 'User: %s' % person['username']
+        print ' Name: %s' % person['human_name']
+        print ' Created: %s' % person['creation'].split(' ')[0]
+        print ' Timezone: %s' % person['timezone']
+        print ' IRC Nick: %s' % person['ircnick']
+        print ' Locale: %s' % person['locale']
+        print ' Status: %s' % person['status']
+        print ' Approved Groups: '
+        if person['approved_memberships']:
+            for group in person['approved_memberships']:
+                print '   %s' % group['name']
+        else:
+            print '    None'
+        print ' Unapproved Groups: '
+        if person['unapproved_memberships']:
+            for group in person['unapproved_memberships']:
+                print '   %s' % group['name']
+        else:
+            print '    None'
+
     def mk_tempdir(self):
         self.temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
@@ -450,7 +479,7 @@ class MakeShellAccounts(AccountSystem):
 
 if __name__ == '__main__':
 
-    if not (opts.install or opts.enable or opts.disable or opts.aliases):
+    if not (opts.install or opts.enable or opts.disable or opts.aliases or opts.info_username):
         parser.print_help()
         sys.exit(0)
 
@@ -474,9 +503,11 @@ if __name__ == '__main__':
     if restricted_grouplist:
         restricted_groups = restricted_grouplist.split(',')
 
-    fas.mk_tempdir()
+    if opts.info_username:
+        fas.user_info(opts.info_username)
 
     if opts.install:
+        fas.mk_tempdir()
         fas.get_data()
         users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
         fas.make_group_db()
@@ -492,9 +523,11 @@ if __name__ == '__main__':
             fas.remove_stale_homedirs(users)
         if not opts.no_ssh_keys:
             fas.create_ssh_keys(users)
+        fas.rm_tempdir()
 
     if opts.aliases:
+        fas.mk_tempdir()
         fas.make_aliases_text()
         fas.install_aliases()
-    fas.rm_tempdir()
+        fas.rm_tempdir()
 
