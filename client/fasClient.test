@@ -129,10 +129,10 @@ try:
         config.read('fas.conf')
         print >> sys.stderr, 'Could not open %s, defaulting to ./fas.conf' % opts.CONFIG_FILE
     else:
-        print >> sys.stderr, 'Could not open %s.' % opts.CONFIG_FILE
+        print >> sys.stderr, 'Could not open %s' % opts.CONFIG_FILE
         sys.exit(5)
 except ConfigParser.MissingSectionHeaderError, e:
-        print >> sys.stderr, 'Config file does not have proper formatting - %s' % e
+        print >> sys.stderr, 'Config file does not have proper formatting: %s' % e
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url').strip('"')
@@ -174,10 +174,16 @@ class MakeShellAccounts(AccountSystem):
 
         self.users = user_data
         self.groups = group_data
-        # TODO: Make 'cla_done' configurable.
-        cla_uids = self.groups['cla_done']['users'] + \
-            self.groups['cla_done']['sponsors'] + \
-            self.groups['cla_done']['administrators']
+
+        cla_group = config.get('global', 'cla_group').strip('"')
+        if cla_group not in self.groups:
+            print >> sys.stderr, 'No such group: %s' % cla_group
+            print >> sys.stderr, 'Aborting.'
+            sys.exit(1)
+
+        cla_uids = self.groups[cla_group]['users'] + \
+            self.groups[cla_group]['sponsors'] + \
+            self.groups[cla_group]['administrators']
 
         user_groupcount = {}
         group_types = {}
@@ -555,7 +561,7 @@ if __name__ == '__main__':
         sys.stderr.write('%s\n' % str(e))
         sys.exit(1)
     except URLError, e:
-        sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL, e.reason[1]))
+        sys.stderr.write('Could not connect to %s: %s\n' % (FAS_URL, e.reason[1]))
         sys.exit(9)
 
     valid_groups = []
