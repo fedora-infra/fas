@@ -46,8 +46,8 @@ if __name__ == '__main__':
     whitelist = config.get('whitelist').split(',')
     
     for person in people:
-        if person.username in whitelist:
-            # Don't disable whitelisted accounts
+        if person.id < 10000 or person.username in whitelist:
+            # Don't disable system accounts or whitelisted accounts
             continue
         if person.status != 'active':
             # They're already deactivated.
