@@ -65,6 +65,7 @@ class SaFasIdentity(object):
 
     def __init__(self, visit_key=None, user=None, using_ssl=False):
         self.visit_key = visit_key
+        self._visit_link = None
         if user:
             self._user = user
             if visit_key is not None:
@@ -201,9 +202,13 @@ class SaFasIdentity(object):
     ### TG: Same as TG-1.0.8
     def _get_visit_link(self):
         '''Get the visit link to this identity.'''
+        if self._visit_link:
+            return self.visit_link
         if self.visit_key is None:
-            return None
-        return visit_class.query.filter_by(visit_key=self.visit_key).first()
+            self._visit_link = None
+        else:
+            self._visit_link =  visit_class.query.filter_by(visit_key=self.visit_key).first()
+        return self._visit_link
     visit_link = property(_get_visit_link)
 
     ### TG: Same as TG-1.0.8

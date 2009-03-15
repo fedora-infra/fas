@@ -285,8 +285,7 @@ class People(SABase):
         session.expunge(self)
 
         # Full disclosure to admins
-        if identity.in_group(admin_group) or \
-                identity.in_group(system_group):
+        if identity.in_any_group(admin_group, system_group):
             return
 
         # The user themselves gets everything except internal_comments and
@@ -299,7 +298,6 @@ class People(SABase):
 
         # Nobody other than the user, admin, or system users can get passwords.
         self.password = '*'
-        
 
         # If the user opts-out of the publically available info, this all gets
         # hidden
