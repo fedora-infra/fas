@@ -466,7 +466,7 @@ class MakeShellAccounts(AccountSystem):
                         os.chmod(home_dir, modes[username])
                     else:
                         os.chmod(home_dir, 00755)
-                    os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+                    os.chown(home_dir, int(uid), int(uid))
 
     def remove_stale_homedirs(self, users):
         ''' Remove homedirs of users that no longer have access '''
@@ -482,7 +482,7 @@ class MakeShellAccounts(AccountSystem):
                 if dir_stat.st_uid != 0:
                     modes[user] = dir_stat.st_mode
                     syslog.syslog('Locking permissions on %s' % home_dir)
-                    os.path.walk(home_dir, _chown, [0, 0])
+                    os.chown(home_dir, 0, 0)
                     os.chmod(home_dir, 00700)
         return modes
 
