@@ -203,7 +203,7 @@ class SaFasIdentity(object):
     def _get_visit_link(self):
         '''Get the visit link to this identity.'''
         if self._visit_link:
-            return self.visit_link
+            return self._visit_link
         if self.visit_key is None:
             self._visit_link = None
         else:
