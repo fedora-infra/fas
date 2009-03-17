@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# Test commit.
 msgid ""
 msgstr ""
 "Project-Id-Version: fedorahosted.org website\n"
