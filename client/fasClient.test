@@ -510,21 +510,21 @@ class MakeShellAccounts(AccountSystem):
         try:
             move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
         except IOError, e:
-            print 'ERROR: Could not install passwd db: %s' % e
+            print >> sys.stderr, 'ERROR: Could not install passwd db: %s' % e
 
     def install_shadow_db(self):
         '''Install the shadow database'''
         try:
             move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
         except IOError, e:
-            print 'ERROR: Could not install shadow db: %s' % e
+            print >> sys.stderr, 'ERROR: Could not install shadow db: %s' % e
 
     def install_group_db(self):
         '''Install the group database'''
         try:
             move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
         except IOError, e:
-            print 'ERROR: Could not install group db: %s' % e
+            print >> sys.stderr, 'ERROR: Could not install group db: %s' % e
 
     def install_aliases(self):
         '''Install the aliases file'''
@@ -578,7 +578,7 @@ def enable():
     try:
         move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
         sys.exit(5)
     subprocess.call(['/usr/sbin/authconfig', '--updateall'])
     rmtree(temp)
@@ -598,7 +598,7 @@ def disable():
     try:
         move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
         sys.exit(5)
     subprocess.call(['/usr/sbin/authconfig', '--updateall'])
     rmtree(temp)
@@ -617,10 +617,10 @@ if __name__ == '__main__':
     try:
         fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
     except AuthError, e:
-        sys.stderr.write('%s\n' % str(e))
+        print >> sys.stderr, str(e)
         sys.exit(1)
     except URLError, e:
-        sys.stderr.write('Could not connect to %s: %s\n' % (FAS_URL, e.reason[1]))
+        print >> sys.stderr, 'Could not connect to %s: %s\n' % (FAS_URL, e.reason[1])
         sys.exit(9)
 
     valid_groups = []
