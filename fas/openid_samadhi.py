@@ -35,6 +35,7 @@ from openid.server import server
 from openid.consumer import discover
 
 from urlparse import urljoin
+from urllib import unquote
 
 from fas.user import KnownUser
 from fas.model import People
@@ -140,7 +141,7 @@ class OpenID(controllers.Controller):
             session['last_request'] = request_dict
 
         if identity.current.anonymous:
-            return redirect('/openid/login', trust_root=trust_root)
+            return redirect('login', trust_root=trust_root)
 
         elif isauthorized == False:
             return self.respond(openid_request.answer(False))
@@ -236,6 +237,7 @@ class OpenID(controllers.Controller):
         return self.checkidrequest(openid_request)
 
     def request_from_session(self, trust_root):
+        trust_root = unquote(trust_root)
         if 'last_request' in session:
             if trust_root in session['last_request']:
                 return session['last_request'][trust_root]
