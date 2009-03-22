@@ -360,7 +360,7 @@ class SaFasIdentityProvider(object):
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
-        return user.password == crypt.crypt(password, user.password)
+        return user.password == crypt.crypt(password.encode('utf-8'), user.password)
 
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
