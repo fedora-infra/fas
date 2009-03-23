@@ -1,7 +1,7 @@
 # Italian translation of FAS.
 # This file is distributed under the same license as the FAS project.
 #
-# Francesco Tombolini <tombo@adamantio.net>, 2008.
+# Francesco Tombolini <tombo@adamantio.net>, 2008, 2009.
 # Silvio Pierro <perplesso82@gmail.com>, 2008.
 # Franco Godone <francog@fedoraproject.org>, 2008.
 # mario_santagiuliana <mario at marionline.it>, 2009.
