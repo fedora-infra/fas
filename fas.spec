@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -73,7 +73,7 @@ Additional scripts that work as clients to the accounts system.
 
 %pre
 /usr/sbin/useradd -c 'Fedora Acocunt System user' -s /sbin/nologin \
-    -r -M -d %{_datadir}fas fas &> /dev/null || :
+    -r -M -d %{_datadir}/fas fas &> /dev/null || :
 
 
 %files -f %{name}.lang
@@ -91,6 +91,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Sun Apr 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.5.2-3
+- Fix fas user's home directory (was missing a slash).
+
 * Thu Mar 13 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.5.2-2
 - Add /var/lib/fas directory.
 
