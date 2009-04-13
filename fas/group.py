@@ -379,7 +379,7 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose(template='fas.templates.group.view')
+    @expose(template='fas.templates.group.view', allow_json=True)
     def apply(self, groupname, targetname=None):
         '''Apply to a group'''
         username = turbogears.identity.current.user_name
