@@ -112,11 +112,13 @@ class JsonRequest(controllers.Controller):
                 people[id] = {
                     'username': person[1],
                     'password': '*',
-                    'ssh_key': person[3],
+                    'ssh_key': '',
                     'email': person[4],
                 }
                 if privs['system']:
                     people[id]['password'] = person[2]
+                if privs['thirdparty']:
+                    people[id]['ssh_key'] = person[3]
             return dict(success=True, data=people)
 
         return dict(success=False)

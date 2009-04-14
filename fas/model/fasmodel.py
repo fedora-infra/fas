@@ -288,6 +288,10 @@ class People(SABase):
         if identity.in_any_group(admin_group, system_group):
             return
 
+        # Only admins/system users, or thirdparty users get SSH keys.
+        if not identity.in_group(thirdparty_group):
+            self.ssh_key = None
+
         # The user themselves gets everything except internal_comments and
         # *token fields (for verifying changes of email address, password.
         self.passwordtoken = None
@@ -304,7 +308,6 @@ class People(SABase):
         if self.privacy:
             self.human_name = None
             self.gpg_keyid = None
-            self.ssh_key = None
             self.password_changed = None
             self.unverified_email = None
             self.postal_address = None
