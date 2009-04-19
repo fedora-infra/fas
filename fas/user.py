@@ -735,6 +735,19 @@ forward to working with you!
             turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
                 {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
+        if person.status = ('bot'):
+            turbogears.flash(_("System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset") % \
+                    {'admin_email': config.get('accounts_email')})
+            message = turbomail.Message(config.get('accounts_email'),
+                    config.get('accounts_email'),
+                    _('Warning: attempted reset of system account'))
+            message.plain = _('''
+Warning: Someone attempted to reset the password for system account
+%(account)s via the web interface.
+''') % {'account': username}
+            turbomail.enqueue(message)
+            return dict()
+
         token = generate_token()
         message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
         mail = _('''
