@@ -32,6 +32,10 @@ from fas.model import Groups
 from fas.model import PersonRoles
 from fas.model import PeopleTable
 
+import cPickle as pickle
+from time import time
+import os
+
 class JsonRequest(controllers.Controller):
     def __init__(self):
         """Create a JsonRequest Controller."""
@@ -61,7 +65,7 @@ class JsonRequest(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
-    def fas_client(self, data=None):
+    def fas_client(self, data=None, force_refresh=None):
         admin_group = config.get('admingroup', 'accounts')
         system_group = config.get('systemgroup', 'fas-system')
         thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
@@ -80,6 +84,18 @@ class JsonRequest(controllers.Controller):
             privs['thirdparty'] = True
 
         if data == 'group_data':
+            try:
+              cache_age = time() - os.path.getctime('/var/tmp/groups.pkl')
+              if not force_refresh or cache_age < 600:
+                  f = open('/var/tmp/groups.pkl', 'r')
+                  groups = pickle.load(f)
+                  f.close()
+                  return dict(success=True, data=groups)
+            except OSError:
+                pass
+            except IOError:
+                pass
+
             groups = {}
             groups_list = Groups.query.options(eagerload('approved_roles')).all()
             for group in groups_list:
@@ -97,8 +113,24 @@ class JsonRequest(controllers.Controller):
                         groups[group.name]['sponsors'].append(role.person_id)
                     elif role.role_type == 'user':
                         groups[group.name]['users'].append(role.person_id)
+            # Save pickle cache
+            f = open('/var/tmp/groups.pkl', 'w')
+            pickle.dump(groups,f)
+            f.close()
             return dict(success=True, data=groups)
         elif data == 'user_data':
+            try:
+              cache_age = time() - os.path.getctime('/var/tmp/users.pkl')
+              if not force_refresh or cache_age < 600:
+                  f = open('/var/tmp/users.pkl', 'r')
+                  people = pickle.load(f)
+                  f.close()
+                  return dict(success=True, data=people)
+            except OSError:
+                pass
+            except IOError:
+                pass
+
             people = {}
             people_list = select([
                 PeopleTable.c.id,
@@ -119,6 +151,11 @@ class JsonRequest(controllers.Controller):
                     people[id]['password'] = person[2]
                 if privs['thirdparty']:
                     people[id]['ssh_key'] = person[3]
+          # Save pickle cache
+            print "got here"
+            f = open('/var/tmp/users.pkl', 'w')
+            pickle.dump(people,f)
+            f.close()
             return dict(success=True, data=people)
 
         return dict(success=False)
