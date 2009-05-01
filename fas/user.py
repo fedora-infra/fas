@@ -735,7 +735,7 @@ forward to working with you!
             turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
                 {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
-        if person.status = ('bot'):
+        if person.status == ('bot'):
             turbogears.flash(_("System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset") % \
                     {'admin_email': config.get('accounts_email')})
             message = turbomail.Message(config.get('accounts_email'),
