@@ -464,13 +464,12 @@ class MakeShellAccounts(AccountSystem):
         for person in self.people:
             username = person['username']
             uid = person['id']
-            human_name = person['human_name']
             password = person['password']
             home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
             shell = self.shell(username)
-            passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, human_name, home_dir, shell))
-            passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, human_name, home_dir, shell))
-            passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, username, home_dir, shell))
+            passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, username, home_dir, shell))
+            passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, username, home_dir, shell))
             shadow_file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
             shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
             shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
