@@ -119,17 +119,18 @@ class JsonRequest(controllers.Controller):
             f.close()
             return dict(success=True, data=groups)
         elif data == 'user_data':
-            try:
-              cache_age = time() - os.path.getctime('/var/tmp/users.pkl')
-              if not force_refresh or cache_age < 600:
-                  f = open('/var/tmp/users.pkl', 'r')
-                  people = pickle.load(f)
-                  f.close()
-                  return dict(success=True, data=people)
-            except OSError:
-                pass
-            except IOError:
-                pass
+            if privs['system']:
+              try:
+                cache_age = time() - os.path.getctime('/var/tmp/users.pkl')
+                if not force_refresh or cache_age < 600:
+                    f = open('/var/tmp/users.pkl', 'r')
+                    people = pickle.load(f)
+                    f.close()
+                    return dict(success=True, data=people)
+              except OSError:
+                  pass
+              except IOError:
+                  pass
 
             people = {}
             people_list = select([
@@ -152,10 +153,11 @@ class JsonRequest(controllers.Controller):
                 if privs['thirdparty']:
                     people[id]['ssh_key'] = person[3]
           # Save pickle cache
-            print "got here"
-            f = open('/var/tmp/users.pkl', 'w')
-            pickle.dump(people,f)
-            f.close()
+            if privs['system']:
+                print "got here"
+                f = open('/var/tmp/users.pkl', 'w')
+                pickle.dump(people,f)
+                f.close()
             return dict(success=True, data=people)
 
         return dict(success=False)
