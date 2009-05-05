@@ -288,10 +288,6 @@ class People(SABase):
         if identity.in_any_group(admin_group, system_group):
             return
 
-        # Only admins/system users, or thirdparty users get SSH keys.
-        if not identity.in_group(thirdparty_group):
-            self.ssh_key = None
-
         # The user themselves gets everything except internal_comments and
         # *token fields (for verifying changes of email address, password.
         self.passwordtoken = None
@@ -302,6 +298,11 @@ class People(SABase):
 
         # Nobody other than the user, admin, or system users can get passwords.
         self.password = '*'
+
+        # Only admins/system users, thirdparty users, and the user themselves
+        # get SSH keys.
+        if not identity.in_group(thirdparty_group):
+            self.ssh_key = None
 
         # If the user opts-out of the publically available info, this all gets
         # hidden
@@ -327,10 +328,6 @@ class People(SABase):
             self.postal_address = None
             self.telephone = None
             self.facsimile = None
-
-        # Note: Currently third party systems follow the constraints for
-        # publically available andprivately available information so they
-        # don't need a separate check.
 
         # Anonymous users get very little
         if identity.current.anonymous:
