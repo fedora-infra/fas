@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-01-21 17:01-0500\n"
-"PO-Revision-Date: 2009-04-18 23:46+0100\n"
+"PO-Revision-Date: 2009-05-07 19:40+0100\n"
 "Last-Translator: Cornelius Neckenig <tbull@fedoraproject.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 #: fas/auth.py:158
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr "%s-Mitgliedschaft wird benötigt, bevor der Zugang zu dieser Gruppe erlaubt wird."
+msgstr "%s-Mitgliedschaft wird benötigt, bevor die Anmeldung zu dieser Gruppe erlaubt wird."
 
 #: fas/cla.py:145
 msgid "You are not allowed to reject CLAs."
-msgstr "Sie sind nicht berechtigt das CLA abzulehnen."
+msgstr "Sie sind nicht berechtigt CLAs abzulehnen."
 
 #: fas/cla.py:156
 #, python-format
@@ -34,7 +34,7 @@ msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
 msgstr ""
-"Fehler beim Entfernen des CLA und abhängige Gruppen für %(person)s\n"
+"Fehler beim Entfernen des CLA und abhängigen Gruppen für %(person)s\n"
 " Fehler war: %(error)s"
 
 #: fas/cla.py:196
@@ -43,11 +43,11 @@ msgstr "CLA erfolgreich entfernt."
 
 #: fas/cla.py:215
 msgid "You have already completed the CLA."
-msgstr "Sie haben den CLA bereits abgeschlossen."
+msgstr "Sie haben bereits das CLA abgeschlossen."
 
 #: fas/cla.py:219
 msgid "You have not completed the CLA."
-msgstr "Sie haben den CLA noch nicht komplettiert."
+msgstr "Sie haben das CLA noch nicht vervollständigt."
 
 #: fas/cla.py:222
 msgid "You must confirm that your personal information is accurate."
@@ -59,19 +59,19 @@ msgstr "Ihre aktualisierten Informationen konnten nicht gespeichert werden."
 
 #: fas/cla.py:247
 msgid "To complete the CLA, we must have your name, telephone number, postal address, and country.  Please ensure they have been filled out."
-msgstr "Um das CLA abzuschliessen, müssen Sie Ihre Telefonnummer, Ihre Postadresse und Ihr Land angeben. Bitte stellen Sie sicher, dass diese ausgefüllt sind."
+msgstr "Um das CLA abzuschliessen, müssen Sie Ihren Namen, Telefonnummer, Postadresse und Ihr Land angeben. Bitte stellen Sie sicher, dass diese Felder ausgefüllt sind."
 
 #: fas/cla.py:251
 msgid "To complete the CLA, a valid country code must be specified.  Please select one now."
-msgstr "Zum Vervollständigen des CLA muss ein gültiger Länder-Code angegeben sein. Bitte geben Sie einen an."
+msgstr "Zur Vervollständigung des CLA muss einen gültigen Länder-Code angegeben werden. Bitte tun Sie dies."
 
 #: fas/cla.py:254
 msgid "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", or \" \".  Please reenter using only those characters."
-msgstr "Telefon-Nummern können nur Zahlen, \"-\", \"+\", \"(\", \")\" oder \" \" enthalten. Bitte geben Sie sie erneut nur mit diesen Zeichen ein."
+msgstr "Telefon-Nummern können nur Zahlen, \"-\", \"+\", \"(\", \")\" oder \" \" enthalten. Bitte wiederholen Sie Ihre Eingabe nur mit diesen Zeichen."
 
 #: fas/cla.py:258
 msgid "Can the postal system really deliver to that address?"
-msgstr "Kann ein Postsystem wirklich zu dieser Adresse liefern?"
+msgstr "Kann ein Postsystem wirklich zu dieser Adresse zustellen?"
 
 #: fas/cla.py:271
 #: fas/cla.py:283
@@ -82,27 +82,27 @@ msgstr "Sie konnten nicht zur '%s'-Gruppe hinzugefügt werden."
 #: fas/cla.py:280
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr "Sie sind bereits Teil der der '%s'-Gruppe."
+msgstr "Sie sind bereits Mitglied der der '%s'-Gruppe."
 
 #: fas/cla.py:319
 #, python-format
 msgid "You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr "Sie haben das CLA erfolgreich abgeschlossen. Sie sind nun in der '%s'-Gruppe."
+msgstr "Sie haben das CLA erfolgreich abgeschlossen. Sie sind nun Mitglied der '%s'-Gruppe."
 
 #: fas/configs.py:118
 #, python-format
 msgid "You cannot look at configs for %s"
-msgstr "Sie können die Konfiguration nicht anssehen für %s"
+msgstr "Sie können die Konfigurationen für %s nicht ansehen."
 
 #: fas/configs.py:159
 #, python-format
 msgid "You cannot edit configs for %s"
-msgstr "Sie können die Konfigurations für %s nicht bearbeiten"
+msgstr "Sie können die Konfigurationen für %s nicht bearbeiten."
 
 #: fas/configs.py:183
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr "FEhler beim Speichern der Konfiguration in der DAtenbank: %s"
+msgstr "Fehler beim Speichern der Konfiguration in die Datenbank: %s"
 
 #: fas/configs.py:187
 msgid "Config value successfully updated"
@@ -115,24 +115,24 @@ msgstr "Willkommen, %s"
 
 #: fas/controllers.py:205
 msgid "Your old password has expired.  Please reset your password below."
-msgstr "Ihre Passwort ist abgelaufen. Bitte setzen Sie melden Sie sich damit an und ändern Sie Ihr Passwort"
+msgstr "Ihr altes Passwort ist abgelaufen. Bitte setzen Sie unterhalb Ihr Passwort zurück."
 
 #: fas/controllers.py:215
 #, python-format
 msgid "Your account is currently disabled.  For more information, please contact %(admin_email)sadmin_email"
-msgstr "Ihr Konto ist momentan deaktiviert. Für mehr Informationen, kontaktieren Sie bitte %(admin_email)s"
+msgstr "Ihr Konto ist momentan deaktiviert. Für weitere Informationen kontaktieren Sie bitte %(admin_email)sadmin_email"
 
 #: fas/controllers.py:218
 msgid "The credentials you supplied were not correct or did not grant access to this resource."
-msgstr "Die Zugangsdaten, die Sie eingegeben haben, sind nicht korrekt oder erlauben Ihnen keinen Zugriff auf diese Ressource."
+msgstr "Die eingegebenen Zugangsdaten sind nicht korrekt oder erlauben Ihnen keinen Zugriff auf diese Ressource."
 
 #: fas/controllers.py:221
 msgid "You must provide your credentials before accessing this resource."
-msgstr "Sie müssen Ihre Zugangsdaten eingeben, um auf diese Ressource zugreifen zu können."
+msgstr "Sie müssen Ihre Zugangsdaten eingeben, bevor Sie auf diese Ressource zugreifen können."
 
 #: fas/controllers.py:224
 msgid "Please log in."
-msgstr "Bitte anmelden."
+msgstr "Bitte melden Sie sich an."
 
 #: fas/controllers.py:235
 msgid "You have successfully logged out."
@@ -152,22 +152,22 @@ msgstr "Sie können '%s' nicht ansehen"
 #: fas/group.py:209
 #: fas/group.py:227
 msgid "Only FAS adminstrators can create groups."
-msgstr "Nur FAS-Adminstratoren können Gruppen anlegen."
+msgstr "Nur FAS-Administratoren können Gruppen anlegen."
 
 #: fas/group.py:246
 #, python-format
 msgid "The group: '%s' could not be created."
-msgstr "Die Gruppe: '%s' konnte nicht erstellt werden."
+msgstr "Die Gruppe '%s' konnte nicht erstellt werden."
 
 #: fas/group.py:256
 #, python-format
 msgid "The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator."
-msgstr "Die Gruppe: '%(group)s' wurde erstellt, aber '%(user)s' konnte nicht als Gruppen-Administrator hinzugefügt werden."
+msgstr "Die Gruppe '%(group)s' wurde erstellt, aber '%(user)s' konnte nicht als Gruppen-Administrator hinzugefügt werden."
 
 #: fas/group.py:258
 #, python-format
 msgid "The group: '%s' has been created."
-msgstr "Die Gruppe: '%s' wurde erstellt."
+msgstr "Die Gruppe '%s' wurde erstellt."
 
 #: fas/group.py:273
 #: fas/group.py:291
@@ -177,32 +177,32 @@ msgstr "Sie können '%s' nicht bearbeiten."
 
 #: fas/group.py:316
 msgid "The group details could not be saved."
-msgstr "Die Gruppen-Details konnte nicht gespeichert werden."
+msgstr "Gruppen-Details konnten nicht gespeichert werden."
 
 #: fas/group.py:318
 msgid "The group details have been saved."
-msgstr "Die Gruppen-Details wurde gespeichert."
+msgstr "Gruppen-Details gespeichert."
 
 #: fas/group.py:347
 #, python-format
 msgid "No Groups found matching '%s'"
-msgstr "Keine passende Gruppe gefunden '%s'"
+msgstr "Keine passende Gruppe für  '%s' gefunden"
 
 #: fas/group.py:372
 #: fas/group.py:394
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
-msgstr "%(user)s kann %(group)s nicht beantragen."
+msgstr "%(user)s kann nicht in die %(group)s-Gruppe aufgenommen werden ."
 
 #: fas/group.py:402
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr "%(user)s kann %(group)s nicht beantragen: %(error)s"
+msgstr "%(user)s konnte nicht in %(group)s-Gruppe aufgenommen werden: %(error)s"
 
 #: fas/group.py:427
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr "Anwendung auf die '%(group)s'-Gruppe"
+msgstr "Bewerbung für die '%(group)s'-Gruppe"
 
 #: fas/group.py:429
 #, python-format
@@ -213,14 +213,14 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr ""
 "\n"
-"Danke für das BEantragen des Beitritts für die %(group)s-Gruppe.  \n"
+"Danke für die Bewerbung für die %(group)s-Gruppe.  \n"
 "\n"
 "%(joinmsg)s\n"
 
 #: fas/group.py:439
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
-msgstr "%(user)s wurde bestätigt für %(group)s!"
+msgstr "%(user)s wurde in die %(group)s-Gruppe aufgenommen!"
 
 #: fas/group.py:456
 #, python-format
@@ -242,8 +242,8 @@ msgid ""
 msgstr ""
 "\n"
 "%(user)s <%(email)s> hat Ihre Mitgliedschaft in der %(group)s-Gruppe\n"
-"des Fedora-Kontosystem gesponsert. Falls anwendbar, sollte sich diese\n"
-"Änderung in den Email-Aliase und CVS-Repository innerhalb einer Stunde verbreiten.\n"
+"des Fedora-Kontosystems gesponsert. Falls zutreffend, sollte sich diese\n"
+"Änderung innerhalb einer Stunde in den E-Mail-Aliasen und dem CVS-Repository verbreiten.\n"
 
 #: fas/group.py:474
 #, python-format
@@ -253,12 +253,12 @@ msgstr "'%s' wurde gesponsert!"
 #: fas/group.py:491
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
-msgstr "Sie können '%(user)s' nicht aus '%(group)s' entfernen."
+msgstr "Sie können '%(user)s' nicht aus der '%(group)s'-Gruppe entfernen."
 
 #: fas/group.py:498
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
-msgstr "%(user)s konnte nicht aus %(group)s entfernt werden: %(error)s"
+msgstr "-\"%(user)s konnte nicht aus der %(group)s-Gruppe entfernt werden: %(error)s"
 
 #: fas/group.py:503
 #, python-format
@@ -271,24 +271,24 @@ msgid ""
 msgstr ""
 "\n"
 "%(user)s <%(email)s> hat Sie aus der '%(group)s'-Gruppe im\n"
-"Fedora-Kontosystem entfernt. Diese Änderung ist sofort aktiv\n"
-"für neue Arbeitsgänge und sollte sich innerhalb einer Stunde in\n"
-"den Email-Aliase verbreiten.\n"
+"Fedora-Kontosystem entfernt. Diese Änderung tritt mit sofortiger\n"
+"Wirkung auf neue Arbeitsgänge ein und sollte sich innerhalb\n"
+"einer Stunde in den E-Mail-Aliasen verbreiten.\n"
 
 #: fas/group.py:510
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
-msgstr "%(name)s wurde aus %(group)s entfernt"
+msgstr "%(name)s wurde aus der %(group)s-Gruppe entfernt"
 
 #: fas/group.py:528
 #, python-format
 msgid "You cannot upgrade '%s'"
-msgstr "Sie können '%s' nicht höherstufen"
+msgstr "Sie können '%s' nicht befördern"
 
 #: fas/group.py:535
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr "%(name)s konnte nicht hinaufgestuft werden in %(group)s: %(error)s"
+msgstr "%(name)s konnte in der %(group)s-Gruppe nicht befördert werden: %(error)s"
 
 #: fas/group.py:543
 #, python-format
@@ -301,24 +301,24 @@ msgid ""
 msgstr ""
 "\n"
 "%(user)s <%(email)s> hat Ihren Status zum %(status)s-Status in der\n"
-"'%(group)s'-Gruppe im Fedora-Kontosystem erhöht. Diese Änderung ist\n"
-"sofort aktiv für neue Arbeitsvorgänge und sollte sich innerhalb einer \n"
-"Stunde in den Email-Aliase verbreiten.\n"
+"'%(group)s'-Gruppe im Fedora-Kontosystem befördert.\n"
+"Diese Änderung tritt mit sofortiger Wirkung auf neue Arbeitsgänge\n"
+"ein und sollte sich innerhalb einer Stunde in den E-Mail-Aliasen verbreiten.\n"
 
 #: fas/group.py:550
 #, python-format
 msgid "%s has been upgraded!"
-msgstr "%s wurde höhergestuft!"
+msgstr "%s wurde befördert!"
 
 #: fas/group.py:566
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr "Sie können '%s' nicht herunterstufen"
+msgstr "Sie können '%s' nicht herunterstufen."
 
 #: fas/group.py:573
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
-msgstr "%(name)s konnte nicht hinuntergestuft werden in %(group)s: %(error)s"
+msgstr "%(name)s konnte in der %(group)s-Gruppe nicht heruntergestuft werden in %(group)s: %(error)s"
 
 #: fas/group.py:580
 #, python-format
@@ -332,8 +332,8 @@ msgstr ""
 "\n"
 "%(user)s <%(email)s> hat Ihren Status zum %(status)s-Status in\n"
 "der '%(group)s'-Gruppe im Fedora-Kontosystem heruntergestuft. \n"
-"Diese Änderung ist sofort aktiv für neue Arbeitsvorgänge und sollte\n"
-"sich innerhalb einer Stunde in den Email-Aliase verbreiten.\n"
+"Diese Änderung tritt mit sofortiger Wirkung auf neue Arbeitsgänge\n"
+"ein und sollte sich innerhalb einer Stunde in den E-Mail-Aliasen verbreiten.\n"
 
 #: fas/group.py:587
 #, python-format
@@ -370,17 +370,17 @@ msgstr ""
 "welche ein komplettes Betriebssystem aus freier und Open Source-\n"
 "Software (FOSS) produzieren. %(user)s denkt, dass Sie Wissen und \n"
 "Fähigkeiten haben, welche Sie zu einen wertvollen Mitwirkenden für die\n"
-"Fedora-Gemeinschaft macht und dass Sie vielleicht interessiert sind,\n"
-"mitzuhelfen.\n"
+"Fedora-Gemeinschaft machen und dass Sie vielleicht daran interessiert\n"
+"sein könnten, mitzuhelfen.\n"
 "\n"
-"Wie können Sie sich in die Fedora-Gemeinschaft integrieren, damit Ihre Fähigkeiten am\n"
-"besten entwickelt werden? Besuchen Sie http://fedoraproject.org/join-fedora , um\n"
-"ein paar Ideen zu bekommen. Unsere Gemeinschaft besteht nicht nur aus Software-\n"
-"Entwicklern -- wir haben auch Platz für Sie, ob Sie nun ein Künstler, ein Webdesigner,\n"
-"ein Schreiber oder ein Ansprechpartner. Sie werden wachsen und lernen, wenn Sie mit\n"
+"Wie können Sie sich in die Fedora-Gemeinschaft integrieren, damit Ihre Fähigkeiten\n"
+"weiterentwickelt werden? Besuchen Sie http://fedoraproject.org/join-fedora , um\n"
+"ein paar Ideen zu bekommen. Unsere Gemeinschaft besteht aus mehr als nur Software-\n"
+"Entwicklern -- wir haben auch Platz für Sie, egal ob Sie ein Künstler, ein Webdesigner,\n"
+"ein Schreiber oder Ansprechpartner sind. Sie werden hineinwachsen und lernen, wenn Sie mit\n"
 "anderen cleveren und talentierten Menschen in einem Team zusammenarbeiten.\n"
 "\n"
-"Fedora und FOSS ändern die Welt -- kommen Sie und werden Sie ein Teil davon!"
+"Fedora und FOSS verändern die Welt -- kommen Sie und seien Sie ein Teil davon!"
 
 #: fas/group.py:677
 #, python-format
@@ -408,7 +408,7 @@ msgstr "Richtigkeit der CLA-Informationen"
 
 #: fas/help.py:27
 msgid "<p>The CLA is a legal document.  We need to have accurate information attached to it just in case we ever need to contact you about a contribution that you make to the project.  Imagine if we were to get a call from a lawyer at some other company claiming that they own the copyright to your work and we have to tell them we have a right to use it because \"Mickey Moose\" contributed it to us and we have no telephone number or address to contact them!  Potentially a very sticky situation.</p>"
-msgstr "<p>Das CLA ist ein rechtliches Dokument. Wir müssen richtige/wahre Informationen dafür eingeben, für den Fall, dass wir uns mit Ihnen in Verbindung setzen müssen, wegen einem Betrag, den Sie zum Projekt beigetragen haben. Stellen Sie sich vor, dass wir einen Anruf von einem Anwalt einer anderen Firma erhalten und er sagt, dass sie das Urheberrecht für Ihre Arbeit besitzen. Dann müssen wir sagen, dass wir ein Recht haben dies zu benutzen, da \"Mickey Moose\" es beigetragen hat, aber wir keine Telefon-Nummer oder Adresse haben sie zu kontaktieren! Möglicherweise entstehen so sehr unangenehme Situation.</p>"
+msgstr "<p>Das CLA ist ein rechtliches Dokument. Wir brauchen Ihre korrekten Informationen für den Fall, dass wir uns mit Ihnen bezüglich eines Beitrages von Ihnen zum Projekt in Verbindung setzen müssen.Stellen Sie sich vor, wir bekämen einen Anruf von einem Anwalt einer anderen Firma, der sagt, dass diese das Urheberrecht für Ihre Arbeit für sich beansprucht, und müssten sagen, dass wir das Recht haben sie zu benutzen, weil \"Mickey Maus\" mit dieser Arbeit zu unserem Projekt beigetragen hat, wir aber keine Adresse oder Telefonnummer haben um diese Person zu kontaktieren!Eine Möglicherweise recht unangenehme Situation.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -416,7 +416,7 @@ msgstr "IRC-Nick (optional)"
 
 #: fas/help.py:28
 msgid "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please register your nick on irc.freenode.net first, then fill this in so people can find you online when they need to</p>"
-msgstr "<p>IRC-Nickname wird benutzt, um Sie auf irc.freenode.net zu identifizieren. Bitte registrieren Sie zuerst Ihren Nick auf irc.freenode.net, dann füllen Sie bitte das entsprechende Feld aus, damit die Menschen Sie finden können, wenn Sie online sind</p>"
+msgstr "<p>Der IRC-Nickname wird dazu benutzt, Sie auf irc.freenode.net zu identifizieren. Bitte registrieren Sie Ihren Nicknamen auf irc.freenode.net, dann füllen Sie bitte das entsprechende Feld aus, damit Andere Sie online finden können, wenn sie möchten.</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -424,7 +424,7 @@ msgstr "E-Mail (benötigt)"
 
 #: fas/help.py:29
 msgid "<p>This email address should be your prefered email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>"
-msgstr "<p>Diese E-Mail-Adresse sollte Ihre bevorzugter E-Mail-Kontakt sein und wird benötigt, um Ihnen diverse offizielle Nachrichten zu schicken. Darauf werden auch Ihre @fedoraproject.org-Nachrichten weitergeleitet</p>"
+msgstr "<p>Diese E-Mail-Adresse sollte Ihr bevorzugter E-Mail-Kontakt sein und wird benötigt, um Ihnen diverse offizielle Nachrichten zu schicken. Darauf werden auch Ihre @fedoraproject.org-Nachrichten weitergeleitet</p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
@@ -432,7 +432,7 @@ msgstr "Vollständiger Name (benötigt)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr "<p>Ihr menschlicher Name oder \"Wirklicher-Leben\"-Name</p>"
+msgstr "<p>Ihr richtiger Name oder \"Wirklicher-Leben\"-Name</p>"
 
 #: fas/help.py:31
 #: fas/templates/user/edit.html:89
