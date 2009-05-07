@@ -250,8 +250,6 @@ Thanks!
 
         blacklist = config.get('country_blacklist', [])
         country_codes = [c for c in GeoIP.country_codes if c not in blacklist]
-        # Note: '[]' as a country code denotes that the country is unlisted
-        country_codes.append('[]')
 
         if person.country_code not in country_codes:
             turbogears.flash(_('To complete the CLA, a valid country code must be specified.  Please select one now.'))

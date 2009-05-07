@@ -13,7 +13,6 @@
             del countries[c]
         except KeyError:
             pass
-    countries['[]'] = 'Unlisted'
   ?>
 
   <xi:include href="../master.html" />
@@ -63,7 +62,7 @@
         <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country_code')}'});</script>
       </div>
       <p align="center">
-      ${_('If your country is not listed, select "Unlisted"')}
+      ${_('If your country is not listed, select "Other"')}
       </p>
 <!--    <div class="field">
 	<label for="share_country_code">${_('Share Country Code')}:</label>
