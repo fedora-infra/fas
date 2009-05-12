@@ -3,10 +3,19 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
+
   <?python
-  import GeoIP
-  bad_codes = ['--', 'A1', 'A2']
-  ?>
+    import GeoIP
+    bad_codes = tg.config('country_blacklist', [])
+    countries = GeoIP.country_names
+
+    for c in bad_codes:
+        try:
+            del countries[c]
+        except KeyError:
+            pass
+    ?>
+
   <head>
     <title>${_('Fedora Accounts System')}</title>
   </head>
@@ -46,13 +55,15 @@
         <label for="country_code">${_('Country')}:</label>
         <select name="country_code">
             <option value=''>${_('Select Country')}</option>
-            <option py:for="code, country in sorted(GeoIP.country_names.items(), lambda x, y: cmp(x[1], y[1]))"
+            <option py:for="code, country in sorted(countries.items(), lambda x, y: cmp(x[1], y[1]))"
               py:attrs="dict(selected=(code==person.country_code and 'True' or None ))"
-              value="${code}" py:if="code not in bad_codes">${country}(${code})</option>
+              value="${code}">${country}(${code})</option>
         </select>
         <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_country_code')}'});</script>
       </div>
-
+      <p align="center">
+      ${_('If your country is not listed, select "Other"')}
+      </p>
       <p>
       <input type="checkbox" id="confirm" name="confirm" /> <label for="confirm">${_('I certify that the above information (my name, address, country, and phone number) are accurate to the best of my knowledge.')}</label>
       </p>

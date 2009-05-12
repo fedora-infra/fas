@@ -18,6 +18,7 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
+#            Toshio Kuratomi <toshio@redhat.com>
 #
 import turbogears
 from turbogears import controllers, expose, identity, error_handler, config
@@ -247,7 +248,10 @@ Thanks!
             turbogears.flash(_('To complete the CLA, we must have your name, telephone number, postal address, and country.  Please ensure they have been filled out.'))
             turbogears.redirect('/cla/')
 
-        if person.country_code not in GeoIP.country_codes:
+        blacklist = config.get('country_blacklist', [])
+        country_codes = [c for c in GeoIP.country_codes if c not in blacklist]
+
+        if person.country_code not in country_codes:
             turbogears.flash(_('To complete the CLA, a valid country code must be specified.  Please select one now.'))
             turbogears.redirect('/cla/')
         if [True for char in person.telephone if char not in self.PHONEDIGITS]:

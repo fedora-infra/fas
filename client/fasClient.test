@@ -315,7 +315,7 @@ class MakeShellAccounts(AccountSystem):
 
         for uid in users:
             username = self.users[uid]['username']
-            human_name = username
+            human_name = self.users[uid]['human_name']
             password = self.users[uid]['password']
             home_dir = '%s/%s' % (home_dir_base, username)
             shell = users[uid]['shell']
