@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  import genshi.template.plugin
+  master = genshi.template.plugin.MarkupTemplateEnginePlugin().load_template('fas.templates.master')
+  ?>
+  <xi:include href="${master.filename}" />
+  <head>
+    <title>${_('Yubikey')}</title>
+  </head>
+  <body>
+    <h3>${_('Yubikey Settings')} <a href="${tg.url('/yubikey/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>
+    <div class="userbox">
+      <dl>
+        <dt>${_('Yubikey Enabled')}</dt>
+        <dd py:if="configs['enabled'] == '0'">
+          Disabled
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_enabled')}'});</script>
+        </dd>
+        <dd py:if="configs['enabled'] == '1'">
+          Enabled
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_enabled')}'});</script>
+        </dd>
+      </dl>
+      <dl>
+        <dt>${_('Yubikey prefix:')}</dt>
+        <dd>${configs['prefix']}
+          &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_prefix')}'});</script>
+        </dd>
+      </dl>
+      <dl>
+        <dt>${_('Test Auth:')}</dt>
+        <dd>
+          <form action="${tg.url('/yubikey/self_test')}" method="post" enctype="multipart/form-data">
+              <input type="text" size="45" id="otp" name="otp" />&nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_test')}'});</script>
+              <input type="hidden" id="uid" name="uid" value="${person.id}"/>
+          </form>
+        </dd>
+      </dl>
+    </div>
+  </body>
+</html>

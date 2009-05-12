@@ -1,0 +1,3 @@
+include fas_yubikey/__init__.py
+include fas_yubikey/templates/*.html
+include fas_yubikey/templates/*.py
