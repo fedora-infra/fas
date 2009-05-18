@@ -42,7 +42,7 @@ class AuthException(BaseException): pass
 def otp_verify(uid, otp):
     import sys, os, re
     import urllib2
-    client_id='2426'
+    client_id='2431'
 
     target = People.by_id(uid)
     configs = get_configs(Configs.query.filter_by(person_id=target.id, application='yubikey').all())
