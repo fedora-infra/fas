@@ -119,7 +119,7 @@ class JsonRequest(controllers.Controller):
 
             try:
                 cache_age = time() - os.path.getctime('/var/tmp/users.pkl')
-                if not force_refresh or cache_age < 600:
+                if not force_refresh and cache_age < 600:
                     f = open('/var/tmp/users.pkl', 'r')
                     people = pickle.load(f)
                     f.close()
