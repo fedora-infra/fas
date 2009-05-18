@@ -130,8 +130,8 @@ class JsonRequest(controllers.Controller):
                     people = pickle.load(f)
                     f.close()
                     return dict(success=True, data=people)
-              except (OSError, IOError, pickle.PickleError):
-                  pass
+            except (OSError, IOError, pickle.PickleError):
+                pass
 
             if not people:
                 people_list = select([
