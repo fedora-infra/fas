@@ -32,9 +32,12 @@ from fas.model import Groups
 from fas.model import PersonRoles
 from fas.model import PeopleTable
 
-import cPickle as pickle
+import memcache
 from time import time
 import os
+
+# Setup our memcache client
+mc = memcache.Client(['127.0.0.1:11211'])
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
@@ -84,17 +87,10 @@ class JsonRequest(controllers.Controller):
             privs['thirdparty'] = True
 
         if data == 'group_data':
+            groups = mc.get('group_data')
+            if not force_refresh and groups:
+                return dict(success=True, data=groups)
             groups = {}
-
-            try:
-                cache_age = time() - os.path.getctime('/var/tmp/groups.pkl')
-                if not force_refresh or cache_age < 600:
-                    f = open('/var/tmp/groups.pkl', 'r')
-                    groups = pickle.load(f)
-                    f.close()
-            except (OSError, IOError, pickle.PickleError):
-                pass
-
             if not groups:
                 groups_list = Groups.query.options(eagerload('approved_roles')).all()
                 for group in groups_list:
@@ -114,10 +110,8 @@ class JsonRequest(controllers.Controller):
                         elif role.role_type == 'user':
                             groups[group.name]['users'].append(role.person_id)
 
-                # Save pickle cache
-                f = open('/var/tmp/groups.pkl', 'w')
-                pickle.dump(groups,f)
-                f.close()
+                # Save cache - valid for 15 minutes
+                mc.set('group_data', groups, 900)
 
             return dict(success=True, data=groups)
         elif data == 'user_data':
