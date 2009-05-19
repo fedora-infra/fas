@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 12:15-0400\n"
-"PO-Revision-Date: 2009-02-04 20:48+0100\n"
+"PO-Revision-Date: 2009-05-19 23:12+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgid ""
 "(admin_email)sadmin_email"
 msgstr ""
 "Konto jest obecnie wyłączone. Aby dowiedzieć się więcej, skontaktuj się z %"
-"(admin_email)sadmin_email"
+"(admin_email)sadmin_email (w języki angielskim)"
 
 #: fas/controllers.py:217
 #, python-format
@@ -303,7 +303,7 @@ msgstr ""
 "zainteresowany współtworzeniem Fedory.\n"
 "\n"
 "Jak dołączyć do społeczności Fedory, aby używać i rozwijać swoje\n"
-"umiejętności? Zobacz http://fedoraproject.org/join-fedora.\n"
+"umiejętności? Zobacz http://fedoraproject.org/pl/join-fedora.\n"
 "Nasz społeczność to coś więcej niż tylko programiści - znajdzie się dla\n"
 "ciebie miejsce niezależnie od tego, czy jesteś artystą, twórcą stron WWW,\n"
 "chcesz coś pisać lub pracować z ludźmi. Rozwiniesz się i nauczysz pracować\n"
@@ -498,8 +498,8 @@ msgid ""
 msgstr ""
 "<p>Wiele zasobów wymaga uwierzytelniania przez klucz publiczny. Wysyłając "
 "nam klucz publiczny będziesz mógł zalogować się na nasze serwery. Podaj "
-"\"man ssh-keygen\", aby dowiedzieć się więcej o tworzeniu klucza. Po "
-"utworzeniu wyślij plik ~/.ssh/id_rsa.pub</p>"
+"\"man ssh-keygen\", aby dowiedzieć się więcej o tworzeniu klucza (musi być "
+"kluczem RSA). Po utworzeniu wyślij plik ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:120
 msgid "Locale"
@@ -900,12 +900,11 @@ msgid "Somebody is already using that email address."
 msgstr "Ktoś już używa tego adresu e-mail."
 
 #: fas/user.py:300
-#, fuzzy
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive "
 "an email with instructions shortly."
 msgstr ""
-"  Zanim nowy adres e-mail zostanie uwzględniony, musisz go potwierdzić. "
+"Zanim nowy adres e-mail zostanie uwzględniony, musisz go potwierdzić. "
 "Powinieneś wkrótce otrzymać e-mail z instrukcjami."
 
 #: fas/user.py:304
@@ -938,9 +937,9 @@ msgid "Your account details could not be saved: %s"
 msgstr "Nie można zapisać szczegółów konta: %s"
 
 #: fas/user.py:334
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora Account Data Update %s"
-msgstr "System kont Fedory"
+msgstr "Aktualizacja danych kont Fedory %s"
 
 #: fas/user.py:366
 msgid "Your account details have been saved."
@@ -975,7 +974,7 @@ msgstr "Nieprawidłowy token zmiany adresu e-mail."
 #: fas/user.py:584
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr "Pomyślnie zmieniono adres e-mail na \"%s\"."
+msgstr "Pomyślnie zmieniono adres e-mail na \"%s\""
 
 #: fas/user.py:592
 msgid "No need to sign up, you have an account!"
@@ -1008,7 +1007,9 @@ msgstr ""
 #: fas/user.py:621
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr "Nie można utworzyć konta. Skontaktuj się z %s, aby uzyskać pomoc."
+msgstr ""
+"Nie można utworzyć konta. Skontaktuj się z %s (w języki angielskim), aby "
+"uzyskać pomoc."
 
 #: fas/user.py:625
 msgid ""
@@ -1124,7 +1125,7 @@ msgstr "Kombinacja nazwy użytkownika i adresu e-mail nie istnieje!"
 
 #: fas/user.py:761
 msgid "username + email combo unknown."
-msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail"
+msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail."
 
 #: fas/user.py:764 fas/user.py:831 fas/user.py:856
 #, python-format
@@ -1133,7 +1134,7 @@ msgid ""
 "contact %(admin_email)s"
 msgstr ""
 "Konto ma obecnie stan %(status)s. Aby dowiedzieć się więcej, skontaktuj się "
-"z %(admin_email)s"
+"z %(admin_email)s (w języki angielskim)"
 
 #: fas/user.py:768
 #, python-format
@@ -1141,6 +1142,8 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact %"
 "(admin_email)s to have it reset"
 msgstr ""
+"Konta systemowe nie mogą przywracać haseł online. Skontaktuj się z %"
+"(admin_email)s (w języki angielskim), aby je przywrócić"
 
 #: fas/user.py:779
 #, python-format
@@ -1349,8 +1352,8 @@ msgid ""
 msgstr ""
 "Ludzie nie powinni przyjmować, że wysyłając aplikację o dołączenie do grupy "
 "stają się członkami tej grupy. Należy rozumieć to jak wysyłanie aplikacji o "
-"inną pracę. To zwykle zajmuje czasu. Aby dołączyć do grupy, dowiedz się "
-"więcej o niej i poznaj któregoś z jej członków. Znajdź kogoś z dostępem "
+"inną pracę. To zwykle zajmuje trochę czasu. Aby dołączyć do grupy, dowiedz "
+"się więcej o niej i poznaj któregoś z jej członków. Znajdź kogoś z dostępem "
 "sponsora lub administratora i zapytaj go, czy nie miałby trochę czasu, aby "
 "ci pomóc. Zaplanuj co najmniej kilka dni na uczenie się o grupie, "
 "wykonywanie prostych zadań, uczestniczenie w liście mailingowej. Czasami ten "
@@ -1399,14 +1402,13 @@ msgid "Todo queue:"
 msgstr "Kolejka do zrobienia:"
 
 #: fas/templates/home.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> poprosił "
-"o zaakceptowanie dołączenia do <a href=\"group/view/%(group)s\">%(group)s</"
-"a>."
+"o zaakceptowanie dołączenia do <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1605,7 +1607,7 @@ msgstr "Wybierz kraj"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Jeśli na liście brak twojego kraju, wybierz \"Inny\""
 
 #: fas/templates/cla/index.html:68
 msgid ""
@@ -1968,12 +1970,12 @@ msgid "This is an OpenID identity for %(username)s"
 msgstr "To jest tożsamość OpenID dla %(username)s"
 
 #: fas/templates/openid/id.html:31
-#, fuzzy
 msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
-"Część <a href=\"https://admin.fedoraproject.org/\">Systemu kont Fedory<a>."
+"Część <a href=\"https://admin.fedoraproject.org/accounts/\">Systemu kont "
+"Fedory<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2097,7 +2099,8 @@ msgid ""
 msgstr ""
 "Tworzenie certyfikatów SSL jest wyłączone na tym komputerze. Jeśli zostałeś "
 "tu przeniesiony przez naciśnięcie na odnośnik, zwykle oznacza to błędnie "
-"skonfigurowany serwer. Skontaktuj się z %(accts_email)s, aby to naprawić."
+"skonfigurowany serwer. Skontaktuj się z %(accts_email)s (w języki "
+"angielskim), aby to naprawić."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
@@ -2284,7 +2287,7 @@ msgstr "Zaproś nowego członka..."
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr "Zarządzaj członkostwem w grupach"
+msgstr "Zarządzaj członkostwem w grupach..."
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
@@ -2302,86 +2305,3 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
-
-#~ msgid "Welcome, %s"
-#~ msgstr "Witaj, %s"
-
-#~ msgid ""
-#~ "The credentials you supplied were not correct or did not grant access to "
-#~ "this resource."
-#~ msgstr ""
-#~ "Podane dane uwierzytelniające nie są poprawne lub nie gwarantują dostępu "
-#~ "do tego zasobu."
-
-#~ msgid "You must provide your credentials before accessing this resource."
-#~ msgstr ""
-#~ "Musisz podać dane uwierzytelniające zanim uzyskasz dostęp do tego zasobu."
-
-#~ msgid "Please log in."
-#~ msgstr "Zaloguj się."
-
-#~ msgid "You have successfully logged out."
-#~ msgstr "Wylogowano pomyślnie."
-
-#~ msgid ""
-#~ "\n"
-#~ "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
-#~ "group of the Fedora account system. If applicable, this change should\n"
-#~ "propagate into the e-mail aliases and CVS repository within an hour.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%(user)s <%(email)s> zasponsorował twoje członkostwo w grupie %(group)s\n"
-#~ "systemu kont Fedory. Jeśli to potrzebne, ta zmiana powinna zostać "
-#~ "zgłoszona\n"
-#~ "aliasom e-mail i repozytorium CVS w ciągu godziny.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "%(user)s <%(email)s> has removed you from the '%(group)s'\n"
-#~ "group of the Fedora Accounts System This change is effective\n"
-#~ "immediately for new operations, and should propagate into the e-mail\n"
-#~ "aliases within an hour.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%(user)s <%(email)s> usunął cię z grupy \"%(group)s\"\n"
-#~ "systemu kont Fedory. Ta zmiana jest natychmiastowa dla nowych operacji "
-#~ "i \n"
-#~ "powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "%(user)s <%(email)s> has upgraded you to %(status)s status in the\n"
-#~ "'%(group)s' group of the Fedora Accounts System This change is\n"
-#~ "effective immediately for new operations, and should propagate\n"
-#~ "into the e-mail aliases within an hour.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%(user)s <%(email)s> awansował cię do stanu %(status)s w grupie\n"
-#~ "\"%(group)s\" systemu kont Fedory. Ta zmiana jest natychmiastowa dla "
-#~ "nowych\n"
-#~ "operacji i powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "%(user)s <%(email)s> has downgraded you to %(status)s status in the\n"
-#~ "'%(group)s' group of the Fedora Accounts System This change is\n"
-#~ "effective immediately for new operations, and should propagate\n"
-#~ "into the e-mail aliases within an hour.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%(user)s <%(email)s> zdegradował cię do stanu %(status)s w grupie\n"
-#~ "\"%(group)s\" systemu kont Fedory. Ta zmiana jest natychmiastowa dla "
-#~ "nowych\n"
-#~ "operacji i powinna zostać zgłoszona aliasom e-mail w ciągu godziny.\n"
-
-#~ msgid "Login"
-#~ msgstr "Zaloguj się"
-
-#~ msgid "User Name:"
-#~ msgstr "Nazwa użytkownika:"
-
-#~ msgid "Forgot Password?"
-#~ msgstr "Zapomniałeś hasła?"
-
-#~ msgid "Sign Up"
-#~ msgstr "Załóż konto"
