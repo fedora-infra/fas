@@ -39,7 +39,7 @@ import os
 # TODO: Should this code be put somewhere else?
 memcached_servers = config.get('memcached_server').split(',')
 # Setup our memcache client
-mc = memcache.Client([memcached_servers)
+mc = memcache.Client(memcached_servers)
 
 class JsonRequest(controllers.Controller):
     def __init__(self):
