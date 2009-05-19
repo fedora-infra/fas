@@ -28,7 +28,7 @@ from turbogears import controllers, expose, identity, \
 from turbogears.database import session
 import cherrypy
 
-import turbomail
+from fas.util import send_mail
 
 import os
 import re
@@ -297,12 +297,12 @@ class User(controllers.Controller):
                     turbogears.flash(_('Somebody is already using that email address.'))
                     turbogears.redirect("/user/edit/%s" % target.username)
                     return dict()
+                emailflash = _('Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
                 token = generate_token()
                 target.unverified_email = email
                 target.emailtoken = token
-                message = turbomail.Message(config.get('accounts_email'), email, _('Email Change Requested for %s') % person.username)
-                # TODO: Make this email friendlier. 
-                message.plain = _('''
+                change_subject = _('Email Change Requested for %s') % person.username
+                change_text = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
 ownership of this email by visiting the following URL (you will need to
@@ -310,8 +310,7 @@ login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 ''') % token
-                emailflash = _('  Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
-                turbomail.enqueue(message)
+                send_mail(email, change_subject, change_text)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -332,6 +331,38 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             turbogears.redirect("/user/edit/%s" % target.username)
             return dict()
         else:
+            change_subject = _('Fedora Account Data Update %s') % target.username
+            change_text = '''
+You have just updated information about your account.  If you did not request
+these changes please contact admin@fedoraproject.org and let them know.  Your
+update information is:
+
+  username:       %(username)s
+  ircnick:        %(ircnick)s
+  telephone:      %(telephone)s
+  locale:         %(locale)s
+  postal_address: %(postal_address)s
+  timezone:       %(timezone)s
+  country code:   %(country_code)s
+  latitude:       %(latitude)s
+  longitude:      %(longitude)s
+  privacy flag:   %(privacy)s
+  ssh_key:        %(ssh_key)s
+
+If the above information is incorrect, please log in and fix it:
+https://admin.fedoraproject.org/accounts/user/edit/%(username)s
+''' % { 'username'       : target.username,
+         'ircnick'        : target.ircnick,
+         'telephone'      : target.telephone,
+         'locale'         : target.locale,
+         'postal_address' : target.postal_address,
+         'timezone'       : target.timezone,
+         'country_code'   : target.country_code,
+         'latitude'       : target.latitude,
+         'longitude'      : target.longitude,
+         'privacy'        : target.privacy,
+         'ssh_key'        : target.ssh_key }
+            send_mail(target.email, change_subject, change_text)
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
@@ -617,8 +648,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         person.old_password = generate_password()['hash']
         session.flush()
         newpass = generate_password()
-        message = turbomail.Message(config.get('accounts_email'), person.email, _('Welcome to the Fedora Project!'))
-        message.plain = _('''
+        send_mail(person.email, _('Welcome to the Fedora Project!'), _('''
 You have created a new Fedora account!
 Your username is: %(username)s
 Your new password is: %(password)s
@@ -660,8 +690,7 @@ forward to working with you!
 ''') % {'username': person.username,
         'password': newpass['pass'],
         'base_url': config.get('base_url_filter.base_url'),
-        'webpath': config.get('server.webpath')}
-        turbomail.enqueue(message)
+        'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
         return person
         
@@ -736,28 +765,25 @@ forward to working with you!
                 {'status': person.status, 'admin_email': config.get('accounts_email')})
             return dict()
         if person.status == ('bot'):
-            turbogears.flash(_("System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset") % \
+            turbogears.flash(_('System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset') % \
                     {'admin_email': config.get('accounts_email')})
-            message = turbomail.Message(config.get('accounts_email'),
-                    config.get('accounts_email'),
-                    _('Warning: attempted reset of system account'))
-            message.plain = _('''
+            reset_subject = 'Warning: attempted reset of system account'
+            reset_text = '''
 Warning: Someone attempted to reset the password for system account
 %(account)s via the web interface.
-''') % {'account': username}
-            turbomail.enqueue(message)
+''' % {'account': username}
+            send_mail(config.get('accounts_email'), reset_subject, reset_text)
             return dict()
 
         token = generate_token()
-        message = turbomail.Message(config.get('accounts_email'), email, _('Fedora Project Password Reset'))
         mail = _('''
 Somebody (hopefully you) has requested a password reset for your account!
 To change your password (or to cancel the request), please visit
 https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 ''') % {'user': username, 'token': token}
         if encrypted:
-            # TODO: Move this out to a single function (same as
-            # CLA one), think of how to make sure this doesn't get
+            # TODO: Move this out to mail function 
+            # think of how to make sure this doesn't get
             # full of random keys (keep a clean Fedora keyring)
             # TODO: MIME stuff?
             keyid = re.sub('\s', '', person.gpg_keyid)
@@ -786,13 +812,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                         gpgme.ENCRYPT_ALWAYS_TRUST,
                         plaintext,
                         ciphertext)
-                    message.plain = ciphertext.getvalue()
+                    mail = ciphertext.getvalue()
                 except:
                     turbogears.flash(_('Your password reset email could not be encrypted.'))
                     return dict()
-        else:
-            message.plain = mail;
-        turbomail.enqueue(message)
+        send_mail(email, _('Fedora Project Password Reset'), mail)
         person.passwordtoken = token
         turbogears.flash(_('A password reset URL has been emailed to you.'))
         turbogears.redirect('/login')  
@@ -956,6 +980,16 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             certfile.close()
             keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
             cherrypy.request.headers['Accept'] = 'text'
+
+            gencert_subject = 'A new certificate has been generated for %s' % person.username
+            gencert_text = '''
+You have just generated a new SSL certificate.  If you did not request this,
+please contact admin@fedoraproject.org and let them know.
+
+Note that all certificates generated prior to the current one have been
+automatically revoked, and should stop working within the hour.
+'''
+            send_mail(person.email, gencert_subject, gencert_text)
             return dict(tg_template="genshi-text:fas.templates.user.cert",
                     cla=True, cert=certdump, key=keydump)
         else:

@@ -30,13 +30,13 @@ from sqlalchemy.exceptions import SQLError
 
 from datetime import datetime
 import GeoIP
-import turbomail
 from genshi.template.plugin import TextTemplateEnginePlugin
 
 from fedora.tg.util import request_format
 
 from fas.model import People, Groups, Log
 from fas.auth import isAdmin, CLADone
+from fas.util import send_mail
 import fas
 
 class CLA(controllers.Controller):
@@ -163,8 +163,8 @@ class CLA(controllers.Controller):
             # Send a message that the ICLA has been revoked
             dt = datetime.utcnow()
             Log(author_id=user.id, description='Revoked %s CLA' % person.username, changetime=dt)
-            message = turbomail.Message(config.get('accounts_email'), person.email, 'Fedora ICLA Revoked')
-            message.plain = '''
+            revoke_subject = 'Fedora ICLA Revoked'
+            revoke_text = '''
 Hello %(human_name)s,
 
 We're sorry to bother you but we had to reject your CLA for now because
@@ -189,9 +189,9 @@ If you have questions about what specifically might be the problem with your
 account, please contact us at accounts@fedoraproject.org.
 
 Thanks!
-    ''' % {'username': person.username,
-    'human_name': person.human_name, }
-            turbomail.enqueue(message)
+    ''' % {'username': person.username, 'human_name': person.human_name}
+
+            send_mail(person.email, revoke_subject, revoke_text)
 
             # Yay, sweet success!
             turbogears.flash(_('CLA Successfully Removed.'))
@@ -289,14 +289,9 @@ Thanks!
 
         dt = datetime.utcnow()
         Log(author_id=person.id, description='Completed CLA', changetime=dt)
-        message = turbomail.Message(config.get('accounts_email'),
-                config.get('legal_cla_email'),
-                'Fedora ICLA completed for %(human_name)s (%(username)s)' %
-                {'username': person.username,
-                'human_name': person.human_name,
-                }
-                )
-        message.plain = '''
+        cla_subject = 'Fedora ICLA completed for %(human_name)s (%(username)s)' % \
+                {'username': person.username, 'human_name': person.human_name}
+        cla_text = '''
 Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
 Email: %(email)s
@@ -318,8 +313,10 @@ If you need to revoke it, please visit this link:
         # Sigh..  if only there were a nicer way.
         plugin = TextTemplateEnginePlugin()
         #message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
-        message.plain += plugin.transform(dict(person=person), 'fas.templates.cla.cla').render(method='text', encoding=None)
-        turbomail.enqueue(message)
+        cla_text += plugin.transform(dict(person=person), 'fas.templates.cla.cla').render(method='text', encoding=None)
+
+        send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
+
         turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
         turbogears.redirect('/user/view/%s' % person.username)
         return dict()

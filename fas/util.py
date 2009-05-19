@@ -20,6 +20,8 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 import os
 import codecs
+import turbomail
+from turbogears import config
 from turbogears.i18n.tg_gettext import get_locale_dir
 
 import logging
@@ -44,3 +46,9 @@ def available_languages():
         our_languages = ['en']
     return our_languages
 
+def send_mail(to_addr, subject, text, from_addr=None):
+    if from_addr is None:
+        from_addr = config.get('accounts_email')
+    message = turbomail.Message(from_addr, to_addr, subject)
+    message.plain = text
+    turbomail.enqueue(message)
