@@ -67,11 +67,9 @@ class CLA(controllers.Controller):
             code_len = len(person.country_code)
         except TypeError:
             code_len = 0
-        if not person.telephone or not person.postal_address or code_len != 2 \
-                or person.country_code=='  ':
-            turbogears.flash('A valid postal Address, country and telephone'
-                    ' number are required to complete the CLA.  Please fill'
-                    ' them out below.')
+        if not person.telephone or code_len != 2 or person.country_code=='  ':
+            turbogears.flash('A valid country and telephone number are'
+                    ' required to complete the CLA.  Please fill them out below.')
         cla = CLADone(person)
         person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime(), show=show)
@@ -142,6 +140,8 @@ class CLA(controllers.Controller):
         Arguments
         :personName: Name of the person to reject.
         '''
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
         exc = None
         user = People.by_username(turbogears.identity.current.user_name)
         if not isAdmin(user):
@@ -174,11 +174,11 @@ We're sorry to bother you but we had to reject your CLA for now because
 information you provided has been deemed incorrect.  The most common cause
 of this is people abbreviating their name like "B L Couper" instead of
 providing their actual full name "Bill Lay Couper".  Other causes of this
-include are using a address/country, or phone number that isn't accurate [1]_.
+include are using a country, or phone number that isn't accurate [1]_.
 If you could edit your account [2]_ to fix any of these problems and resubmit
 the CLA we would appreciate it.
 
-.. [1]: Why does it matter that we have your real name, address and phone
+.. [1]: Why does it matter that we have your real name and phone
         number?   It's because the CLA is a legal document and should we ever
         need to contact you about one of your contributions (as an example,
         because someone contacts *us* claiming that it was really they who
@@ -247,7 +247,7 @@ Thanks!
         if not person.telephone or \
                 not person.human_name or \
                 not person.country_code:
-            turbogears.flash(_('To complete the CLA, we must have your name, telephone number, postal address, and country.  Please ensure they have been filled out.'))
+            turbogears.flash(_('To complete the CLA, we must have your name, telephone number, and country.  Please ensure they have been filled out.'))
             turbogears.redirect('/cla/')
 
         blacklist = config.get('country_blacklist', [])
@@ -304,7 +304,6 @@ If you need to revoke it, please visit this link:
 ''' % {'username': person.username,
 'human_name': person.human_name,
 'email': person.email,
-'postal_address': person.postal_address,
 'country_code': person.country_code,
 'telephone': person.telephone,
 'facsimile': person.facsimile,

@@ -36,7 +36,7 @@
           <dt>${_('Telephone Number:')}</dt>
           <dd>${person.telephone}&nbsp;</dd>
         </py:if>
-        <py:if test="person.postal_address and personal">
+        <py:if test="person.postal_address and personal and show['show_postal_address']">
           <dt>${_('Postal Address:')}</dt>
           <dd>${person.postal_address}&nbsp;</dd>
         </py:if>

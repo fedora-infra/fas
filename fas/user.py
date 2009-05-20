@@ -190,6 +190,8 @@ class User(controllers.Controller):
     def view(self, username=None):
         '''View a User.
         '''
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
         if not username:
             username = identity.current.user_name
         person = People.by_username(username)
@@ -220,7 +222,7 @@ class User(controllers.Controller):
         person.json_props = {
                 'People': ('approved_memberships', 'unapproved_memberships')
                 }
-        return dict(person=person, cla=cla, personal=personal, admin=admin)
+        return dict(person=person, cla=cla, personal=personal, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=UserEdit())
@@ -337,7 +339,7 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             change_text = '''
 You have just updated information about your account.  If you did not request
 these changes please contact admin@fedoraproject.org and let them know.  Your
-update information is:
+updated information is:
 
   username:       %(username)s
   ircnick:        %(ircnick)s
@@ -590,10 +592,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.new')
     def new(self):
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
         if identity.not_anonymous():
             turbogears.flash(_('No need to sign up, you have an account!'))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
-        return dict()
+        return dict(show=show)
 
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
