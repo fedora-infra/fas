@@ -255,8 +255,8 @@ class User(controllers.Controller):
     @validate(validators=UserSave())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.edit')
-    def save(self, targetname, human_name, telephone, postal_address, 
-             email, status, ssh_key=None, ircnick=None, gpg_keyid=None, 
+    def save(self, targetname, human_name, telephone, email, status,
+            postal_address=None, ssh_key=None, ircnick=None, gpg_keyid=None,
              comments='', locale='en', timezone='UTC', country_code='',
              latitude=None, longitude=None, privacy=False):
         languages = available_languages()

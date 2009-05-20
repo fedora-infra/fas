@@ -58,6 +58,9 @@ class CLA(controllers.Controller):
     @expose(template="fas.templates.cla.index")
     def index(self):
         '''Display the CLAs (and accept/do not accept buttons)'''
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
+
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         try:
@@ -71,7 +74,7 @@ class CLA(controllers.Controller):
                     ' them out below.')
         cla = CLADone(person)
         person.filter_private()
-        return dict(cla=cla, person=person, date=datetime.utcnow().ctime())
+        return dict(cla=cla, person=person, date=datetime.utcnow().ctime(), show=show)
 
     def _cla_dependent(self, group):
         '''
@@ -208,7 +211,7 @@ Thanks!
     @identity.require(turbogears.identity.not_anonymous())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.cla.index")
-    def send(self, human_name, telephone, postal_address, country_code, confirm=False, agree=False):
+    def send(self, human_name, telephone, country_code, postal_address=None, confirm=False, agree=False):
         '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -242,7 +245,6 @@ Thanks!
 
         # Heuristics to detect bad data
         if not person.telephone or \
-                not person.postal_address or \
                 not person.human_name or \
                 not person.country_code:
             turbogears.flash(_('To complete the CLA, we must have your name, telephone number, postal address, and country.  Please ensure they have been filled out.'))
@@ -257,9 +259,6 @@ Thanks!
         if [True for char in person.telephone if char not in self.PHONEDIGITS]:
             turbogears.flash(_('Telephone numbers can only consist of numbers, "-", "+", "(", ")", or " ".  Please reenter using only those characters.'))
             turbogears.redirect('/cla/')
-        if not [True for char in person.postal_address if char.isspace()]:
-            # Error if the postal address is only one word
-            turbogears.flash(_('Can the postal system really deliver to that address?'))
             turbogears.redirect('/cla/')
 
         group = Groups.by_name(self.CLAGROUPNAME)

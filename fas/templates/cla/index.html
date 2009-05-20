@@ -46,7 +46,7 @@
         <input type="text" id="telephone" name="telephone" value="${person.telephone}" />
         <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_telephone')}'});</script>
       </div>
-      <div class="field">
+      <div py:if="show['show_postal_address']" class="field">
         <label for="postal_address">${_('Postal Address')}:</label>
         <textarea id="postal_address" name="postal_address">${person.postal_address}</textarea>
         <script type="text/javascript">var hb6 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_postal_address')}'});</script>
@@ -65,7 +65,7 @@
       ${_('If your country is not listed, select "Other"')}
       </p>
       <p>
-      <input type="checkbox" id="confirm" name="confirm" /> <label for="confirm">${_('I certify that the above information (my name, address, country, and phone number) are accurate to the best of my knowledge.')}</label>
+      <input type="checkbox" id="confirm" name="confirm" /> <label for="confirm">${_('I certify that the above information (my name, country, and phone number) are accurate to the best of my knowledge.')}</label>
       </p>
       <div>
         <input type="submit" id="agree" name="agree" value="${_('I agree')}" />
