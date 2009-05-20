@@ -229,6 +229,8 @@ class User(controllers.Controller):
     def edit(self, targetname=None):
         '''Edit a user
         '''
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
         languages = available_languages()
 
         username = identity.current.user_name
@@ -247,7 +249,7 @@ class User(controllers.Controller):
             return dict()
 
         target.filter_private()
-        return dict(target=target, languages=languages, admin=admin)
+        return dict(target=target, languages=languages, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
