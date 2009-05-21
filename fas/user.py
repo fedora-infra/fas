@@ -534,7 +534,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             search = unicode(search, 'utf-8', 'replace')
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
-        people = People.query.filter(and_(People.username.like(re_search), People.status == 'active')).order_by('username')
+        people = People.query.filter(and_(People.username.like(re_search), People.status.in_('active', 'bot', 'inactive'))).order_by('username')
         emails = {}
         # Run filter_private via side effect
         for person, discard in ((p, p.filter_private()) for p in people):
