@@ -2,15 +2,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fas\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 12:15-0400\n"
-"PO-Revision-Date: 2009-03-18 08:18+0100\n"
+"PO-Revision-Date: 2009-05-21 19:35+0200\n"
 "Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);"
 
 #: fas/auth.py:158
 #, python-format
@@ -631,7 +631,7 @@ msgstr ""
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr "Támogató"
+msgstr "Támogatás"
 
 #: fas/help.py:48
 msgid ""
@@ -904,12 +904,11 @@ msgid "Somebody is already using that email address."
 msgstr "Valaki már használja azt az email címet."
 
 #: fas/user.py:300
-#, fuzzy
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive "
 "an email with instructions shortly."
 msgstr ""
-"  Mielőtt az új email életbe lép, meg kell erősítenie. Hamarosan kapnia kell "
+"Mielőtt az új email életbe lép, meg kell erősítenie.  Hamarosan kapnia kell "
 "erről egy emailt az utasításokkal."
 
 #: fas/user.py:304
@@ -944,9 +943,9 @@ msgid "Your account details could not be saved: %s"
 msgstr "Az ön számla részleteit nem sikerült elmenteni: %s"
 
 #: fas/user.py:334
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora Account Data Update %s"
-msgstr "Fedora Számlarendszer"
+msgstr "Fedora számla adat frissítés %s"
 
 #: fas/user.py:366
 msgid "Your account details have been saved."
@@ -1148,6 +1147,8 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact %"
 "(admin_email)s to have it reset"
 msgstr ""
+"Rendszer számlák jelszavait nem lehet weben állítani.  Kérem üzenjen "
+"%(admin_email)s címre, hogy beállítsák."
 
 #: fas/user.py:779
 #, python-format
@@ -1408,13 +1409,13 @@ msgid "Todo queue:"
 msgstr "Tennivalók:"
 
 #: fas/templates/home.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
-"jóváhagyást kér <a href=\"group/view/%(group)s\">%(group)s</a> csoportba."
+"jóváhagyást kér <a href=\"%(groupview)s\">%(group)s</a> csoportba."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1612,7 +1613,7 @@ msgstr "Ország kiválasztása"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Ha az ön országa nincs felsorolva, válassza a „más”-t"
 
 #: fas/templates/cla/index.html:68
 msgid ""
@@ -1975,13 +1976,12 @@ msgid "This is an OpenID identity for %(username)s"
 msgstr "Ez egy OpenID azonosság %(username)s számára"
 
 #: fas/templates/openid/id.html:31
-#, fuzzy
 msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
-"A·<a·href=\"https://admin.fedoraproject.org/\">Fedora·Számlarendszer<a> "
-"része."
+"A·<a href=\"https://admin.fedoraproject.org/accounts/\">Fedora·"
+"Számlarendszer<a> része."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
