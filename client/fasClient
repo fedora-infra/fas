@@ -180,7 +180,7 @@ class MakeShellAccounts(AccountSystem):
         property.
         '''
         if not self._all_people or force:
-            self._all_people = self.people_by_id()
+            self._all_people = self.people_by_key(key='id', fields=['username'])
 
         return self._all_people
 
