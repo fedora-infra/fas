@@ -90,10 +90,9 @@ class JsonRequest(controllers.Controller):
 
         if data == 'group_data':
             groups = mc.get('group_data')
-            if not force_refresh and groups:
-                return dict(success=True, data=groups)
-            groups = {}
-            if not groups:
+
+            if force_refresh or not groups:
+                groups = {}
                 groups_list = Groups.query.options(eagerload('approved_roles')).all()
                 for group in groups_list:
                     groups[group.name] = {
@@ -118,61 +117,44 @@ class JsonRequest(controllers.Controller):
             return dict(success=True, data=groups)
         elif data == 'user_data':
             people = {}
+            people_list = select([
+                PeopleTable.c.id,
+                PeopleTable.c.username,
+                PeopleTable.c.password,
+                PeopleTable.c.human_name,
+                PeopleTable.c.ssh_key,
+                PeopleTable.c.email,
+                PeopleTable.c.privacy,
+                ], PeopleTable.c.status == 'active').execute().fetchall();
+            for person in people_list:
+                id = person[0]
+                username = person[1]
+                password = person[2]
+                human_name = person[3]
+                ssh_key = person[4]
+                email = person[5]
+                privacy = person[6]
 
-            try:
-                cache_age = time() - os.path.getctime('/var/tmp/users.pkl')
-                if not force_refresh and cache_age < 600:
-                    f = open('/var/tmp/users.pkl', 'r')
-                    people = pickle.load(f)
-                    f.close()
-                    return dict(success=True, data=people)
-            except (OSError, IOError, pickle.PickleError):
-                pass
+                people[id] = {
+                    'username': username,
+                    'password': password,
+                    'human_name': human_name,
+                    'ssh_key': ssh_key,
+                    'email': email,
+                }
 
-            if not people:
-                people_list = select([
-                    PeopleTable.c.id,
-                    PeopleTable.c.username,
-                    PeopleTable.c.password,
-                    PeopleTable.c.human_name,
-                    PeopleTable.c.ssh_key,
-                    PeopleTable.c.email,
-                    PeopleTable.c.privacy,
-                    ], PeopleTable.c.status == 'active').execute().fetchall();
-                for person in people_list:
-                    id = person[0]
-                    username = person[1]
-                    password = person[2]
-                    human_name = person[3]
-                    ssh_key = person[4]
-                    email = person[5]
-                    privacy = person[6]
+                if privacy:
+                    # If they have privacy enabled, set their human_name to
+                    # their username
+                    people[id]['human_name'] = username
 
-                    people[id] = {
-                        'username': username,
-                        'password': password,
-                        'human_name': human_name,
-                        'ssh_key': ssh_key,
-                        'email': email,
-                    }
-
-                    if privacy:
-                        # If they have privacy enabled, set their human_name to
-                        # their username
-                        people[id]['human_name'] = username
-
-                # Save pickle cache
-                f = open('/var/tmp/users.pkl', 'w')
-                pickle.dump(people,f)
-                f.close()
-
-        for person in people:
-            if not privs['system']:
-                people[person]['password'] = '*'
-            if not privs['thirdparty']:
-                people[person]['ssh_key'] = ''
-
-        return dict(success=True, data=people)
+            for person in people:
+                if not privs['system']:
+                    people[person]['password'] = '*'
+                if not privs['thirdparty']:
+                    people[person]['ssh_key'] = ''
+            return dict(success=True, data=people)
+        return dict(success=False, data={})
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
