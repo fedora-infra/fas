@@ -157,10 +157,14 @@ def canApplyGroup(person, group, applicant):
         if prerequisite not in applicant.approved_memberships:
             turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
             return False
-    # A user can apply themselves, and group sponsors can apply other people.
-    if (person == applicant) or \
-        canSponsorGroup(person, group):
+
+    # group sponsors can apply anybody.
+    if canSponsorGroup(person, group):
         return True
+
+    if person == applicant and group.group_type not in ('cla', 'system'):
+        return True
+
     return False
 
 def canSponsorUser(person, group, target):
