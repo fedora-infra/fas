@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.5.2
-Release:        3%{?dist}
+Version:        0.8.6
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -91,6 +91,10 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Tue Jun  2 2009 Mike McGrath <mmcgrath@fedoraproject.org> - 0.8.6-1
+- Upstream released new version
+- Cached group/user data
+
 * Sun Apr 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.5.2-3
 - Fix fas user's home directory (was missing a slash).
 
