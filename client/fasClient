@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2007-2008  Red Hat, Inc. All rights reserved.
+# Copyright © 2007-2009  Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,28 +18,29 @@
 #
 # Red Hat Author(s): Mike McGrath <mmcgrath@redhat.com>
 #                    Toshio Kuratomi <tkuratom@redhat.com>
-#
-# TODO: put tmp files in a 700 tmp dir
+#                    Ricky Zhou <rzhou@redhat.com>
 
+import os
 import sys
+import codecs
+import tempfile
 import logging
 import syslog
-import os
-import glob
-import tempfile
-import codecs
 import datetime
+import subprocess
 import time
-import itertools
-
-from urllib2 import URLError
 from fedora.client import AccountSystem, AuthError, ServerError
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 
-from optparse import OptionParser
-from shutil import move, rmtree, copytree
-from rhpl.translate import _
 
 import ConfigParser
+from optparse import OptionParser
+
+from shutil import move, rmtree, copytree
+from rhpl.translate import _
 
 parser = OptionParser()
 
@@ -129,12 +130,12 @@ try:
         config.read(opts.CONFIG_FILE)
     elif os.path.exists('fas.conf'):
         config.read('fas.conf')
-        print >> sys.stderr, "Could not open %s, defaulting to ./fas.conf" % opts.CONFIG_FILE
+        print >> sys.stderr, 'Could not open %s, defaulting to ./fas.conf' % opts.CONFIG_FILE
     else:
-        print >> sys.stderr, "Could not open %s." % opts.CONFIG_FILE
+        print >> sys.stderr, 'Could not open %s' % opts.CONFIG_FILE
         sys.exit(5)
 except ConfigParser.MissingSectionHeaderError, e:
-        print >> sys.stderr, "Config file does not have proper formatting - %s" % e
+        print >> sys.stderr, 'Config file does not have proper formatting: %s' % e
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url').strip('"')
@@ -149,552 +150,497 @@ def _chown(arg, dir_name, files):
         os.chown(os.path.join(dir_name, file), arg[0], arg[1])
 
 class MakeShellAccounts(AccountSystem):
-    temp = None
-    _groups = []
-    _memberships = {}
-    _group_mapping = {}
-    _valid_groups = {}
-    _emails = {}
-    _people = []
-    _people_by = {}
-    _all_people = {}
+    _users = None
+    _groups = None
+    _good_users = None
+    _group_types = None
+    _temp = None
 
-    ### Validation ###
+    def _make_tempdir(self, force=False):
+        '''Return a temporary directory'''
+        if not self._temp or force:
+            # Remove any existing temp directories
+            if self._temp:
+                rmtree(self._temp)
+            self._temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+        return self._temp
+    temp = property(_make_tempdir)
 
-    def valid_group(self, name, restriction=None):
-        ''' Determine if group is valid on the system '''
-        if restriction:
-            return name in self.valid_groups[restriction]
-        else:
-            for restrict_key in self.valid_groups:
-                if name in self.valid_groups[restrict_key]:
-                    return True
-        return False
+    def _refresh_users(self, force=False):
+        '''Return a list of users in FAS'''
+        # Cached values present, return
+        if not self._users or force:
+            self._users = self.user_data()
+        return self._users
 
-    ### Attributes ###
+    users = property(_refresh_users)
 
-    def _refresh_all_people(self, force=False):
-        '''Get a list of all people.
-
-        Get a list of all people in FAS and expose it in the all_people
-        property.
-        '''
-        if not self._all_people or force:
-            self._all_people = self.people_by_key(key='id', fields=['username'])
-
-        return self._all_people
-
-    all_people = property(_refresh_all_people)
-
-    def _refresh_group_mapping(self, search='*', force=False):
-        self._refresh_group_info(search, force)
-        return self._group_mapping
-
-    group_mapping = property(_refresh_group_mapping)
-
-    def _refresh_memberships(self, search='*', force=False):
-        self._refresh_group_info(search, force)
-        return self._memberships
-
-    memberships = property(_refresh_memberships)
-
-    def _refresh_groups(self, search='*', force=False):
-        '''Returns all groups.'''
-        self._refresh_group_info(search, force)
+    def _refresh_groups(self, force=False):
+        '''Return a list of groups in FAS'''
+        # Cached values present, return
+        if not self._groups or force:
+            group_data = self.group_data()
+            # The JSON output from FAS encodes dictionary keys as strings, but leaves
+            # array elements as integers (in the case of group member UIDs).  This
+            # normalizes them to all strings.
+            for group in group_data:
+                for role_type in ('administrators', 'sponsors', 'users'):
+                    group_data[group][role_type] = [str(uid) for uid in group_data[group][role_type]]
+            self._groups = group_data
         return self._groups
 
-    groups = property (_refresh_groups)
+    groups = property(_refresh_groups)
 
-    def _refresh_valid_groups(self, search='*', force=False):
-        '''Return a dict of valid groups, including that of group_type '''
-        self._refresh_group_info(search, force)
-        return self._valid_groups
-
-    valid_groups = property (_refresh_valid_groups)
-
-    def _refresh_group_info(self, search='*', force=False):
-        '''Refresh all group related information.'''
-        if self._groups and self._memberships and self._group_mapping \
-                and self._valid_groups and not force:
-            return
-
-        # Retrieve the groups
-        params = {'search' : search}
-        request = self.send_request('group/list', req_params=params, auth=True)
-        self._groups = request['groups']
-
-        # Retrieve the memberships
-        memberships = {}
-        for group in self._groups:
-            memberships[group['name']] = []
-            try:
-                for member in request['memberships'][u'%s' % group['id']]:
-                    memberships[group['name']].append(member)
-            except KeyError:
-                # Not all groups have members
-                pass
-        self._memberships = memberships
-
-        # Retrieve the group_mapping
-        group_mapping = {}
-        for group in self._groups:
-            gid = group['id']
-            name = group['name']
-
-            try:
-                ''' Shoot me now I know this isn't right '''
-                members = []
-                for member in self._memberships[name]:
-                    try:
-                        members.append(self.all_people[member['person_id']]
-                                ['username'])
-                    except KeyError:
-                        # User is not valid on this computer
-                        pass
-                memberships = ','.join(members)
-                group_mapping[name] = members
-            except KeyError:
-                ''' No users exist in the group '''
-                pass
-        self._group_mapping = group_mapping
-
-        # And generate the valid groups
-        valid_groups = {'groups':[], 'restricted_groups':[],
-                'ssh_restricted_groups': []}
-        for restriction in valid_groups:
-            for group in config.get('host', restriction).strip('"').split(','):
-                if group == '':
-                    continue
-                if group == '@all':
-                    for grp in self._groups:
-                        if not grp['name'].startswith('cla'):
-                            valid_groups[restriction].append(grp['name'])
-                elif group.startswith('@'):
-                    for grp in self._groups:
-                        if grp['group_type'] == group[1:]:
-                            valid_groups[restriction].append(grp['name'])
-                else:
-                    valid_groups[restriction].append(group)
-        self._valid_groups = valid_groups
-
-    valid_groups = property(_refresh_valid_groups)
-
-    def _refresh_people(self, search='*', force=False):
-        '''Return a list of people with accounts on this system.'''
+    def _refresh_good_users_group_types(self, force=False):
         # Cached values present, return
-        if self._people and self._people_by and not force:
+        if self._good_users and self._group_types and not force:
             return
 
-        req_groups = "%s,%s,%s" % (config.get('host', 'groups').strip('"'),
-                                    config.get('host', 'restricted_groups').strip('"'),
-                                    config.get('host', 'ssh_restricted_groups').strip('"'))
-        params = {'search' : search, 'groups': req_groups }
-        data = self.send_request('user/dump', req_params=params, auth=True)
-        # Why did we include unapproved people before?
-        #self._people = data['people'] + data['unapproved_people']
-        self._people = data['people']
+        cla_group = config.get('global', 'cla_group').strip('"')
+        if cla_group not in self.groups:
+            print >> sys.stderr, 'No such group: %s' % cla_group
+            print >> sys.stderr, 'Aborting.'
+            sys.exit(1)
 
-        # Get a list of keys (username and userid) associated with a person.
-        # We can put both username and userid in a single dict because
-        # username is a string and id is an int
-        people = (((p['username'], p), (p['id'], p)) for p in data['people'])
-        # We now have a list of lists of key:value pairs like this::
-        #   [[(name1: p1), (id1: p1)], [(name2: p2), (id2: p2)]]
-        # Use '*' to remove the outer list, then itertools.chain() to combine
-        # the lists into one like this::
-        #   [(name1: p1), (id1: p1), (name2: p2), (id2: p2)]
-        # Finally, turn those key:value pairs into a dict
-        self._people_by = dict(itertools.chain(*people))
+        cla_uids = self.groups[cla_group]['users'] + \
+            self.groups[cla_group]['sponsors'] + \
+            self.groups[cla_group]['administrators']
 
-    def _refresh_people_list(self, search='*', force=False):
-        self._refresh_people(search, force)
-        return self._people
-
-    people = property(_refresh_people_list)
-
-    def _refresh_people_by(self, search='*', force=False):
-        self._refresh_people(search, force)
-        return self._people_by
-
-    people_by = property(_refresh_people_by)
-
-    def _refresh_emails(self, search='*', force=False):
-        '''Return email addresses for every user'''
-        if not self._emails or force:
-            params = {'search': search}
-            self._emails = self.send_request('user/email_list',
-                    req_params=params, auth=True)['emails']
-        return self._emails
-    emails = property(_refresh_emails)
-
-    ### Other Info ###
-
-    def ssh_key(self, person):
-        ''' determine what ssh key a user should have '''
-        for group in self.valid_groups['groups']:
-            try:
-                if person['username'] in self.group_mapping[group]:
-                    return person['ssh_key']
-            except KeyError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "groups"!' % group
-                continue
-        for group in self.valid_groups['restricted_groups']:
-            try:
-                if person['username'] in self.group_mapping[group]:
-                    return person['ssh_key']
-            except KeyError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "restricted_groups"!' % group
-                continue
-        for group in self.valid_groups['ssh_restricted_groups']:
-            try:
-                if person['username'] in self.group_mapping[group]:
-                    command = config.get('users', 'ssh_restricted_app').strip('"')
-                    options = config.get('users', 'ssh_key_options').strip('"')
-                    key = 'command="%s",%s %s' % (command, options, person['ssh_key'])
-                    return key
-            except TypeError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
-                continue
-        return 'INVALID\n'
-
-    def shell(self, username):
-        ''' Determine what shell username should have '''
-        for group in self.valid_groups['groups']:
-            try:
-                if username in self.group_mapping[group]:
-                    return config.get('users', 'shell').strip('"')
-            except KeyError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "groups"!' % group
-                continue
-        for group in self.valid_groups['restricted_groups']:
-            try:
-                if username in self.group_mapping[group]:
-                    return config.get('users', 'restricted_shell').strip('"')
-            except KeyError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "restricted_groups"!' % group
-                continue
-        for group in self.valid_groups['ssh_restricted_groups']:
-            try:
-                if username in self.group_mapping[group]:
-                    return config.get('users', 'ssh_restricted_shell').strip('"')
-            except KeyError:
-                print >> sys.stderr, '%s could not be found in fas but was in your config under "ssh_restricted_groups"!' % group
-                continue
-
-        print >> sys.stderr, 'Could not determine shell for %s.  Defaulting to /sbin/nologin' % username
-        return '/sbin/nologin'
-
-    ### Actions ###
-
-    def user_info(self, username):
-        params = {'username' : username}
-        data = self.send_request('user/view', req_params=params, auth=True)
-        person = data['person']
-        print person
-        print "User: %s" % person['username']
-        print " Name: %s" % person['human_name']
-        print " Created: %s" % person['creation'].split(' ')[0]
-        print " Timezone: %s" % person['timezone']
-        print " IRC Nick: %s" % person['ircnick']
-        print " Locale: %s" % person['locale']
-        print " Status: %s" % person['status']
-        print " Approved Groups: "
-        approved = False
-        for group in person['approved_memberships']:
-            print "   %s" % group['name']
-            approved = True
-        if approved == False:
-            print "    None"
-
-        print
-        print " Unapproved Groups: "
-        unapproved = False
-        for group in person['unapproved_memberships']:
-            print "   %s" % group['name']
-            unapproved = True
-        if unapproved == False:
-            print "    None"
-
-    def groups_text(self, groups=None, people=None):
-        i = 0
-        file = open(self.temp + '/group.txt', 'w')
-        if not self.groups:
-            self.group_list()
-        # First create all of our users/groups combo
-        for person in self.people:
-            uid = person['id']
-            username = person['username']
-            file.write("=%i %s:x:%i:\n" % (uid, username, uid))
-            file.write("0%i %s:x:%i:\n" % (i, username, uid))
-            file.write(".%s %s:x:%i:\n" % (username, username, uid))
-            i = i + 1
+        user_groupcount = {}
+        group_types = {}
+        for uid in cla_uids:
+            user_groupcount[uid] = 0
 
         for group in self.groups:
-            gid = group['id']
-            name = group['name']
-            try:
-                ''' Shoot me now I know this isn't right '''
-                members = []
-                for member in self.memberships[name]:
-                    members.append(self.all_people[member['person_id']]['username'])
-                memberships = ','.join(members)
-                self.group_mapping[name] = members
-            except KeyError:
-                ''' No users exist in the group '''
-                pass
-            # This block catches group mappings for inactive users.  Needs to be fixed in tg
-            try:
-                file.write("=%i %s:x:%i:%s\n" % (gid, name, gid, memberships))
-                file.write("0%i %s:x:%i:%s\n" % (i, name, gid, memberships))
-                file.write(".%s %s:x:%i:%s\n" % (name, name, gid, memberships))
-            except UnboundLocalError:
-                pass
-            i = i + 1
-        file.close()
+            group_type = self.groups[group]['type']
+            if group.startswith('cla_'):
+                continue
+            for uid in self.groups[group]['users'] + \
+                self.groups[group]['sponsors'] + \
+                self.groups[group]['administrators']:
+                if group_type not in group_types:
+                    group_types[group_type] = set()
+                group_types[group_type].add(uid)
+                if uid in user_groupcount:
+                    user_groupcount[uid] += 1
 
-    def passwd_text(self, people=None):
+        good_users = set()
+        for uid in user_groupcount:
+            # If the user is active, has signed a CLA, and is in at least one
+            # other group, add them to good_users.
+            if uid in self.users and user_groupcount[uid] > 0:
+                good_users.add(uid)
+
+        self._good_users = good_users
+        self._group_types = group_types
+
+    def _refresh_good_users(self, force=False):
+        '''Return a list of users in who have CLA + 1 group'''
+        self._refresh_good_users_group_types(force)
+        return self._good_users
+
+    good_users = property(_refresh_good_users)
+
+    def _refresh_group_types(self, force=False):
+        '''Return a list of users in group with various types'''
+        self._refresh_good_users_group_types(force)
+        return self._group_types
+
+    group_types = property(_refresh_group_types)
+
+    def filter_users(self, valid_groups=None, restricted_groups=None):
+        '''Return a list of users who get normal and restricted accounts on a machine'''
+        if valid_groups is None:
+            valid_groups = []
+        if restricted_groups is None:
+            restricted_groups = []
+
+        all_groups = valid_groups + restricted_groups
+
+        users = {}
+
+        for group in all_groups:
+            uids = set()
+            restricted = group not in valid_groups
+
+            if group.startswith('@'):
+                # Filter by group type
+                group_type = group[1:]
+                if group_type == 'all':
+                    # It's all good as long as a the user is in CLA + one group
+                    uids.update(self.good_users)
+                else:
+                    if group_type not in self.group_types:
+                        print >> sys.stderr, 'No such group type: %s' % group_type
+                        continue
+                    uids.update(self.group_types[group_type])
+            else:
+                if group not in self.groups:
+                    print >> sys.stderr, 'No such group: %s' % group
+                    continue
+                uids.update(self.groups[group]['users'])
+                uids.update(self.groups[group]['sponsors'])
+                uids.update(self.groups[group]['administrators'])
+
+            for uid in uids:
+                if uid not in self.users:
+                    # The user is most likely inactive.
+                    continue
+                if restricted:
+                    # Make sure that the most privileged group wins.
+                    if uid not in users:
+                        users[uid] = {}
+                        users[uid]['shell'] = config.get('users', 'shell').strip('"')
+                        users[uid]['ssh_cmd'] = config.get('users', 'ssh_restricted_app').strip('"')
+                        users[uid]['ssh_options'] = config.get('users', 'ssh_key_options').strip('"')
+                else:
+                    users[uid] = {}
+                    users[uid]['shell'] = config.get('users', 'ssh_restricted_shell').strip('"')
+                    users[uid]['ssh_cmd'] = ''
+                    users[uid]['ssh_options'] = ''
+        return users
+
+    def passwd_text(self, users):
+        '''Create the text password file'''
         i = 0
-        # Touch shadow and secure the permissions
-        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
-        shadow_file.close()
-        os.chmod(self.temp + '/shadow.txt', 00600)
+        home_dir_base = config.get('users', 'home').strip('"')
 
-        passwd_file = codecs.open(self.temp + '/passwd.txt', mode='w', encoding='utf-8')
-        shadow_file = codecs.open(self.temp + '/shadow.txt', mode='w', encoding='utf-8')
-        for person in self.people:
-            username = person['username']
-            uid = person['id']
-            password = person['password']
-            home_dir = "%s/%s" % (config.get('users', 'home').strip('"'), username)
-            shell = self.shell(username)
-            passwd_file.write("=%s %s:x:%i:%i:%s:%s:%s\n" % (uid, username, uid, uid, username, home_dir, shell))
-            passwd_file.write("0%i %s:x:%i:%i:%s:%s:%s\n" % (i, username, uid, uid, username, home_dir, shell))
-            passwd_file.write(".%s %s:x:%i:%i:%s:%s:%s\n" % (username, username, uid, uid, username, home_dir, shell))
-            shadow_file.write("=%i %s:%s:99999:0:99999:7:::\n" % (uid, username, password))
-            shadow_file.write("0%i %s:%s:99999:0:99999:7:::\n" % (i, username, password))
-            shadow_file.write(".%s %s:%s:99999:0:99999:7:::\n" % (username, username, password))
-            i = i + 1
+        # Touch shadow and secure the permissions
+        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
+        shadow_file.close()
+        os.chmod(os.path.join(self.temp, 'shadow.txt'), 00600)
+
+        passwd_file = codecs.open(os.path.join(self.temp, 'passwd.txt'), mode='w', encoding='utf-8')
+        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
+
+        for uid in users:
+            username = self.users[uid]['username']
+            human_name = self.users[uid]['human_name']
+            password = self.users[uid]['password']
+            home_dir = '%s/%s' % (home_dir_base, username)
+            shell = users[uid]['shell']
+
+            passwd_file.write('=%s %s:x:%s:%s:%s:%s:%s\n' % (uid, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write('0%i %s:x:%s:%s:%s:%s:%s\n' % (i, username, uid, uid, human_name, home_dir, shell))
+            passwd_file.write('.%s %s:x:%s:%s:%s:%s:%s\n' % (username, username, uid, uid, human_name, home_dir, shell))
+
+            shadow_file.write('=%s %s:%s:99999:0:99999:7:::\n' % (uid, username, password))
+            shadow_file.write('0%i %s:%s:99999:0:99999:7:::\n' % (i, username, password))
+            shadow_file.write('.%s %s:%s:99999:0:99999:7:::\n' % (username, username, password))
+            i += 1
+
         passwd_file.close()
         shadow_file.close()
 
-    def make_aliases_txt(self):
-        ''' update your mail aliases file '''
-        if not self.groups:
-            groups = self.group_list()
+    def groups_text(self, users):
+        '''Create the text groups file'''
+        i = 0
+        group_file = codecs.open(os.path.join(self.temp, 'group.txt'), 'w')
 
-        email_file = codecs.open(self.temp + '/aliases', mode='w', encoding='utf-8')
-        email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
-        email_file.write("# Generated by fasClient\n")
+        # First create all of our users/groups combo
+        # Only create user groups for users that actually exist on the system
+        for uid in users:
+            username = self.users[uid]['username']
+            group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
+            group_file.write('0%i %s:x:%s:\n' % (i, username, uid))
+            group_file.write('.%s %s:x:%s:\n' % (username, username, uid))
+            i += 1
+
+        for group in self.groups:
+            gid = self.groups[group]['id']
+            members = set()
+            memberships = ''
+
+            for member_uid in self.groups[group]['administrators'] + \
+                self.groups[group]['sponsors'] + \
+                self.groups[group]['users']:
+                try:
+                    members.add(self.users[member_uid]['username'])
+                except KeyError:
+                    # This means that the user is most likely disabled.
+                    pass
+
+            memberships = ','.join(members)
+            group_file.write('=%i %s:x:%i:%s\n' % (gid, group, gid, memberships))
+            group_file.write('0%i %s:x:%i:%s\n' % (i, group, gid, memberships))
+            group_file.write('.%s %s:x:%i:%s\n' % (group, group, gid, memberships))
+            i += 1
+
+        group_file.close()
+
+    def make_group_db(self, users):
+        '''Compile the groups file'''
+        self.groups_text(users)
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'group.db'), os.path.join(self.temp, 'group.txt')])
+
+    def make_passwd_db(self, users):
+        '''Compile the password and shadow files'''
+        self.passwd_text(users)
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'passwd.db'), os.path.join(self.temp, 'passwd.txt')])
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'shadow.db'), os.path.join(self.temp, 'shadow.txt')])
+        os.chmod(os.path.join(self.temp, 'shadow.db'), 00400)
+        os.chmod(os.path.join(self.temp, 'shadow.txt'), 00400)
+
+    def make_aliases_text(self):
+        '''Create the aliases file'''
+        email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
+        try:
+            email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
+        except IOError, e:
+            print >> sys.stderr, 'Could not open aliases template %s: %s' % (config.get('host', 'aliases_template').strip('"'), e)
+            print >> sys.stderr, 'Aborting.'
+            sys.exit(1)
+        email_file.write('# Generated by fasClient\n')
         for line in email_template.readlines():
             email_file.write(line)
-        ### FIXME: This looks wrong.  I think this is getting *all* email
-        # addresses in FAS and making aliases for them.  It should be getting
-        # email addresses for people with cla_done + 1 other group.
-        sorted_emails = self.emails.keys()
-        sorted_emails.sort()
-        for person in sorted_emails:
-            email_file.write("%s: %s\n" % (person, self.emails[person]))
+
+        for uid in self.good_users:
+            email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
+
         for group in self.groups:
-            name = group['name']
-            members = {}
-            for membership in self.memberships[name]:
-                role_type = membership['role_type']
-                person = self.all_people[membership['person_id']]['username']
-                if person not in sorted_emails:
-                    # If the person isn't in sorted_emails, their account has
-                    # been inactivated.  Don't add them to the group aliases
-                    continue
-                try:
-                    members['members'].append(person)
-                except KeyError:
-                    members['members'] = []
-                    members['members'].append(person)
-                if role_type == 'user':
-                    continue
+            administrators = set()
+            sponsors = set()
+            members = set()
 
-                try:
-                    members['sponsors'].append(person)
-                except KeyError:
-                    members['sponsors'] = []
-                    members['sponsors'].append(person)
-                if role_type == 'sponsor':
-                    continue
-
-                try:
-                    members['administrators'].append(person)
-                except KeyError:
-                    members['administrators'] = []
-                    members['administrators'].append(person)
-            for role in members:
-                email_file.write("%s-%s: %s\n" % (name, role, ','.join(sorted(members[role]))))
-        email_file.close()
-
-    def make_group_db(self):
-        self.groups_text()
-        os.system('makedb -o %s/group.db %s/group.txt' % (self.temp, self.temp))
-
-    def make_passwd_db(self):
-        self.passwd_text()
-        os.system('makedb -o %s/passwd.db %s/passwd.txt' % (self.temp, self.temp))
-        os.system('makedb -o %s/shadow.db %s/shadow.txt' % (self.temp, self.temp))
-        os.chmod(self.temp + '/shadow.db', 00400)
-        os.chmod(self.temp + '/shadow.txt', 00400)
-
-    def install_passwd_db(self):
-        try:
-            move(self.temp + '/passwd.db', os.path.join(prefix + '/var/db/passwd.db'))
-        except IOError, e:
-            print "ERROR: Could not write passwd db - %s" % e
-
-    def install_shadow_db(self):
-        try:
-            move(self.temp + '/shadow.db', os.path.join(prefix + '/var/db/shadow.db'))
-        except IOError, e:
-            print "ERROR: Could not write shadow db - %s" % e
-
-    def install_group_db(self):
-        try:
-            move(self.temp + '/group.db', os.path.join(prefix + '/var/db/group.db'))
-        except IOError, e:
-            print "ERROR: Could not write group db - %s" % e
-
-    def install_aliases_txt(self):
-        move(self.temp + '/aliases', prefix + '/etc/aliases')
-        os.system("newaliases > /dev/null")
-
-    def create_homedirs(self):
-        ''' Create homedirs and home base dir if they do not exist '''
-        home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
-        home_backup_dir = config.get('users', 'home_backup_dir').strip('"')
-        if not os.path.exists(home_base):
-            os.makedirs(home_base, mode=0755)
-        for person in self.people:
-            home_dir = os.path.join(home_base, person['username'])
-            if not os.path.exists(home_dir):
-                old_home_dir = glob.glob(os.path.join(home_backup_dir, person['username']) + '-*')
-                if old_home_dir:
-                    syslog.syslog('Restoring old homedir for %s' % person['username'])
-                    move(old_home_dir[0], home_dir)
+            for uid in self.groups[group]['users']:
+                if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
+                    username = self.users[uid]['username']
+                    members.add(username)
                 else:
-                    syslog.syslog('Creating homedir for %s' % person['username'])
-                    copytree('/etc/skel/', home_dir)
-                    os.path.walk(home_dir, _chown, [person['id'], person['id']])
-            # Code for chmod/chown
-            #os.chmod(home_dir, something)
+                    # Add their email if they aren't disabled.
+                    if uid in self.users:
+                        members.add(self.users[uid]['email'])
 
-    def remove_stale_homedirs(self):
+            for uid in self.groups[group]['sponsors']:
+                if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
+                    username = self.users[uid]['username']
+                    sponsors.add(username)
+                    members.add(username)
+                else:
+                    # Add their email if they aren't disabled.
+                    if uid in self.users:
+                        sponsors.add(self.users[uid]['email'])
+                        members.add(self.users[uid]['email'])
+
+            for uid in self.groups[group]['administrators']:
+                if uid in self.good_users:
+                    # The user has an @fedoraproject.org alias
+                    username = self.users[uid]['username']
+                    administrators.add(username)
+                    sponsors.add(username)
+                    members.add(username)
+                else:
+                    # Add their email if they aren't disabled.
+                    if uid in self.users:
+                        administrators.add(self.users[uid]['email'])
+                        sponsors.add(self.users[uid]['email'])
+                        members.add(self.users[uid]['email'])
+
+            if administrators:
+                email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
+            if sponsors:
+                email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
+            if members:
+                email_file.write('%s-members: %s\n' % (group, ','.join(members)))
+
+    def create_home_dirs(self, users, modes=None):
+        ''' Create homedirs and home base dir if they do not exist '''
+        if modes is None:
+            modes = {}
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        if not os.path.exists(home_dir_base):
+            os.makedirs(home_dir_base, mode=0755)
+        for uid in users:
+            username = self.users[uid]['username']
+            home_dir = os.path.join(home_dir_base, username)
+            if not os.path.exists(home_dir):
+                syslog.syslog('Creating homedir for %s' % username)
+                copytree('/etc/skel/', home_dir)
+                os.path.walk(home_dir, _chown, [int(uid), int(uid)])
+            else:
+                dir_stat = os.stat(home_dir)
+                if dir_stat.st_uid == 0:
+                    if username in modes:
+                        os.chmod(home_dir, modes[username])
+                    else:
+                        os.chmod(home_dir, 00755)
+                    os.chown(home_dir, int(uid), int(uid))
+
+    def remove_stale_homedirs(self, users):
         ''' Remove homedirs of users that no longer have access '''
-        home_base = os.path.join(prefix + config.get('users', 'home').strip('"'))
-        try:
-            home_backup_dir = config.get('users', 'home_backup_dir').strip('"')
-        except ConfigParser.NoOptionError:
-            home_backup_dir = '/var/tmp/'
-        users = os.listdir(home_base)
-        for user in users:
-            if user not in self.people_by:
-                if not os.path.exists(home_backup_dir):
-                    os.makedirs(home_backup_dir)
-                syslog.syslog('Backed up %s to %s' % (user, home_backup_dir))
-                target = '%s-%s' % (user, time.mktime(datetime.datetime.now().timetuple()))
-                move(os.path.join(home_base, user), os.path.join(prefix + home_backup_dir, target))
-                # Code for chmod/chown
-                #home_dir = os.path.join(home_base, user)
-                #os.chown(home_dir, 0, 0)
-                #os.chmod(home_dir, 0700)
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        home_backup_dir = os.path.join(prefix, config.get('users', 'home_backup_dir').strip('"').lstrip('/'))
+        valid_users = [self.users[uid]['username'] for uid in users]
+        current_users = os.listdir(home_dir_base)
+        modes = {}
+        for user in current_users:
+            if user not in valid_users:
+                home_dir = os.path.join(home_dir_base, user)
+                dir_stat = os.stat(home_dir)
+                if dir_stat.st_uid != 0:
+                    modes[user] = dir_stat.st_mode
+                    syslog.syslog('Locking permissions on %s' % home_dir)
+                    os.chown(home_dir, 0, 0)
+                    os.chmod(home_dir, 00700)
+        return modes
 
-    def create_ssh_keys(self):
-        ''' Create ssh keys '''
-        home_base = prefix + config.get('users', 'home').strip('"')
-        for person in self.people:
-            username = person['username']
-            ssh_dir = os.path.join(home_base, username, '.ssh')
-            if person['ssh_key']:
-                key = self.ssh_key(person)
+    def create_ssh_keys(self, users):
+        ''' Create SSH keys '''
+        home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        for uid in users:
+            username = self.users[uid]['username']
+            ssh_dir = os.path.join(home_dir_base, username, '.ssh')
+            if self.users[uid]['ssh_key']:
+                if users[uid]['ssh_cmd'] or users[uid]['ssh_options']:
+                   key = 'command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], self.users[uid]['ssh_key'])
+                else:
+                   key = self.users[uid]['ssh_key']
                 if not os.path.exists(ssh_dir):
                     os.makedirs(ssh_dir, mode=0700)
                 f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
                 f.write(key + '\n')
                 f.close()
                 os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
-                os.path.walk(ssh_dir, _chown, [person['id'], person['id']])
+                os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
-    ### Support ###
+    def install_passwd_db(self):
+        '''Install the password database'''
+        try:
+            move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
+        except IOError, e:
+            print >> sys.stderr, 'ERROR: Could not install passwd db: %s' % e
 
-    def mk_tempdir(self):
-        self.temp = tempfile.mkdtemp('-tmp', 'fas-', os.path.join(prefix + config.get('global', 'temp').strip('"')))
+    def install_shadow_db(self):
+        '''Install the shadow database'''
+        try:
+            move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
+        except IOError, e:
+            print >> sys.stderr, 'ERROR: Could not install shadow db: %s' % e
 
-    def rm_tempdir(self):
-        rmtree(self.temp)
+    def install_group_db(self):
+        '''Install the group database'''
+        try:
+            move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
+        except IOError, e:
+            print >> sys.stderr, 'ERROR: Could not install group db: %s' % e
+
+    def install_aliases(self):
+        '''Install the aliases file'''
+        move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
+        subprocess.call(['/usr/bin/newaliases'])
+
+    def user_info(self, username):
+        '''Print information on a user'''
+        person = self.person_by_username(username)
+        if not person:
+            print 'No such person: %s' % username
+            return
+        print 'User: %s' % person['username']
+        print ' Name: %s' % person['human_name']
+        print ' Created: %s' % person['creation'].split(' ')[0]
+        print ' Timezone: %s' % person['timezone']
+        print ' IRC Nick: %s' % person['ircnick']
+        print ' Locale: %s' % person['locale']
+        print ' Status: %s' % person['status']
+        print ' Approved Groups: '
+        if person['approved_memberships']:
+            for group in person['approved_memberships']:
+                print '   %s' % group['name']
+        else:
+            print '    None'
+        print ' Unapproved Groups: '
+        if person['unapproved_memberships']:
+            for group in person['unapproved_memberships']:
+                print '   %s' % group['name']
+        else:
+            print '    None'
+
+    def cleanup(self):
+        '''Perform any necessary cleanup tasks'''
+        if self.temp:
+            rmtree(self.temp)
 
 def enable():
+    '''Enable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
 
     old = open('/etc/sysconfig/authconfig', 'r')
     new = open(temp + '/authconfig', 'w')
     for line in old:
-        if line.startswith("USEDB"):
-            new.write("USEDB=yes\n")
+        if line.startswith('USEDB'):
+            new.write('USEDB=yes\n')
         else:
             new.write(line)
     new.close()
     old.close()
     try:
-        move(temp + '/authconfig', '/etc/sysconfig/authconfig')
+        move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print "ERROR: Could not write /etc/sysconfig/authconfig - %s" % e
+        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
         sys.exit(5)
-    os.system('/usr/sbin/authconfig --updateall')
+    subprocess.call(['/usr/sbin/authconfig', '--updateall'])
     rmtree(temp)
 
 def disable():
+    '''Disable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
     old = open('/etc/sysconfig/authconfig', 'r')
-    new = open(temp + '/authconfig', 'w')
+    new = open(os.path.join(temp, 'authconfig'), 'w')
     for line in old:
-        if line.startswith("USEDB"):
-            new.write("USEDB=no\n")
+        if line.startswith('USEDB'):
+            new.write('USEDB=no\n')
         else:
             new.write(line)
     old.close()
     new.close()
     try:
-        move(temp + '/authconfig', '/etc/sysconfig/authconfig')
+        move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print "ERROR: Could not write /etc/sysconfig/authconfig - %s" % e
+        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
         sys.exit(5)
-    os.system('/usr/sbin/authconfig --updateall')
+    subprocess.call(['/usr/sbin/authconfig', '--updateall'])
     rmtree(temp)
 
-
 if __name__ == '__main__':
+
+    if not (opts.install or opts.enable or opts.disable or opts.aliases or opts.info_username):
+        parser.print_help()
+        sys.exit(0)
+
     if opts.enable:
         enable()
     if opts.disable:
         disable()
 
-    if not (opts.install or opts.enable or opts.disable or opts.aliases):
-        parser.print_help()
-        sys.exit(0)
-
     try:
-        fas = MakeShellAccounts(FAS_URL, username=config.get('global',
-            'login').strip('"'), password=config.get('global',
-                'password').strip('"'), debug=opts.debug,
-            cache_session=opts.nosession)
+        fas = MakeShellAccounts(FAS_URL, username=config.get('global', 'login').strip('"'), password=config.get('global', 'password').strip('"'), debug=opts.debug)
     except AuthError, e:
-        sys.stderr.write('%s\n' % str(e))
+        print >> sys.stderr, str(e)
         sys.exit(1)
     except URLError, e:
-        sys.stderr.write('Could not connect to %s - %s\n' % (FAS_URL,
-            e.reason[1]))
+        print >> sys.stderr, 'Could not connect to %s: %s\n' % (FAS_URL, e.reason[1])
         sys.exit(9)
+
+    valid_groups = []
+    restricted_groups = []
+
+    valid_grouplist = config.get('host', 'groups').strip('"')
+    restricted_grouplist = config.get('host', 'ssh_restricted_groups').strip('"')
+
+    if valid_grouplist:
+        valid_groups = valid_grouplist.split(',')
+    if restricted_grouplist:
+        restricted_groups = restricted_grouplist.split(',')
 
     if opts.info_username:
         fas.user_info(opts.info_username)
+
     if opts.install:
-        fas.mk_tempdir()
-        fas.make_group_db()
-        fas.make_passwd_db()
+        users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
+        fas.make_group_db(users)
+        fas.make_passwd_db(users)
         if not opts.no_group:
             fas.install_group_db()
         if not opts.no_passwd:
@@ -702,17 +648,29 @@ if __name__ == '__main__':
         if not opts.no_shadow:
             fas.install_shadow_db()
         if not opts.no_home_dirs:
-            fas.create_homedirs()
-            fas.remove_stale_homedirs()
+            try:
+                modefile = open(config.get('global', 'modefile'), 'r')
+                modes = pickle.load(modefile)
+            except IOError:
+                modes = {}
+            else:
+                modefile.close()
+            fas.create_home_dirs(users, modes=modes)
+            new_modes = fas.remove_stale_homedirs(users)
+            modes.update(new_modes)
+            try:
+                modefile = open(config.get('global', 'modefile'), 'w')
+                pickle.dump(modes, modefile)
+            except IOError:
+                pass
+            else:
+                modefile.close()
         if not opts.no_ssh_keys:
-            fas.create_ssh_keys()
-        fas.rm_tempdir()
+            fas.create_ssh_keys(users)
 
     if opts.aliases:
-        fas.mk_tempdir()
-        fas.make_aliases_txt()
-        fas.install_aliases_txt()
-        fas.rm_tempdir()
+        fas.make_aliases_text()
+        fas.install_aliases()
 
-    fas.logout()
-    sys.exit(0)
+    fas.cleanup()
+
