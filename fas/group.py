@@ -32,8 +32,8 @@ from sqlalchemy.sql import literal_column, and_
 import re
 
 import fas
-from fas.model import (People, PeopleTable, PersonRoles, PersonRolesTable, \
-        Groups, GroupsTable)
+from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
+        Groups, GroupsTable, Log
 from fas.auth import canViewGroup, canCreateGroup, canAdminGroup, \
         canEditGroup, canApplyGroup, canRemoveUser, canUpgradeUser, \
         canSponsorUser, canDowngradeUser, isApproved
