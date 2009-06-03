@@ -398,7 +398,7 @@ class MakeShellAccounts(AccountSystem):
         for uid in self.good_users:
             email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
 
-        for groupname, group in sorted(self.groups.iterkeys()):
+        for groupname, group in sorted(self.groups.iteritems()):
             administrators = []
             sponsors = []
             members = []
