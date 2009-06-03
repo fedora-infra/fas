@@ -441,13 +441,13 @@ class MakeShellAccounts(AccountSystem):
 
             if administrators:
                 administrators.sort()
-                email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
+                email_file.write('%s-administrators: %s\n' % (groupname, ','.join(administrators)))
             if sponsors:
                 sponsors.sort()
-                email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
+                email_file.write('%s-sponsors: %s\n' % (groupname, ','.join(sponsors)))
             if members:
                 members.sort()
-                email_file.write('%s-members: %s\n' % (group, ','.join(members)))
+                email_file.write('%s-members: %s\n' % (groupname, ','.join(members)))
 
     def create_home_dirs(self, users, modes=None):
         ''' Create homedirs and home base dir if they do not exist '''
