@@ -224,13 +224,12 @@ class MakeShellAccounts(AccountSystem):
                 if uid in user_groupcount:
                     user_groupcount[uid] += 1
 
-        good_users = []
+        good_users = set()
         for uid in user_groupcount:
             # If the user is active, has signed a CLA, and is in at least one
             # other group, add them to good_users.
             if uid in self.users and user_groupcount[uid] > 0:
-                good_users.append(uid)
-        good_users.sort()
+                good_users.add(uid)
 
         self._good_users = good_users
         self._group_types = group_types
@@ -396,7 +395,11 @@ class MakeShellAccounts(AccountSystem):
         for line in email_template.readlines():
             email_file.write(line)
 
-        for uid in self.good_users:
+        username_email = [(self.users[uid]['username'],
+            self.users[uid]['email']) for uid in self.good_users]
+        username_email.sort()
+
+        for username, email in username_email:
             email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
 
         for groupname, group in sorted(self.groups.iteritems()):
