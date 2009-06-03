@@ -205,21 +205,23 @@ class JsonRequest(controllers.Controller):
     def people_query(self, columns=None, **constraints):
         people_columns = [c.name for c in PeopleTable.columns]
 
+        # Queryable columns are temporarily limited until
+        # privacy filtering is implemented for this method.
         column_map = {
             'id': PeopleTable.c.id,
             'username': PeopleTable.c.username,
-            'human_name': PeopleTable.c.human_name,
-            'gpg_keyid': PeopleTable.c.gpg_keyid,
-            'ssh_key': PeopleTable.c.ssh_key,
+            #'human_name': PeopleTable.c.human_name,
+            #'gpg_keyid': PeopleTable.c.gpg_keyid,
+            #'ssh_key': PeopleTable.c.ssh_key,
             'email': PeopleTable.c.email,
-            'country_code': PeopleTable.c.country_code,
-            'creation': PeopleTable.c.creation,
+            #'country_code': PeopleTable.c.country_code,
+            #'creation': PeopleTable.c.creation,
             'ircnick': PeopleTable.c.ircnick,
             'status': PeopleTable.c.status,
-            'locale': PeopleTable.c.locale,
-            'timezone': PeopleTable.c.timezone,
-            'latitude': PeopleTable.c.latitude,
-            'longitude': PeopleTable.c.longitude,
+            #'locale': PeopleTable.c.locale,
+            #'timezone': PeopleTable.c.timezone,
+            #'latitude': PeopleTable.c.latitude,
+            #'longitude': PeopleTable.c.longitude,
             'group': GroupsTable.c.name,
             'group_type': GroupsTable.c.group_type,
             'role_status': PersonRolesTable.c.role_status,
@@ -247,13 +249,12 @@ class JsonRequest(controllers.Controller):
         try:
             query = select([column_map[c] for c in cols], from_obj=groupjoin)
         except KeyError:
-            # Invalid column requested!
-            return dict(success=False, data={})
+            return dict(success=False, error='Invalid column requested.', data={})
 
         for k, v in constraints.iteritems():
             if k not in column_map:
-                # Invalid constraint!
-                return dict(success=False, data={})
+                return dict(success=False,
+                error='Invalid constraint specified.', data={})
             query = query.where(column_map[k].like(v))
 
         results = [dict(zip(cols, r)) for r in query.execute()]
