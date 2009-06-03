@@ -313,12 +313,12 @@ class MakeShellAccounts(AccountSystem):
         passwd_file = codecs.open(os.path.join(self.temp, 'passwd.txt'), mode='w', encoding='utf-8')
         shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
 
-        for uid in users:
+        for uid, user in sorted(users.iteritems()):
             username = self.users[uid]['username']
             human_name = self.users[uid]['human_name']
             password = self.users[uid]['password']
             home_dir = '%s/%s' % (home_dir_base, username)
-            shell = users[uid]['shell']
+            shell = user['shell']
 
             passwd_file.write('=%s %s:x:%s:%s:%s:%s:%s\n' % (uid, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write('0%i %s:x:%s:%s:%s:%s:%s\n' % (i, username, uid, uid, human_name, home_dir, shell))
@@ -339,31 +339,32 @@ class MakeShellAccounts(AccountSystem):
 
         # First create all of our users/groups combo
         # Only create user groups for users that actually exist on the system
-        for uid in users:
+        for uid in sorted(users.iterkeys()):
             username = self.users[uid]['username']
             group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
             group_file.write('0%i %s:x:%s:\n' % (i, username, uid))
             group_file.write('.%s %s:x:%s:\n' % (username, username, uid))
             i += 1
 
-        for group in self.groups:
-            gid = self.groups[group]['id']
-            members = set()
+        for groupname, group in sorted(self.groups.iteritems()):
+            gid = group['id']
+            members = []
             memberships = ''
 
-            for member_uid in self.groups[group]['administrators'] + \
-                self.groups[group]['sponsors'] + \
-                self.groups[group]['users']:
+            for member_uid in group['administrators'] + \
+                group['sponsors'] + \
+                group['users']:
                 try:
-                    members.add(self.users[member_uid]['username'])
+                    members.append(self.users[member_uid]['username'])
                 except KeyError:
                     # This means that the user is most likely disabled.
                     pass
 
+            members.sort()
             memberships = ','.join(members)
-            group_file.write('=%i %s:x:%i:%s\n' % (gid, group, gid, memberships))
-            group_file.write('0%i %s:x:%i:%s\n' % (i, group, gid, memberships))
-            group_file.write('.%s %s:x:%i:%s\n' % (group, group, gid, memberships))
+            group_file.write('=%i %s:x:%i:%s\n' % (gid, groupname, gid, memberships))
+            group_file.write('0%i %s:x:%i:%s\n' % (i, groupname, gid, memberships))
+            group_file.write('.%s %s:x:%i:%s\n' % (groupname, groupname, gid, memberships))
             i += 1
 
         group_file.close()
@@ -397,52 +398,55 @@ class MakeShellAccounts(AccountSystem):
         for uid in self.good_users:
             email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
 
-        for group in self.groups:
-            administrators = set()
-            sponsors = set()
-            members = set()
+        for groupname, group in sorted(self.groups.iterkeys()):
+            administrators = []
+            sponsors = []
+            members = []
 
-            for uid in self.groups[group]['users']:
+            for uid in group['users']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
-                    members.add(username)
+                    members.append(username)
                 else:
                     # Add their email if they aren't disabled.
                     if uid in self.users:
-                        members.add(self.users[uid]['email'])
+                        members.append(self.users[uid]['email'])
 
-            for uid in self.groups[group]['sponsors']:
+            for uid in group['sponsors']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
-                    sponsors.add(username)
-                    members.add(username)
+                    sponsors.append(username)
+                    members.append(username)
                 else:
                     # Add their email if they aren't disabled.
                     if uid in self.users:
-                        sponsors.add(self.users[uid]['email'])
-                        members.add(self.users[uid]['email'])
+                        sponsors.append(self.users[uid]['email'])
+                        members.append(self.users[uid]['email'])
 
-            for uid in self.groups[group]['administrators']:
+            for uid in group['administrators']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
                     username = self.users[uid]['username']
-                    administrators.add(username)
-                    sponsors.add(username)
-                    members.add(username)
+                    administrators.append(username)
+                    sponsors.append(username)
+                    members.append(username)
                 else:
                     # Add their email if they aren't disabled.
                     if uid in self.users:
-                        administrators.add(self.users[uid]['email'])
-                        sponsors.add(self.users[uid]['email'])
-                        members.add(self.users[uid]['email'])
+                        administrators.append(self.users[uid]['email'])
+                        sponsors.append(self.users[uid]['email'])
+                        members.append(self.users[uid]['email'])
 
             if administrators:
+                administrators.sort()
                 email_file.write('%s-administrators: %s\n' % (group, ','.join(administrators)))
             if sponsors:
+                sponsors.sort()
                 email_file.write('%s-sponsors: %s\n' % (group, ','.join(sponsors)))
             if members:
+                members.sort()
                 email_file.write('%s-members: %s\n' % (group, ','.join(members)))
 
     def create_home_dirs(self, users, modes=None):
