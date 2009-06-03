@@ -510,16 +510,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     def email_list(self, search=u'*'):
         '''Return a username to email address mapping.
 
-        Note: If the caller is not authorized to view the email address of a
-        particular user, username@fedoraproject.org will be put there instead.
-        These are typically email aliases to the user's email address but
-        please be aware that the aliases only exist if the user is approved in
-        at least one group (so not every username will have an email alias).
-
-        Although this method checks that the person's status is active, it does
-        not perform CLA or group checking.  Thus, the @fedoraproject.org email
-        addresses that it returns are not guaranteed to exist.
-
         Keyword arguments:
         :search: filter the results by this search string.  * is a wildcard and
             the filter is anchored to the beginning of the username by default.
@@ -534,12 +524,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             search = unicode(search, 'utf-8', 'replace')
 
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
-        people = People.query.filter(and_(People.username.like(re_search), People.status.in_('active', 'bot', 'inactive'))).order_by('username')
+        people = People.query.filter(and_(People.username.like(re_search), People.status.in_('active', 'bot'))).order_by('username')
         emails = {}
         # Run filter_private via side effect
         for person, discard in ((p, p.filter_private()) for p in people):
-            emails[person.username] = person.email or '%s@fedoraproject.org' \
-                    % person.username
+            if person.email:
+                emails[person.username] = person.email
         return dict(emails=emails)
 
     @identity.require(identity.not_anonymous())
