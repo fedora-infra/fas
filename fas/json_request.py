@@ -140,15 +140,7 @@ class JsonRequest(controllers.Controller):
                 PeopleTable.c.email,
                 PeopleTable.c.privacy,
                 ], PeopleTable.c.status == 'active').execute()
-            for person in people_list:
-                id = person[0]
-                username = person[1]
-                password = person[2]
-                human_name = person[3]
-                ssh_key = person[4]
-                email = person[5]
-                privacy = person[6]
-
+            for id, username, password, human_name, ssh_key, email, privacy in people_list:
                 people[id] = {
                     'username': username,
                     'password': password,
@@ -163,9 +155,9 @@ class JsonRequest(controllers.Controller):
                     people[id]['human_name'] = username
 
                 if not privs['system']:
-                    people[person]['password'] = '*'
+                    people[id]['password'] = '*'
                 if not privs['thirdparty']:
-                    people[person]['ssh_key'] = ''
+                    people[id]['ssh_key'] = ''
             return dict(success=True, data=people)
         return dict(success=False, data={})
 
