@@ -100,35 +100,25 @@ class CLA(controllers.Controller):
             turbogears.redirect('/')
         return dict(tg_errors=tg_errors)
 
-    ### FIXME: error_handler() does nothing without a validator
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
-    ### FIXME: type overrides a builtin *and* it's not used in the method.
-    # Can we remove it?
-    def text(self, type=None):
+    def text(self):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
-    ### FIXME: error_handler() does nothing without a validator
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
-    ### FIXME: type overrides a builtin *and* it's not used in the method.
-    # Can we remove it?
-    def download(self, type=None):
+    def download(self):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
-    ### FIXME: error_handler() does nothing without a validator
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.view", allow_json=True)
     def reject(self, personName):
         '''Reject a user's CLA.
@@ -207,9 +197,7 @@ Thanks!
         else:
             turbogears.redirect('/user/view/%s' % personName)
 
-    ### FIXME: error_handler() does nothing without a validator
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.cla.index")
     def send(self, human_name, telephone, country_code, postal_address=None, confirm=False, agree=False):
         '''Send CLA'''

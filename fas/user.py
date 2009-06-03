@@ -122,10 +122,6 @@ class UserResetPassword(validators.Schema):
     passwordcheck = validators.String
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
-### FIXME: If not going to be used, delete
-#class SendToken(validators.Schema):
-#    username = KnownUser
-
 def generate_password(password=None, length=16):
     ''' Generate Password '''
     secret = {} # contains both hash and password
@@ -372,7 +368,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             return dict()
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
     def dump(self, search=u'a*', groups=''):
         
@@ -409,7 +404,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         return dict(people=p, unapproved_people=[], search=search)
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search=u'a*', fields=None):
         '''List users
@@ -505,7 +499,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                 search=search)
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(format='json')
     def email_list(self, search=u'*'):
         '''Return a username to email address mapping.
@@ -536,7 +529,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         return dict(emails=emails)
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.verifyemail')
     def verifyemail(self, token, cancel=False):
         username = identity.current.user_name
@@ -559,7 +551,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         return dict(person=person, token=token)
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose()
     def setemail(self, token):
         username = identity.current.user_name
@@ -582,7 +573,6 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.new')
     def new(self):
         show = {}
@@ -694,7 +684,6 @@ forward to working with you!
         return person
         
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
         return dict()
@@ -732,8 +721,6 @@ forward to working with you!
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
 
-    ### FIXME: error_handler does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.resetpass")
     def resetpass(self):
         if identity.not_anonymous():
@@ -741,8 +728,6 @@ forward to working with you!
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
         return dict()
 
-    ### FIXME: error_handler does nothing without a validator
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.resetpass")
     def sendtoken(self, username, email, encrypted=False):
         # Logged in
@@ -893,14 +878,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict()
 
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.gencert")
     def gencert(self):
         return dict()
 
-    ### FIXME: Without a validator, error_handler() does nothing
     @identity.require(identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi:fas.templates.user.gencertdisabled", allow_json=True, content_type='text/html')
     @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
     def dogencert(self):

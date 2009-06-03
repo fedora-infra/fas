@@ -57,14 +57,12 @@ try:
 except ImportError:
       import pickle
 
-### FIXME: If cherrypy isn't using keyword args to call these methods, we should
-# rename from id => sessionid as id is a builtin.
 class SQLAlchemyStorage:
     def __init__(self):
         pass
 
-    def load(self, id):
-        s = Session.query.get(id)
+    def load(self, session_id):
+        s = Session.query.get(session_id)
         if not s:
             return None
         expiration_time = s.expiration_time
@@ -72,19 +70,23 @@ class SQLAlchemyStorage:
         data = pickle.loads(pickled_data.encode('utf-8'))
         return (data, expiration_time)
 
-    def delete(self, id=None):
-        if id is None:
-            id = cherrypy.session.id
-        s = Session.query.get(id)
+    # This is an iffy one.  CherryPy's built in session
+    # storage classes use delete(self, id=None), but it
+    # isn't called from anywhere in cherrypy.  I think we
+    # can do this as long as we're careful about how we call it.
+    def delete(self, session_id=None):
+        if session_id is None:
+            session_id = cherrypy.session.id
+        s = Session.query.get(session_id)
         session.delete(s)
         session.flush()
 
-    def save(self, id, data, expiration_time):
+    def save(self, session_id, data, expiration_time):
         pickled_data = pickle.dumps(data)
-        s = Session.query.get(id)
+        s = Session.query.get(session_id)
         if not s:
             s = Session()
-        s.id = id
+        s.id = session_id
         s.data = pickled_data
         s.expiration_time = expiration_time
         session.flush()

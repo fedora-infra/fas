@@ -54,13 +54,9 @@ class JsonRequest(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
-    def person_by_id(self, id):
-        ### FIXME: we should rename id => userid as id is a builtin
-        userid = id
-        del id
-
+    def person_by_id(self, person_id):
         try:
-            person = People.by_id(userid)
+            person = People.by_id(person_id)
             person.json_props = {
                     'People': ('approved_memberships', 'unapproved_memberships')
                     }
@@ -176,13 +172,9 @@ class JsonRequest(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose("json", allow_json=True)
-    def group_by_id(self, id):
-        ### FIXME: we should rename id => groupid as id is a builtin
-        groupid = id
-        del id
-
+    def group_by_id(self, group_id):
         try:
-            group = Groups.by_id(groupid)
+            group = Groups.by_id(group_id)
             group.json_props = {
                     'Groups': ('approved_roles', 'unapproved_roles')}
             return dict(success=True, group=group)

@@ -69,11 +69,7 @@ class Help(controllers.Controller):
         '''Create a JsonRequest Controller.'''
 
     @expose(template="fas.templates.help")
-    def get_help(self, id='none'):
-        ### FIXME: we should rename id => helpid as id is a builtin
-        helpid = id
-        del id
-
+    def get_help(self, helpid='none'):
         try:
             helpItem = self.help[helpid]
         except KeyError:

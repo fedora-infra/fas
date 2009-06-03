@@ -601,9 +601,7 @@ into the e-mail aliases within an hour.
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
 
-    ### FIXME: error_handler() does nothing without a validator
     @identity.require(turbogears.identity.not_anonymous())
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="genshi-text:fas.templates.group.dump", format="text",
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
