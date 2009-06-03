@@ -34,8 +34,6 @@ from fas.model import GroupsTable
 from fas.model import PersonRolesTable
 
 import memcache
-from time import time
-import os
 
 # TODO: Should this code be put somewhere else?
 memcached_servers = config.get('memcached_server').split(',')
@@ -202,3 +200,61 @@ class JsonRequest(controllers.Controller):
             people[person[0]] = person[1]
         return dict(people=people)
 
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose("json", allow_json=True)
+    def people_query(self, columns=None, **constraints):
+        people_columns = [c.name for c in PeopleTable.columns]
+
+        column_map = {
+            'id': PeopleTable.c.id,
+            'username': PeopleTable.c.username,
+            'human_name': PeopleTable.c.human_name,
+            'gpg_keyid': PeopleTable.c.gpg_keyid,
+            'ssh_key': PeopleTable.c.ssh_key,
+            'email': PeopleTable.c.email,
+            'country_code': PeopleTable.c.country_code,
+            'creation': PeopleTable.c.creation,
+            'ircnick': PeopleTable.c.ircnick,
+            'status': PeopleTable.c.status,
+            'locale': PeopleTable.c.locale,
+            'timezone': PeopleTable.c.timezone,
+            'latitude': PeopleTable.c.latitude,
+            'longitude': PeopleTable.c.longitude,
+            'group': GroupsTable.c.name,
+            'group_type': GroupsTable.c.group_type,
+            'role_status': PersonRolesTable.c.role_status,
+            'role_type': PersonRolesTable.c.role_type,
+        }
+
+        if columns:
+            cols = columns.split(',')
+        else:
+            # By default, return all of the people columns in column_map.
+            cols = [c for c in people_columns if c in column_map]
+
+        print cols
+        print constraints
+
+        groupjoin = []
+        if 'group' in constraints \
+            or 'group_type' in constraints \
+            or 'role_status' in constraints \
+            or 'role_type' in constraints:
+            groupjoin = [PeopleTable.join(PersonRolesTable,
+                PersonRolesTable.c.person_id == PeopleTable.c.id).join(GroupsTable,
+                GroupsTable.c.id == PersonRolesTable.c.group_id)]
+
+        try:
+            query = select([column_map[c] for c in cols], from_obj=groupjoin)
+        except KeyError:
+            # Invalid column requested!
+            return dict(success=False, data={})
+
+        for k, v in constraints.iteritems():
+            if k not in column_map:
+                # Invalid constraint!
+                return dict(success=False, data={})
+            query = query.where(column_map[k].like(v))
+
+        results = [dict(zip(cols, r)) for r in query.execute()]
+        return dict(success=True, data=results)
