@@ -224,12 +224,13 @@ class MakeShellAccounts(AccountSystem):
                 if uid in user_groupcount:
                     user_groupcount[uid] += 1
 
-        good_users = set()
+        good_users = []
         for uid in user_groupcount:
             # If the user is active, has signed a CLA, and is in at least one
             # other group, add them to good_users.
             if uid in self.users and user_groupcount[uid] > 0:
-                good_users.add(uid)
+                good_users.append(uid)
+        good_users.sort()
 
         self._good_users = good_users
         self._group_types = group_types
