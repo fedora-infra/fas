@@ -514,7 +514,9 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         :search: filter the results by this search string.  * is a wildcard and
             the filter is anchored to the beginning of the username by default.
 
-        Returns: a mapping of usernames to email addresses.
+        Returns: a mapping of usernames to email addresses.  Note that users
+            of all statuses, including bot, inactive, expired, and
+            admin_disabled are included in this mapping.
         '''
         ### FIXME: Should port this to a validator
         # Work around a bug in TG (1.0.4.3-2)
@@ -526,8 +528,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         re_search = search.translate({ord(u'*'): ur'%'}).lower()
 
         people = select([PeopleTable.c.username,
-            PeopleTable.c.email]).where(and_(People.username.like(re_search),
-                People.status.in_('active', 'bot'))).order_by('username').execute().fetchall()
+            PeopleTable.c.email]).where(People.username.like(
+                re_search)).order_by('username').execute().fetchall()
 
         emails = dict(people)
 
