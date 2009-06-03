@@ -400,7 +400,7 @@ class MakeShellAccounts(AccountSystem):
         username_email.sort()
 
         for username, email in username_email:
-            email_file.write('%s: %s\n' % (self.users[uid]['username'], self.users[uid]['email']))
+            email_file.write('%s: %s\n' % (username, email))
 
         for groupname, group in sorted(self.groups.iteritems()):
             administrators = []
