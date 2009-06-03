@@ -151,7 +151,7 @@ class CLA(controllers.Controller):
         else:
             # Unapprove the cla and all dependent groups
             person = People.by_username(personName)
-            for role in person.approved_roles:
+            for role in person.roles
                 if self._cla_dependent(role.group):
                     role.role_status = 'unapproved'
             try:
