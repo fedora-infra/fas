@@ -604,13 +604,14 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             turbogears.redirect("/")
             return dict()
         try:
-            self.create_user(username, human_name, email, telephone, 
+            person = self.create_user(username, human_name, email, telephone, 
                              postal_address, age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
             turbogears.redirect('/user/new')
             return dict()
         else:
+            Log(author_id=person.id, description='Account created: %s' % person.username)
             turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
             turbogears.redirect('/user/changepass')
             return dict()
@@ -802,6 +803,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     return dict()
         send_mail(email, _('Fedora Project Password Reset'), mail)
         person.passwordtoken = token
+        Log(author_id=person.id, description='Password reset sent for %s' % person.username)
         turbogears.flash(_('A password reset URL has been emailed to you.'))
         turbogears.redirect('/login')  
         return dict()
@@ -825,6 +827,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
         if cancel:
             person.passwordtoken = ''
+            Log(author_id=person.id, description='Password reset cancelled for %s' % person.username)
             turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
             turbogears.redirect('/login')
             return dict()
@@ -862,7 +865,6 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     return dict(person=person, token=token)
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
-
 
         ''' Log this '''
         newpass = generate_password(password)
@@ -971,6 +973,7 @@ Note that all certificates generated prior to the current one have been
 automatically revoked, and should stop working within the hour.
 '''
             send_mail(person.email, gencert_subject, gencert_text)
+            Log(author_id=person.id, description='Certificate generated for %s' % person.username)
             return dict(tg_template="genshi-text:fas.templates.user.cert",
                     cla=True, cert=certdump, key=keydump)
         else:

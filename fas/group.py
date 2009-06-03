@@ -241,7 +241,9 @@ class Group(controllers.Controller):
                 group.prerequisite = prerequisite
             group.joinmsg = joinmsg
             group.apply_rules = apply_rules
-            # Log here
+            # Log group creation
+            Log(author_id=person.id, description='%s created group %s' %
+                (person.username, group.name))
             session.flush()
         except TypeError:
             turbogears.flash(_("The group: '%s' could not be created.") % groupname)
@@ -316,6 +318,8 @@ class Group(controllers.Controller):
             except:
                 turbogears.flash(_('The group details could not be saved.'))
             else:
+                Log(author_id=person.id, description='%s edited group %s' %
+                    (person.username, group.name))
                 turbogears.flash(_('The group details have been saved.'))
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict(group=group)
@@ -438,6 +442,9 @@ Thank you for applying for the %(group)s group.
                 send_mail(sponsors_addr, sponsor_subject, sponsors_text)
                 send_mail(target.email, join_subject, join_text)
 
+                Log(author_id=target.id, description='%s applied %s to %s' %
+                    (person.username, target.username, group.name))
+
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
                     {'user': target.username, 'group': group.name})
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -474,6 +481,9 @@ propagate into the e-mail aliases and CVS repository within an hour.
 ''' % {'group': group.name, 'user': person.username, 'email': person.email}
 
                 send_mail(target.email, sponsor_subject, sponsor_text)
+
+                Log(author_id=target.id, description='%s sponsored %s into %s' %
+                    (person.username, target.username, group.name))
 
                 turbogears.flash(_("'%s' has been sponsored!") % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -513,6 +523,9 @@ aliases within an hour.
 ''' % {'group': group.name, 'user': person.username, 'email': person.email}
 
                 send_mail(target.email, removal_subject, removal_text)
+
+                Log(author_id=target.id, description='%s removed %s from %s' %
+                    (person.username, target.username, group.name))
 
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
@@ -557,6 +570,10 @@ into the e-mail aliases within an hour.
 ''' % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
 
                 send_mail(target.email, upgrade_subject, upgrade_text)
+
+                Log(author_id=target.id, description='%s upgraded %s to %s in %s' %
+                    (person.username, target.username, status, group.name))
+
                 turbogears.flash(_('%s has been upgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
@@ -597,6 +614,10 @@ into the e-mail aliases within an hour.
 ''' % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
 
                 send_mail(target.email, downgrade_subject, downgrade_text)
+
+                Log(author_id=target.id, description='%s downgraded %s to %s in %s' %
+                    (person.username, target.username, status, group.name))
+
                 turbogears.flash(_('%s has been downgraded!') % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
             return dict()
