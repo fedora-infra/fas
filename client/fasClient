@@ -30,11 +30,12 @@ import datetime
 import subprocess
 import time
 from fedora.client import AccountSystem, AuthError, ServerError
+from urllib2 import URLError
+
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
-
 
 import ConfigParser
 from optparse import OptionParser
@@ -160,10 +161,14 @@ class MakeShellAccounts(AccountSystem):
     _good_users = None
     _group_types = None
     _temp = None
-    force_refresh = None
 
-    def __init__(self, force_refresh=False, *args, **kwargs):
-        self.force_refresh = force_refresh
+    def __init__(self, *args, **kwargs):
+        force_refresh = kwargs.get('force_refresh')
+        if force_refresh is None:
+            self.force_refresh = False
+        else:
+            del(kwargs['force_refresh'])
+            self.force_refresh = force_refresh
         super(MakeShellAccounts, self).__init__(*args, **kwargs)
 
     def _make_tempdir(self, force=False):
@@ -639,7 +644,7 @@ if __name__ == '__main__':
         fas = MakeShellAccounts(FAS_URL,
                 username=config.get('global', 'login').strip('"'),
                 password=config.get('global', 'password').strip('"'),
-                #force_refresh=opts.force_refresh,
+                force_refresh=opts.force_refresh,
                 debug=opts.debug)
     except AuthError, e:
         print >> sys.stderr, str(e)
