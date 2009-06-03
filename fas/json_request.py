@@ -25,12 +25,13 @@ from turbogears import controllers, expose, identity, config
 from sqlalchemy.exceptions import InvalidRequestError
 import sqlalchemy
 from sqlalchemy import select
-from sqlalchemy.orm import eagerload
 
 from fas.model import People
 from fas.model import Groups
 from fas.model import PersonRoles
 from fas.model import PeopleTable
+from fas.model import GroupsTable
+from fas.model import PersonRolesTable
 
 import memcache
 from time import time
@@ -93,23 +94,36 @@ class JsonRequest(controllers.Controller):
 
             if force_refresh or not groups:
                 groups = {}
-                groups_list = Groups.query.options(eagerload('approved_roles')).all()
-                for group in groups_list:
-                    groups[group.name] = {
-                        'id': group.id,
-                        'administrators': [],
-                        'sponsors': [],
-                        'users': [],
-                        'type': group.group_type
-                    }
 
-                    for role in group.approved_roles:
-                        if role.role_type == 'administrator':
-                            groups[group.name]['administrators'].append(role.person_id)
-                        elif role.role_type == 'sponsor':
-                            groups[group.name]['sponsors'].append(role.person_id)
-                        elif role.role_type == 'user':
-                            groups[group.name]['users'].append(role.person_id)
+                groupjoin = [GroupsTable.outerjoin(PersonRolesTable,
+                    PersonRolesTable.c.group_id == GroupsTable.c.id)]
+
+                group_query = select([GroupsTable.c.id, GroupsTable.c.name,
+                    GroupsTable.c.group_type, PersonRolesTable.c.person_id,
+                    PersonRolesTable.c.role_status, PersonRolesTable.c.role_type],
+                    from_obj=groupjoin)
+
+                results = group_query.execute().fetchall()
+
+                for id, name, group_type, person_id, role_status, role_type in results:
+                    if name not in groups:
+                        groups[name] = {
+                            'id': id,
+                            'administrators': [],
+                            'sponsors': [],
+                            'users': [],
+                            'type': group_type
+                        }
+
+                    if role_status != 'approved':
+                        continue
+
+                    if role_type == 'administrator':
+                        groups[name]['administrators'].append(person_id)
+                    elif role_type == 'sponsor':
+                        groups[name]['sponsors'].append(person_id)
+                    elif role_type == 'user':
+                        groups[name]['users'].append(person_id)
 
                 # Save cache - valid for 15 minutes
                 mc.set('group_data', groups, 900)
