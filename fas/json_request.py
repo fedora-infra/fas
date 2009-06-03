@@ -103,7 +103,7 @@ class JsonRequest(controllers.Controller):
                     PersonRolesTable.c.role_status, PersonRolesTable.c.role_type],
                     from_obj=groupjoin)
 
-                results = group_query.execute().fetchall()
+                results = group_query.execute()
 
                 for id, name, group_type, person_id, role_status, role_type in results:
                     if name not in groups:
@@ -139,7 +139,7 @@ class JsonRequest(controllers.Controller):
                 PeopleTable.c.ssh_key,
                 PeopleTable.c.email,
                 PeopleTable.c.privacy,
-                ], PeopleTable.c.status == 'active').execute().fetchall();
+                ], PeopleTable.c.status == 'active').execute()
             for person in people_list:
                 id = person[0]
                 username = person[1]
@@ -162,7 +162,6 @@ class JsonRequest(controllers.Controller):
                     # their username
                     people[id]['human_name'] = username
 
-            for person in people:
                 if not privs['system']:
                     people[person]['password'] = '*'
                 if not privs['thirdparty']:

@@ -50,5 +50,5 @@ def people_query(constraints=None, columns=None):
             raise ValueError # Invalid query!
         query = query.where(column_map[k].like(v))
 
-    results = query.execute().fetchall()
+    results = query.execute()
     return [dict(zip(columns, r)) for r in results]
