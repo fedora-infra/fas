@@ -92,7 +92,7 @@ Additional scripts that work as clients to the accounts system.
 
 %changelog
 * Tue Jun  3 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.1-1
-- Upstream released new version
+- Upstream released a new version.
 
 * Tue Jun  2 2009 Mike McGrath <mmcgrath@fedoraproject.org> - 0.8.6-1
 - Upstream released new version
