@@ -110,11 +110,11 @@ parser.add_option('-a', '--aliases',
                      default = False,
                      action = 'store_true',
                      help = _('Sync mail aliases'))
-#parser.add_option('-f', '--force-refresh',
-#                     dest = 'force_refresh',
-#                     default = False,
-#                     action = 'store_true',
-#                     help = _('Fetch FAS data from the database, not cache'))
+parser.add_option('-f', '--force-refresh',
+                     dest = 'force_refresh',
+                     default = False,
+                     action = 'store_true',
+                     help = _('Fetch FAS data from the database, not cache'))
 parser.add_option('--nosession',
                      dest = 'nosession',
                      default = False,
@@ -194,10 +194,7 @@ class MakeShellAccounts(AccountSystem):
         '''Return a list of groups in FAS'''
         # Cached values present, return
         if not self._groups or force:
-            # XXX - this is temporarily disabled until python-fedora is updated to
-            # make group_data take the force_refresh argument.
-            #group_data = self.group_data(force_refresh=self.force_refresh)
-            group_data = self.group_data()
+            group_data = self.group_data(force_refresh=self.force_refresh)
             # The JSON output from FAS encodes dictionary keys as strings, but leaves
             # array elements as integers (in the case of group member UIDs).  This
             # normalizes them to all strings.
