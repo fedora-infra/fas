@@ -84,11 +84,11 @@ class JsonRequest(controllers.Controller):
             privs['thirdparty'] = True
 
         if data == 'group_data':
+            groups = None
             if not force_refresh:
                 groups = mc.get('group_data')
             if not groups:
                 groups = {}
-
                 groupjoin = [GroupsTable.outerjoin(PersonRolesTable,
                     PersonRolesTable.c.group_id == GroupsTable.c.id)]
 
