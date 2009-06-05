@@ -276,7 +276,13 @@ class User(controllers.Controller):
                     turbogears.flash(_('Only administrator can enable or disable an account.'))
                     return dict()
                 else:
-                    # TODO: revoke cert
+                    # Revoke any certs
+                    openssl_fas.lock_ca(config)
+                    try:
+                        openssl_fas.revoke_all_certs(target, config)
+                    finally:
+                        openssl_fas.unlock_ca(config)
+
                     target.old_password = target.password
                     target.password = '*'
                     for group in target.unapproved_memberships:
@@ -301,7 +307,7 @@ class User(controllers.Controller):
                 token = generate_token()
                 target.unverified_email = email
                 target.emailtoken = token
-                change_subject = _('Email Change Requested for %s') % person.username
+                change_subject = _('Email Change Requested for %s') % target.username
                 change_text = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
@@ -309,8 +315,12 @@ ownership of this email by visiting the following URL (you will need to
 login with your Fedora account first):
 
 https://admin.fedoraproject.org/accounts/user/verifyemail/%s
+
+If you did not request this change, you can cancel it at:
+
+https://admin.fedoraproject.org/accounts/user/verifyemail/%s?cancel=1
 ''') % token
-                send_mail(email, change_subject, change_text)
+                send_mail(target.email, change_subject, change_text)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -333,9 +343,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
         else:
             change_subject = _('Fedora Account Data Update %s') % target.username
             change_text = '''
-You have just updated information about your account.  If you did not request
-these changes please contact admin@fedoraproject.org and let them know.  Your
-updated information is:
+Your account information has been modified.  If you did not request
+these changes please contact admin@fedoraproject.org and let them
+know.  Your updated information is:
 
   username:       %(username)s
   ircnick:        %(ircnick)s
@@ -348,6 +358,7 @@ updated information is:
   longitude:      %(longitude)s
   privacy flag:   %(privacy)s
   ssh_key:        %(ssh_key)s
+  status:         %(status)s
 
 If the above information is incorrect, please log in and fix it:
 https://admin.fedoraproject.org/accounts/user/edit/%(username)s
@@ -361,7 +372,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
          'latitude'       : target.latitude,
          'longitude'      : target.longitude,
          'privacy'        : target.privacy,
-         'ssh_key'        : target.ssh_key }
+         'ssh_key'        : target.ssh_key,
+         'status'         : target.status }
             send_mail(target.email, change_subject, change_text)
             turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
@@ -897,88 +909,62 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         response.headers["content-disposition"] = "attachment"
         username = identity.current.user_name
         person = People.by_username(username)
-        if CLADone(person):
-            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
-
-            digest = config.get('openssl_digest')
-            expire = config.get('openssl_expire')
-
-            req = openssl_fas.createCertRequest(pkey, digest=digest,
-                C=config.get('openssl_c'),
-                ST=config.get('openssl_st'),
-                L=config.get('openssl_l'),
-                O=config.get('openssl_o'),
-                OU=config.get('openssl_ou'),
-                CN=person.username,
-                emailAddress=person.email,
-            )
-
-            reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
-            reqfile = tempfile.NamedTemporaryFile()
-            reqfile.write(reqdump)
-            reqfile.flush()
-
-            certfile = tempfile.NamedTemporaryFile()
-            while True:
-                try:
-                    os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
-                    break
-                except OSError:
-                    time.sleep(0.75)
-            try:
-                indexfile = open(config.get('openssl_ca_index'))
-                for entry in indexfile:
-                    attrs = entry.split('\t')
-                    if attrs[0] != 'V':
-                        continue
-                    # the index line looks something like this:
-                    # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
-                    # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
-                    dn = attrs[5]
-                    serial = attrs[3]
-                    info = {}
-                    for pair in dn.split('/'):
-                        if pair:
-                            key, value = pair.split('=')
-                            info[key] = value
-                    if info['CN'] == person.username:
-                        # revoke old certs
-                        subprocess.call([config.get('makeexec'), '-C',
-                            config.get('openssl_ca_dir'), 'revoke',
-                            'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
-
-                command = [config.get('makeexec'), '-C',
-                        config.get('openssl_ca_dir'), 'sign',
-                        'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
-                ret = subprocess.call(command)
-            finally:
-                os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
-
-            reqfile.close()
-            if ret != 0:
-                turbogears.flash(_('Your certificate could not be generated.'))
-                turbogears.redirect('/home')
-                return dict()
-            certdump = certfile.read()
-            certfile.close()
-            keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-            cherrypy.request.headers['Accept'] = 'text'
-
-            gencert_subject = 'A new certificate has been generated for %s' % person.username
-            gencert_text = '''
-You have just generated a new SSL certificate.  If you did not request this,
-please contact admin@fedoraproject.org and let them know.
-
-Note that all certificates generated prior to the current one have been
-automatically revoked, and should stop working within the hour.
-'''
-            send_mail(person.email, gencert_subject, gencert_text)
-            Log(author_id=person.id, description='Certificate generated for %s' % person.username)
-            return dict(tg_template="genshi-text:fas.templates.user.cert",
-                    cla=True, cert=certdump, key=keydump)
-        else:
+        if not CLADone(person):
             if self.jsonRequest():
                 return dict(cla=False)
             turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
             turbogears.redirect('/cla/')
+            return dict()
+
+        pkey = openssl_fas.create_key(crypto.TYPE_RSA, 2048)
+
+        digest = config.get('openssl_digest')
+        expire = config.get('openssl_expire')
+
+        req = openssl_fas.create_csr(pkey, digest=digest,
+            C=config.get('openssl_c'),
+            ST=config.get('openssl_st'),
+            L=config.get('openssl_l'),
+            O=config.get('openssl_o'),
+            OU=config.get('openssl_ou'),
+            CN=person.username,
+            emailAddress=person.email,
+        )
+
+        reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
+        reqfile = tempfile.NamedTemporaryFile()
+        reqfile.write(reqdump)
+        reqfile.flush()
+
+        certfile = tempfile.NamedTemporaryFileCertRequest()
+        openssl_fas.lock_ca(config)
+        try:
+            openssl_fas.revoke_all_certs(person, config)
+            openssl_fas.sign_cert(reqfile.name, certfile.name, config)
+        finally:
+            openssl_fas.unlock_ca(config)
+
+        reqfile.close()
+        if ret != 0:
+            turbogears.flash(_('Your certificate could not be generated.'))
+            turbogears.redirect('/home')
+            return dict()
+        certdump = certfile.read()
+        certfile.close()
+        keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+        cherrypy.request.headers['Accept'] = 'text'
+
+        gencert_subject = 'A new certificate has been generated for %s' % person.username
+        gencert_text = _('''
+You have generated a new SSL certificate.  This certificate will expire in on
+year.  If you did not request this, please let admin@fedoraproject.org and let
+them know.
+
+Note that any certificates generated prior to the most recent one have been
+automatically revoked, and should stop working within the hour.
+''')
+        send_mail(person.email, gencert_subject, gencert_text)
+        Log(author_id=person.id, description='Certificate generated for %s' % person.username)
+        return dict(tg_template="genshi-text:fas.templates.user.cert",
+                cla=True, cert=certdump, key=keydump)
 
