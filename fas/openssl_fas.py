@@ -4,7 +4,8 @@
 # The pyOpenSSL examples may be under the same license but I'm not certain.
 
 from OpenSSL import crypto
-import subprocess
+TYPE_RSA = crypto.TYPE_RSA
+TYPE_DSA = crypto.TYPE_DSA
 
 def retrieve_key_from_file(keyfile):
     fo = open(keyfile, 'r')
@@ -18,7 +19,7 @@ def retrieve_cert_from_file(certfile):
     cert = crypto.load_certificate(crypto.FILETYPE_PEM, buf)
     return cert
 
-def create_key(key_type, bits):
+def createKeyPair(key_type, bits):
     """
     Create a public/private key pair.
 
@@ -30,7 +31,7 @@ def create_key(key_type, bits):
     pkey.generate_key(key_type, bits)
     return pkey
 
-def create_csr(pkey, digest="md5", **name):
+def createCertRequest(pkey, digest="md5", **name):
     """
     Create a certificate request.
 
@@ -57,41 +58,28 @@ def create_csr(pkey, digest="md5", **name):
     req.sign(pkey, digest)
     return req
 
-def revert_all_certs(person, config):
-    indexfile = open(config.get('openssl_ca_index'))
-    for entry in indexfile:
-        attrs = entry.split('\t')
-        if attrs[0] != 'V':
-            continue
-        # the index line looks something like this:
-        # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
-        # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
-        dn = attrs[5]
-        serial = attrs[3]
-        info = {}
-        for pair in dn.split('/'):
-            if pair:
-                key, value = pair.split('=')
-                info[key] = value
-        if info['CN'] == person.username:
-            # revoke old certs
-            subprocess.call([config.get('makeexec'), '-C',
-                config.get('openssl_ca_dir'), 'revoke',
-                'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
+def createCertificate(req, (issuerCert, issuerKey), serial, (notBefore, notAfter), digest="md5"):
+    """
+    Generate a certificate given a certificate request.
 
-def sign_cert(reqfile, certfile, config):
-    command = [config.get('makeexec'), '-C', config.get('openssl_ca_dir'),
-            'sign', 'req=%s' % reqfile, 'cert=%s' % certfile]
-    return subprocess.call(command)
-
-def lock_ca(config):
-    while True:
-        try:
-            os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
-            break
-        except OSError:
-            time.sleep(0.75)
-
-def unlock_ca(config):
-    os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
+    Arguments: req        - Certificate reqeust to use
+               issuerCert - The certificate of the issuer
+               issuerKey  - The private key of the issuer
+               serial     - Serial number for the certificate
+               notBefore  - Timestamp (relative to now) when the certificate
+                            starts being valid
+               notAfter   - Timestamp (relative to now) when the certificate
+                            stops being valid
+               digest     - Digest method to use for signing, default is md5
+    Returns:   The signed certificate in an X509 object
+    """
+    cert = crypto.X509()
+    cert.set_serial_number(serial)
+    cert.gmtime_adj_notBefore(notBefore)
+    cert.gmtime_adj_notAfter(notAfter)
+    cert.set_issuer(issuerCert.get_subject())
+    cert.set_subject(req.get_subject())
+    cert.set_pubkey(req.get_pubkey())
+    cert.sign(issuerKey, digest)
+    return cert
 
