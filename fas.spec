@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.6.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -28,6 +28,7 @@ Requires: pytz
 Requires: python-openid
 Requires: python-GeoIP
 Requires: pyOpenSSL
+Requires: python-memcached
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -91,6 +92,9 @@ Additional scripts that work as clients to the accounts system.
 %config(noreplace) %{_sysconfdir}/fas.conf
 
 %changelog
+* Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-2
+- Add Requires on python-memcached.
+
 * Tue Jun  6 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-1
 - Typo fix release.
 
