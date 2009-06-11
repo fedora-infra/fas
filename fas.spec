@@ -84,16 +84,18 @@ Additional scripts that work as clients to the accounts system.
 %{_datadir}/fas/
 %{_sbindir}/start-fas
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
-%attr(0700,root,root) %dir %{_sharedstatedir}/fas
+%attr(0700,root,root) %dir %{_localstatedir}/fas
 
 %files clients
 %defattr(-,root,root,-)
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/fas.conf
+%attr(0700,root,root) %dir %{_localstatedir}/fas
 
 %changelog
 * Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-2
 - Add Requires on python-memcached.
+- Fix /var/lib/fas directory.
 
 * Tue Jun  6 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-1
 - Typo fix release.
