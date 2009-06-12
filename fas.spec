@@ -64,8 +64,12 @@ Additional scripts that work as clients to the accounts system.
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg %{buildroot}%{_sysconfdir}
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
-%{__install} -m 700 -d %{buildroot}%{_sharedstatedir}/fas
+%{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 %{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
+
+%{__install} -m 0755 scripts/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
+%{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
+
 %find_lang %{name}
 
 %clean
@@ -83,13 +87,15 @@ Additional scripts that work as clients to the accounts system.
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
+%{_sbindir}/export-bugzilla
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
+%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
 
 %files clients
 %defattr(-,root,root,-)
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/fas.conf
-%attr(0700,root,root) %dir %{_localstatedir}/fas
+%attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
 * Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-2
