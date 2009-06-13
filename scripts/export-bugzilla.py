@@ -18,8 +18,8 @@ from fas.model import BugzillaQueue
 BZSERVER = config.get('bugzilla.url', 'https://bugdev.devel.redhat.com/bugzilla-cvs/xmlrpc.cgi')
 BZUSER = config.get('bugzilla.username')
 BZPASS = config.get('bugzilla.password')
-MAILSERVER = config.get('mail.server', localhost)
-ADMINEMAIL = config.get(mail.admin_email, 'admin@fedoraproject.org')
+MAILSERVER = config.get('mail.server', 'localhost')
+ADMINEMAIL = config.get('mail.admin_email', 'admin@fedoraproject.org')
 
 if __name__ == '__main__':
     opts, args = getopt.getopt(sys.argv[1:], '', ('usage', 'help'))
@@ -67,6 +67,7 @@ if __name__ == '__main__':
         else:
             print 'Unrecognized action code: %s %s %s %s %s' % (entry.action,
                     entry.email, entry.person.human_name, entry.person.username, entry.group.name)
+            continue
         
         # Remove them from the queue
         session.delete(entry)
@@ -76,7 +77,7 @@ if __name__ == '__main__':
     msg = Message()
     for person in no_bz_account:
         smtplib.SMTP(MAILSERVER)
-        message = '''Hello, %(name)s,
+        message = '''Hello %(name)s,
 
 As a Fedora packager, we grant you permissions to make changes to bugs in
 bugzilla to all Fedora bugs.  This lets you work together with other Fedora
@@ -99,12 +100,12 @@ Thank you,
 The Fedora Account System
 %(admin_email)s
 ''' % {'name': entry.person.human_name, 'email': entry.email,
-        admin_email: ADMINEMAIL}
+        'admin_email': ADMINEMAIL}
 
-    msg.add_header('To', entry.email)
-    msg.add_header('From', ADMINEMAIL)
-    msg.add_header('Subject', 'Fedora Account System and Bugzilla Mistmatch')
-    msg.set_payload(message)
-    smtp = smtplib.SMTP(MAILSERVER)
-    smtp.sendmail(ADMINEMAIL, [], msg.as_string())
-    smtp.quit()
+        msg.add_header('To', entry.email)
+        msg.add_header('From', ADMINEMAIL)
+        msg.add_header('Subject', 'Fedora Account System and Bugzilla Mistmatch')
+        msg.set_payload(message)
+        smtp = smtplib.SMTP(MAILSERVER)
+        smtp.sendmail(ADMINEMAIL, [], msg.as_string())
+        smtp.quit()
