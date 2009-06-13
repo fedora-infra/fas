@@ -169,7 +169,13 @@ setup(
         'TurboMail',
         'python_fedora >= 0.3'
     ],
-    scripts = ['client/fasClient', 'client/fasClient.old', 'client/restricted-shell'],
+    scripts = [
+        'client/fasClient',
+        'client/fasClient.old',
+        'client/restricted-shell',
+        'scripts/account-expiry.py',
+        'scripts/export-bugzilla.py',
+    ],
     zip_safe=False,
     packages=find_packages(),
     data_files = data_files,

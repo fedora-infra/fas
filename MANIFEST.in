@@ -3,6 +3,7 @@ include README COPYING TODO
 include *.cfg *.conf *.wsgi *.spec
 include convert.py start-fas
 include client/*.conf
+include scripts/*.cfg
 include fas/config/*
 include fas/static/*
 include fas/static/images/balloons/*

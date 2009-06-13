@@ -70,6 +70,9 @@ Additional scripts that work as clients to the accounts system.
 %{__install} -m 0755 scripts/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
 %{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
 
+%{__install} -m 0755 scripts/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
+%{__install} -m 0600 scripts/account-expiry.cfg %{buildroot}%{_sysconfdir}/
+
 %find_lang %{name}
 
 %clean
@@ -88,8 +91,10 @@ Additional scripts that work as clients to the accounts system.
 %{_datadir}/fas/
 %{_sbindir}/start-fas
 %{_sbindir}/export-bugzilla
+%{_sbindir}/account-expiry
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
+%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/account-expiry.cfg
 
 %files clients
 %defattr(-,root,root,-)
