@@ -3,6 +3,9 @@ __requires__ = 'TurboGears'
 import pkg_resources
 pkg_resources.require('CherryPy >= 2.0, < 3.0alpha')
 
+import logging
+logging.basicConfig()
+
 import sys
 import getopt
 import xmlrpclib
@@ -31,7 +34,8 @@ if __name__ == '__main__':
     ourGroup = args[0]
     bzGroup = args[1]
 
-    server = bugzilla.Bugzilla(url=BZSERVER, user=BZUSER, password=BZPASS)
+    server = bugzilla.Bugzilla(url=BZSERVER, user=BZUSER, password=BZPASS,
+            cookiefile=None)
     bugzilla_queue = BugzillaQueue.query.join('group').filter_by(
             name=ourGroup)
 
