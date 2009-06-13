@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.6.2.1
-Release:        2%{?dist}
+Version:        0.8.6.2.2
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -98,9 +98,10 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
-* Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-2
+* Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.2-1
 - Add Requires on python-memcached.
 - Fix /var/lib/fas directory.
+- Some export-bugzilla fixes.
 
 * Tue Jun  6 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.1-1
 - Typo fix release.
