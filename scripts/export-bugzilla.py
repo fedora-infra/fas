@@ -111,5 +111,5 @@ The Fedora Account System
         msg.add_header('Subject', 'Fedora Account System and Bugzilla Mistmatch')
         msg.set_payload(message)
         smtp = smtplib.SMTP(MAILSERVER)
-        smtp.sendmail(ADMINEMAIL, [], msg.as_string())
+        smtp.sendmail(ADMINEMAIL, [entry.email], msg.as_string())
         smtp.quit()
