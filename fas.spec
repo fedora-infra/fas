@@ -42,7 +42,7 @@ that works with the Account System.
 Summary: Clients for the Fedora Account System
 Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
-Requires: rhpl
+Requires: rhpl authconfig
 
 %description clients
 Additional scripts that work as clients to the accounts system.
