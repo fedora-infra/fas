@@ -19,6 +19,10 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #
+
+# Does this need to come before the import turbogears or does it not matter?
+from fedora.util import tg_url
+
 import turbogears
 from turbogears import controllers, expose, identity, validate, validators, \
         error_handler, config
@@ -413,7 +417,7 @@ class Group(controllers.Controller):
                 # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
 
                 sponsor_url = config.get('base_url_filter.base_url') + \
-                    turbogears.url('/group/view/%s' % groupname)
+                    tg_url('/group/view/%s' % groupname)
                 sponsors_addr = '%(group)s-sponsors@%(host)s' % \
                     {'group': group.name, 'host': config.get('email_host')}
                 sponsor_subject = 'Fedora \'%(group)s\' sponsor needed for %(user)s' % \
