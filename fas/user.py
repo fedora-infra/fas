@@ -894,91 +894,92 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             # Return the error page
             return dict()
         import tempfile
-        response.headers["content-disposition"] = "attachment"
         username = identity.current.user_name
         person = People.by_username(username)
-        if CLADone(person):
-            pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
-
-            digest = config.get('openssl_digest')
-            expire = config.get('openssl_expire')
-
-            req = openssl_fas.createCertRequest(pkey, digest=digest,
-                C=config.get('openssl_c'),
-                ST=config.get('openssl_st'),
-                L=config.get('openssl_l'),
-                O=config.get('openssl_o'),
-                OU=config.get('openssl_ou'),
-                CN=person.username,
-                emailAddress=person.email,
-            )
-
-            reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
-            reqfile = tempfile.NamedTemporaryFile()
-            reqfile.write(reqdump)
-            reqfile.flush()
-
-            certfile = tempfile.NamedTemporaryFile()
-            while True:
-                try:
-                    os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
-                    break
-                except OSError:
-                    time.sleep(0.75)
-            try:
-                indexfile = open(config.get('openssl_ca_index'))
-                for entry in indexfile:
-                    attrs = entry.split('\t')
-                    if attrs[0] != 'V':
-                        continue
-                    # the index line looks something like this:
-                    # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
-                    # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
-                    dn = attrs[5]
-                    serial = attrs[3]
-                    info = {}
-                    for pair in dn.split('/'):
-                        if pair:
-                            key, value = pair.split('=')
-                            info[key] = value
-                    if info['CN'] == person.username:
-                        # revoke old certs
-                        subprocess.call([config.get('makeexec'), '-C',
-                            config.get('openssl_ca_dir'), 'revoke',
-                            'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
-
-                command = [config.get('makeexec'), '-C',
-                        config.get('openssl_ca_dir'), 'sign',
-                        'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
-                ret = subprocess.call(command)
-            finally:
-                os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
-
-            reqfile.close()
-            if ret != 0:
-                turbogears.flash(_('Your certificate could not be generated.'))
-                turbogears.redirect('/home')
-                return dict()
-            certdump = certfile.read()
-            certfile.close()
-            keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-            cherrypy.request.headers['Accept'] = 'text'
-
-            gencert_subject = 'A new certificate has been generated for %s' % person.username
-            gencert_text = '''
-You have just generated a new SSL certificate.  If you did not request this,
-please contact admin@fedoraproject.org and let them know.
-
-Note that all certificates generated prior to the current one have been
-automatically revoked, and should stop working within the hour.
-'''
-            send_mail(person.email, gencert_subject, gencert_text)
-            Log(author_id=person.id, description='Certificate generated for %s' % person.username)
-            return dict(tg_template="genshi-text:fas.templates.user.cert",
-                    cla=True, cert=certdump, key=keydump)
-        else:
+        if not CLADone(person):
             if self.jsonRequest():
                 return dict(cla=False)
             turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
             turbogears.redirect('/cla/')
+            return dict()
+
+        response.headers["content-disposition"] = "attachment"
+        pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
+
+        digest = config.get('openssl_digest')
+        expire = config.get('openssl_expire')
+
+        req = openssl_fas.createCertRequest(pkey, digest=digest,
+            C=config.get('openssl_c'),
+            ST=config.get('openssl_st'),
+            L=config.get('openssl_l'),
+            O=config.get('openssl_o'),
+            OU=config.get('openssl_ou'),
+            CN=person.username,
+            emailAddress=person.email,
+        )
+
+        reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
+        reqfile = tempfile.NamedTemporaryFile()
+        reqfile.write(reqdump)
+        reqfile.flush()
+
+        certfile = tempfile.NamedTemporaryFile()
+        while True:
+            try:
+                os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
+                break
+            except OSError:
+                time.sleep(0.75)
+        try:
+            indexfile = open(config.get('openssl_ca_index'))
+            for entry in indexfile:
+                attrs = entry.split('\t')
+                if attrs[0] != 'V':
+                    continue
+                # the index line looks something like this:
+                # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
+                # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
+                dn = attrs[5]
+                serial = attrs[3]
+                info = {}
+                for pair in dn.split('/'):
+                    if pair:
+                        key, value = pair.split('=')
+                        info[key] = value
+                if info['CN'] == person.username:
+                    # revoke old certs
+                    subprocess.call([config.get('makeexec'), '-C',
+                        config.get('openssl_ca_dir'), 'revoke',
+                        'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
+
+            command = [config.get('makeexec'), '-C',
+                    config.get('openssl_ca_dir'), 'sign',
+                    'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
+            ret = subprocess.call(command)
+        finally:
+            os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
+
+        reqfile.close()
+        if ret != 0:
+            turbogears.flash(_('Your certificate could not be generated.'))
+            turbogears.redirect('/home')
+            return dict()
+        certdump = certfile.read()
+        certfile.close()
+        keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
+        cherrypy.request.headers['Accept'] = 'text'
+
+        gencert_subject = 'A new certificate has been generated for %s' % person.username
+        gencert_text = '''
+You havet generated a new SSL certificate.  If you did not request this,
+please cct admin@fedoraproject.org and let them know.
+
+Note thal certificates generated prior to the current one have been
+automatiy revoked, and should stop working within the hour.
+'''
+        send_mail(person.email, gencert_subject, gencert_text)
+        Log(author_id=person.id, description='Certificate generated for %s' % person.username)
+        return dict(tg_template="genshi-text:fas.templates.user.cert",
+                cla=True, cert=certdump, key=keydump)
 
