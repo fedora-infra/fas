@@ -162,7 +162,8 @@ def canApplyGroup(person, group, applicant):
     if canSponsorGroup(person, group):
         return True
 
-    if person == applicant and group.group_type not in ('cla', 'system'):
+    # TODO: We can implement invite-only groups here instead.
+    if person == applicant and group.group_type not in ('system'):
         return True
 
     return False
