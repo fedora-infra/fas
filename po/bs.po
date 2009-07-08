@@ -504,24 +504,31 @@ msgid ""
 "must be an RSA key).  Once created you will want to upload "
 "~/.ssh/id_rsa.pub</p>"
 msgstr ""
+"<p>Mnogi resursi zahtjevaju autentifikaciju javnog ključa da bi radili.  "
+"Dajući nam  Vaš javni ključ moći ćete se prijaviti na naše servere.  "
+"Unesite \"man ssh-keygen\" za više informacija o stvaranju Vašeg ključa (on "
+"mora biti RSA ključ).  Jednom kada je napravljen željet ćete da nam pošaljete "
+"~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:120
 msgid "Locale"
-msgstr ""
+msgstr "Lokalizacija"
 
 #: fas/help.py:39
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select "
 "which locale they are in.</p>"
 msgstr ""
+"<p>Za ljude koji ne govore engleski jezik ovo omogućava osobama da odaberu "
+"lokalizaciju sa sebe.</p>"
 
 #: fas/help.py:40
 msgid "Country Code"
-msgstr ""
+msgstr "Kod države"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "Mora biti iznad 13 godina"
 
 #: fas/help.py:41
 msgid ""
@@ -532,10 +539,16 @@ msgid ""
 " knowingly collect or solicit personal information about children under "
 "13.</p>"
 msgstr ""
+"<p>Zbog specijalne brige za dječiju privatnost, mi neprihvaćamo (u znanju) "
+"privatne informacije na internetu od djece ispod 13 godina. Mi "
+"nedopuštamo (u znanju) djeci ispod 13 godina da postanu registrovani "
+"članovi naših stranica ili da kupuju produkte i usluge na našim stranicama. Mi"
+" neskupljamo ili dijelimo (u znanju) personalne informacije o djeci ispod "
+"13 godina.</p>"
 
 #: fas/help.py:42
 msgid "Hide Information"
-msgstr ""
+msgstr "Sakrij informacije"
 
 #: fas/help.py:42
 msgid ""
@@ -543,10 +556,13 @@ msgid ""
 "the information given on this page from other people.  Please see the "
 "privacy policy for complete details.</p>"
 msgstr ""
+"<p>U slaganju sa našim uslovima privatnosti možete da odaberete da sakrijete neke "
+"informacije date na ovoj stranici od drugih ljudi.  Molimo da pogledate "
+"uslove privatnosti za kompletne detalje.</p>"
 
 #: fas/help.py:43 fas/templates/group/list.html:43
 msgid "Apply"
-msgstr ""
+msgstr "Apliciraj"
 
 #: fas/help.py:43
 #, python-format
@@ -556,10 +572,14 @@ msgid ""
 "actually get approved or sponsored.  For more information on how the "
 "account system works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
+"<p>Apliciranje za grupu je kao apliciranje za posao i ono može "
+"potrajati da bi se konačno ušlo.  Mnoge grupe imaju svoja vlastita pravila o tome kako "
+"biti odobren ili sponzorisan.  Za više informacija o tome kako "
+"sistem računa radi pogledajte <a href=\"%s\">opis stranica</a>.</p>"
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
-msgstr ""
+msgstr "Odstrani"
 
 #: fas/help.py:44
 msgid ""
@@ -567,10 +587,13 @@ msgid ""
 " the group.  They will need to re-apply to get in.  Admins can remove "
 "anyone, Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
+"<p>Odstranjivanje osobe iz grupe će značiti da taj korisnik više neće biti u"
+" grupi.  Ta osoba će morati ponovno aplicirati da bi ušla unutra.  Administratori mogu odstraniti "
+"bilo koga, sponzori mogu odstraniti korisnike, korisici nemogu odstraniti nikog.</p>"
 
 #: fas/help.py:45 fas/templates/group/member-list.html:50
 msgid "Upgrade"
-msgstr ""
+msgstr "Unapređenje"
 
 #: fas/help.py:45
 msgid ""
@@ -578,10 +601,13 @@ msgid ""
 "sponsor</li><li>From sponsor -> administrator</li><li>administrators "
 "cannot be upgraded beyond administrator</li></ul></p>"
 msgstr ""
+"<p>Unapređuje statut osobe u ovoj grupi.<ul><li>sa korisnika -> na "
+"sponzora</li><li>Sa sponzora -> na administratora</li><li>administratori "
+"se nemogu unaprijediti više od administratora</li></ul></p>"
 
 #: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
-msgstr ""
+msgstr "Sniziti statut"
 
 #: fas/help.py:46
 msgid ""
@@ -589,10 +615,13 @@ msgid ""
 "to sponsor</li><li>From sponsor -> user</li><li>users cannot be "
 "downgraded below user, you may want to remove them</li></ul></p>"
 msgstr ""
+"<p>Snižava statut osobe u ovoj grupi.<ul><li>sa administratora -> "
+"na sponzora</li><li>Sa sponzora -> na korisnika</li><li>korisnicima se nemože "
+"sniziti statut ispod korisnik, u tom slučaju mogli biste ih odstraniti</li></ul></p>"
 
 #: fas/help.py:47 fas/templates/group/member-list.html:41
 msgid "Approve"
-msgstr ""
+msgstr "Odobriti"
 
 #: fas/help.py:47
 msgid ""
@@ -600,11 +629,14 @@ msgid ""
 "the user has applied for the group, go to the group's page and click "
 "approve to approve the user.</p>"
 msgstr ""
+"<p>Sponmzor ili administrator može odobriti korisnike da budu u grupi.  Jednom "
+"kada je korisnik aplicirao za grupu, idite na stranicu grupe i kliknite "
+"Odobriti da odobrite korisnika.</p>"
 
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr ""
+msgstr "Sponzor"
 
 #: fas/help.py:48
 msgid ""
@@ -614,46 +646,55 @@ msgid ""
 "approving a user and may mentor and answer their questions as they come "
 "up.</p>"
 msgstr ""
+"<p>Sponzor ili administrator može sponzorisati korisnike da budu u grupi.  Jednom kada je "
+"korisnik aplicirao za grupu, idite na stranicu grupe i kliknite "
+"Odobriti da bi sponzorisali korisnika.  Sponzorisanje korisnika znači da Vi "
+"odobravate korisnika i da ćete mu biti mentor i odgovoriti na njegova pitanja kako se "
+"pojavljuju.</p>"
 
 #: fas/help.py:49
 msgid "Add User"
-msgstr ""
+msgstr "Dodaj korisnika"
 
 #: fas/help.py:49
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field "
 "and click 'Add'</p>"
 msgstr ""
+"<p>Ručno dodavanje korisnika u grupu.  Stavite njegovo korisničko ime u ovo polje "
+"i kliknite 'Dodaj'</p>"
 
 #: fas/help.py:50
 msgid "Group Name"
-msgstr ""
+msgstr "Naziv grupe"
 
 #: fas/help.py:50
 msgid ""
 "<p>The name of the group you'd like to create.  It should be alphanumeric"
 " though '-'s are allowed</p>"
 msgstr ""
+"<p>Naziv grupe koju želite stvoriti.  Trebali bi biti alfanumerički znakovi"
+" iako je '-' dozvoljen</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
-msgstr ""
+msgstr "Prikazni naziv"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p>Naziv grupe koji je više razumljiv ljudima</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
-msgstr ""
+msgstr "Vlasnik grupe"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
+msgstr "<p>Ime vlasnika koji će voditi ovu grupu</p>"
 
 #: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
-msgstr ""
+msgstr "Tip grupe"
 
 #: fas/help.py:53
 msgid ""
