@@ -296,28 +296,44 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> Vas je pozvao da se pridružite Fedora\n"
+"projektu!  Mi smo udruženje korisnika i razvijača softvera koji stvaraju\n"
+"kompletan operativni sistem iz potpuno besplatnog softvera otvorenog koda\n"
+"(FOSS).  %(user)s misli da Vi imate znanje i sposobnosti\n"
+"koje Vas čini idealnim za Fedora društvo i da bi Vi bili\n"
+"zainteresirani da doprinosite.\n"
+"\n"
+"Kako bi se VI povezali sa Fedora zajednicom da koristite i razvijate\n"
+"sposobnosti?  Provjerite http://fedoraproject.org/join-fedora za neke od ideja.\n"
+"Naša zajednica nije sačinjena samo od razvijača softvera -- mi također imamo\n"
+"mjesto za Vas bilo da ste umjetnik, razvijač internet stranica, pisac ili\n"
+"znate sa ljudima.  Poboljšavat ćete se i učiti dok budete radili zajedno sa drugim\n"
+"veoma pametnim i talentovanim ljudima.\n"
+"\n"
+"Fedora i FOSS mijenjaju svijet -- dođite i budite dio toga!"
 
 #: fas/group.py:693
 #, python-format
 msgid "Message sent to: %s"
-msgstr ""
+msgstr "Poruka poslata: %s"
 
 #: fas/group.py:696
 #, python-format
 msgid "You are not in the '%s' group."
-msgstr ""
+msgstr "Vi niste u '%s' grupi."
 
 #: fas/help.py:26 fas/help.py:80
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: fas/help.py:26 fas/help.py:80
 msgid "<p>We could not find that help item</p>"
-msgstr ""
+msgstr "<p>Nismo mogli naći tu stavku pomoći</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of CLA Information"
-msgstr ""
+msgstr "Tačnost CLA informacija"
 
 #: fas/help.py:27
 msgid ""
@@ -330,10 +346,18 @@ msgid ""
 "number or address to contact them!  Potentially a very sticky "
 "situation.</p>"
 msgstr ""
+"<p>CLA je legalni dokument.  Mi trebamo imati tačne informacije "
+"na njemu u slučaju da Vas nekad budemo morali kontaktirati u vezi "
+"doprinosa koji činite projektu.  Zamislite da dobijemo "
+"poziv od odvjetnika iz neke druge kompanije tvrdeći da oni posjeduju "
+"autorska prava na Vaš rad a mi im moramo reći da imamo pravo da ga koristimo"
+" jer je \"Edo Edić\" doprinjeo sa tim radom a mi nemamo telefonski "
+"broj ili adresu da ga kontaktiramo!  Potencionalno veoma opasna "
+"situacija.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
-msgstr ""
+msgstr "IRC nadimak (Opcionalno)"
 
 #: fas/help.py:28
 msgid ""
@@ -341,10 +365,13 @@ msgid ""
 "register your nick on irc.freenode.net first, then fill this in so people"
 " can find you online when they need to</p>"
 msgstr ""
+"<p>IRC nadimak se koristi da se identificirate na irc.freenode.net.  Molimo da "
+"registrirate svoj nadimak na irc.freenode.net prvo a zatim ovo popunite tako da Vas"
+" ljudi mogu naći na internetu kada Vas trebaju</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr ""
+msgstr "E-pošta (Potrebno)"
 
 #: fas/help.py:29
 msgid ""
@@ -352,18 +379,21 @@ msgid ""
 "used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
 msgstr ""
+"<p>Ova e-pošta adresa bi trebala biti Vaš preferirani e-pošta kontakt i ona će "
+"se koristiti za slanje razne oficijane e-pošte.  Ovo je također gdje će Vaša "
+"@fedoraproject.org e-pošta biti proslijeđena</p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
-msgstr ""
+msgstr "Puno ime (Potrebno)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr ""
+msgstr "<p>Vaše ljudsko ime iliti ime \"u stvarnom životu\"</p>"
 
 #: fas/help.py:31 fas/templates/user/edit.html:99
 msgid "GPG Key ID"
-msgstr ""
+msgstr "GPG identifikacijski ključ"
 
 #: fas/help.py:31
 msgid ""
@@ -371,10 +401,13 @@ msgid ""
 " you or to encrypt information so that only the recipients can read it.  "
 "This can be used when a password reset is sent to your email.</p>"
 msgstr ""
+"<p>GPG ključ se generalno koristi za dokazivanje da je poruka ili e-pošta došla od"
+" Vas ili da se informacije enkriptuju tako da ih jedino primatelji mogu čitati.  "
+"Ovo se može koristiti kada je ponovno postavljena šifra poslata na Vašu e-pošta adresu.</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
-msgstr ""
+msgstr "Telefon"
 
 #: fas/help.py:32 fas/help.py:40
 msgid ""
@@ -385,11 +418,17 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
 msgstr ""
+"<p>Potrebno zbog završetka <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  "
+"Nekad zbog hitne pomoći neko iz Fedora projekta Vas može "
+"kontaktirati.  Za više informacija pogledajte naše <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Uslove "
+"privatnosti</a></p>"
 
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/user/edit.html:50
 msgid "Postal Address"
-msgstr ""
+msgstr "Poštanska adresa"
 
 #: fas/help.py:33
 msgid ""
@@ -399,36 +438,43 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
 msgstr ""
+"<p>Poterbno zbog završavanja <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Ovo "
+"bi trebala biti poštanska adresa gdje možete biti kontaktirani.  Pogledajte naše <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Uslove "
+"privatnosti</a> o bilo kakvim pitanjima.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
-msgstr ""
+msgstr "Vremenska zona (Opcionalno)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr ""
+msgstr "<p>Molimo da odaberete vremensku zonu u kojoj se nalazite.</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
-msgstr ""
+msgstr "Komentari (Opcionalno)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
-msgstr ""
+msgstr "<p>Razni komentari o Vama.</p>"
 
 #: fas/help.py:36 fas/templates/user/list.html:27
 msgid "Account Status"
-msgstr ""
+msgstr "Stanje računa"
 
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
+"<p>Prikazuje stanje računa, moguće vrijednosti "
+"uključuju<ul><li>aktivan</li><li>odmor</li><li>neaktivan</li></ul></p>"
 
 #: fas/help.py:37
 msgid "CLA"
-msgstr ""
+msgstr "CLA"
 
 #: fas/help.py:37
 msgid ""
@@ -439,10 +485,16 @@ msgid ""
 "is recommended for anyone interested in getting involved in the Fedora "
 "Project.</p>"
 msgstr ""
+"<p>Da bi postali punopravni Fedora doprinositelj morate završiti <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Ugovor "
+"doprinositelja</a>.  Ovo je legalni ugovor između Vas i"
+" Red Hat-a.  Puni statut omogućava ljudima da dodaju sadržaj i kod i "
+"on je preporučen svima onima koji su zainteresirani da se pridruže Fedora "
+"projektu.</p>"
 
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
-msgstr ""
+msgstr "Javni RSA SSH ključ"
 
 #: fas/help.py:38
 msgid ""
