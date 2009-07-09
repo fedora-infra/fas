@@ -118,6 +118,7 @@ Then make sure the bottom of /var/lib/pgsql/data/pg_hba.conf looks like::
   #host    all         all         ::1/128               ident sameuser
  
   host all all 0.0.0.0 0.0.0.0 md5
+  host all all ::1/128         md5
 
 Then just start the postgres database:
 

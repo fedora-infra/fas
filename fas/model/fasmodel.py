@@ -532,9 +532,9 @@ mapper(People, PeopleTable, properties = {
         collection_class = attribute_mapped_collection('groupname'),
         primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id),
     'approved_roles': relation(ApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==ApprovedRoles.c.person_id),
+        primaryjoin = PeopleTable.c.id==ApprovedRoles.person_id),
     'unapproved_roles': relation(UnApprovedRoles, backref='member',
-        primaryjoin = PeopleTable.c.id==UnApprovedRoles.c.person_id),
+        primaryjoin = PeopleTable.c.id==UnApprovedRoles.person_id),
     'roles': relation(PersonRoles, backref='member',
         primaryjoin = PersonRolesTable.c.person_id==PeopleTable.c.id)
     })
