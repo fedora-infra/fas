@@ -82,7 +82,12 @@ class SaFasIdentity(object):
         if visit.ssl and cherrypy.request.headers['X-Client-Verify'] != 'SUCCESS':
             self.logout()
             return None
+
         user = user_class.query.get(visit.user_id)
+
+        # This is a hack, need to talk to Toshio abvout it.w
+        user.approved_memberships
+
         if user.status in ('inactive', 'expired', 'admin_disabled'):
             log.warning("User %(username)s has status %(status)s, logging them out." % \
                 { 'username': user.username, 'status': user.status })

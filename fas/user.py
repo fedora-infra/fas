@@ -381,12 +381,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         
         for group_type in groups_to_return_list:
             if group_type.startswith('@'):
-                group_list = Groups.query.filter(Groups.c.group_type.in_([group_type.strip('@')]))
+                group_list = Groups.query.filter(Groups.group_type.in_([group_type.strip('@')]))
                 for group in group_list:
                     groups_to_return.append(group.name)
             else:
                 groups_to_return.append(group_type)
-        people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.c.name.in_( groups_to_return ))
+        people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.name.in_( groups_to_return ))
         
         # p becomes what we send back via json
         p = []

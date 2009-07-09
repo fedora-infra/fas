@@ -194,7 +194,7 @@ class JsonRequest(controllers.Controller):
     @expose("json", allow_json=True)
     def user_id(self):
         people = {}
-        peoplesql = sqlalchemy.select([People.c.id, People.c.username])
+        peoplesql = sqlalchemy.select([People.id, People.username])
         persons = peoplesql.execute()
         for person in persons:
             people[person[0]] = person[1]

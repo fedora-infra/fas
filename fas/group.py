@@ -21,7 +21,10 @@
 #
 
 # Does this need to come before the import turbogears or does it not matter?
-from fedora.util import tg_url
+try:
+    from fedora.util import tg_url
+except ImportError:
+    from turbogears import url as tg_url
 
 import turbogears
 from turbogears import controllers, expose, identity, validate, validators, \
@@ -342,7 +345,7 @@ class Group(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         results = Groups.query.filter(Groups.name.like(re_search)).order_by('name').all()
         if self.jsonRequest():
-            membersql = sqlalchemy.select([PersonRoles.c.person_id, PersonRoles.c.group_id, PersonRoles.c.role_type], PersonRoles.c.role_status=='approved').order_by(PersonRoles.c.group_id)
+            membersql = sqlalchemy.select([PersonRoles.person_id, PersonRoles.group_id, PersonRoles.role_type], PersonRoles.role_status=='approved').order_by(PersonRoles.group_id)
             members = membersql.execute()
             for member in members:
                 try:
@@ -651,7 +654,7 @@ into the e-mail aliases within an hour.
                             PersonRoles.role_type).filter(
                                 Groups.name==groupname).order_by('username')
             if role_type:
-                people = people.filter(PersonRoles.c.role_type==role_type)
+                people = people.filter(PersonRoles.role_type==role_type)
 
             # retrieve sponsorship info:
             sponsorCount = select(
