@@ -703,30 +703,38 @@ msgid ""
 "only really matters if the group is to end up getting shell access or "
 "commit access somewhere like fedorahosted.</p>"
 msgstr ""
+"<p>Obično je sigurno ako želite ostaviti ovo polje prazno.  Neke vrijednosti uključuju "
+"'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' i 'mtn'.  Ova vrijednost "
+"jedino vrijedi ako će grupa dobiti pristup ljuski ili "
+"činiti pristup negdje kao npr. fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
-msgstr ""
+msgstr "URL grupe (Opcionalno)"
 
 #: fas/help.py:54
 msgid ""
 "<p>A URL or wiki page for the group (for example, <a "
 "href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 msgstr ""
+"<p>URL ili wiki stranica za grupu (na primjer, <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "Poštanska lista grupe (Opcionalno)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
+"<p>Poštanska lista za grupu (na primjer, fedora-infrastructure-"
+"list@redhat.com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "URL poštanske liste grupe (Opcionalno)"
 
 #: fas/help.py:56
 msgid ""
@@ -735,28 +743,34 @@ msgid ""
 "list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list</a>).</p>"
 msgstr ""
+"<p>URL za poštansku listu grupe (na primjer, <a "
+"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
-msgstr ""
+msgstr "IRC kanal grupe (Opcionalno)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>IRC kanal za grupu (na primjer, #fedora-admin).</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
-msgstr ""
+msgstr "IRC mreža grupe (Opcionalno)"
 
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, "
 "Freenode).</p>"
 msgstr ""
+"<p>IRC mreža za IRC kanal grupe (na primjer, "
+"Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
-msgstr ""
+msgstr "Potreban sponzor"
 
 #: fas/help.py:59
 msgid ""
@@ -768,20 +782,29 @@ msgid ""
 "approval is needed and no relationship is recorded about who did the "
 "approving</p>"
 msgstr ""
+"<p>Ako Vaša grupa zahtjeva sponzorisanje (preporučljivo), to znači da kada"
+" je korisnik odobren od strane sponzora ta veza je spremljena u "
+"sistem računa.  Ako korisnik A sponzoriše korisnika N, tada u gledanju članova "
+"ove grupe, ljudi će znati da kontaktiraju korisnika A o korisniku N ako "
+"nešto krene loše.  Ako je ova kutija neoznačena onda to znači da je potrebno samo "
+"odobrenje a nikakva veza se neće spremiti o tome ko je uradio "
+"odobrenje</p>"
 
 #: fas/help.py:60
 msgid "Self Removal"
-msgstr ""
+msgstr "Samo-odstranjivanje"
 
 #: fas/help.py:60
 msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
+"<p>Dali bi korisnik mogao odstraniti samog sebe sa ove grupe bez "
+" intervencije sponzora / administratora ?  (preporučljivo da)</p>"
 
 #: fas/help.py:61
 msgid "Must Belong To"
-msgstr ""
+msgstr "Mora pripadati"
 
 #: fas/help.py:61
 msgid ""
@@ -790,10 +813,14 @@ msgid ""
 "administrative intervention, only changed</b>.  Recommended values are "
 "for the 'cla_done' group.</p>"
 msgstr ""
+"<p>Prije nego se korisnik pridruži ovoj grupi on mora pripadati grupi "
+"navedenoj u ovoj kutiji.  <b>Ova vrijednost se nemože odstraniti bez "
+"administrativne intervencije, jedino promijeniti</b>.  Preporučene vrijednosti su "
+"za 'cla_done' grupu.</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
-msgstr ""
+msgstr "Poruka pridruživanja"
 
 #: fas/help.py:62
 msgid ""
@@ -801,10 +828,13 @@ msgid ""
 "should be informative and offer tips about what to do next.  A "
 "description of the group would also be valuable here</p>"
 msgstr ""
+"<p>Ova poruka će ići korisnicima kada oni apliciraju za grupu.  Ona "
+"bi trebala biti informativna i davati ideje šta raditi dalje.  Opis "
+"grupe bi također bio vrijedan dodatak ovdje</p>"
 
 #: fas/help.py:63
 msgid "Client Side Cert"
-msgstr ""
+msgstr "Cert klijent strane"
 
 #: fas/help.py:63
 msgid ""
@@ -815,10 +845,16 @@ msgid ""
 "  Please note that whenever a new cert is generated, all old ones are "
 "revoked.</p>"
 msgstr ""
+"<p>Cert klijent strane je generalno korišten za dobijanje pristupa za prenos "
+"paketa na Fedoru ili za druge autentifikacijske svrhe kao sa koji.  "
+"Trebali bi spremiti ovaj certifikat u ~/.fedora.cert.  Ako niste "
+"održavatelj paketa nema potrebe da brinete o cert-u klijent strane."
+"  Molimo da zapamtite da kada god je novi cert napravljen stari su "
+"nevažeći.</p>"
 
 #: fas/help.py:64
 msgid "Longitude and Latitude"
-msgstr ""
+msgstr "Geografska dužina i širina"
 
 #: fas/help.py:64
 msgid ""
@@ -827,60 +863,70 @@ msgid ""
 "used for mapping purposes, but will not be used if you have privacy "
 "enabled for your account.</p>"
 msgstr ""
+"<p>Vaša geografska dužina i širina.  Ovo opcionalno polje bi se trebalo unijeti "
+" kao broj sa pokretnim zarezom.  Na primjer, 312.333 ili -21.2.  Ovo se može "
+"koristiti za svrhe mapiranja ali se neće koristiti ako imate privatnost "
+"uključenu za Vaš račun.</p>"
 
 #: fas/help.py:65
 msgid "Rules for Application"
-msgstr ""
+msgstr "Pravila za aplikaciju"
 
 #: fas/help.py:65
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr ""
+"<p>Pravila ili koraci koju aplikanti moraju slijediti prije nego apliciraju za Vašu "
+"grupu.  Ovo će biti prikazano korisnicima prije nego apliciraju za Vašu grupu.</p>"
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "Ovaj OpenID neće biti aktivan dok korisnik nepotpiše CLA."
 
 #: fas/openid_samadhi.py:188 fas/openid_samadhi.py:234
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating "
 "to the OpenID consumer."
 msgstr ""
+"Važ zadnji OpenID zahtjev nije mogao biti nađen.  Pokušajte se ponovno autentificirati "
+"na OpenID korisnika."
 
 #: fas/safasprovider.py:257
 #, python-format
 msgid "Loading: %(visitmod)s"
-msgstr ""
+msgstr "Punjenje: %(visitmod)s"
 
 #: fas/user.py:245
 #, python-format
 msgid "You cannot edit %s"
-msgstr ""
+msgstr "Nemožete uređivati %s"
 
 #: fas/user.py:269
 #, python-format
 msgid "You do not have permission to edit '%s'"
-msgstr ""
+msgstr "Nemate dopuštenje da uređujete '%s'"
 
 #: fas/user.py:276
 msgid "Only administrator can enable or disable an account."
-msgstr ""
+msgstr "Jedino administratori mogu uključiti ili isključiti račun."
 
 #: fas/user.py:297
 msgid "Somebody is already using that email address."
-msgstr ""
+msgstr "Netko već koristi tu e-pošta adresu."
 
 #: fas/user.py:300
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should "
 "receive an email with instructions shortly."
 msgstr ""
+"Prije nego Vaša nova e-pošta adresa bude aktivna morate je potvrditi.  Trebali bi "
+"primiti e-poštu sa instrukcijama ubrzo."
 
 #: fas/user.py:304
 #, python-format
 msgid "Email Change Requested for %s"
-msgstr ""
+msgstr "Zahtjev promjene e-pošte za %s"
 
 #: fas/user.py:305
 #, python-format
@@ -893,53 +939,62 @@ msgid ""
 "\n"
 "https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 msgstr ""
+"\n"
+"Nedavno ste dali zahtjev za promjenu Vaše adrese e-pošte Fedora sistema računa\n"
+"na ovu adresu.  Da završite promjenu adrese e-pošte morate potvrditi svoje\n"
+"vlasništvo ove e-pošta adrese tako što ćete posjetiti sljedeći URL (trebat ćete\n"
+"se prvo prijaviti sa Vašim Fedora računom):\n"
+"\n"
+"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 
 #: fas/user.py:330
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr ""
+msgstr "Vaši detalji računa se nisu mogli spremiti: %s"
 
 #: fas/user.py:334
-#, python-format
+#, python-format,fuzzy
 msgid "Fedora Account Data Update %s"
-msgstr ""
+msgstr "Podaci Fedora računa ažurisanje %s"
 
 #: fas/user.py:366
 msgid "Your account details have been saved."
-msgstr ""
+msgstr "Detalji vašeg računa su spremljeni."
 
 #: fas/user.py:482
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "Nevažeće polje specificirano: %(error)s"
 
 #: fas/user.py:498
 #, python-format
 msgid "No users found matching '%s'"
-msgstr ""
+msgstr "Nijedan korsnik nije nađen koji se podudara sa '%s'"
 
 #: fas/user.py:549
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
 msgstr ""
+"Vaša promjena e-pošte koja je u toku je prekinuta.  Znak promjene e-pošte je "
+"označen nevažeći."
 
 #: fas/user.py:553 fas/user.py:571
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "Nemate nijednu promjenu e-pošte u toku."
 
 #: fas/user.py:557 fas/user.py:575
 msgid "Invalid email change token."
-msgstr ""
+msgstr "Nevažeća oznaka promjene e-pošte."
 
 #: fas/user.py:584
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr ""
+msgstr "Uspješno ste promijenili svoju adresu e-pošte na '%s'"
 
 #: fas/user.py:592
 msgid "No need to sign up, you have an account!"
-msgstr ""
+msgstr "Nema potrebe da se učlanite, vi već imate račun!"
 
 #: fas/user.py:608 fas/user.py:633
 msgid ""
@@ -950,27 +1005,37 @@ msgid ""
 "sites. We do not knowingly collect or solicit personal information about "
 "children under 13."
 msgstr ""
+"Žao nam je ali zbog specijalne brige za privatnost djece mi neprigvatamo "
+"(u znanju) personalne informacije od djece ispod "
+"13 godina. Mi ne dopuštamo djeci (u znanju) mlađoj od 13 godina da postanu "
+"registrirani članovi naših stranica ili da kupuju produkte i usluge na našim "
+"stranicama. Mi nesakupljamo (u znanju) ili tražimo personalne informacije o "
+"djeci mlađoj od 13 godina."
 
 #: fas/user.py:614 fas/user.py:637
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr ""
+"Žao nam je.  Ta e-pošta adresa se već koristi. Možda ste zaboravili svoju "
+"šifru?"
 
 #: fas/user.py:621
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
+msgstr "Vaš račun nije mogao biti napravljen.  Molimo da kontaktirate %s za pomoć"
 
 #: fas/user.py:625
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
+"Vaša šifra je poslata na Vašu e-pošta adresu.  Molimo da se prijavite sa njom i promjenite "
+"svoju šifru"
 
 #: fas/user.py:651
 msgid "Welcome to the Fedora Project!"
-msgstr ""
+msgstr "Dobrodošli u Fedora projekt!"
 
 #: fas/user.py:651
 #, python-format
@@ -1015,30 +1080,70 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Napravili ste novi Fedora račun!\n"
+"Vaše korisničko ime je: %(username)s\n"
+"Vaša šifra je: %(password)s\n"
+"\n"
+"Molimo da odete na %(base_url)s%(webpath)s/user/changepass\n"
+"da je promjenite.\n"
+"\n"
+"Dobrodošli u Fedora projekt. Sada kada imate\n"
+"račun vjerovatno ste očajni da počnete doprinositi a sa tim na umu\n"
+"nadamo se da bi Vas ova e-pošta mogla uputiti na pravi put da\n"
+"učinite ovaj proces što lakšim.\n"
+"\n"
+"Fedora je uzbudljivi projekt gdje se mnogo toga događa i Vi možete\n"
+"doprinjeti na mnogo načina, koristeći sve vrste različitih\n"
+"tipova sposobnosti. Da bi saznali o raznim načinima na koja možete doprinjeti\n"
+"Fedori možete posjetiti našu stranicu za pridruživanje koja daje više informacija\n"
+"o svim različitim ulogama koje imamo dostupne.\n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"Ako već znate kako Vi želite doprinjeti Fedori i već\n"
+"ste našli grupu koja već radi u području za koje ste Vi zainteresirani, onda\n"
+"postoji još nekoliko koraka za Vas da nastavite.\n"
+"\n"
+"Prva među ovima je da se prijavite na poštansku listu tima ili projekta\n"
+"za koji ste zainteresirani - a ako ste zainteresirani za više od\n"
+"rada u jednoj grupi, slobodno se prijavite na što više poštanskih listi\n"
+"koje želite! Ovo je potrebno zbog toga što su poštanske liste mjesto gdje se glavnina rada\n"
+"organizira i zadaci dodjeljuju, stoga ostanite u listi da budete sigurni\n"
+"da ćete dobiti poruke.\n"
+"\n"
+"Jednom kada je ovo gotovo, vjerovatno je pametno poslati kratako predstavljanje\n"
+"na listu tako da im kažete kakvo iskustvo Vi imate i kako bi htjeli\n"
+"pomoći. Odavde, postojeći članovi tima će Vam pomoći da se snađete\n"
+"kao Fedora doprinositelj.\n"
+"\n"
+"I konačno, svi mi ovdje u Fedora projektu željno očekujemo\n"
+"da radimo sa Vama!\n"
+
 
 #: fas/user.py:729
 msgid "Your password could not be changed."
-msgstr ""
+msgstr "Vaša šifra se nije mogla promijeniti."
 
 #: fas/user.py:732
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Vaša šifra je promijenjena."
 
-#: fas/user.py:741
+#: fas/user.py:741, fuzzy
 msgid "You are already logged in!"
-msgstr ""
+msgstr "Već ste prijavljeni!"
 
-#: fas/user.py:751
+#: fas/user.py:751, fuzzy
 msgid "You are already logged in."
-msgstr ""
+msgstr "Već ste prijavljeni."
 
 #: fas/user.py:757
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "Kombinacija korisničkog imena i e-pošte nepostoji!"
 
 #: fas/user.py:761
 msgid "username + email combo unknown."
-msgstr ""
+msgstr "korisničko ime + e-pošta kombinacija nepoznata."
 
 #: fas/user.py:764 fas/user.py:831 fas/user.py:856
 #, python-format
