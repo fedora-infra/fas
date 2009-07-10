@@ -1129,11 +1129,11 @@ msgstr "Vaša šifra se nije mogla promijeniti."
 msgid "Your password has been changed."
 msgstr "Vaša šifra je promijenjena."
 
-#: fas/user.py:741, fuzzy
+#: fas/user.py:741
 msgid "You are already logged in!"
 msgstr "Već ste prijavljeni!"
 
-#: fas/user.py:751, fuzzy
+#: fas/user.py:751
 msgid "You are already logged in."
 msgstr "Već ste prijavljeni."
 
@@ -1151,6 +1151,8 @@ msgid ""
 "Your account currently has status %(status)s.  For more information, "
 "please contact %(admin_email)s"
 msgstr ""
+"Vaš račun trenutno ima status %(status)s.  ZA više informacija, "
+"molimo da kontaktirate %(admin_email)s"
 
 #: fas/user.py:768
 #, python-format
@@ -1158,6 +1160,8 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact"
 " %(admin_email)s to have it reset"
 msgstr ""
+"Sistemski računi nemogu ponovno postavljati svoju šifru na internetu.  Molimo da kontaktirate"
+" %(admin_email)s za ponovno postavljanje"
 
 #: fas/user.py:779
 #, python-format
@@ -1169,103 +1173,115 @@ msgid ""
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
 "\n"
 msgstr ""
+"\n"
+"Netko (nadamo se Vi) je zahtjevao ponovno postavljanje šifre za Vaš račun!"
+"\n"
+"Da bi promjenili svoju šifru (ili da prekinete zahtjev), molimo da posjetite\n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
+"\n"
 
 #: fas/user.py:791
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be"
 " sent."
 msgstr ""
+"Ovaj korisnik nema postavljen GPG identifikacijski ključ, stoga enkriptovana e-pošta se nemože"
+" poslati."
 
 #: fas/user.py:795
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr ""
+msgstr "Vaš ključ se nije mogao naći u subkeys.pgp.net"
 
 #: fas/user.py:817
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "Vaša e-pošta ponovnog postavljanja šifre se nije mogla enkriptovati."
 
 #: fas/user.py:819
 msgid "Fedora Project Password Reset"
-msgstr ""
+msgstr "Fedora projekt ponovno postavljanje šifre"
 
 #: fas/user.py:821
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "URL ponovnog postavljanja šifre je poslat na Vašu e-pošta adresu."
 
 #: fas/user.py:835 fas/user.py:861
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "Vi nemate nikakvih promjena šifre u toku."
 
 #: fas/user.py:839 fas/user.py:867
 msgid "Invalid password change token."
-msgstr ""
+msgstr "Nevažeći znak promjene šifre."
 
 #: fas/user.py:844
 msgid ""
 "Your password reset has been canceled.  The password change token has "
 "been invalidated."
 msgstr ""
+"Vaše ponovno postavljanje šifre je prekinuto.  Znak promjene šifre je "
+"označen nevažeći."
 
 #: fas/user.py:877
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "Vaša šifra nemože biti ista kao Vaša stara šifra."
 
 #: fas/user.py:892
 msgid ""
 "You have successfully reset your password.  You should now be able to "
 "login below."
 msgstr ""
+"Uspješno ste ponovno postavili svoju šifru.  Sada bi trebali biti u stanju da "
+"se ispod prijavite."
 
 #: fas/user.py:976
 msgid "Your certificate could not be generated."
-msgstr ""
+msgstr "Vaš certifikat se nije mogao napraviti."
 
 #: fas/user.py:998
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "Prije stvaranja certifikata morate završiti CLA."
 
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
-msgstr ""
+msgstr "Grupa '%(group)s' nepostoji."
 
 #: fas/validators.py:70
 #, python-format
 msgid "The group '%(group)s' already exists."
-msgstr ""
+msgstr "Grupa '%(group)s' već postoji."
 
 #: fas/validators.py:90
 #, python-format
 msgid "Invalid group type: %(type)s."
-msgstr ""
+msgstr "Nevažeći tip grupe: %(type)s."
 
 #: fas/validators.py:113
 msgid "Invalid sort key."
-msgstr ""
+msgstr "Nevažeći ključ sortiranja."
 
 #: fas/validators.py:118
 #, python-format
 msgid "'%(user)s' does not exist."
-msgstr ""
+msgstr "'%(user)s' nepostoji."
 
 #: fas/validators.py:136
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
-msgstr ""
+msgstr "Greška: Nije stvoren - '%(user)s'"
 
 #: fas/validators.py:137
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr ""
+msgstr "'%(user)s' već postoji."
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "Zbog izbjegavanja e-pošta petlji, Vaša e-pošta adresa nemože biti @fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "Greška - Nevažeći RSA SSH ključ: %(key)s"
 
 #: fas/validators.py:198
 #, python-format
@@ -1273,45 +1289,47 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must only "
 "contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
+"'%(username)s' je nelegalno korisničko ime.  Važeće korisničko ime mora jedino "
+"sadržavati male alfanumeričke znakove i mora početi sa slovom."
 
 #: fas/validators.py:201
 #, python-format
 msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "'%(username)s' korisničko ime je na crnoj listi.  Molimo da odaberete drugo."
 
 #: fas/validators.py:219
 #, python-format
 msgid "The language '%(lang)s' is not available."
-msgstr ""
+msgstr "Jezik '%(lang)s' nije dostupan."
 
 #: fas/model/fasmodel.py:137
 msgid "user is already in this group"
-msgstr ""
+msgstr "korisnik je već u ovoj grupi"
 
 #: fas/model/fasmodel.py:150 fas/model/fasmodel.py:165
 #: fas/model/fasmodel.py:221
 msgid "user is not a member"
-msgstr ""
+msgstr "korisnik nije član"
 
 #: fas/model/fasmodel.py:154
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "administratori nemogu biti dalje unaprijeđeni"
 
 #: fas/model/fasmodel.py:169
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "statut korisnika se nemože dalje snižavati"
 
 #: fas/model/fasmodel.py:178
 msgid "user is not an unapproved member"
-msgstr ""
+msgstr "korisnik nije nepotvrđeni član"
 
 #: fas/templates/about.html:7
 msgid "About FAS"
-msgstr ""
+msgstr "O FAS-u"
 
 #: fas/templates/about.html:10
 msgid "FAS - The Open Account System"
-msgstr ""
+msgstr "FAS - Otvoreni sistem računa"
 
 #: fas/templates/about.html:11
 msgid ""
@@ -1325,10 +1343,19 @@ msgid ""
 "what groups and contact them.  This openness is brought over from the "
 "same philosophies that make Open Source popular."
 msgstr ""
+"FAS je dizajniran oko otvorene arhitekture.  Za razliku od tradicionalnih "
+"sistema računa gdje jedan administrator ili grupa administratora odlučuje tko "
+"će biti u kojoj grupi, FAS je potpuno dizajniran da bude upravljan od "
+"strane tima.  Svaka grupa ima barem jednog administratora koji može "
+"odobriti druge ljude u grupu.  Također, za razliku od tradicionalnih sistema "
+"računa, FAS omogućuje ljudima da apliciraju za grupe u kojima oni žele biti.  "
+"Ova paradigma je interesantna jer dopušta svakom da sazna tko je u kojim grupama "
+"i da stupi u kontakt.  Ova otvorenost je donešena od istih "
+"filozofija koje čine Otvoreni kod (Open Source) popularan."
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
-msgstr ""
+msgstr "Etiketa"
 
 #: fas/templates/about.html:13
 msgid ""
@@ -1342,10 +1369,19 @@ msgid ""
 " weeks depending on the group.  It's best to know you will get sponsored "
 "before you apply."
 msgstr ""
+"Ljudi nebi tebali pretpostaviti da su nakon apliciranja za grupu oni sada"
+" u toj grupi.  Gledajte na to kao apliciranje na drugi posao.  Često za "
+"to treba vremena.  Za najbolje šanse uspjeha, proučite grupu za koju aplicirate "
+"i upoznajte nekog u grupi.  Nađite nekog sa sponzorskim ili "
+"administratorskim pristupom i upitajte ih ako imaju vremena da budu Vaš mentor.  Planirajte "
+"potrošiti barem nekoliko dana učeći o grupi, radeći obične "
+"zadatke, učestvovanjem u poštanskoj listi.  Ponekad ovaj proces može"
+" trajati sedmicama zavisno od grupe.  Najbolje je znati da ćete biti sponzorisani "
+"prije nego aplicirate."
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
-msgstr ""
+msgstr "Korisnici, sponzori, administratori"
 
 #: fas/templates/about.html:15
 msgid ""
@@ -1358,23 +1394,31 @@ msgid ""
 "other sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
+"Jednom kada ste u grupi, onda ste u grupi.  Sponzori i "
+"administratori obično imaju specijalan pristup u grupama u pitanju.  "
+"Neke grupe smatraju nivo sponzoriranja više uključivanje, "
+"parcijalno vlasništvo grupe na primjer.  Ali gledajući na sistem "
+"računa razlika je jasna.  Sponzori mogu odobriti nove korisnike i "
+"promovisati ljude u sponzore.  Oni nemogu, međutim, sniziti statut ili odstraniti "
+"druge sponzore.  Oni također nemogu promijeniti administratore na bilo koji način.  "
+"Administratori mogu raditi bilo šta bilo kome u grupi."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/cla/index.html:20
 msgid "Fedora Accounts System"
-msgstr ""
+msgstr "Fedora sistem računa"
 
 #: fas/templates/error.html:17
 msgid "Error!"
-msgstr ""
+msgstr "Greška!"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "Sljedeća(e) greška(e) su se dogodila(e) sa Vašim zahtjevom:"
 
 #: fas/templates/home.html:11
 msgid "Todo queue:"
-msgstr ""
+msgstr "Za uraditi red:"
 
 #: fas/templates/home.html:17
 #, python-format
@@ -1382,6 +1426,8 @@ msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
 "requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
+"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
+"zahtjeva odobrenje da se pridruži <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1389,6 +1435,8 @@ msgid ""
 "CLA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the CLA</a>."
 msgstr ""
+"CLA nije završen.  Da bi postali punopravni Fedora doprinositelj molimo da <a "
+"href=\"%s\">završite CLA</a>."
 
 #: fas/templates/home.html:30
 #, python-format
@@ -1396,87 +1444,89 @@ msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH "
 "key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
+"Niste nam dali svoj SSH ključ, neki Fedora resursi zahtjevaju SSH "
+"ključ.  Molimo da nam date svoj tako što ćete urediti <a href=\"%s\">Moj račun</a>"
 
 #: fas/templates/home.html:34
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "Snimite certifikat klijent strane"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Prijavite se na Fedora sistem računa"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
-msgstr ""
+msgstr "Fedora"
 
 #: fas/templates/master.html:37
 msgid "Learn about Fedora"
-msgstr ""
+msgstr "Naučite nešto o Fedori"
 
 #: fas/templates/master.html:38
 msgid "Download Fedora"
-msgstr ""
+msgstr "Snimite Fedoru"
 
 #: fas/templates/master.html:39
 msgid "Projects"
-msgstr ""
+msgstr "Projekti"
 
 #: fas/templates/master.html:40
 msgid "Join Fedora"
-msgstr ""
+msgstr "Pridružite se Fedori"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
-msgstr ""
+msgstr "Komunicirajte"
 
 #: fas/templates/master.html:42
 msgid "Help/Documentation"
-msgstr ""
+msgstr "Pomoć/Dokumentacija"
 
 #: fas/templates/master.html:48
 msgid "Logged in:"
-msgstr ""
+msgstr "Prijavljen u:"
 
 #: fas/templates/master.html:61
 msgid "Home"
-msgstr ""
+msgstr "Dom"
 
 #: fas/templates/master.html:62
 msgid "My Account"
-msgstr ""
+msgstr "Moj račun"
 
 #: fas/templates/master.html:64
 msgid "News"
-msgstr ""
+msgstr "Novosti"
 
 #: fas/templates/master.html:69
 msgid "Locale:"
-msgstr ""
+msgstr "Lokalizacija:"
 
 #: fas/templates/master.html:73
 msgid "OK"
-msgstr ""
+msgstr "Uredu"
 
 #: fas/templates/master.html:85
 msgid "About"
-msgstr ""
+msgstr "Info"
 
 #: fas/templates/master.html:86
 msgid "Contact Us"
-msgstr ""
+msgstr "Kontaktirajte nas"
 
 #: fas/templates/master.html:87
 msgid "Legal & Privacy"
-msgstr ""
+msgstr "Legalnost i privatnost"
 
 #: fas/templates/master.html:89
 msgid "Log Out"
-msgstr ""
+msgstr "Odjava"
 
 #: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
-msgstr ""
+msgstr "FAS verzija %s"
 
 #: fas/templates/master.html:95
 msgid ""
@@ -1484,6 +1534,9 @@ msgid ""
 "Please send any comments or corrections to the <a "
 "href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
+"Prava kopiranja © 2007-2008 Red Hat, Inc. i drugi.  Sva prava sačuvana.  "
+"Molimo da pošaljete bilo koje komentare ili ispravke <a "
+"href=\"mailto:webmaster@fedoraproject.org\">timu internet stranice</a>."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1491,31 +1544,34 @@ msgid ""
 "sponsored by Red Hat.  This is a community maintained site.  Red Hat is "
 "not responsible for content."
 msgstr ""
+"Fedora projekt se održava i pokreće od strane udruženja a "
+"sponzorisan je od strane Red Hat-a.  Ova stranica je održavana od strane udruženja.  Red Hat "
+"nije odgovoran za sadržaj."
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr ""
+msgstr "\"*\" je znak zamjene (Primjer: \"cvs*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
-msgstr ""
+msgstr "Pretraga"
 
 #: fas/templates/search-box.html:14 fas/templates/user/list.html:18
 msgid "Results"
-msgstr ""
+msgstr "Rezultati"
 
 #: fas/templates/search-box.html:17 fas/templates/search-box.html:24
-#: fas/templates/user/list.html:21
+#: fas/templates/user/list.html:21,
 msgid "All"
-msgstr ""
+msgstr "Sve"
 
 #: fas/templates/search-box.html:21
 msgid "Types"
-msgstr ""
+msgstr "Tipovi"
 
 #: fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr ""
+msgstr "Dobrodošli na FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
@@ -1523,363 +1579,368 @@ msgid ""
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
 "or stop by #fedora-admin on irc.freenode.net."
 msgstr ""
+"Dobrodošli na Fedora sistem računa 2.  Molimo da dostavite greške na <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
+"ili da navratite u #fedora-admin na irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr ""
+msgstr "Prijava"
 
 #: fas/templates/welcome.html:22
 msgid "New Account"
-msgstr ""
+msgstr "Novi račun"
 
 #: fas/templates/welcome.html:23
 msgid "Why Join?"
-msgstr ""
+msgstr "Zašto se pridružiti?"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "Ugovor Fedora doprinositelja"
 
 #: fas/templates/cla/index.html:24 fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Tekst verzija</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
-msgstr ""
+msgstr "Već ste uspješno završili CLA."
 
 #: fas/templates/cla/index.html:40 fas/templates/user/edit.html:26
 msgid "Full Name"
-msgstr ""
+msgstr "Puno ime"
 
 #: fas/templates/cla/index.html:45 fas/templates/user/edit.html:45
 msgid "Telephone Number"
-msgstr ""
+msgstr "Telefonski broj"
 
 #: fas/templates/cla/index.html:55 fas/templates/user/edit.html:55
 msgid "Country"
-msgstr ""
+msgstr "Država"
 
 #: fas/templates/cla/index.html:57 fas/templates/user/edit.html:57
 msgid "Select Country"
-msgstr ""
+msgstr "Odaberite državu"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Ako Vaša država nije na listi odaberite \"Druga\""
 
 #: fas/templates/cla/index.html:68
 msgid ""
 "I certify that the above information (my name, address, country, and "
 "phone number) are accurate to the best of my knowledge."
 msgstr ""
+"Svjedočim da su gore navedene informacije (moje ime, adresa, država i "
+"telefonski broj) tačne u okviru mog znanja."
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
-msgstr ""
+msgstr "Slažem se"
 
 #: fas/templates/cla/index.html:72
 msgid "I do not agree"
-msgstr ""
+msgstr "Neslažem se"
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
-msgstr ""
+msgstr "Apliciraj za grupu"
 
 #: fas/templates/group/apply.html:18
 msgid "Group Rules"
-msgstr ""
+msgstr "Pravila grupe"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
-msgstr ""
+msgstr "Uredi grupu"
 
 #: fas/templates/group/edit.html:10
 #, python-format
 msgid "Edit Group: %s"
-msgstr ""
+msgstr "Uredi grupu: %s"
 
 #: fas/templates/group/edit.html:13 fas/templates/group/new.html:18
 msgid "Display Name:"
-msgstr ""
+msgstr "Prikazno ime:"
 
 #: fas/templates/group/edit.html:18 fas/templates/group/new.html:28
 msgid "Group Type:"
-msgstr ""
+msgstr "Tip grupe:"
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:47
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:51
 msgid "Mailing List:"
-msgstr ""
+msgstr "Poštanska lista:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "URL poštanske liste:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "IRC kanal:"
 
 #: fas/templates/group/edit.html:43
 msgid "IRC Network:"
-msgstr ""
+msgstr "IRC mreža:"
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
-msgstr ""
+msgstr "Vlasnik grupe:"
 
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:64
 msgid "Needs Sponsor:"
-msgstr ""
+msgstr "Treba sponzora:"
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:68
 msgid "Self Removal:"
-msgstr ""
+msgstr "Samo-odstranjivanje:"
 
 #: fas/templates/group/edit.html:65
 msgid "Group Prerequisite:"
-msgstr ""
+msgstr "Zahtjevi grupe:"
 
 #: fas/templates/group/edit.html:71
 msgid "Group Join Message:"
-msgstr ""
+msgstr "Pristupajuća poruka grupe:"
 
 #: fas/templates/group/edit.html:76 fas/templates/group/new.html:53
 #: fas/templates/group/view.html:42
 msgid "Rules for Application:"
-msgstr ""
+msgstr "Pravila za aplikaciju:"
 
 #: fas/templates/group/edit.html:81 fas/templates/user/edit.html:146
 msgid "Save!"
-msgstr ""
+msgstr "Spremi!"
 
 #: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
 msgid "Invite a new community member!"
-msgstr ""
+msgstr "Pozovi novog člana udruženja!"
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
-msgstr ""
+msgstr "Na e-pošta adresu:"
 
 #: fas/templates/group/invite.html:15
 msgid "From:"
-msgstr ""
+msgstr "Od:"
 
 #: fas/templates/group/invite.html:16
 msgid "Subject:"
-msgstr ""
+msgstr "Subjekt:"
 
 #: fas/templates/group/invite.html:17
 msgid "Message:"
-msgstr ""
+msgstr "Poruka:"
 
 #: fas/templates/group/invite.html:39
 msgid "Send!"
-msgstr ""
+msgstr "Šalji!"
 
 #: fas/templates/group/list.html:9
 msgid "Groups List"
-msgstr ""
+msgstr "Lista grupa"
 
 #: fas/templates/group/list.html:21 fas/templates/user/list.html:10
 #, python-format
 msgid "List (%s)"
-msgstr ""
+msgstr "Lista (%s)"
 
 #: fas/templates/group/list.html:22
 msgid "Search Groups"
-msgstr ""
+msgstr "Pretraži grupe:"
 
 #: fas/templates/group/list.html:27
 msgid "Group"
-msgstr ""
+msgstr "Grupa:"
 
 #: fas/templates/group/list.html:27
 msgid "Description"
-msgstr ""
+msgstr "Opis:"
 
 #: fas/templates/group/list.html:28
 msgid "Prerequisite"
-msgstr ""
+msgstr "Zahtjevi:"
 
 #: fas/templates/group/list.html:29 fas/templates/user/edit.html:127
 msgid "Status"
-msgstr ""
+msgstr "Status:"
 
 #: fas/templates/group/list.html:37 fas/templates/group/member-list.html:26
 #: fas/templates/group/member-list.html:29
 msgid "None"
-msgstr ""
+msgstr "Nema"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
 #: fas/templates/group/view.html:22 fas/templates/user/view.html:126
 msgid "Approved"
-msgstr ""
+msgstr "Odobren"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
 #: fas/templates/group/view.html:23 fas/templates/user/view.html:127
 msgid "Unapproved"
-msgstr ""
+msgstr "Neodobren"
 
 #: fas/templates/group/member-list.html:14
 msgid "User"
-msgstr ""
+msgstr "Korisnik"
 
 #: fas/templates/group/member-list.html:16
 msgid "Date Added"
-msgstr ""
+msgstr "Datum dodavanja"
 
 #: fas/templates/group/member-list.html:17
 msgid "Date Approved"
-msgstr ""
+msgstr "Datum odobravanja"
 
 #: fas/templates/group/member-list.html:18
 msgid "Approval"
-msgstr ""
+msgstr "Odobrenje"
 
 #: fas/templates/group/member-list.html:19
 msgid "Role Type"
-msgstr ""
+msgstr "Tip uloge"
 
 #: fas/templates/group/member-list.html:20
 msgid "Action"
-msgstr ""
+msgstr "Akcija"
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
-msgstr ""
+msgstr "Pogledaj članove grupe"
 
 #: fas/templates/group/members.html:23 fas/templates/group/view.html:21
 msgid "My Status:"
-msgstr ""
+msgstr "Moj status:"
 
 #: fas/templates/group/members.html:26 fas/templates/group/view.html:24
 msgid "Not a Member"
-msgstr ""
+msgstr "Nije član:"
 
 #: fas/templates/group/members.html:34 fas/templates/group/view.html:32
 msgid "Remove me"
-msgstr ""
+msgstr "Odstrani me"
 
 #: fas/templates/group/members.html:41
 msgid "Group Details"
-msgstr ""
+msgstr "Detalji grupe"
 
 #: fas/templates/group/members.html:44
 msgid "Members"
-msgstr ""
+msgstr "Članovi"
 
 #: fas/templates/group/new.html:7 fas/templates/group/new.html:10
 msgid "Create a new FAS Group"
-msgstr ""
+msgstr "Stvori novu FAS grupu"
 
 #: fas/templates/group/new.html:13
 msgid "Group Name:"
-msgstr ""
+msgstr "Naziv grupe:"
 
 #: fas/templates/group/new.html:43
 msgid "Must Belong To:"
-msgstr ""
+msgstr "Mora pripadati:"
 
 #: fas/templates/group/new.html:48 fas/templates/group/view.html:72
 msgid "Join Message:"
-msgstr ""
+msgstr "Pristupna poruka:"
 
 #: fas/templates/group/new.html:58
 msgid "Create!"
-msgstr ""
+msgstr "Stvori!"
 
 #: fas/templates/group/view.html:8 fas/templates/user/view.html:133
 msgid "View Group"
-msgstr ""
+msgstr "Pogledaj grupu"
 
 #: fas/templates/group/view.html:34 fas/templates/user/view.html:18
 msgid "(edit)"
-msgstr ""
+msgstr "(uredi)"
 
 #: fas/templates/group/view.html:37
 msgid "Name:"
-msgstr ""
+msgstr "Ime:"
 
 #: fas/templates/group/view.html:38
 msgid "Description:"
-msgstr ""
+msgstr "Opis:"
 
 #: fas/templates/group/view.html:39
 msgid "Owner:"
-msgstr ""
+msgstr "Vlasnik:"
 
 #: fas/templates/group/view.html:40
 msgid "Type:"
-msgstr ""
+msgstr "Tip:"
 
 #: fas/templates/group/view.html:44
 msgid "Approved Members:"
-msgstr ""
+msgstr "Odobreni članovi:"
 
 #: fas/templates/group/view.html:58
 msgid "IRC:"
-msgstr ""
+msgstr "IRC:"
 
 #: fas/templates/group/view.html:65 fas/templates/group/view.html:69
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: fas/templates/group/view.html:66 fas/templates/group/view.html:70
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: fas/templates/group/view.html:73
 msgid "Prerequisite:"
-msgstr ""
+msgstr "Zahtjevi:"
 
 #: fas/templates/group/view.html:76
 msgid "Created:"
-msgstr ""
+msgstr "Stvorena:"
 
 #: fas/templates/group/view.html:78
 msgid "Add User:"
-msgstr ""
+msgstr "Dodaj korisnika:"
 
 #: fas/templates/group/view.html:95
 msgid "View Member List"
-msgstr ""
+msgstr "Pogledaj listu članova"
 
 #: fas/templates/group/view.html:97
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "Sponzorski red"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "Ovo je OpenID server"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">Ovo</a> je OpenID server krajnja tačka."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
-msgstr ""
+msgstr "Za više informacija o OpenID, pogledajte:"
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "OpenID internet stranica udruženja, dom ove biblioteke."
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "Oficijalna OpenID internet stranica."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "Odobriti OpenID zahtjev?"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid ""
