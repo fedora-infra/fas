@@ -1949,50 +1949,56 @@ msgid ""
 "identity URL listed below. (If you are using a delegated identity, the "
 "site will take care of reversing the delegation on its own.)"
 msgstr ""
+"Nova stranica je od Vas zatražila da potvrdite svoj identitet.  Ako odobrite, stranica "
+"predstavljena root-om povjerenja ispod će znati da Vi kontrolirate "
+"URL identiteta izlistan ispod. (Ako koristite predstavnički identitet "
+"stranica će se sama pobrinuti u vezi okretanja delegacije.)"
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
-msgstr ""
+msgstr "Identitet:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Root povjerenja:"
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "Dopustiti da se ova autentifikacija nastavi?"
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
-msgstr ""
+msgstr "da"
 
 #: fas/templates/openid/authorizesite.html:39
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "OpenID identitetska stranica"
 
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "Ovo je OpenID identitet za %(human_name)s (%(username)s)"
 
 #: fas/templates/openid/id.html:24
 #, python-format
 msgid "This is an OpenID identity for %(username)s"
-msgstr ""
+msgstr "Ovo je OpenID identitet za %(username)s"
 
 #: fas/templates/openid/id.html:31
 msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
+"Dio <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
+"sistem računa<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "Dobrodošli na Fedora OpenID uslužitelja"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -2000,83 +2006,85 @@ msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a "
 "href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
+"Prijavljeni ste kao %(username)s. Vaš OpenID identitetski URL je <a "
+"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
-msgstr ""
+msgstr "Odjava"
 
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr ""
+msgstr "Vi niste <a href=\"%(url)s\">prijavljeni</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
 msgid "Change Password"
-msgstr ""
+msgstr "Promjena šifre"
 
 #: fas/templates/user/changepass.html:13
 msgid "Current Password:"
-msgstr ""
+msgstr "Trenutna šifra:"
 
 #: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
 msgid "New Password:"
-msgstr ""
+msgstr "Nova šifra:"
 
 #: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Potvrdi šifru:"
 
 #: fas/templates/user/edit.html:20
 msgid "Edit Account"
-msgstr ""
+msgstr "Uredi račun"
 
 #: fas/templates/user/edit.html:23
 #, python-format
 msgid "Edit Account (%s)"
-msgstr ""
+msgstr "Uredi račun (%s)"
 
 #: fas/templates/user/edit.html:32
 msgid "Email"
-msgstr ""
+msgstr "E-pošta"
 
 #: fas/templates/user/edit.html:35 fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(u toku promjena na %(email)s - <a href=\"%(url)s\">prekini</a>)"
 
 #: fas/templates/user/edit.html:76
 msgid "Latitude"
-msgstr ""
+msgstr "Geografska širina"
 
 #: fas/templates/user/edit.html:81
 msgid "Longitude"
-msgstr ""
+msgstr "Geografska dužina"
 
 #: fas/templates/user/edit.html:94
 msgid "IRC Nick"
-msgstr ""
+msgstr "IRC nadimak"
 
 #: fas/templates/user/edit.html:110
 msgid "Time Zone"
-msgstr ""
+msgstr "Vremenska zona"
 
 #: fas/templates/user/edit.html:135
 msgid "Comments"
-msgstr ""
+msgstr "Komentari"
 
 #: fas/templates/user/edit.html:141
 msgid "Privacy"
-msgstr ""
+msgstr "Privatnost"
 
 #: fas/templates/user/edit.html:147 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "Prekini"
 
 #: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "Generacija certifikata"
 
 #: fas/templates/user/gencert.html:15
 msgid ""
@@ -2086,15 +2094,20 @@ msgid ""
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
 msgstr ""
+"Link ispod Vam omogućava da napravite certifikat da bi se mogli autentificirati na "
+"Fedora sisteme.  Molimo da zapamtite da možete samo imati jedan validan "
+"certifikat u bilo kojem vremenu.  Jednom kada stvorite novi certifikat "
+"svaki prijašnji je označen nevažeći.  Trenutno, ako neradite na Fedora "
+"pakiranju vjerovatno nećete trebati certifikat."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "Stvori certifikat"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "Stvaranje certifikata isključeno"
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -2104,200 +2117,204 @@ msgid ""
 "misconfiguration on the server.  Please contact %(accts_email)s to fix "
 "things."
 msgstr ""
+"Stvaranje SSL certifikata je isključeno na ovoj mašini.  Ako ste došli "
+"ovdje preko linka to obično znači da postoji "
+"pogrešna postavka na serveru.  Molimo kontaktirajte %(accts_email)s da popravite "
+"stvar."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
-msgstr ""
+msgstr "Lista korisnika"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" je zamjena (Na primjer: \"ric*\")"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
-msgstr ""
+msgstr "Korisničko ime"
 
 #: fas/templates/user/list.html:34 fas/templates/user/view.html:91
 msgid "CLA Done"
-msgstr ""
+msgstr "CLA završen"
 
 #: fas/templates/user/list.html:40 fas/templates/user/view.html:95
 msgid "Not Done"
-msgstr ""
+msgstr "Nije završen"
 
 #: fas/templates/user/new.html:7 fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr ""
+msgstr "Registrirajte Fedora račun"
 
 #: fas/templates/user/new.html:13 fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr ""
+msgstr "Korisničko ime:"
 
 #: fas/templates/user/new.html:17 fas/templates/user/view.html:24
 msgid "Full Name:"
-msgstr ""
+msgstr "Puno ime:"
 
 #: fas/templates/user/new.html:22 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
-msgstr ""
+msgstr "E-pošta:"
 
 #: fas/templates/user/new.html:43
 msgid "I am 13 years of age or older"
-msgstr ""
+msgstr "Ja sam 13 godina star ili stariji"
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
-msgstr ""
+msgstr "Registracija!"
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
 #: fas/templates/user/resetpass.html:19 fas/templates/user/verifypass.html:7
 #: fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr ""
+msgstr "Ponovno postavljanje šifre"
 
 #: fas/templates/user/verifyemail.html:7 fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr ""
+msgstr "Potvrdi zahtjev za promjenu adrese e-pošte"
 
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "Dali zaista želite promijeniti svoju e-pošta adresu u: %s?"
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdi"
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr ""
+msgstr "Pogledaj račun"
 
 #: fas/templates/user/view.html:16
 msgid "Your Fedora Account"
-msgstr ""
+msgstr "Vaš Fedora račun"
 
 #: fas/templates/user/view.html:17
 #, python-format
 msgid "%s's Fedora Account"
-msgstr ""
+msgstr "%s Fedora račun"
 
 #: fas/templates/user/view.html:18
 msgid "Account Details"
-msgstr ""
+msgstr "Detalji računa"
 
 #: fas/templates/user/view.html:21
 msgid "Account Name:"
-msgstr ""
+msgstr "Ime računa:"
 
 #: fas/templates/user/view.html:36
 msgid "Telephone Number:"
-msgstr ""
+msgstr "Telefonski broj:"
 
 #: fas/templates/user/view.html:40
 msgid "Postal Address:"
-msgstr ""
+msgstr "Poštanska adresa:"
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr ""
+msgstr "Država:"
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
-msgstr ""
+msgstr "IRC nadimak:"
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr ""
+msgstr "PGP ključ:"
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr ""
+msgstr "Javni SSH ključ:"
 
 #: fas/templates/user/view.html:68
 msgid "Comments:"
-msgstr ""
+msgstr "Komentari:"
 
 #: fas/templates/user/view.html:74
 msgid "Password:"
-msgstr ""
+msgstr "Šifra:"
 
 #: fas/templates/user/view.html:75
 msgid "Valid"
-msgstr ""
+msgstr "Validan"
 
 #: fas/templates/user/view.html:78
 msgid "Account Status:"
-msgstr ""
+msgstr "Status računa:"
 
 #: fas/templates/user/view.html:81
 msgid "Active"
-msgstr ""
+msgstr "Aktivan"
 
 #: fas/templates/user/view.html:82
 msgid "Vacation"
-msgstr ""
+msgstr "Odmor"
 
 #: fas/templates/user/view.html:83
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivan"
 
 #: fas/templates/user/view.html:84
 msgid "Pinged"
-msgstr ""
+msgstr "Pingovan"
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
-msgstr ""
+msgstr "Isključen"
 
 #: fas/templates/user/view.html:90
 msgid "CLA:"
-msgstr ""
+msgstr "CLA:"
 
 #: fas/templates/user/view.html:93
 msgid "Reject CLA"
-msgstr ""
+msgstr "Odbij CLA"
 
 #: fas/templates/user/view.html:95
 msgid "Complete it!"
-msgstr ""
+msgstr "Završi ga!"
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
-msgstr ""
+msgstr "Privatnost:"
 
 #: fas/templates/user/view.html:106
 msgid "Your Roles"
-msgstr ""
+msgstr "Vaše uloge"
 
 #: fas/templates/user/view.html:107
 #, python-format
 msgid "%s's Roles"
-msgstr ""
+msgstr "%s uloge"
 
 #: fas/templates/user/view.html:124
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: fas/templates/user/view.html:130
 msgid "Tools:"
-msgstr ""
+msgstr "Alati:"
 
 #: fas/templates/user/view.html:134
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "Pozovi novog člana..."
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "Upravljaj članstvom grupe..."
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "Upravljaj detaljima grupe..."
 
 #: fas/templates/user/view.html:140
 msgid "Queue:"
-msgstr ""
+msgstr "Red:"
 
 #: fas/templates/user/view.html:144
 #, python-format
@@ -2305,4 +2322,6 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
 msgstr ""
+"<strong>%(user)s</strong> zahtjeva odobrenje za pristupanje "
+"<strong>%(unapproved_role.group)s</strong>."
 
