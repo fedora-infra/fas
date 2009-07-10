@@ -920,18 +920,20 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         )
 
         reqdump = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
-        reqfile = tempfile.NamedTemporaryFile()
-        reqfile.write(reqdump)
-        reqfile.flush()
+        certdump = ''
 
-        certfile = tempfile.NamedTemporaryFile()
         while True:
             try:
                 os.mkdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
                 break
             except OSError:
                 time.sleep(0.75)
+
         try:
+            reqfile = tempfile.NamedTemporaryFile()
+            reqfile.write(reqdump)
+            reqfile.flush()
+
             indexfile = open(config.get('openssl_ca_index'))
             for entry in indexfile:
                 attrs = entry.split('\t')
@@ -953,20 +955,22 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                         config.get('openssl_ca_dir'), 'revoke',
                         'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
 
+            certfile = tempfile.NamedTemporaryFile()
             command = [config.get('makeexec'), '-C',
                     config.get('openssl_ca_dir'), 'sign',
                     'req=%s' % reqfile.name, 'cert=%s' % certfile.name]
             ret = subprocess.call(command)
+            reqfile.close()
+
+            certdump = certfile.read()
+            certfile.close()
         finally:
             os.rmdir(os.path.join(config.get('openssl_lockdir'), 'lock'))
 
-        reqfile.close()
         if ret != 0:
             turbogears.flash(_('Your certificate could not be generated.'))
             turbogears.redirect('/home')
             return dict()
-        certdump = certfile.read()
-        certfile.close()
         keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
         cherrypy.request.headers['Accept'] = 'text'
 
