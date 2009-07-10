@@ -953,7 +953,7 @@ msgid "Your account details could not be saved: %s"
 msgstr "Vaši detalji računa se nisu mogli spremiti: %s"
 
 #: fas/user.py:334
-#, python-format,fuzzy
+#, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Podaci Fedora računa ažurisanje %s"
 
