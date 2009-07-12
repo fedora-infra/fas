@@ -7,6 +7,8 @@ import cherrypy
 
 from genshi.template.plugin import TextTemplateEnginePlugin
 
+import re
+
 import fas.sidebar as sidebar
 import logging
 import fas.plugin as plugin
@@ -22,10 +24,28 @@ admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
+class ValidAsteriskPass(validators.FancyValidator):
+    pass_regex = re.compile(r'^\d+$')
+
+    messages = {'invalid_pass': _('The password must be numeric and be at least 6 digits long.') }
+
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip()
+
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        if not self.username_regex.match(value):
+            raise validators.Invalid(self.message('invalid_pass', state,
+                username=value), value, state)
+
 class AsteriskSave(validators.Schema):
     targetname = KnownUser
     asterisk_enabled = validators.OneOf(['0', '1'], not_empty=True)
-    asterisk_pass = validators.String(min=6, not_empty=True)
+    asterisk_pass = validators.All(
+        ValidAsteriskPass,
+        validators.String(min=6, not_empty=True),
+    )
 
 def get_configs(configs_list):
     configs = {}
