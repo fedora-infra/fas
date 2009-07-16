@@ -47,7 +47,7 @@ class Help(controllers.Controller):
             'group_approve':        [_('Approve'), _('''<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>''')],
             'group_sponsor':        [_('Sponsor'), _('''<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>''')],
             'group_user_add':       [_('Add User'), _('''<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>''')],
-            'group_name':           [_('Group Name'), _('''<p>The name of the group you'd like to create.  It should be alphanumeric though '-'s are allowed</p>''')],
+            'group_name':           [_('Group Name'), _('''<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>''')],
             'group_display_name':   [_('Display Name'), _('''<p>More human readable name of the group</p>''')],
             'group_owner':          [_('Group Owner'), _('''<p>The name of the owner who will run this group</p>''')],
             'group_type':           [_('Group Type'), _('''<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
