@@ -9,7 +9,7 @@
   <body>
     <?python from fas import auth ?>
     <h2>${_('To do queue:')}</h2>
-    <py:for each="group in sorted(person.memberships)">
+    <py:for each="group in sorted(memberships)">
     <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
     <dd>
     <ul class="queue">

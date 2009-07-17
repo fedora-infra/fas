@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008 Red Hat, Inc. All rights reserved.
+# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,7 +18,7 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
-#            Toshio Kuratomi <tkuratom@redhat.com>
+#            Toshio Kuratomi <toshio@redhat.com>
 #
 from turbogears import expose, config, identity, redirect
 from turbogears.database import session
@@ -166,8 +166,8 @@ class Root(plugin.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
-        person.filter_private()
-        return dict(person=person, cla=cla)
+        person = person.filter_private()
+        return dict(person=person, memberships=person.memberships, cla=cla)
 
     @expose(template="fas.templates.about")
     def about(self):

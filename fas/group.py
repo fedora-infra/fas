@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008 Red Hat, Inc. All rights reserved.
+# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,6 +18,7 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
+#            Toshio Kuratomi <toshio@redhat.com>
 #
 
 # Does this need to come before the import turbogears or does it not matter?
@@ -213,7 +214,7 @@ class Group(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-        if not canCreateGroup(person, Groups.by_name(config.get('admingroup'))):
+        if not canCreateGroup(person):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         return dict()
@@ -231,7 +232,7 @@ class Group(controllers.Controller):
         person = People.by_username(turbogears.identity.current.user_name)
         person_owner = People.by_username(owner)
 
-        if not canCreateGroup(person, Groups.by_name(config.get('admingroup'))):
+        if not canCreateGroup(person):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
@@ -664,8 +665,8 @@ into the e-mail aliases within an hour.
                     ).group_by(People.username).where(Groups.name==groupname)
             sponsorship = dict(pair for pair in sponsorCount.execute())
 
-        # Run filter_private via side effect
-        filterPrivacy = ((p[0], p[1], p[0].filter_private()) for p in people)
+        # Run filter_private
+        filterPrivacy = ((p[0].filter_private(), p[1]) for p in people)
         # We filter this so that sending information via json is quick(er)
         filteredPeople = ((p[0].username, p[0].email, p[0].human_name, p[1],
                 sponsorship.get(p[0].username, 0)) for p in filterPrivacy)
@@ -682,7 +683,7 @@ into the e-mail aliases within an hour.
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        person.filter_private()
+        person = person.filter_private()
         return dict(person=person, group=group)
 
     @identity.require(identity.not_anonymous())
@@ -721,5 +722,5 @@ Fedora and FOSS are changing the world -- come be a part of it!''') % \
         else:
             turbogears.flash(_("You are not in the '%s' group.") % group.name)
 
-        person.filter_private()
+        person = person.filter_private()
         return dict(target=target, person=person, group=group)
