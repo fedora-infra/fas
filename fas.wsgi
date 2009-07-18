@@ -42,8 +42,8 @@ import fas.controllers
 
 cherrypy.root = fas.controllers.Root()
 
-# Uncomment this (and the below) to use weberror for development
-from weberror.evalexception import EvalException
+# Uncomment this (and the below section) to use weberror for development
+#from weberror.evalexception import EvalException
 
 if cherrypy.server.state == 0:
     atexit.register(cherrypy.server.stop)
@@ -75,9 +75,12 @@ def fake_call(self, environ, start_response):
         environ['PATH_INFO'] = environ['PATH_INFO_OLD']
         return self.respond(environ, start_response)
 
-# Uncomment (and the above weberror import) these lines to use weberror
+# Uncomment these lines (and the above weberror import) to use weberror
 # for testing.  This requires that python-weberror and its dependencies
 # are installed.  debug must be set on above, and mod_wsgi must only use
 # one process (don't specify processes= in the WSGIDaemonProcess directive.
-setattr(EvalException, '__call__', fake_call)
-application = EvalException(application, global_conf={'debug': True})
+# Due to a current WebError bug
+# (http://bitbucket.org/bbangert/weberror/issue/2/reliance-on-side-effect-of-an-assert)
+# WSGIPythonOptimize must be 0 for this to work properly.
+#setattr(EvalException, '__call__', fake_call)
+#application = EvalException(application, global_conf={'debug': True})
