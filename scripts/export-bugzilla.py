@@ -84,10 +84,10 @@ if __name__ == '__main__':
         message = '''Hello %(name)s,
 
 As a Fedora packager, we grant you permissions to make changes to bugs in
-bugzilla to all Fedora bugs.  This lets you work together with other Fedora
-developers in an easier fashion.  However, to enable this functionality, we
-need to have your bugzilla email address stored in the Fedora Account System.
-At the moment you have:
+https://bugzilla.redhat.com/ to all Fedora bugs.  This lets you work together
+with other Fedora developers in an easier fashion.  However, to enable this
+functionality, we need to have your bugzilla email address stored in the
+Fedora Account System.  At the moment you have:
 
     %(email)s
 
