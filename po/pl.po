@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-05-19 23:12+0200\n"
+"PO-Revision-Date: 2009-08-07 15:45+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -53,19 +53,19 @@ msgid "Your updated information could not be saved."
 msgstr "Nie można zapisać zaktualizowanych informacji."
 
 #: fas/cla.py:238
-#, fuzzy
 msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
 msgstr ""
-"Aby wypełnić CLA, musimy znać twoje imię i nazwisko, numer telefonu, adres "
-"pocztowy oraz kraj. Upewnij się, że je podałeś."
+"Aby wypełnić CLA, musimy znać twoje imię i nazwisko, numer telefonu i "
+"państwo zamieszkania. Upewnij się, że je podałeś."
 
 #: fas/cla.py:245
 msgid ""
 "To complete the CLA, a valid country code must be specified.  Please select "
 "one now."
-msgstr "Aby wypełnić CLA, musisz podać prawidłowy kod kraju. Wybierz go teraz."
+msgstr ""
+"Aby wypełnić CLA, musisz podać prawidłowy kod państwa. Wybierz go teraz."
 
 #: fas/cla.py:248
 msgid ""
@@ -331,7 +331,6 @@ msgid "Accuracy of CLA Information"
 msgstr "Prawidłowość informacji CLA"
 
 #: fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>The CLA is a legal document.  We need to have accurate information "
 "attached to it just in case we ever need to contact you about a contribution "
@@ -424,16 +423,14 @@ msgid "Postal Address"
 msgstr "Adres pocztowy"
 
 #: fas/help.py:33
-#, fuzzy
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
 "a> about any concerns.</p>"
 msgstr ""
-"<p>Wymagane do wypełnienia <a href=\"http://fedoraproject.org/wiki/Legal/"
-"Licenses/CLA\">CLA</a>. Powinien to być adres pocztowy, pod jakim można się "
-"z tobą skontaktować. Zobacz naszą <a href=\"http://fedoraproject.org/wiki/"
-"Legal/PrivacyPolicy\">politykę prywatności</a> w razie wątpliwości.</p>"
+"<p>Powinien to być adres pocztowy, pod jakim można się z tobą skontaktować. "
+"Zobacz naszą <a href=\"http://fedoraproject.org/wiki/Legal/"
+"PrivacyPolicy\">politykę prywatności</a> w razie wątpliwości.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -511,7 +508,7 @@ msgstr "<p>Pozwala na wybranie języka.</p>"
 
 #: fas/help.py:40
 msgid "Country Code"
-msgstr "Kod kraju"
+msgstr "Kod państwa"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
@@ -655,13 +652,12 @@ msgid "Group Name"
 msgstr "Nazwa grupy"
 
 #: fas/help.py:50
-#, fuzzy
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
-"<p>Nazwa tworzonej grupy. Powinna być alfanumeryczna, ale znaki \"-\" są "
-"dozwolone</p>"
+"<p>Nazwa tworzonej grupy. Powinna być alfanumeryczna i zawierać tylko małe "
+"znaki, ale znaki \"-\" oraz \"_\" są dozwolone</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -790,15 +786,12 @@ msgid "Must Belong To"
 msgstr "Musi należeć do"
 
 #: fas/help.py:61
-#, fuzzy
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
 "<p>Zanim użytkownik będzie mógł dołączyć do tej grupy, musi należeć do grup "
-"wyświetlonych w tym polu. <b>Ta wartość nie może zostać usunięta bez udziału "
-"administratora, może tylko zostać zmieniona</b>. Zalecane wartości to grupa "
-"\"cla_done\".</p>"
+"wyświetlonych w tym polu. Zalecane wartości to grupa \"cla_done\".</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
@@ -1396,7 +1389,6 @@ msgid "The following error(s) have occured with your request:"
 msgstr "Po żądaniu wystąpiły następujące błędy:"
 
 #: fas/templates/home.html:11
-#, fuzzy
 msgid "To do queue:"
 msgstr "Kolejka do zrobienia:"
 
@@ -1429,7 +1421,7 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Różne zadania"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
@@ -1513,14 +1505,13 @@ msgid "FAS version %s"
 msgstr "FAS wersja %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to "
 "the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-"Copyright © 2007-2008 Red Hat, Inc. i inni. Wszystkie prawa zastrzeżone. "
-"Prosimy wysyłać wszystkie komentarze lub poprawki do <a href=\"mailto:"
-"webmaster@fedoraproject.org\">zespołu stron WWW</a> (w języku angielskim)."
+"© 2009 Red Hat, Inc. i inni. Prosimy wysyłać wszystkie komentarze lub "
+"poprawki do <a href=\"mailto:webmaster@fedoraproject.org\">zespołu stron "
+"WWW</a> (w języku angielskim)."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1602,24 +1593,23 @@ msgstr "Numer telefonu"
 
 #: fas/templates/cla/index.html:55 fas/templates/user/edit.html:55
 msgid "Country"
-msgstr "Kraj"
+msgstr "Państwo"
 
 #: fas/templates/cla/index.html:57 fas/templates/user/edit.html:57
 msgid "Select Country"
-msgstr "Wybierz kraj"
+msgstr "Wybierz państwo"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr "Jeśli na liście brak twojego kraju, wybierz \"Inny\""
+msgstr "Jeśli na liście brak twojego państwa, wybierz \"Inne\""
 
 #: fas/templates/cla/index.html:68
-#, fuzzy
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
 msgstr ""
-"Potwierdzam, że powyższe informacje (imię i nazwisko, adres, kraj oraz numer "
-"telefonu) są prawdziwe, zgodnie z moją najlepszą wiedzą."
+"Potwierdzam, że powyższe informacje (imię i nazwisko, państwo zamieszkania "
+"oraz numer telefonu) są prawdziwe, zgodnie z moją wiedzą."
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
@@ -2202,7 +2192,7 @@ msgstr "Adres pocztowy:"
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr "Kraj:"
+msgstr "Państwo:"
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
@@ -2309,6 +2299,3 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> poprosił o zaakceptowanie dołączenia do <strong>%"
 "(unapproved_role.group)s</strong>."
-
-#~ msgid "Can the postal system really deliver to that address?"
-#~ msgstr "Czy poczta może być dostarczana pod ten adres?"
