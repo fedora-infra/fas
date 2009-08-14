@@ -1,10 +1,13 @@
-#
+# Hungarian translation of Fedora Account System.
+# Copyright (C) 2008-2009 Fedora Project
+# This file is distributed under the same license as the Fedora website.
+# Sulyok Péter <peti@fedoraproject.org>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: fas\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: fas master\n"
+"Report-Msgid-Bugs-To:\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-05-21 19:35+0200\n"
+"PO-Revision-Date: 2009-08-14 07:38+0200\n"
 "Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -51,13 +54,12 @@ msgid "Your updated information could not be saved."
 msgstr "Az időszerűsített adatokat nem sikerült elmenteni."
 
 #: fas/cla.py:238
-#, fuzzy
 msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
 msgstr ""
-"A CLA befejezéséhez meg kell kapnunk az ön nevét, telefonszámát, postacímét "
-"és országát. Kérem győződjőn meg róla, hogy kitöltötte azokat!"
+"A CLA befejezéséhez meg kell kapnunk az ön nevét, telefonszámát és országát. "
+"Kérem győződjék meg arról, hogy kitöltötte a szükséges mezőket!"
 
 #: fas/cla.py:245
 msgid ""
@@ -335,7 +337,6 @@ msgid "Accuracy of CLA Information"
 msgstr "CLA adatok pontossága"
 
 #: fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>The CLA is a legal document.  We need to have accurate information "
 "attached to it just in case we ever need to contact you about a contribution "
@@ -345,12 +346,12 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
-"<p>A CLA jogi dokumentum. Szükségünk van pontos adatokra minden esetre, ha "
-"esetleg szükség lenne kapcsolatba lépni önnel egy hozzájárulása kapcsán. "
-"Képzelje el, ha kapnánk egy hívást egy jogásztól, aki állítja, hogy "
-"birtokolják az ön munkája szerzői jogait, és nekünk azt kellene mondanunk, "
-"hogy miénk a jog, mert „Mekk Elek” ruházta ránk, és nincs egy telefonszám, "
-"vagy cím ahol elérhetnénk! Kínos helyzet lehetne.</p>"
+"<p>A CLA jogi dokumentum. Szükségünk van pontos adatokra, ha esetleg szükség "
+"lenne kapcsolatba lépni önnel egy hozzájárulása kapcsán.  Képzelje el, ha "
+"kapnánk egy hívást egy cég jogászától, aki állítja, hogy birtokolják az ön "
+"munkája szerzői jogait, és nekünk azt kellene mondanunk, hogy miénk a jog, "
+"mert „Mekk Elek” ruházta ránk, és nincs egy telefonszám ahol elérhetnénk! "
+"Kínos helyzet lehetne.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -427,16 +428,14 @@ msgid "Postal Address"
 msgstr "Postacím"
 
 #: fas/help.py:33
-#, fuzzy
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
 "a> about any concerns.</p>"
 msgstr ""
-"<p>Szükséges a <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA"
-"\">CLA</a> befejezéséhez. Ez az ön levelezési címe, ahol elérhető. Ha "
-"kétségei vannak, olvassa el a <a href=\"http://fedoraproject.org/wiki/Legal/"
-"PrivacyPolicy\">Személyes adatok szabályzat</a>át.</p>"
+"<p>Ez az ön levelezési címe, ahol elérhető.  Ha kétségei vannak, olvassa el "
+"a <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Személyes "
+"adatok szabályzatát</a>.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -661,12 +660,12 @@ msgid "Group Name"
 msgstr "Csoportnév"
 
 #: fas/help.py:50
-#, fuzzy
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
-"<p>A megteremteni kívánt csoport neve. Alfanumerikus lehet kötőjelekkel.</p>"
+"<p>A megteremteni kívánt csoport neve.  Kisbetűs alfanumerikus lehet, de „-” "
+"és „_” megengedett.</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -795,15 +794,12 @@ msgid "Must Belong To"
 msgstr "Tartoznia kell"
 
 #: fas/help.py:61
-#, fuzzy
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
-"<p>Mielőtt egy használó csatlakozik e csoporthoz, az alábbi dobozban "
-"felsorolt csoportokhoz kell tartoznia. <b>Ezt az értéket nem lehet "
-"eltávolítani adminisztratív beavatkozás nélkül, csak megváltoztatni</b>. "
-"Ajánlott érték a „cla_done” csoport.</p>"
+"<p>Mielőtt egy használó beáll e csoportba, az alábbi dobozban felsorolt "
+"csoportokhoz kell tartoznia.  Ajánlott érték a „cla_done” csoport.</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
@@ -1403,7 +1399,6 @@ msgid "The following error(s) have occured with your request:"
 msgstr "A következő hiba történt a kérelemmel:"
 
 #: fas/templates/home.html:11
-#, fuzzy
 msgid "To do queue:"
 msgstr "Tennivalók:"
 
@@ -1436,7 +1431,7 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Különféle feladatok"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
@@ -1520,14 +1515,13 @@ msgid "FAS version %s"
 msgstr "FAS változat %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to "
 "the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-"Szerzői jog © 2007 Red Hat, Inc. és mások.  Minden jog fenntartva.  Kérem "
-"küldjenek minden hozzászólást vagy javítást a <a href=\"mailto:"
-"webmaster@fedoraproject.org\">webhely csapatnak</a>!"
+"© 2009 Red Hat, Inc. és mások.  Kérem küldjenek minden hozzászólást vagy "
+"javítást a <a href=\"mailto:webmaster@fedoraproject.org\">webhely csapatnak</"
+"a>!"
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1619,13 +1613,12 @@ msgid "If your country is not listed, select \"Other\""
 msgstr "Ha az ön országa nincs felsorolva, válassza a „más”-t"
 
 #: fas/templates/cla/index.html:68
-#, fuzzy
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
 msgstr ""
-"Igazolom, hogy a fenti adatok (nevem, címem, országom és telefonszámom) "
-"pontosak a legjobb tudásom szerint."
+"Igazolom, hogy a fenti adatok (nevem, országom és telefonszámom) pontosak "
+"tudomásom szerint."
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
