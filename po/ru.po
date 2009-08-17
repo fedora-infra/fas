@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# Sergey Raspopov <qwerty3456@mail.ru>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-06 04:42+0300\n"
-"Last-Translator: Valeriy Kruchko <lerkru@gmail.com>\n"
-"Language-Team: fedora-trans-ru <fedora-trans-ru@redhat.com>\n"
+"PO-Revision-Date: 2009-08-17 15:42+0400\n"
+"Last-Translator: Sergey Raspopov <qwerty3456@mail.ru>\n"
+"Language-Team: RU <Fedora-trans-ru@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: UTF-8\n"
 "Generated-By: Babel 0.9.2\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
@@ -236,12 +237,12 @@ msgstr "Вы не можете исключить пользователя '%(us
 #: fas/group.py:521
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
-msgstr ""
+msgstr "%(user)s Пользователь не может быть удалён из %(group)s: %(error)s"
 
 #: fas/group.py:538
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
-msgstr ""
+msgstr "%(name)s не может быть удалён из %(group)s"
 
 #: fas/group.py:556
 #, python-format
@@ -251,7 +252,7 @@ msgstr "Вы не можете повысить %s"
 #: fas/group.py:563
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "%(name)s не может быть повышен в %(group)s: %(error)s"
 
 #: fas/group.py:585
 #, python-format
@@ -266,7 +267,7 @@ msgstr "Вы не можете понизить %s"
 #: fas/group.py:608
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "%(name)s не может быть понижен в %(group)s: %(error)s"
 
 #: fas/group.py:629
 #, python-format
@@ -297,6 +298,24 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> Приглашает вас присоединиться к проекту Fedora! Мы "
+"сообщество пользователей и разработчиков, которые производят операционную "
+"систему с полностью свободными и открытыми исходными кодами (FOSS).  %(user)"
+"s считает что у вас достаточно знаний и умений\n"
+"что бы многое сделать для сообщества Fedora, и что вы, возможно,\n"
+" заинтересованы в содействии.\n"
+"\n"
+"Как вы смогли бы объединиться с сообществом Fedora ,проверить и развить "
+"свои \n"
+"навыки?  Проверьте здесь http://fedoraproject.org/join-fedora некоторый "
+"идеи.\n"
+"Нашему сообществу нужны не только программисты -- у нас есть место для вас, "
+"если вы художник, строитель сайтов, писатель, или общественный деятель.  Вы "
+"сможете расти и учиться как работать в команде с другими\n"
+"очень умными и талантливыми людьми.\n"
+"\n"
+"Fedora и FOSS меняют мир -- приходи и стань частью этого!"
 
 #: fas/group.py:720
 #, python-format
@@ -330,6 +349,14 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
+"<p>CLA это легальный документ. Нам необходимо иметь точную информацию "
+"прилагаемую к нему только для того что бы связаться с вами по поводу вклада, "
+"который Вы сделали для этого проекта. Представьте, если бы мы должны были бы "
+"получить вызов от адвоката из какой-то другой компании, утверждавшей, что "
+"они владельцы авторских прав на свою работу и мы должны были бы сказать им: "
+"мы имеем право его использовать, так как \"Микки Мус\" передал нам ее, и у "
+"нас нет ни телефонного номера ни адреса,что бы связаться с ними! "
+"Потенциально очень липкая ситуация.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -341,6 +368,9 @@ msgid ""
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
 msgstr ""
+"<p>IRC Ник используется для идентификации на irc.freenode.net. Пожалуйста, "
+"зарегистрируйте Ваш ник на irc.freenode.net, а затем заполнить это поле, что "
+"бы люди могли найти вас в сети, когда они нуждаются в вас</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -352,6 +382,9 @@ msgid ""
 "to send various official emails to.  This is also where your @fedoraproject."
 "org email will get forwarded</p>"
 msgstr ""
+"<p>Этот электронный адрес будет использован для связи с вами и передачи вам "
+"различной официальной информации. На этот адрес будут переправлены также "
+"сообщения для вашего адреса на @fedoraproject.org </p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
@@ -359,7 +392,7 @@ msgstr "Полное имя (требуется)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr ""
+msgstr "<p>Ваше реальное имя</p>"
 
 #: fas/help.py:31 fas/templates/user/edit.html:99
 msgid "GPG Key ID"
@@ -371,6 +404,10 @@ msgid ""
 "you or to encrypt information so that only the recipients can read it.  This "
 "can be used when a password reset is sent to your email.</p>"
 msgstr ""
+"<p>А GPG ключ обычно используется для доказательства, что сообщения или "
+"электронная почта пришла от Вас или для шифрования информации, для того "
+"чтобы только Вы могли прочитать её. Это может быть использовано, если пароль "
+"высылается на адрес электронной почты..</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
@@ -384,6 +421,11 @@ msgid ""
 "our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
 msgstr ""
+"<p>Требуется для завершения <a href=\"http://fedoraproject.org/wiki/Legal/"
+"Licenses/CLA\">CLA</a>. Возможна ситуация, когда кому-то из проекта Fedora "
+"нужно срочно связаться с вами. Для более подробной информации читайте об "
+"нашей <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\"> "
+"политике конфиденциальности</a></p>"
 
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/user/edit.html:50
@@ -396,6 +438,10 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
 "a> about any concerns.</p>"
 msgstr ""
+"<p>Укажите почтовый адрес по которому мы можем связаться с вами. вы можете "
+"ознакомиться с нашей <a href=\"http://fedoraproject.org/wiki/Legal/"
+"PrivacyPolicy\">политикой конфиденциальности</a> что бы избежать каких либо "
+"проблем.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -422,6 +468,8 @@ msgid ""
 "<p>Shows account status, possible values include<ul><li>active</"
 "li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
+"<p>Показывает состояние учётной записи, возможные состояния: "
+"<ul><li>активно</li><li>вакантно</li><li>неактивно</li></ul></p>"
 
 #: fas/help.py:37
 msgid "CLA"
@@ -487,6 +535,11 @@ msgid ""
 "our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
+"<p>Для отдельной заботы о неприкосновенности частной жизни детей , мы не "
+"принимаем персональную информацию от детей младше 13 лет. Мы сознательно не "
+"позволяем детям до 13 лет стать  зарегистрированными пользователями нашего "
+"сайта, покупать товары и услуги на нашем сайте. Мы сознательно не собираем и "
+"не запрашиваем информацию о детях младше 13 лет.</p>"
 
 #: fas/help.py:42
 msgid "Hide Information"
@@ -498,6 +551,9 @@ msgid ""
 "information given on this page from other people.  Please see the privacy "
 "policy for complete details.</p>"
 msgstr ""
+"<p>В соответствии с нашей политикой конфиденциальности Выберите какую "
+"информацию следует скрыть от других людей. Также, ознакомьтесь с нашей "
+"политикой конфиденциальности.</p>"
 
 #: fas/help.py:43 fas/templates/group/list.html:43
 msgid "Apply"
@@ -511,6 +567,10 @@ msgid ""
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
+"<p>Для того что бы принять вас в группу как участника работы требуется "
+"некоторое время. Многие группы имеют свои собственные правила о том, как "
+"добавлять членов группы или организатор. За более подробной информацией о "
+"том, как работает система см. <a href=\"%s\"> о странице</a>.</p>"
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
@@ -522,6 +582,10 @@ msgid ""
 "the group.  They will need to re-apply to get in.  Admins can remove anyone, "
 "Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
+"<p>Удаление лица из группы, что приедет к тому пользователя больше не будет "
+"в группе. Им придётся повторно применить для получения дюйм. Администратор "
+"может удалить любого, организатор может удалить пользователя, пользователь "
+"не может удалить никого..</p>"
 
 #: fas/help.py:45 fas/templates/group/member-list.html:50
 msgid "Upgrade"
@@ -533,6 +597,9 @@ msgid ""
 "li><li>From sponsor -> administrator</li><li>administrators cannot be "
 "upgraded beyond administrator</li></ul></p>"
 msgstr ""
+"<p>Повышение статуса лица в группе.<ul><li>из пользователя -> в организатор</"
+"li><li>из организатор -> в администратора</li><li>администратор не может "
+"быть повышен</li></ul></p>"
 
 #: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
@@ -544,6 +611,9 @@ msgid ""
 "sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded "
 "below user, you may want to remove them</li></ul></p>"
 msgstr ""
+"<p>Понижение статуса лица в группе.<ul><li>Из администратора -> в </"
+"li><li>Из организатора -> в пользователя</li><li>пользователь не может быть "
+"понижен, но всегда можно удалить пользователя.</li></ul></p>"
 
 #: fas/help.py:47 fas/templates/group/member-list.html:41
 msgid "Approve"
@@ -555,6 +625,9 @@ msgid ""
 "user has applied for the group, go to the group's page and click approve to "
 "approve the user.</p>"
 msgstr ""
+"<p>Организатор или администратор может добавить пользователей в группы. "
+"После того, как пользователь добавлен к группе, перейдите на страницу группы "
+"и нажмите \"утвердить\" что бы утвердить пользователя.</p>"
 
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
@@ -1231,7 +1304,7 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Различные задачи"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
@@ -1364,6 +1437,9 @@ msgid ""
 "\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop "
 "by #fedora-admin on irc.freenode.net."
 msgstr ""
+"Добро пожаловать в Fedora Accounts System 2. Отчеты об ошибках отправляйте "
+"по адресу<a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/"
+"fas/</a> или на канал #fedora-admin сервера irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1769,10 +1845,12 @@ msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
+"Часть из <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
+"Account System<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "Добро пожаловать в Fedora OpenID Provider"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1780,6 +1858,8 @@ msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a href=\"%"
 "(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
+"Вы вошли как %(username)s. Ваш OpenID <a href=\"%(id_base_url)s/%(username)s"
+"\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -1823,7 +1903,7 @@ msgstr "Email"
 #: fas/templates/user/edit.html:35 fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(Ждите смены %(email)s - <a href=\"%(url)s\">отмена</a>)"
 
 #: fas/templates/user/edit.html:76
 msgid "Latitude"
@@ -1856,9 +1936,10 @@ msgstr "Отмена"
 
 #: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "Генерирование сертификата"
 
 #: fas/templates/user/gencert.html:15
+#, fuzzy
 msgid ""
 "The link below allows you to generate a certificate to authenticate to "
 "Fedora's buildsytems.  Please note that you can only have one valid "
@@ -1866,15 +1947,20 @@ msgid ""
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
 msgstr ""
+"Ссылка ниже позволяет создать сертификат для проверки подлинности в системе "
+"Fedora. Обратите внимание на то, что вы можете иметь только один действующий "
+"сертификат в любой данный момент времени. После того, как вы создать новый "
+"сертификат, любые предыдущие будут аннулированы. В настоящее время, если вы "
+"не работали по упаковке Fedora, вы, вероятно, не должны иметь сертификат. "
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "Генерирование сертификата"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "Генерирование сертификата отключено."
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -1883,6 +1969,9 @@ msgid ""
 "brought here by clicking a link it usually means there is a misconfiguration "
 "on the server.  Please contact %(accts_email)s to fix things."
 msgstr ""
+"Генерирование SSL Сертификата отключена для этой машины. Если вы перешли "
+"сюда по ссылке, это обычно означает ошибку на сервере. Пожалуйста обратитесь "
+"к %(accts_email)s для исправления этого."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
@@ -1890,7 +1979,7 @@ msgstr "Список пользователей"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" Является символом (Ex: \"Ric *\") "
 
 #: fas/templates/user/list.html:26
 msgid "Username"
@@ -2016,7 +2105,7 @@ msgstr "Активен"
 
 #: fas/templates/user/view.html:82
 msgid "Vacation"
-msgstr ""
+msgstr "Освобождение"
 
 #: fas/templates/user/view.html:83
 msgid "Inactive"
@@ -2024,7 +2113,7 @@ msgstr "Неактивен"
 
 #: fas/templates/user/view.html:84
 msgid "Pinged"
-msgstr ""
+msgstr "Пингование"
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
