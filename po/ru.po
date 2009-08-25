@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-17 15:42+0400\n"
+"PO-Revision-Date: 2009-08-25 21:35+0400\n"
 "Last-Translator: Sergey Raspopov <qwerty3456@mail.ru>\n"
 "Language-Team: RU <Fedora-trans-ru@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -54,16 +54,15 @@ msgstr "Вам необходимо подтвердить что ваша пе�
 
 #: fas/cla.py:230
 msgid "Your updated information could not be saved."
-msgstr "Невозможно сохранить обновленную информация о вас."
+msgstr "Невозможно сохранить обновлённую информация о вас."
 
 #: fas/cla.py:238
-#, fuzzy
 msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
 msgstr ""
-"Чтобы подписать CLA, вам необходимо знать свое имя, телефонный номер, "
-"почтовый андресс и страну.  Пожалуйста, удостоверьтесь, что данные поля "
+"Чтобы подписать CLA, вам необходимо знать своё имя, телефонный номер, "
+"почтовый адрес и страну.  Пожалуйста, удостоверьтесь, что данные поля "
 "заполнены"
 
 #: fas/cla.py:245
@@ -71,7 +70,7 @@ msgid ""
 "To complete the CLA, a valid country code must be specified.  Please select "
 "one now."
 msgstr ""
-"Чтобы подписать CLA, необходимо задать существующий код сраны.  Пожалуйста, "
+"Чтобы подписать CLA, необходимо задать существующий код страны.  Пожалуйста, "
 "выберите один."
 
 #: fas/cla.py:248
@@ -79,8 +78,8 @@ msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter using only those characters."
 msgstr ""
-"Телефонный номер может состоятеть только из цифр, \"-\", \"+\", \"(\", \")"
-"\", or \" \".  Пожалуйста введите его повторно используя только эти символы."
+"Телефонный номер может состоять только из цифр, \"-\", \"+\", \"(\", \")\", "
+"or \" \".  Пожалуйста введите его повторно используя только эти символы."
 
 #: fas/cla.py:262 fas/cla.py:274
 #, python-format
@@ -354,7 +353,7 @@ msgstr ""
 "который Вы сделали для этого проекта. Представьте, если бы мы должны были бы "
 "получить вызов от адвоката из какой-то другой компании, утверждавшей, что "
 "они владельцы авторских прав на свою работу и мы должны были бы сказать им: "
-"мы имеем право его использовать, так как \"Микки Мус\" передал нам ее, и у "
+"мы имеем право его использовать, так как \"Микки Мус\" передал нам ее, но у "
 "нас нет ни телефонного номера ни адреса,что бы связаться с ними! "
 "Потенциально очень липкая ситуация.</p>"
 
@@ -492,7 +491,7 @@ msgstr ""
 
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
-msgstr "Октрытый RSA SSH ключ"
+msgstr "Открытый RSA SSH ключ"
 
 #: fas/help.py:38
 msgid ""
@@ -501,7 +500,7 @@ msgid ""
 "keygen\" for more information on creating your key (it must be an RSA key).  "
 "Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
-"<p>Для работы с большей частью ресурсов необходим открытый ключ.  Ззагрузив "
+"<p>Для работы с большей частью ресурсов необходим открытый ключ.  Загрузив "
 "нам публичный ключ вы можете иметь доступ к нашим серверам.  Наберите \"man "
 "ssh-keygen\" для детальной информации по созданию ключа (это должен быть RSA "
 "ключ).  Как только ключ будет создан вам необходимо загрузить ~/.ssh/id_rsa."
@@ -525,7 +524,7 @@ msgstr "Код страны"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr "Необходимо чтобы возраст был боее 13 лет"
+msgstr "Необходимо чтобы возраст был более 13 лет"
 
 #: fas/help.py:41
 msgid ""
@@ -651,6 +650,8 @@ msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
 msgstr ""
+"<p>Добавление пользователя в группу в ручном режиме. Введите имя "
+"пользователя в это поле и нажмите \"Добавить\".</p>"
 
 #: fas/help.py:50
 msgid "Group Name"
@@ -661,6 +662,8 @@ msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
+"<p>Укажите имя создаваемой группы. Имя может состоять из прописных алфавитно-"
+"цифровых символов символов дефиса '-', и нижнего подчёркивания '_'.</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -668,7 +671,7 @@ msgstr "Отображаемое имя"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p>Описание группы.</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
@@ -676,7 +679,7 @@ msgstr "Владелец группы"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
+msgstr "<p>Имя владельца, который будет работать с этой группой. </p>"
 
 #: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
@@ -689,6 +692,10 @@ msgid ""
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
 msgstr ""
+"<p>Можно оставить это поле пустым. Хотя для некоторых может иметь отметки "
+"'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  Эти отметки "
+"имеют значение, если группа, в итоге, получает доступ к чему нибудь на "
+"fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
@@ -700,16 +707,20 @@ msgid ""
 "fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
 "Infrastructure</a>).</p>"
 msgstr ""
+"<p>A URL или вики группы (например, <a href=\"https://fedoraproject.org/wiki/"
+"Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr "Список рассылки группы (необазательно)"
+msgstr "Список рассылки группы (необязательно)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
+"<p>Почтовая рассылка группы (например, fedora-infrastructure-list@redhat."
+"com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
@@ -721,6 +732,9 @@ msgid ""
 "redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 msgstr ""
+"<p>A URL для почтовой рассылки группы (например, <a href=\"http://www.redhat."
+"com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/"
+"mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
@@ -728,7 +742,7 @@ msgstr "IRC канал группы (необязательно)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>IRC канал группы (например, #fedora-admin).</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
@@ -738,6 +752,8 @@ msgstr "IRC сеть группы (необязательно)"
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
+"<p>IRC сеть группы в которой находиться IRC канал группы (например, "
+"Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -762,6 +778,8 @@ msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
+"<p>Могут ли пользователи удалить себя из группы без помощи спонсора/"
+"администратора? (Рекомендуется выбрать \"да\")</p>"
 
 #: fas/help.py:61
 msgid "Must Belong To"
@@ -772,11 +790,13 @@ msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
+"<p>Прежде чем пользователь будет добавлен в группу, они должны принадлежать "
+"группам перечисленным в этом окне. Рекомендуемое значение для группы "
+"'cla_done'</p>"
 
 #: fas/help.py:62
-#, fuzzy
 msgid "Join Message"
-msgstr "Присоединиться Fedora"
+msgstr "Приветствие для новых участников"
 
 #: fas/help.py:62
 msgid ""
@@ -784,6 +804,9 @@ msgid ""
 "should be informative and offer tips about what to do next.  A description "
 "of the group would also be valuable here</p>"
 msgstr ""
+"<p>Это сообщение будет выводиться для пользователей добавленных в группу. "
+"Должен содержать полезную информацию и описание что делать дальше. Также "
+"возможно указать здесь описание группы.</p>"
 
 #: fas/help.py:63
 msgid "Client Side Cert"
@@ -883,12 +906,12 @@ msgstr ""
 #: fas/user.py:316
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr "Информация об аккаунте не может быть сохранена: %s"
+msgstr "Информация об учётной записи не может быть сохранена: %s"
 
 #: fas/user.py:320
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora Account Data Update %s"
-msgstr "Получить аккаунт Fedora"
+msgstr "Fedora Account Data обновленны %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
@@ -897,12 +920,12 @@ msgstr "Информация об аккаунте была сохранена"
 #: fas/user.py:466
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "Неверно указаны поля: %(error)s"
 
 #: fas/user.py:480
-#, fuzzy, python-format
+#, python-format
 msgid "No users found matching '%s'"
-msgstr "Не найдены группы соответствующие '%s'"
+msgstr "Не найдены пользователи соответствующие '%s'"
 
 #: fas/user.py:522
 msgid ""
@@ -915,18 +938,17 @@ msgid "You do not have any pending email changes."
 msgstr ""
 
 #: fas/user.py:530 fas/user.py:547
-#, fuzzy
 msgid "Invalid email change token."
-msgstr "Подтвердить запрос на изменение email"
+msgstr "Неправильный признак смены email"
 
 #: fas/user.py:556
-#, fuzzy, python-format
+#, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr "Действительно ли вы хотите изменить email на: %s?"
+msgstr "Вы успешно сменили ваш email на '%s'"
 
 #: fas/user.py:565
 msgid "No need to sign up, you have an account!"
-msgstr ""
+msgstr "Нет необходимости в регистрации, у вас уже есть аккаунт!"
 
 #: fas/user.py:581 fas/user.py:607
 msgid ""
@@ -1654,7 +1676,7 @@ msgstr "Дата добавлена"
 
 #: fas/templates/group/member-list.html:17
 msgid "Date Approved"
-msgstr ""
+msgstr "Дата потверждения"
 
 #: fas/templates/group/member-list.html:18
 msgid "Approval"
@@ -1666,7 +1688,7 @@ msgstr "Тип роли"
 
 #: fas/templates/group/member-list.html:20
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
@@ -1770,7 +1792,7 @@ msgstr "Просмотреть список членов"
 
 #: fas/templates/group/view.html:97
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "Организаторская очередь"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
@@ -1778,7 +1800,7 @@ msgstr "Это сервер OpenID"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">Это</a> сервер конечной точки OpenID."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
@@ -1796,7 +1818,7 @@ msgstr "Оффициальны сайт OpenID."
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr "Подать заявку на создание Нового Проекта"
+msgstr "Утвердить OpenID запрос?"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid ""
