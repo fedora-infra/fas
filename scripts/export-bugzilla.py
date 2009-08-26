@@ -78,16 +78,16 @@ if __name__ == '__main__':
         session.flush()
 
     # Mail the people without bugzilla accounts
-    msg = Message()
     for person in no_bz_account:
         smtplib.SMTP(MAILSERVER)
+        msg = Message()
         message = '''Hello %(name)s,
 
 As a Fedora packager, we grant you permissions to make changes to bugs in
-https://bugzilla.redhat.com/ to all Fedora bugs.  This lets you work together
-with other Fedora developers in an easier fashion.  However, to enable this
-functionality, we need to have your bugzilla email address stored in the
-Fedora Account System.  At the moment you have:
+bugzilla to all Fedora bugs.  This lets you work together with other Fedora
+developers in an easier fashion.  However, to enable this functionality, we
+need to have your bugzilla email address stored in the Fedora Account System.
+At the moment you have:
 
     %(email)s
 
@@ -103,13 +103,13 @@ inconvenience.
 Thank you,
 The Fedora Account System
 %(admin_email)s
-''' % {'name': entry.person.human_name, 'email': entry.email,
+''' % {'name': person.person.human_name, 'email': person.email,
         'admin_email': ADMINEMAIL}
 
-        msg.add_header('To', entry.email)
+        msg.add_header('To', person.email)
         msg.add_header('From', ADMINEMAIL)
-        msg.add_header('Subject', 'Fedora Account System and Bugzilla Mistmatch')
+        msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
         msg.set_payload(message)
         smtp = smtplib.SMTP(MAILSERVER)
-        smtp.sendmail(ADMINEMAIL, [entry.email], msg.as_string())
+        smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
         smtp.quit()
