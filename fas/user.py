@@ -718,7 +718,7 @@ forward to working with you!
         # Logged in
         if identity.current.user_name:
             turbogears.flash(_("You are already logged in."))
-            turbogears.redirect('/user/view/%s', identity.current.user_name)
+            turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
         try:
             person = People.by_username(username)

@@ -225,6 +225,7 @@ class JsonRequest(controllers.Controller):
             'group_type': GroupsTable.c.group_type,
             'role_status': PersonRolesTable.c.role_status,
             'role_type': PersonRolesTable.c.role_type,
+            'role_approval': PersonRolesTable.c.approval,
         }
 
         if columns:
