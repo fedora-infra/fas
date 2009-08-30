@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-30 21:29+0200\n"
+"PO-Revision-Date: 2009-08-30 21:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1493,7 +1493,7 @@ msgstr "Kontakt"
 
 #: fas/templates/master.html:87
 msgid "Legal & Privacy"
-msgstr "Kwestie prawne i polityka prywatnoŝci"
+msgstr "Kwestie prawne i polityka prywatności"
 
 #: fas/templates/master.html:89
 msgid "Log Out"
