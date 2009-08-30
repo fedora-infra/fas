@@ -1,12 +1,12 @@
 # translation of pl.po to Polish
 #
-# Piotr Drąg <piotrdrag@gmail.com>, 200, 2009.
+# Piotr Drąg <piotrdrag@gmail.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-30 21:33+0200\n"
+"PO-Revision-Date: 2009-08-30 21:36+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
