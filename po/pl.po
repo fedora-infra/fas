@@ -1,12 +1,12 @@
 # translation of pl.po to Polish
-# Piotr Drąg <piotrdrag@gmail.com>, 2008.
 #
+# Piotr Drąg <piotrdrag@gmail.com>, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-07 15:45+0200\n"
+"PO-Revision-Date: 2009-08-30 21:29+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
 msgstr ""
-"Aby wypełnić CLA, musimy znać twoje imię i nazwisko, numer telefonu i "
+"Aby wypełnić CLA, musimy znać Twoje imię i nazwisko, numer telefonu i "
 "państwo zamieszkania. Upewnij się, że je podałeś."
 
 #: fas/cla.py:245
@@ -429,8 +429,8 @@ msgid ""
 "a> about any concerns.</p>"
 msgstr ""
 "<p>Powinien to być adres pocztowy, pod jakim można się z tobą skontaktować. "
-"Zobacz naszą <a href=\"http://fedoraproject.org/wiki/Legal/"
-"PrivacyPolicy\">politykę prywatności</a> w razie wątpliwości.</p>"
+"Zobacz naszą <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy"
+"\">politykę prywatności</a> w razie wątpliwości.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -1493,7 +1493,7 @@ msgstr "Kontakt"
 
 #: fas/templates/master.html:87
 msgid "Legal & Privacy"
-msgstr "Legalność i prywatność"
+msgstr "Kwestie prawne i polityka prywatnoŝci"
 
 #: fas/templates/master.html:89
 msgid "Log Out"
