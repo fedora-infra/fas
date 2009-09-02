@@ -9,15 +9,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FAS\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-03-23 06:38+0100\n"
+"PO-Revision-Date: 2009-09-02 12:18+0200\n"
 "Last-Translator: Francesco Tombolini <tombo@adamantio.net>\n"
 "Language-Team: Italian <fedora-trans-it at redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);"
 
 #: fas/auth.py:285
 #, python-format
@@ -60,13 +60,11 @@ msgid "Your updated information could not be saved."
 msgstr "Non è stato possibile salvare le informazioni aggiornate."
 
 #: fas/cla.py:238
-#, fuzzy
 msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
 msgstr ""
-"Per completare la CLA, dobbiamo avere il tuo nome, numero di telefono,"
-"indirizzo postale e paese. Assicurati di averli compilati."
+"Per completare la CLA, dobbiamo avere il tuo nome, numero di telefono, e paese. Assicurati di averli compilati."
 
 #: fas/cla.py:245
 msgid ""
@@ -343,7 +341,6 @@ msgid "Accuracy of CLA Information"
 msgstr "Accuratezza delle informazioni CLA"
 
 #: fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>The CLA is a legal document.  We need to have accurate information "
 "attached to it just in case we ever need to contact you about a contribution "
@@ -437,17 +434,12 @@ msgid "Postal Address"
 msgstr "Indirizzo postale"
 
 #: fas/help.py:33
-#, fuzzy
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
 "a> about any concerns.</p>"
 msgstr ""
-"<p>Necessario per completare la <a href=\"http://fedoraproject.org/wiki/"
-"Legal/Licenses/CLA\">CLA</a>.  Questo dovrebbe essere un indirizzo di posta "
-"ordinaria al quale puoi essere contattato.  Vedi la nostra <a href=\"http://"
-"fedoraproject.org/wiki/Legal/PrivacyPolicy\">Politica sulla Privacy</a> per "
-"qualsiasi dubbio.</p>"
+"<p>Questo dovrebbe essere un indirizzo di posta ordinaria al quale puoi essere contattato.  Vedi la nostra <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Politica sulla Privacy</a> per qualsiasi dubbio.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -676,13 +668,12 @@ msgid "Group Name"
 msgstr "Nome del gruppo"
 
 #: fas/help.py:50
-#, fuzzy
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
-"<p>Il nome del gruppo che si desidera creare.  Dovrebbe essere alfanumerico, "
-"ma i caratteri '-' sono permessi</p>"
+"<p>Il nome del gruppo che si desidera creare.  Dovrebbe essere alfanumerico in minuscolo, "
+"ma sono consentiti i caratteri '-' e '_'</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -813,15 +804,12 @@ msgid "Must Belong To"
 msgstr "Deve far parte di"
 
 #: fas/help.py:61
-#, fuzzy
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
 "<p>Prima che un utente possa far parte di questo gruppo, deve appartenere al "
-"gruppo elencato in questa casella.  <b>Questo valore non può essere rimosso "
-"senza un intervento di un amministratore, ma solo cambiato</b>.  I valori "
-"consigliati sono almeno il gruppo 'cla_done'.</p>"
+"gruppo elencato in questa casella.  I valori consigliati sono almeno il gruppo 'cla_done'.</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
@@ -922,13 +910,12 @@ msgid "Somebody is already using that email address."
 msgstr "Qualcuno sta già usando questo indirizzo email."
 
 #: fas/user.py:286
-#, fuzzy
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive "
 "an email with instructions shortly."
 msgstr ""
-"  Prima che la nuova email abbia effetto, si dovrà confermarla.  A breve si "
-"riceverà un messaggio email con le istruzioni."
+"Prima che la nuova email abbia effetto, si dovrà confermarla.  A breve si "
+"riceverà un messaggio email con brevi istruzioni."
 
 #: fas/user.py:290
 #, python-format
@@ -961,9 +948,9 @@ msgid "Your account details could not be saved: %s"
 msgstr "I dettagli sull'account non possono essere salvati: %s"
 
 #: fas/user.py:320
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora Account Data Update %s"
-msgstr "Fedora Account System"
+msgstr "Fedora Account Data Update %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
@@ -1174,6 +1161,7 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact %"
 "(admin_email)s to have it reset"
 msgstr ""
+"Gli account di sistema non possono avere il reset delle password online.  Prego, contattare  %(admin_email)s per il reset"
 
 #: fas/user.py:748
 #, python-format
@@ -1436,19 +1424,17 @@ msgid "The following error(s) have occured with your request:"
 msgstr "Si sono verificati i seguenti errori nella richiesta:"
 
 #: fas/templates/home.html:11
-#, fuzzy
 msgid "To do queue:"
-msgstr "Cose da fare:"
+msgstr "Coda da fare:"
 
 #: fas/templates/home.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> richiede "
-"approvazione per l'appatenenza al gruppo <a href=\"group/view/%(group)s\">%"
-"(group)s</a>."
+"approvazione per l'appatenenza al gruppo <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1470,7 +1456,7 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Compiti vari"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
@@ -1554,12 +1540,11 @@ msgid "FAS version %s"
 msgstr "FAS versione %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to "
 "the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-"Copyright © 2007-2008 Red Hat, Inc. ed altri.  Tutti i diritti riservati.  "
+"© 2007-2008 Red Hat, Inc. ed altri.  Tutti i diritti riservati.  "
 "Inviare qualsiasi commento o correzione al <a href=\"mailto:"
 "webmaster@fedoraproject.org\">websites team</a>."
 
@@ -1651,16 +1636,14 @@ msgstr "Selezione paese"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Se la propria nazione non è in elenco, selezionare \"Other\""
 
 #: fas/templates/cla/index.html:68
-#, fuzzy
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
 msgstr ""
-"Certifico e confermo l'accuratezza delle suddette informazioni (il mio nome, "
-"indirizzo, paese e numero telefonico)."
+"Certifico che le suddette informazioni (il mio nome, , paese e numero telefonico) sono accurate al meglio delle mie conoscenze."
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
@@ -2015,13 +1998,12 @@ msgid "This is an OpenID identity for %(username)s"
 msgstr "Questa è un'identità OpenID per %(username)s"
 
 #: fas/templates/openid/id.html:31
-#, fuzzy
 msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
-"Parte del <a href=\"https://admin.fedoraproject.org/\">Fedora Account "
-"System<a>."
+"Parte del <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
+"Account System<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
