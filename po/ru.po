@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-25 21:35+0400\n"
+"PO-Revision-Date: 2009-09-05 20:13+0400\n"
 "Last-Translator: Sergey Raspopov <qwerty3456@mail.ru>\n"
 "Language-Team: RU <Fedora-trans-ru@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Требуется членство в %s для принятия зая
 
 #: fas/cla.py:139
 msgid "You are not allowed to reject CLAs."
-msgstr "Вы не можете отклонить соглашение CLAs."
+msgstr "Вы не можете отклонить соглашение CLA."
 
 #: fas/cla.py:150
 #, python-format
@@ -216,7 +216,7 @@ msgstr "%(user)s вступил в %(group)s!"
 #: fas/group.py:473
 #, python-format
 msgid "You cannot sponsor '%s'"
-msgstr "Вы не можете быть спонсором '%s'"
+msgstr "Вы не поручитель '%s'"
 
 #: fas/group.py:480
 #, python-format
@@ -226,7 +226,7 @@ msgstr "%(user)s нельзя принять в группу %(group)s: %(error)
 #: fas/group.py:496
 #, python-format
 msgid "'%s' has been sponsored!"
-msgstr "Была создана группа: '%s'."
+msgstr "Вы поручились за '%s'!"
 
 #: fas/group.py:513
 #, python-format
@@ -982,7 +982,7 @@ msgid "Welcome to the Fedora Project!"
 msgstr "Добро пожаловать в проект Fedora!"
 
 #: fas/user.py:625
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -1024,6 +1024,38 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Вы создали новую учётную запись Fedora!\n"
+"Ваше имя пользователя: %(username)s\n"
+"Ваш пароль: %(password)s\n"
+"\n"
+"Пожалуйста посетите %(base_url)s%(webpath)s/user/changepass что бы сменить "
+"пароль.\n"
+"\n"
+"Добро пожаловать в проект Fedora. Теперь когда Вы зарегистрировали\n"
+"свою учётную запись, возможно вы желаете начать вносить свой вклад, и с "
+"учётом этого \n"
+"мы надеемся, что это электронное послание поможет вам двигаться в правильном "
+"направлении\n"
+"и  сделает этот процесс максимально удобным.\n"
+"\n"
+"Fedora является интересным, интенсивно развивающимся проектом, и Вы можете\n"
+"внести вклад в различные разделы проекта, используя разные \n"
+"навыки. Чтобы узнать об этих способах содействия\n"
+"Fedora, вы можете посетить нашу страничку, которая содержит более подробную "
+"информацию \n"
+"о всех ролях, которые мы имеем в распоряжении.\n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"Если Вы уже знаете, как Вы хотите вносить свой вклад в Fedora, и нашли "
+"группу, работающую в области, \n"
+"которая Вас интересует, то есть еще несколько шагов,\n"
+"которые вам следует сделать\n"
+"\n"
+"Основной шаг - регистрация в команде или почтовой рассылке проекта,\n"
+"который вам интересен и если вам интересно работать в разных направлениях, "
+"чувствовать свободу в выборе групп и их количества!"
 
 #: fas/user.py:702
 msgid "Your password could not be changed."
@@ -1064,6 +1096,8 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact %"
 "(admin_email)s to have it reset"
 msgstr ""
+"Системный учётные записи не могут быть сброшены с помощью онлайн служб. "
+"Пожалуйста свяжитесь с %(admin_email)s для сброса."
 
 #: fas/user.py:748
 #, python-format
@@ -1073,6 +1107,10 @@ msgid ""
 "To change your password (or to cancel the request), please visit\n"
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"Кто-то (возможно это Вы) запросил сброс пароля для вашей учётной записи!\n"
+"Что бы сменить пароль (или отменить запрос), пожалуйста посетите \n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:760
 msgid ""
@@ -1094,7 +1132,7 @@ msgstr "Изменить пароль к Проекту Fedora"
 
 #: fas/user.py:791
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "URL сброса пароля выслан вам на email."
 
 #: fas/user.py:805 fas/user.py:832
 msgid "You do not have any pending password changes."
@@ -1139,9 +1177,9 @@ msgid "The group '%(group)s' already exists."
 msgstr "Группа '%(group)s' уже существует."
 
 #: fas/validators.py:90
-#, fuzzy, python-format
+#, python-format
 msgid "Invalid group type: %(type)s."
-msgstr "Неверный тип группы."
+msgstr "Неверный тип группы: %(type)s."
 
 #: fas/validators.py:113
 msgid "Invalid sort key."
@@ -1166,6 +1204,8 @@ msgstr "'%(user)s' уже существует."
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr ""
+"Что бы не зацикливать письма в почтовой очереди, ваш email адрес не должен "
+"содержать домен @fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
@@ -1178,12 +1218,15 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must only contain "
 "lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
+"'%(username)s' неправильное имя пользователя. Правильное имя пользователя "
+"должно содержать строчные алфавитно-цифровые символы и должно начинаться с "
+"буквы."
 
 #: fas/validators.py:201
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "'%(username)s' занесён в чёрный список. Пожалуйста, выберите другого."
 
 #: fas/validators.py:219
 #, python-format
@@ -1201,15 +1244,15 @@ msgstr "пользователь не является членом"
 
 #: fas/model/fasmodel.py:201
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "администратор не может быть повышен дальше"
 
 #: fas/model/fasmodel.py:216
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "Пользователи не могут быть понижены дальше"
 
 #: fas/model/fasmodel.py:225
 msgid "user is not an unapproved member"
-msgstr ""
+msgstr "Пользователь не является неутвержденым членом"
 
 #: fas/templates/about.html:7
 msgid "About FAS"
@@ -1296,7 +1339,7 @@ msgstr "Ошибка!"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "С вашим запросом произошла следующая ошибка:"
 
 #: fas/templates/home.html:11
 #, fuzzy
@@ -1309,6 +1352,8 @@ msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
+"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> запросил "
+"подтверждение на участие <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1316,6 +1361,8 @@ msgid ""
 "CLA not completed.  To become a full Fedora Contributor please <a href=\"%s"
 "\">complete the CLA</a>."
 msgstr ""
+"CLA не закончен. Чтобы стать полноправным участником Fedora  пожалуйста <a "
+"href=\"%s\">завершите CLA</a>"
 
 #: fas/templates/home.html:30
 #, python-format
@@ -1323,6 +1370,8 @@ msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH "
 "key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
+"Вы еще не представили SSH ключа, некоторые ресурсы Fedora требуют SSH ключа. "
+"Пожалуйста подтвердите ваши изменения <a href=\"%s\">My Account</a>"
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
@@ -1358,7 +1407,7 @@ msgstr "Присоединиться Fedora"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
-msgstr ""
+msgstr "Связаться"
 
 #: fas/templates/master.html:42
 msgid "Help/Documentation"
@@ -1410,7 +1459,6 @@ msgid "FAS version %s"
 msgstr "версия FAS %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to "
 "the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
@@ -1425,7 +1473,7 @@ msgid ""
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
 msgstr ""
-"Проекст Fedora поддерживается сообществом и спонсируется компанией Red Hat. "
+"Проект Fedora поддерживается сообществом и спонсируется компанией Red Hat. "
 "Сайт поддерживается сообществом. Red Hat не отвечает за содержимое."
 
 #: fas/templates/search-box.html:8
@@ -1477,12 +1525,12 @@ msgstr "Зачем присоединяться?"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "Fedora Contributor License Agreement"
 
 #: fas/templates/cla/index.html:24 fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Версия текста</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
@@ -1506,13 +1554,15 @@ msgstr "Выбрать страну"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Если Вашей страны нет в списках, выберите \"Другое\""
 
 #: fas/templates/cla/index.html:68
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
 msgstr ""
+"Я подтверждаю, что привешенная выше информация (имя, страна и телефонный "
+"номер) является верной."
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
@@ -1574,7 +1624,7 @@ msgstr "Владелец группы:"
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:64
 msgid "Needs Sponsor:"
-msgstr "Требуется Организатор:"
+msgstr "Требуется поручитель:"
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:68
