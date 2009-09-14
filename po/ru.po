@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-09-13 21:35+0400\n"
+"PO-Revision-Date: 2009-09-14 12:32+0400\n"
 "Last-Translator: Sergey Raspopov <qwerty3456@mail.ru>\n"
 "Language-Team: RU <Fedora-trans-ru@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -1005,6 +1005,7 @@ msgstr ""
 msgid "Welcome to the Fedora Project!"
 msgstr "Добро пожаловать в проект Fedora!"
 
+# Причесать тексты почтовых соробщений.
 #: fas/user.py:625
 #, fuzzy, python-format
 msgid ""
@@ -1059,14 +1060,14 @@ msgstr ""
 "Добро пожаловать в проект Fedora. Теперь когда Вы зарегистрировали\n"
 "свою учётную запись, возможно вы желаете начать вносить свой вклад, и с "
 "учётом этого \n"
-"мы надеемся, что это электронное послание поможет вам двигаться в правильном "
+"мы надеемся, что это электронное послание поможет Вам двигаться в правильном "
 "направлении\n"
 "и  сделает этот процесс максимально удобным.\n"
 "\n"
 "Fedora является интересным, интенсивно развивающимся проектом, и Вы можете\n"
 "внести вклад в различные разделы проекта, используя разные \n"
 "навыки. Чтобы узнать об этих способах содействия\n"
-"Fedora, вы можете посетить нашу страничку, которая содержит более подробную "
+"Fedora, Вы можете посетить нашу страничку, которая содержит более подробную "
 "информацию \n"
 "о всех ролях, которые мы имеем в распоряжении.\n"
 "\n"
@@ -1075,11 +1076,20 @@ msgstr ""
 "Если Вы уже знаете, как Вы хотите вносить свой вклад в Fedora, и нашли "
 "группу, работающую в области, \n"
 "которая Вас интересует, то есть еще несколько шагов,\n"
-"которые вам следует сделать\n"
+"которые Вам следует сделать\n"
 "\n"
-"Основной шаг - регистрация в команде или почтовой рассылке проекта,\n"
-"который вам интересен и если вам интересно работать в разных направлениях, "
-"чувствовать свободу в выборе групп и их количества!"
+"Основной шаг - присоединиться к команде или почтовой рассылке проекта,\n"
+"которая Вам интересна и если Вам интересно работать в разных направлениях, "
+"быть свободным в выборе почтовых рассылок и их количестве! Потому что именно "
+"в почтовых рассылках организовывается основная работа, и ставятся задачи, "
+"что позволит Вам всегда быть в курсе событий.\n"
+"\n"
+"Хорошо если вы отправите в рассылку краткое уведомление о том какой  у вас "
+"опыт и о том как вы хотите помочь. Здесь остальные члены команды помогут вам "
+"освоиться как участнику Fedora.\n"
+"\n"
+"И наконец, от всех нас, участников Fedora Project, мы рассчитываем на "
+"сотрудничество с Вами!"
 
 #: fas/user.py:702
 msgid "Your password could not be changed."
@@ -1162,31 +1172,32 @@ msgstr "URL сброса пароля выслан вам на email."
 
 #: fas/user.py:805 fas/user.py:832
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "У вас не возможности сменить пароль."
 
 #: fas/user.py:809 fas/user.py:838
 msgid "Invalid password change token."
-msgstr ""
+msgstr "Неправильные признаки смены пароля."
 
 #: fas/user.py:815
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
+"Сброс пароля был отменен. Признаки сброса пароля больше недействительны."
 
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "Ваш пароль не может быть таким же, как ваш старый пароль."
 
 #: fas/user.py:862
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
-msgstr ""
+msgstr "Вы успешно сбросить пароль. Теперь вы можете выполнить вход."
 
 #: fas/user.py:886
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "Прежде чем генерировать сертификат, вы должны закончить CLA"
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
@@ -1884,7 +1895,7 @@ msgstr "За дополнительной информацией OpenID см.:"
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "Веб сайт сообщества OpenID, домашняя директория этой библиотеки."
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
@@ -1905,16 +1916,18 @@ msgid ""
 msgstr ""
 
 #: fas/templates/openid/authorizesite.html:17
+#, fuzzy
 msgid "Identity:"
-msgstr ""
+msgstr "Идентификаторы:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Корневые сертификаты:"
 
 #: fas/templates/openid/authorizesite.html:26
+#, fuzzy
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "Принять аутентификацию для продолжения?"
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
@@ -1926,17 +1939,17 @@ msgstr "нет"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "Страница идентификации OpenID"
 
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "Этот OpenID принадлежит %(human_name)s (%(username)s)"
 
 #: fas/templates/openid/id.html:24
 #, python-format
 msgid "This is an OpenID identity for %(username)s"
-msgstr ""
+msgstr "Этот OpenID принадлежит %(username)s"
 
 #: fas/templates/openid/id.html:31
 msgid ""
