@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
+# Copyright © 2008 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -71,7 +71,7 @@ class CLA(controllers.Controller):
             turbogears.flash('A valid country and telephone number are'
                     ' required to complete the CLA.  Please fill them out below.')
         cla = CLADone(person)
-        person = person.filter_private()
+        person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime(), show=show)
 
     def _cla_dependent(self, group):
@@ -106,7 +106,7 @@ class CLA(controllers.Controller):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -115,7 +115,7 @@ class CLA(controllers.Controller):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())

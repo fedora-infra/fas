@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
+# Copyright © 2008 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,7 +18,6 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
-#            Toshio Kuratomi <toshio@redhat.com>
 #
 import turbogears
 from turbogears import controllers, expose, identity, config
@@ -56,10 +55,11 @@ class JsonRequest(controllers.Controller):
     def person_by_id(self, person_id):
         try:
             person = People.by_id(person_id)
-            person = person.filter_private()
-            return dict(success=True, person=person,
-                    approved=person.approved_memberships,
-                    unapproved=person.unapproved_memberships)
+            person.json_props = {
+                    'People': ('approved_memberships', 'unapproved_memberships')
+                    }
+            person.filter_private()
+            return dict(success=True, person=person)
         except InvalidRequestError:
             return dict(success=False)
 
@@ -160,10 +160,11 @@ class JsonRequest(controllers.Controller):
     def person_by_username(self, username):
         try:
             person = People.by_username(username)
-            person = person.filter_private()
-            return dict(success=True, person=person,
-                    approved=person.approved_memberships,
-                    unapproved=unapproved_memberships)
+            person.json_props = {
+                'People': ('approved_memberships', 'unapproved_memberships')
+                }
+            person.filter_private()
+            return dict(success=True, person=person)
         except InvalidRequestError:
             return dict(success=False)
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
+# Copyright © 2008 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,7 +18,6 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
-#            Toshio Kuratomi <toshio@redhat.com>
 
 # @error_handler() takes a reference to the error() method defined in the
 # class (E0602)
@@ -196,18 +195,30 @@ class User(controllers.Controller):
             personal = True
         else:
             personal = False
-        admin = isAdmin(identity.current)
+        # TODO: We can do this without a db lookup by using something like
+        # if groupname in identity.groups: pass
+        # We may want to do that in isAdmin() though. -Toshio
+        user = People.by_username(identity.current.user_name)
+        admin = False
+        if isAdmin(user):
+            admin = True
+            # TODO: Should admins be able to see personal info?  If so, enable this.  
+            # Either way, let's enable this after the testing period.
+            # 
+            # 2008-5-14 I'd enable this in the template via
+            # <py:if test='personal or admin'>click to change</py:if>
+            # that way you can have different messages for an admin viewing
+            # their own page via
+            # <py:if test='personal'>My Account</py:if>
+            # <py:if test="not personal">${user}'s Account</py:if>
+            # -Toshio
+            #personal = True
         cla = CLADone(person)
-        person_data = person.filter_private()
-        roles = person.roles
-        roles.json_props = {
-                'PersonRole': ('group',),
-                'Groups': ('unapproved_roles',),
+        person.filter_private()
+        person.json_props = {
+                'People': ('approved_memberships', 'unapproved_memberships')
                 }
-        return dict(person=person_data, roles=person.roles,
-                approved=person.approved_memberships,
-                unapproved=person.unapproved_memberships, cla=cla,
-                personal=personal, admin=admin, show=show)
+        return dict(person=person, cla=cla, personal=personal, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=UserEdit())
@@ -220,19 +231,22 @@ class User(controllers.Controller):
         show['show_postal_address'] = config.get('show_postal_address')
         languages = available_languages()
 
-        admin = isAdmin(identity.current)
+        username = identity.current.user_name
+        person = People.by_username(username)
+
+        admin = isAdmin(person)
 
         if targetname:
             target = People.by_username(targetname)
         else:
-            target = People.by_username(identity.current.user_name)
+            target = person
 
         if not canEditUser(person, target):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
 
-        target = target.filter_private()
+        target.filter_private()
         return dict(target=target, languages=languages, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
@@ -356,7 +370,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
     def dump(self, search=u'a*', groups=''):
-
+        
         groups_to_return_list = groups.split(',')
         groups_to_return = []
         # Special Logic, find out all the people who are in more then one group
@@ -364,7 +378,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             g = Groups.query().filter(not_(Groups.name.ilike('cla%')))
             for group in g:
                 groups_to_return.append(group.name)
-
+        
         for group_type in groups_to_return_list:
             if group_type.startswith('@'):
                 group_list = Groups.query.filter(Groups.group_type.in_([group_type.strip('@')]))
@@ -373,11 +387,11 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             else:
                 groups_to_return.append(group_type)
         people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.name.in_( groups_to_return ))
-
+        
         # p becomes what we send back via json
         p = []
         for strip_p in people:
-            strip_p = strip_p.filter_private()
+            strip_p.filter_private()
             if strip_p.status == 'active':
                 p.append({
                     'username'  : strip_p.username,
@@ -454,12 +468,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         approved = []
         unapproved = []
         for person in people.all():
-            user = person[0].filter_private()
+            person[0].filter_private()
             # Current default is to return everything unless fields is set
             if fields:
                 # If set, return only the fields that were requested
                 try:
-                    user = dict((field, getattr(user, field)) for field
+                    user = dict((field, getattr(person[0], field)) for field
                             in fields)
                 except AttributeError, e:
                     # An invalid field was given
@@ -470,6 +484,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                     else:
                         return dict(people=[], unapproved_people=[],
                                 search=search)
+            else:
+                user = person[0]
 
             if person[1] == 'approved':
                 approved.append(user)
@@ -531,7 +547,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             turbogears.redirect('/user/view/%s' % username)
             return dict()
 
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @identity.require(identity.not_anonymous())
@@ -815,7 +831,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
             turbogears.redirect('/login')
             return dict()
-        person = person.filter_private()
+        person.filter_private()
         return dict(person=person, token=token)
 
     @error_handler(error) # pylint: disable-msg=E0602
