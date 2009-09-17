@@ -350,4 +350,8 @@ Making a Release
       rpm --addsign *.rpm
       # Move rpms to the epel infrastructure dir
       # createrepo the new repository
-8. Install in staging and test.  Then upgrade the app servers.
+8. tag the release::
+      cd [LOCAL GIT REPO]
+      git tag [RELEASE VERSION NUMBER]
+      git push
+9. Install in staging and test.  Then upgrade the app servers.
