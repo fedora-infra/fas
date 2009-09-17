@@ -353,5 +353,5 @@ Making a Release
 8. tag the release::
       cd [LOCAL GIT REPO]
       git tag [RELEASE VERSION NUMBER]
-      git push
+      git push --tags
 9. Install in staging and test.  Then upgrade the app servers.
