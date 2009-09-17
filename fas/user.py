@@ -27,6 +27,8 @@ from turbogears import controllers, expose, identity, \
         validate, validators, error_handler, config
 from turbogears.database import session
 import cherrypy
+from tgcaptcha import CaptchaField
+from tgcaptcha.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
 
@@ -61,6 +63,8 @@ from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
 admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+
+captcha = CaptchaField(name='captcha', label=_('Enter the code shown'))
 
 class UserView(validators.Schema):
     username = KnownUser
@@ -105,6 +109,7 @@ class UserCreate(validators.Schema):
     )
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.String(max=512)
+    captcha = CaptchaFieldValidator()
 
 class UserSetPassword(validators.Schema):
     currentpassword = validators.String
@@ -580,13 +585,13 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         if identity.not_anonymous():
             turbogears.flash(_('No need to sign up, you have an account!'))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
-        return dict(show=show)
+        return dict(captcha=captcha, show=show)
 
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, telephone=None, 
-               postal_address=None, age_check=False):
+               postal_address=None, age_check=False, captcha={}):
         # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.

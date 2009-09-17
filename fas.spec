@@ -29,6 +29,7 @@ Requires: python-openid
 Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
+Requires: python-tgcaptcha
 
 %description
 The Fedora Account System is a web application that manages the accounts of
