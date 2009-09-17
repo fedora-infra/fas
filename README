@@ -344,7 +344,7 @@ Making a Release
       koji build --scratch dist-5E-epel-infra fas*.src.rpm
 7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
    infrastructure repository::
-      scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/fas/
+      scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
       ssh puppet1
       wget # all rpm files from the scratch build
       rpm --addsign *.rpm
