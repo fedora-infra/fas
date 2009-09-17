@@ -45,6 +45,10 @@
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_age_check')}'});</script>
       </div>
       <div class="field">
+        ${HTML(captcha.render())}
+        <label for="captcha">${_('Type the letters in the box')}</label>
+      </div>
+      <div class="field">
         <input type="submit" value="${_('Sign up!')}" />
       </div>
     </form>
