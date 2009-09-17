@@ -340,7 +340,7 @@ Making a Release
 6. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
    target for that::
       mv dist/*.tar.gz .
-      rpmbuild -bs --nodeps fas.spec
+      rpmbuild-md5 -bs --nodeps fas.spec
       koji build --scratch dist-5E-epel-infra fas*.src.rpm
 7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
    infrastructure repository::
