@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.6.2.2
+Version:        0.8.6.2.3
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -104,6 +104,10 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Wed Sep 16 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.6.2.3-1
+- New release that implements a captcha for new accounts and fixes a few
+  bugs.
+
 * Tue Jun 11 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.6.2.2-1
 - Add Requires on python-memcached.
 - Fix /var/lib/fas directory.
