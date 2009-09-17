@@ -163,7 +163,7 @@ def canApplyGroup(person, group, applicant):
         return True
 
     # TODO: We can implement invite-only groups here instead.
-    if person == applicant and group.group_type not in ('system'):
+    if person == applicant and group.group_type not in ('system',):
         return True
 
     return False
