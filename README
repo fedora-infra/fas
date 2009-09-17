@@ -235,7 +235,7 @@ WSGIRestrictSignal Off
 
 # These are the real tunables
 WSGIDaemonProcess daemon processes=2 threads=2 maximum-requests=1000 user=fas display-name=fas inactivity-timeout=30
-WSGIPythonOptimize 2
+WSGIPythonOptimize 1
 
 WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
 
