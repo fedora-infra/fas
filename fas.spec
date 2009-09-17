@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.6.2.3
+Version:        0.8.6.2.4
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
