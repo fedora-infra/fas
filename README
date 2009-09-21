@@ -184,7 +184,7 @@ You'll need to edit fas.cfg and change the following lines::
   sqlalchemy.dburi = "postgres://fedora:pass@localhost/fas2"
   server.socket_port=8088 # Change if you don't want to run on port 8088
   # Change the port if you changed server.socket_port above.
-  base_url_filter.base_url = "http://localhost:8088/accounts"
+  base_url_filter.base_url = "http://localhost:8088/"
 
 You may also need to change some of the directories and settings in
 fas/config/app.cfg.
