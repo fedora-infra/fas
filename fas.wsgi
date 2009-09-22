@@ -27,14 +27,6 @@ class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
 turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
-turbogears.config.update({'global': {'server.environment': 'development'}})
-turbogears.config.update({'global': {'debug': 'on'}})
-turbogears.config.update({'global': {'autoreload.on': False}})
-turbogears.config.update({'global': {'server.throw_errors': True}})
-turbogears.config.update({'global': {'server.log_to_screen': False}})
-turbogears.config.update({'global': {'server.webpath': '/accounts'}})
-turbogears.config.update({'global': {'base_url_filter.on': True}})
-turbogears.config.update({'global': {'base_url_filter.base_url': 'http://alpha.rzhou.org'}})
 
 turbogears.startup.call_on_startup.append(fedora.tg.util.enable_csrf)
 
