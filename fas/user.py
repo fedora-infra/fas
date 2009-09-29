@@ -981,11 +981,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
         gencert_subject = 'A new certificate has been generated for %s' % person.username
         gencert_text = '''
-You havet generated a new SSL certificate.  If you did not request this,
-please cct admin@fedoraproject.org and let them know.
+You have generated a new SSL certificate.  If you did not request this,
+please cc admin@fedoraproject.org and let them know.
 
-Note thal certificates generated prior to the current one have been
-automatiy revoked, and should stop working within the hour.
+Note that certificates generated prior to the current one have been
+automatically revoked, and should stop working within the hour.
 '''
         send_mail(person.email, gencert_subject, gencert_text)
         Log(author_id=person.id, description='Certificate generated for %s' % person.username)
