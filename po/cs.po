@@ -435,21 +435,22 @@ msgstr "Komentáře(volitelné)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
-msgstr ""
+msgstr "<p>Ostatní poznámky.</p>"
 
 #: fas/help.py:36 fas/templates/user/list.html:27
 msgid "Account Status"
-msgstr ""
+msgstr "Status účtu"
 
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
-
+"<p>Ukazuje statu účtu. Možné hodnoty jsou"
+"<ul><li>aktivní</li><li>volno</li><li>neaktivní</li></ul></p>"
 #: fas/help.py:37
 msgid "CLA"
-msgstr ""
+msgstr "CLA"
 
 #: fas/help.py:37
 msgid ""
@@ -460,10 +461,14 @@ msgid ""
 "is recommended for anyone interested in getting involved in the Fedora "
 "Project.</p>"
 msgstr ""
-
+"Proto, aby jste se stali plnohodnotným přispěvatelem Fedory, musíte vyplnit <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor "
+"License Agreement</a>. Tato licence je právním souhlasem uzavřeným mezi Vámi"
+"a Red Hatem. Plnohodnotné členství dovoluje přispívat obsahem a kódem a je "
+"tedy doporučeno každému, kdo chce být součástí Fedora Projektu.<p>"
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
-msgstr ""
+msgstr "Veřejný RSA SSH klíč"
 
 #: fas/help.py:38
 msgid ""
@@ -473,24 +478,29 @@ msgid ""
 "must be an RSA key).  Once created you will want to upload "
 "~/.ssh/id_rsa.pub</p>"
 msgstr ""
-
+"<p>Mnoho zdrojů vyžaduje ke své práci autentizaci veřejným klíčem. "
+"To, že nahrajete Váš veřejný klíč k nám, Vám umožní se přihlašovat k našim serverům. "
+"Pro více informací jak vytvořit klíč jednoduše napište \"man ssh-keygen\""
+"(musí se jednat o RSA klíč). Jakmile jej vytvoříte, je třeba nahrát"
+" ~/.ssh/id_rsa.pub</p>" 
 #: fas/help.py:39 fas/templates/user/edit.html:120
 msgid "Locale"
-msgstr ""
+msgstr "Lokalizace"
 
 #: fas/help.py:39
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select "
 "which locale they are in.</p>"
 msgstr ""
-
+"<p> Toto umožňuje lidem, kteří neumí anglicky vybrat lokalitu, ve které se  "
+"nachází.</p>"
 #: fas/help.py:40
 msgid "Country Code"
-msgstr ""
+msgstr "Kód země"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "Musíte být starší 13 let"
 
 #: fas/help.py:41
 msgid ""
@@ -501,7 +511,12 @@ msgid ""
 " knowingly collect or solicit personal information about children under "
 "13.</p>"
 msgstr ""
-
+"<p>Máme zvláštní zájem na soukromí dětí, a proto vědomně nepříjmáme "
+"osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
+"dětem pod 13 let aby se staly registrovanými členy našich stránek "
+"nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
+"let. </p>"
 #: fas/help.py:42
 msgid "Hide Information"
 msgstr ""
