@@ -287,28 +287,43 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
-
+"\n"
+"%(user)s <%(email)s> Vás pozval, aby jste se přidali k Fedora\n"
+"Projektu! Jsme komunitou uživatelů a vývojářů, kteří produkují \n"
+"kompletní operační systém ze softwaru zcela volného a s otevřeným zdrojovým kódem\n"
+"(FOSS).  %(user)s si myslí, že máte schopnosti a vědomosti, \n"
+"které Vás činí velmi vhodným pro komunitu Fedory, a že by jste mohl mít \n"
+"zájem se účastnit. \n"
+"\n"
+"Jak se můžete přidat k Fedora komunitě a využít, případně vylepšit \n"
+"své dovednosti? Pro získání představy se podívejte na http://fedoraproject.org/join-fedora . \n"
+"Naše komunita je však víc než jen parta vývojářů. Máme pro Vás místo i \n"
+"když jste umělec, vytváříte webové stránky, spisovatel nebo jste rád \n"
+"v kontaktu s lidmi. Budete se učit a porostete při práci v týmu s ostatními \n"
+"talentovanými a schopnými lidmi. \n"
+"\n"
+"Fedora a FOSS mění svět -- přidejte se k nám a buďte u toho!"
 #: fas/group.py:720
 #, python-format
 msgid "Message sent to: %s"
-msgstr ""
+msgstr "Zpráva odeslána: %s"
 
 #: fas/group.py:723
 #, python-format
 msgid "You are not in the '%s' group."
-msgstr ""
+msgstr "Nejste členem skupiny '%s'"
 
 #: fas/help.py:26 fas/help.py:76
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: fas/help.py:26 fas/help.py:76
 msgid "<p>We could not find that help item</p>"
-msgstr ""
+msgstr "<p>Nelze nalézt tuto položku</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of CLA Information"
-msgstr ""
+msgstr "Přesnost CLA informací"
 
 #: fas/help.py:27
 msgid ""
@@ -320,10 +335,15 @@ msgid ""
 " because \"Mickey Moose\" contributed it to us and we have no telephone "
 "number to contact them!  Potentially a very sticky situation.</p>"
 msgstr ""
-
+"<p> CLA je dokument zabývající se právními otázkami. Potřebujeme mít přesné informace"
+"připojené k CLA pro případ, že Vás budeme budeme potřebovat kontaktovat ohledně "
+"Vaší práce na projektu. Představte si, že nám zavolá právník z nějaké firmy "
+"a tvrdí nám, že vlastní práva na Vaši práci a my jim řekneme, že máme právo"
+"ji používat, protože \"Mickey Moose\" toto dílo vytvořil v rámci projektu,"
+"ale nemáme žádný kontakt na autora. Toto je potenciálně velmi nepříjemná situace. </p>"
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
-msgstr ""
+msgstr "IRC přezdívka(volitelné)"
 
 #: fas/help.py:28
 msgid ""
@@ -331,10 +351,12 @@ msgid ""
 "register your nick on irc.freenode.net first, then fill this in so people"
 " can find you online when they need to</p>"
 msgstr ""
-
+"<p>IRC přezdívka je použita při identifikaci na irc.freenode.net. Prosím "
+"zaregistrujte Vaši přezdívku na irc.freenode.net a poté ji zde uveďte aby"
+"Vás v případě potřeby mohli lidé kontaktovat</p>"
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr ""
+msgstr "Email (Povinný)"
 
 #: fas/help.py:29
 msgid ""
@@ -342,18 +364,20 @@ msgid ""
 "used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
 msgstr ""
-
+"<p> Adresa uvedená zde by měla být Vámi preferovaná email kontakt a "
+"bude používána pro zasílání různých oficiálních emailů. Na tuto adresu"
+"bude také přesměrován Váš @fedoraproject.org email</p>"
 #: fas/help.py:30
 msgid "Full Name (Required)"
-msgstr ""
+msgstr "Celé jméno (Povinné)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr ""
+msgstr "<p> Vaše skutečné jméno</p>"
 
 #: fas/help.py:31 fas/templates/user/edit.html:99
 msgid "GPG Key ID"
-msgstr ""
+msgstr "ID GPG klíče"
 
 #: fas/help.py:31
 msgid ""
@@ -361,10 +385,12 @@ msgid ""
 " you or to encrypt information so that only the recipients can read it.  "
 "This can be used when a password reset is sent to your email.</p>"
 msgstr ""
-
+"<p> GPG klíč je používán k dokázání, že zpráva nebo email pochází skutečně"
+"od Vás nebo k zašifrování informace, tak že pouze adresát ji může přečíst."
+"Toto může být  použito například pro zaslání nového hesla na Váš mail. </p>"
 #: fas/help.py:32
 msgid "Telephone"
-msgstr ""
+msgstr "Telefon"
 
 #: fas/help.py:32 fas/help.py:40
 msgid ""
@@ -375,11 +401,16 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
 msgstr ""
-
+"<p> Vyžadováno k dokončení  <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  "
+"Je možné, že Vás někdo bude potřebovat kontaktovat v případě nouze."
+"Pro více informací se obraťte na naši "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Politiku "
+"ochrany soukromí</a></p>"
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/user/edit.html:50
 msgid "Postal Address"
-msgstr ""
+msgstr "Poštovní adresa"
 
 #: fas/help.py:33
 msgid ""
@@ -387,18 +418,20 @@ msgid ""
 "<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
 msgstr ""
-
+"<p>Toto by měla být mailová adresa, na které můžete být zastiženi. Pro více"
+"informací se obraťte na naši <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">"
+"Politiku ochrany soukromí</a></p>."
 #: fas/help.py:34
 msgid "Timezone (Optional)"
-msgstr ""
+msgstr "Časové pásmo (volitelné)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr ""
+msgstr "<p>Prosím specifikujte časovou zónu v níž se nacházíte.</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
-msgstr ""
+msgstr "Komentáře(volitelné)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
