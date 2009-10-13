@@ -513,24 +513,27 @@ msgid ""
 msgstr ""
 "<p>Máme zvláštní zájem na soukromí dětí, a proto vědomně nepříjmáme "
 "osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
-"dětem pod 13 let aby se staly registrovanými členy našich stránek "
+"dětem mladším třinácti let, aby se staly registrovanými členy našich stránek "
 "nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
-"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13.</p>"
 "let. </p>"
 #: fas/help.py:42
 msgid "Hide Information"
-msgstr ""
+msgstr "Skrýt informace"
 
 #: fas/help.py:42
 msgid ""
 "<p>In accordance with our privacy policy, you can choose to hide some of "
 "the information given on this page from other people.  Please see the "
 "privacy policy for complete details.</p>"
-msgstr ""
+msgstr "<p> V souladu s naší politikou pro ochranu osobních údajů, si můžete vybrat, "
+"zda chcete skrýt některé osobní údaje,uvedené na této stránce, před"
+"ostatními uživateli. Pro úplné informace si přečtěte naši politiku pro ochranu"
+"osobních údajů.</p>"
 
 #: fas/help.py:43 fas/templates/group/list.html:43
 msgid "Apply"
-msgstr ""
+msgstr "Podejte žádost"
 
 #: fas/help.py:43
 #, python-format
@@ -540,21 +543,29 @@ msgid ""
 "actually get approved or sponsored.  For more information on how the "
 "account system works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
+"Ucházení se o členství ve skupině je podobné jako ucházet se o práci"
+"a určitě to může chvilku trvat než budete přijati. Mnoho skupi má svá "
+"vlastní pravidla jak schvalobat nebo podporovat kadidáty. Více informací"
+"o fungování systému účtů najdete na <a href=\"%s\">stránce O</a>.</p>"
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: fas/help.py:44
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in"
 " the group.  They will need to re-apply to get in.  Admins can remove "
 "anyone, Sponsors can remove users, users can't remove anyone.</p>"
-msgstr ""
+msgstr"" 
+"<p>Odstranění osoby ze skupimy způsobí, že uživatel již nadále nebude"
+"ve skupině přítomen. Pro budou se muset znovu přihlásit pro opětovné získání"
+"přístupu. Aministrátor může odstranit kohokoli, Sponzor může odstranit uživatele"
+"a uživatel nemůže odstranit nikoho.</p>" 
 
 #: fas/help.py:45 fas/templates/group/member-list.html:50
 msgid "Upgrade"
-msgstr ""
+msgstr "Povýšení"
 
 #: fas/help.py:45
 msgid ""
@@ -562,10 +573,12 @@ msgid ""
 "sponsor</li><li>From sponsor -> administrator</li><li>administrators "
 "cannot be upgraded beyond administrator</li></ul></p>"
 msgstr ""
-
+"<p> Povýšit osobu v rámci této skupiny.<ul><li>uživatel ->  "
+"sponzor</li><li>sponzor -> administrátor</li><li>administrátoři "
+"již nemohou být povýšeni</li></ul></p>"
 #: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
-msgstr ""
+msgstr "Degradace"
 
 #: fas/help.py:46
 msgid ""
@@ -573,10 +586,12 @@ msgid ""
 "to sponsor</li><li>From sponsor -> user</li><li>users cannot be "
 "downgraded below user, you may want to remove them</li></ul></p>"
 msgstr ""
-
+"<p>Degradovat osobu v rámci skupiny.<ul><li> administrátor -> "
+"sponzor</li><li>sponzor -> uživatel</li><li>uživatel již nemůže "
+"být degradován, ale pokud chcete můžete jej odstranit</li></ul></p>"
 #: fas/help.py:47 fas/templates/group/member-list.html:41
 msgid "Approve"
-msgstr ""
+msgstr "Schválení"
 
 #: fas/help.py:47
 msgid ""
@@ -584,11 +599,13 @@ msgid ""
 "the user has applied for the group, go to the group's page and click "
 "approve to approve the user.</p>"
 msgstr ""
-
+"<p>Sponzor nebo administrátor může schválit uživatelovo přijetí do skupiny. "
+"Jakmile se jednou uživatel uchází o členství ve skupině, stačí jít na stránku"
+"skupiny a kliknout na schválit pro schválení uživatele.</p>"
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr ""
+msgstr "Sponzor"
 
 #: fas/help.py:48
 msgid ""
@@ -598,46 +615,52 @@ msgid ""
 "approving a user and may mentor and answer their questions as they come "
 "up.</p>"
 msgstr ""
-
+"<p>Sponzor nebo administrátor může podporovat uživatelovu přítomnost ve skupině."
+"Jakmile jednou uživatel usiluje o členství ve skupině, stačí jít na stránku skupiny"
+"a kliknout na schválit pro podporu uživatele. Podporování uživatele znamená, že "
+"jste připraveni vést uživatele a odpovědět na libovolné otázky, které může uživatel"
+"mít.</p>"
 #: fas/help.py:49
 msgid "Add User"
-msgstr ""
+msgstr "Přidat uživatele"
 
 #: fas/help.py:49
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field "
 "and click 'Add'</p>"
 msgstr ""
-
+"<p>Manuálně přidá uživatele do skupiny. Vložte  jeho jméno do tohoto pole a "
+"klikněte na 'Přidat'</p>"
 #: fas/help.py:50
 msgid "Group Name"
-msgstr ""
+msgstr "Název skupiny"
 
 #: fas/help.py:50
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
-
+"<p>Název skupiny kterou chcete vytvořit. Název by se měl skládat z malých "
+"písmen a číslic. Znaky '-' a '_'  jsou povoleny.</p> "
 #: fas/help.py:51
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p> Lidštější a čitelnější název skupiny</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
-msgstr ""
+msgstr "Vlastník skupiny"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
+msgstr "<p>Jméno vlastníka, který bude řídít tuto skupinu</p>"
 
 #: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
-msgstr ""
+msgstr "Typ skupiny"
 
 #: fas/help.py:53
 msgid ""
@@ -646,30 +669,35 @@ msgid ""
 "only really matters if the group is to end up getting shell access or "
 "commit access somewhere like fedorahosted.</p>"
 msgstr ""
-
+"<p> Za normálních okolností je je bezpečné nechat toto pole prázdné. Ačkoliv"
+"toto pole může nabývat hodnoty například 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' a 'mtn'."
+"Tato hodnota se použije pouze v případě, že skupina získá terminálový přístup"
+"nebo může nahrávat soubory(přes svn například) na portály typu fedorahosted apod. </p>"
 #: fas/help.py:54
 msgid "Group URL (Optional)"
-msgstr ""
+msgstr "URL skupiny (Volitelné)"
 
 #: fas/help.py:54
 msgid ""
 "<p>A URL or wiki page for the group (for example, <a "
 "href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 msgstr ""
-
+"<p> URL nebo stránka vaší skupiny na wiki (například <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "Mailing list skupiny (Volitelné)"
 
 #: fas/help.py:55
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
-
+"<p>Mailing list vaší skupiny (například, fedora-infrastructure-"
+"list@redhat.com).</p>"
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "URL skupinového mailing listu (Volitelné)"
 
 #: fas/help.py:56
 msgid ""
@@ -678,24 +706,28 @@ msgid ""
 "list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list</a>).</p>"
 msgstr ""
-
+"<p>URL mailingového listu skupiny (například, <a "
+"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
-msgstr ""
+msgstr "IRC kanál skupiny (Volitelné)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>IRC kanál pro skupinu (například #fedora-admin).</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
-msgstr ""
+msgstr "IRC síť skupiny (Volitelné)"
 
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, "
 "Freenode).</p>"
-msgstr ""
+msgstr "<p>IRC síť pro IRC kanál skupiny (například "
+"Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -714,27 +746,29 @@ msgstr ""
 
 #: fas/help.py:60
 msgid "Self Removal"
-msgstr ""
+msgstr "Sebeodstranění"
 
 #: fas/help.py:60
 msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
-
+"<p>Měli by být uživatelé schopni sami sebe odstranit ze skupiny bez"
+"zásahu sponzora/administrátora? (doporučeno ano)</p>"
 #: fas/help.py:61
 msgid "Must Belong To"
-msgstr ""
+msgstr "Musí náležet k"
 
 #: fas/help.py:61
 msgid ""
 "<p>Before a user can join this group, they must belong to the group "
 "listed in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
-
+"<p>Dříve než se může uživatel připojit ke skupině, musí patřit ke skupinám, "
+"které jsou v uvedeny v tomto seznamu. Doporučené hodnoty jsou 'cla_done'."
 #: fas/help.py:62
 msgid "Join Message"
-msgstr ""
+msgstr "Připojovací zpráva"
 
 #: fas/help.py:62
 msgid ""
@@ -742,10 +776,12 @@ msgid ""
 "should be informative and offer tips about what to do next.  A "
 "description of the group would also be valuable here</p>"
 msgstr ""
-
+"<p>Tato zpráva bude zaslána uživateli, když žádá a clěnství ve skupině. "
+"Měla by uživatele informovat a poskytnout typy co dělat dále. Měl by zde"
+"být umístěn i stručný popis skupiny.</p>"
 #: fas/help.py:63
 msgid "Client Side Cert"
-msgstr ""
+msgstr "Certifikát uživatelské strany"
 
 #: fas/help.py:63
 msgid ""
@@ -756,7 +792,7 @@ msgid ""
 "  Please note that whenever a new cert is generated, all old ones are "
 "revoked.</p>"
 msgstr ""
-
+"<p> "
 #: fas/help.py:64
 msgid "Longitude and Latitude"
 msgstr ""
