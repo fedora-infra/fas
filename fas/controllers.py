@@ -166,7 +166,10 @@ class Root(plugin.RootController):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
         cla = CLADone(person)
-        person = person.filter_private()
+
+	# Disabled for now for testing
+	turbogears.flash('HEY!  RICKY!  TOSHIO! MIKE!  person.filter_private() is still disabled in def home online 170 in controllers.py!')
+#        person = person.filter_private()
         return dict(person=person, memberships=person.memberships, cla=cla)
 
     @expose(template="fas.templates.about")
