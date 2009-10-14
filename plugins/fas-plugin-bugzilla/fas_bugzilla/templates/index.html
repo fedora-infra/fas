@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <?python
+  import genshi.template.plugin
+  master = genshi.template.plugin.MarkupTemplateEnginePlugin().load_template('fas.templates.master')
+  ?>
+  <xi:include href="${master.filename}" />
+  <head>
+    <title>${_('Bugzilla Email Address')}</title>
+  </head>
+  <body>
+        <p py:if="not is_set">${_('Notice: If your bugzilla email address is:')} <b>${ person.email }</b> ${_('Please do not change this.')}</p>
+        <p py:if="is_set">${_('Notice: Your current bugzilla address is set to: ')} <b>${ configs['bugzilla_email'] }</b></p>
+        <br/>
+        <br/>
+        <p>
+            <a href="${tg.url('/bugzilla/edit/%s' % person.username)}">${_('Change My Bugzilla Address')}</a>&nbsp;
+            <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/bugzilla/help/bugzilla_change')}'});</script>
+        </p>
+  </body>
+</html>
