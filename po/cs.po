@@ -515,7 +515,7 @@ msgstr ""
 "osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
 "dětem mladším třinácti let, aby se staly registrovanými členy našich stránek "
 "nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
-"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13.</p>"
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
 "let. </p>"
 #: fas/help.py:42
 msgid "Hide Information"
@@ -792,10 +792,15 @@ msgid ""
 "  Please note that whenever a new cert is generated, all old ones are "
 "revoked.</p>"
 msgstr ""
-"<p> "
+"<p> Certifikáty klientů jsou obvykle používány k zajištění práv na "
+"nahrávání balíčků do Fedory a jiné autentizační účely například v koji."
+"Je doporučeno uložit certifikáty do ~/.fedora.cert. Pokud nespravujete "
+"balíčky pak není důvod se znepokojovat kvůli klientským certifikátům."
+"Mějte prosím na paměti, že kdykoli je vygenerován nový certifikát jsou "
+"staré certifikáty zneplatněny.</p>"
 #: fas/help.py:64
 msgid "Longitude and Latitude"
-msgstr ""
+msgstr "Zeměpisná délka a šířka"
 
 #: fas/help.py:64
 msgid ""
@@ -804,60 +809,65 @@ msgid ""
 "used for mapping purposes, but will not be used if you have privacy "
 "enabled for your account.</p>"
 msgstr ""
-
+"<p>Vaše zeměpisná délka a šířka. Toto je volitelná položka a měla by mít "
+"formát čísla v plovoucí čárce. Například 312.3333 nebo -21.2. Tato informace "
+"je užitečná pro účely mapování. Pokud však máte zaškrtnuto pole soukromí, pak"
+"Vaše data nebudou použita.</p>"
 #: fas/help.py:65
 msgid "Rules for Application"
-msgstr ""
+msgstr "Pravidla pro žádání o členství"
 
 #: fas/help.py:65
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr ""
-
+"<p>Pravidla, kterými by se měl uchazeč řídit před tím, než se začne ucházet o "
+"členství ve vaší skupině. Budou ukázána uchazečům před ucházením se o členství. </p>"
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "Toto OpenID nebude funkční dokud uživatel nepodepíše CLA."
 
 #: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating "
 "to the OpenID consumer."
 msgstr ""
-
+"Váš poslední OpenID požadvek nemohl být obnoven. Zkuste se znovu autentizovat."
 #: fas/safasprovider.py:262
 #, python-format
 msgid "Loading: %(visitmod)s"
-msgstr ""
+msgstr "Načítání: %(visitmod)s"
 
 #: fas/user.py:231
 #, python-format
 msgid "You cannot edit %s"
-msgstr ""
+msgstr "Nelze upravovat %s"
 
 #: fas/user.py:255
 #, python-format
 msgid "You do not have permission to edit '%s'"
-msgstr ""
+msgstr "Nemáte oprávnění upravovat '%s'"
 
 #: fas/user.py:262
 msgid "Only administrator can enable or disable an account."
-msgstr ""
+msgstr "Pouze administrator může může povolovat a zakazovat účty."
 
 #: fas/user.py:283
 msgid "Somebody is already using that email address."
-msgstr ""
+msgstr "Tato adresa je již používána někým jiným."
 
 #: fas/user.py:286
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should "
 "receive an email with instructions shortly."
 msgstr ""
-
+"Než začne Váš nový email fungovat, musíte jej potvrdit. Brzy by jste "
+"měli obdržet email s instrukcemi."
 #: fas/user.py:290
 #, python-format
 msgid "Email Change Requested for %s"
-msgstr ""
+msgstr "Požadována změna emailu pro %s"
 
 #: fas/user.py:291
 #, python-format
@@ -870,53 +880,61 @@ msgid ""
 "\n"
 "https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 msgstr ""
-
+"\n"
+"Nedávno jste zádali o změnu Fedora Account System emailu\n"
+"na tuto adresu. K dokončení změny emailu musíte odsouhlasit,\n"
+"že opravdu vlastníte tento email prostřednictvím návštěvy \n"
+"následující URL (nejdříve se budete muset přihlásit ke svému\n"
+"Fedora účtu):\n"
+"\n"	
+"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 #: fas/user.py:316
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr ""
+msgstr "Detaily Vašeho účtu nemohly být uloženy: %s"
 
 #: fas/user.py:320
 #, python-format
 msgid "Fedora Account Data Update %s"
-msgstr ""
+msgstr "Aktualizace dat Fedora účtu %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
-msgstr ""
+msgstr "Dataily Vašeho účtu byly uloženy."
 
 #: fas/user.py:466
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "Specifikováno neplatné pole: %(error)s"
 
 #: fas/user.py:480
 #, python-format
 msgid "No users found matching '%s'"
-msgstr ""
+msgstr "Nenalezeni uživatelé odpovídající '%s'"
 
 #: fas/user.py:522
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
 msgstr ""
-
+"Vaše nevyřízená změna emailu byla zrušena. Váš požadavek na změnu byl "
+"anulován."
 #: fas/user.py:526 fas/user.py:543
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "Nemáte žádné nevyřízené požadavky na změnu emailu."
 
 #: fas/user.py:530 fas/user.py:547
 msgid "Invalid email change token."
-msgstr ""
+msgstr "Neplatný požadavek na změnu mailu."
 
 #: fas/user.py:556
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr ""
+msgstr "Váš email byl úspěšně změněn na '%s'"
 
 #: fas/user.py:565
 msgid "No need to sign up, you have an account!"
-msgstr ""
+msgstr "Není třeba se registrovat. Již máte účet."
 
 #: fas/user.py:581 fas/user.py:607
 msgid ""
@@ -927,27 +945,34 @@ msgid ""
 "sites. We do not knowingly collect or solicit personal information about "
 "children under 13."
 msgstr ""
-
+"Je nám líto, ale kvůli zájmu o bezpečí dětí vědomně nepříjmáme "
+"osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
+"dětem mladším třinácti let, aby se staly registrovanými členy našich stránek "
+"nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
+"let. "
 #: fas/user.py:587 fas/user.py:611
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr ""
-
+"Je nám líto, ale tato adresa je již používána. Nezapomněli jste náhodou"
+"heslo?"
 #: fas/user.py:594
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
+msgstr "Váš účet nemohl být vytvořen. Pro asistenci prosím kontaktujte %s ."
 
 #: fas/user.py:599
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
-
+"Vaše heslo Vám bylo zasláno mailem. Prosím přihlašte se pomocí a své heslo"
+"změňte."
 #: fas/user.py:625
 msgid "Welcome to the Fedora Project!"
-msgstr ""
+msgstr "Vítejte ve Fedora Projektu."
 
 #: fas/user.py:625
 #, python-format
@@ -992,30 +1017,69 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Právě jste vytvořili nový Fedora účet.\n"
+"Vaše uživatelské jméno je:%(username)s\n "
+"Vaše heslo je:%(password)s\n "
+"\n"
+"Pokud chcete své heslo změnit navštivte prosím\n"
+"%(base_url)s%(webpath)s/user/changepass\n"
+"\n"
+"Vítejte v Projektu  Fedora. Nyní, když jste se přihlásili ke svému novému účtu\n"
+"jste pravděpodobně nemůžete dočkat kdy začnete přispívat do Fedory. Proto \n"
+"Vám byl zaslán tento mail, aby Vás vedl správným směrem a co nejvíce usnadnil \n"
+"celý proces. \n"
+"\n"
+"Fedora je velmi dynamický projekt ve kterém se stále něco děje a můžete se jej \n"
+"účastnit mnoha různými způsoby, které Vám umožní zapojit veškerý Váš um \n"
+"a schopnosti. Pokud se chcete dozvědět více o možnostech zapojení se do \n"
+"Projektu Fedora, navštivte prosím naši stránku, které popisuje nejrůznější \n "
+"role, které můžete v rámci projektu Fedora zastávat. \n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"Pokud již víte jakým způsobem chcete přispívat do Fedory a našli\n"
+"jste si již skupinu, která působí v oblasti, která Vás zajímá, \n"
+"pak ještě stále zbývá několik kroků, které musíte podniknout. \n"
+"\n"
+"Jedna z prvních činností, které by jste měli udělat je zaregistrovat se\n"
+"do týmových nebo projektových mailing listů. Pokud se zajímáte o práci \n "
+"více než jedné skupiny, nic Vám nebrání v tom zaregistrovat se hned do \n"
+"několika mailing listů. Mailing listy jsou místem kde se organizuje \n"
+"většina práce a je přidělována většina úkolů. Takže pokud chcete být \n"
+"neustále v kontaktu, kontrolujte pravidelně svou mailovou schránku.\n"
+"\n"
+"Pokud jste se již zaregistrovali, je vhodné se ostatním členům listu \n"
+"krátce představit, sdělit jaké máte zkušenosti a jakým způsobem můžete \n"
+"pomoci. Stávající členové týmu by Vám měli pomoci najít své místo v \n"
+"rámci projektu Fedora. \n"
+"\n"
+"Mi všichni, kteří se účastníme projektu Fedora se těšíme na spolupráci s \n"
+"Vámi.\n"
 
 #: fas/user.py:702
 msgid "Your password could not be changed."
-msgstr ""
+msgstr "Vaše heslo nemohlo  být změněno."
 
 #: fas/user.py:705
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Vaše heslo bylo změněno."
 
 #: fas/user.py:712
 msgid "You are already logged in!"
-msgstr ""
+msgstr "Jste již přihlášen!"
 
 #: fas/user.py:720
 msgid "You are already logged in."
-msgstr ""
+msgstr "Jste již přihlášen."
 
 #: fas/user.py:726
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "Kombinace uživatelské jméno, email neexistuje!"
 
 #: fas/user.py:730
 msgid "username + email combo unknown."
-msgstr ""
+msgstr "Kombinace uživatelské jméno + email neznámá."
 
 #: fas/user.py:733 fas/user.py:801 fas/user.py:827
 #, python-format
@@ -1023,14 +1087,16 @@ msgid ""
 "Your account currently has status %(status)s.  For more information, "
 "please contact %(admin_email)s"
 msgstr ""
-
+"Aktuální status Vašeho účtu je %(status)s. Pro více informací prosím "
+"kontaktujte %(admin_email)s"
 #: fas/user.py:737
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact"
 " %(admin_email)s to have it reset"
 msgstr ""
-
+"U systémových účtů nelze změnit heslo online. Pro změnu heslo prosím kontaktujte"
+" %(admin_email)s"
 #: fas/user.py:748
 #, python-format
 msgid ""
@@ -1041,103 +1107,111 @@ msgid ""
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
 "\n"
 msgstr ""
-
+"\n"
+"Někdo (snad vy) požadoval změnu hesla Vašeho účtu!"
+"\n"
+"Pokus chcete změnit heslo (nebo zrušit žádost) prosím navštivte \n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
+"\n"
 #: fas/user.py:760
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be"
 " sent."
 msgstr ""
-
+"Tento uživatel nemá nastavenou identitu u GPG klíče, takže mu nemohl být"
+"zaslán šifrovaný email."
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr ""
+msgstr "Váš klíč nebyl získán z subkeys.pgp.net"
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "Email s Vaším přenastaveným heslem nemohl být zašifrován."
 
 #: fas/user.py:788
 msgid "Fedora Project Password Reset"
-msgstr ""
+msgstr "Heslo ve Fedora projektu změněno"
 
 #: fas/user.py:791
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "URL pro změnu hesla Vám bylo zasláno mailem."
 
 #: fas/user.py:805 fas/user.py:832
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "Nemáte žádné nevyřízené požadavky na změnu hesla."
 
 #: fas/user.py:809 fas/user.py:838
 msgid "Invalid password change token."
-msgstr ""
+msgstr "Neplatný požadavek na změnu hesla."
 
 #: fas/user.py:815
 msgid ""
 "Your password reset has been canceled.  The password change token has "
 "been invalidated."
 msgstr ""
-
+"Změna Vašeho hesla byla zrušena. Požadavek na změnu hesla byl "
+"zneplatněn. "
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "Vaše nové heslo nemůže být stejné jako to staré."
 
 #: fas/user.py:862
 msgid ""
 "You have successfully reset your password.  You should now be able to "
 "login below."
 msgstr ""
-
+"Vaše heslo bylo uspěšně znovu nastaveno. Měli by jste být schopni se "
+"níže přihlásit."
 #: fas/user.py:886
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "Před generováním certifikátu musíte vyplnit CLA."
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
-msgstr ""
+msgstr "Váš certifikát nemohl být vygenerován."
 
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
-msgstr ""
+msgstr "Skupina '%(group)s' neexistuje."
 
 #: fas/validators.py:70
 #, python-format
 msgid "The group '%(group)s' already exists."
-msgstr ""
+msgstr "Skupina '%(group)s' již existuje."
 
 #: fas/validators.py:90
 #, python-format
 msgid "Invalid group type: %(type)s."
-msgstr ""
+msgstr "Neplatný typ skupiny:%(type)s."
 
 #: fas/validators.py:113
 msgid "Invalid sort key."
-msgstr ""
+msgstr "Neplatný řadící klíč."
 
 #: fas/validators.py:118
 #, python-format
 msgid "'%(user)s' does not exist."
-msgstr ""
+msgstr "'%(user)s' neexistuje."
 
 #: fas/validators.py:136
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
-msgstr ""
+msgstr "Chyba: Nelze vytvořit - '%(user)s'"
 
 #: fas/validators.py:137
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr ""
+msgstr "- '%(user)s' již existuje."
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "Aby se zabránilo emailovým smyčkám, tak Vaše emailová adresa nesmí být @fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "Chyba - Neplatný RSA SSH klíč: %(key)s"
 
 #: fas/validators.py:198
 #, python-format
@@ -1145,33 +1219,34 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must only "
 "contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
-
+"'%(username)s' není platné uživatelské jméno. Platné uživatelské jméno"
+"se skládá z malých alfanumerických znaků a musí začínat písmenem."
 #: fas/validators.py:201
 #, python-format
 msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "%(username)s' je na černé listině. Prosím vyberte si jiné uživatelské jméno."
 
 #: fas/validators.py:219
 #, python-format
 msgid "The language '%(lang)s' is not available."
-msgstr ""
+msgstr "Jazyk '%(lang)s' není dostupný. "
 
 #: fas/model/fasmodel.py:184
 msgid "user is already in this group"
-msgstr ""
+msgstr "uživatel již je členem skupiny"
 
 #: fas/model/fasmodel.py:197 fas/model/fasmodel.py:212
 #: fas/model/fasmodel.py:268
 msgid "user is not a member"
-msgstr ""
+msgstr "uživatel není členem"
 
 #: fas/model/fasmodel.py:201
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "aministrátoři již nemohou být povýšeni"
 
 #: fas/model/fasmodel.py:216
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "uživatelé nemohou být dále degradování"
 
 #: fas/model/fasmodel.py:225
 msgid "user is not an unapproved member"
