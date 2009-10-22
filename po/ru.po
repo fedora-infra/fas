@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-10-22 12:50+1100\n"
+"PO-Revision-Date: 2009-10-22 16:25+1100\n"
 "Last-Translator: Yulia <ypoyarko@redhat.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -322,7 +322,7 @@ msgstr "Сообщение отправлено пользователю %s"
 #: fas/group.py:723
 #, python-format
 msgid "You are not in the '%s' group."
-msgstr "Вы не являетесь членом группы '%s'."
+msgstr "Вы не являетесь участником группы «%s»."
 
 #: fas/help.py:26 fas/help.py:76
 msgid "Error"
@@ -346,18 +346,15 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
-"<p>CLA это легальный документ. Нам необходимо иметь точную информацию "
-"прилагаемую к нему только для того что бы связаться с вами по поводу вклада, "
-"который Вы сделали для этого проекта. Представьте, если бы мы должны были бы "
-"получить вызов от адвоката из какой-то другой компании, утверждавшей, что "
-"они владельцы авторских прав на свою работу и мы должны были бы сказать им: "
-"мы имеем право его использовать, так как \"Микки Мус\" передал нам ее, но у "
-"нас нет ни телефонного номера ни адреса,что бы связаться с ними! "
-"Потенциально очень липкая ситуация.</p>"
+"<p>Соглашение CLA — это юридический документ. Нам необходимо иметь точную информацию, "
+"чтобы иметь возможность связаться с вами по поводу вашей деятельности в рамках проекта. "
+"Представьте, если бы мы получили звонок от юриста какой-то другой компании, утверждавшей, что они обладают авторскими правами на проделанную вами работу, а мы должны были бы сказать им: "
+"«Мы имеем право использовать этот материал, так как пользователь «Микки Маус» нам его предоставил», в то время как у нас нет ни телефонного номера, ни адреса, чтобы связаться с ним. "
+"Потенциально очень неудобная ситуация.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
-msgstr "IRC ник (необязательно)"
+msgstr "IRC имя (необязательно)"
 
 #: fas/help.py:28
 msgid ""
@@ -365,9 +362,8 @@ msgid ""
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
 msgstr ""
-"<p>IRC Ник используется для идентификации на irc.freenode.net. Пожалуйста, "
-"зарегистрируйте Ваш ник на irc.freenode.net, а затем заполнить это поле, что "
-"бы люди могли найти вас в сети, когда они нуждаются в вас</p>"
+"<p>IRC имя используется для идентификации на irc.freenode.net. Пожалуйста, "
+"зарегистрируйте имя на irc.freenode.net, а затем заполните это поле, чтобы люди имели возможность с вами связаться.</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -378,10 +374,7 @@ msgid ""
 "<p>This email address should be your prefered email contact and will be used "
 "to send various official emails to.  This is also where your @fedoraproject."
 "org email will get forwarded</p>"
-msgstr ""
-"<p>Этот электронный адрес будет использован для связи с вами и передачи вам "
-"различной официальной информации. На этот адрес будут переправлены также "
-"сообщения для вашего адреса на @fedoraproject.org </p>"
+msgstr "<p>Электронный адрес, который следует использовать для связи с вами. На этот адрес будут отправляться официальные сообщения, а также сообщения для вашего адреса на @fedoraproject.org </p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
@@ -389,11 +382,11 @@ msgstr "Полное имя (требуется)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr "<p>Ваше реальное имя</p>"
+msgstr "<p>Ваше настоящее имя</p>"
 
 #: fas/help.py:31 fas/templates/user/edit.html:99
 msgid "GPG Key ID"
-msgstr "ID GPG ключа"
+msgstr "ID GPG-ключа"
 
 #: fas/help.py:31
 msgid ""
@@ -401,10 +394,9 @@ msgid ""
 "you or to encrypt information so that only the recipients can read it.  This "
 "can be used when a password reset is sent to your email.</p>"
 msgstr ""
-"<p>А GPG ключ обычно используется для доказательства, что сообщения или "
-"электронная почта пришла от Вас или для шифрования информации, для того "
-"чтобы только Вы могли прочитать её. Это может быть использовано, если пароль "
-"высылается на адрес электронной почты..</p>"
+"<p>GPG-ключ обычно используется для того, чтобы убедиться, что сообщения или "
+"электронная почта пришла именно от вас, или для шифрования информации. "
+"Это пригодится при восстановлении пароля.</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
@@ -420,14 +412,14 @@ msgid ""
 msgstr ""
 "<p>Требуется для завершения <a href=\"http://fedoraproject.org/wiki/Legal/"
 "Licenses/CLA\">CLA</a>. Возможна ситуация, когда кому-то из проекта Fedora "
-"нужно срочно связаться с вами. Для более подробной информации читайте об "
+"нужно срочно связаться с вами. За подробной информацией обратитесь к "
 "нашей <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\"> "
 "политике конфиденциальности</a></p>"
 
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/user/edit.html:50
 msgid "Postal Address"
-msgstr "Почтовый индекс"
+msgstr "Почтовый адрес"
 
 #: fas/help.py:33
 msgid ""
@@ -435,38 +427,36 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
 "a> about any concerns.</p>"
 msgstr ""
-"<p>Укажите почтовый адрес по которому мы можем связаться с вами. вы можете "
-"ознакомиться с нашей <a href=\"http://fedoraproject.org/wiki/Legal/"
-"PrivacyPolicy\">политикой конфиденциальности</a> что бы избежать каких либо "
-"проблем.</p>"
+"<p>Укажите почтовый адрес, по которому с вами можно связаться. Если вас беспокоит вопрос предоставления личных данных, ознакомьтесь с нашей <a href=\"http://fedoraproject.org/wiki/Legal/"
+"PrivacyPolicy\">политикой конфиденциальности</a>.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
-msgstr "Часовой пояс (необязательный)"
+msgstr "Часовой пояс (необязательно)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr "<p>Пожалуйста введите часовой пояс в котором вы находитесь.</p>"
+msgstr "<p>Укажите ваш часовой пояс.</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
-msgstr "Комментарии (необязательный)"
+msgstr "Комментарии (необязательно)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
-msgstr "<p>Комментарии о себе.</p>"
+msgstr "<p>Произвольная информация о себе.</p>"
 
 #: fas/help.py:36 fas/templates/user/list.html:27
 msgid "Account Status"
-msgstr "Статус аккаунта"
+msgstr "Статус учётной записи"
 
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values include<ul><li>active</"
 "li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Показывает состояние учётной записи, возможные состояния: "
-"<ul><li>активно</li><li>вакантно</li><li>неактивно</li></ul></p>"
+"<p>Показывает состояние учётной записи. Возможные состояния: "
+"<ul><li>активна</li><li>в отпуске</li><li>неактивна</li></ul></p>"
 
 #: fas/help.py:37
 msgid "CLA"
@@ -481,15 +471,16 @@ msgid ""
 "recommended for anyone interested in getting involved in the Fedora Project."
 "</p>"
 msgstr ""
-"<p>Чтобы стать полноправным участником Fedora вам необходимо подписать <a "
-"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor "
-"License Agreement (Лицензионное Соглашение Участника)</a>.  Это соглашение "
-"заключается между вам и Red Hat.  Статус полноправного участника позволяет "
-"вам вносить вклад в проект и код операционной системы.</p>"
+"<p>Чтобы стать полноправным участником Fedora вам необходимо подписать "
+"лицензионное соглашение участника <a "
+"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">(CLA, Contributor "
+"License Agreement)</a>. Это соглашение "
+"заключается между вами и компанией Red Hat.  Статус полноправного участника "
+"позволит вам вносить вклад в проект и код операционной системы.</p>"
 
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
-msgstr "Открытый RSA SSH ключ"
+msgstr "Открытый RSA SSH-ключ"
 
 #: fas/help.py:38
 msgid ""
@@ -498,11 +489,10 @@ msgid ""
 "keygen\" for more information on creating your key (it must be an RSA key).  "
 "Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
-"<p>Для работы с большей частью ресурсов необходим открытый ключ.  Загрузив "
-"нам публичный ключ вы можете иметь доступ к нашим серверам.  Наберите \"man "
-"ssh-keygen\" для детальной информации по созданию ключа (это должен быть RSA "
-"ключ).  Как только ключ будет создан вам необходимо загрузить ~/.ssh/id_rsa."
-"pub</p>"
+"<p>Для работы с большей частью ресурсов необходим открытый ключ. Предоставив "
+"свой открытый ключ, вы сможете получить доступ к нашим серверам.  Выполните «man "
+"ssh-keygen» для получения подробной информации о создании ключа (это должен быть RSA "
+"ключ). Отправьте созданный файл ~/.ssh/id_rsa.pub на сервер.</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:120
 msgid "Locale"
@@ -512,9 +502,7 @@ msgstr "Язык"
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr ""
-"<p>Для людей не говорящих по английски возможно выбрать язык на котором они "
-"говорят.</p>"
+msgstr "<p>Для пользователей, не говорящих по английски, можно выбрать другой язык.</p>"
 
 #: fas/help.py:40
 msgid "Country Code"
@@ -522,7 +510,7 @@ msgstr "Код страны"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr "Необходимо чтобы возраст был более 13 лет"
+msgstr "Необходимо, чтобы возраст был более 13 лет"
 
 #: fas/help.py:41
 msgid ""
@@ -532,11 +520,9 @@ msgid ""
 "our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
-"<p>Для отдельной заботы о неприкосновенности частной жизни детей , мы не "
-"принимаем персональную информацию от детей младше 13 лет. Мы сознательно не "
-"позволяем детям до 13 лет стать  зарегистрированными пользователями нашего "
-"сайта, покупать товары и услуги на нашем сайте. Мы сознательно не собираем и "
-"не запрашиваем информацию о детях младше 13 лет.</p>"
+"<p>Для отдельной заботы о неприкосновенности частной жизни детей, мы не "
+"принимаем личную информацию от детей младше 13 лет. Мы сознательно не "
+"позволяем детям до 13 лет регистрироваться на этом сайте, а также приобретать товары и услуги. Мы сознательно не запрашиваем информацию о детях младше 13 лет.</p>"
 
 #: fas/help.py:42
 msgid "Hide Information"
@@ -549,7 +535,7 @@ msgid ""
 "policy for complete details.</p>"
 msgstr ""
 "<p>В соответствии с нашей политикой конфиденциальности можно выбрать, какую "
-"информацию следует скрыть от других людей. Подробности можно узнать, ознакомившись с "
+"информацию следует скрыть от других пользователей. Подробности можно узнать, ознакомившись с "
 "политикой конфиденциальности.</p>"
 
 #: fas/help.py:43 fas/templates/group/list.html:43
@@ -563,7 +549,7 @@ msgid ""
 "a while to get in.  Many groups have their own rules about how to actually "
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
-msgstr "<p>Отправку заявки на вступление в группу можно в чем-то сравнить с подачей резюме на работу. Процесс рассмотрения может занять некоторое время. Многие группы имеют свои собственные правила добавления новых участников и поручительства за них. Более подробную информацию о принципах работы системы учётных записей можно найти <a href=\"%s\">здесь</a>.</p>"
+msgstr "<p>Отправку заявки на вступление в группу можно в чем-то сравнить с подачей резюме на работу. Процесс рассмотрения может занять некоторое время, плюс многие группы имеют свои собственные правила добавления новых участников и поручительства. Более подробную информацию о принципах работы системы учётных записей можно найти <a href=\"%s\">здесь</a>.</p>"
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
@@ -576,7 +562,7 @@ msgid ""
 "Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
 "<p>Удаление пользователя из группы. Для повторного вступления ему потребуется снова подать заявку. "
-"Администратор может удалить всех, организатор может удалить пользователя, пользователь "
+"Администратор может удалить всех, поручитель может удалить пользователя, а пользователь "
 "не может удалить никого.</p>"
 
 #: fas/help.py:45 fas/templates/group/member-list.html:50
@@ -589,7 +575,7 @@ msgid ""
 "li><li>From sponsor -> administrator</li><li>administrators cannot be "
 "upgraded beyond administrator</li></ul></p>"
 msgstr ""
-"<p>Повышение статуса лица в группе.<ul><li>с пользователя -> на поручителя</"
+"<p>Повышение статуса пользователя в группе.<ul><li>с пользователя -> на поручителя</"
 "li><li>с поручителя -> на администратора</li><li>администратор не может "
 "быть повышен</li></ul></p>"
 
@@ -603,7 +589,7 @@ msgid ""
 "sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded "
 "below user, you may want to remove them</li></ul></p>"
 msgstr ""
-"<p>Понижение статуса лица в группе.<ul><li>C администратора -> на поручителя </"
+"<p>Понижение статуса пользователя в группе.<ul><li>C администратора -> на поручителя </"
 "li><li>С поручителя -> на пользователя</li><li>пользователь не может быть "
 "понижен, но его можно удалить.</li></ul></p>"
 
@@ -618,8 +604,8 @@ msgid ""
 "approve the user.</p>"
 msgstr ""
 "<p>Поручитель или администратор может добавить пользователей в группы. "
-"После того, как пользователь добавлен к группе, перейдите на страницу группы "
-"и нажмите «утвердить», чтобы утвердить пользователя.</p>"
+"После добавления пользователя в группу перейдите на страницу группы "
+"и нажмите «утвердить», чтобы его утвердить.</p>"
 
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
@@ -644,7 +630,7 @@ msgid ""
 "click 'Add'</p>"
 msgstr ""
 "<p>Добавление пользователя в группу в ручном режиме. Введите имя "
-"пользователя в это поле и нажмите \"Добавить\".</p>"
+"пользователя и нажмите «Добавить».</p>"
 
 #: fas/help.py:50
 msgid "Group Name"
@@ -656,7 +642,7 @@ msgid ""
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
 "<p>Укажите имя создаваемой группы. Имя может состоять из прописных алфавитно-"
-"цифровых символов символов дефиса '-', и нижнего подчёркивания '_'.</p>"
+"цифровых символов, знаков дефиса и нижнего подчёркивания.</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -664,7 +650,7 @@ msgstr "Отображаемое имя"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr "<p>Описание группы.</p>"
+msgstr "<p>Лёгкое для чтения и запоминания имя группы.</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
@@ -672,7 +658,7 @@ msgstr "Владелец группы"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr "<p>Имя владельца, который будет работать с этой группой. </p>"
+msgstr "<p>Имя владельца группы. </p>"
 
 #: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
@@ -685,10 +671,8 @@ msgid ""
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
 msgstr ""
-"<p>Можно оставить это поле пустым. Хотя для некоторых может иметь отметки "
-"'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  Эти отметки "
-"имеют значение, если группа, в итоге, получает доступ к чему нибудь на "
-"fedorahosted.</p>"
+"<p>Можно оставить это поле пустым. Допустимые значения включают «tracking», «shell», «cvs», «git», «hg», «svn», «mtn». "
+"Указанная здесь величина имеет значение, только если группа получает доступ к оболочке или где-нибудь на fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
@@ -725,7 +709,7 @@ msgid ""
 "redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 msgstr ""
-"<p>A URL для почтовой рассылки группы (например, <a href=\"http://www.redhat."
+"<p>URL для почтовой рассылки группы (например, <a href=\"http://www.redhat."
 "com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/"
 "mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
@@ -744,7 +728,7 @@ msgstr "IRC сеть группы (необязательно)"
 #: fas/help.py:58
 msgid "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
-"<p>IRC сеть группы в которой находиться IRC канал группы (например, "
+"<p>IRC сеть группы, в которой находится ее IRC канал (например, "
 "Freenode).</p>"
 
 #: fas/help.py:59
@@ -770,8 +754,8 @@ msgid ""
 "<p>Should users be able to remove themselves from this group without "
 "sponsor / admin intervention?  (recommended yes)</p>"
 msgstr ""
-"<p>Могут ли пользователи удалить себя из группы без помощи спонсора/"
-"администратора? (Рекомендуется выбрать \"да\")</p>"
+"<p>Могут ли пользователи удалить себя из группы без помощи поручителя или"
+"администратора? Рекомендуется выбрать «да»</p>"
 
 #: fas/help.py:61
 msgid "Must Belong To"
