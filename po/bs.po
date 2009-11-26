@@ -800,7 +800,7 @@ msgid "Must Belong To"
 msgstr "Mora pripadati"
 
 #: fas/help.py:61
-#, fuzzy
+#,
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
@@ -1449,7 +1449,7 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Ostali zadaci"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
