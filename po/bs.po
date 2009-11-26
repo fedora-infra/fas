@@ -56,7 +56,7 @@ msgid "Your updated information could not be saved."
 msgstr "Vaše ažurirane informacije se nisu mogle spremiti."
 
 #: fas/cla.py:238
-#, fuzzy
+#
 msgid ""
 "To complete the CLA, we must have your name, telephone number, and country.  "
 "Please ensure they have been filled out."
@@ -95,7 +95,8 @@ msgstr "Već ste dio '%s' grupe."
 #, python-format
 msgid ""
 "You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr "Uspješno ste završili CLA. Sada ste u '%s' grupi."
+msgstr ""
+"Uspješno ste završili CLA. Sada ste u '%s' grupi."
 
 #: fas/configs.py:118
 #, python-format
@@ -118,8 +119,7 @@ msgstr "Podešavanja su uspješno ažurirana"
 
 #: fas/controllers.py:194
 msgid "Your old password has expired.  Please reset your password below."
-msgstr ""
-"Vaša stara šifra je istekla. Molimo da ponovno postavite Vašu šifru ispod."
+msgstr "Vaša stara šifra je istekla. Molimo da ponovno postavite Vašu šifru ispod."
 
 #: fas/controllers.py:206
 #, python-format
@@ -341,7 +341,7 @@ msgid "Accuracy of CLA Information"
 msgstr "Tačnost CLA informacija"
 
 #: fas/help.py:27
-#, fuzzy
+#,
 msgid ""
 "<p>The CLA is a legal document.  We need to have accurate information "
 "attached to it just in case we ever need to contact you about a contribution "
@@ -355,7 +355,7 @@ msgstr ""
 "slučaju da Vas nekad budemo morali kontaktirati u vezi doprinosa koji činite "
 "projektu.  Zamislite da dobijemo poziv od odvjetnika iz neke druge kompanije "
 "tvrdeći da oni posjeduju autorska prava na Vaš rad a mi im moramo reći da "
-"imamo pravo da ga koristimo jer je \"Edo Edić\" doprinjeo sa tim radom a mi "
+"imamo pravo da ga koristimo jer je \"Edo Edić\" doprinio sa tim radom a mi "
 "nemamo telefonski broj ili adresu da ga kontaktiramo!  Potencionalno veoma "
 "opasna situacija.</p>"
 
@@ -433,7 +433,7 @@ msgid "Postal Address"
 msgstr "Poštanska adresa"
 
 #: fas/help.py:33
-#, fuzzy
+#
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
@@ -666,7 +666,7 @@ msgid "Group Name"
 msgstr "Naziv grupe"
 
 #: fas/help.py:50
-#, fuzzy
+#,
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
@@ -806,8 +806,7 @@ msgid ""
 "in this box.  Recommended values are for the 'cla_done' group.</p>"
 msgstr ""
 "<p>Prije nego se korisnik pridruži ovoj grupi on mora pripadati grupi "
-"navedenoj u ovoj kutiji.  <b>Ova vrijednost se nemože odstraniti bez "
-"administrativne intervencije, jedino promijeniti</b>.  Preporučene "
+"navedenoj u ovoj kutiji. Preporučene "
 "vrijednosti su za 'cla_done' grupu.</p>"
 
 #: fas/help.py:62
@@ -1417,7 +1416,7 @@ msgid "The following error(s) have occured with your request:"
 msgstr "Sljedeća(e) greška(e) su se dogodila(e) sa Vašim zahtjevom:"
 
 #: fas/templates/home.html:11
-#, fuzzy
+#, 
 msgid "To do queue:"
 msgstr "Za uraditi red:"
 
@@ -1534,7 +1533,7 @@ msgid "FAS version %s"
 msgstr "FAS verzija %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
+#, 
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to "
 "the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
@@ -1634,7 +1633,7 @@ msgid "If your country is not listed, select \"Other\""
 msgstr "Ako Vaša država nije na listi odaberite \"Druga\""
 
 #: fas/templates/cla/index.html:68
-#, fuzzy
+#,
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
