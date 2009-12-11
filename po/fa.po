@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas 1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-12-11 03:00+0330\n"
+"PO-Revision-Date: 2009-12-11 15:40+0330\n"
 "Last-Translator: Mostafa Daneshvar <mostafa.daneshvar@gmail.com>\n"
 "Language-Team: Persian <fedora-trans-fa@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: fas/auth.py:285
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
+msgstr "قبل از ارسال درخواست عضویت در این گروه %s عضویت لازم است."
 
 #: fas/cla.py:139
 msgid "You are not allowed to reject CLAs."
@@ -33,6 +33,8 @@ msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
 msgstr ""
+"خطا در حذف cla و گروه های وابسته برای %(person)s\n"
+"خطا بود: %(error)s"
 
 #: fas/cla.py:190
 msgid "CLA Successfully Removed."
@@ -40,141 +42,141 @@ msgstr "با موفقیت CLA برداشته شد."
 
 #: fas/cla.py:207
 msgid "You have already completed the CLA."
-msgstr ""
+msgstr "شما CLA را قبلا کامل کرده اید."
 
 #: fas/cla.py:211
 msgid "You have not completed the CLA."
-msgstr ""
+msgstr "شما CLA را کامل نکرده اید."
 
 #: fas/cla.py:214
 msgid "You must confirm that your personal information is accurate."
-msgstr ""
+msgstr "شما باید تایید کنید که اطلاعات شخصی خودتان صحیح است."
 
 #: fas/cla.py:230
 msgid "Your updated information could not be saved."
-msgstr ""
+msgstr "اطلاعات به روز شده شما نمی تواند ذخیره شوند."
 
 #: fas/cla.py:238
 msgid "To complete the CLA, we must have your name, telephone number, and country.  Please ensure they have been filled out."
-msgstr ""
+msgstr "جهت کامل کردن CLA، باید ما نام، شماره تلفن و کشور شما را داشته باشیم. لطفا مطمئن شوید که آنها را پر کرده اید."
 
 #: fas/cla.py:245
 msgid "To complete the CLA, a valid country code must be specified.  Please select one now."
-msgstr ""
+msgstr "برای کامل کردن CLA، کد یک کشور باید مشخص شود. لطفا اکنون یکی را انتخاب کنید."
 
 #: fas/cla.py:248
 msgid "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", or \" \".  Please reenter using only those characters."
-msgstr ""
+msgstr "شماره تلفن ها فقط می توانند شامل شماره، \"-\", \"+\", \"(\", \")\", or \" \" باشند. لطفا فقط این کاراکترها را وارد کنید."
 
 #: fas/cla.py:262
 #: fas/cla.py:274
 #, python-format
 msgid "You could not be added to the '%s' group."
-msgstr ""
+msgstr "شما نمی توانید به گروه  '%s' اضافه شوید."
 
 #: fas/cla.py:271
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr ""
+msgstr "شما قبلا جزیی از گروه  '%s' هستید."
 
 #: fas/cla.py:306
 #, python-format
 msgid "You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr ""
+msgstr "شما با موفقیت CLA را کامل کردید. شما اکنون در گروه '%s' هستید."
 
 #: fas/configs.py:118
 #, python-format
 msgid "You cannot look at configs for %s"
-msgstr ""
+msgstr "شما نمی توانید در تنظیمات %s نگاه کنید."
 
 #: fas/configs.py:159
 #, python-format
 msgid "You cannot edit configs for %s"
-msgstr ""
+msgstr "شما نمی توانید تنظیمات  %s را اصلاح کنید"
 
 #: fas/configs.py:183
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr ""
+msgstr "خطا در ذخیره سازی تنظیم پایگاه داده: %s"
 
 #: fas/configs.py:187
 msgid "Config value successfully updated"
-msgstr ""
+msgstr "مقدار تنظیم با موفقیت به روز شد"
 
 #: fas/controllers.py:194
 msgid "Your old password has expired.  Please reset your password below."
-msgstr ""
+msgstr "کلمه عبور شما منقضی شده است. لطفا کلمه عبور خود را در پایین بازنشانی کنید."
 
 #: fas/controllers.py:206
 #, python-format
 msgid "Your account is currently disabled.  For more information, please contact %(admin_email)sadmin_email"
-msgstr ""
+msgstr "حساب شما اکنون غیرفعال شده است. برای اطلاعات بیشتر لطفا با %(admin_email)sadmin_email تماس بگیرید."
 
 #: fas/controllers.py:219
 #, python-format
 msgid "The language '%s' is not available."
-msgstr ""
+msgstr "زبان  '%s' موجود نیست."
 
 #: fas/group.py:159
 #: fas/group.py:195
 #, python-format
 msgid "You cannot view '%s'"
-msgstr ""
+msgstr "شما نمی توانید  '%s' ببینید"
 
 #: fas/group.py:218
 #: fas/group.py:236
 msgid "Only FAS adminstrators can create groups."
-msgstr ""
+msgstr "فقط مدیران حساب فدورایی می توانند گروهها را ایجاد کنند"
 
 #: fas/group.py:257
 #, python-format
 msgid "The group: '%s' could not be created."
-msgstr ""
+msgstr "گروه:  '%s' نمی تواند ایجاد شود."
 
 #: fas/group.py:267
 #, python-format
 msgid "The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator."
-msgstr ""
+msgstr "گروه: '%(group)s' ساخته شد، اما '%(user)s' نه توانست به عنوان مدیر گروه افزوده شود."
 
 #: fas/group.py:269
 #, python-format
 msgid "The group: '%s' has been created."
-msgstr ""
+msgstr "گروه:  '%s' ایجاد شده است."
 
 #: fas/group.py:284
 #: fas/group.py:302
 #, python-format
 msgid "You cannot edit '%s'."
-msgstr ""
+msgstr "شما نمی توانید  '%s' را اصلاح کنید."
 
 #: fas/group.py:327
 msgid "The group details could not be saved."
-msgstr ""
+msgstr "جزییات گروه نمی تواند ذخیره شود."
 
 #: fas/group.py:331
 msgid "The group details have been saved."
-msgstr ""
+msgstr "جزییات گروه ذخیره شد."
 
 #: fas/group.py:360
 #, python-format
 msgid "No Groups found matching '%s'"
-msgstr ""
+msgstr "گروه مطابق  '%s' یافت نشد"
 
 #: fas/group.py:385
 #: fas/group.py:407
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
-msgstr ""
+msgstr "%(user)s نمی تواند برای گروه %(group)s درخواست عضویت دهد."
 
 #: fas/group.py:415
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr ""
+msgstr "کاربر %(user)s نه توانستند برای گروه %(group)s درخواست عضویت دهند: %(error)s"
 
 #: fas/group.py:440
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr "درخواست عضویت برای '%(group)s' گروه"
 
 #: fas/group.py:442
 #, python-format
@@ -188,27 +190,27 @@ msgstr ""
 #: fas/group.py:456
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
-msgstr ""
+msgstr "کاربر %(user)s برای گروه %(group)s درخواست داد!"
 
 #: fas/group.py:473
 #, python-format
 msgid "You cannot sponsor '%s'"
-msgstr ""
+msgstr "شما نمی توانید '%s' حمایت کنید"
 
 #: fas/group.py:480
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
-msgstr ""
+msgstr "کاربر %(user)s را نمی توان در گروه  %(group)s حمایت کرد: %(error)s"
 
 #: fas/group.py:496
 #, python-format
 msgid "'%s' has been sponsored!"
-msgstr ""
+msgstr "کاربر '%s' حمایت شد!"
 
 #: fas/group.py:513
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
-msgstr ""
+msgstr "شما نمی توانید '%(user)s' را از گروه '%(group)s' حذف کنید."
 
 #: fas/group.py:521
 #, python-format
@@ -223,7 +225,7 @@ msgstr ""
 #: fas/group.py:556
 #, python-format
 msgid "You cannot upgrade '%s'"
-msgstr ""
+msgstr "شما نمی توانید '%s' را ترفیع دهید"
 
 #: fas/group.py:563
 #, python-format
@@ -233,12 +235,12 @@ msgstr ""
 #: fas/group.py:585
 #, python-format
 msgid "%s has been upgraded!"
-msgstr ""
+msgstr "کاربر %s ترفیع یافت!"
 
 #: fas/group.py:601
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr ""
+msgstr "شما نمی توانید کاربر  '%s' را تنزیل دهید"
 
 #: fas/group.py:608
 #, python-format
@@ -248,11 +250,11 @@ msgstr ""
 #: fas/group.py:629
 #, python-format
 msgid "%s has been downgraded!"
-msgstr ""
+msgstr "کاربر %s تنزیل یافت."
 
 #: fas/group.py:699
 msgid "Come join The Fedora Project!"
-msgstr ""
+msgstr "به پروژه فدورا به پیوندید!"
 
 #: fas/group.py:700
 #, python-format
@@ -293,7 +295,7 @@ msgstr "خطا"
 #: fas/help.py:26
 #: fas/help.py:76
 msgid "<p>We could not find that help item</p>"
-msgstr ""
+msgstr "<p>ما نه توانستیم آن ایتم کمک را پیدا کنیم</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of CLA Information"
@@ -597,7 +599,7 @@ msgstr ""
 
 #: fas/help.py:63
 msgid "Client Side Cert"
-msgstr ""
+msgstr "گواهینامه کاربر سو"
 
 #: fas/help.py:63
 msgid "<p>The client side cert is generally used to grant access to upload packages to Fedora or for other authentication purposes like with koji.  You should save this certificate to ~/.fedora.cert.  If you are not a package maintainer there is no need to worry about the client side cert.  Please note that whenever a new cert is generated, all old ones are revoked.</p>"
@@ -649,7 +651,7 @@ msgstr "فقط مدیر می تواند یک حساب را فعال یا غیر 
 
 #: fas/user.py:283
 msgid "Somebody is already using that email address."
-msgstr ""
+msgstr "کسی از این ایمیل استفاده کرده است."
 
 #: fas/user.py:286
 msgid "Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
@@ -703,7 +705,7 @@ msgstr ""
 #: fas/user.py:526
 #: fas/user.py:543
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "شما هیچ تغییر ایمیل معلقی ندارید."
 
 #: fas/user.py:530
 #: fas/user.py:547
@@ -792,7 +794,7 @@ msgstr "کلمه عبور شما نمی تواند تغییر یابد."
 
 #: fas/user.py:705
 msgid "Your password has been changed."
-msgstr ""
+msgstr "کلمه عبور شما تغییر یافت."
 
 #: fas/user.py:712
 msgid "You are already logged in!"
@@ -804,11 +806,11 @@ msgstr "شما قبلا وارد شده اید."
 
 #: fas/user.py:726
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "نام کاربری و ایمیل همراه آن وجود ندارد!"
 
 #: fas/user.py:730
 msgid "username + email combo unknown."
-msgstr ""
+msgstr "ترکیب ایمیل و نام کاربری ناشناس است."
 
 #: fas/user.py:733
 #: fas/user.py:801
@@ -837,7 +839,7 @@ msgstr ""
 
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr ""
+msgstr "کلید شما از subkeys.pgp.net بازخوانی نشد."
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
@@ -849,17 +851,17 @@ msgstr "باز نشانی کلمه عبور پروژه فدورا"
 
 #: fas/user.py:791
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "یک آدرس بازنشانی کلمه عبور به ایمیل شما ارسال شد."
 
 #: fas/user.py:805
 #: fas/user.py:832
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "شما هیچ تغییر کلمه عبور معلقی ندارید."
 
 #: fas/user.py:809
 #: fas/user.py:838
 msgid "Invalid password change token."
-msgstr ""
+msgstr "علامت نامعتبر تغییر کلمه عبور."
 
 #: fas/user.py:815
 msgid "Your password reset has been canceled.  The password change token has been invalidated."
@@ -867,7 +869,7 @@ msgstr ""
 
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "کلمه عبور شما نمی تواند همانند کلمه عبور قبلی باشد."
 
 #: fas/user.py:862
 msgid "You have successfully reset your password.  You should now be able to login below."
@@ -875,7 +877,7 @@ msgstr ""
 
 #: fas/user.py:886
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "قبل از ساخت یک گواهینامه شما باید ابتدا CLA را کامل کنید."
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
@@ -937,7 +939,7 @@ msgstr ""
 #: fas/validators.py:219
 #, python-format
 msgid "The language '%(lang)s' is not available."
-msgstr ""
+msgstr "زبان  '%(lang)s' موجود نیست."
 
 #: fas/model/fasmodel.py:184
 msgid "user is already in this group"
@@ -1005,7 +1007,7 @@ msgstr ""
 
 #: fas/templates/home.html:11
 msgid "To do queue:"
-msgstr ""
+msgstr "صف انجام کار:"
 
 #: fas/templates/home.html:17
 #, python-format
@@ -1024,11 +1026,11 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "وظایف گوناگونس"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "دانلود یک گواهینامه کاربر-سو"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
@@ -1195,7 +1197,7 @@ msgstr "انتخاب کشور"
 #: fas/templates/cla/index.html:65
 #: fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "برای کشورهایی که در لیست موجود نیستند،  \"Other\" را انتخاب کنید"
 
 #: fas/templates/cla/index.html:68
 msgid "I certify that the above information (my name, country, and phone number) are accurate to the best of my knowledge."
@@ -1505,11 +1507,11 @@ msgstr "دیدن لیست اعضا"
 
 #: fas/templates/group/view.html:97
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "صف حمایت"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "این یک سرور شناسه باز است"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
@@ -1525,13 +1527,13 @@ msgstr ""
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "وبسایت رسمی شناسه باز"
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "قبول درخواست شناسه باز"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid "A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)"
@@ -1547,7 +1549,7 @@ msgstr ""
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "آیا اجازه می دهید این تصدیق به پیش رود؟"
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
@@ -1559,7 +1561,7 @@ msgstr "خیر"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "صفحه شناسه باز"
 
 #: fas/templates/openid/id.html:21
 #, python-format
@@ -1577,7 +1579,7 @@ msgstr ""
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "به ارائه دهنده شناسه باز فدورا خوش آمدید"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1666,7 +1668,7 @@ msgstr "لغو"
 #: fas/templates/user/gencert.html:10
 #: fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "تولید گواهینامه "
 
 #: fas/templates/user/gencert.html:15
 msgid "The link below allows you to generate a certificate to authenticate to Fedora's buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate."
@@ -1679,7 +1681,7 @@ msgstr "صدور گواهینامه"
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "تولید گواهینامه غیرفعال شده است"
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -1692,7 +1694,7 @@ msgstr "لیست کاربران"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" یک جانشین است است ( مانند \"ric*\")"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
@@ -1701,7 +1703,7 @@ msgstr "نام کاربری"
 #: fas/templates/user/list.html:34
 #: fas/templates/user/view.html:91
 msgid "CLA Done"
-msgstr ""
+msgstr "CLA کامل"
 
 #: fas/templates/user/list.html:40
 #: fas/templates/user/view.html:95
@@ -1753,7 +1755,7 @@ msgstr "تایید درخواست تغییر ایمیل"
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "آیا واقعا می خواهید ایمیل خود را به %s تغییر دهید؟"
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
@@ -1790,107 +1792,107 @@ msgstr "آدرس پستی:"
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr ""
+msgstr "کشور:"
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
-msgstr ""
+msgstr "شناسه IRC:"
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr ""
+msgstr "کلید: PGP"
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr ""
+msgstr "کلید عمومی SSH:"
 
 #: fas/templates/user/view.html:68
 msgid "Comments:"
-msgstr ""
+msgstr "نظرات:"
 
 #: fas/templates/user/view.html:74
 msgid "Password:"
-msgstr ""
+msgstr "کلمه عبور:"
 
 #: fas/templates/user/view.html:75
 msgid "Valid"
-msgstr ""
+msgstr "معتبر"
 
 #: fas/templates/user/view.html:78
 msgid "Account Status:"
-msgstr ""
+msgstr "وضعیت حساب:"
 
 #: fas/templates/user/view.html:81
 msgid "Active"
-msgstr ""
+msgstr "فعال"
 
 #: fas/templates/user/view.html:82
 msgid "Vacation"
-msgstr ""
+msgstr "تعطیلات"
 
 #: fas/templates/user/view.html:83
 msgid "Inactive"
-msgstr ""
+msgstr "غیرفعال"
 
 #: fas/templates/user/view.html:84
 msgid "Pinged"
-msgstr ""
+msgstr "پینگ شده"
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
-msgstr ""
+msgstr "غیرفعال"
 
 #: fas/templates/user/view.html:90
 msgid "CLA:"
-msgstr ""
+msgstr "CLA:"
 
 #: fas/templates/user/view.html:93
 msgid "Reject CLA"
-msgstr ""
+msgstr "رد CLA"
 
 #: fas/templates/user/view.html:95
 msgid "Complete it!"
-msgstr ""
+msgstr "کامل کنید!"
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
-msgstr ""
+msgstr "حریم خصوصی:"
 
 #: fas/templates/user/view.html:106
 msgid "Your Roles"
-msgstr ""
+msgstr "نقشهای شما"
 
 #: fas/templates/user/view.html:107
 #, python-format
 msgid "%s's Roles"
-msgstr ""
+msgstr "نقش های %s"
 
 #: fas/templates/user/view.html:124
 msgid "Status:"
-msgstr ""
+msgstr "وضعیت:"
 
 #: fas/templates/user/view.html:130
 msgid "Tools:"
-msgstr ""
+msgstr "ابزارها:"
 
 #: fas/templates/user/view.html:134
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "دعوت عضو جدید..."
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "مدیریت عضویت گروه..."
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "مدیریت جزییات گروه..."
 
 #: fas/templates/user/view.html:140
 msgid "Queue:"
-msgstr ""
+msgstr "صف:"
 
 #: fas/templates/user/view.html:144
 #, python-format
 msgid "<strong>%(user)s</strong> requests approval to join <strong>%(unapproved_role.group)s</strong>."
-msgstr ""
+msgstr "درخواست های <strong>%(user)s</strong> برای پیوستن به <strong>%(unapproved_role.group)s</strong>."
 
