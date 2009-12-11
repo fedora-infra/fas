@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas 1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-12-11 15:40+0330\n"
+"PO-Revision-Date: 2009-12-11 23:13+0330\n"
 "Last-Translator: Mostafa Daneshvar <mostafa.daneshvar@gmail.com>\n"
 "Language-Team: Persian <fedora-trans-fa@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -186,6 +186,10 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"از شما برای درخواست عضویت در گروه %(group)s سپاس گذاریم.  \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:456
 #, python-format
@@ -215,12 +219,12 @@ msgstr "شما نمی توانید '%(user)s' را از گروه '%(group)s' ح�
 #: fas/group.py:521
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
-msgstr ""
+msgstr "کاربر %(user)s را نمی توان از گروه %(group)s حذف کرد: %(error)s"
 
 #: fas/group.py:538
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
-msgstr ""
+msgstr "کاربر %(name)s از گروه %(group)s برداشته شد"
 
 #: fas/group.py:556
 #, python-format
@@ -230,7 +234,7 @@ msgstr "شما نمی توانید '%s' را ترفیع دهید"
 #: fas/group.py:563
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "نمی توان %(name)s را در گروه %(group)s ترفیع داد: %(error)s"
 
 #: fas/group.py:585
 #, python-format
@@ -240,17 +244,17 @@ msgstr "کاربر %s ترفیع یافت!"
 #: fas/group.py:601
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr "شما نمی توانید کاربر  '%s' را تنزیل دهید"
+msgstr "شما نمی توانید کاربر  '%s' را تنزل دهید"
 
 #: fas/group.py:608
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "کاربر %(name)s را در گروه %(group)s تنزل داد: %(error)s"
 
 #: fas/group.py:629
 #, python-format
 msgid "%s has been downgraded!"
-msgstr "کاربر %s تنزیل یافت."
+msgstr "کاربر %s تنزل یافت."
 
 #: fas/group.py:699
 msgid "Come join The Fedora Project!"
@@ -327,7 +331,7 @@ msgstr "نام کامل (لازم)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr ""
+msgstr "<p>نام انسانی شما یا \"real life\" نام</p>"
 
 #: fas/help.py:31
 #: fas/templates/user/edit.html:99
@@ -363,7 +367,7 @@ msgstr "زمان (اختیاری)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr ""
+msgstr "<p>لطفا منطفه زمانی که در آن هستید را مشخض کنید.</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
@@ -371,7 +375,7 @@ msgstr "نظرات (اختیاری)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
-msgstr ""
+msgstr "<p>نظرات مختلف درباره خودتان</p>"
 
 #: fas/help.py:36
 #: fas/templates/user/list.html:27
@@ -380,7 +384,7 @@ msgstr "وضعیت حساب"
 
 #: fas/help.py:36
 msgid "<p>Shows account status, possible values include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
-msgstr ""
+msgstr "<p>نشان دادن وضعیت های حساب، مقادیر ممکن شامل<ul><li>فعال</li><li>سفر</li><li>غیرفعال</li></ul></p>"
 
 #: fas/help.py:37
 msgid "CLA"
@@ -393,7 +397,7 @@ msgstr ""
 #: fas/help.py:38
 #: fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
-msgstr ""
+msgstr "کلید عمومی RSA SSH"
 
 #: fas/help.py:38
 msgid "<p>Many resources require public key authentiaction to work.  By uploading your public key to us, you can then log in to our servers.  Type \"man ssh-keygen\" for more information on creating your key (it must be an RSA key).  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
@@ -459,7 +463,7 @@ msgstr ""
 #: fas/help.py:46
 #: fas/templates/group/member-list.html:54
 msgid "Downgrade"
-msgstr "تنزیل"
+msgstr "تنزل"
 
 #: fas/help.py:46
 msgid "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>"
@@ -490,7 +494,7 @@ msgstr "افزودن کاربر"
 
 #: fas/help.py:49
 msgid "<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>"
-msgstr ""
+msgstr "<p>به صورت دستی یک کاربر را به یک گروه اضافه کنید. نام کاربری آنها را در این بخش قرار داده سپس 'Add' کلیک کنید </p>"
 
 #: fas/help.py:50
 msgid "Group Name"
@@ -506,7 +510,7 @@ msgstr "نام ظاهری"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p>اسم های قابل خواندن گروه </p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
@@ -514,7 +518,7 @@ msgstr "صاحب گروه"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
+msgstr "<p>نام دارنده ای که این گروه را اداره خواهد کرد</p>"
 
 #: fas/help.py:53
 #: fas/templates/group/list.html:28
@@ -535,7 +539,7 @@ msgstr ""
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "لیست ایمیل گروه (اختیاری)"
 
 #: fas/help.py:55
 msgid "<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>"
@@ -543,11 +547,11 @@ msgstr ""
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "آدرس لیست ایمیل گروه (اختیاری)"
 
 #: fas/help.py:56
 msgid "<p>A URL for the group's mailing list (for example, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
-msgstr ""
+msgstr "<p>یک آدرس برای لیست گروه مثلا, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
@@ -555,7 +559,7 @@ msgstr "کانل IRC گروه (اختیاری)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p> ییک کانال  IRC برای گروه(مثلا, #fedora-admin).</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
@@ -623,12 +627,12 @@ msgstr ""
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "این شناسه باز تا وقتی که کاربر CLA را امضا نکند فعال نخواهد شد."
 
 #: fas/openid_samadhi.py:190
 #: fas/openid_samadhi.py:236
 msgid "Your last OpenID request could not be retrieved.  Try re-authenticating to the OpenID consumer."
-msgstr ""
+msgstr "درخواست شناسه باز شما بازخوانی نه شد. بار دیگر با سرویس شناسه باز تصدیق کنید."
 
 #: fas/safasprovider.py:262
 #, python-format
@@ -700,7 +704,7 @@ msgstr "چنین کاربری '%s' پیدا نشد"
 
 #: fas/user.py:522
 msgid "Your pending email change has been canceled.  The email change token has been invalidated."
-msgstr ""
+msgstr "تغییر ایمیل معلق شما لغو شده است.نشانه تغییر ایمیل نامعتبر گردید."
 
 #: fas/user.py:526
 #: fas/user.py:543
@@ -729,16 +733,16 @@ msgstr ""
 #: fas/user.py:587
 #: fas/user.py:611
 msgid "Sorry.  That email address is already in use. Perhaps you forgot your password?"
-msgstr ""
+msgstr "با عرض پوزش. آن ایمیل الان به کار برده می شود. شاید شما کلمه عبور خود را فراموش کرده اید؟"
 
 #: fas/user.py:594
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
+msgstr "حساب شما نمی تواند ساخته شود. لطفا برای کمک با %s  تماس بگیرید."
 
 #: fas/user.py:599
 msgid "Your password has been emailed to you.  Please log in with it and change your password"
-msgstr ""
+msgstr "کلمه عبور شما به ایمیل شما ارسال گردید. لطفا با آن وارد شده و کلمه عبور خود را تغییر دهید"
 
 #: fas/user.py:625
 msgid "Welcome to the Fedora Project!"
@@ -817,12 +821,12 @@ msgstr "ترکیب ایمیل و نام کاربری ناشناس است."
 #: fas/user.py:827
 #, python-format
 msgid "Your account currently has status %(status)s.  For more information, please contact %(admin_email)s"
-msgstr ""
+msgstr "حساب شما اکنون در حالت  %(status)s است. لطفا برای اطلاعات بیشتر با %(admin_email)s بگیرید."
 
 #: fas/user.py:737
 #, python-format
 msgid "System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset"
-msgstr ""
+msgstr "حساب های سیستم نمی توانند بازسازی کلمه عبور به صورت آنلاین داشت. لطفا با %(admin_email)s تماس بگیرید تا آن را بازسازی کنید."
 
 #: fas/user.py:748
 #, python-format
@@ -843,7 +847,7 @@ msgstr "کلید شما از subkeys.pgp.net بازخوانی نشد."
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "ایمیل بازنشانی کلمه عبور را نمی توان رمزدار شود."
 
 #: fas/user.py:788
 msgid "Fedora Project Password Reset"
@@ -865,7 +869,7 @@ msgstr "علامت نامعتبر تغییر کلمه عبور."
 
 #: fas/user.py:815
 msgid "Your password reset has been canceled.  The password change token has been invalidated."
-msgstr ""
+msgstr "بازنشانی کلمه عبور شما لغو شد. نشان تغییر کلمه عبور نامعتبر شده است"
 
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
@@ -881,7 +885,7 @@ msgstr "قبل از ساخت یک گواهینامه شما باید ابتدا 
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
-msgstr ""
+msgstr "گواهینامه شما نمی تواند ساخته شود."
 
 #: fas/validators.py:52
 #, python-format
@@ -891,7 +895,7 @@ msgstr "گروه '%(group)s' وجود ندارد."
 #: fas/validators.py:70
 #, python-format
 msgid "The group '%(group)s' already exists."
-msgstr ""
+msgstr "گروه '%(group)s' وجود دارد."
 
 #: fas/validators.py:90
 #, python-format
@@ -919,12 +923,12 @@ msgstr "'%(user)s' وجود دارد."
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "برای جلوگیری از چرخه های باطل، آدرس ایمیل شما نمی تواند شامل @fedoraproject.org باشد."
 
 #: fas/validators.py:174
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "خطا - کلید معتبر RSA SSH نیست: %(key)s"
 
 #: fas/validators.py:198
 #, python-format
@@ -953,11 +957,11 @@ msgstr "کاربر عضو نیست"
 
 #: fas/model/fasmodel.py:201
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "مدیران بیش از این نمی توانند ترفیع یابند"
 
 #: fas/model/fasmodel.py:216
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "کاربران دیگر نمی توانند بیشتر تنزل بیابند"
 
 #: fas/model/fasmodel.py:225
 msgid "user is not an unapproved member"
@@ -985,7 +989,7 @@ msgstr ""
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
-msgstr ""
+msgstr "کاربران، حامیان، مدیران"
 
 #: fas/templates/about.html:15
 msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the distinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
@@ -995,7 +999,7 @@ msgstr ""
 #: fas/templates/home.html:7
 #: fas/templates/cla/index.html:20
 msgid "Fedora Accounts System"
-msgstr ""
+msgstr "سیستم حساب های فدورایی"
 
 #: fas/templates/error.html:17
 msgid "Error!"
@@ -1012,7 +1016,7 @@ msgstr "صف انجام کار:"
 #: fas/templates/home.html:17
 #, python-format
 msgid "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> درخواست پیوستن به گروه <a href=\"%(groupview)s\">%(group)s</a> را داده است."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1034,7 +1038,7 @@ msgstr "دانلود یک گواهینامه کاربر-سو"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "ورود به سیستم حساب فدورایی"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
@@ -1111,15 +1115,15 @@ msgstr "نسخه حساب فدورایی %s"
 
 #: fas/templates/master.html:95
 msgid "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
-msgstr ""
+msgstr "© ۲۰۰۹ ردهت و دیگران. لطفا هر گونه پیشنهاد و اصلاحی را به <a href=\"mailto:webmaster@fedoraproject.org\">تیم وبسایتها</a> ارسال کنید."
 
 #: fas/templates/master.html:98
 msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
-msgstr ""
+msgstr "پروژه فدورا به وسیله انجمن فدورا نگهداری می شود و توسط ردهت پشتیبانی می شود. این یک وبسایت انجمن می باشد. ردهت برای محتوای آن مسئول نمی باشد."
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr ""
+msgstr "\"*\"  یک جانشین است (مانند  \"cvs*\" )"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
@@ -1162,13 +1166,13 @@ msgstr "چرا پیوستن؟"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "توافق نامه مشارکت کنندگان فدورا"
 
 #: fas/templates/cla/index.html:24
 #: fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">نسخه متنی</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
@@ -1515,11 +1519,11 @@ msgstr "این یک سرور شناسه باز است"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">این</a>یک سرور شناسه باز است."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
-msgstr ""
+msgstr "برای اطلاعات بیشتر درباره شناسه باز، ببینید:"
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
@@ -1545,7 +1549,7 @@ msgstr "شناسه:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "ریشه مطمئن:"
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
@@ -1566,16 +1570,16 @@ msgstr "صفحه شناسه باز"
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "این یک شناسه باز برای %(human_name)s (%(username)s) است"
 
 #: fas/templates/openid/id.html:24
 #, python-format
 msgid "This is an OpenID identity for %(username)s"
-msgstr ""
+msgstr "این یک شناسه باز برای %(username)s است"
 
 #: fas/templates/openid/id.html:31
 msgid "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora Account System<a>."
-msgstr ""
+msgstr "بخش <a href=\"https://admin.fedoraproject.org/accounts/\">سیستم حساب فدورا<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -1584,7 +1588,7 @@ msgstr "به ارائه دهنده شناسه باز فدورا خوش آمدی�
 #: fas/templates/openid/welcome.html:16
 #, python-format
 msgid "You are logged in as %(username)s. Your OpenID identity URL is <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
-msgstr ""
+msgstr "شما به عنوان %(username)s وارد شده اید. آدرس شناسه باز شما <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a> است"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -1593,7 +1597,7 @@ msgstr "خروج"
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr ""
+msgstr "شما <a href=\"%(url)s\">وارد</a> نشده اید."
 
 #: fas/templates/user/changepass.html:7
 #: fas/templates/user/changepass.html:10
@@ -1633,7 +1637,7 @@ msgstr "ایمیل"
 #: fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(معلق جهت تغییر در  %(email)s - <a href=\"%(url)s\">لغو</a> )"
 
 #: fas/templates/user/edit.html:76
 msgid "Latitude"
@@ -1686,7 +1690,7 @@ msgstr "تولید گواهینامه غیرفعال شده است"
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
 msgid "Generating SSL Certificates is disabled on this machine.  If you were brought here by clicking a link it usually means there is a misconfiguration on the server.  Please contact %(accts_email)s to fix things."
-msgstr ""
+msgstr "تولید گواهی های SSL در این دستگاه غیر فعال شده است. اگر شما با کلیک بر روی یک پیوند به اینجا آمده اید معمولا به این معنی است که در سرور تنظیم اشتباهی وجود دارد. لطفا جهت رفع این ایراد ها با %(accts_email)s تماس بگیرید."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
