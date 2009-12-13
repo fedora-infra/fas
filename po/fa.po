@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fas 1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-12-11 23:13+0330\n"
+"PO-Revision-Date: 2009-12-12 20:44+0330\n"
 "Last-Translator: Mostafa Daneshvar <mostafa.daneshvar@gmail.com>\n"
 "Language-Team: Persian <fedora-trans-fa@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -315,7 +315,7 @@ msgstr "شناسه IRC (اختیاری)"
 
 #: fas/help.py:28
 msgid "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please register your nick on irc.freenode.net first, then fill this in so people can find you online when they need to</p>"
-msgstr ""
+msgstr "<p>نام IRC برای شناسایی شما در irc.freenode.net استفاده می شود. لطفا نام خود را در irc.freenode.net ثبت کنید، سپس در این جا آن را وارد کنید تا افراد بتوانند شما را آنلاین هر وقت که نیاز باشد پیدا کنند.</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -458,7 +458,7 @@ msgstr "ارتقا"
 
 #: fas/help.py:45
 msgid "<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot be upgraded beyond administrator</li></ul></p>"
-msgstr ""
+msgstr "<p>ترفیع وضعیت افراد در این گروه.<ul><li>از کاربر ->به حامی</li><li>از حامی -> مدیر</li><li>مدیران بالاتر از درجه مدیریت نمی توانند ترفیع یابند</li></ul></p>"
 
 #: fas/help.py:46
 #: fas/templates/group/member-list.html:54
@@ -467,7 +467,7 @@ msgstr "تنزل"
 
 #: fas/help.py:46
 msgid "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>"
-msgstr ""
+msgstr "<p>تنزل وضعیت افراد در گروه.<ul><li>از مدیر -> به حامی</li><li>از حامی -> کاربر</li><li>کاربر از درجه کاربری پایین تر نمی آید شاید شما بخواهید آنها را حذف کنید</li></ul></p>"
 
 #: fas/help.py:47
 #: fas/templates/group/member-list.html:41
@@ -476,7 +476,7 @@ msgstr "تایید"
 
 #: fas/help.py:47
 msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
-msgstr ""
+msgstr "<p> یک حامی یا مدیر می تواند بودن کاربران را در یک گروه تایید کند. هر وقت که یک کاربر برای گروه درخواست عضویت می کند، به صفحه گروه رفته و بر روی تایید کلیک کرده تا کاربر را تایید کنید.</p>"
 
 #: fas/help.py:48
 #: fas/templates/group/member-list.html:15
@@ -502,7 +502,7 @@ msgstr "نام گروه"
 
 #: fas/help.py:50
 msgid "<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>"
-msgstr ""
+msgstr "<p>نام گروهی که می خواهید ایجاد کنید آن باید با حروف کوچک نوشته شود هر چند '-' و '_' مجاز هستند</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -535,7 +535,7 @@ msgstr "نشانی گروه (اختیاری)"
 
 #: fas/help.py:54
 msgid "<p>A URL or wiki page for the group (for example, <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
-msgstr ""
+msgstr "<p>یک آدرس یا صفحه ویکی برای گروه (‌مثلا <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
@@ -543,7 +543,7 @@ msgstr "لیست ایمیل گروه (اختیاری)"
 
 #: fas/help.py:55
 msgid "<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>"
-msgstr ""
+msgstr "<p>یک لیست ایمیل برای گروه (مثلا، fedora-infrastructure-list@redhat.com ).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
@@ -567,7 +567,7 @@ msgstr "شبکه IRC گروه (اختیاری)"
 
 #: fas/help.py:58
 msgid "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
+msgstr "<p>شبکه IRC کانال گروه ( مثلا ، فری ند).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -591,7 +591,7 @@ msgstr "باید متعلق به "
 
 #: fas/help.py:61
 msgid "<p>Before a user can join this group, they must belong to the group listed in this box.  Recommended values are for the 'cla_done' group.</p>"
-msgstr ""
+msgstr "<p>قبل از آن که یک کاربر به این گروه بپیوندد آنها باید متعلق به گروه زیر باشد. مقادیر توصیه شده برای گروه'cla_done'است.</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
@@ -659,7 +659,7 @@ msgstr "کسی از این ایمیل استفاده کرده است."
 
 #: fas/user.py:286
 msgid "Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
-msgstr ""
+msgstr "قبل از آن که ایمیل جدید شما تاثیر پذیرد شما باید آن را تایید کنید. شما باید یک ایمیل شامل دستورالعمل هایی به زود دریافت کنید."
 
 #: fas/user.py:290
 #, python-format
@@ -839,7 +839,7 @@ msgstr ""
 
 #: fas/user.py:760
 msgid "This user does not have a GPG Key ID set, so an encrypted email cannot be sent."
-msgstr ""
+msgstr "این کاربر شناسه کلید GPG ندارد،‌پس یک ایمیل رمزشده نمی توان ارسال کرد"
 
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
@@ -877,7 +877,7 @@ msgstr "کلمه عبور شما نمی تواند همانند کلمه عبو�
 
 #: fas/user.py:862
 msgid "You have successfully reset your password.  You should now be able to login below."
-msgstr ""
+msgstr "شما با موفقیت کلمه عبور خود را بازنشانی کردید. شما باید قادر باشید از طریق زیر وارد شوید."
 
 #: fas/user.py:886
 msgid "Before generating a certificate, you must first complete the CLA."
@@ -933,12 +933,12 @@ msgstr "خطا - کلید معتبر RSA SSH نیست: %(key)s"
 #: fas/validators.py:198
 #, python-format
 msgid "'%(username)s' is an illegal username.  A valid username must only contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
+msgstr "کاربر '%(username)s' نام کاربری غیر قانونی است. یک نام کاریری معتبر باید فقط شامل حروف کوچک باشد و با یک حرف شروع شده باشد."
 
 #: fas/validators.py:201
 #, python-format
 msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "نام '%(username)s' یک نام کاربری است که در لیست سیاه قرار گرفته است. لطفا یکی دیگر را انتخاب کنید."
 
 #: fas/validators.py:219
 #, python-format
@@ -1007,7 +1007,7 @@ msgstr "خطا!"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "در ارتباط با درخواست شما خطا(ها) رخ داده است:"
 
 #: fas/templates/home.html:11
 msgid "To do queue:"
@@ -1021,12 +1021,12 @@ msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> در�
 #: fas/templates/home.html:29
 #, python-format
 msgid "CLA not completed.  To become a full Fedora Contributor please <a href=\"%s\">complete the CLA</a>."
-msgstr ""
+msgstr "CLA کامل نیست. برای تبدیل شدن به یک مشارکت کننده کامل فدورا لطفا <a href=\"%s\">را کامل کنید.CLA</a>."
 
 #: fas/templates/home.html:30
 #, python-format
 msgid "You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
+msgstr "شما کلید SSH ارسال نه کرده اید، برخی منابع فدورا نیاز به کلید SSH دارند. لطفا با اصلاح <a href=\"%s\">حساب من</a> آن را ارسال کنید"
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
@@ -1150,7 +1150,7 @@ msgstr "به حساب فدورایی۲ خوش آمدید"
 
 #: fas/templates/welcome.html:18
 msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop by #fedora-admin on irc.freenode.net."
-msgstr ""
+msgstr "به سیستم حساب های فدورای ۲ خوش آمدید. لطفا برای گزارش ایراد به <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> بروید یا به کانال #fedora-admin در irc.freenode.net مراجعه کنید."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1205,7 +1205,7 @@ msgstr "برای کشورهایی که در لیست موجود نیستند،  
 
 #: fas/templates/cla/index.html:68
 msgid "I certify that the above information (my name, country, and phone number) are accurate to the best of my knowledge."
-msgstr ""
+msgstr "من صحت اطلاعات فوق (نام ، کشور من ، و شماره تلفن) را به بهترین آگاهی خویش   تایید می کنم"
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
@@ -1527,7 +1527,7 @@ msgstr "برای اطلاعات بیشتر درباره شناسه باز، بب
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "یک وب سایت انجمن شناسه باز، خانه این کتابخانه"
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
@@ -1541,7 +1541,7 @@ msgstr "قبول درخواست شناسه باز"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid "A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)"
-msgstr ""
+msgstr "یک سایت جدید خواسته است تا هویت خودتان را تایید کنید. اگر شما تایید می کنید، سایت نشان داده شده به وسیله ریشه مطمئن در ذیل به آن گفته خواهد شد که شما کنترل این شناسه را به دست دارید.( اگر شما از یک شناسه وکالتی استفاده می کنید سایت وکالت را با خودش جا به جا می کند.)"
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
@@ -1676,7 +1676,7 @@ msgstr "تولید گواهینامه "
 
 #: fas/templates/user/gencert.html:15
 msgid "The link below allows you to generate a certificate to authenticate to Fedora's buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate."
-msgstr ""
+msgstr "پیوند زیر به شما اجازه می دهد تا یک گواهینامه جهت تصدیق در سیستم ها تولید فدورا ایجاد کنید. لطفا توجه داشته باشید که شما در هر زمان یک گواهی معتبر داشته باشید. یک بار که یک گواهی جدید ساختید همه گواهی های پیشین منقضی می شوند. اکنون اگر شما با سیستم بسته سازی فدورا کار نمی کنید،‌شما شاید به آن نیاز نداشته باشید."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
