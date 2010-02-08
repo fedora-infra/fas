@@ -29,6 +29,7 @@
           ${tg.identity.user.country_code}
         </span>
         <span class="no_information" py:otherwise="">${_('No information on file')}</span>
+	<input py:if="required" type="hidden" name="sreg.send.${field}" value="yes" />
       </td>
       <td py:if="not required">
 	    <input type="checkbox" name="sreg.send.${field}" value="yes" />
@@ -50,7 +51,7 @@
   </fieldset>
   <div id="sreg.policy_url" py:if="sreg_req.policy_url">
     <p>
-      ${Markup(_('The web site has a privacy policy that can be viewed at &lt;a href="%(policy_url)s"&gt;%(policy_url)s&lt;/a&gt;.') % {'policy_url': sreg_reg.policy_url})}
+      ${Markup(_('The web site has a privacy policy that can be viewed at &lt;a href="%(policy_url)s"&gt;%(policy_url)s&lt;/a&gt;.') % {'policy_url': sreg_req.policy_url})}
     </p>
   </div>
 </div>
