@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the FAS project.
 # Fabian Affolter <fab@fedoraproject.org>, 2008-2009.
 # Cornelius Neckenig <tbull@fedoraproject.org>, 2009.
-# Marcus Nitzschke <kenda@fedoraproject.org>, 2009.
+# Marcus Nitzschke <kenda@fedoraproject.org>, 2009,2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: FAS2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-09-13 14:05+0100\n"
+"PO-Revision-Date: 2010-02-17 11:52+0100\n"
 "Last-Translator: Marcus Nitzschke <kenda@fedoraproject.org>\n"
-"Language-Team: German <fedora-trans-de@redhat.com>\n"
+"Language-Team: German <trans-de@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1189,7 +1189,7 @@ msgstr "Das Fedora-Projekt wird durch die Gemeinschaft verwaltet und von Red Hat
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr "\"*\" ist eine Wildcard (ex: \"cvs*\")"
+msgstr "\"*\" ist eine Wildcard (z.B.: \"cvs*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
@@ -1970,22 +1970,28 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 
 #~ msgid "Can the postal system really deliver to that address?"
 #~ msgstr "Kann ein Postsystem wirklich zu dieser Adresse zustellen?"
+
 #~ msgid "Welcome, %s"
 #~ msgstr "Willkommen, %s"
+
 #~ msgid ""
 #~ "The credentials you supplied were not correct or did not grant access to "
 #~ "this resource."
 #~ msgstr ""
 #~ "Die eingegebenen Zugangsdaten sind nicht korrekt oder erlauben Ihnen "
 #~ "keinen Zugriff auf diese Ressource."
+
 #~ msgid "You must provide your credentials before accessing this resource."
 #~ msgstr ""
 #~ "Sie müssen Ihre Zugangsdaten eingeben, bevor Sie auf diese Ressource "
 #~ "zugreifen können."
+
 #~ msgid "Please log in."
 #~ msgstr "Bitte melden Sie sich an."
+
 #~ msgid "You have successfully logged out."
 #~ msgstr "Sie haben sich erfolgreich abgemeldet."
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -1997,6 +2003,7 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 #~ "des Fedora-Kontosystems gesponsert. Falls zutreffend, sollte sich diese\n"
 #~ "Änderung innerhalb einer Stunde in den E-Mail-Aliasen und dem CVS-"
 #~ "Repository verbreiten.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has removed you from the '%(group)s'\n"
@@ -2009,6 +2016,7 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 #~ "Fedora-Kontosystem entfernt. Diese Änderung tritt mit sofortiger\n"
 #~ "Wirkung auf neue Arbeitsgänge ein und sollte sich innerhalb\n"
 #~ "einer Stunde in den E-Mail-Aliasen verbreiten.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has upgraded you to %(status)s status in the\n"
@@ -2022,6 +2030,7 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 #~ "Diese Änderung tritt mit sofortiger Wirkung auf neue Arbeitsgänge\n"
 #~ "ein und sollte sich innerhalb einer Stunde in den E-Mail-Aliasen "
 #~ "verbreiten.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has downgraded you to %(status)s status in the\n"
@@ -2035,30 +2044,43 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 #~ "Diese Änderung tritt mit sofortiger Wirkung auf neue Arbeitsgänge\n"
 #~ "ein und sollte sich innerhalb einer Stunde in den E-Mail-Aliasen "
 #~ "verbreiten.\n"
+
 #~ msgid "Login"
 #~ msgstr "Anmelden"
+
 #~ msgid "User Name:"
 #~ msgstr "Benutzername:"
+
 #~ msgid "Forgot Password?"
 #~ msgstr "Passwort vergessen?"
+
 #~ msgid "Sign Up"
 #~ msgstr "Eintragen"
+
 #~ msgid "An account has already been registered with that email address."
 #~ msgstr "Ein Konto wurde bereits mit dieser E-Mail-Adresse registriert."
+
 #~ msgid "Encrypt/Sign password reset email"
 #~ msgstr "Verschlüsselte/Signierte Passwort-Rücksetzungsnachricht"
+
 #~ msgid "'%s' is an illegal username."
 #~ msgstr "'%s' ist ein ungültiger Benutzername."
+
 #~ msgid "New Group"
 #~ msgstr "Neue Gruppe"
+
 #~ msgid "User List"
 #~ msgstr "Benutzerliste"
+
 #~ msgid "Group List"
 #~ msgstr "Gruppenliste"
+
 #~ msgid "Human Name"
 #~ msgstr "Richtiger Name"
+
 #~ msgid "Real Name:"
 #~ msgstr "Wahrer Name:"
+
 #~ msgid ""
 #~ "\n"
 #~ "Fedora user %(user)s, aka %(name)s <%(email)s> has requested\n"
@@ -2074,35 +2096,43 @@ msgstr "<strong>%(user)s</strong> beantragt Genehmigung zum Beitritt zu <strong>
 #~ "angefordert und braucht einen Sponsor.\n"
 #~ "\n"
 #~ "Bitte gehen Sie zu %(url)s, um die nötigen Schritte auszuführen. \n"
+
 #~ msgid "Dummy Plugin!"
 #~ msgstr "Dummy-Plugin!"
+
 #~ msgid "The OpenID request could not be decoded."
 #~ msgstr "Die OpenID-Anforderung konnte nicht dekodiert werden."
+
 #~ msgid "Fedora Project OpenID Provider"
 #~ msgstr "Fedora-Projekt OpenID-Provider"
+
 #~ msgid "Allow <strong>%s</strong> to authenticate to your OpenID identity?"
 #~ msgstr ""
 #~ "Erlauben Sie <strong>%s</strong> zum Authentifizieren Ihrer OpenID-"
 #~ "Identität?"
+
 #~ msgid "Submit"
 #~ msgstr "Abschicken"
+
 #~ msgid ""
 #~ "To update any of this information, <a href=\"%s\">edit your account</a>."
 #~ msgstr ""
 #~ "Um diese Information zu aktualisieren, <a href=\"%s\">bearbeiten Sie Ihr "
 #~ "Konto</a>."
+
 #~ msgid "You have already sucessfully complete the CLA."
 #~ msgstr "Sie haben bereits erfolgreich das CLA komplettiert."
+
 #~ msgid "PGP Key"
 #~ msgstr "PGP-Schlüssel"
 
 #, fuzzy
 #~ msgid "Sign the CLA"
 #~ msgstr "Unterschreiben des CLA"
+
 #~ msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to "
 #~ msgstr "Willkommen beim Fedora-Konto-System 2. Bitte Fehler melden an"
 
 #, fuzzy
 #~ msgid "Sign it!"
 #~ msgstr "Wirklich unterschreiben? (j/N) "
-
