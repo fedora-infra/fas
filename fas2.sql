@@ -120,7 +120,6 @@ CREATE TABLE groups (
 );
 
 create index groups_group_type_idx on groups(group_type);
-create index groups_email_idx on groups(email);
 cluster groups_group_type_idx on groups;
 
 CREATE TABLE person_roles (
