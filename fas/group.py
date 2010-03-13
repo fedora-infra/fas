@@ -290,8 +290,8 @@ class Group(controllers.Controller):
     @expose(template="fas.templates.group.edit")
     def save(self, groupname, display_name, owner, group_type, 
              needs_sponsor=0, user_can_remove=1, prerequisite='', 
-             url='', mailing_list='', mailing_list_url='', irc_channel='', 
-             irc_network='', joinmsg='', apply_rules="None"):
+             url='', mailing_list='', mailing_list_url='', invite_only=0,
+             irc_channel='', irc_network='', joinmsg='', apply_rules="None"):
         '''Edit a group'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -316,6 +316,7 @@ class Group(controllers.Controller):
                 group.url = url
                 group.mailing_list = mailing_list
                 group.mailing_list_url = mailing_list_url
+                group.invite_only = invite_only
                 group.irc_channel = irc_channel
                 group.irc_network = irc_network
                 group.joinmsg = joinmsg

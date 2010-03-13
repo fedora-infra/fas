@@ -50,6 +50,12 @@
         <script type="text/javascript">var group_owner = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_owner')}'});</script>
       </div>
       <div class="field">
+        <label for="invite_only">${_('Invite Only:')}</label>
+        <input py:if="group.invite_only" type="checkbox" id="invite_only" name="invite_only" value="1" checked="checked" />
+        <input py:if="not group.invite_only" type="checkbox" id="invite_only" name="invite_only" value="1" />
+        <script type="text/javascript">var group_invite_only = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_invite_only')}'});</script>
+      </div>
+      <div class="field">
         <label for="needs_sponsor">${_('Needs Sponsor:')}</label>
         <input py:if="group.needs_sponsor" type="checkbox" id="needs_sponsor" name="needs_sponsor" value="1" checked="checked" />
         <input py:if="not group.needs_sponsor" type="checkbox" id="needs_sponsor" name="needs_sponsor" value="1" />
