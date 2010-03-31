@@ -110,6 +110,7 @@ CREATE TABLE groups (
     group_type VARCHAR(16),
     needs_sponsor BOOLEAN DEFAULT FALSE,
     user_can_remove BOOLEAN DEFAULT TRUE,
+    invite_only BOOLEAN DEFAULT FALSE,
     prerequisite_id INTEGER REFERENCES groups(id),
     joinmsg TEXT NULL DEFAULT '',
     apply_rules TEXT,
