@@ -36,6 +36,11 @@ sqlalchemy-migrate will need to be installed.  To do so, run:
 
  sudo yum -y install python-migrate
 
+(Since I don't trust this yet,  the latest change will need to add:
++    invite_only BOOLEAN DEFAULT FALSE,
+to the groups table.  There is a migrate script checked in.  Need to verify
+that it works and that we'll do that.)
+
 0.8.4 => 0.8.5
 ==============
 
