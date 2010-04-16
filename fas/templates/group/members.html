@@ -25,7 +25,7 @@
       <span py:if="group in person.memberships and not group in person.approved_memberships" class="unapproved">${_('Unapproved')}</span>
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
-    <form py:if="not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}">
+    <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}">
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
         <input type="submit" value="${('Apply!')}" />
