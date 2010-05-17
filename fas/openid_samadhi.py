@@ -206,12 +206,12 @@ class OpenID(controllers.Controller):
                     'country': identity.current.user.country_code,
                     }
 
-                for field in [f for f in kw['sreg']['send'] if kw['sreg']['send'] == 'yes']:
+                for field in [f for f in kw['sreg']['send'] if kw['sreg']['send'][f] == 'yes']:
                     if field in values:
                         send_values[field] = values[field]
 
             sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, send_values)
-            sreg_resp.toMessage(openid_response.fields)
+            openid_response.addExtension(sreg_resp)
 
         elif 'no' in kw:
             openid_response = openid_request.answer(False)

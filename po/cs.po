@@ -39,7 +39,7 @@ msgstr "CLA úspěšně odstraněno. "
 
 #: fas/cla.py:207
 msgid "You have already completed the CLA."
-msgstr "Už jste vyplnily CLA."
+msgstr "Již jste vyplnily CLA."
 
 #: fas/cla.py:211
 msgid "You have not completed the CLA."
@@ -58,14 +58,14 @@ msgid ""
 "To complete the CLA, we must have your name, telephone number, and "
 "country.  Please ensure they have been filled out."
 msgstr ""
-"K vyplnění CLA musíte znát smé jméno, telefonní číslo a stát."
+"K vyplnění CLA musíte znát své jméno, telefonní číslo a stát."
 "Ujistěte se, že jste všechny tyto položky vyplnily."
 #: fas/cla.py:245
 msgid ""
 "To complete the CLA, a valid country code must be specified.  Please "
 "select one now."
 msgstr ""
-"K dokončení CLA musí být specifikován paltný kód země. Jeden"
+"K dokončení CLA musí být specifikován platný kód země. Jeden"
 "prosím vyberte."
 #: fas/cla.py:248
 msgid ""
@@ -73,12 +73,12 @@ msgid ""
 "\")\", or \" \".  Please reenter using only those characters."
 msgstr ""
 "Telefonní číslo může obsahovat pouze čísla, \"-\", \"+\", \"(\", "
-"\")\", or \" \".  Prosím zadejte Vaše číslospoužitím pouze těchto znaků."
+"\")\", or \" \".  Prosím zadejte Vaše číslo s použitím pouze těchto znaků."
 
 #: fas/cla.py:262 fas/cla.py:274
 #, python-format
 msgid "You could not be added to the '%s' group."
-msgstr "Nemůžete být přidán do '%s' skupiny."
+msgstr "Nemůžete být přidán do skupiny '%s'."
 
 #: fas/cla.py:271
 #, python-format
@@ -174,12 +174,12 @@ msgstr "Nenalezeny žádné skupiny odpovídající '%s'"
 #: fas/group.py:385 fas/group.py:407
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
-msgstr "%(user)s nemůže žádat o skupinu %(group)s."
+msgstr "%(user)s se nemůže ucházet o členství ve skupině %(group)s."
 
 #: fas/group.py:415
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr "%(user)s nemůže žádat o skupinu %(group)s: %(error)s"
+msgstr "%(user)s se nemohl ucházet o členství ve skupině %(group)s: %(error)s"
 
 #: fas/group.py:440
 #, python-format
@@ -195,7 +195,7 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr ""
 "\n"
-"Děkujeme za přihlášení do skupiny %(group)s.  \n"
+"Děkujeme za Váš zájem o skupinu %(group)s.  \n"
 "\n"
 "%(joinmsg)s\n"
 #: fas/group.py:456
@@ -241,7 +241,7 @@ msgstr "Nemůžete povýšit '%s'"
 #: fas/group.py:563
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr "%(name)s nemohl být povýšen ve  skupině %(group)s: %(error)s"
+msgstr "%(name)s nemohl být povýšen ve skupině %(group)s: %(error)s"
 
 #: fas/group.py:585
 #, python-format
@@ -292,14 +292,14 @@ msgstr ""
 "Projektu! Jsme komunitou uživatelů a vývojářů, kteří produkují \n"
 "kompletní operační systém ze softwaru zcela volného a s otevřeným zdrojovým kódem\n"
 "(FOSS).  %(user)s si myslí, že máte schopnosti a vědomosti, \n"
-"které Vás činí velmi vhodným pro komunitu Fedory, a že by jste mohl mít \n"
+"které Vás činí vhodným pro členství v komunitě Fedory, a že by jste mohl mít \n"
 "zájem se účastnit. \n"
 "\n"
 "Jak se můžete přidat k Fedora komunitě a využít, případně vylepšit \n"
 "své dovednosti? Pro získání představy se podívejte na http://fedoraproject.org/join-fedora . \n"
 "Naše komunita je však víc než jen parta vývojářů. Máme pro Vás místo i \n"
 "když jste umělec, vytváříte webové stránky, spisovatel nebo jste rád \n"
-"v kontaktu s lidmi. Budete se učit a porostete při práci v týmu s ostatními \n"
+"v kontaktu s lidmi. Budete se učit a porostete při práci v týmu s dalšími \n"
 "talentovanými a schopnými lidmi. \n"
 "\n"
 "Fedora a FOSS mění svět -- přidejte se k nám a buďte u toho!"
@@ -339,7 +339,7 @@ msgstr ""
 "připojené k CLA pro případ, že Vás budeme budeme potřebovat kontaktovat ohledně "
 "Vaší práce na projektu. Představte si, že nám zavolá právník z nějaké firmy "
 "a tvrdí nám, že vlastní práva na Vaši práci a my jim řekneme, že máme právo"
-"ji používat, protože \"Mickey Moose\" toto dílo vytvořil v rámci projektu,"
+"ji používat, protože \"Jan Novák\" toto dílo vytvořil v rámci projektu,"
 "ale nemáme žádný kontakt na autora. Toto je potenciálně velmi nepříjemná situace. </p>"
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -364,13 +364,12 @@ msgid ""
 "used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
 msgstr ""
-"<p> Adresa uvedená zde by měla být Vámi preferovaná email kontakt a "
-"bude používána pro zasílání různých oficiálních emailů. Na tuto adresu"
+"<p> Adresa uvedená zde by měl být Vámi preferovaný email kontakt a "
+"bude používán pro zasílání různých oficiálních emailů. Na tuto adresu"
 "bude také přesměrován Váš @fedoraproject.org email</p>"
 #: fas/help.py:30
 msgid "Full Name (Required)"
 msgstr "Celé jméno (Povinné)"
-
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
 msgstr "<p> Vaše skutečné jméno</p>"
@@ -418,7 +417,7 @@ msgid ""
 "<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
 msgstr ""
-"<p>Toto by měla být mailová adresa, na které můžete být zastiženi. Pro více"
+"<p>Toto by měla být poštovní adresa, na které můžete být zastiženi. Pro více"
 "informací se obraťte na naši <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">"
 "Politiku ochrany soukromí</a></p>."
 #: fas/help.py:34
@@ -492,7 +491,7 @@ msgid ""
 "<p>For non-english speaking peoples this allows individuals to select "
 "which locale they are in.</p>"
 msgstr ""
-"<p> Toto umožňuje lidem, kteří neumí anglicky vybrat lokalitu, ve které se  "
+"<p> Toto umožňuje lidem, kteří neumí anglicky, vybrat lokalitu ve které se  "
 "nachází.</p>"
 #: fas/help.py:40
 msgid "Country Code"
@@ -515,7 +514,7 @@ msgstr ""
 "osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
 "dětem mladším třinácti let, aby se staly registrovanými členy našich stránek "
 "nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
-"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13.</p>"
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
 "let. </p>"
 #: fas/help.py:42
 msgid "Hide Information"
@@ -543,7 +542,7 @@ msgid ""
 "actually get approved or sponsored.  For more information on how the "
 "account system works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
-"Ucházení se o členství ve skupině je podobné jako ucházet se o práci"
+"Ucházení se o členství ve skupině je podobné jako ucházení se o práci"
 "a určitě to může chvilku trvat než budete přijati. Mnoho skupi má svá "
 "vlastní pravidla jak schvalobat nebo podporovat kadidáty. Více informací"
 "o fungování systému účtů najdete na <a href=\"%s\">stránce O</a>.</p>"
@@ -559,7 +558,7 @@ msgid ""
 "anyone, Sponsors can remove users, users can't remove anyone.</p>"
 msgstr"" 
 "<p>Odstranění osoby ze skupimy způsobí, že uživatel již nadále nebude"
-"ve skupině přítomen. Pro budou se muset znovu přihlásit pro opětovné získání"
+"ve skupině přítomen. Bude se muset znovu přihlásit pro opětovné získání"
 "přístupu. Aministrátor může odstranit kohokoli, Sponzor může odstranit uživatele"
 "a uživatel nemůže odstranit nikoho.</p>" 
 
@@ -575,7 +574,7 @@ msgid ""
 msgstr ""
 "<p> Povýšit osobu v rámci této skupiny.<ul><li>uživatel ->  "
 "sponzor</li><li>sponzor -> administrátor</li><li>administrátoři "
-"již nemohou být povýšeni</li></ul></p>"
+"již nemohou být dále povýšeni</li></ul></p>"
 #: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
 msgstr "Degradace"
@@ -618,7 +617,7 @@ msgstr ""
 "<p>Sponzor nebo administrátor může podporovat uživatelovu přítomnost ve skupině."
 "Jakmile jednou uživatel usiluje o členství ve skupině, stačí jít na stránku skupiny"
 "a kliknout na schválit pro podporu uživatele. Podporování uživatele znamená, že "
-"jste připraveni vést uživatele a odpovědět na libovolné otázky, které může uživatel"
+"jste připraveni vést uživatele a odpovědět na veškeré otázky, které může uživatel"
 "mít.</p>"
 #: fas/help.py:49
 msgid "Add User"
@@ -629,7 +628,7 @@ msgid ""
 "<p>Manually add a user to a group.  Place their username in this field "
 "and click 'Add'</p>"
 msgstr ""
-"<p>Manuálně přidá uživatele do skupiny. Vložte  jeho jméno do tohoto pole a "
+"<p>Manuálně přidá uživatele do skupiny. Vložte jméno uživatele  do tohoto pole a "
 "klikněte na 'Přidat'</p>"
 #: fas/help.py:50
 msgid "Group Name"
@@ -669,8 +668,8 @@ msgid ""
 "only really matters if the group is to end up getting shell access or "
 "commit access somewhere like fedorahosted.</p>"
 msgstr ""
-"<p> Za normálních okolností je je bezpečné nechat toto pole prázdné. Ačkoliv"
-"toto pole může nabývat hodnoty například 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' a 'mtn'."
+"<p> Za normálních okolností je bezpečné nechat toto pole prázdné. Ačkoliv"
+"toto pole může nabývat hodnot například 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' a 'mtn'."
 "Tato hodnota se použije pouze v případě, že skupina získá terminálový přístup"
 "nebo může nahrávat soubory(přes svn například) na portály typu fedorahosted apod. </p>"
 #: fas/help.py:54
@@ -776,7 +775,7 @@ msgid ""
 "should be informative and offer tips about what to do next.  A "
 "description of the group would also be valuable here</p>"
 msgstr ""
-"<p>Tato zpráva bude zaslána uživateli, když žádá a clěnství ve skupině. "
+"<p>Tato zpráva bude zaslána uživateli, když zažádá a clěnství ve skupině. "
 "Měla by uživatele informovat a poskytnout typy co dělat dále. Měl by zde"
 "být umístěn i stručný popis skupiny.</p>"
 #: fas/help.py:63
@@ -792,10 +791,15 @@ msgid ""
 "  Please note that whenever a new cert is generated, all old ones are "
 "revoked.</p>"
 msgstr ""
-"<p> "
+"<p> Certifikáty klientů jsou obvykle používány k zajištění práv na "
+"nahrávání balíčků do Fedory a jiné autentizační účely například v koji."
+"Je doporučeno uložit certifikáty do ~/.fedora.cert. Pokud nespravujete "
+"balíčky pak není důvod se znepokojovat kvůli klientským certifikátům."
+"Mějte prosím na paměti, že kdykoli je vygenerován nový certifikát jsou "
+"staré certifikáty zneplatněny.</p>"
 #: fas/help.py:64
 msgid "Longitude and Latitude"
-msgstr ""
+msgstr "Zeměpisná délka a šířka"
 
 #: fas/help.py:64
 msgid ""
@@ -804,60 +808,65 @@ msgid ""
 "used for mapping purposes, but will not be used if you have privacy "
 "enabled for your account.</p>"
 msgstr ""
-
+"<p>Vaše zeměpisná délka a šířka. Toto je volitelná položka a měla by mít "
+"formát čísla v plovoucí čárce. Například 312.3333 nebo -21.2. Tato informace "
+"je užitečná pro účely mapování. Pokud však máte zaškrtnuto pole soukromí, pak"
+"Vaše data nebudou použita.</p>"
 #: fas/help.py:65
 msgid "Rules for Application"
-msgstr ""
+msgstr "Pravidla pro žádání o členství"
 
 #: fas/help.py:65
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr ""
-
+"<p>Pravidla, kterými by se měl uchazeč řídit před tím, než se začne ucházet o "
+"členství ve vaší skupině. Budou ukázána uchazečům před ucházením se o členství. </p>"
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "Toto OpenID nebude funkční dokud uživatel nepodepíše CLA."
 
 #: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating "
 "to the OpenID consumer."
 msgstr ""
-
+"Váš poslední OpenID požadvek nemohl být obnoven. Zkuste se znovu autentizovat."
 #: fas/safasprovider.py:262
 #, python-format
 msgid "Loading: %(visitmod)s"
-msgstr ""
+msgstr "Načítání: %(visitmod)s"
 
 #: fas/user.py:231
 #, python-format
 msgid "You cannot edit %s"
-msgstr ""
+msgstr "Nemůžete upravovat %s"
 
 #: fas/user.py:255
 #, python-format
 msgid "You do not have permission to edit '%s'"
-msgstr ""
+msgstr "Nemáte oprávnění upravovat '%s'"
 
 #: fas/user.py:262
 msgid "Only administrator can enable or disable an account."
-msgstr ""
+msgstr "Pouze administrator může může povolovat a zakazovat účty."
 
 #: fas/user.py:283
 msgid "Somebody is already using that email address."
-msgstr ""
+msgstr "Tato adresa je již používána někým jiným."
 
 #: fas/user.py:286
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should "
 "receive an email with instructions shortly."
 msgstr ""
-
+"Než začne Váš nový email fungovat, musíte jej potvrdit. Brzy by jste "
+"měli obdržet email s instrukcemi."
 #: fas/user.py:290
 #, python-format
 msgid "Email Change Requested for %s"
-msgstr ""
+msgstr "Požadována změna emailu pro %s"
 
 #: fas/user.py:291
 #, python-format
@@ -870,53 +879,61 @@ msgid ""
 "\n"
 "https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 msgstr ""
-
+"\n"
+"Nedávno jste zádali o změnu Fedora Account System emailu\n"
+"na tuto adresu. K dokončení změny emailu musíte odsouhlasit,\n"
+"že opravdu vlastníte tento email prostřednictvím návštěvy \n"
+"následující URL (nejdříve se budete muset přihlásit ke svému\n"
+"Fedora účtu):\n"
+"\n"	
+"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 #: fas/user.py:316
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr ""
+msgstr "Detaily Vašeho účtu nemohly být uloženy: %s"
 
 #: fas/user.py:320
 #, python-format
 msgid "Fedora Account Data Update %s"
-msgstr ""
+msgstr "Aktualizace dat Fedora účtu %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
-msgstr ""
+msgstr "Dataily Vašeho účtu byly uloženy."
 
 #: fas/user.py:466
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "Specifikováno neplatné pole: %(error)s"
 
 #: fas/user.py:480
 #, python-format
 msgid "No users found matching '%s'"
-msgstr ""
+msgstr "Nenalezeni uživatelé odpovídající '%s'"
 
 #: fas/user.py:522
 msgid ""
 "Your pending email change has been canceled.  The email change token has "
 "been invalidated."
 msgstr ""
-
+"Vaše nevyřízená změna emailu byla zrušena. Váš požadavek na změnu byl "
+"anulován."
 #: fas/user.py:526 fas/user.py:543
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "Nemáte žádné nevyřízené požadavky na změnu emailu."
 
 #: fas/user.py:530 fas/user.py:547
 msgid "Invalid email change token."
-msgstr ""
+msgstr "Neplatný požadavek na změnu mailu."
 
 #: fas/user.py:556
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr ""
+msgstr "Váš email byl úspěšně změněn na '%s'"
 
 #: fas/user.py:565
 msgid "No need to sign up, you have an account!"
-msgstr ""
+msgstr "Není třeba se registrovat. Již máte účet."
 
 #: fas/user.py:581 fas/user.py:607
 msgid ""
@@ -927,27 +944,34 @@ msgid ""
 "sites. We do not knowingly collect or solicit personal information about "
 "children under 13."
 msgstr ""
-
+"Je nám líto, ale kvůli zájmu o bezpečí dětí vědomně nepříjmáme "
+"osobní informace od dětí, kterým ještě nebylo 13 let. Neumožňujeme "
+"dětem mladším třinácti let, aby se staly registrovanými členy našich stránek "
+"nebo aby prodávaly produkty a služby na našich stránkách. Vědomně "
+"neshromažďujeme a neusilujeme o soukromá data od dětí mladších 13"
+"let. "
 #: fas/user.py:587 fas/user.py:611
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr ""
-
+"Je nám líto, ale tato adresa je již používána. Nezapomněli jste náhodou"
+"heslo?"
 #: fas/user.py:594
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
+msgstr "Váš účet nemohl být vytvořen. Pro asistenci prosím kontaktujte %s ."
 
 #: fas/user.py:599
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
-
+"Vaše heslo Vám bylo zasláno mailem. Prosím přihlašte se jeho pomocí a své heslo"
+"změňte."
 #: fas/user.py:625
 msgid "Welcome to the Fedora Project!"
-msgstr ""
+msgstr "Vítejte ve Fedora Projektu!"
 
 #: fas/user.py:625
 #, python-format
@@ -992,30 +1016,69 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Právě jste vytvořili nový Fedora účet.\n"
+"Vaše uživatelské jméno je:%(username)s\n "
+"Vaše heslo je:%(password)s\n "
+"\n"
+"Pokud chcete své heslo změnit navštivte prosím\n"
+"%(base_url)s%(webpath)s/user/changepass\n"
+"\n"
+"Vítejte v Projektu  Fedora. Nyní, když jste se přihlásili ke svému novému účtu\n"
+"se pravděpodobně nemůžete dočkat kdy začnete přispívat do Fedory. Proto \n"
+"Vám byl zaslán tento mail, aby Vás vedl správným směrem a co nejvíce usnadnil \n"
+"celý proces. \n"
+"\n"
+"Fedora je velmi dynamický projekt ve kterém se stále něco děje a můžete se jej \n"
+"účastnit mnoha různými způsoby, které Vám umožní zapojit veškerý Váš um \n"
+"a schopnosti. Pokud se chcete dozvědět více o možnostech zapojení se do \n"
+"Projektu Fedora, navštivte prosím naši stránku, která popisuje nejrůznější \n "
+"role, které můžete v rámci projektu Fedora zastávat. \n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"Pokud již víte jakým způsobem chcete přispívat do Fedory a našli\n"
+"jste si již skupinu, která působí v oblasti, která Vás zajímá, \n"
+"pak stále ještě zbývá několik kroků, které musíte podniknout. \n"
+"\n"
+"Jedna z prvních činností, které by jste měli udělat je zaregistrovat se\n"
+"do týmových nebo projektových mailing listů. Pokud se zajímáte o práci \n "
+"více než jedné skupiny, nic Vám nebrání v tom zaregistrovat se hned do \n"
+"několika mailing listů. Mailing listy jsou místem kde se organizuje \n"
+"většina práce a je přidělována většina úkolů. Takže pokud chcete být \n"
+"neustále v kontaktu, kontrolujte pravidelně svou mailovou schránku.\n"
+"\n"
+"Pokud jste se již zaregistrovali, je vhodné se ostatním členům listu \n"
+"krátce představit, sdělit jaké máte zkušenosti a jakým způsobem můžete \n"
+"pomoci. Stávající členové týmu by Vám měli pomoci najít své místo v \n"
+"rámci projektu Fedora. \n"
+"\n"
+"Mi všichni, kteří se účastníme projektu Fedora se těšíme na spolupráci s \n"
+"Vámi.\n"
 
 #: fas/user.py:702
 msgid "Your password could not be changed."
-msgstr ""
+msgstr "Vaše heslo nemohlo  být změněno."
 
 #: fas/user.py:705
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Vaše heslo bylo změněno."
 
 #: fas/user.py:712
 msgid "You are already logged in!"
-msgstr ""
+msgstr "Jste již přihlášen!"
 
 #: fas/user.py:720
 msgid "You are already logged in."
-msgstr ""
+msgstr "Jste již přihlášen."
 
 #: fas/user.py:726
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "Kombinace uživatelské jméno, email neexistuje!"
 
 #: fas/user.py:730
 msgid "username + email combo unknown."
-msgstr ""
+msgstr "Kombinace uživatelské jméno + email neznámá."
 
 #: fas/user.py:733 fas/user.py:801 fas/user.py:827
 #, python-format
@@ -1023,14 +1086,16 @@ msgid ""
 "Your account currently has status %(status)s.  For more information, "
 "please contact %(admin_email)s"
 msgstr ""
-
+"Aktuální status Vašeho účtu je %(status)s. Pro více informací prosím "
+"kontaktujte %(admin_email)s"
 #: fas/user.py:737
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact"
 " %(admin_email)s to have it reset"
 msgstr ""
-
+"U systémových účtů nelze změnit heslo online. Pro změnu heslo prosím kontaktujte"
+" %(admin_email)s"
 #: fas/user.py:748
 #, python-format
 msgid ""
@@ -1041,103 +1106,111 @@ msgid ""
 "https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
 "\n"
 msgstr ""
-
+"\n"
+"Někdo (snad vy) požadoval změnu hesla Vašeho účtu!"
+"\n"
+"Pokus chcete změnit heslo (nebo zrušit žádost) prosím navštivte \n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
+"\n"
 #: fas/user.py:760
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be"
 " sent."
 msgstr ""
-
+"Tento uživatel nemá nastavenou identitu u GPG klíče, takže mu nemohl být"
+"zaslán šifrovaný email."
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr ""
+msgstr "Váš klíč nebyl získán z subkeys.pgp.net"
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "Email s Vaším přenastaveným heslem nemohl být zašifrován."
 
 #: fas/user.py:788
 msgid "Fedora Project Password Reset"
-msgstr ""
+msgstr "Heslo ve Fedora projektu změněno"
 
 #: fas/user.py:791
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "URL pro změnu hesla Vám bylo zasláno mailem."
 
 #: fas/user.py:805 fas/user.py:832
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "Nemáte žádné nevyřízené požadavky na změnu hesla."
 
 #: fas/user.py:809 fas/user.py:838
 msgid "Invalid password change token."
-msgstr ""
+msgstr "Neplatný požadavek na změnu hesla."
 
 #: fas/user.py:815
 msgid ""
 "Your password reset has been canceled.  The password change token has "
 "been invalidated."
 msgstr ""
-
+"Změna Vašeho hesla byla zrušena. Požadavek na změnu hesla byl "
+"anulován."
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "Vaše nové heslo nemůže být stejné jako to staré."
 
 #: fas/user.py:862
 msgid ""
 "You have successfully reset your password.  You should now be able to "
 "login below."
 msgstr ""
-
+"Vaše heslo bylo uspěšně změněno. Měli by jste být schopni se "
+"níže přihlásit."
 #: fas/user.py:886
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "Před generováním certifikátu musíte vyplnit CLA."
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
-msgstr ""
+msgstr "Váš certifikát nemohl být vygenerován."
 
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
-msgstr ""
+msgstr "Skupina '%(group)s' neexistuje."
 
 #: fas/validators.py:70
 #, python-format
 msgid "The group '%(group)s' already exists."
-msgstr ""
+msgstr "Skupina '%(group)s' již existuje."
 
 #: fas/validators.py:90
 #, python-format
 msgid "Invalid group type: %(type)s."
-msgstr ""
+msgstr "Neplatný typ skupiny:%(type)s."
 
 #: fas/validators.py:113
 msgid "Invalid sort key."
-msgstr ""
+msgstr "Neplatný řadící klíč."
 
 #: fas/validators.py:118
 #, python-format
 msgid "'%(user)s' does not exist."
-msgstr ""
+msgstr "'%(user)s' neexistuje."
 
 #: fas/validators.py:136
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
-msgstr ""
+msgstr "Chyba: Nelze vytvořit - '%(user)s'"
 
 #: fas/validators.py:137
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr ""
+msgstr "- '%(user)s' již existuje."
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "Aby se zabránilo emailovým smyčkám, nesmí Vaše emailová být @fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "Chyba - Neplatný RSA SSH klíč: %(key)s"
 
 #: fas/validators.py:198
 #, python-format
@@ -1145,45 +1218,46 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must only "
 "contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
-
+"'%(username)s' není platné uživatelské jméno. Platné uživatelské jméno"
+"se skládá z malých alfanumerických znaků a musí začínat písmenem."
 #: fas/validators.py:201
 #, python-format
 msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "%(username)s' je na černé listině. Prosím vyberte si jiné uživatelské jméno."
 
 #: fas/validators.py:219
 #, python-format
 msgid "The language '%(lang)s' is not available."
-msgstr ""
+msgstr "Jazyk '%(lang)s' není dostupný. "
 
 #: fas/model/fasmodel.py:184
 msgid "user is already in this group"
-msgstr ""
+msgstr "uživatel již je členem skupiny"
 
 #: fas/model/fasmodel.py:197 fas/model/fasmodel.py:212
 #: fas/model/fasmodel.py:268
 msgid "user is not a member"
-msgstr ""
+msgstr "uživatel není členem"
 
 #: fas/model/fasmodel.py:201
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "aministrátoři již nemohou být povýšeni"
 
 #: fas/model/fasmodel.py:216
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "uživatelé nemohou být dále degradování"
 
 #: fas/model/fasmodel.py:225
 msgid "user is not an unapproved member"
-msgstr ""
+msgstr "uživatel není neschváleným členem"
 
 #: fas/templates/about.html:7
 msgid "About FAS"
-msgstr ""
+msgstr "O FAS"
 
 #: fas/templates/about.html:10
 msgid "FAS - The Open Account System"
-msgstr ""
+msgstr "FAS - Otevřený systém účtů"
 
 #: fas/templates/about.html:11
 msgid ""
@@ -1193,14 +1267,22 @@ msgid ""
 "team.  Every group is given at least one administrator who can then "
 "approve other people in the group.  Also, unlike traditional account "
 "systems.  FAS allows people to apply for the groups they want to be in.  "
-"This paridigm is interesting as it allows anyone to find out who is in "
+"This paradigm is interesting as it allows anyone to find out who is in "
 "what groups and contact them.  This openness is brought over from the "
 "same philosophies that make Open Source popular."
 msgstr ""
-
+"FAS je vytvářen na základě otevřené architektury. Na rozdíl od tradičních "
+"systémů účtů, kde jeden administrátor nebo skupina rozhododují o tom kdo "
+"bude v jaké skupině, FAS je od základu navrženo tak aby bylo vhodné pro "
+"týmovou administraci. V každé skupině je minimálně jeden administrátor, "
+"který pak může přijímat další členy do skupiny. Toto také nebývá v klasických "
+"systémech možné. FAS umožňuje lidem ucházet se o členství ve skupinách ve "
+"kterých chtějí být. Tato forma je docela zajímavá, neboť umkožňuje komukoli "
+"zjistit kdo je členem které skupiny a kontaktovat danou osobu. Je to právě "
+"tato otevřenost, která vedla a stále vede k popularitě Open Source."
 #: fas/templates/about.html:12
 msgid "Etiquette"
-msgstr ""
+msgstr "Pravidla chování"
 
 #: fas/templates/about.html:13
 msgid ""
@@ -1214,10 +1296,19 @@ msgid ""
 " weeks depending on the group.  It's best to know you will get sponsored "
 "before you apply."
 msgstr ""
-
+"Lidé by neměli předpokládat, že ucházením se o členství v nějaké skupině "
+"se automaticky stávají jejími členy. Představte si to jako ucházení se o práci. "
+"Obvykle to vyžaduje čas. Chcete-li zvýšit svou šanci na přijetí, zjistěte si "
+"informace o dané skupině a zkuste se s někým ze skupiny spřátelit. Vyhledejte"
+"nějakého sponzora nebo administrátora a zeptejte se zda mají čas Vás vést. "
+"Počítejte s tím, že Vám zabere několik dní shánění informací o skupině, a "
+"že strávíte mnoho času jednotvárnou prací a odpovídáním na dotazy v mailing "
+"listu. Jak dlouho tento proces bude trvat závisív do jisté miry na skupině. "
+"Někdy to mohou být i týdny. "
+" Dříve než se přihlásíte je dobré vědět, zda Vás někdo podpoří."
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
-msgstr ""
+msgstr "Uživatelé, sponzoři, administrátoři"
 
 #: fas/templates/about.html:15
 msgid ""
@@ -1230,23 +1321,31 @@ msgid ""
 "other sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
+"Jakmile jste se jednou dostali do skupiny máte vyhráno. Sponzoři a "
+"administrátoři mají obvykle speciální práva ve skupině v jistých případech. "
+"Některé skupiny považují úroveň sponzora za formu vyšší angažovanosti, "
+"například částečné vlastnictví. To však není problém, protože systém "
+"účtů s tímto počítá. Sponzoři mohou přijímat nové členy a povyšovat "
+"členy na sponzory. Nicméně nemohou degradovat ani odstraňovat jiné "
+"sponzory. Také nemohou v žádném směru zasahovat do práv administrátorů. "
+"Administrátoři mají v rámci skupiny neomezená práva."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/cla/index.html:20
 msgid "Fedora Accounts System"
-msgstr ""
+msgstr "Systém účtů Fedora"
 
 #: fas/templates/error.html:17
 msgid "Error!"
-msgstr ""
+msgstr "Chyba!"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "Ve Vašem požadavku se vyskytly následující chyby:"
 
 #: fas/templates/home.html:11
 msgid "To do queue:"
-msgstr ""
+msgstr "Zbývá udělat:"
 
 #: fas/templates/home.html:17
 #, python-format
@@ -1254,143 +1353,149 @@ msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
 "requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
-
+"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
+"požaduje schválení přístupu do <a href=\"%(groupview)s\">%(group)s</a>."
 #: fas/templates/home.html:29
 #, python-format
 msgid ""
 "CLA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the CLA</a>."
 msgstr ""
-
+"Nevyplnili jste CLA. Aby jste se stali plnohodnotným přispěvatelem Fedory <a "
+"href=\"%s\">vyplňte CLA</a>."
 #: fas/templates/home.html:30
 #, python-format
 msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH "
 "key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
-
+"Neposkytly jste žádný SSH klíč. Některé ze služeb Fedory jej však vyžadují."
+"Prosím vložte svůj SSH klíč v záložce <a href=\"%s\">Můj účet</a>"
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Ostatní úkoly"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "Stáhnout klientský certifikát"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Přihlásit se k systému účtů Fedory"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
-msgstr ""
+msgstr "Fedora"
 
 #: fas/templates/master.html:37
 msgid "Learn about Fedora"
-msgstr ""
+msgstr "Dozvědět se více o Fedoře"
 
 #: fas/templates/master.html:38
 msgid "Download Fedora"
-msgstr ""
+msgstr "Stáhnout Fedoru"
 
 #: fas/templates/master.html:39
 msgid "Projects"
-msgstr ""
+msgstr "Projekty"
 
 #: fas/templates/master.html:40
 msgid "Join Fedora"
-msgstr ""
+msgstr "Přidejte se k Fedoře"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
-msgstr ""
+msgstr "Komunikovat"
 
 #: fas/templates/master.html:42
 msgid "Help/Documentation"
-msgstr ""
+msgstr "Pomoc/Dokumentace"
 
 #: fas/templates/master.html:48
 msgid "Logged in:"
-msgstr ""
+msgstr "Přihlášení:"
 
 #: fas/templates/master.html:61
 msgid "Home"
-msgstr ""
+msgstr "Domů"
 
 #: fas/templates/master.html:62
 msgid "My Account"
-msgstr ""
+msgstr "Můj účet"
 
 #: fas/templates/master.html:64
 msgid "News"
-msgstr ""
+msgstr "Novinky"
 
 #: fas/templates/master.html:69
 msgid "Locale:"
-msgstr ""
+msgstr "Lokalita:"
 
 #: fas/templates/master.html:73
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: fas/templates/master.html:85
 msgid "About"
-msgstr ""
+msgstr "O"
 
 #: fas/templates/master.html:86
 msgid "Contact Us"
-msgstr ""
+msgstr "Kontaktujte nás"
 
 #: fas/templates/master.html:87
 msgid "Legal & Privacy"
-msgstr ""
+msgstr "Právní poznámky & ochrana soukromí"
 
 #: fas/templates/master.html:89
 msgid "Log Out"
-msgstr ""
+msgstr "Odhlásit se"
 
 #: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
-msgstr ""
+msgstr "Verze FAS %s"
 
 #: fas/templates/master.html:95
 msgid ""
 "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections"
 " to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-
+"&copy; 2009 Red Hat, Inc. and ostatní.  Jakékoli dotazy nebo opravy zasílejte"
+" prosím  našemu  <a href=\"mailto:webmaster@fedoraproject.org\">WWW týmu</a>."
 #: fas/templates/master.html:98
 msgid ""
 "The Fedora Project is maintained and driven by the community and "
 "sponsored by Red Hat.  This is a community maintained site.  Red Hat is "
 "not responsible for content."
 msgstr ""
-
+"Projekt Fedora je udržovaný a řízený komunitou a zponzorovaný "
+"Red Hatem. Tato stránka je udržovaná komunitou. Red Hat není "
+"zodpovědný za její obsah."
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr ""
+msgstr "\"*\" značka pro (Ex: \"cvs*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
-msgstr ""
+msgstr "Vyhledat"
 
 #: fas/templates/search-box.html:14 fas/templates/user/list.html:18
 msgid "Results"
-msgstr ""
+msgstr "Výsledky"
 
 #: fas/templates/search-box.html:17 fas/templates/search-box.html:24
 #: fas/templates/user/list.html:21
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: fas/templates/search-box.html:21
 msgid "Types"
-msgstr ""
+msgstr "Typy"
 
 #: fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr ""
+msgstr "Vítejte v FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
@@ -1398,363 +1503,366 @@ msgid ""
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
 "or stop by #fedora-admin on irc.freenode.net."
 msgstr ""
-
+"Vítejte ve Fedora Accounts System 2. Chyby prosím zasílejte na <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
+"nebo přes #fedora-admin na irc.freenode.net. "
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr ""
+msgstr "Přihlásit"
 
 #: fas/templates/welcome.html:22
 msgid "New Account"
-msgstr ""
+msgstr "Nový účet"
 
 #: fas/templates/welcome.html:23
 msgid "Why Join?"
-msgstr ""
+msgstr "Proč se registrovat?"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "Fedora Contributor License Agreement(CLA)"
 
 #: fas/templates/cla/index.html:24 fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Textová Verze</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
-msgstr ""
+msgstr "Již jste vyplnili CLA."
 
 #: fas/templates/cla/index.html:40 fas/templates/user/edit.html:26
 msgid "Full Name"
-msgstr ""
+msgstr "Celé jméno"
 
 #: fas/templates/cla/index.html:45 fas/templates/user/edit.html:45
 msgid "Telephone Number"
-msgstr ""
+msgstr "Telefonní číslo"
 
 #: fas/templates/cla/index.html:55 fas/templates/user/edit.html:55
 msgid "Country"
-msgstr ""
+msgstr "Stát"
 
 #: fas/templates/cla/index.html:57 fas/templates/user/edit.html:57
 msgid "Select Country"
-msgstr ""
+msgstr "Vyberte stát"
 
 #: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Pokud Váš stát není v seznamu vyberte \"jiný\""
 
 #: fas/templates/cla/index.html:68
 msgid ""
 "I certify that the above information (my name, country, and phone number)"
 " are accurate to the best of my knowledge."
 msgstr ""
-
+"Potvrzuji, že výše poskytnuté informace (mé jméno, stát a telefonní číslo)"
+"jsou pravdivé dle mého nejlepšího vědomí a svědomí."
 #: fas/templates/cla/index.html:71
 msgid "I agree"
-msgstr ""
+msgstr "Souhlasím"
 
 #: fas/templates/cla/index.html:72
 msgid "I do not agree"
-msgstr ""
+msgstr "Nesouhlasím"
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
-msgstr ""
+msgstr "Zažádat o členství ve skupině"
 
 #: fas/templates/group/apply.html:18
 msgid "Group Rules"
-msgstr ""
+msgstr "Pravidla skupiny"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
-msgstr ""
+msgstr "Upravit skupinu"
 
 #: fas/templates/group/edit.html:10
 #, python-format
 msgid "Edit Group: %s"
-msgstr ""
+msgstr "Upravit skupinu: %s "
 
 #: fas/templates/group/edit.html:13 fas/templates/group/new.html:18
 msgid "Display Name:"
-msgstr ""
+msgstr "Zobrazované jméno:"
 
 #: fas/templates/group/edit.html:18 fas/templates/group/new.html:28
 msgid "Group Type:"
-msgstr ""
+msgstr "Typ skupiny:"
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:47
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:51
 msgid "Mailing List:"
-msgstr ""
+msgstr "Mailing list:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "URL mailing listu:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "IRC kanál:"
 
 #: fas/templates/group/edit.html:43
 msgid "IRC Network:"
-msgstr ""
+msgstr "IRC síť:"
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
-msgstr ""
+msgstr "Vlastník skupiny:"
 
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:64
 msgid "Needs Sponsor:"
-msgstr ""
+msgstr "Potřebuje sponzora:"
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:68
 msgid "Self Removal:"
-msgstr ""
+msgstr "Sebeodstranění:"
 
 #: fas/templates/group/edit.html:65
 msgid "Group Prerequisite:"
-msgstr ""
+msgstr "Předpoklady pro skupinu:"
 
 #: fas/templates/group/edit.html:71
 msgid "Group Join Message:"
-msgstr ""
+msgstr "Zpráva pro připojení do skupiny:"
 
 #: fas/templates/group/edit.html:76 fas/templates/group/new.html:53
 #: fas/templates/group/view.html:42
 msgid "Rules for Application:"
-msgstr ""
+msgstr "Pravidla pro uchazeče:"
 
 #: fas/templates/group/edit.html:81 fas/templates/user/edit.html:146
 msgid "Save!"
-msgstr ""
+msgstr "Uložit!"
 
 #: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
 msgid "Invite a new community member!"
-msgstr ""
+msgstr "Pozvat nového člena do skopiny."
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
-msgstr ""
+msgstr "Komu:"
 
 #: fas/templates/group/invite.html:15
 msgid "From:"
-msgstr ""
+msgstr "Od:"
 
 #: fas/templates/group/invite.html:16
 msgid "Subject:"
-msgstr ""
+msgstr "Předmět:"
 
 #: fas/templates/group/invite.html:17
 msgid "Message:"
-msgstr ""
+msgstr "Zpráva:"
 
 #: fas/templates/group/invite.html:39
 msgid "Send!"
-msgstr ""
+msgstr "Odeslat"
 
 #: fas/templates/group/list.html:9
 msgid "Groups List"
-msgstr ""
+msgstr "Seznam skupiny"
 
 #: fas/templates/group/list.html:21 fas/templates/user/list.html:10
 #, python-format
 msgid "List (%s)"
-msgstr ""
+msgstr "Seznam (%s)"
 
 #: fas/templates/group/list.html:22
 msgid "Search Groups"
-msgstr ""
+msgstr "Prohledat skupiny"
 
 #: fas/templates/group/list.html:27
 msgid "Group"
-msgstr ""
+msgstr "Skupina"
 
 #: fas/templates/group/list.html:27
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: fas/templates/group/list.html:28
 msgid "Prerequisite"
-msgstr ""
+msgstr "Předpoklady"
 
 #: fas/templates/group/list.html:29 fas/templates/user/edit.html:127
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: fas/templates/group/list.html:37 fas/templates/group/member-list.html:26
 #: fas/templates/group/member-list.html:29
 msgid "None"
-msgstr ""
+msgstr "Žádný"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
 #: fas/templates/group/view.html:22 fas/templates/user/view.html:126
 msgid "Approved"
-msgstr ""
+msgstr "Schváleno"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
 #: fas/templates/group/view.html:23 fas/templates/user/view.html:127
 msgid "Unapproved"
-msgstr ""
+msgstr "Neschváleno"
 
 #: fas/templates/group/member-list.html:14
 msgid "User"
-msgstr ""
+msgstr "Uživatel"
 
 #: fas/templates/group/member-list.html:16
 msgid "Date Added"
-msgstr ""
+msgstr "Datum přidání"
 
 #: fas/templates/group/member-list.html:17
 msgid "Date Approved"
-msgstr ""
+msgstr "Datum schválení"
 
 #: fas/templates/group/member-list.html:18
 msgid "Approval"
-msgstr ""
+msgstr "Schváleno"
 
 #: fas/templates/group/member-list.html:19
 msgid "Role Type"
-msgstr ""
+msgstr "Druh úlohy"
 
 #: fas/templates/group/member-list.html:20
 msgid "Action"
-msgstr ""
+msgstr "Akce"
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
-msgstr ""
+msgstr "Zobrazit členy skupiny"
 
 #: fas/templates/group/members.html:23 fas/templates/group/view.html:21
 msgid "My Status:"
-msgstr ""
+msgstr "Můj status:"
 
 #: fas/templates/group/members.html:26 fas/templates/group/view.html:24
 msgid "Not a Member"
-msgstr ""
+msgstr "Nečlen"
 
 #: fas/templates/group/members.html:34 fas/templates/group/view.html:32
 msgid "Remove me"
-msgstr ""
+msgstr "Odstraň mě"
 
 #: fas/templates/group/members.html:41
 msgid "Group Details"
-msgstr ""
+msgstr "Detaily skupiny"
 
 #: fas/templates/group/members.html:44
 msgid "Members"
-msgstr ""
+msgstr "Členové"
 
 #: fas/templates/group/new.html:7 fas/templates/group/new.html:10
 msgid "Create a new FAS Group"
-msgstr ""
+msgstr "Vytvořit novou FAS skupinu"
 
 #: fas/templates/group/new.html:13
 msgid "Group Name:"
-msgstr ""
+msgstr "Název skupiny:"
 
 #: fas/templates/group/new.html:43
 msgid "Must Belong To:"
-msgstr ""
+msgstr "Musí patřit:"
 
 #: fas/templates/group/new.html:48 fas/templates/group/view.html:72
 msgid "Join Message:"
-msgstr ""
+msgstr "Zpráva připojení:"
 
 #: fas/templates/group/new.html:58
 msgid "Create!"
-msgstr ""
+msgstr "Vytvořit"
 
 #: fas/templates/group/view.html:8 fas/templates/user/view.html:133
 msgid "View Group"
-msgstr ""
+msgstr "Zobrazit skupinu"
 
 #: fas/templates/group/view.html:34 fas/templates/user/view.html:18
 msgid "(edit)"
-msgstr ""
+msgstr "(upravit)"
 
 #: fas/templates/group/view.html:37
 msgid "Name:"
-msgstr ""
+msgstr "Jméno:"
 
 #: fas/templates/group/view.html:38
 msgid "Description:"
-msgstr ""
+msgstr "Popis:"
 
 #: fas/templates/group/view.html:39
 msgid "Owner:"
-msgstr ""
+msgstr "Vlastník:"
 
 #: fas/templates/group/view.html:40
 msgid "Type:"
-msgstr ""
+msgstr "Druh:"
 
 #: fas/templates/group/view.html:44
 msgid "Approved Members:"
-msgstr ""
+msgstr "Schválení členové:"
 
 #: fas/templates/group/view.html:58
 msgid "IRC:"
-msgstr ""
+msgstr "IRC"
 
 #: fas/templates/group/view.html:65 fas/templates/group/view.html:69
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: fas/templates/group/view.html:66 fas/templates/group/view.html:70
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: fas/templates/group/view.html:73
 msgid "Prerequisite:"
-msgstr ""
+msgstr "NPředpoklady"
 
 #: fas/templates/group/view.html:76
 msgid "Created:"
-msgstr ""
+msgstr "Vytvořeno:"
 
 #: fas/templates/group/view.html:78
 msgid "Add User:"
-msgstr ""
+msgstr "Přidat uživatele:"
 
 #: fas/templates/group/view.html:95
 msgid "View Member List"
-msgstr ""
+msgstr "Zobrazit seznam členů"
 
 #: fas/templates/group/view.html:97
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "Fronta čekatelů na sponzorování"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "Toto je OpenID server"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">Toto</a> je koncový bod OpenID serveru."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
-msgstr ""
+msgstr "Pro více informací o OpenID navštivte:"
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "WWW stránku OpenID komunity, domov této knihovny."
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "Oficiální stránku OpenID."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "Odsouhlasit OpenID požadavek?"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid ""
@@ -1763,50 +1871,54 @@ msgid ""
 "identity URL listed below. (If you are using a delegated identity, the "
 "site will take care of reversing the delegation on its own.)"
 msgstr ""
-
+"Nová stránka Vás žádá o potvrzení identity. Pokud požadavek odsouhlsíte, "
+"stránka reprezentovaná kořenem níže bude předpokládat, že identita reprezentovaná "
+"URL níže patří Vám. (Pokud používáte delegovanou identitu, pak se stránka "
+"postará o reverzi této identity sama.)"
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
-msgstr ""
+msgstr "Identita:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Kořen:"
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "Pokračovat a autentizaci?"
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
-msgstr ""
+msgstr "ano"
 
 #: fas/templates/openid/authorizesite.html:39
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "OpenID - stránka s identitou"
 
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "Toto je OpentID identita pro %(human_name)s (%(username)s)"
 
 #: fas/templates/openid/id.html:24
 #, python-format
 msgid "This is an OpenID identity for %(username)s"
-msgstr ""
+msgstr "Toto je OpenID identita pro %(username)s"
 
 #: fas/templates/openid/id.html:31
 msgid ""
 "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
 "Account System<a>."
 msgstr ""
-
+"Součást <a href=\"https://admin.fedoraproject.org/accounts/\">Systému "
+"účtů Fedory</a>"
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "Vítejte u poskytovatele OpenID pro Fedoru"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1814,83 +1926,84 @@ msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a "
 "href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
-
+"Jste přihlášen jako %(username)s. URL Vaší OpenID identity je <a "
+"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
-msgstr ""
+msgstr "Odhlásit"
 
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr ""
+msgstr "Nejste <a href=\"%(url)s\">přihlášen</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
 msgid "Change Password"
-msgstr ""
+msgstr "Změnit heslo"
 
 #: fas/templates/user/changepass.html:13
 msgid "Current Password:"
-msgstr ""
+msgstr "Současné heslo:"
 
 #: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
 msgid "New Password:"
-msgstr ""
+msgstr "Nové heslo:"
 
 #: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Potvrdit heslo:"
 
 #: fas/templates/user/edit.html:20
 msgid "Edit Account"
-msgstr ""
+msgstr "Upravit účet"
 
 #: fas/templates/user/edit.html:23
 #, python-format
 msgid "Edit Account (%s)"
-msgstr ""
+msgstr "Upravit účet (%s)"
 
 #: fas/templates/user/edit.html:32
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: fas/templates/user/edit.html:35 fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "(zahájena změna mailu na %(email)s - <a href=\"%(url)s\">zrušit</a>)"
 
 #: fas/templates/user/edit.html:76
 msgid "Latitude"
-msgstr ""
+msgstr "Zeměpisná šířka"
 
 #: fas/templates/user/edit.html:81
 msgid "Longitude"
-msgstr ""
+msgstr "Zeměpisná délka"
 
 #: fas/templates/user/edit.html:94
 msgid "IRC Nick"
-msgstr ""
+msgstr "IRC přezdívka"
 
 #: fas/templates/user/edit.html:110
 msgid "Time Zone"
-msgstr ""
+msgstr "Časové pásmo"
 
 #: fas/templates/user/edit.html:135
 msgid "Comments"
-msgstr ""
+msgstr "Komentáře"
 
 #: fas/templates/user/edit.html:141
 msgid "Privacy"
-msgstr ""
+msgstr "Soukromí"
 
 #: fas/templates/user/edit.html:147 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "Generovat certifikát"
 
 #: fas/templates/user/gencert.html:15
 msgid ""
@@ -1900,15 +2013,19 @@ msgid ""
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
 msgstr ""
-
+"Odkaz níže Vám vygeneruje certifikát, který je nutný pro autentizaci vůči "
+"Fedoře a jejím systémům. Je důležité si uvědomit, že můžete mít pouze jeden "
+"platný certifikát. Pokud si vygenerujete nový certifikát, všechny Vaše staré "
+"certifikáty budou zrušeny. Pokud v současné době nepracujete na vytváření "
+"balíčků do Fedory nebudete zřejmě certifikát potřebovat."
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "Generovat certifikát"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "Generování certifikátu zablokováno"
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -1918,200 +2035,202 @@ msgid ""
 "misconfiguration on the server.  Please contact %(accts_email)s to fix "
 "things."
 msgstr ""
-
+"Generování SSL certifikátů není na tomto počítači možné. Pokud jste sem "
+"byly přesměrováni po kliknutí na odkaz, obvykle to značí špatnou konfiguraci "
+"serveru. Pro opravu prosím kontaktujte %(accts_email)s . Děkujeme."
 #: fas/templates/user/list.html:7
 msgid "Users List"
-msgstr ""
+msgstr "Seznam uživatelů."
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" je značka pro (Ex: \"ric*\")"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: fas/templates/user/list.html:34 fas/templates/user/view.html:91
 msgid "CLA Done"
-msgstr ""
+msgstr "CLA vyplněno"
 
 #: fas/templates/user/list.html:40 fas/templates/user/view.html:95
 msgid "Not Done"
-msgstr ""
+msgstr "Nevyplněno"
 
 #: fas/templates/user/new.html:7 fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr ""
+msgstr "Zřídit si Fedora účet"
 
 #: fas/templates/user/new.html:13 fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr ""
+msgstr "Uživatelské jméno:"
 
 #: fas/templates/user/new.html:17 fas/templates/user/view.html:24
 msgid "Full Name:"
-msgstr ""
+msgstr "Celé jméno:"
 
 #: fas/templates/user/new.html:22 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
-msgstr ""
+msgstr "Email:"
 
 #: fas/templates/user/new.html:43
 msgid "I am 13 years of age or older"
-msgstr ""
+msgstr "Je mi 13 nebo více let"
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
-msgstr ""
+msgstr "Zřídit účet."
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
 #: fas/templates/user/resetpass.html:19 fas/templates/user/verifypass.html:7
 #: fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr ""
+msgstr "Změnit heslo"
 
 #: fas/templates/user/verifyemail.html:7 fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr ""
+msgstr "Potvrdit požadavek na změnu emailu"
 
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "Opravdu chcete změnit email na: %s? "
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdit"
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr ""
+msgstr "Prohlážet účet"
 
 #: fas/templates/user/view.html:16
 msgid "Your Fedora Account"
-msgstr ""
+msgstr "Váš Fedora účet"
 
 #: fas/templates/user/view.html:17
 #, python-format
 msgid "%s's Fedora Account"
-msgstr ""
+msgstr "Fedora účet %s"
 
 #: fas/templates/user/view.html:18
 msgid "Account Details"
-msgstr ""
+msgstr "Detaily účtu"
 
 #: fas/templates/user/view.html:21
 msgid "Account Name:"
-msgstr ""
+msgstr "Jméno účtu:"
 
 #: fas/templates/user/view.html:36
 msgid "Telephone Number:"
-msgstr ""
+msgstr "Telefonní číslo:"
 
 #: fas/templates/user/view.html:40
 msgid "Postal Address:"
-msgstr ""
+msgstr "Poštovní adresa:"
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr ""
+msgstr "Stát:"
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
-msgstr ""
+msgstr "IRC:"
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr ""
+msgstr "PGP klíč:"
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr ""
+msgstr "Veřejný SSH klíč:"
 
 #: fas/templates/user/view.html:68
 msgid "Comments:"
-msgstr ""
+msgstr "Poznámky:"
 
 #: fas/templates/user/view.html:74
 msgid "Password:"
-msgstr ""
+msgstr "Heslo:"
 
 #: fas/templates/user/view.html:75
 msgid "Valid"
-msgstr ""
+msgstr "Platný"
 
 #: fas/templates/user/view.html:78
 msgid "Account Status:"
-msgstr ""
+msgstr "Status účtu:"
 
 #: fas/templates/user/view.html:81
 msgid "Active"
-msgstr ""
+msgstr "Aktivní"
 
 #: fas/templates/user/view.html:82
 msgid "Vacation"
-msgstr ""
+msgstr "Opuštěný"
 
 #: fas/templates/user/view.html:83
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivní"
 
 #: fas/templates/user/view.html:84
 msgid "Pinged"
-msgstr ""
+msgstr "Ping"
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
-msgstr ""
+msgstr "Zrušený"
 
 #: fas/templates/user/view.html:90
 msgid "CLA:"
-msgstr ""
+msgstr "CLA:"
 
 #: fas/templates/user/view.html:93
 msgid "Reject CLA"
-msgstr ""
+msgstr "Odmítnout CLA"
 
 #: fas/templates/user/view.html:95
 msgid "Complete it!"
-msgstr ""
+msgstr "Vyplnit!"
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
-msgstr ""
+msgstr "Soukromí:"
 
 #: fas/templates/user/view.html:106
 msgid "Your Roles"
-msgstr ""
+msgstr "Vaše role"
 
 #: fas/templates/user/view.html:107
 #, python-format
 msgid "%s's Roles"
-msgstr ""
+msgstr "Roles %s"
 
 #: fas/templates/user/view.html:124
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: fas/templates/user/view.html:130
 msgid "Tools:"
-msgstr ""
+msgstr "Nástroje:"
 
 #: fas/templates/user/view.html:134
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "Pozvat nového člena"
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "Členové skupiny"
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "Detaily skupiny"
 
 #: fas/templates/user/view.html:140
 msgid "Queue:"
-msgstr ""
+msgstr "Fronta:"
 
 #: fas/templates/user/view.html:144
 #, python-format
@@ -2119,4 +2238,5 @@ msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
 msgstr ""
-
+"<strong>%(user)s</strong> požadoval přijetí do "
+"<strong>%(unapproved_role.group)s</strong>."

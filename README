@@ -36,6 +36,11 @@ sqlalchemy-migrate will need to be installed.  To do so, run:
 
  sudo yum -y install python-migrate
 
+(Since I don't trust this yet,  the latest change will need to add:
++    invite_only BOOLEAN DEFAULT FALSE,
+to the groups table.  There is a migrate script checked in.  Need to verify
+that it works and that we'll do that.)
+
 0.8.4 => 0.8.5
 ==============
 
@@ -82,14 +87,14 @@ Before you can get started, make sure to have the following packages installed
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
   python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
-  python-fedora python-migrate python-memcached python-tgcaptcha
+  python-fedora python-migrate python-memcached python-tgcaptcha pyOpenSSL gettext
 
   # Note: on RHEL5 you need postgresql-pl instead of postgresql-plpython
 
   yum install git-core postgresql-pl postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
   python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
-  python-fedora python-migrate python-memcached python-tgcaptcha
+  python-fedora python-migrate python-memcached python-tgcaptcha pyOpenSSL gettext
 
 At present, the database needs to be a postgres database since we use triggers
 to manage some of the data (like syncing accounts with bugzilla).

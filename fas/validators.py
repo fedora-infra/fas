@@ -95,7 +95,7 @@ class ValidGroupType(validators.FancyValidator):
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
-        if value not in ('system', 'bugzilla', 'cvs', 'bzr', 'git', \
+        if value not in ('system', 'bugzilla', 'cla', 'cvs', 'bzr', 'git', \
             'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
             'tracking', 'user'):
             raise validators.Invalid(self.message('invalid_type', state, type=value),

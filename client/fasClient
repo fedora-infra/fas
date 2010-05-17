@@ -311,8 +311,14 @@ class MakeShellAccounts(AccountSystem):
                 else:
                     users[uid] = {}
                     users[uid]['shell'] = config.get('users', 'ssh_restricted_shell').strip('"')
-                    users[uid]['ssh_cmd'] = ''
-                    users[uid]['ssh_options'] = ''
+                    try:
+                        users[uid]['ssh_cmd'] = config.get('users', 'ssh_admin_app').strip('"')
+                    except ConfigParser.NoOptionError:
+                        users[uid]['ssh_cmd'] = ''
+                    try:
+                        users[uid]['ssh_options'] = config.get('users', 'ssh_admin_options').strip('"')
+                    except ConfigParser.NoOptionError:
+                        users[uid]['ssh_options'] = ''
         return users
 
     def passwd_text(self, users):
