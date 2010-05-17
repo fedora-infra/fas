@@ -221,7 +221,7 @@ class Group(controllers.Controller):
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupCreate())
     @error_handler(error) # pylint: disable-msg=E0602
-    @expose(template="fas.templates.group.new")
+    @expose(template="fas.templates.group.new", allow_json=True)
     def create(self, name, display_name, owner, group_type, 
                needs_sponsor=0, user_can_remove=1, prerequisite='', 
                joinmsg='', apply_rules='None'):
