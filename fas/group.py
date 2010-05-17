@@ -130,7 +130,7 @@ class Group(controllers.Controller):
         return 'tg_format' in cherrypy.request.params and \
                 cherrypy.request.params['tg_format'] == 'json'
 
-    @expose(template="fas.templates.error")
+    @expose(template="fas.templates.error", allow_json=True)
     def error(self, tg_errors=None):
         '''Show a friendly error message'''
         if not tg_errors:
