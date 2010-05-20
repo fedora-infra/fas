@@ -27,6 +27,8 @@ class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
 turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
+turbogears.config.update({'global': {'autoreload.on': False}})
+turbogears.config.update({'global': {'server.log_to_screen': False}})
 
 turbogears.startup.call_on_startup.append(fedora.tg.tg1utils.enable_csrf)
 
@@ -56,15 +58,15 @@ def fake_call(self, environ, start_response):
     # XXX: Legacy support for Paste restorer
     environ['weberror.evalexception'] = environ['paste.evalexception'] = \
         self
-    # UGH, this is hideous:
-    environ['PATH_INFO_OLD'] = environ['PATH_INFO']
+
     environ['SCRIPT_NAME'] = '/accounts'
-    environ['PATH_INFO'] = environ['PATH_INFO'].split('/', 2)[-1]
     req = Request(environ)
-    if req.path_info_peek() == '_debug':
+
+    # PATCH: Remove the /accounts component
+    if req.path_info.lstrip('/').split('/')[1] == '_debug':
+        req.path_info_pop()
         return self.debug(req)(environ, start_response)
     else:
-        environ['PATH_INFO'] = environ['PATH_INFO_OLD']
         return self.respond(environ, start_response)
 
 # Uncomment these lines (and the above weberror import) to use weberror
