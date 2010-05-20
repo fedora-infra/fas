@@ -29,7 +29,7 @@ pkg_resources.require("TurboGears")
 
 import turbogears
 import cherrypy
-import fedora.tg.util
+import fedora.tg.tg1utils
 
 cherrypy.lowercase_api = True
 
@@ -48,7 +48,7 @@ turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 def start():
     '''Start the CherryPy application server.'''
-    turbogears.startup.call_on_startup.append(fedora.tg.util.enable_csrf)
+    turbogears.startup.call_on_startup.append(fedora.tg.tg1utils.enable_csrf)
     setupdir = os.path.dirname(os.path.dirname(__file__))
     curdir = os.getcwd()
 

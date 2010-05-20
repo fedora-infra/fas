@@ -34,7 +34,7 @@ from turbogears import validate, validators, controllers, expose, flash, \
         error_handler, identity, redirect
 from turbogears.database import session
 
-from fedora.tg.util import request_format
+from fedora.tg.tg1utils import request_format
 
 from fas.model import Configs, People
 from fas.validators import KnownUser

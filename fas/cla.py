@@ -33,7 +33,7 @@ from datetime import datetime
 import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
 
-from fedora.tg.util import request_format
+from fedora.tg.tg1utils import request_format
 
 from fas.model import People, Groups, Log
 from fas.auth import is_admin, cla_done

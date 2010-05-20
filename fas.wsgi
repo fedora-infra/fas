@@ -16,7 +16,7 @@ import cherrypy
 import cherrypy._cpwsgi
 import turbogears
 import turbogears.startup
-import fedora.tg.util
+import fedora.tg.tg1utils
 
 class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
     def before_main(self):
@@ -28,7 +28,7 @@ turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
 
-turbogears.startup.call_on_startup.append(fedora.tg.util.enable_csrf)
+turbogears.startup.call_on_startup.append(fedora.tg.tg1utils.enable_csrf)
 
 import fas.controllers
 

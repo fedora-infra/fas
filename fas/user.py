@@ -51,7 +51,7 @@ from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select, and_, not_
 
-from fedora.tg.util import request_format
+from fedora.tg.tg1utils import request_format
 
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
