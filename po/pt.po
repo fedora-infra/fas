@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2010-06-07 00:09+0000\n"
+"PO-Revision-Date: 2010-06-07 00:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: fas/auth.py:285
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
+msgstr "É necessária a adesão a %s antes de aderir a este grupo."
 
 #: fas/cla.py:139
 msgid "You are not allowed to reject CLAs."
@@ -158,40 +158,40 @@ msgstr ""
 #: fas/group.py:269
 #, python-format
 msgid "The group: '%s' has been created."
-msgstr ""
+msgstr "O grupo '%s' foi criado."
 
 #: fas/group.py:284 fas/group.py:302
 #, python-format
 msgid "You cannot edit '%s'."
-msgstr ""
+msgstr "Não lhe é permitido editar '%s'."
 
 #: fas/group.py:327
 msgid "The group details could not be saved."
-msgstr ""
+msgstr "Não foi possível guardar os detalhes do grupo."
 
 #: fas/group.py:331
 msgid "The group details have been saved."
-msgstr ""
+msgstr "Os detalhes do grupo foram guardados."
 
 #: fas/group.py:360
 #, python-format
 msgid "No Groups found matching '%s'"
-msgstr ""
+msgstr "Não foram encontrados grupos com a cadeia de pesquisa '%s'"
 
 #: fas/group.py:385 fas/group.py:407
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
-msgstr ""
+msgstr "O utilizador %(user)s não pode aderir a %(group)s."
 
 #: fas/group.py:415
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr ""
+msgstr "O utilizador %(user)s não pode aderir a %(group)s: %(error)s"
 
 #: fas/group.py:440
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr "Adesão ao grupo '%(group)s"
 
 #: fas/group.py:442
 #, python-format
@@ -201,61 +201,65 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"Obrigado por aderir ao grupo %(group)s. \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:456
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
-msgstr ""
+msgstr "%(user)s solicitou a adesão a %(group)s!"
 
 #: fas/group.py:473
 #, python-format
 msgid "You cannot sponsor '%s'"
-msgstr ""
+msgstr "Não lhe é permitido patrocinar '%s'"
 
 #: fas/group.py:480
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
-msgstr ""
+msgstr "O utilizador %(user)s não pôde ser patrocinado no grupo %(group)s: %(error)s"
 
 #: fas/group.py:496
 #, python-format
 msgid "'%s' has been sponsored!"
-msgstr ""
+msgstr "'%s' foi patrocinado!"
 
 #: fas/group.py:513
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
-msgstr ""
+msgstr "Não lhe é permitido remover '%(user)s' de '%(group)s'."
 
 #: fas/group.py:521
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
-msgstr ""
+msgstr "O utilizador %(user)s não pôde ser removido de %(group)s: %(error)s"
 
 #: fas/group.py:538
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
-msgstr ""
+msgstr "%(name)s foi removido de %(group)s"
 
 #: fas/group.py:556
 #, python-format
 msgid "You cannot upgrade '%s'"
-msgstr ""
+msgstr "Não lhe é permitido fazer upgrade a '%s'"
 
 #: fas/group.py:563
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "Não foi possível fazer o upgrade a %(name)s nos grupos %(group)s: %(error)s"
 
 #: fas/group.py:585
 #, python-format
 msgid "%s has been upgraded!"
-msgstr ""
+msgstr "Foi feito o upgrade a %s!"
 
 #: fas/group.py:601
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr ""
+msgstr "Não lhe é permitido fazer downgrade a '%s'"
 
 #: fas/group.py:608
 #, python-format
