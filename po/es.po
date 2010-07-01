@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Fedora Account System (FAS) 2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2009-08-09 13:36-0600\n"
-"Last-Translator: Jorge A Gallegos <kad@blegh.net>\n"
+"PO-Revision-Date: 2010-06-10 10:20-0300\n"
+"Last-Translator: Claudio Rodrigo Pereyra Diaz <claudio@pereyradiaz.com.ar>\n"
 "Language-Team: Fedora Spanish <fedora-trans-es@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,11 +61,11 @@ msgstr "Para completar el CLA, requerimos su nombre, número telefónico, direcc
 
 #: fas/cla.py:245
 msgid "To complete the CLA, a valid country code must be specified.  Please select one now."
-msgstr "Para completar el CLA se debe especificar un código de páis válido.  Por favor seleccione uno ahora."
+msgstr "Para completar el CLA se debe especificar un código de país válido.  Por favor seleccione uno ahora."
 
 #: fas/cla.py:248
 msgid "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", or \" \".  Please reenter using only those characters."
-msgstr "Los números telefónicos solo pueden contener números, \"-\", \"+\", \"(\", \")\", o \" \".  Por favor ingrese nuemavente la información utilizando solamente estos caracteres."
+msgstr "Los números telefónicos solo pueden contener números, \"-\", \"+\", \"(\", \")\", o \" \".  Por favor ingrese nuevamente la información utilizando solamente estos caracteres."
 
 #: fas/cla.py:262
 #: fas/cla.py:274
@@ -355,7 +355,7 @@ msgstr "ID de su clave GPG"
 
 #: fas/help.py:31
 msgid "<p>A GPG key is generally used to prove that a message or email came from you or to encrypt information so that only the recipients can read it.  This can be used when a password reset is sent to your email.</p>"
-msgstr "<p>Una clave GPG se utiliza generalmente para validar que usted sea el remitente de un mensaje de correo o para encriptar la información contenida en el mismo de manera que solamente los destinatarios puedan leerlo.  La llave puede ser usada cuando se le envía por correo electrónico la restauración de su contraseña.</p>"
+msgstr "<p>Una clave GPG se utiliza generalmente para validar que usted sea el remitente de un mensaje de correo o para crifrar la información contenida en el mismo de manera que solamente los destinatarios puedan leerlo.  La llave puede ser usada cuando se le envía por correo electrónico la restauración de su contraseña.</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
@@ -364,7 +364,7 @@ msgstr "Teléfono"
 #: fas/help.py:32
 #: fas/help.py:40
 msgid "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Sometimes during a time of emergency someone from the Fedora Project may need to contact you.  For more information see our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
-msgstr "<p>Es obligatorio para poder completar el <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Es posible que en alguna oportunidad, debido a una emergencia, alguién del proyecto Fedora necesite contactarle.  Para mayor información revise nuestras <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Políticas de Privacidad</a></p>"
+msgstr "<p>Es obligatorio para poder completar el <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Es posible que en alguna oportunidad, debido a una emergencia, alguien del proyecto Fedora necesite contactarle.  Para mayor información revise nuestras <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Políticas de Privacidad</a></p>"
 
 #: fas/help.py:33
 #: fas/templates/cla/index.html:50
@@ -445,7 +445,7 @@ msgstr "Ocultar Información"
 
 #: fas/help.py:42
 msgid "<p>In accordance with our privacy policy, you can choose to hide some of the information given on this page from other people.  Please see the privacy policy for complete details.</p>"
-msgstr "<p>De acuerdo con nuestra política de privacidad, puede escoger esconder algunos de los datos llenados aqui de otras personas. Por favor, vea la política de privacidad para detalles completos.</p>"
+msgstr "<p>De acuerdo con nuestra política de privacidad, puede escoger esconder algunos de los datos llenados aquí de otras personas. Por favor, vea la política de privacidad para detalles completos.</p>"
 
 #: fas/help.py:43
 #: fas/templates/group/list.html:43
@@ -491,7 +491,7 @@ msgstr "Aprobar"
 
 #: fas/help.py:47
 msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
-msgstr "<p>Un patrocinador o administrador puede abrobar el ingreso de los usuarios a un grupo.  Una vez que el usuario se haya postulado al grupo, visite la página del grupo y haga click sobre Aprobar para aprobar el ingreso del usuario.</p>"
+msgstr "<p>Un patrocinador o administrador puede aprobar el ingreso de los usuarios a un grupo.  Una vez que el usuario se haya postulado al grupo, visite la página del grupo y haga click sobre Aprobar para aprobar el ingreso del usuario.</p>"
 
 #: fas/help.py:48
 #: fas/templates/group/member-list.html:15
@@ -501,7 +501,7 @@ msgstr "Patrocinar"
 
 #: fas/help.py:48
 msgid "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>"
-msgstr "<p>Un patrocionador o un administrador pueden patrocinar el ingreso de los usuarios a un grupo.  Una vez que el usuario haya postulado al grupo, visite la página del grupo y haga click sobre Aprobar para patrocinar al usuario.  Patrocinar a un usuario implica que usted lo aprueba y puede encargarse de guiarlo y de contestar las preguntas que puedan surgir.</p>"
+msgstr "<p>Un patrocionador o un administrador pueden patrocinar el ingreso de los usuarios a un grupo.  Una vez que el usuario haya postulado al grupo, visite la página del grupo y haga clic sobre Aprobar para patrocinar al usuario.  Patrocinar a un usuario implica que usted lo aprueba y puede encargarse de guiarlo y de contestar las preguntas que puedan surgir.</p>"
 
 #: fas/help.py:49
 msgid "Add User"
@@ -542,7 +542,7 @@ msgstr "Tipo de Grupo"
 
 #: fas/help.py:53
 msgid "<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>"
-msgstr "<p>Normalmente es acepable dejar este campo en blanco.  Sin embargo algunos valores posibles son 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', y 'mtn'.  Este valor es importante solamente si el grupo necesitará acceso a la consola o permiso de commit en algún momento como es el caso de fedorahosted.</p>"
+msgstr "<p>Normalmente es aceptable dejar este campo en blanco.  Sin embargo algunos valores posibles son 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', y 'mtn'.  Este valor es importante solamente si el grupo necesitará acceso a la consola o permiso de commit en algún momento como es el caso de fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
@@ -709,7 +709,7 @@ msgstr "Los detalles de su cuenta no pudieron ser guardados: %s"
 #: fas/user.py:320
 #, python-format
 msgid "Fedora Account Data Update %s"
-msgstr "Actualizacion de Datos de la Cuenta Fedora %s"
+msgstr "Actualización de Datos de la Cuenta Fedora %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
@@ -823,7 +823,7 @@ msgstr ""
 "para cambiarla.\n"
 "\n"
 "Bienvenido/a al Proyecto Fedora. Ahora que usted se ha registrado\n"
-"probablemente esté ansioso por iniciar su contribución y basándos\n"
+"probablemente esté ansioso por iniciar su contribución y basándose\n"
 "en ello esperamos que este mensaje lo guíe en la dirección correcta para\n"
 "que el proceso sea lo más sencillo posible.\n"
 "\n"
@@ -842,7 +842,7 @@ msgstr ""
 "\n"
 "Uno de los más importantes es que se inscriba en la lista de correo del\n"
 "equipo o del proyecto en el que está interesado y si está interesado en\n"
-"más de uno de los grupos de trabajo sientase en total libertad de\n"
+"más de uno de los grupos de trabajo siéntase en total libertad de\n"
 "inscribirse en tantas listas de correo como usted quiera!  Esto es\n"
 "importante porque las listas de correo son el lugar en el que la mayoría\n"
 "del trabajo se organiza y donde las tareas son asignadas, de manera que\n"
@@ -909,7 +909,7 @@ msgstr ""
 
 #: fas/user.py:760
 msgid "This user does not have a GPG Key ID set, so an encrypted email cannot be sent."
-msgstr "Este usuario no tiene un ID de clave GPG registrada, por lo que no se le puede enviar un correo encriptado."
+msgstr "Este usuario no tiene un ID de clave GPG registrada, por lo que no se le puede enviar un correo crifrado."
 
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
@@ -917,7 +917,7 @@ msgstr "Su clave no pudo ser recuperada de subkeys.pgp.net"
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
-msgstr "El correo de restablecimiento de su contraseña no pudo ser encriptado."
+msgstr "El correo de restablecimiento de su contraseña no pudo ser crifrado."
 
 #: fas/user.py:788
 msgid "Fedora Project Password Reset"
@@ -1063,7 +1063,7 @@ msgstr "Usuarios, Patrocinadores y Administradores"
 
 #: fas/templates/about.html:15
 msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the distinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
-msgstr "Una vez que usted esté en un grupo, usted será un mienbro de él.  Los Patrocinadores y Administradores tienen privilegios especiales al interior del grupo.  Algunos grupos consideran que el ser patrocinador implica una mayor dedicación y participación en el mismo, por ejemplo como co-dueño del grupo.  Sin embargo, en lo que respecta al sistema de cuentas la diferencia es muy sencilla.  Los patrocinadores pueden aprobar nuevos usuarios y promover a los miembros como patrocinadores.  A la vez, los patrocinadores no pueden bajar de nivel o eliminar otros patrocinadores.  Tampoco pueden modificar de ninguna manera a los administradores.  Los administradores pueden hacer cualquier modificación a cualquiera de los miembros del grupo."
+msgstr "Una vez que usted esté en un grupo, usted será un miembro de él.  Los Patrocinadores y Administradores tienen privilegios especiales al interior del grupo.  Algunos grupos consideran que el ser patrocinador implica una mayor dedicación y participación en el mismo, por ejemplo como co-dueño del grupo.  Sin embargo, en lo que respecta al sistema de cuentas la diferencia es muy sencilla.  Los patrocinadores pueden aprobar nuevos usuarios y promover a los miembros como patrocinadores.  A la vez, los patrocinadores no pueden bajar de nivel o eliminar otros patrocinadores.  Tampoco pueden modificar de ninguna manera a los administradores.  Los administradores pueden hacer cualquier modificación a cualquiera de los miembros del grupo."
 
 #: fas/templates/error.html:7
 #: fas/templates/home.html:7
@@ -1128,7 +1128,7 @@ msgstr "Proyectos"
 
 #: fas/templates/master.html:40
 msgid "Join Fedora"
-msgstr "Unase a Fedora"
+msgstr "Únase a Fedora"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
@@ -1349,11 +1349,11 @@ msgstr "Necesita Patrocinador:"
 #: fas/templates/group/new.html:38
 #: fas/templates/group/view.html:68
 msgid "Self Removal:"
-msgstr "Desinscripción personal:"
+msgstr "Quitar Suscripción:"
 
 #: fas/templates/group/edit.html:65
 msgid "Group Prerequisite:"
-msgstr "Prerequisito del Grupo:"
+msgstr "Requisito previo del Grupo:"
 
 #: fas/templates/group/edit.html:71
 msgid "Group Join Message:"
@@ -1419,7 +1419,7 @@ msgstr "Descripción"
 
 #: fas/templates/group/list.html:28
 msgid "Prerequisite"
-msgstr "Prerequisito"
+msgstr "Requisito previo"
 
 #: fas/templates/group/list.html:29
 #: fas/templates/user/edit.html:127
@@ -1565,7 +1565,7 @@ msgstr "No"
 
 #: fas/templates/group/view.html:73
 msgid "Prerequisite:"
-msgstr "Prerequisito:"
+msgstr "Requisito previo:"
 
 #: fas/templates/group/view.html:76
 msgid "Created:"
@@ -1607,7 +1607,7 @@ msgstr "El sitio web oficial de OpenID."
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr "¿Aprovar el Pedido de OpenID?"
+msgstr "¿Aprobar el Pedido de OpenID?"
 
 #: fas/templates/openid/authorizesite.html:13
 msgid "A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)"
@@ -1746,7 +1746,7 @@ msgstr "Generación del Certificado"
 
 #: fas/templates/user/gencert.html:15
 msgid "The link below allows you to generate a certificate to authenticate to Fedora's buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate."
-msgstr "El enlace de abajo le permite generar un certificado para autenticarte en los sistemas de construcción de Fedora. Por favor tenga en cuenta que puede tener un solo certificado válido. Una vez que generó un certificado nuevo, cualquier anterior será revocado. Si en este momento no esta trabajando con empaquetamiento en Fedora es probable que no necesite un certificado."
+msgstr "El enlace de abajo le permite generar un certificado para autenticar en los sistemas de construcción de Fedora. Por favor tenga en cuenta que puede tener un solo certificado válido. Una vez que generó un certificado nuevo, cualquier anterior será revocado. Si en este momento no esta trabajando empaquetando para Fedora es probable que no necesite un certificado."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
@@ -1787,7 +1787,7 @@ msgstr "No Completado"
 #: fas/templates/user/new.html:7
 #: fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr "Registrese para una cuenta de Fedora"
+msgstr "Registrar una cuenta de Fedora"
 
 #: fas/templates/user/new.html:13
 #: fas/templates/user/resetpass.html:13
@@ -1926,7 +1926,7 @@ msgstr "Rechazar CLA"
 
 #: fas/templates/user/view.html:95
 msgid "Complete it!"
-msgstr "¡Complételo!"
+msgstr "¡Complétalo!"
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
@@ -1973,21 +1973,27 @@ msgstr "<strong>%(user)s</strong> pide aprobación para ingresar <strong>%(unapp
 #~ msgid "Can the postal system really deliver to that address?"
 #~ msgstr ""
 #~ "¿Está seguro de que el correo postal podrá ser entregado en esa dirección?"
+
 #~ msgid "Welcome, %s"
 #~ msgstr "Bienvenido/a, %s"
+
 #~ msgid ""
 #~ "The credentials you supplied were not correct or did not grant access to "
 #~ "this resource."
 #~ msgstr ""
 #~ "Las credenciales que usted ha suministrado no son correctos o no le "
 #~ "permiten acceder a este recurso."
+
 #~ msgid "You must provide your credentials before accessing this resource."
 #~ msgstr ""
 #~ "Usted debe proveer sus credenciales antes de acceder a este recurso."
+
 #~ msgid "Please log in."
 #~ msgstr "Por favor ingrese."
+
 #~ msgid "You have successfully logged out."
 #~ msgstr "Usted se ha salido exitosamente."
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
@@ -2000,6 +2006,7 @@ msgstr "<strong>%(user)s</strong> pide aprobación para ingresar <strong>%(unapp
 #~ "debe\n"
 #~ "propagarse en los aliases de e-mail y el repositorio CVS en el transcurso "
 #~ "de una hora.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has removed you from the '%(group)s'\n"
@@ -2012,6 +2019,7 @@ msgstr "<strong>%(user)s</strong> pide aprobación para ingresar <strong>%(unapp
 #~ "del Sistema de Cuentas de Fedora. Este cambio tiene efecto\n"
 #~ "inmediatamente para nuevas operaciones y se debe propagar\n"
 #~ "en los aliases de e-mail en el transcurso de una hora.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has upgraded you to %(status)s status in the\n"
@@ -2024,6 +2032,7 @@ msgstr "<strong>%(user)s</strong> pide aprobación para ingresar <strong>%(unapp
 #~ "grupo '%(group)s' del Sistema de Cuentas de Fedora. Este cambio\n"
 #~ "tiene efecto inmediato para nuevas operaciones y debe propagarse\n"
 #~ "en los los aliases de e-mail en el transcurso de una hora.\n"
+
 #~ msgid ""
 #~ "\n"
 #~ "%(user)s <%(email)s> has downgraded you to %(status)s status in the\n"
@@ -2036,19 +2045,24 @@ msgstr "<strong>%(user)s</strong> pide aprobación para ingresar <strong>%(unapp
 #~ "grupo de '%(group)s' del Sistema de Cuentas de Fedora.  Este cambio\n"
 #~ "tiene efectividad inmediata para nuevas operaciones y se propagará\n"
 #~ "a los aliases de e-mail en el transcurso de una hora.\n"
+
 #~ msgid "Login"
 #~ msgstr "Ingreso"
+
 #~ msgid "User Name:"
 #~ msgstr "Nombre de Usuario:"
+
 #~ msgid "Forgot Password?"
 #~ msgstr "¿Olvidó su contraseña?"
+
 #~ msgid "Sign Up"
 #~ msgstr "Regístrese"
+
 #~ msgid "An account has already been registered with that email address."
 #~ msgstr ""
 #~ "Ya existe una cuenta registrada con esa dirección de correo electrónico."
+
 #~ msgid "Encrypt/Sign password reset email"
 #~ msgstr ""
 #~ "Encriptar/Firmar digitalmente el mensaje de reestablecimiento de la "
 #~ "contraseña"
-
