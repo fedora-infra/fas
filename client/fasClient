@@ -41,7 +41,20 @@ import ConfigParser
 from optparse import OptionParser
 
 from shutil import move, rmtree, copytree
-from rhpl.translate import _
+
+import gettext
+import locale
+try:
+    locale.setlocale(locale.LC_ALL, '')
+except locale.Error:
+    locale.setlocale(locale.LC_ALL, 'C')
+if os.path.isdir('po'):
+    t = gettext.translation('smolt', 'po', fallback = True)
+else:
+    t = gettext.translation('smolt', '/usr/share/locale', fallback = True)
+
+_ = t.gettext
+
 
 parser = OptionParser()
 
