@@ -44,6 +44,7 @@ Summary: Clients for the Fedora Account System
 Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
 Requires: rhpl authconfig
+Requires: nss_db
 
 %description clients
 Additional scripts that work as clients to the accounts system.
