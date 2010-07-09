@@ -53,9 +53,9 @@ import os
 import datetime
 
 try:
-      import cPickle as pickle
+    import cPickle as pickle
 except ImportError:
-      import pickle
+    import pickle
 
 class SQLAlchemyStorage:
     def __init__(self):
@@ -121,7 +121,9 @@ config.update({'i18n.get_locale': get_locale})
 
 
 def add_custom_stdvars(variables):
-  return variables.update({'gettext': _, "lang": get_locale(), 'available_languages': available_languages(), 'fas_version': release.VERSION})
+    return variables.update({'gettext': _, "lang": get_locale(),
+    'available_languages': available_languages(), 
+    'fas_version': release.VERSION})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
 # from fas import json
@@ -129,7 +131,8 @@ turbogears.view.variable_providers.append(add_custom_stdvars)
 # log = logging.getLogger("fas.controllers")
 
 #TODO: Appropriate flash icons for errors, etc.
-# mmcgrath wonders if it will be handy to expose an encrypted mailer with fas over json for our apps
+# mmcgrath wonders if it will be handy to expose an encrypted mailer with fas
+# over json for our apps
 
 class Root(plugin.RootController):
 
