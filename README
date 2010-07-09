@@ -181,7 +181,8 @@ Configure FAS Settings
 ======================
 
 The last thing to do is configure the application to use your settings.
-You'll need to edit fas.cfg and change the following lines::
+You'll need to rename fas.cfg-sample to fas.cfg and change the following
+lines::
   mail.on = False # Set to True if you want to test notification sending
   mail.server = 'localhost' # Your mail server
   # Fill in the password you gave in the createuser step and the db host if
