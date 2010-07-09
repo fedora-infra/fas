@@ -367,6 +367,10 @@ class People(SABase):
             if field not in person_data:
                 person_data[field] = None
 
+        person_data['group_roles'] = {}
+        for field in self.roles:
+            person_data['group_roles'][field.groupname] = field
+
         return person_data
 
     def __repr__(cls):
