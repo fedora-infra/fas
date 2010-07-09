@@ -65,7 +65,7 @@ auto_approve_groups = 'cvsextras:fedorabugs|cla_fedora:cla_done|cla_redhat:cla_d
 # (such as template engine, encodings, etc.) all go in 
 # fas/config/app.cfg
 
-mail.on = True
+mail.on = False
 mail.server = 'localhost'
 #mail.testmode = True
 mail.debug = False
@@ -80,7 +80,7 @@ mail.encoding = 'utf-8'
 
 # If you have sqlite, here's a simple default to get you started
 # in development
-sqlalchemy.dburi="postgres://fedora:test@localhost/fas2"
+sqlalchemy.dburi="postgres://fedora:fedora@localhost/fas2"
 #sqlalchemy.echo=True
 sqlalchemy.pool_size=1
 sqlalchemy.max_overflow=2
