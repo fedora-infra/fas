@@ -75,7 +75,8 @@ class UserSave(validators.Schema):
         validators.String(not_empty=True, max=42),
         validators.Regex(regex='^[^\n:<>]+$'),
         )
-    status = validators.OneOf(['active', 'inactive', 'expired', 'admin_disabled'])
+    status = validators.OneOf(['active', 'inactive', 'expired',
+        'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
     email = validators.All(
         validators.Email(not_empty=True, strip=True, max=128),
@@ -135,7 +136,8 @@ def generate_password(password=None, length=16):
         for char_num in xrange(length): # pylint: disable-msg=W0612
             password += random.choice(chars)
 
-    secret['hash'] = crypt.crypt(password.encode('utf-8'), "$1$%s" % generate_salt(8))
+    secret['hash'] = crypt.crypt(password.encode('utf-8'), "$1$%s" % \
+        generate_salt(8))
     secret['pass'] = password
 
     return secret
@@ -252,14 +254,17 @@ class User(controllers.Controller):
         emailflash = ''
 
         if not canEditUser(person, target):
-            turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
+            turbogears.flash(_("You do not have permission to edit '%s'") % \
+                target.username)
             turbogears.redirect('/user/view/%s', target.username)
             return dict()
         try:
             if target.status != status:
-                if (status in ('expired', 'admin_disabled') or target.status in ('expired', 'admin_disabled')) and \
+                if (status in ('expired', 'admin_disabled') or target.status \
+                    in ('expired', 'admin_disabled')) and \
                     not isAdmin(person):
-                    turbogears.flash(_('Only administrator can enable or disable an account.'))
+                    turbogears.flash(_(
+                        'Only admin can enable or disable an account.'))
                     return dict()
                 else:
                     # TODO: revoke cert
@@ -270,7 +275,8 @@ class User(controllers.Controller):
                             target.remove(group, person)
                         except fas.RemoveError:
                             pass
-                Log(author_id=person.id, description='%(person)s\'s status changed from %(old)s to %(new)s' % \
+                Log(author_id=person.id, description=
+                    '%(person)s\'s status changed from %(old)s to %(new)s' % \
                     {'person': target.username,
                      'old': target.status,
                      'new': status})
@@ -283,11 +289,14 @@ class User(controllers.Controller):
                     turbogears.flash(_('Somebody is already using that email address.'))
                     turbogears.redirect("/user/edit/%s" % target.username)
                     return dict()
-                emailflash = _('Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly.')
+                emailflash = _('Before your new email takes effect, you ' + \
+                    'must confirm it.  You should receive an email with ' + \
+                    'instructions shortly.')
                 token = generate_token()
                 target.unverified_email = email
                 target.emailtoken = token
-                change_subject = _('Email Change Requested for %s') % person.username
+                change_subject = _('Email Change Requested for %s') % \
+                    person.username
                 change_text = _('''
 You have recently requested to change your Fedora Account System email
 to this address.  To complete the email change, you must confirm your
@@ -313,11 +322,13 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
 #            target.set_share_cc(share_country_code)
 #            target.set_share_loc(share_location)
         except TypeError, e:
-            turbogears.flash(_('Your account details could not be saved: %s') % e)
+            turbogears.flash(_('Your account details could not be saved: %s')
+                % e)
             turbogears.redirect("/user/edit/%s" % target.username)
             return dict()
         else:
-            change_subject = _('Fedora Account Data Update %s') % target.username
+            change_subject = _('Fedora Account Data Update %s') % \
+                target.username
             change_text = '''
 You have just updated information about your account.  If you did not request
 these changes please contact admin@fedoraproject.org and let them know.  Your
@@ -349,7 +360,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
          'privacy'        : target.privacy,
          'ssh_key'        : target.ssh_key }
             send_mail(target.email, change_subject, change_text)
-            turbogears.flash(_('Your account details have been saved.') + '  ' + emailflash)
+            turbogears.flash(_('Your account details have been saved.') + \
+                '  ' + emailflash)
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
@@ -367,12 +379,15 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
 
         for group_type in groups_to_return_list:
             if group_type.startswith('@'):
-                group_list = Groups.query.filter(Groups.group_type.in_([group_type.strip('@')]))
+                group_list = Groups.query.filter(Groups.group_type.in_(
+                    [group_type.strip('@')]))
                 for group in group_list:
                     groups_to_return.append(group.name)
             else:
                 groups_to_return.append(group_type)
-        people = People.query.join('roles').filter(PersonRoles.role_status=='approved').join(PersonRoles.group).filter(Groups.name.in_( groups_to_return ))
+        people = People.query.join('roles').filter(
+            PersonRoles.role_status=='approved').join(
+            PersonRoles.group).filter(Groups.name.in_( groups_to_return ))
 
         # p becomes what we send back via json
         p = []
@@ -519,7 +534,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         person = People.by_username(username)
         if cancel:
             person.emailtoken = ''
-            turbogears.flash(_('Your pending email change has been canceled.  The email change token has been invalidated.'))
+            turbogears.flash(_('Your pending email change has been canceled.'+\
+            '   The email change token has been invalidated.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
         if not person.unverified_email:
@@ -550,10 +566,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         ''' Log this '''
         oldEmail = person.email
         person.email = person.unverified_email
-        Log(author_id=person.id, description='Email changed from %s to %s' % (oldEmail, person.email))
+        Log(author_id=person.id, description='Email changed from %s to %s' %
+            (oldEmail, person.email))
         person.unverified_email = ''
         session.flush()
-        turbogears.flash(_('You have successfully changed your email to \'%s\'') % person.email)
+        turbogears.flash(_('You have successfully changed your email to \'%s\''
+            ) % person.email)
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
@@ -578,37 +596,55 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
-            turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
+            turbogears.flash(_("We're sorry but out of special concern " +    \
+            "for children's privacy, we do not knowingly accept online " +    \
+            "personal information from children under the age of 13. We " +   \
+            "do not knowingly allow children under the age of 13 to become " +\
+            "registered members of our sites or buy products and services " + \
+            "on our sites. We do not knowingly collect or solicit personal " +\
+            "information about children under 13."))
             turbogears.redirect('/')
         test = select([PeopleTable.c.username], 
                       func.lower(PeopleTable.c.email)==email.lower())\
                     .execute().fetchall()
         if test:
-            turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
+            turbogears.flash(_("Sorry.  That email address is already in " + \
+                "use. Perhaps you forgot your password?"))
             turbogears.redirect("/")
             return dict()
         try:
             person = self.create_user(username, human_name, email, telephone, 
                              postal_address, age_check)
         except IntegrityError:
-            turbogears.flash(_("Your account could not be created.  Please contact %s for assistance.") % config.get('accounts_email'))
+            turbogears.flash(_("Your account could not be created.  Please " + \
+                "contact %s for assistance.") % config.get('accounts_email'))
             turbogears.redirect('/user/new')
             return dict()
         else:
-            Log(author_id=person.id, description='Account created: %s' % person.username)
-            turbogears.flash(_('Your password has been emailed to you.  Please log in with it and change your password'))
+            Log(author_id=person.id, description='Account created: %s' %
+                person.username)
+            turbogears.flash(_('Your password has been emailed to you.  ' + \
+                'Please log in with it and change your password'))
             turbogears.redirect('/user/changepass')
             return dict()
 
-    def create_user(self, username, human_name, email, telephone=None, postal_address=None, age_check=False, redirect='/'):
+    def create_user(self, username, human_name, email, telephone=None,
+        postal_address=None, age_check=False, redirect='/'):
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
-            turbogears.flash(_("We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."))
+            turbogears.flash(_("We're sorry but out of special concern " +    \
+            "for children's privacy, we do not knowingly accept online " +    \
+            "personal information from children under the age of 13. We " +   \
+            "do not knowingly allow children under the age of 13 to become " +\
+            "registered members of our sites or buy products and services " + \
+            "on our sites. We do not knowingly collect or solicit personal " +\
+            "information about children under 13."))
             turbogears.redirect(redirect)
         test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
         if test:
-            turbogears.flash(_("Sorry.  That email address is already in use. Perhaps you forgot your password?"))
+            turbogears.flash(_("Sorry.  That email address is already in " + \
+                "use. Perhaps you forgot your password?"))
             turbogears.redirect(redirect)
             return dict()
         person = People()
@@ -677,13 +713,14 @@ forward to working with you!
     @validate(validators=UserSetPassword())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")
-    def setpass(self, currentpassword, password, passwordcheck): # pylint: disable-msg=W0613
+    def setpass(self, currentpassword, password, passwordcheck):
         username = identity.current.user_name
         person  = People.by_username(username)
 
 #        current_encrypted = generate_password(currentpassword)
 #        print "PASS: %s %s" % (current_encrypted, person.password)
-        if not person.password == crypt.crypt(currentpassword.encode('utf-8'), person.password):
+        if not person.password == crypt.crypt(currentpassword.encode('utf-8'),
+                person.password):
             turbogears.flash('Your current password did not match')
             return dict()
         # TODO: Enable this when we need to.
@@ -730,11 +767,16 @@ forward to working with you!
             turbogears.flash(_("username + email combo unknown."))
             return dict()
         if person.status in ('expired', 'admin_disabled'):
-            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
-                {'status': person.status, 'admin_email': config.get('accounts_email')})
+            turbogears.flash(_("Your account currently has status " + \
+                "%(status)s.  For more information, please contact " + \
+                "%(admin_email)s") % \
+                {'status': person.status,
+                    'admin_email': config.get('accounts_email')})
             return dict()
         if person.status == ('bot'):
-            turbogears.flash(_('System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset') % \
+            turbogears.flash(_('System accounts cannot have their ' + \
+                'passwords reset online.  Please contact %(admin_email)s' + \
+                'to have it reset') % \
                     {'admin_email': config.get('accounts_email')})
             reset_subject = 'Warning: attempted reset of system account'
             reset_text = '''
@@ -757,11 +799,14 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             # TODO: MIME stuff?
             keyid = re.sub('\s', '', person.gpg_keyid)
             if not keyid:
-                turbogears.flash(_("This user does not have a GPG Key ID set, so an encrypted email cannot be sent."))
+                turbogears.flash(_("This user does not have a GPG Key ID " +\
+                    "set, so an encrypted email cannot be sent."))
                 return dict()
-            ret = subprocess.call([config.get('gpgexec'), '--keyserver', config.get('gpg_keyserver'), '--recv-keys', keyid])
+            ret = subprocess.call([config.get('gpgexec'), '--keyserver',
+                config.get('gpg_keyserver'), '--recv-keys', keyid])
             if ret != 0:
-                turbogears.flash(_("Your key could not be retrieved from subkeys.pgp.net"))
+                turbogears.flash(_(
+                    "Your key could not be retrieved from subkeys.pgp.net"))
                 turbogears.redirect('/user/resetpass')
                 return dict()
             else:
@@ -771,10 +816,12 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     ciphertext = StringIO.StringIO()
                     ctx = gpgme.Context()
                     ctx.armor = True
-                    signer = ctx.get_key(re.sub('\s', '', config.get('gpg_fingerprint')))
+                    signer = ctx.get_key(re.sub('\s', '',
+                        config.get('gpg_fingerprint')))
                     ctx.signers = [signer]
                     recipient = ctx.get_key(keyid)
-                    def passphrase_cb(uid_hint, passphrase_info, prev_was_bad, fd):
+                    def passphrase_cb(uid_hint, passphrase_info,
+                            prev_was_bad, fd):
                         os.write(fd, '%s\n' % config.get('gpg_passphrase'))
                     ctx.passphrase_cb = passphrase_cb
                     ctx.encrypt_sign([recipient],
@@ -783,11 +830,13 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                         ciphertext)
                     mail = ciphertext.getvalue()
                 except:
-                    turbogears.flash(_('Your password reset email could not be encrypted.'))
+                    turbogears.flash(_(
+                        'Your password reset email could not be encrypted.'))
                     return dict()
         send_mail(email, _('Fedora Project Password Reset'), mail)
         person.passwordtoken = token
-        Log(author_id=person.id, description='Password reset sent for %s' % person.username)
+        Log(author_id=person.id,
+            description='Password reset sent for %s' % person.username)
         turbogears.flash(_('A password reset URL has been emailed to you.'))
         turbogears.redirect('/login')  
         return dict()
@@ -798,11 +847,13 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     def verifypass(self, username, token, cancel=False):
         person = People.by_username(username)
         if person.status in ('expired', 'admin_disabled'):
-            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
-                {'status': person.status, 'admin_email': config.get('accounts_email')})
+            turbogears.flash(_("Your account currently has status " + \
+                "%(status)s.  For more information, please contact " + \
+                "%(admin_email)s") % {'status': person.status,
+                 'admin_email': config.get('accounts_email')})
             return dict()
         if not person.passwordtoken:
-            turbogears.flash(_('You do not have any pending password changes.'))
+            turbogears.flash(_("You don't have any pending password changes."))
             turbogears.redirect('/login')
             return dict()
         if person.passwordtoken != token:
@@ -811,8 +862,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             return dict()
         if cancel:
             person.passwordtoken = ''
-            Log(author_id=person.id, description='Password reset cancelled for %s' % person.username)
-            turbogears.flash(_('Your password reset has been canceled.  The password change token has been invalidated.'))
+            Log(author_id=person.id,
+                description='Password reset cancelled for %s' %
+                person.username)
+            turbogears.flash(_('Your password reset has been canceled.  ' + \
+                'The password change token has been invalidated.'))
             turbogears.redirect('/login')
             return dict()
         person = person.filter_private()
@@ -824,8 +878,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
         if person.status in ('expired', 'admin_disabled'):
-            turbogears.flash(_("Your account currently has status %(status)s.  For more information, please contact %(admin_email)s") % \
-                {'status': person.status, 'admin_email': config.get('accounts_email')})
+            turbogears.flash(_("Your account currently has status " + \
+                "%(status)s.  For more information, please contact " + \
+                "%(admin_email)s") % \
+                {'status': person.status,
+                    'admin_email': config.get('accounts_email')})
             return dict()
 
         if not person.passwordtoken:
@@ -844,8 +901,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             # Check that the password has changed.
             import crypt
             if person.old_password:
-                if crypt.crypt(password.encode('utf-8'), person.old_password) == person.old_password:
-                    turbogears.flash(_('Your password can not be the same as your old password.'))
+                if crypt.crypt(password.encode('utf-8'), person.old_password) \
+                    == person.old_password:
+                    turbogears.flash(_('Your password can not be the same ' + \
+                        'as your old password.'))
                     return dict(person=person, token=token)
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
@@ -859,7 +918,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         Log(author_id=person.id, description='Password changed')
         session.flush()
 
-        turbogears.flash(_('You have successfully reset your password.  You should now be able to login below.'))
+        turbogears.flash(_('You have successfully reset your password.  ' + \
+            'You should now be able to login below.'))
         turbogears.redirect('/login')
         return dict()
 
@@ -869,8 +929,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         return dict()
 
     @identity.require(identity.not_anonymous())
-    @expose(template="genshi:fas.templates.user.gencertdisabled", allow_json=True, content_type='text/html')
-    @expose(template="genshi-text:fas.templates.user.cert", format="text", content_type='application/x-x509-user-cert', allow_json=True)
+    @expose(template="genshi:fas.templates.user.gencertdisabled",
+        allow_json=True, content_type='text/html')
+    @expose(template="genshi-text:fas.templates.user.cert", format="text",
+        content_type='application/x-x509-user-cert', allow_json=True)
     def dogencert(self):
         from cherrypy import response, request
         if not config.get('gencert', False):
@@ -883,7 +945,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         if not CLADone(person):
             if self.jsonRequest():
                 return dict(cla=False)
-            turbogears.flash(_('Before generating a certificate, you must first complete the CLA.'))
+            turbogears.flash(_('Before generating a certificate, you must ' + \
+                'first complete the CLA.'))
             turbogears.redirect('/cla/')
             return dict()
 
@@ -937,7 +1000,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     # revoke old certs
                     subprocess.call([config.get('makeexec'), '-C',
                         config.get('openssl_ca_dir'), 'revoke',
-                        'cert=%s/%s' % (config.get('openssl_ca_newcerts'), serial + '.pem')])
+                        'cert=%s/%s' % (config.get('openssl_ca_newcerts'),
+                        serial + '.pem')])
 
             certfile = tempfile.NamedTemporaryFile()
             command = [config.get('makeexec'), '-C',
@@ -958,7 +1022,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
         cherrypy.request.headers['Accept'] = 'text'
 
-        gencert_subject = 'A new certificate has been generated for %s' % person.username
+        gencert_subject = 'A new certificate has been generated for %s' % \
+            person.username
         gencert_text = '''
 You havet generated a new SSL certificate.  If you did not request this,
 please cct admin@fedoraproject.org and let them know.
@@ -967,7 +1032,8 @@ Note thal certificates generated prior to the current one have been
 automatiy revoked, and should stop working within the hour.
 '''
         send_mail(person.email, gencert_subject, gencert_text)
-        Log(author_id=person.id, description='Certificate generated for %s' % person.username)
+        Log(author_id=person.id, description='Certificate generated for %s' %
+            person.username)
         return dict(tg_template="genshi-text:fas.templates.user.cert",
                 cla=True, cert=certdump, key=keydump)
 
