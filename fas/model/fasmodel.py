@@ -371,6 +371,8 @@ class People(SABase):
         for field in self.roles:
             person_data['group_roles'][field.groupname] = field
 
+        person_data['memberships'] = self.memberships
+
         return person_data
 
     def __repr__(cls):
