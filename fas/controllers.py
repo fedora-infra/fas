@@ -168,7 +168,7 @@ class Root(plugin.RootController):
         cla = CLADone(person)
 
 	# Disabled for now for testing
-	turbogears.flash('HEY!  RICKY!  TOSHIO! MIKE!  person.filter_private() is still disabled in def home online 170 in controllers.py!')
+        turbogears.flash('HEY!  RICKY!  TOSHIO! MIKE!  person.filter_private() is still disabled in def home online 170 in controllers.py!')
 #        person = person.filter_private()
         return dict(person=person, memberships=person.memberships, cla=cla)
 

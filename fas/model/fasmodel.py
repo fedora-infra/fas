@@ -23,6 +23,7 @@
 '''
 Model for the Fedora Account System
 '''
+
 from datetime import datetime
 import pytz
 from turbogears.database import metadata, mapper, get_engine, session
@@ -308,7 +309,7 @@ class People(SABase):
     def get_share_loc(self):
         return Groups.by_name(SHARE_LOC_GROUP) in self.memberships
 
-    def filter_private(self):
+    def filter_private(self, user='public'):
         '''Filter out data marked private unless the user is authorized.
 
         Some data in this class can only be released if the user has not asked
@@ -330,25 +331,30 @@ class People(SABase):
         '''
         person_data = DictContainer()
 
-        if identity.in_any_group(admin_group, system_group):
-            # Admin and system are the same for now
-            user ='admin'
-        elif identity.current.user_name == self.username:
-            user = 'self'
-        elif identity.current.anonymous:
-            user = 'anonymous'
-        elif self.privacy:
-            user = 'privacy'
-        else:
-            user = 'public'
+        try:
+            if identity.in_any_group(admin_group, system_group):
+                # Admin and system are the same for now
+                user ='admin'
+            elif identity.current.user_name == self.username:
+                user = 'self'
+            elif identity.current.anonymous:
+                user = 'anonymous'
+            elif self.privacy:
+                user = 'privacy'
+            else:
+                user = 'public'
 
-        for field in self.allow_fields[user]:
-            person_data[field] = self.__dict__[field]
+            for field in self.allow_fields[user]:
+                person_data[field] = self.__dict__[field]
 
-        # thirdparty users need to get some things so that users can login to
-        # their boxes.
-        if identity.in_group(thirdparty_group):
-            for field in self.allow_fields['thirdparty']:
+            # thirdparty users need to get some things so that users can login to
+            # their boxes.
+            if identity.in_group(thirdparty_group):
+                for field in self.allow_fields['thirdparty']:
+                    person_data[field] = self.__dict__[field]
+        except:
+            # Typically this exception means this was called by shell
+            for field in self.allow_fields[user]:
                 person_data[field] = self.__dict__[field]
 
         # Instead of None password fields, we set it to '*' for easier fasClient
