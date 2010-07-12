@@ -516,7 +516,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
         if not canRemoveUser(person, group, target):
             turbogears.flash(_("You cannot remove '%(user)s' from '%(group)s'.") % \
                 {'user': target.username, 'group': group.name})
-            turbogears.redirect('/group/view/%s' % group.name)
+            turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
         else:
             try:
@@ -524,7 +524,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
             except fas.RemoveError, e:
                 turbogears.flash(_("%(user)s could not be removed from %(group)s: %(error)s") % \
                     {'user': target.username, 'group': group.name, 'error': e})
-                turbogears.redirect('/group/view/%s' % group.name)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
                 removal_subject = 'Your Fedora \'%s\' membership has been removed' % group.name
                 removal_text = '''
@@ -541,8 +541,7 @@ aliases within an hour.
 
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
                     {'name': target.username, 'group': group.name})
-                redirect_url = cherrypy.request.headers.get('Referer', '/group/members/%s/A*' % group.name)
-                turbogears.redirect(redirect_url)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -558,7 +557,7 @@ aliases within an hour.
 
         if not canUpgradeUser(person, group, target):
             turbogears.flash(_("You cannot upgrade '%s'") % target.username)
-            turbogears.redirect('/group/view/%s' % group.name)
+            turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
         else:
             try:
@@ -566,7 +565,7 @@ aliases within an hour.
             except fas.UpgradeError, e:
                 turbogears.flash(_('%(name)s could not be upgraded in %(group)s: %(error)s') % \
                     {'name': target.username, 'group': group.name, 'error': e})
-                turbogears.redirect('/group/view/%s' % group.name)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
                 upgrade_subject = 'Your Fedora \'%s\' membership has been upgraded' % group.name
 
@@ -587,7 +586,7 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 turbogears.flash(_('%s has been upgraded!') % target.username)
-                turbogears.redirect('/group/view/%s' % group.name)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
@@ -603,7 +602,7 @@ into the e-mail aliases within an hour.
 
         if not canDowngradeUser(person, group, target):
             turbogears.flash(_("You cannot downgrade '%s'") % target.username)
-            turbogears.redirect('/group/view/%s' % group.name)
+            turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
         else:
             try:
@@ -611,7 +610,7 @@ into the e-mail aliases within an hour.
             except fas.DowngradeError, e:
                 turbogears.flash(_('%(name)s could not be downgraded in %(group)s: %(error)s') % \
                     {'name': target.username, 'group': group.name, 'error': e})
-                turbogears.redirect('/group/view/%s' % group.name)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
                 downgrade_subject = 'Your Fedora \'%s\' membership has been downgraded' % group.name
 
@@ -631,7 +630,7 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 turbogears.flash(_('%s has been downgraded!') % target.username)
-                turbogears.redirect('/group/view/%s' % group.name)
+                turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
