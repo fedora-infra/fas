@@ -372,6 +372,8 @@ class People(SABase):
             person_data['group_roles'][field.groupname] = field
 
         person_data['memberships'] = self.memberships
+        person_data['roles'] = self.roles
+
 
         return person_data
 

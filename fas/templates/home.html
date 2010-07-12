@@ -7,10 +7,12 @@
     <title>${_('Fedora Accounts System')}</title>
   </head>
   <body>
-    <?python from fas import auth ?>
+    <?python
+        from fas import auth
+        from fas.model import People?>
     <h2>${_('To do queue:')}</h2>
     <py:for each="group in sorted(memberships)">
-    <py:if test="auth.canSponsorGroup(person, group) and group.unapproved_roles">
+    <py:if test="auth.canSponsorGroup(People.by_username(person['username']), group) and group.unapproved_roles">
     <dd>
     <ul class="queue">
       <li py:for="role in group.unapproved_roles[:5]">

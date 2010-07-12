@@ -28,7 +28,7 @@ import turbogears
 
 from sqlalchemy.exceptions import InvalidRequestError
 
-from fas.model import PersonRoles
+from fas.model import PersonRoles, People
 
 def isAdmin(person):
     '''Checks if the user is a FAS admin
@@ -85,12 +85,13 @@ def canAdminGroup(person, group, role=None):
                 # Not in the group
                 pass
     else:
-        if group.owner == person:
+        if group.owner.username == person:
             return True
         if not role:
             try:
-                PersonRoles.query.filter_by(group=group, member=person,
-                        role_status='approved', role_type='administrator').one()
+                PersonRoles.query.filter_by(group=group,
+                    member=person,
+                    role_status='approved', role_type='administrator').one()
                 return True
             except InvalidRequestError:
                 # Not in the group
@@ -109,6 +110,7 @@ def canSponsorGroup(person, group):
         otherwise False
     '''
     # Check this first as it trumps the other checks
+    role = ''
     if isAdmin(person):
         return True
     if isinstance(person, basestring):
@@ -124,7 +126,8 @@ def canSponsorGroup(person, group):
         if group.owner == person:
             return True
         try:
-            role = PersonRoles.query.filter_by(group=group, member=person).one()
+            role = PersonRoles.query.filter_by(group=group,
+                member=person).one()
         except InvalidRequestError:
             # Not in the group
             pass
@@ -324,7 +327,7 @@ def canRemoveUser(person, group, target):
         return False
     # A user can remove themself from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
-    elif (((isinstance(person, basetring) and person == target.username) \
+    elif (((isinstance(person, basestring) and person == target.username) \
             or person == target) and (group.user_can_remove == True)) or \
         canSponsorGroup(person, group):
         return True
