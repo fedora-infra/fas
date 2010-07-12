@@ -222,6 +222,9 @@ class User(controllers.Controller):
         show['show_postal_address'] = config.get('show_postal_address')
         languages = available_languages()
 
+        username = identity.current.user_name
+        person = People.by_username(username)
+
         admin = isAdmin(identity.current)
 
         if targetname:
