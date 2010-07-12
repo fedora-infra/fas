@@ -29,6 +29,9 @@
         <input type="submit" value="${('Apply!')}" />
       </div>
     </form>
+    <div py:if="group.invite_only and not group in person.memberships">
+        <p>${_('Group is invite only.  Contact group sponsors for more information.')}</p>
+    </div>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
     <script py:if="group in person.memberships" type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
     <h3>Group Details <a py:if="can_admin" href="${tg.url('/group/edit/%s' % group.name)}">${_('(edit)')}</a></h3>

@@ -30,6 +30,11 @@
         <script type="text/javascript">var group_type = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_type')}'});</script>
       </div>
       <div class="field">
+        <label for="invite_only">${_('Invite Only:')}</label>
+        <input type="checkbox" id="invite_only" name="invite_only" value="1" />
+        <script type="text/javascript">var group_invite_only = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_invite_only')}'});</script>
+      </div>
+      <div class="field">
         <label for="needs_sponsor">${_('Needs Sponsor:')}</label>
         <input type="checkbox" id="needs_sponsor" name="needs_sponsor" value="1" checked="checked" />&nbsp;
         <script type="text/javascript">var group_needs_sponsor = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_needs_sponsor')}'});</script>

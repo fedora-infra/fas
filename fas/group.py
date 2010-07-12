@@ -72,6 +72,9 @@ class GroupCreate(validators.Schema):
         )
     prerequisite = KnownGroup
     group_type = ValidGroupType
+    needs_sponsor = validators.Bool()
+    user_can_remove = validators.Bool()
+    invite_only = validators.Bool()
 
 class GroupEdit(validators.Schema):
     groupname = KnownGroup
@@ -223,7 +226,7 @@ class Group(controllers.Controller):
     @validate(validators=GroupCreate())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.group.new", allow_json=True)
-    def create(self, name, display_name, owner, group_type, 
+    def create(self, name, display_name, owner, group_type, invite_only=0,
                needs_sponsor=0, user_can_remove=1, prerequisite='', 
                joinmsg='', apply_rules='None'):
         '''Create a group'''
