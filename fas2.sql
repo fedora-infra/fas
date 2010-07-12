@@ -85,7 +85,7 @@ CREATE TABLE configs (
     -- Please create more config keys rather than abusing this with
     -- large datastructures.
     value TEXT,
-    check (application in ('asterisk', 'moin', 'myfedora' ,'openid', 'yubikey')),
+    check (application in ('asterisk', 'moin', 'myfedora' ,'openid', 'yubikey', 'bugzilla')),
     -- Might end up removing openid, depending on how far we take the provider
     unique (person_id, application, attribute)
 );

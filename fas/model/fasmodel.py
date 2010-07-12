@@ -23,6 +23,7 @@
 '''
 Model for the Fedora Account System
 '''
+
 from datetime import datetime
 import pytz
 from turbogears.database import metadata, mapper, get_engine, session
@@ -41,6 +42,7 @@ from sqlalchemy.orm.collections import attribute_mapped_collection
 # Allow us to reference the remote table of a many:many as a simple list
 from sqlalchemy.ext.associationproxy import association_proxy
 
+from fedora.client import DictContainer
 from fedora.tg.json import SABase
 import fas
 from fas import SHARE_CC_GROUP, SHARE_LOC_GROUP
@@ -103,6 +105,52 @@ thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
 
+    # Map the people fields that various classes of users are allowed to retrieve
+    allow_fields = {
+        # This is the complete list of fields
+        'complete': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
+            'password', 'passwordtoken', 'password_changed', 'email',
+            'emailtoken', 'unverified_email', 'comments', 'postal_address',
+            'telephone', 'facsimile', 'affiliation', 'certificate_serial',
+            'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
+            'status_change', 'locale', 'timezone', 'latitude', 'longitude',
+            'country_code', 'privacy', 'old_password'),
+        # Full disclosure to admins
+        'admin': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
+            'password', 'passwordtoken', 'password_changed', 'email',
+            'emailtoken', 'unverified_email', 'comments', 'postal_address',
+            'telephone', 'facsimile', 'affiliation', 'certificate_serial',
+            'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
+            'status_change', 'locale', 'timezone', 'latitude', 'longitude',
+            'country_code', 'privacy', 'old_password'),
+        # Full disclosure to systems group
+        'systems': ('id', 'username', 'human_name',
+            'gpg_keyid', 'ssh_key', 'password', 'passwordtoken',
+            'password_changed', 'email', 'emailtoken', 'unverified_email',
+            'comments', 'postal_address', 'telephone', 'facsimile',
+            'affiliation', 'certificate_serial', 'creation',
+            'internal_comments', 'ircnick', 'last_seen', 'status',
+            'status_change', 'locale', 'timezone', 'latitude',
+            'longitude', 'country_code', 'privacy', 'old_password'),
+        # thirdparty gets the results of privacy and ssh_key in addition
+        'thirdparty': ('ssh_key',),
+        'self': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
+            'password', 'password_changed', 'email', 'unverified_email',
+            'comments', 'postal_address', 'telephone', 'facsimile',
+            'affiliation', 'certificate_serial', 'creation', 'ircnick',
+            'last_seen', 'status', 'status_change', 'locale', 'timezone',
+            'latitude', 'longitude', 'country_code', 'privacy',
+            'old_password'),
+        'public': ('id', 'username', 'human_name', 'gpg_keyid', 'email',
+            'comments', 'affiliation', 'certificate_serial', 'creation',
+            'ircnick', 'last_seen', 'status', 'status_change', 'locale',
+            'timezone', 'latitude', 'longitude', 'country_code',
+            'privacy'),
+        'privacy': ('id', 'username', 'email', 'comments',
+            'certificate_serial', 'creation', 'ircnick', 'last_seen',
+            'status', 'status_change', 'privacy'),
+        'anonymous': ('id', 'username', 'comments', 'creation', 'privacy'),
+        }
 
     @classmethod
     def by_id(cls, id):
@@ -261,7 +309,7 @@ class People(SABase):
     def get_share_loc(self):
         return Groups.by_name(SHARE_LOC_GROUP) in self.memberships
 
-    def filter_private(self):
+    def filter_private(self, user='public'):
         '''Filter out data marked private unless the user is authorized.
 
         Some data in this class can only be released if the user has not asked
@@ -281,79 +329,51 @@ class People(SABase):
         standard use of this method so we should know when we're doing
         non-standard things and filter the data there as well.
         '''
-        # Disconnect this object from the database
-        session.expunge(self)
+        person_data = DictContainer()
 
-        # Full disclosure to admins
-        if identity.in_any_group(admin_group, system_group):
-            return
+        try:
+            if identity.in_any_group(admin_group, system_group):
+                # Admin and system are the same for now
+                user ='admin'
+            elif identity.current.user_name == self.username:
+                user = 'self'
+            elif identity.current.anonymous:
+                user = 'anonymous'
+            elif self.privacy:
+                user = 'privacy'
+            else:
+                user = 'public'
 
-        # The user themselves gets everything except internal_comments and
-        # *token fields (for verifying changes of email address, password.
-        self.passwordtoken = None
-        self.emailtoken = None
-        self.internal_comments = None
-        if identity.current.user_name == self.username:
-            return
+            for field in self.allow_fields[user]:
+                person_data[field] = self.__dict__[field]
 
-        # Nobody other than the user, admin, or system users can get passwords.
-        self.password = '*'
+            # thirdparty users need to get some things so that users can login to
+            # their boxes.
+            if identity.in_group(thirdparty_group):
+                for field in self.allow_fields['thirdparty']:
+                    person_data[field] = self.__dict__[field]
+        except:
+            # Typically this exception means this was called by shell
+            for field in self.allow_fields[user]:
+                person_data[field] = self.__dict__[field]
 
-        # Only admins/system users, thirdparty users, and the user themselves
-        # get SSH keys.
-        if not identity.in_group(thirdparty_group):
-            self.ssh_key = None
+        # Instead of None password fields, we set it to '*' for easier fasClient
+        # parsing
+        if 'password' not in person_data:
+            person_data['password'] = '*'
 
-        # If the user opts-out of the publically available info, this all gets
-        # hidden
-        if self.privacy:
-            self.human_name = None
-            self.gpg_keyid = None
-            self.password_changed = None
-            self.unverified_email = None
-            self.postal_address = None
-            self.country_code = None
-            self.telephone = None
-            self.facsimile = None
-            self.affiliation = None
-            self.locale = None
-            self.timezone = None
-            self.latitude = None
-            self.longitude = None
-        else:
-            # User has okayed giving out public info.  There's still some
-            # things that are private, though
-            self.password_changed = None
-            self.unverified_email = None
-            self.postal_address = None
-            self.telephone = None
-            self.facsimile = None
+        # Make sure we have empty fields for the rest of the info
+        for field in self.allow_fields['complete']:
+            if field not in person_data:
+                person_data[field] = None
 
-        # Anonymous users get very little
-        if identity.current.anonymous:
-            self.human_name = None
-            self.gpg_keyid = None
-            self.ssh_key = None
-            self.passwordtoken = None
-            self.password_changed = None
-            self.email = None
-            self.emailtoken = None
-            self.unverified_email = None
-            self.postal_address = None
-            self.country_code = None
-            self.telephone = None
-            self.facsimile = None
-            self.affiliation = None
-            self.certificate_serial = None
-            self.internal_comments = None
-            self.ircnick = None
-            self.last_seen = None
-            self.status = None
-            self.status_change = None
-            self.locale = None
-            self.timezone = None
-            self.latitude = None
-            self.longitude = None
+        person_data['group_roles'] = {}
+        for field in self.roles:
+            person_data['group_roles'][field.groupname] = field
+
+        person_data['memberships'] = self.memberships
+
+        return person_data
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)

@@ -11,7 +11,7 @@
     from fas import auth
     from fas.model import People
     viewer = People.by_username(tg.identity.user.username)
-    viewer.filter_private()
+    viewer = viewer.filter_private()
     ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
     <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.username}</h2>
@@ -27,16 +27,16 @@
         <py:if test="person.email">
           <dt>${_('Email:')}</dt>
           <dd>${person.email}
-            <span py:if="personal and person.unverified_email and person.emailtoken">
+            <span py:if="(personal or admin) and person.unverified_email and person.emailtoken">
               ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': person.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
             </span>
           </dd>
         </py:if>
-        <py:if test="person.telephone and personal">
+        <py:if test="person.telephone and (personal or admin)">
           <dt>${_('Telephone Number:')}</dt>
           <dd>${person.telephone}&nbsp;</dd>
         </py:if>
-        <py:if test="person.postal_address and personal and show['show_postal_address']">
+        <py:if test="person.postal_address and (personal or admin) and show['show_postal_address']">
           <dt>${_('Postal Address:')}</dt>
           <dd>${person.postal_address}&nbsp;</dd>
         </py:if>
@@ -59,7 +59,7 @@
         <!-- We should correct this.  Everything else is filtered in the
         - model:People*Select classes.
         - -->
-        <py:if test="personal">
+        <py:if test="personal or admin">
           <dt>${_('Public SSH Key:')}</dt>
           <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
           <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
@@ -117,14 +117,14 @@
     </ul>
     -->
     <ul id="rolespanel">
-      <py:for each="role in sorted(person.roles, lambda x,y: cmp(x.group.name, y.group.name))">
+      <py:for each="role in sorted(roles, lambda x,y: cmp(x.group.name, y.group.name))">
       <li py:if="auth.canViewGroup(viewer, role.group)" class="role">
       <h4><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></h4> (${role.role_type})
       <dl>
         <dt>${_('Status:')}</dt>
         <dd>
-        <span class="approved" py:if="role.group in person.approved_memberships">${_('Approved')}</span>
-        <span class="unapproved" py:if="role.group in person.unapproved_memberships">${_('Unapproved')}</span>
+        <span class="approved" py:if="role.group in approved">${_('Approved')}</span>
+        <span class="unapproved" py:if="role.group in unapproved">${_('Unapproved')}</span>
         </dd>
         <py:if test="personal">
         <dt>${_('Tools:')}</dt>

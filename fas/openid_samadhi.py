@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright 2008 by Jeffrey C. Ollie
+# Copyright 2009 by Red Hat, Inc.
 #
 # This file is part of Samadhi.
 #
@@ -75,9 +76,10 @@ class OpenID(controllers.Controller):
     @expose(template="fas.templates.openid.id")
     def id(self, username):
         person = People.by_username(username)
-        person.filter_private()
         if not CLADone(person):
             flash(_('This OpenID will not be active until the user has signed the CLA.'))
+
+        person = person.filter_private()
         results = dict(endpoint_url = endpoint_url,
                        yadis_url = build_url(yadis_base_url + '/' + username),
                        user_url = build_url(id_base_url + '/' + username),
