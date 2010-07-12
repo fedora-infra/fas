@@ -70,6 +70,8 @@ mail.server = 'localhost'
 #mail.testmode = True
 mail.debug = False
 mail.encoding = 'utf-8'
+# If running TurboMail version 3 or newer set this value:
+# mail.transport='smtp'
 
 # DATABASE
 
