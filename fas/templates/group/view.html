@@ -99,7 +99,9 @@
     <h3 py:if='me.fedoraRoleStatus == "approved"'>${_('Invite')}</h3>
     <span py:if='me.fedoraRoleStatus == "approved"'>${form(action=tg.url('modifyGroup'), value=value, method='post')}</span>
     -->
-    <a href="${tg.url('/group/members/%s' % group.name)}"><h3>${_('View Member List')}</h3></a>
+    
+    <a py:if='len(group.roles) >= 51' href="${tg.url('/group/members/%s' % group.name)}"><h3>${_('View Member List')}</h3></a>
+    <a py:if="51 > len(group.roles)" href="${tg.url('/group/members/%s/*' % group.name)}"><h3>${_('View Member List')}</h3></a>
     <div py:if="can_sponsor">
       <h3>${_('Sponsorship Queue')}</h3>
       ${member_table(sponsor_queue, group, person)}
