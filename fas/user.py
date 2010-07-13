@@ -25,7 +25,7 @@
 
 import turbogears
 from turbogears import controllers, expose, identity, \
-        validate, validators, error_handler, config
+        validate, validators, error_handler, config, redirect
 from turbogears.database import session
 import cherrypy
 from tgcaptcha import CaptchaField
@@ -60,82 +60,22 @@ from fas.auth import isAdmin, CLADone, canEditUser
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
+from fas import _
 
-admin_group = config.get('admingroup', 'accounts')
-system_group = config.get('systemgroup', 'fas-system')
-thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+#ADMIN_GROUP = config.get('admingroup', 'accounts')
+#system_group = config.get('systemgroup', 'fas-system')
+#thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
-captcha = CaptchaField(name='captcha', label=_('Enter the code shown'))
-
-class UserView(validators.Schema):
-    username = KnownUser
-
-class UserEdit(validators.Schema):
-    targetname = KnownUser
-
-class UserSave(validators.Schema):
-    targetname = KnownUser
-    human_name = validators.All(
-        validators.String(not_empty=True, max=42),
-        validators.Regex(regex='^[^\n:<>]+$'),
-        )
-    status = validators.OneOf(['active', 'inactive', 'expired',
-        'admin_disabled'])
-    ssh_key = ValidSSHKey(max=5000)
-    email = validators.All(
-        validators.Email(not_empty=True, strip=True, max=128),
-        NonFedoraEmail(not_empty=True, strip=True, max=128),
-    )
-    locale = ValidLanguage(not_empty=True, strip=True)
-    #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
-    #fedoraPersonKeyId- Save this one for later :)
-    postal_address = validators.String(max=512)
-    country_code = validators.String(max=2, strip=True)
-    privacy = validators.Bool
-    latitude = validators.Number
-    longitude = validators.Number
-
-class UserCreate(validators.Schema):
-    username = validators.All(
-        UnknownUser,
-        ValidUsername(not_empty=True),
-        validators.String(max=32, min=3),
-    )
-    human_name = validators.All(
-        validators.String(not_empty=True, max=42),
-        validators.Regex(regex='^[^\n:<>]+$'),
-        )
-    email = validators.All(
-        validators.Email(not_empty=True, strip=True),
-        NonFedoraEmail(not_empty=True, strip=True),
-    )
-    verify_email = validators.All(
-        validators.Email(not_empty=True, strip=True),
-        NonFedoraEmail(not_empty=True, strip=True),
-    )
-    chained_validators = [ validators.FieldsMatch('email', 'verify_email') ]
-    #fedoraPersonBugzillaMail = validators.Email(strip=True)
-    postal_address = validators.String(max=512)
-    captcha = CaptchaFieldValidator()
-
-class UserSetPassword(validators.Schema):
-    currentpassword = validators.String
-    # TODO (after we're done with most testing): Add complexity requirements?
-    password = validators.String(min=8)
-    passwordcheck = validators.String
-    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
-
-class VerifyPass(validators.Schema):
-    username = KnownUser
-
-class UserResetPassword(validators.Schema):
-    # TODO (after we're done with most testing): Add complexity requirements?
-    password = validators.String(min=8)
-    passwordcheck = validators.String
-    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
+CAPTCHA = CaptchaField(name='captcha', label=_('Enter the code shown'))
 
 def generate_password(password=None, length=16):
-    ''' Generate Password '''
+    ''' Generate Password
+
+    :arg password: Plain text password to be crypted.  Random one generated
+                    if blank.
+    :arg length: Length of password to generate.
+    returns: crypt.crypt utf-8 password
+    '''
     secret = {} # contains both hash and password
 
     if not password:
@@ -153,6 +93,11 @@ def generate_password(password=None, length=16):
     return secret
 
 def generate_salt(length=8):
+    ''' Generates salt for password
+
+    :arg length: Length of salt to be generated
+    :returns: String of salt
+    '''
     chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     salt = ''
     # char_num is just a counter for the loop (W0612)
@@ -161,6 +106,12 @@ def generate_salt(length=8):
     return salt
 
 def generate_token(length=32):
+    ''' Genrate token.  Typically used when resetting password or verifying
+                        a new email address.
+
+    :arg length: Length of token to generate
+    :returns: String of token
+    '''
     chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     token = ''
     # char_num is just a counter for the loop (W0612)
@@ -169,7 +120,7 @@ def generate_token(length=32):
     return token
 
 class User(controllers.Controller):
-
+    ''' Our base User controller for user based operations '''
     def __init__(self):
         '''Create a User Controller.
         '''
@@ -178,9 +129,13 @@ class User(controllers.Controller):
     def index(self):
         '''Redirect to view
         '''
-        turbogears.redirect('/user/view/%s' % identity.current.user_name)
+        redirect('/user/view/%s' % identity.current.user_name)
 
-    def jsonRequest(self):
+    def json_request(self):
+        ''' Determines if the request is for json or not_
+
+        :returns: true if the request is json, else false
+        '''
         return 'tg_format' in cherrypy.request.params and \
                 cherrypy.request.params['tg_format'] == 'json'
 
@@ -193,7 +148,7 @@ class User(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=UserView())
+    @validate(validators= {'username': KnownUser })
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.view", allow_json=True)
     def view(self, username=None):
@@ -222,7 +177,7 @@ class User(controllers.Controller):
                 personal=personal, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=UserEdit())
+    @validate(validators={ 'targetname' : KnownUser })
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.edit")
     def edit(self, targetname=None):
@@ -251,19 +206,58 @@ class User(controllers.Controller):
         return dict(target=target, languages=languages, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=UserSave())
+    @validate(validators={
+        'targetname' : KnownUser,
+        'human_name' : validators.All(
+            validators.String(not_empty=True, max=42),
+            validators.Regex(regex='^[^\n:<>]+$'),
+            ),
+        'status' : validators.OneOf(['active', 'inactive', 'expired',
+            'admin_disabled']),
+        'ssh_key' : ValidSSHKey(max=5000),
+        'email' : validators.All(
+            validators.Email(not_empty=True, strip=True, max=128),
+            NonFedoraEmail(not_empty=True, strip=True, max=128),
+        ),
+        'locale' : ValidLanguage(not_empty=True, strip=True),
+        #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
+        #fedoraPersonKeyId- Save this one for later :)
+        'postal_address' : validators.String(max=512),
+        'country_code' : validators.String(max=2, strip=True),
+        'privacy' : validators.Bool,
+        'latitude' : validators.Number,
+        'longitude' : validators.Number
+    })
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, email, status,
             postal_address=None, ssh_key=None, ircnick=None, gpg_keyid=None,
              comments='', locale='en', timezone='UTC', country_code='',
              latitude=None, longitude=None, privacy=False):
-        languages = available_languages()
+        ''' Saves user information to database
+
+        :arg targetname: Target user to alter
+        :arg human_name: Human name of target user
+        :arg telephone: Telephone number of target user
+        :arg email: Email address of target user
+        :arg status: Status of target user
+        :arg postal_address: Mailing address of target user
+        :arg ssh_key: ssh key of target user
+        :arg ircnick: IRC nick of the target user
+        :arg gpg_keyid: gpg key id of target user
+        :arg comments: Misc comments about target user
+        :arg locale: Locale of the target user for language purposes
+        :arg timezone: Timezone of target user
+        :arg country_code: Country Code of target user
+        :arg latitude: Latitude of target user
+        :arg privacy: Determine if the user info should be private for user
+
+        :returns: empty dict
+        '''
 
         username = identity.current.user_name
-        target = targetname
         person = People.by_username(username)
-        target = People.by_username(target)
+        target = People.by_username(targetname)
         emailflash = ''
 
         if not canEditUser(person, target):
@@ -297,9 +291,13 @@ class User(controllers.Controller):
                 target.status_change = datetime.now(pytz.utc)
             target.human_name = human_name
             if target.email != email:
-                test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+                test = select([PeopleTable.c.username],
+                func.lower(PeopleTable.c.email) \
+                == email.lower()).execute().fetchall()
                 if test:
-                    turbogears.flash(_('Somebody is already using that email address.'))
+                    turbogears.flash(_(
+                        'Somebody is already using that email address.'
+                    ))
                     turbogears.redirect("/user/edit/%s" % target.username)
                     return dict()
                 emailflash = _('Before your new email takes effect, you ' + \
@@ -334,9 +332,9 @@ https://admin.fedoraproject.org/accounts/user/verifyemail/%s
             target.privacy = privacy
 #            target.set_share_cc(share_country_code)
 #            target.set_share_loc(share_location)
-        except TypeError, e:
+        except TypeError, error:
             turbogears.flash(_('Your account details could not be saved: %s')
-                % e)
+                % error)
             turbogears.redirect("/user/edit/%s" % target.username)
             return dict()
         else:
@@ -381,7 +379,13 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
     def dump(self, search=u'a*', groups=''):
+        ''' Return a list of users sorted by search
 
+        :arg search: Search wildcard (a* or *blah*) to filter by usernames
+        :arg groups: Filter by specific groups
+
+        :returns: dict of people, unapproved_paople and search string
+        '''
         groups_to_return_list = groups.split(',')
         groups_to_return = []
         # Special Logic, find out all the people who are in more then one group
@@ -595,9 +599,33 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         if identity.not_anonymous():
             turbogears.flash(_('No need to sign up, you have an account!'))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
-        return dict(captcha=captcha, show=show)
+        return dict(captcha=CAPTCHA, show=show)
 
-    @validate(validators=UserCreate())
+    @validate(validators={
+        'username' : validators.All(
+            UnknownUser,
+            ValidUsername(not_empty=True),
+            validators.String(max=32, min=3),
+        ),
+        'human_name' : validators.All(
+            validators.String(not_empty=True, max=42),
+            validators.Regex(regex='^[^\n:<>]+$'),
+            ),
+        'email' : validators.All(
+            validators.Email(not_empty=True, strip=True),
+            NonFedoraEmail(not_empty=True, strip=True),
+        ),
+        'verify_email' : validators.All(
+            validators.Email(not_empty=True, strip=True),
+            NonFedoraEmail(not_empty=True, strip=True),
+        ),
+        'chained_validators' : [ validators.FieldsMatch('email',
+                                'verify_email') ],
+        #fedoraPersonBugzillaMail' = validators.Email(strip=True)
+        'postal_address' : validators.String(max=512),
+        'captcha' : CaptchaFieldValidator()
+
+    })
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, verify_email, telephone=None,
@@ -654,7 +682,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             "on our sites. We do not knowingly collect or solicit personal " +\
             "information about children under 13."))
             turbogears.redirect(redirect)
-        test = select([PeopleTable.c.username], func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        test = select([PeopleTable.c.username],
+            func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
         if test:
             turbogears.flash(_("Sorry.  That email address is already in " + \
                 "use. Perhaps you forgot your password?"))
@@ -723,7 +752,12 @@ forward to working with you!
         return dict()
 
     @identity.require(identity.not_anonymous())
-    @validate(validators=UserSetPassword())
+    @validate(validators={
+        'currentpassword' : validators.String,
+        'password' : validators.String(min=8),
+        'passwordcheck' : validators.String,
+        'chained_validators' : [validators.FieldsMatch('password',
+                                'passwordcheck')]})
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck):
@@ -738,7 +772,8 @@ forward to working with you!
             return dict()
         # TODO: Enable this when we need to.
         #if currentpassword == password:
-        #    turbogears.flash('Your new password cannot be the same as your old one.')
+        #    turbogears.flash('Your new password cannot be the same as your old
+        #    one.')
         #    return dict()
         newpass = generate_password(password)
         try:
@@ -824,7 +859,8 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                 return dict()
             else:
                 try:
-                    # This may not be the neatest fix, but gpgme gave an error when mail was unicode.
+                    # This may not be the neatest fix, but gpgme gave an error
+                    # when mail was unicode.
                     plaintext = StringIO.StringIO(mail.encode('utf-8'))
                     ciphertext = StringIO.StringIO()
                     ctx = gpgme.Context()
@@ -856,7 +892,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.verifypass")
-    @validate(validators=VerifyPass())
+    @validate(validators={'username' : KnownUser})
     def verifypass(self, username, token, cancel=False):
         person = People.by_username(username)
         if person.status in ('expired', 'admin_disabled'):
@@ -887,7 +923,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.verifypass")
-    @validate(validators=UserResetPassword())
+    @validate(validators={
+        'password' : validators.String(min=8),
+        'passwordcheck' : validators.String,
+        'chained_validators' : [validators.FieldsMatch('password',
+                                'passwordcheck')]})
     def setnewpass(self, username, token, password, passwordcheck):
         person = People.by_username(username)
         if person.status in ('expired', 'admin_disabled'):
@@ -947,7 +987,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @expose(template="genshi-text:fas.templates.user.cert", format="text",
         content_type='application/x-x509-user-cert', allow_json=True)
     def dogencert(self):
-        from cherrypy import response, request
+        from cherrypy import response
         if not config.get('gencert', False):
             # Certificate generation is disabled on this machine
             # Return the error page
@@ -956,7 +996,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         username = identity.current.user_name
         person = People.by_username(username)
         if not CLADone(person):
-            if self.jsonRequest():
+            if self.json_request():
                 return dict(cla=False)
             turbogears.flash(_('Before generating a certificate, you must ' + \
                 'first complete the CLA.'))
@@ -967,7 +1007,6 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         pkey = openssl_fas.createKeyPair(openssl_fas.TYPE_RSA, 2048)
 
         digest = config.get('openssl_digest')
-        expire = config.get('openssl_expire')
 
         req = openssl_fas.createCertRequest(pkey, digest=digest,
             C=config.get('openssl_c'),
@@ -1002,10 +1041,10 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                 # the index line looks something like this:
                 # R\t090816180424Z\t080816190734Z\t01\tunknown\t/C=US/ST=Pennsylvania/O=Fedora/CN=test1/emailAddress=rickyz@cmu.edu
                 # V\t090818174940Z\t\t01\tunknown\t/C=US/ST=North Carolina/O=Fedora Project/OU=Upload Files/CN=toshio/emailAddress=badger@clingman.lan
-                dn = attrs[5]
+                distinguished_name = attrs[5]
                 serial = attrs[3]
                 info = {}
-                for pair in dn.split('/'):
+                for pair in distinguished_name.split('/'):
                     if pair:
                         key, value = pair.split('=')
                         info[key] = value

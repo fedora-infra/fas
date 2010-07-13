@@ -22,6 +22,11 @@
 from fas import release
 __version__ = release.VERSION
 
+import gettext
+translation = gettext.translation('fas', '/usr/share/locale',
+                fallback=True)
+_ = translation.ugettext
+
 SHARE_CC_GROUP = 'share_country_code'
 SHARE_LOC_GROUP = 'share_location'
 
