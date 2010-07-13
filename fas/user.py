@@ -109,6 +109,11 @@ class UserCreate(validators.Schema):
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
     )
+    verify_email = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        NonFedoraEmail(not_empty=True, strip=True),
+    )
+    chained_validators = [ validators.FieldsMatch('email', 'verify_email') ]
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.String(max=512)
     captcha = CaptchaFieldValidator()
@@ -595,7 +600,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
-    def create(self, username, human_name, email, telephone=None, 
+    def create(self, username, human_name, email, verify_email, telephone=None,
                postal_address=None, age_check=False, captcha={}):
         # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
