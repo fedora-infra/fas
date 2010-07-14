@@ -138,7 +138,7 @@ def can_sponsor_group(person, group):
         return True
     return False
 
-def isApproved(person, group):
+def is_approved(person, group):
     '''Check if the user is an approved member of a group.
 
     :arg person: People object or username to check if they're an approved
@@ -233,7 +233,7 @@ def can_create_group(person):
             pass
     else:
         try:
-            # isApproved is more appropriate here, but that would require an
+            # is_approved is more appropriate here, but that would require an
             # extra group.by_name.  I need to think over the efficiency of
             # auth.py.  Maybe something in model.py so that Any given query
             # should only be called once...

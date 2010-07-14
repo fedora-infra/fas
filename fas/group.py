@@ -44,7 +44,7 @@ from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
 from fas.auth import can_view_group, can_create_group, can_admin_group, \
         can_edit_group, can_apply_group, can_remove_user, can_upgrade_user, \
-        can_sponsor_user, canDowngradeUser, isApproved
+        can_sponsor_user, canDowngradeUser, is_approved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
         ValidRoleSort, KnownUser
@@ -698,7 +698,7 @@ into the e-mail aliases within an hour.
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        if isApproved(person, group):
+        if is_approved(person, group):
             invite_subject = _('Come join The Fedora Project!')
             invite_text = _('''
 %(user)s <%(email)s> has invited you to join the Fedora
