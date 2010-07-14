@@ -43,7 +43,7 @@ import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
 from fas.auth import can_view_group, can_create_group, can_admin_group, \
-        can_edit_group, canApplyGroup, canRemoveUser, canUpgradeUser, \
+        can_edit_group, can_apply_group, canRemoveUser, canUpgradeUser, \
         canSponsorUser, canDowngradeUser, isApproved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
@@ -385,7 +385,7 @@ class Group(controllers.Controller):
             turbogears.flash('You are already a member of %s!' % group.name)
             turbogears.redirect('/group/view/%s' % group.name)
 
-        if not canApplyGroup(person, group, target):
+        if not can_apply_group(person, group, target):
             turbogears.flash(_('%(user)s can not apply to %(group)s.') % \
                 {'user': target.username, 'group': group.name })
             turbogears.redirect('/group/view/%s' % group.name)
@@ -407,7 +407,7 @@ class Group(controllers.Controller):
             target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canApplyGroup(person, group, target):
+        if not can_apply_group(person, group, target):
             turbogears.flash(_('%(user)s can not apply to %(group)s.') % \
                 {'user': target.username, 'group': group.name })
             turbogears.redirect('/group/view/%s' % group.name)

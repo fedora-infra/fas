@@ -270,7 +270,7 @@ def can_view_group(person, group):
             return False
     return True
 
-def canApplyGroup(person, group, applicant):
+def can_apply_group(person, group, applicant):
     '''Check whether the user can apply applicant to the group.
 
     :arg person: People object or username to test whether they can apply an
