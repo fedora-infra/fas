@@ -125,7 +125,7 @@ class AsteriskPlugin(controllers.Controller):
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
         
-        if not canEditUser(person, target):
+        if not can_edit_user(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
             turbogears.redirect('/asterisk')
             return dict()

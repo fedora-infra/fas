@@ -186,7 +186,7 @@ def cla_done(person):
         pass
     return False
 
-def canEditUser(person, target):
+def can_edit_user(person, target):
     '''Check whether the user has privileges to edit the target user.
 
     :arg person: People object or username to check for privileges

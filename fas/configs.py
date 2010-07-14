@@ -38,7 +38,7 @@ from fedora.tg.util import request_format
 
 from fas.model import Configs, People
 from fas.validators import KnownUser
-from fas.auth import canEditUser
+from fas.auth import can_edit_user
 
 class ConfigList(validators.Schema):
     '''Set of validators for the list method of Configs'''
@@ -114,7 +114,7 @@ class Config(controllers.Controller):
 
         # Verify user is allowed to view this config
         target = People.by_username(username)
-        if not canEditUser(identity.current.user, target):
+        if not can_edit_user(identity.current.user, target):
             flash(_('You cannot look at configs for %s') % username)
             if request_format() == 'json':
                 return dict(exc='AuthorizationError')
@@ -155,7 +155,7 @@ class Config(controllers.Controller):
 
         # Verify user is allowed to set this config
         target = People.by_username(username)
-        if not canEditUser(identity.current.user, target):
+        if not can_edit_user(identity.current.user, target):
             flash(_('You cannot edit configs for %s') % username)
             if request_format() == 'json':
                 return dict(exc='AuthorizationError')

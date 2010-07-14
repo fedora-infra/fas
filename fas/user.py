@@ -57,7 +57,7 @@ import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
-from fas.auth import is_admin, cla_done, canEditUser
+from fas.auth import is_admin, cla_done, can_edit_user
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
@@ -198,7 +198,7 @@ class User(controllers.Controller):
         else:
             target = People.by_username(identity.current.user_name)
 
-        if not canEditUser(person, target):
+        if not can_edit_user(person, target):
             turbogears.flash(_('You cannot edit %s') % target.username)
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
@@ -261,7 +261,7 @@ class User(controllers.Controller):
         target = People.by_username(targetname)
         emailflash = ''
 
-        if not canEditUser(person, target):
+        if not can_edit_user(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % \
                 target.username)
             turbogears.redirect('/user/view/%s', target.username)
