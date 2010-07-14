@@ -1025,6 +1025,11 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.gencert")
     def gencert(self):
+        ''' Displays a simple text link to users to click to actually get a
+            certificate
+
+        :returns: empty dict
+        '''
         return dict()
 
     @identity.require(identity.not_anonymous())
