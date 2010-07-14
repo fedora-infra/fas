@@ -57,7 +57,7 @@ import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
-from fas.auth import isAdmin, CLADone, canEditUser
+from fas.auth import is_admin, CLADone, canEditUser
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
@@ -164,7 +164,7 @@ class User(controllers.Controller):
             personal = True
         else:
             personal = False
-        admin = isAdmin(identity.current)
+        admin = is_admin(identity.current)
         cla = CLADone(person)
         person_data = person.filter_private()
         roles = person.roles
@@ -191,7 +191,7 @@ class User(controllers.Controller):
         username = identity.current.user_name
         person = People.by_username(username)
 
-        admin = isAdmin(identity.current)
+        admin = is_admin(identity.current)
 
         if targetname:
             target = People.by_username(targetname)
@@ -270,7 +270,7 @@ class User(controllers.Controller):
             if target.status != status:
                 if (status in ('expired', 'admin_disabled') or target.status \
                     in ('expired', 'admin_disabled')) and \
-                    not isAdmin(person):
+                    not is_admin(person):
                     turbogears.flash(_(
                         'Only admin can enable or disable an account.'))
                     return dict()

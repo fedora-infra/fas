@@ -89,9 +89,9 @@ class YubikeyPlugin(controllers.Controller):
             personal = False
         # TODO: We can do this without a db lookup by using something like
         # if groupname in identity.groups: pass
-        # We may want to do that in isAdmin() though. -Toshio
+        # We may want to do that in is_admin() though. -Toshio
         user = People.by_username(turbogears.identity.current.user_name)
-        if isAdmin(user):
+        if is_admin(user):
             admin = True
         else:
             admin = False
@@ -117,7 +117,7 @@ class YubikeyPlugin(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         target = People.by_username(targetname)
-        admin = isAdmin(person)
+        admin = is_admin(person)
         configs = get_configs(Configs.query.filter_by(person_id=target.id, application='yubikey').all())
         return dict(admin=admin, person=person, configs=configs,target=target)
 

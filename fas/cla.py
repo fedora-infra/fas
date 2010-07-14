@@ -36,7 +36,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 from fedora.tg.util import request_format
 
 from fas.model import People, Groups, Log
-from fas.auth import isAdmin, CLADone
+from fas.auth import is_admin, CLADone
 from fas.util import send_mail
 import fas
 
@@ -147,7 +147,7 @@ class CLA(controllers.Controller):
         show['show_postal_address'] = config.get('show_postal_address')
         exc = None
         user = People.by_username(turbogears.identity.current.user_name)
-        if not isAdmin(user):
+        if not is_admin(user):
             # Only admins can use this
             turbogears.flash(_('You are not allowed to reject CLAs.'))
             exc = 'NotAuthorized'

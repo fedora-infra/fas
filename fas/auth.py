@@ -31,7 +31,7 @@ from sqlalchemy.exceptions import InvalidRequestError
 
 from fas.model import PersonRoles
 
-def isAdmin(person):
+def is_admin(person):
     '''Checks if the user is a FAS admin
 
     :arg person: `identity.current`, `People` object, or username to determine
@@ -71,7 +71,7 @@ def canAdminGroup(person, group, role=None):
         is looked up from the db
     :returns: True if the person can admin this group otherwise False
     '''
-    if isAdmin(person):
+    if is_admin(person):
         return True
     if isinstance(person, basestring):
         if group.owner.username == person:
@@ -112,7 +112,7 @@ def canSponsorGroup(person, group):
     '''
     # Check this first as it trumps the other checks
     role = ''
-    if isAdmin(person):
+    if is_admin(person):
         return True
     if isinstance(person, basestring):
         if group.owner.username == person:
@@ -208,7 +208,7 @@ def canEditUser(person, target):
         if person.username == target:
             return True
 
-    if isAdmin(person):
+    if is_admin(person):
         return True
 
     return False
@@ -220,7 +220,7 @@ def canCreateGroup(person):
     :returns: True if the user can create groups else False
     '''
     # Should groupname restrictions go here?
-    if isAdmin(person):
+    if is_admin(person):
         return True
     if isinstance(person, basestring):
         try:

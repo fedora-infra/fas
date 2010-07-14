@@ -40,7 +40,7 @@ class BugzillaPlugin(controllers.Controller):
         else:
             personal = False
         user = People.by_username(turbogears.identity.current.user_name)
-        if isAdmin(user):
+        if is_admin(user):
             admin = True
         else:
             admin = False
@@ -84,7 +84,7 @@ class BugzillaPlugin(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         target = People.by_username(targetname)
-        admin = isAdmin(person)
+        admin = is_admin(person)
         configs = get_configs(Configs.query.filter_by(person_id=person.id, application='bugzilla').all())
         if 'bugzilla_email' in configs:
             email = configs['bugzilla_email']
