@@ -791,6 +791,10 @@ forward to working with you!
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
+        ''' Provides forms for user to change password
+
+        :returns: empty dict
+        '''
         return dict()
 
     @identity.require(identity.not_anonymous())
