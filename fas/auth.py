@@ -348,7 +348,7 @@ def can_upgrade_user(person, group, target):
     # is already a group admin.
     return can_admin_group(person, group)
 
-def canDowngradeUser(person, group, target):
+def can_downgrade_user(person, group, target):
     '''Check whether the user can downgrade target in the group
 
     :arg person: People object or username to check for permissions to upgrade
