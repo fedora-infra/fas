@@ -494,10 +494,10 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                 try:
                     user = dict((field, getattr(user, field)) for field
                             in fields)
-                except AttributeError, e:
+                except AttributeError, error:
                     # An invalid field was given
                     turbogears.flash(_('Invalid field specified: %(error)s') %
-                            {'error': str(e)})
+                            {'error': str(error)})
                     if request_format() == 'json':
                         return dict(exc='Invalid', tg_template='json')
                     else:
@@ -548,6 +548,12 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @identity.require(identity.not_anonymous())
     @expose(template='fas.templates.user.verifyemail')
     def verifyemail(self, token, cancel=False):
+        ''' Used to verify the email address after a user has changed it
+
+        :arg token: Token emailed to the user, if correct the email is verified
+        :arg cancel: Cancel the outstanding change request
+        :returns: person and token
+        '''
         username = identity.current.user_name
         person = People.by_username(username)
         if cancel:
