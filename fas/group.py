@@ -43,7 +43,7 @@ import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
 from fas.auth import canViewGroup, can_create_group, can_admin_group, \
-        canEditGroup, canApplyGroup, canRemoveUser, canUpgradeUser, \
+        can_edit_group, canApplyGroup, canRemoveUser, canUpgradeUser, \
         canSponsorUser, canDowngradeUser, isApproved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
@@ -301,7 +301,7 @@ class Group(controllers.Controller):
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        if not canEditGroup(person, group):
+        if not can_edit_group(person, group):
             turbogears.flash(_("You cannot edit '%s'.") % group.name)
             turbogears.redirect('/group/view/%s' % group.name)
         else:

@@ -133,7 +133,7 @@
           <li><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('View Group')}</a></li>
           <li><a href="${tg.url('/group/invite/%s' % role.group.name)}">${_('Invite a New Member...')}</a></li>
           <li py:if="auth.canSponsorGroup(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('Manage Group Membership...')}</a></li>
-          <li py:if="auth.canEditGroup(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/edit/%s' % role.group.name)}">${_('Manage Group Details...')}</a></li>
+          <li py:if="auth.can_edit_group(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/edit/%s' % role.group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>
         </dd>
         <py:if test="auth.canSponsorGroup(People.by_username(person['username']), role.group) and role.group.unapproved_roles">

@@ -244,7 +244,7 @@ def can_create_group(person):
             pass
     return False
 
-def canEditGroup(person, group):
+def can_edit_group(person, group):
     '''Check if the person can edit the group information
 
     :arg person: People object or username to check for privileges to edit the
