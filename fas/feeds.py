@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' Provides feeds interface to FAS '''
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
 # Copyright © 2008 Red Hat, Inc. All rights reserved.
@@ -24,15 +25,20 @@ from xml.dom import minidom
 
 
 class Koji:
-    def __init__(self, userName, url='http://publictest8/koji/recentbuilds?user='):
-        buildFeed = minidom.parse(urllib.urlopen(url + userName))
+    ''' Provide fas feeds for koji '''
+    def __init__(self, user_name,
+                url='http://publictest8/koji/recentbuilds?user='):
+        build_feed = minidom.parse(urllib.urlopen(url + user_name))
         try:
-            self.userLink = buildFeed.getElementsByTagName('link')[0].childNodes[0].data
+            self.user_link = build_feed.getElementsByTagName(
+                            'link')[0].childNodes[0].data
             self.builds = {}
-            for build in buildFeed.getElementsByTagName('item'):
+            for build in build_feed.getElementsByTagName('item'):
                 link = build.getElementsByTagName('link')[0].childNodes[0].data
                 self.builds[link] = {}
-                self.builds[link]['title'] = build.getElementsByTagName('title')[0].childNodes[0].data
-                self.builds[link]['pubDate'] = build.getElementsByTagName('pubDate')[0].childNodes[0].data
+                self.builds[link]['title'] = build.getElementsByTagName(
+                                            'title')[0].childNodes[0].data
+                self.builds[link]['pubDate'] = build.getElementsByTagName(
+                                            'pubDate')[0].childNodes[0].data
         except IndexError:
             return
