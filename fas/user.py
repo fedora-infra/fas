@@ -473,13 +473,13 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             fields = []
 
         # Query db for all users and their status in cla_done
-        RoleGroupJoin = PersonRolesTable.join(GroupsTable,
+        role_group_join = PersonRolesTable.join(GroupsTable,
                 and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
-        PeopleJoin = PeopleTable.outerjoin(RoleGroupJoin,
+        people_join = PeopleTable.outerjoin(role_group_join,
                 PersonRoles.person_id==People.id)
 
         stmt = select([PeopleTable, PersonRolesTable.c.role_status],
-                from_obj=[PeopleJoin]).where(People.username.ilike(re_search)
+                from_obj=[people_join]).where(People.username.ilike(re_search)
                           ).order_by(People.username)
         people = People.query.add_column(PersonRoles.role_status
                 ).from_statement(stmt)
