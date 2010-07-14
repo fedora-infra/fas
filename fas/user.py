@@ -606,6 +606,11 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
 
     @expose(template='fas.templates.user.new')
     def new(self):
+        ''' Displays the user with a form to to fill out to to sign up
+
+        :returns: Captcha object and show
+        '''
+
         show = {}
         show['show_postal_address'] = config.get('show_postal_address')
         if identity.not_anonymous():
@@ -809,12 +814,14 @@ forward to working with you!
     def setpass(self, currentpassword, password, passwordcheck):
         username = identity.current.user_name
         person  = People.by_username(username)
-
+        if password != passwordcheck:
+            turbogears.flash(_('passwords did not match'))
+            return dict()
 #        current_encrypted = generate_password(currentpassword)
 #        print "PASS: %s %s" % (current_encrypted, person.password)
         if not person.password == crypt.crypt(currentpassword.encode('utf-8'),
                 person.password):
-            turbogears.flash('Your current password did not match')
+            turbogears.flash(_('Your current password did not match'))
             return dict()
         # TODO: Enable this when we need to.
         #if currentpassword == password:
@@ -951,6 +958,14 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @expose(template="fas.templates.user.verifypass")
     @validate(validators={'username' : KnownUser})
     def verifypass(self, username, token, cancel=False):
+        ''' Verifies whether or not the user has a password change request
+
+            :arg username: username of person to password change
+            :arg token: Token to check
+            :arg cancel: Whether or not to cancel the request
+            :returns: empty dict
+        '''
+
         person = People.by_username(username)
         if person.status in ('expired', 'admin_disabled'):
             turbogears.flash(_("Your account currently has status " + \
