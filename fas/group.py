@@ -42,7 +42,7 @@ import re
 import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
-from fas.auth import canViewGroup, can_create_group, can_admin_group, \
+from fas.auth import can_view_group, can_create_group, can_admin_group, \
         can_edit_group, canApplyGroup, canRemoveUser, canUpgradeUser, \
         canSponsorUser, canDowngradeUser, isApproved
 
@@ -158,7 +158,7 @@ class Group(controllers.Controller):
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        if not canViewGroup(person, group):
+        if not can_view_group(person, group):
             turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
@@ -194,7 +194,7 @@ class Group(controllers.Controller):
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
-        if not canViewGroup(person, group):
+        if not can_view_group(person, group):
             turbogears.flash(_("You cannot view '%s'") % group.name)
             turbogears.redirect('/group/list')
             return dict()
@@ -358,7 +358,7 @@ class Group(controllers.Controller):
                 except KeyError:
                     memberships[member[1]]=[{'person_id': member[0], 'role_type': member[2]}]
         for group in results:
-            if canViewGroup(person, group):
+            if can_view_group(person, group):
                 groups.append(group)
         if not len(groups):
             turbogears.flash(_("No Groups found matching '%s'") % search)

@@ -38,7 +38,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 import fas.sidebar as sidebar
 import logging
 import fas.plugin as plugin
-from fas.auth import canViewGroup
+from fas.auth import can_view_group
 
 from fas.model.fasmodel import Groups, GroupsTable, People
 
@@ -118,7 +118,7 @@ class ShowPlugin(controllers.Controller):
         results = Show.query.filter(Show.name.like(re_search)).order_by('name').all()
         shows = list()
         for show in results:
-            if canViewGroup(person, show.group):
+            if can_view_group(person, show.group):
                 shows.append(show)
         if not len(shows):
             turbogears.flash(_("No Shows found matching '%s'") % search)
@@ -133,7 +133,7 @@ class ShowPlugin(controllers.Controller):
         person = People.by_username(username)
         show = Show.by_name(show)
 
-        if not canViewGroup(person, show.group):
+        if not can_view_group(person, show.group):
             turbogears.flash(_("You cannot view '%s'") % show.name)
             turbogears.redirect('/show/list')
             return dict()

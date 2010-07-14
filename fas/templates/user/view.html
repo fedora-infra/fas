@@ -118,7 +118,7 @@
     -->
     <ul id="rolespanel">
       <py:for each="role in sorted(person['roles'], lambda x,y: cmp(x.group.name, y.group.name))">
-      <li py:if="auth.canViewGroup(viewer, role.group)" class="role">
+      <li py:if="auth.can_view_group(viewer, role.group)" class="role">
       <h4><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></h4> (${role.role_type})
       <dl>
         <dt>${_('Status:')}</dt>

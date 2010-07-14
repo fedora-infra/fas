@@ -254,7 +254,7 @@ def can_edit_group(person, group):
     '''
     return can_admin_group(person, group)
 
-def canViewGroup(person, group):
+def can_view_group(person, group):
     '''Check if the user can view the group
 
     :arg person: People object or username to check for privleges to view the
