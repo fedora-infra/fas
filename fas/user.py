@@ -390,8 +390,9 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         groups_to_return = []
         # Special Logic, find out all the people who are in more then one group
         if '@all' in groups_to_return_list:
-            g = Groups.query().filter(not_(Groups.name.ilike('cla%')))
-            for group in g:
+            groups_results = Groups.query().filter(
+                                not_(Groups.name.ilike('cla%')))
+            for group in groups_results:
                 groups_to_return.append(group.name)
 
         for group_type in groups_to_return_list:
@@ -407,11 +408,11 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             PersonRoles.group).filter(Groups.name.in_( groups_to_return ))
 
         # p becomes what we send back via json
-        p = []
+        people_dict = []
         for strip_p in people:
             strip_p = strip_p.filter_private()
             if strip_p.status == 'active':
-                p.append({
+                people_dict.append({
                     'username'  : strip_p.username,
                     'id'        : strip_p.id,
                     'ssh_key'   : strip_p.ssh_key,
@@ -419,7 +420,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                     'password'  : strip_p.password 
                     })
 
-        return dict(people=p, unapproved_people=[], search=search)
+        return dict(people=people_dict, unapproved_people=[], search=search)
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
