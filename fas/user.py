@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' Provides user IO to FAS '''
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
 # Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
