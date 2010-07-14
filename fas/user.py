@@ -975,7 +975,20 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         'chained_validators' : [validators.FieldsMatch('password',
                                 'passwordcheck')]})
     def setnewpass(self, username, token, password, passwordcheck):
+        ''' Sets a new password for a user
+
+        :arg username: Username of user to change password
+        :arg token: sanity check token
+        :arg password: new plain text password
+        :arg passwordcheck: must match password
+
+        :returns: empty dict or error
+        '''
         person = People.by_username(username)
+        if password != passwordcheck:
+            turbogears.flash(_("Both passwords must match"))
+            return dict()
+
         if person.status in ('expired', 'admin_disabled'):
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
@@ -998,7 +1011,6 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         # Re-enabled!
         if person.status in ('inactive'):
             # Check that the password has changed.
-            import crypt
             if person.old_password:
                 if crypt.crypt(password.encode('utf-8'), person.old_password) \
                     == person.old_password:
@@ -1008,7 +1020,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
 
-        ''' Log this '''
+        # Log the change
         newpass = generate_password(password)
         person.old_password = person.password
         person.password = newpass['hash']
