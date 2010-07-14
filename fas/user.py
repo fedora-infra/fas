@@ -839,6 +839,10 @@ forward to working with you!
 
     @expose(template="fas.templates.user.resetpass")
     def resetpass(self):
+        ''' Prompt user to reset password
+
+        :returns: empty dict
+        '''
         if identity.not_anonymous():
             turbogears.flash(_('You are already logged in!'))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -846,7 +850,13 @@ forward to working with you!
 
     @expose(template="fas.templates.user.resetpass")
     def sendtoken(self, username, email, encrypted=False):
-        # Logged in
+        ''' Email token to user for password reset
+
+        :arg username: username of user for verification
+        :arg email: email of user for verification
+        :arg encrypted: Should we encrypt the password
+        :returns: empty dict
+        '''
         if identity.current.user_name:
             turbogears.flash(_("You are already logged in."))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -916,8 +926,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
                     ctx.signers = [signer]
                     recipient = ctx.get_key(keyid)
                     def passphrase_cb(uid_hint, passphrase_info,
-                            prev_was_bad, fd):
-                        os.write(fd, '%s\n' % config.get('gpg_passphrase'))
+                            prev_was_bad, file_d):
+                        ''' Get gpg passphrase '''
+                        os.write(file_d, '%s\n' % config.get('gpg_passphrase'))
                     ctx.passphrase_cb = passphrase_cb
                     ctx.encrypt_sign([recipient],
                         gpgme.ENCRYPT_ALWAYS_TRUST,
