@@ -1033,6 +1033,9 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
     @expose(template="genshi-text:fas.templates.user.cert", format="text",
         content_type='application/x-x509-user-cert', allow_json=True)
     def dogencert(self):
+        ''' Generates a user certificate
+
+        :returns: empty dict though via tg it returns an x509 cert'''
         from cherrypy import response
         if not config.get('gencert', False):
             # Certificate generation is disabled on this machine
