@@ -14,7 +14,7 @@
     group = show.group
     person = People.by_username(tg.identity.user.username)
     can_admin = auth.can_admin_group(person, group)
-    can_sponsor = auth.canSponsorGroup(person, group)
+    can_sponsor = auth.can_sponsor_group(person, group)
     ?>
     <h2>${show.long_name} (${show.name})</h2>
     <h3>${_('Owner:')} ${show.owner.username}</h3>

@@ -16,7 +16,7 @@
     from fas.model import People
     person = People.by_username(tg.identity.user.username)
     can_admin = auth.can_admin_group(person, group)
-    can_sponsor = auth.canSponsorGroup(person, group)
+    can_sponsor = auth.can_sponsor_group(person, group)
     ?>
     <h2>${group.display_name} (${group.name})</h2>
     <h3>

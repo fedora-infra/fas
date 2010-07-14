@@ -102,7 +102,7 @@ def can_admin_group(person, group, role=None):
         return True
     return False
 
-def canSponsorGroup(person, group):
+def can_sponsor_group(person, group):
     '''Checks if the user is allowed to act as a sponsor for a group
 
     :arg person: People object or username to check whether they can sponsor
@@ -291,7 +291,7 @@ def can_apply_group(person, group, applicant):
             return False
 
     # group sponsors can apply anybody.
-    if canSponsorGroup(person, group):
+    if can_sponsor_group(person, group):
         return True
 
     # TODO: We can implement invite-only groups here instead.
@@ -313,7 +313,7 @@ def can_sponsor_user(person, group, target):
     '''
     # This is just here in case we want to add more complex checks in the
     # future 
-    return canSponsorGroup(person, group)
+    return can_sponsor_group(person, group)
 
 def can_remove_user(person, group, target):
     '''Check whether the person can remove a target user from the group.
@@ -331,7 +331,7 @@ def can_remove_user(person, group, target):
     # Otherwise, a sponsor can remove sponsors/users.
     elif (((isinstance(person, basestring) and person == target.username) \
             or person == target) and (group.user_can_remove == True)) or \
-        canSponsorGroup(person, group):
+        can_sponsor_group(person, group):
         return True
     return False
 
