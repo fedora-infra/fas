@@ -1089,3 +1089,32 @@ automatically revoked, and should stop working within the hour.
         return dict(tg_template="genshi-text:fas.templates.user.cert",
                 cla=True, cert=certdump, key=keydump)
 
+    @identity.require(identity.in_group(
+                        config.get('systemgroup', 'fas-system')))
+    @expose(allow_json=True)
+    def update_last_seen(self, username, last_seen=None):
+        ''' Update the persons last_seen field in the database
+
+        :arg username: Username of the person to update
+        :arg last_seen: Specify the time they were last seen, else now
+                        Format should be string: YYYY,MM,DD,hh,mm,ss
+        :returns: Empty dict on success
+        '''
+
+        if not last_seen:
+            last_seen=datetime.now(pytz.utc)
+        else:
+            update_time = last_seen.split(',')
+            last_seen = datetime(int(update_time[0]),   # Year
+                                int(update_time[1]),    # Month
+                                int(update_time[2]),    # Day
+                                int(update_time[3]),    # Hour
+                                int(update_time[4]),    # Minute
+                                int(update_time[5]),    # Second
+                                0,                      # ms
+                                pytz.utc)               # tz
+        person = People.by_username(username)
+        print "LAST_SEEN: %s" % last_seen
+        person.last_seen = last_seen
+        session.flush()
+        return dict()
