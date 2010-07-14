@@ -577,6 +577,11 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @identity.require(identity.not_anonymous())
     @expose()
     def setemail(self, token):
+        ''' Set email address once a request has been made
+
+            :arg token: Token of change request
+            :returns: Empty dict
+        '''
         username = identity.current.user_name
         person = People.by_username(username)
         if not (person.unverified_email and person.emailtoken):
@@ -587,11 +592,11 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             turbogears.flash(_('Invalid email change token.'))
             turbogears.redirect('/user/view/%s' % username)
             return dict()
-        ''' Log this '''
-        oldEmail = person.email
+        # Log the change
+        old_email = person.email
         person.email = person.unverified_email
         Log(author_id=person.id, description='Email changed from %s to %s' %
-            (oldEmail, person.email))
+            (old_email, person.email))
         person.unverified_email = ''
         session.flush()
         turbogears.flash(_('You have successfully changed your email to \'%s\''
