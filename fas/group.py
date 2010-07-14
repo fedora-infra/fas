@@ -473,7 +473,7 @@ Thank you for applying for the %(group)s group.
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not can_sponsor_user(person, group, target):
+        if not can_sponsor_user(person, group):
             turbogears.flash(_("You cannot sponsor '%s'") % target.username)
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
@@ -555,7 +555,7 @@ aliases within an hour.
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not can_upgrade_user(person, group, target):
+        if not can_upgrade_user(person, group):
             turbogears.flash(_("You cannot upgrade '%s'") % target.username)
             turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()
@@ -600,7 +600,7 @@ into the e-mail aliases within an hour.
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not can_downgrade_user(person, group, target):
+        if not can_downgrade_user(person, group):
             turbogears.flash(_("You cannot downgrade '%s'") % target.username)
             turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()

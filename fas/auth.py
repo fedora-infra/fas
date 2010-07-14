@@ -134,7 +134,8 @@ def can_sponsor_group(person, group):
             pass
 
     if role and ((role.role_status == 'approved' and \
-            role.role_type == 'sponsor') or can_admin_group(person, group, role)):
+            role.role_type == 'sponsor') or can_admin_group(person, group,
+                                                                role)):
         return True
     return False
 
@@ -264,8 +265,8 @@ def can_view_group(person, group):
     '''
     # If the group matched by privileged_view_groups, then
     # only people that can admin the group can view it
-    privilegedViewGroups = config.get('privileged_view_groups')
-    if re.compile(privilegedViewGroups).match(group.name):
+    privileged_view_groups = config.get('privileged_view_groups')
+    if re.compile(privileged_view_groups).match(group.name):
         if not can_admin_group(person, group):
             return False
     return True
@@ -286,8 +287,9 @@ def can_apply_group(person, group, applicant):
     # TODO: Make this raise more useful info.
     if prerequisite:
         if prerequisite not in applicant.approved_memberships:
-            turbogears.flash(_('%s membership required before application ' +
-                'to this group is allowed') % prerequisite.name)
+            turbogears.flash(_(
+            '%s membership required before application to this group is allowed'
+            ) % prerequisite.name)
             return False
 
     # group sponsors can apply anybody.
@@ -302,7 +304,7 @@ def can_apply_group(person, group, applicant):
 
     return False
 
-def can_sponsor_user(person, group, target):
+def can_sponsor_user(person, group):
     '''Check whether the user can sponsor target in the group
 
 
@@ -335,7 +337,7 @@ def can_remove_user(person, group, target):
         return True
     return False
 
-def can_upgrade_user(person, group, target):
+def can_upgrade_user(person, group):
     '''Check whether the person can upgrade the target in the group.
 
     :arg person: People object or username to check for permissions to upgrade
@@ -348,7 +350,7 @@ def can_upgrade_user(person, group, target):
     # is already a group admin.
     return can_admin_group(person, group)
 
-def can_downgrade_user(person, group, target):
+def can_downgrade_user(person, group):
     '''Check whether the user can downgrade target in the group
 
     :arg person: People object or username to check for permissions to upgrade
