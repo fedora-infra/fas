@@ -162,7 +162,7 @@ def isApproved(person, group):
             pass
     return False
 
-def CLADone(person):
+def cla_done(person):
     '''Checks if the user has completed the CLA.
 
     :arg person: People object or username to check for CLA status

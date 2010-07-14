@@ -36,7 +36,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 from fedora.tg.util import request_format
 
 from fas.model import People, Groups, Log
-from fas.auth import is_admin, CLADone
+from fas.auth import is_admin, cla_done
 from fas.util import send_mail
 import fas
 
@@ -75,7 +75,7 @@ class CLA(controllers.Controller):
             turbogears.flash('A valid country and telephone number are' +
                     ' required to complete the CLA.  Please fill them ' +
                     'out below.')
-        cla = CLADone(person)
+        cla = cla_done(person)
         person = person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime(),
                     show=show)
@@ -218,7 +218,7 @@ Thanks!
         '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if CLADone(person):
+        if cla_done(person):
             turbogears.flash(_('You have already completed the CLA.'))
             turbogears.redirect('/cla/')
             return dict()

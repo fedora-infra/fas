@@ -57,7 +57,7 @@ import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
-from fas.auth import is_admin, CLADone, canEditUser
+from fas.auth import is_admin, cla_done, canEditUser
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
@@ -165,7 +165,7 @@ class User(controllers.Controller):
         else:
             personal = False
         admin = is_admin(identity.current)
-        cla = CLADone(person)
+        cla = cla_done(person)
         person_data = person.filter_private()
         roles = person.roles
         roles.json_props = {
@@ -1088,7 +1088,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
         import tempfile
         username = identity.current.user_name
         person = People.by_username(username)
-        if not CLADone(person):
+        if not cla_done(person):
             if self.json_request():
                 return dict(cla=False)
             turbogears.flash(_('Before generating a certificate, you must ' + \

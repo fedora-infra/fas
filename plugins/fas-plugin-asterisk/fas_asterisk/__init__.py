@@ -69,7 +69,7 @@ class AsteriskPlugin(controllers.Controller):
     def index(self):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if not CLADone(person):
+        if not cla_done(person):
             turbogears.flash(_('You must sign the CLA to have access to this service.'))
         if turbogears.identity.current.user_name == username:
             personal = True
@@ -105,7 +105,7 @@ class AsteriskPlugin(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         target = People.by_username(targetname)
-        if not CLADone(target):
+        if not cla_done(target):
             turbogears.flash(_('You must sign the CLA to have access to this service.'))
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
@@ -120,7 +120,7 @@ class AsteriskPlugin(controllers.Controller):
     def save(self, targetname, asterisk_enabled, asterisk_pass):
         person = People.by_username(turbogears.identity.current.user_name)
         target = People.by_username(targetname)
-        if not CLADone(target):
+        if not cla_done(target):
             turbogears.flash(_('You must sign the CLA to have access to this service.'))
             turbogears.redirect('/user/view/%s' % target.username)
             return dict()
