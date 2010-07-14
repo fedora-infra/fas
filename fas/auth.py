@@ -315,7 +315,7 @@ def can_sponsor_user(person, group, target):
     # future 
     return canSponsorGroup(person, group)
 
-def canRemoveUser(person, group, target):
+def can_remove_user(person, group, target):
     '''Check whether the person can remove a target user from the group.
 
     :arg person: People object or username to check for permission

@@ -43,7 +43,7 @@ import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
 from fas.auth import can_view_group, can_create_group, can_admin_group, \
-        can_edit_group, can_apply_group, canRemoveUser, canUpgradeUser, \
+        can_edit_group, can_apply_group, can_remove_user, canUpgradeUser, \
         can_sponsor_user, canDowngradeUser, isApproved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
@@ -513,7 +513,7 @@ propagate into the e-mail aliases and CVS repository within an hour.
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canRemoveUser(person, group, target):
+        if not can_remove_user(person, group, target):
             turbogears.flash(_("You cannot remove '%(user)s' from '%(group)s'.") % \
                 {'user': target.username, 'group': group.name})
             turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
