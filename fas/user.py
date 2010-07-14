@@ -1148,7 +1148,7 @@ automatically revoked, and should stop working within the hour.
         '''
 
         if not last_seen:
-            last_seen=datetime.now(pytz.utc)
+            last_seen = datetime.now(pytz.utc)
         else:
             update_time = last_seen.split(',')
             last_seen = datetime(int(update_time[0]),   # Year
