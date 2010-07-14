@@ -62,7 +62,7 @@ def is_admin(person):
             pass
     return False
 
-def canAdminGroup(person, group, role=None):
+def can_admin_group(person, group, role=None):
     '''Checks if the user is allowed to act as an admin for a group
 
     :arg person: People object or username to check for admin role
@@ -134,7 +134,7 @@ def canSponsorGroup(person, group):
             pass
 
     if role and ((role.role_status == 'approved' and \
-            role.role_type == 'sponsor') or canAdminGroup(person, group, role)):
+            role.role_type == 'sponsor') or can_admin_group(person, group, role)):
         return True
     return False
 
@@ -252,7 +252,7 @@ def canEditGroup(person, group):
     :arg group: Groups object to check if `person` can edit
     :returns: True if the user can edit the group otherwise False
     '''
-    return canAdminGroup(person, group)
+    return can_admin_group(person, group)
 
 def canViewGroup(person, group):
     '''Check if the user can view the group
@@ -266,7 +266,7 @@ def canViewGroup(person, group):
     # only people that can admin the group can view it
     privilegedViewGroups = config.get('privileged_view_groups')
     if re.compile(privilegedViewGroups).match(group.name):
-        if not canAdminGroup(person, group):
+        if not can_admin_group(person, group):
             return False
     return True
 
@@ -324,8 +324,8 @@ def canRemoveUser(person, group, target):
     :returns: True if the user can remove target from the group otherwise False
     '''
     # Only administrators can remove administrators.
-    if canAdminGroup(target, group) and \
-        not canAdminGroup(person, group):
+    if can_admin_group(target, group) and \
+        not can_admin_group(person, group):
         return False
     # A user can remove themself from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
@@ -346,7 +346,7 @@ def canUpgradeUser(person, group, target):
     # Group admins can upgrade anybody.
     # The controller should handle the case where the target
     # is already a group admin.
-    return canAdminGroup(person, group)
+    return can_admin_group(person, group)
 
 def canDowngradeUser(person, group, target):
     '''Check whether the user can downgrade target in the group
@@ -356,4 +356,4 @@ def canDowngradeUser(person, group, target):
     :returns: True if the user can downgrade target in the group else False
     '''
     # Group admins can downgrade anybody.
-    return canAdminGroup(person, group)
+    return can_admin_group(person, group)
