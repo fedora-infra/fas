@@ -213,7 +213,7 @@ def can_edit_user(person, target):
 
     return False
 
-def canCreateGroup(person):
+def can_create_group(person):
     '''Check whether the user can create groups
 
     :arg person: People object or username to check if they can create groups

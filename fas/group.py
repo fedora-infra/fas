@@ -42,7 +42,7 @@ import re
 import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
-from fas.auth import canViewGroup, canCreateGroup, can_admin_group, \
+from fas.auth import canViewGroup, can_create_group, can_admin_group, \
         canEditGroup, canApplyGroup, canRemoveUser, canUpgradeUser, \
         canSponsorUser, canDowngradeUser, isApproved
 
@@ -217,7 +217,7 @@ class Group(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
-        if not canCreateGroup(person):
+        if not can_create_group(person):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         return dict()
@@ -235,7 +235,7 @@ class Group(controllers.Controller):
         person = People.by_username(turbogears.identity.current.user_name)
         person_owner = People.by_username(owner)
 
-        if not canCreateGroup(person):
+        if not can_create_group(person):
             turbogears.flash(_('Only FAS adminstrators can create groups.'))
             turbogears.redirect('/')
         try:
