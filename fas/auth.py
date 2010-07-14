@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' Handles various authentication and authorization methods for FAS '''
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
 # Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
@@ -28,7 +29,7 @@ import turbogears
 
 from sqlalchemy.exceptions import InvalidRequestError
 
-from fas.model import PersonRoles, People
+from fas.model import PersonRoles
 
 def isAdmin(person):
     '''Checks if the user is a FAS admin
@@ -232,10 +233,10 @@ def canCreateGroup(person):
             pass
     else:
         try:
-            # isApproved is more appropriate here, but that would require an extra
-            # group.by_name.  I need to think over the efficiency of auth.py.
-            # Maybe something in model.py so that Any given query should only be
-            # called once...
+            # isApproved is more appropriate here, but that would require an
+            # extra group.by_name.  I need to think over the efficiency of
+            # auth.py.  Maybe something in model.py so that Any given query
+            # should only be called once...
             if person.group_roles['sysadmin'].role_status == 'approved':
                 return True
         except KeyError:
@@ -285,7 +286,8 @@ def canApplyGroup(person, group, applicant):
     # TODO: Make this raise more useful info.
     if prerequisite:
         if prerequisite not in applicant.approved_memberships:
-            turbogears.flash(_('%s membership required before application to this group is allowed') % prerequisite.name)
+            turbogears.flash(_('%s membership required before application ' +
+                'to this group is allowed') % prerequisite.name)
             return False
 
     # group sponsors can apply anybody.
