@@ -302,7 +302,7 @@ def can_apply_group(person, group, applicant):
 
     return False
 
-def canSponsorUser(person, group, target):
+def can_sponsor_user(person, group, target):
     '''Check whether the user can sponsor target in the group
 
 

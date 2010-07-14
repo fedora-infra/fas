@@ -44,7 +44,7 @@ from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
         Groups, GroupsTable, Log
 from fas.auth import can_view_group, can_create_group, can_admin_group, \
         can_edit_group, can_apply_group, canRemoveUser, canUpgradeUser, \
-        canSponsorUser, canDowngradeUser, isApproved
+        can_sponsor_user, canDowngradeUser, isApproved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
         ValidRoleSort, KnownUser
@@ -473,7 +473,7 @@ Thank you for applying for the %(group)s group.
         target = People.by_username(targetname)
         group = Groups.by_name(groupname)
 
-        if not canSponsorUser(person, group, target):
+        if not can_sponsor_user(person, group, target):
             turbogears.flash(_("You cannot sponsor '%s'") % target.username)
             turbogears.redirect('/group/view/%s' % group.name)
             return dict()
