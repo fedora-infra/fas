@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' Used for processing CLA requests'''
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
 # Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
@@ -21,7 +22,7 @@
 #            Toshio Kuratomi <toshio@redhat.com>
 #
 import turbogears
-from turbogears import controllers, expose, identity, error_handler, config
+from turbogears import controllers, expose, identity, config
 from turbogears.database import session
 
 import cherrypy
@@ -39,8 +40,10 @@ from fas.auth import isAdmin, CLADone
 from fas.util import send_mail
 import fas
 
-class CLA(controllers.Controller):
+from fas import _
 
+class CLA(controllers.Controller):
+    ''' Processes CLA workflow '''
     # Group name for people having signed the CLA
     CLAGROUPNAME = config.get('cla_fedora_group')
     # Meta group for everyone who has satisfied the requirements of the CLA
@@ -48,7 +51,7 @@ class CLA(controllers.Controller):
     CLAMETAGROUPNAME = config.get('cla_done_group')
 
     # Values legal in phone numbers
-    PHONEDIGITS = ('0','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+',
+    PHONEDIGITS = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+',
             '-', ')' ,'(', ' ')
 
     def __init__(self):
@@ -67,12 +70,15 @@ class CLA(controllers.Controller):
             code_len = len(person.country_code)
         except TypeError:
             code_len = 0
-        if not person.telephone or code_len != 2 or person.country_code=='  ':
-            turbogears.flash('A valid country and telephone number are'
-                    ' required to complete the CLA.  Please fill them out below.')
+        if not person.telephone or code_len != 2 or \
+            person.country_code == '  ':
+            turbogears.flash('A valid country and telephone number are' +
+                    ' required to complete the CLA.  Please fill them ' +
+                    'out below.')
         cla = CLADone(person)
         person = person.filter_private()
-        return dict(cla=cla, person=person, date=datetime.utcnow().ctime(), show=show)
+        return dict(cla=cla, person=person, date=datetime.utcnow().ctime(),
+                    show=show)
 
     def _cla_dependent(self, group):
         '''
@@ -89,7 +95,12 @@ class CLA(controllers.Controller):
             return self._cla_dependent(group.prerequisite)
         return False
 
-    def jsonRequest(self):
+    def json_request(self):
+        ''' Helps define if json is being used for this request
+
+        :returns: 1 or 0 depending on if request is json or not
+        '''
+
         return 'tg_format' in cherrypy.request.params and \
                 cherrypy.request.params['tg_format'] == 'json'
 
@@ -101,7 +112,8 @@ class CLA(controllers.Controller):
         return dict(tg_errors=tg_errors)
 
     @identity.require(turbogears.identity.not_anonymous())
-    @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
+    @expose(template = "genshi-text:fas.templates.cla.cla", format = "text",
+            content_type = 'text/plain; charset=utf-8')
     def text(self):
         '''View CLA as text'''
         username = turbogears.identity.current.user_name
@@ -110,7 +122,8 @@ class CLA(controllers.Controller):
         return dict(person=person, date=datetime.utcnow().ctime())
 
     @identity.require(turbogears.identity.not_anonymous())
-    @expose(template="genshi-text:fas.templates.cla.cla", format="text", content_type='text/plain; charset=utf-8')
+    @expose(template = "genshi-text:fas.templates.cla.cla", format = "text",
+            content_type = 'text/plain; charset=utf-8')
     def download(self):
         '''Download CLA'''
         username = turbogears.identity.current.user_name
@@ -120,7 +133,7 @@ class CLA(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.user.view", allow_json=True)
-    def reject(self, personName):
+    def reject(self, person_name):
         '''Reject a user's CLA.
 
         This method will remove a user from the CLA group and any other groups
@@ -128,7 +141,7 @@ class CLA(controllers.Controller):
         to fulfill some more legal requirements before having a valid CLA.
 
         Arguments
-        :personName: Name of the person to reject.
+        :person_name: Name of the person to reject.
         '''
         show = {}
         show['show_postal_address'] = config.get('show_postal_address')
@@ -140,22 +153,23 @@ class CLA(controllers.Controller):
             exc = 'NotAuthorized'
         else:
             # Unapprove the cla and all dependent groups
-            person = People.by_username(personName)
+            person = People.by_username(person_name)
             for role in person.roles:
                 if self._cla_dependent(role.group):
                     role.role_status = 'unapproved'
             try:
                 session.flush()
-            except SQLError, e:
+            except SQLError, error:
                 turbogears.flash(_('Error removing cla and dependent groups' \
                         ' for %(person)s\n Error was: %(error)s') %
-                        {'person': personName, 'error': str(e)})
+                        {'person': person_name, 'error': str(error)})
                 exc = 'sqlalchemy.SQLError'
 
         if not exc:
             # Send a message that the ICLA has been revoked
-            dt = datetime.utcnow()
-            Log(author_id=user.id, description='Revoked %s CLA' % person.username, changetime=dt)
+            date_time = datetime.utcnow()
+            Log(author_id=user.id, description='Revoked %s CLA' %
+                person.username, changetime=date_time)
             revoke_subject = 'Fedora ICLA Revoked'
             revoke_text = '''
 Hello %(human_name)s,
@@ -190,16 +204,17 @@ Thanks!
             turbogears.flash(_('CLA Successfully Removed.'))
         # and now we're done
         if request_format() == 'json':
-            returnVal = {}
+            return_val = {}
             if exc:
-                returnVal['exc'] = exc
-            return returnVal
+                return_val['exc'] = exc
+            return return_val
         else:
-            turbogears.redirect('/user/view/%s' % personName)
+            turbogears.redirect('/user/view/%s' % person_name)
 
     @identity.require(turbogears.identity.not_anonymous())
     @expose(template="fas.templates.cla.index")
-    def send(self, human_name, telephone, country_code, postal_address=None, confirm=False, agree=False):
+    def send(self, human_name, telephone, country_code, postal_address=None,
+        confirm=False, agree=False):
         '''Send CLA'''
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
@@ -211,7 +226,9 @@ Thanks!
             turbogears.flash(_("You have not completed the CLA."))
             turbogears.redirect('/user/view/%s' % person.username)
         if not confirm:
-            turbogears.flash(_('You must confirm that your personal information is accurate.'))
+            turbogears.flash(_(
+                'You must confirm that your personal information is accurate.'
+            ))
             turbogears.redirect('/cla/')
 
         # Compare old information to new to see if any changes have been made
@@ -235,17 +252,22 @@ Thanks!
         if not person.telephone or \
                 not person.human_name or \
                 not person.country_code:
-            turbogears.flash(_('To complete the CLA, we must have your name, telephone number, and country.  Please ensure they have been filled out.'))
+            turbogears.flash(_('To complete the CLA, we must have your ' + \
+                'name telephone number, and country.  Please ensure they ' + \
+                'have been filled out.'))
             turbogears.redirect('/cla/')
 
         blacklist = config.get('country_blacklist', [])
         country_codes = [c for c in GeoIP.country_codes if c not in blacklist]
 
         if person.country_code not in country_codes:
-            turbogears.flash(_('To complete the CLA, a valid country code must be specified.  Please select one now.'))
+            turbogears.flash(_('To complete the CLA, a valid country code' + \
+            'must be specified.  Please select one now.'))
             turbogears.redirect('/cla/')
         if [True for char in person.telephone if char not in self.PHONEDIGITS]:
-            turbogears.flash(_('Telephone numbers can only consist of numbers, "-", "+", "(", ")", or " ".  Please reenter using only those characters.'))
+            turbogears.flash(_('Telephone numbers can only consist of ' + \
+                'numbers, "-", "+", "(", ")", or " ".  Please reenter using' +\
+                'only those characters.'))
             turbogears.redirect('/cla/')
             turbogears.redirect('/cla/')
 
@@ -259,7 +281,8 @@ Thanks!
             # unapproved) of this group
             pass
         except Exception:
-            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+            turbogears.flash(_("You could not be added to the '%s' group.") %
+                                group.name)
             turbogears.redirect('/cla/')
             return dict()
 
@@ -268,16 +291,20 @@ Thanks!
             person.sponsor(group, person) # Sponsor!
             session.flush()
         except fas.SponsorError:
-            turbogears.flash(_("You are already a part of the '%s' group.") % group.name)
+            turbogears.flash(_("You are already a part of the '%s' group.") %
+                                group.name)
             turbogears.redirect('/cla/')
         except:
-            turbogears.flash(_("You could not be added to the '%s' group.") % group.name)
+            turbogears.flash(_("You could not be added to the '%s' group.") %
+                                group.name)
             turbogears.redirect('/cla/')
 
-        dt = datetime.utcnow()
-        Log(author_id=person.id, description='Completed CLA', changetime=dt)
-        cla_subject = 'Fedora ICLA completed for %(human_name)s (%(username)s)' % \
-                {'username': person.username, 'human_name': person.human_name}
+        date_time = datetime.utcnow()
+        Log(author_id = person.id, description = 'Completed CLA',
+            changetime = date_time)
+        cla_subject = \
+            'Fedora ICLA completed for %(human_name)s (%(username)s)' % \
+            {'username': person.username, 'human_name': person.human_name}
         cla_text = '''
 Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
@@ -290,19 +317,17 @@ If you need to revoke it, please visit this link:
 === CLA ===
 
 ''' % {'username': person.username,
-'human_name': person.human_name,
 'email': person.email,
-'country_code': person.country_code,
-'telephone': person.telephone,
-'facsimile': person.facsimile,
-'date': dt.ctime(),}
+'date': date_time.ctime(),}
         # Sigh..  if only there were a nicer way.
         plugin = TextTemplateEnginePlugin()
-        #message.plain += plugin.render(template='fas.templates.cla.cla', info=dict(person=person), format='text')
-        cla_text += plugin.transform(dict(person=person), 'fas.templates.cla.cla').render(method='text', encoding=None)
+        cla_text += plugin.transform(dict(person=person),
+                    'fas.templates.cla.cla').render(method='text',
+                    encoding=None)
 
         send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
 
-        turbogears.flash(_("You have successfully completed the CLA.  You are now in the '%s' group.") % group.name)
+        turbogears.flash(_("You have successfully completed the CLA.  You " + \
+                            "are now in the '%s' group.") % group.name)
         turbogears.redirect('/user/view/%s' % person.username)
         return dict()
