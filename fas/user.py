@@ -641,7 +641,20 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
     def create(self, username, human_name, email, verify_email, telephone=None,
-               postal_address=None, age_check=False, captcha={}):
+               postal_address=None, age_check=False, captcha=None):
+        ''' Parse arguments from the UI and make sure everything is in order.
+
+            :arg username: requested username
+            :arg human_name: full name of new user
+            :arg email: email address of the new user
+            :arg verify_email: double check of users email
+            :arg telephone: telephone number of new user
+            :arg postal_address: Mailing address of user
+            :arg age_check: verifies user is over 13 years old
+            :arg captcha: captcha to ensure the user is a human
+            :returns: person
+
+        '''
         # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
         #           their password) withing X days.
@@ -657,12 +670,17 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             "on our sites. We do not knowingly collect or solicit personal " +\
             "information about children under 13."))
             turbogears.redirect('/')
-        test = select([PeopleTable.c.username], 
+        email_test = select([PeopleTable.c.username], 
                       func.lower(PeopleTable.c.email)==email.lower())\
                     .execute().fetchall()
-        if test:
+        if email_test:
             turbogears.flash(_("Sorry.  That email address is already in " + \
                 "use. Perhaps you forgot your password?"))
+            turbogears.redirect("/")
+            return dict()
+
+        if email != verify_email:
+            turbogears.flash(_("Sorry.  Email addresses do not match"))
             turbogears.redirect("/")
             return dict()
         try:
@@ -682,7 +700,19 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             return dict()
 
     def create_user(self, username, human_name, email, telephone=None,
-        postal_address=None, age_check=False, redirect='/'):
+        postal_address=None, age_check=False, redirect_location='/'):
+        ''' create_user: saves user information to the database and sends a
+            welcome email.
+
+            :arg username: requested username
+            :arg human_name: full name of new user
+            :arg email: email address of the new user
+            :arg telephone: telephone number of new user
+            :arg postal_address: Mailing address of user
+            :arg age_check: verifies user is over 13 years old
+            :arg redirect: location to redirect to after creation
+            :returns: person
+        '''
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
         if not age_check:
@@ -693,13 +723,13 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             "registered members of our sites or buy products and services " + \
             "on our sites. We do not knowingly collect or solicit personal " +\
             "information about children under 13."))
-            turbogears.redirect(redirect)
+            turbogears.redirect(redirect_location)
         test = select([PeopleTable.c.username],
             func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
         if test:
             turbogears.flash(_("Sorry.  That email address is already in " + \
                 "use. Perhaps you forgot your password?"))
-            turbogears.redirect(redirect)
+            turbogears.redirect(redirect_location)
             return dict()
         person = People()
         person.username = username
