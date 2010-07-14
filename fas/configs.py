@@ -40,10 +40,14 @@ from fas.model import Configs, People
 from fas.validators import KnownUser
 from fas.auth import can_edit_user
 
+from fas import _
+
 class ConfigList(validators.Schema):
     '''Set of validators for the list method of Configs'''
     # pylint: disable-msg=W0232,R0903
-    username = KnownUser
+    def __init__(self):
+        self.username = KnownUser
+
     application = validators.All(validators.UnicodeString,
             validators.Regex(regex='^[a-z0-9-_]+$'),
             # This could also match the db precisely.  But then we'd have to
@@ -70,6 +74,10 @@ class ConfigSet(validators.Schema):
 class Config(controllers.Controller):
     '''Controller that serves generic third party app configs.
     '''
+
+    def __init__(self):
+        pass
+
     @expose(template="fas.templates.error", allow_json=True)
     def error(self, tg_errors=None):
         '''Show a friendly error message'''
@@ -179,8 +187,8 @@ class Config(controllers.Controller):
             # ScopedSession really does have a flush() method
             # pylint: disable-msg=E1101
             session.flush()
-        except SQLError, e:
-            flash(_('Error saving the config to the database: %s' % (e)))
+        except SQLError, error:
+            flash(_('Error saving the config to the database: %s' % (error)))
             return dict(exc='SQLError')
 
         # On success return an empty dict
