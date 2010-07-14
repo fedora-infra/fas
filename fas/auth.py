@@ -335,7 +335,7 @@ def can_remove_user(person, group, target):
         return True
     return False
 
-def canUpgradeUser(person, group, target):
+def can_upgrade_user(person, group, target):
     '''Check whether the person can upgrade the target in the group.
 
     :arg person: People object or username to check for permissions to upgrade
