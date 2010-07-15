@@ -23,6 +23,10 @@
       <span py:if="group in person.memberships and not group in person.approved_memberships" class="unapproved">${_('Unapproved')}</span>
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
+    <!--
+        TODO: Turning the below form into an anchor ref fixes the CSRF request
+              I'm nto sure if that's intended though>
+    <a py:if="not group.invite_only and not group in person.memberships" href="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}"><h3>Apply</h3></a> -->
     <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}">
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
