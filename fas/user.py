@@ -69,6 +69,44 @@ from fas import _
 
 CAPTCHA = CaptchaField(name='captcha', label=_('Enter the code shown'))
 
+class UserCreate(validators.Schema):
+    ''' Validate information for a new user '''
+    username = validators.All(
+        UnknownUser,
+        ValidUsername(not_empty=True),
+        validators.String(max=32, min=3),
+    )
+    human_name = validators.All(
+        validators.String(not_empty=True, max=42),
+        validators.Regex(regex='^[^\n:<>]+$'),
+        )
+    email = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        NonFedoraEmail(not_empty=True, strip=True),
+    )
+    verify_email = validators.All(
+        validators.Email(not_empty=True, strip=True),
+        NonFedoraEmail(not_empty=True, strip=True),
+    )
+    #fedoraPersonBugzillaMail = validators.Email(strip=True)
+    postal_address = validators.String(max=512)
+    captcha = CaptchaFieldValidator()
+    chained_validators = [ validators.FieldsMatch('email', 'verify_email') ]
+
+class UserSetPassword(validators.Schema):
+    ''' Validate new and old passwords '''
+    currentpassword = validators.String
+    # TODO (after we're done with most testing): Add complexity requirements?
+    password = validators.String(min=8)
+    passwordcheck = validators.String
+    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
+
+class UserResetPassword(validators.Schema):
+    # TODO (after we're done with most testing): Add complexity requirements?
+    password = validators.String(min=8)
+    passwordcheck = validators.String
+    chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
+
 def generate_password(password=None, length=16):
     ''' Generate Password
 
@@ -619,33 +657,9 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
         return dict(captcha=CAPTCHA, show=show)
 
-    @validate(validators={
-        'username' : validators.All(
-            UnknownUser,
-            ValidUsername(not_empty=True),
-            validators.String(max=32, min=3),
-        ),
-        'human_name' : validators.All(
-            validators.String(not_empty=True, max=42),
-            validators.Regex(regex='^[^\n:<>]+$'),
-            ),
-        'email' : validators.All(
-            validators.Email(not_empty=True, strip=True),
-            NonFedoraEmail(not_empty=True, strip=True),
-        ),
-        'verify_email' : validators.All(
-            validators.Email(not_empty=True, strip=True),
-            NonFedoraEmail(not_empty=True, strip=True),
-        ),
-        'chained_validators' : [ validators.FieldsMatch('email',
-                                'verify_email') ],
-        #fedoraPersonBugzillaMail' = validators.Email(strip=True)
-        'postal_address' : validators.String(max=512),
-        'captcha' : CaptchaFieldValidator()
-
-    })
-    @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.new')
+    @validate(validators=UserCreate())
+    @error_handler(error) # pylint: disable-msg=E0602
     def create(self, username, human_name, email, verify_email, telephone=None,
                postal_address=None, age_check=False, captcha=None):
         ''' Parse arguments from the UI and make sure everything is in order.
@@ -804,12 +818,7 @@ forward to working with you!
         return dict()
 
     @identity.require(identity.not_anonymous())
-    @validate(validators={
-        'currentpassword' : validators.String,
-        'password' : validators.String(min=8),
-        'passwordcheck' : validators.String,
-        'chained_validators' : [validators.FieldsMatch('password',
-                                'passwordcheck')]})
+    @validate(validators=UserSetPassword())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.changepass")
     def setpass(self, currentpassword, password, passwordcheck):
@@ -996,11 +1005,7 @@ https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
 
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.user.verifypass")
-    @validate(validators={
-        'password' : validators.String(min=8),
-        'passwordcheck' : validators.String,
-        'chained_validators' : [validators.FieldsMatch('password',
-                                'passwordcheck')]})
+    @validate(validators=UserResetPassword())
     def setnewpass(self, username, token, password, passwordcheck):
         ''' Sets a new password for a user
 
