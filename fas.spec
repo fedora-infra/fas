@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.6.2.4
-Release:        1%{?dist}
+Version:        0.8.6.2.5
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -17,7 +17,7 @@ BuildRequires:  python-setuptools-devel
 BuildRequires:  TurboGears
 BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
-Requires: python-sqlalchemy >= 0.4
+Requires: python-sqlalchemy0.5
 Requires: python-TurboMail
 Requires: python-fedora >= 0.3.9.92
 Requires: babel
@@ -30,6 +30,9 @@ Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-tgcaptcha
+
+# This is because having python-sqlalchemy seems to make FAS not work.
+Conflicts: python-sqlalchemy
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -64,7 +67,7 @@ Additional scripts that work as clients to the accounts system.
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
-%{__install} -m 640 fas.cfg %{buildroot}%{_sysconfdir}
+%{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 %{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
@@ -105,6 +108,13 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Jul 29 2010 Jon Stanley <jstanley@fedoraproject.org> - 0.8.6.2.5-2
+- Fix fas.cfg=>fas.cfg.sample rename upstream
+
+* Thu Jul 29 2010 Jon Stanley - 0.8.6.2.5-1
+- New upstream release
+- Now conflicts with python-sqlalchemy, and requires python-sqlalchemy0.5
+
 * Wed Sep 16 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.6.2.3-1
 - New release that implements a captcha for new accounts and fixes a few
   bugs.
