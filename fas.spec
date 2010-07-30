@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.6.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -67,7 +67,7 @@ Additional scripts that work as clients to the accounts system.
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
-%{__install} -m 640 fas.cfg %{buildroot}%{_sysconfdir}
+%{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 %{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
@@ -108,6 +108,9 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Jul 29 2010 Jon Stanley <jstanley@fedoraproject.org> - 0.8.6.2.5-2
+- Fix fas.cfg=>fas.cfg.sample rename upstream
+
 * Thu Jul 29 2010 Jon Stanley - 0.8.6.2.5-1
 - New upstream release
 - Now conflicts with python-sqlalchemy, and requires python-sqlalchemy0.5
