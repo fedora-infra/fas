@@ -165,9 +165,10 @@ setup(
     },
     install_requires = [
         'TurboGears >= 1.0.4',
-        'SQLAlchemy >= 0.4',
+        'SQLAlchemy >= 0.5',
         'TurboMail',
-        'python_fedora >= 0.3'
+        'python_fedora >= 0.3',
+	'python-weboob'
     ],
     scripts = [
         'client/fasClient',
