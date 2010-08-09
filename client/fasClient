@@ -536,7 +536,11 @@ class MakeShellAccounts(AccountSystem):
             ssh_dir = os.path.join(home_dir_base, username, '.ssh')
             if self.users[uid]['ssh_key']:
                 if users[uid]['ssh_cmd'] or users[uid]['ssh_options']:
-                   key = 'command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], self.users[uid]['ssh_key'])
+                   key = []
+                   for key_tmp in self.users[uid]['ssh_key'].split("\n"):
+                       if key_tmp:
+                           key.append('command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], key_tmp))
+                   key = "\n".join(key)
                 else:
                    key = self.users[uid]['ssh_key']
                 if not os.path.exists(ssh_dir):
