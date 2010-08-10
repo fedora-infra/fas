@@ -73,7 +73,7 @@ if __name__ == '__main__':
             print 'Unrecognized action code: %s %s %s %s %s' % (entry.action,
                     entry.email, entry.person.human_name, entry.person.username, entry.group.name)
             continue
-        
+
         # Remove them from the queue
         session.delete(entry)
         session.flush()
@@ -112,10 +112,9 @@ if __name__ == '__main__':
             msg.add_header('From', ADMINEMAIL)
             msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
             msg.set_payload(message)
-            #smtp = smtplib.SMTP(MAILSERVER)
-            #smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
-            #smtp.quit()
-            print 'Message to %s: %s' % (person.email, message,)
+            smtp = smtplib.SMTP(MAILSERVER)
+            smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
+            smtp.quit()
     recipients = ', '.join([e for e in NOTIFYEMAIL if e != '$USER'])
     if recipients and no_bz_account:
         smtplib.SMTP(MAILSERVER)
@@ -137,7 +136,6 @@ that are valid in bugzilla:
         msg.add_header('To', recipients)
         msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
         msg.set_payload(message)
-        #smtp = smtplib.SMTP(MAILSERVER)
-        #smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
-        #smtp.quit()
-        print 'Message to %s: %s' % (recipients, message)
+        smtp = smtplib.SMTP(MAILSERVER)
+        smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
+        smtp.quit()
