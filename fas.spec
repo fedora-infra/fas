@@ -43,7 +43,7 @@ that works with the Account System.
 Summary: Clients for the Fedora Account System
 Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
-Requires: rhpl authconfig
+Requires: authconfig
 Requires: nss_db
 
 %description clients
