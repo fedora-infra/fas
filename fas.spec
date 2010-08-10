@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.7
+Version:        0.8.7.1
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -30,7 +30,6 @@ Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-tgcaptcha
-Requires: python-webob
 
 # This is because having python-sqlalchemy seems to make FAS not work.
 Conflicts: python-sqlalchemy
@@ -109,6 +108,10 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Aug 10 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7.1-1
+- New upstream release
+- Removed python-webob dep (was a false dep anyway)
+
 * Mon Aug 09 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7-1
 - New upstream release
 
