@@ -167,8 +167,7 @@ setup(
         'TurboGears >= 1.0.4',
         'SQLAlchemy >= 0.5',
         'TurboMail',
-        'python_fedora >= 0.3',
-        'python-webob'
+        'python_fedora >= 0.3'
     ],
     scripts = [
         'client/fasClient',
