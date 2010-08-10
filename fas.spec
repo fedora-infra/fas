@@ -17,7 +17,7 @@ BuildRequires:  python-setuptools-devel
 BuildRequires:  TurboGears
 BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
-Requires: python-sqlalchemy0.5
+Requires: python-sqlalchemy
 Requires: python-TurboMail
 Requires: python-fedora >= 0.3.9.92
 Requires: babel
@@ -30,9 +30,6 @@ Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-tgcaptcha
-
-# This is because having python-sqlalchemy seems to make FAS not work.
-Conflicts: python-sqlalchemy
 
 %description
 The Fedora Account System is a web application that manages the accounts of
