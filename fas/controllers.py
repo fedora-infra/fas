@@ -29,7 +29,7 @@ import cherrypy
 import time
 
 from fedora.tg import controllers as f_ctrlers
-from fedora.tg.util import request_format
+from fedora.tg.tg1utils import request_format
 
 from fas import release
 from fas.user import User, generate_token
