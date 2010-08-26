@@ -8,6 +8,7 @@
   </head>
   <body>
     <h2>${_('Sign up for a Fedora account')}</h2>
+    <p><strong>${_('NOTE:')}</strong> ${_('Username is permanent')} <em>${_('(i.e. it cannot be changed after registration and will never be deleted from the system).')}</em> ${_('Personal information may be updated or removed at any time.')}</p>
     <form action="${tg.url('/user/create')}" method="post">
       <div class="field">
         <label for="username">${_('Username:')}</label>
