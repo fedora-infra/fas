@@ -27,7 +27,7 @@ thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 class ValidAsteriskPass(validators.FancyValidator):
     pass_regex = re.compile(r'^\d+$')
 
-    messages = {'invalid_pass': _('The password must be numeric and be at least 6 digits long.') }
+    messages = {'invalid_pass': 'The password must be numeric and be at least 6 digits long.' }
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
