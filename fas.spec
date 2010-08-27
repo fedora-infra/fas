@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.7.2
+Version:        0.8.7.3
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -105,7 +105,7 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
-* Fri Aug 27 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7.2-1
+* Fri Aug 27 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7.3-1
 - Upstream released new version
 
 * Tue Aug 10 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7.1-1
