@@ -20,6 +20,7 @@
     <p>${group.apply_rules}</p>
     <h3>Have you read all the rules, and followed all instructions?</h3>
     <form action="${tg.url('/group/apply/%s/%s' % (group.name, person.username))}">
+      <input type="hidden" name="_csrf_token" value="${tg.identity.csrf_token}" />
       <div>
         <input type="submit" value="${('Apply!')}" />
       </div>

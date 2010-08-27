@@ -26,6 +26,7 @@
       <span py:if="not group in person.memberships">${_('Not a Member')}</span>
     </h3>
     <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}">
+      <input type="hidden" name="_csrf_token" value="${tg.identity.csrf_token}" />
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
         <input type="submit" value="${('Apply!')}" />
