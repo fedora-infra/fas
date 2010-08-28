@@ -70,11 +70,22 @@ class CLA(controllers.Controller):
             code_len = len(person.country_code)
         except TypeError:
             code_len = 0
-        if not person.telephone or code_len != 2 or \
-            person.country_code == '  ':
-            turbogears.flash('A valid country and telephone number are' +
-                    ' required to complete the CLA.  Please fill them ' +
-                    'out below.')
+        if show['show_postal_address']:
+            contactInfo = person.telephone or person.postal_address
+            if person.country_code == 'O1' and not person.telephone:
+                turbogears.flash(_('A telephone number is required to ' + \
+                    'complete the CLA.  Please fill out below.'))
+            elif not person.country_code or not person.human_name \
+                or not contactInfo:
+                turbogears.flash(_('A valid country and telephone number ' + \
+                    'or postal address is required to complete the CLA.  ' + \
+                    'Please fill them out below.'))
+        else:
+            if not person.telephone or code_len != 2 or \
+                person.country_code == '  ':
+                turbogears.flash(_('A valid country and telephone number are' +
+                        ' required to complete the CLA.  Please fill them ' +
+                        'out below.'))
         cla = cla_done(person)
         person = person.filter_private()
         return dict(cla=cla, person=person, date=datetime.utcnow().ctime(),
@@ -216,6 +227,12 @@ Thanks!
     def send(self, human_name, telephone, country_code, postal_address=None,
         confirm=False, agree=False):
         '''Send CLA'''
+        
+        # TO DO: Pull show_postal_address in at the class level
+        # as it's used in three methods now
+        show = {}
+        show['show_postal_address'] = config.get('show_postal_address')
+        
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         if cla_done(person):
@@ -249,13 +266,25 @@ Thanks!
             return dict()
 
         # Heuristics to detect bad data
-        if not person.telephone or \
+        if show['show_postal_address']:
+            contactInfo = person.telephone or person.postal_address
+            if person.country_code == 'O1':
+                if not person.human_name or not person.telephone:
+                    # Message implemented on index
+                    turbogears.redirect('/cla/')
+            else:
+                if not person.country_code or not person.human_name \
+                    or not contactInfo:
+                    # Message implemented on index
+                    turbogears.redirect('/cla/')
+        else:
+            if not person.telephone or \
                 not person.human_name or \
                 not person.country_code:
-            turbogears.flash(_('To complete the CLA, we must have your ' + \
-                'name telephone number, and country.  Please ensure they ' + \
-                'have been filled out.'))
-            turbogears.redirect('/cla/')
+                turbogears.flash(_('To complete the CLA, we must have your ' + \
+                    'name telephone number, and country.  Please ensure they ' + \
+                    'have been filled out.'))
+                turbogears.redirect('/cla/')
 
         blacklist = config.get('country_blacklist', [])
         country_codes = [c for c in GeoIP.country_codes if c not in blacklist]
@@ -268,7 +297,6 @@ Thanks!
             turbogears.flash(_('Telephone numbers can only consist of ' + \
                 'numbers, "-", "+", "(", ")", or " ".  Please reenter using' +\
                 'only those characters.'))
-            turbogears.redirect('/cla/')
             turbogears.redirect('/cla/')
 
         group = Groups.by_name(self.CLAGROUPNAME)
