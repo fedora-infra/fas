@@ -465,7 +465,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search=u'a*', fields=None):
+    def list(self, search=u'a*', fields=None, limit=None):
         '''List users
 
         :kwarg search: Limit the users returned by the search string.  * is a
@@ -513,6 +513,17 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         else:
             fields = []
 
+        # Ensure limit is a valid number
+        if limit:
+            try:
+                limit = int(limit)
+            except ValueError:
+                limit = None
+
+        # Set a reasonable default limit for web interface results
+        if not limit and request_format() != 'json':
+            limit = 100
+
         # Query db for all users and their status in cla_done
         role_group_join = PersonRolesTable.join(GroupsTable,
                 and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
@@ -521,7 +532,7 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
 
         stmt = select([PeopleTable, PersonRolesTable.c.role_status],
                 from_obj=[people_join]).where(People.username.ilike(re_search)
-                          ).order_by(People.username)
+                          ).order_by(People.username).limit(limit)
         people = People.query.add_column(PersonRoles.role_status
                 ).from_statement(stmt)
 
