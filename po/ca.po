@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2010-08-30 08:31+0100\n"
+"PO-Revision-Date: 2010-08-30 08:47+0100\n"
 "Last-Translator: Robert Antoni Buj Gelonch <robert.buj@gmail.com>\n"
 "Language-Team: Catalan <fedora@softcatala.net>\n"
 "MIME-Version: 1.0\n"
@@ -413,7 +413,7 @@ msgstr ""
 #: fas/help.py:39
 #: fas/templates/user/edit.html:120
 msgid "Locale"
-msgstr ""
+msgstr "Idioma"
 
 #: fas/help.py:39
 msgid "<p>For non-english speaking peoples this allows individuals to select which locale they are in.</p>"
@@ -421,11 +421,11 @@ msgstr ""
 
 #: fas/help.py:40
 msgid "Country Code"
-msgstr ""
+msgstr "Codi del país"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "He de tenir més de 13 anys"
 
 #: fas/help.py:41
 msgid "<p>Out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13.</p>"
@@ -433,7 +433,7 @@ msgstr ""
 
 #: fas/help.py:42
 msgid "Hide Information"
-msgstr ""
+msgstr "Oculta la informació"
 
 #: fas/help.py:42
 msgid "<p>In accordance with our privacy policy, you can choose to hide some of the information given on this page from other people.  Please see the privacy policy for complete details.</p>"
@@ -442,7 +442,7 @@ msgstr ""
 #: fas/help.py:43
 #: fas/templates/group/list.html:43
 msgid "Apply"
-msgstr ""
+msgstr "Aplica"
 
 #: fas/help.py:43
 #, python-format
@@ -452,7 +452,7 @@ msgstr ""
 #: fas/help.py:44
 #: fas/templates/group/member-list.html:46
 msgid "Remove"
-msgstr ""
+msgstr "Treu"
 
 #: fas/help.py:44
 msgid "<p>Removing a person from a group will cause that user to no longer be in the group.  They will need to re-apply to get in.  Admins can remove anyone, Sponsors can remove users, users can't remove anyone.</p>"
@@ -461,7 +461,7 @@ msgstr ""
 #: fas/help.py:45
 #: fas/templates/group/member-list.html:50
 msgid "Upgrade"
-msgstr ""
+msgstr "Actualitza"
 
 #: fas/help.py:45
 msgid "<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot be upgraded beyond administrator</li></ul></p>"
@@ -470,7 +470,7 @@ msgstr ""
 #: fas/help.py:46
 #: fas/templates/group/member-list.html:54
 msgid "Downgrade"
-msgstr ""
+msgstr "Desactualitza"
 
 #: fas/help.py:46
 msgid "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>"
@@ -479,7 +479,7 @@ msgstr ""
 #: fas/help.py:47
 #: fas/templates/group/member-list.html:41
 msgid "Approve"
-msgstr ""
+msgstr "Aprova"
 
 #: fas/help.py:47
 msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
@@ -489,7 +489,7 @@ msgstr ""
 #: fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr ""
+msgstr "Patrocinador"
 
 #: fas/help.py:48
 msgid "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>"
@@ -497,7 +497,7 @@ msgstr ""
 
 #: fas/help.py:49
 msgid "Add User"
-msgstr ""
+msgstr "Afegeix un usuari"
 
 #: fas/help.py:49
 msgid "<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>"
@@ -505,7 +505,7 @@ msgstr ""
 
 #: fas/help.py:50
 msgid "Group Name"
-msgstr ""
+msgstr "Nom del grup"
 
 #: fas/help.py:50
 msgid "<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>"
@@ -513,7 +513,7 @@ msgstr ""
 
 #: fas/help.py:51
 msgid "Display Name"
-msgstr ""
+msgstr "Nom a mostrar"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
@@ -521,7 +521,7 @@ msgstr ""
 
 #: fas/help.py:52
 msgid "Group Owner"
-msgstr ""
+msgstr "Propietari del grup"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
@@ -530,7 +530,7 @@ msgstr ""
 #: fas/help.py:53
 #: fas/templates/group/list.html:28
 msgid "Group Type"
-msgstr ""
+msgstr "Tipus de grup"
 
 #: fas/help.py:53
 msgid "<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>"
@@ -538,7 +538,7 @@ msgstr ""
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
-msgstr ""
+msgstr "URL del grup (opcional)"
 
 #: fas/help.py:54
 msgid "<p>A URL or wiki page for the group (for example, <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
@@ -546,7 +546,7 @@ msgstr ""
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "Llista de correu del grup (opcional)"
 
 #: fas/help.py:55
 msgid "<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>"
@@ -554,7 +554,7 @@ msgstr ""
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "URL de la llista de correu del grup (opcional)"
 
 #: fas/help.py:56
 msgid "<p>A URL for the group's mailing list (for example, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
@@ -562,7 +562,7 @@ msgstr ""
 
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
-msgstr ""
+msgstr "Canal IRC del grup (opcional)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
@@ -570,7 +570,7 @@ msgstr ""
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
-msgstr ""
+msgstr "Xarxa IRC del grup (opcional)"
 
 #: fas/help.py:58
 msgid "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
@@ -578,7 +578,7 @@ msgstr ""
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
-msgstr ""
+msgstr "Cal patrocinador"
 
 #: fas/help.py:59
 msgid "<p>If your group requires sponsorship (recommended), this means that when a user is approved by a sponsor.  That relationship is recorded in the account system.  If user A sponsors user N, then in viewing the members of this group, people will know to contact user A about user N if something goes wrong.  If this box is unchecked, this means that only approval is needed and no relationship is recorded about who did the approving</p>"
@@ -586,7 +586,7 @@ msgstr ""
 
 #: fas/help.py:60
 msgid "Self Removal"
-msgstr ""
+msgstr "Eliminació d'un mateix"
 
 #: fas/help.py:60
 msgid "<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>"
@@ -594,7 +594,7 @@ msgstr ""
 
 #: fas/help.py:61
 msgid "Must Belong To"
-msgstr ""
+msgstr "Ha de pertànyer a"
 
 #: fas/help.py:61
 msgid "<p>Before a user can join this group, they must belong to the group listed in this box.  Recommended values are for the 'cla_done' group.</p>"
@@ -753,7 +753,7 @@ msgstr ""
 
 #: fas/user.py:625
 msgid "Welcome to the Fedora Project!"
-msgstr ""
+msgstr "Benvinguts al projecte Fedora!"
 
 #: fas/user.py:625
 #, python-format
@@ -1049,7 +1049,7 @@ msgstr ""
 
 #: fas/templates/master.html:24
 msgid "Fedora"
-msgstr ""
+msgstr "Fedora"
 
 #: fas/templates/master.html:37
 msgid "Learn about Fedora"
@@ -1069,7 +1069,7 @@ msgstr "Uniu-vos a Fedora"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
-msgstr "Comuniqueu-vos"
+msgstr "Fiqueu-vos en contacte"
 
 #: fas/templates/master.html:42
 msgid "Help/Documentation"
@@ -1093,7 +1093,7 @@ msgstr "Noticies"
 
 #: fas/templates/master.html:69
 msgid "Locale:"
-msgstr ""
+msgstr "Idioma:"
 
 #: fas/templates/master.html:73
 msgid "OK"
@@ -1157,11 +1157,11 @@ msgstr "Benvinguts a FAS2"
 
 #: fas/templates/welcome.html:18
 msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop by #fedora-admin on irc.freenode.net."
-msgstr ""
+msgstr "Benvinguts a FAS 2.  Envieu els erros a <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> o aneu al canal #fedora-admin a irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr "Inicia la sessió"
+msgstr "Inici de sessió"
 
 #: fas/templates/welcome.html:22
 msgid "New Account"
@@ -1604,7 +1604,7 @@ msgstr "Tanca la sessió"
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr ""
+msgstr "No heu <a href=\"%(url)s\">iniciat cap sessió</a>."
 
 #: fas/templates/user/changepass.html:7
 #: fas/templates/user/changepass.html:10
@@ -1660,7 +1660,7 @@ msgstr ""
 
 #: fas/templates/user/edit.html:110
 msgid "Time Zone"
-msgstr ""
+msgstr "Franja horària"
 
 #: fas/templates/user/edit.html:135
 msgid "Comments"
