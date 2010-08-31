@@ -1,0 +1,34 @@
+Notes on yubikey setup.
+
+This plugin requires a yubikey-ksm and a yubikey val server.  This plugin talks
+with the val server, the val server talks with the yubikey-ksm
+
+yubikey -> FAS -> yubi-val-server -> yubi-ksm
+
+You can use the public yubikey server if you want.
+
+=============
+Generate keys
+=============
+$ gpg --gen-key
+
+# This generates 5 keys (urandom 1 5)
+$ ykksm-gen-keys --urandom 1 5 | gpg -a --encrypt -r B35CEB6A -s > keys.txt
+
+$ ykksm-import --verbose --database 'DBI:Pg:dbname=ykksm;host=192.168.122.248' --db-user ykksmimporter --db-passwd otherpassword < keys.txt
+
+This will print a key as follows:
+
+line: 1,cccccccccccb,f240a4672a4c,69bf8215ced308e2fe7032f45f39308a,f1bbdd72e6a3,2010-08-31T11:38:19,
+        serialnr 1 publicname cccccccccccb internalname f240a4672a4c aeskey 69bf8215ced308e2fe7032f45f39308a lockcode f1bbdd72e6a3 created 2010-08-31T11:38:19 accessed  eol
+
+
+===========
+Burn key
+===========
+
+To copy the key onto a usb yubikey run the following (Note: It will destroy the old key)
+
+# ykpersonalize -ofixed=cccccccccccb -a69bf8215ced308e2fe7032f45f39308a -ouid=f240a4672a4c
+
+Note the above values are pulled from the "line: 1" bit above
