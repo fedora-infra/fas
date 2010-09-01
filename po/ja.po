@@ -3,28 +3,29 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: master-fedoraproject-ja\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-09-01 23:21+0900\n"
+"Last-Translator: Casey Jones <nahareport@yahoo.com>\n"
+"Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.4\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
 
 #: fas/auth.py:285
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
+msgstr "このグループへの参加が許可される前に、%s メンバーシップが要求されます。"
 
 #: fas/cla.py:139
 msgid "You are not allowed to reject CLAs."
-msgstr ""
+msgstr "CLAを拒否することはできません。"
 
 #: fas/cla.py:150
 #, python-format
@@ -32,153 +33,150 @@ msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
 msgstr ""
+"CLAと %(person)s に依存するグループの削除中にエラーが発生しました。\n"
+"エラー: %(error)s"
 
 #: fas/cla.py:190
 msgid "CLA Successfully Removed."
-msgstr ""
+msgstr "CLAを正常に削除しました。"
 
 #: fas/cla.py:207
 msgid "You have already completed the CLA."
-msgstr ""
+msgstr "既にこのCLAに同意しています。"
 
 #: fas/cla.py:211
 msgid "You have not completed the CLA."
-msgstr ""
+msgstr "まだこのCLAに同意していません。"
 
 #: fas/cla.py:214
 msgid "You must confirm that your personal information is accurate."
-msgstr ""
+msgstr "この個人情報が正しいことを認めなければいけません。"
 
 #: fas/cla.py:230
 msgid "Your updated information could not be saved."
-msgstr ""
+msgstr "アップデートした情報は保存できませんでした。"
 
 #: fas/cla.py:238
-msgid ""
-"To complete the CLA, we must have your name, telephone number, and "
-"country.  Please ensure they have been filled out."
-msgstr ""
+msgid "To complete the CLA, we must have your name, telephone number, and country.  Please ensure they have been filled out."
+msgstr "このCLAに同意するためには、あなたの名前、電話番号、国を入力しなければいけません。全てを記入してください。"
 
 #: fas/cla.py:245
-msgid ""
-"To complete the CLA, a valid country code must be specified.  Please "
-"select one now."
-msgstr ""
+msgid "To complete the CLA, a valid country code must be specified.  Please select one now."
+msgstr "このCLAに同意するためには、正しい国名コードを指定しなければいけません。一つ選択してください。"
 
 #: fas/cla.py:248
-msgid ""
-"Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", "
-"\")\", or \" \".  Please reenter using only those characters."
-msgstr ""
+msgid "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", or \" \".  Please reenter using only those characters."
+msgstr "電話番号は数字と \"-\", \"+\", \"(\", \")\", \" \" が使えます。再度これらを使って入力してください。"
 
-#: fas/cla.py:262 fas/cla.py:274
+#: fas/cla.py:262
+#: fas/cla.py:274
 #, python-format
 msgid "You could not be added to the '%s' group."
-msgstr ""
+msgstr "'%s' グループに加わることができませんでした。"
 
 #: fas/cla.py:271
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr ""
+msgstr "あなたは既に '%s' グループに参加しています。"
 
 #: fas/cla.py:306
 #, python-format
 msgid "You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr ""
+msgstr "このCLAの同意に成功しました。あなたは '%s' グループに参加しました。"
 
 #: fas/configs.py:118
 #, python-format
 msgid "You cannot look at configs for %s"
-msgstr ""
+msgstr "あなたは %s の設定を見ることはできません"
 
 #: fas/configs.py:159
 #, python-format
 msgid "You cannot edit configs for %s"
-msgstr ""
+msgstr "あなたは %s の設定を変更することはできません"
 
 #: fas/configs.py:183
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr ""
+msgstr "データベース: %s への設定の保存中にエラーが発生しました"
 
 #: fas/configs.py:187
 msgid "Config value successfully updated"
-msgstr ""
+msgstr "設定は正しくアップデートされました"
 
 #: fas/controllers.py:194
 msgid "Your old password has expired.  Please reset your password below."
-msgstr ""
+msgstr "古いパスワードは有効期限が切れました。以下で再度パスワードを設定してください。"
 
 #: fas/controllers.py:206
 #, python-format
-msgid ""
-"Your account is currently disabled.  For more information, please contact"
-" %(admin_email)sadmin_email"
-msgstr ""
+msgid "Your account is currently disabled.  For more information, please contact %(admin_email)sadmin_email"
+msgstr "あなたのアカウントは一時的に無効になっています。詳しくは %(admin_email)sadmin_email に連絡をとってください。"
 
 #: fas/controllers.py:219
 #, python-format
 msgid "The language '%s' is not available."
-msgstr ""
+msgstr "言語 '%s' は取得できません。"
 
-#: fas/group.py:159 fas/group.py:195
+#: fas/group.py:159
+#: fas/group.py:195
 #, python-format
 msgid "You cannot view '%s'"
-msgstr ""
+msgstr "あなたは '%s' を見ることはできません。"
 
-#: fas/group.py:218 fas/group.py:236
+#: fas/group.py:218
+#: fas/group.py:236
 msgid "Only FAS adminstrators can create groups."
-msgstr ""
+msgstr "FAS管理者のみがグループを作成できます。"
 
 #: fas/group.py:257
 #, python-format
 msgid "The group: '%s' could not be created."
-msgstr ""
+msgstr "グループ: '%s' は作成できませんでした。"
 
 #: fas/group.py:267
 #, python-format
-msgid ""
-"The group: '%(group)s' has been created, but '%(user)s' could not be "
-"added as a group administrator."
-msgstr ""
+msgid "The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator."
+msgstr "グループ: '%(group)s' は作成されましたが、 '%(user)s' は管理者としてグループに追加されませんでした。"
 
 #: fas/group.py:269
 #, python-format
 msgid "The group: '%s' has been created."
-msgstr ""
+msgstr "グループ: '%s' が作成されました。"
 
-#: fas/group.py:284 fas/group.py:302
+#: fas/group.py:284
+#: fas/group.py:302
 #, python-format
 msgid "You cannot edit '%s'."
-msgstr ""
+msgstr "あなたは '%s' を編集することは出来ません。"
 
 #: fas/group.py:327
 msgid "The group details could not be saved."
-msgstr ""
+msgstr "グループの詳細は保存できませんでした。"
 
 #: fas/group.py:331
 msgid "The group details have been saved."
-msgstr ""
+msgstr "グループの詳細は保存されました。"
 
 #: fas/group.py:360
 #, python-format
 msgid "No Groups found matching '%s'"
-msgstr ""
+msgstr "'%s' にマッチするグループはありません"
 
-#: fas/group.py:385 fas/group.py:407
+#: fas/group.py:385
+#: fas/group.py:407
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
-msgstr ""
+msgstr "%(user)s は %(group)s に参加できません。"
 
 #: fas/group.py:415
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr ""
+msgstr "%(user)s は %(group)s に参加できませんでした: %(error)s "
 
 #: fas/group.py:440
 #, python-format
 msgid "Application to the '%(group)s' group"
-msgstr ""
+msgstr " '%(group)s' グループに参加する"
 
 #: fas/group.py:442
 #, python-format
@@ -188,75 +186,79 @@ msgid ""
 "\n"
 "%(joinmsg)s\n"
 msgstr ""
+"\n"
+"%(group)s グループを選んで頂き、ありがとうございます．  \n"
+"\n"
+"%(joinmsg)s\n"
 
 #: fas/group.py:456
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
-msgstr ""
+msgstr "%(user)s は %(group)s に参加しました！"
 
 #: fas/group.py:473
 #, python-format
 msgid "You cannot sponsor '%s'"
-msgstr ""
+msgstr "あなたは '%s' のスポンサーになれません。"
 
 #: fas/group.py:480
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
-msgstr ""
+msgstr "%(user)s は %(group)s のスポンサーになれません: %(error)s"
 
 #: fas/group.py:496
 #, python-format
 msgid "'%s' has been sponsored!"
-msgstr ""
+msgstr "'%s' はスポンサーになりました！"
 
 #: fas/group.py:513
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
-msgstr ""
+msgstr "あなたは '%(user)s' を '%(group)s' から削除することはできません。"
 
 #: fas/group.py:521
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
-msgstr ""
+msgstr "%(user)s は %(group)s から削除されませんでした: %(error)s"
 
 #: fas/group.py:538
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
-msgstr ""
+msgstr "%(name)s は %(group)s から削除されています。"
 
 #: fas/group.py:556
 #, python-format
 msgid "You cannot upgrade '%s'"
-msgstr ""
+msgstr "あなたは '%s' でアップグレードできません"
 
 #: fas/group.py:563
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "%(name)s は %(group)s でアップグレードすることができませんでした: %(error)s"
 
 #: fas/group.py:585
 #, python-format
 msgid "%s has been upgraded!"
-msgstr ""
+msgstr "%s でアップグレードしました！"
 
 #: fas/group.py:601
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr ""
+msgstr "あなたは '%s' でダウングレードできません"
 
 #: fas/group.py:608
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "%(name)s は %(group)s でダウングレードすることができませんでした: %(error)s"
 
 #: fas/group.py:629
 #, python-format
 msgid "%s has been downgraded!"
-msgstr ""
+msgstr "%s でダウングレードしました！"
 
 #: fas/group.py:699
 msgid "Come join The Fedora Project!"
-msgstr ""
+msgstr "Fedoraプロジェクトに参加してください！"
 
 #: fas/group.py:700
 #, python-format
@@ -278,493 +280,406 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> はFedoraプロジェクトへの参加を招待されました！\n"
+"我々はユーザ及び、オペレーティングシステムの全てをフリーでオープンソースなソフトウェア(FOSS)\n"
+"から開発する開発者のコミュニティです。 %(user)s は、Fedoraコミュニティにフィットした\n"
+"知識や技術を持っています、ぜひ貢献してみてみませんか。\n"
+"\n"
+"どうやってFedoraコミュニティに参加し、あなたの技術を生かし、成長させることができるか？\n"
+"http://fedoraproject.org/join-fedora をチェックしてください。その糸口が見つかります。\n"
+"我々のコミュニティはソフトウェア開発者だけではありません -- \n"
+"あなたが、アーティスト、ウェブサイト開発者、ライター、普通の人であっても参加できます。\n"
+"あなたはチームで優秀で、才能がある人と仕事をすることで、成長できるでしょう。\n"
+"\n"
+"Fedora と FOSS は世界を変えます -- 参加してください！"
 
 #: fas/group.py:720
 #, python-format
 msgid "Message sent to: %s"
-msgstr ""
+msgstr "メッセージは : %s に送信されました"
 
 #: fas/group.py:723
 #, python-format
 msgid "You are not in the '%s' group."
-msgstr ""
+msgstr "あなたは '%s' グループに参加していません。"
 
-#: fas/help.py:26 fas/help.py:76
+#: fas/help.py:26
+#: fas/help.py:76
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
-#: fas/help.py:26 fas/help.py:76
+#: fas/help.py:26
+#: fas/help.py:76
 msgid "<p>We could not find that help item</p>"
-msgstr ""
+msgstr "<p>ヘルプアイテムが見つかりませんでした</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of CLA Information"
-msgstr ""
+msgstr "CLA情報の正確さ"
 
 #: fas/help.py:27
-msgid ""
-"<p>The CLA is a legal document.  We need to have accurate information "
-"attached to it just in case we ever need to contact you about a "
-"contribution that you make to the project.  Imagine if we were to get a "
-"call from a lawyer at some other company claiming that they own the "
-"copyright to your work and we have to tell them we have a right to use it"
-" because \"Mickey Moose\" contributed it to us and we have no telephone "
-"number to contact them!  Potentially a very sticky situation.</p>"
-msgstr ""
+msgid "<p>The CLA is a legal document.  We need to have accurate information attached to it just in case we ever need to contact you about a contribution that you make to the project.  Imagine if we were to get a call from a lawyer at some other company claiming that they own the copyright to your work and we have to tell them we have a right to use it because \"Mickey Moose\" contributed it to us and we have no telephone number to contact them!  Potentially a very sticky situation.</p>"
+msgstr "<p>CLAは法的なドキュメントです。正確な情報を添付する必要があります。もしものとき、あなたのこのプロジェクトへの貢献について、コンタクトする必要があるからです。想像してみてください。もし他社の弁護士が、あなたの仕事が彼らの著作権を侵害していると主張してきたとき、我々は彼らにこう言わなければなりません。「我々はそれを使う権利があります。何故なら\"ミッキーマウス\" がそれを提供したからです。連絡先は不明ですが」と。とてもやっかいな状況になるポテンシャルがあります。</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
-msgstr ""
+msgstr "IRC Nick (オプション)"
 
 #: fas/help.py:28
-msgid ""
-"<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please "
-"register your nick on irc.freenode.net first, then fill this in so people"
-" can find you online when they need to</p>"
-msgstr ""
+msgid "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please register your nick on irc.freenode.net first, then fill this in so people can find you online when they need to</p>"
+msgstr "<p>IRC Nickは irc.freenode.net で自分を認証するために使われます。最初に irc.freenode.net に登録し、その後でここに入力してください。必要な人があなたを見つけられるようになります。</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr ""
+msgstr "Email (必須)"
 
 #: fas/help.py:29
-msgid ""
-"<p>This email address should be your prefered email contact and will be "
-"used to send various official emails to.  This is also where your "
-"@fedoraproject.org email will get forwarded</p>"
-msgstr ""
+msgid "<p>This email address should be your prefered email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>"
+msgstr "<p>このemailアドレスは、あなたのemailアドレスであるべきです。様々な正式なemailを送信するものとなります。また、@fedoraproject.org のemailアドレスにも転送されます。</p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
-msgstr ""
+msgstr "フルネーム (必須)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr ""
-
-#: fas/help.py:31 fas/templates/user/edit.html:99
-msgid "GPG Key ID"
-msgstr ""
+msgstr "<p>あなたの本名 又は \"現実世界\" の名前</p>"
 
 #: fas/help.py:31
-msgid ""
-"<p>A GPG key is generally used to prove that a message or email came from"
-" you or to encrypt information so that only the recipients can read it.  "
-"This can be used when a password reset is sent to your email.</p>"
-msgstr ""
+#: fas/templates/user/edit.html:99
+msgid "GPG Key ID"
+msgstr "GPG Key ID"
+
+#: fas/help.py:31
+msgid "<p>A GPG key is generally used to prove that a message or email came from you or to encrypt information so that only the recipients can read it.  This can be used when a password reset is sent to your email.</p>"
+msgstr "<p>GPG key は一般にあなたからのメッセージやemailを証明したり、受信者のみが読めるよう暗号化する際に使われます。これは、emailにパスワードリセットが送信された時にも使うことができます。</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
-msgstr ""
+msgstr "電話番号"
 
-#: fas/help.py:32 fas/help.py:40
-msgid ""
-"<p>Required in order to complete the <a "
-"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  "
-"Sometimes during a time of emergency someone from the Fedora Project may "
-"need to contact you.  For more information see our <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
-"Policy</a></p>"
-msgstr ""
-
-#: fas/help.py:33 fas/templates/cla/index.html:50
-#: fas/templates/user/edit.html:50
-msgid "Postal Address"
-msgstr ""
+#: fas/help.py:32
+#: fas/help.py:40
+msgid "<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>.  Sometimes during a time of emergency someone from the Fedora Project may need to contact you.  For more information see our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
+msgstr "<p><a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a> に同意するために必要です。 緊急時、Fedoraプロジェクトのメンバーがあなたにコンタクトする必要があります。詳細は <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a> を見てください。</p>"
 
 #: fas/help.py:33
-msgid ""
-"<p>This should be a mailing address where you can be contacted.  See our "
-"<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
-"Policy</a> about any concerns.</p>"
-msgstr ""
+#: fas/templates/cla/index.html:50
+#: fas/templates/user/edit.html:50
+msgid "Postal Address"
+msgstr "住所"
+
+#: fas/help.py:33
+msgid "<p>This should be a mailing address where you can be contacted.  See our <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a> about any concerns.</p>"
+msgstr "<p>この住所は正しくなければいけません。詳細は <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a> を見てください。</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
-msgstr ""
+msgstr "タイムゾーン (オプション)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr ""
+msgstr "<p>あなたの住所のタイムゾーンを選択してください。</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
-msgstr ""
+msgstr "コメント (オプション)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
-msgstr ""
-
-#: fas/help.py:36 fas/templates/user/list.html:27
-msgid "Account Status"
-msgstr ""
+msgstr "<p>あなたについてのその他コメント</p>"
 
 #: fas/help.py:36
-msgid ""
-"<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
-msgstr ""
+#: fas/templates/user/list.html:27
+msgid "Account Status"
+msgstr "アカウントステータス"
+
+#: fas/help.py:36
+msgid "<p>Shows account status, possible values include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+msgstr "<p>アカウントステータスは <ul><li>アクティブ</li><li>休暇中</li><li>休止中</li></ul> のいずれかです</p>"
 
 #: fas/help.py:37
 msgid "CLA"
-msgstr ""
+msgstr "CLA"
 
 #: fas/help.py:37
-msgid ""
-"<p>In order to become a full Fedora contributor you must complete the <a "
-"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor "
-"License Agreement</a>.  This license is a legal agreement between you and"
-" Red Hat.  Full status allows people to contribute content and code and "
-"is recommended for anyone interested in getting involved in the Fedora "
-"Project.</p>"
-msgstr ""
-
-#: fas/help.py:38 fas/templates/user/edit.html:104
-msgid "Public RSA SSH Key"
-msgstr ""
+msgid "<p>In order to become a full Fedora contributor you must complete the <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License Agreement</a>.  This license is a legal agreement between you and Red Hat.  Full status allows people to contribute content and code and is recommended for anyone interested in getting involved in the Fedora Project.</p>"
+msgstr "<p>完全なFedora貢献者となるためには、<a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License Agreement</a>に同意しなければいけません。このライセンスはRedhatとあなたとの法的な同意です。全てのステータスを埋めることで、コンテンツとコードの提供が可能となり、これはFedoraプロジェクトに興味のある人全てが対象となります。</p>"
 
 #: fas/help.py:38
-msgid ""
-"<p>Many resources require public key authentiaction to work.  By "
-"uploading your public key to us, you can then log in to our servers.  "
-"Type \"man ssh-keygen\" for more information on creating your key (it "
-"must be an RSA key).  Once created you will want to upload "
-"~/.ssh/id_rsa.pub</p>"
-msgstr ""
+#: fas/templates/user/edit.html:104
+msgid "Public RSA SSH Key"
+msgstr "Public RSA SSH Key"
 
-#: fas/help.py:39 fas/templates/user/edit.html:120
-msgid "Locale"
-msgstr ""
+#: fas/help.py:38
+msgid "<p>Many resources require public key authentiaction to work.  By uploading your public key to us, you can then log in to our servers.  Type \"man ssh-keygen\" for more information on creating your key (it must be an RSA key).  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+msgstr "<p>public keyの認証には多くのリソースが必要です。public keyをアップロードする場合、我々のサーバにログインしてください。 \"man ssh-keygen\" とタイプすることで、key作成の為の詳細情報が見れます(RSA keyでなくてはいけません)。作成できたら、~/.ssh/id_rsa.pub をアップロードしてください。</p>"
 
 #: fas/help.py:39
-msgid ""
-"<p>For non-english speaking peoples this allows individuals to select "
-"which locale they are in.</p>"
-msgstr ""
+#: fas/templates/user/edit.html:120
+msgid "Locale"
+msgstr "ロケール"
+
+#: fas/help.py:39
+msgid "<p>For non-english speaking peoples this allows individuals to select which locale they are in.</p>"
+msgstr "<p>英語ができない人々の為に、ここでロケールをそれぞれ選択することができます。</p>"
 
 #: fas/help.py:40
 msgid "Country Code"
-msgstr ""
+msgstr "国名コード"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
-msgstr ""
+msgstr "13歳以上でなくてはいけません"
 
 #: fas/help.py:41
-msgid ""
-"<p>Out of special concern for children's privacy, we do not knowingly "
-"accept online personal information from children under the age of 13. We "
-"do not knowingly allow children under the age of 13 to become registered "
-"members of our sites or buy products and services on our sites. We do not"
-" knowingly collect or solicit personal information about children under "
-"13.</p>"
-msgstr ""
+msgid "<p>Out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13.</p>"
+msgstr "<p>子供のプライバシーを尊重し、13歳未満の子供の個人情報を受け付けません。また、13歳未満の子供に、我々のサイトに参加したり、製品やサービスを購入することを許可しません。さらに、13歳未満の子供に関する個人情報を集めたり、求めたりすることもありません。</p>"
 
 #: fas/help.py:42
 msgid "Hide Information"
-msgstr ""
+msgstr "情報を隠す"
 
 #: fas/help.py:42
-msgid ""
-"<p>In accordance with our privacy policy, you can choose to hide some of "
-"the information given on this page from other people.  Please see the "
-"privacy policy for complete details.</p>"
-msgstr ""
+msgid "<p>In accordance with our privacy policy, you can choose to hide some of the information given on this page from other people.  Please see the privacy policy for complete details.</p>"
+msgstr "<p>我々のプライバシーポリシーにより、このページのいくつかの情報を他の人から隠すことができます。詳細はプライバシーポリシーを見てください。</p>"
 
-#: fas/help.py:43 fas/templates/group/list.html:43
+#: fas/help.py:43
+#: fas/templates/group/list.html:43
 msgid "Apply"
-msgstr ""
+msgstr "参加する"
 
 #: fas/help.py:43
 #, python-format
-msgid ""
-"<p>Applying for a group is like applying for a job and it can certainly "
-"take a while to get in.  Many groups have their own rules about how to "
-"actually get approved or sponsored.  For more information on how the "
-"account system works see the <a href=\"%s\">about page</a>.</p>"
-msgstr ""
-
-#: fas/help.py:44 fas/templates/group/member-list.html:46
-msgid "Remove"
-msgstr ""
+msgid "<p>Applying for a group is like applying for a job and it can certainly take a while to get in.  Many groups have their own rules about how to actually get approved or sponsored.  For more information on how the account system works see the <a href=\"%s\">about page</a>.</p>"
+msgstr "<p>グループに参加することは、仕事を得るのと同じく、参加に時間がかかります。多くのグループは、どのように参加やスポンサーを認めるかなど、独自のルールを持っています。どのようにアカウントシステムが運用されるかの詳細は、<a href=\"%s\">about page</a> を見てください。</p>"
 
 #: fas/help.py:44
-msgid ""
-"<p>Removing a person from a group will cause that user to no longer be in"
-" the group.  They will need to re-apply to get in.  Admins can remove "
-"anyone, Sponsors can remove users, users can't remove anyone.</p>"
-msgstr ""
+#: fas/templates/group/member-list.html:46
+msgid "Remove"
+msgstr "削除"
 
-#: fas/help.py:45 fas/templates/group/member-list.html:50
-msgid "Upgrade"
-msgstr ""
+#: fas/help.py:44
+msgid "<p>Removing a person from a group will cause that user to no longer be in the group.  They will need to re-apply to get in.  Admins can remove anyone, Sponsors can remove users, users can't remove anyone.</p>"
+msgstr "<p>グループからメンバーを削除することで、そのユーザはグループへの参加が削除されます。参加するには、再度承認が必要となります。管理者はどのユーザの削除も可能です。スポンサーはユーザを削除でき、ユーザは誰も削除することができません。</p>"
 
 #: fas/help.py:45
-msgid ""
-"<p>Upgrade a persons status in this group.<ul><li>from user -> to "
-"sponsor</li><li>From sponsor -> administrator</li><li>administrators "
-"cannot be upgraded beyond administrator</li></ul></p>"
-msgstr ""
+#: fas/templates/group/member-list.html:50
+msgid "Upgrade"
+msgstr "アップグレード"
 
-#: fas/help.py:46 fas/templates/group/member-list.html:54
-msgid "Downgrade"
-msgstr ""
+#: fas/help.py:45
+msgid "<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot be upgraded beyond administrator</li></ul></p>"
+msgstr "<p>このグループのメンバーをアップグレードします。<ul><li>ユーザから -> スポンサーへ</li><li>スポンサーから -> 管理者へ</li><li>管理者は管理者より上にアップグレードできません。</li></ul></p>"
 
 #: fas/help.py:46
-msgid ""
-"<p>Downgrade a persons status in the group.<ul><li>from administrator -> "
-"to sponsor</li><li>From sponsor -> user</li><li>users cannot be "
-"downgraded below user, you may want to remove them</li></ul></p>"
-msgstr ""
+#: fas/templates/group/member-list.html:54
+msgid "Downgrade"
+msgstr "ダウングレード"
 
-#: fas/help.py:47 fas/templates/group/member-list.html:41
-msgid "Approve"
-msgstr ""
+#: fas/help.py:46
+msgid "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded below user, you may want to remove them</li></ul></p>"
+msgstr "<p>このグループのメンバーをダウングレードします。<ul><li>管理者から -> スポンサーへ</li><li>スポンサーから -> ユーザへ</li><li>ユーザはユーザより下にダウングレードできません。</li></ul></p>"
 
 #: fas/help.py:47
-msgid ""
-"<p>A sponsor or administrator can approve users to be in a group.  Once "
-"the user has applied for the group, go to the group's page and click "
-"approve to approve the user.</p>"
-msgstr ""
+#: fas/templates/group/member-list.html:41
+msgid "Approve"
+msgstr "承認する"
 
-#: fas/help.py:48 fas/templates/group/member-list.html:15
-#: fas/templates/group/member-list.html:37
-msgid "Sponsor"
-msgstr ""
+#: fas/help.py:47
+msgid "<p>A sponsor or administrator can approve users to be in a group.  Once the user has applied for the group, go to the group's page and click approve to approve the user.</p>"
+msgstr "<p>スポンサーまたは管理者はグループへのユーザ参加を承認できます。ユーザがグループへの参加表明をしたとき、グループのページ行き、ユーザを承認する為に承認をクリックしてください。</p>"
 
 #: fas/help.py:48
-msgid ""
-"<p>A sponsor or administrator can sponsor users to be in a gruop.  Once "
-"the user has applied for the group, go to the group's page and click "
-"approve to sponsor the user.  Sponsorship of a user implies that you are "
-"approving a user and may mentor and answer their questions as they come "
-"up.</p>"
-msgstr ""
+#: fas/templates/group/member-list.html:15
+#: fas/templates/group/member-list.html:37
+msgid "Sponsor"
+msgstr "スポンサー"
+
+#: fas/help.py:48
+msgid "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the user has applied for the group, go to the group's page and click approve to sponsor the user.  Sponsorship of a user implies that you are approving a user and may mentor and answer their questions as they come up.</p>"
+msgstr "<p>スポンサーまたは管理者はスポンサーであるユーザをグループに参加させることができます。ユーザがグループへの参加表明をしたとき、グループのページ行き、ユーザをスポンサーとしての承認するの為に承認をクリックしてください。</p>"
 
 #: fas/help.py:49
 msgid "Add User"
-msgstr ""
+msgstr "ユーザの追加"
 
 #: fas/help.py:49
-msgid ""
-"<p>Manually add a user to a group.  Place their username in this field "
-"and click 'Add'</p>"
-msgstr ""
+msgid "<p>Manually add a user to a group.  Place their username in this field and click 'Add'</p>"
+msgstr "<p>手動でユーザをグループに追加します。彼らのユーザネームをここに書き\"追加\"をクリックしてください。</p>"
 
 #: fas/help.py:50
 msgid "Group Name"
-msgstr ""
+msgstr "グループ名"
 
 #: fas/help.py:50
-msgid ""
-"<p>The name of the group you'd like to create.  It should be lowercase "
-"alphanumeric though '-' and '_' are allowed</p>"
-msgstr ""
+msgid "<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>"
+msgstr "<p>作成したいグループの名前です。小文字英数字と'-'、'_'が使えます。</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
-msgstr ""
+msgstr "表示名"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr ""
+msgstr "<p>もっと呼びやすいグループの名前</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
-msgstr ""
+msgstr "グループのオーナー"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
-msgstr ""
-
-#: fas/help.py:53 fas/templates/group/list.html:28
-msgid "Group Type"
-msgstr ""
+msgstr "<p>このグループを運営するオーナーの名前</p>"
 
 #: fas/help.py:53
-msgid ""
-"<p>Normally it is safe to leave this blank.  Though some values include "
-"'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value "
-"only really matters if the group is to end up getting shell access or "
-"commit access somewhere like fedorahosted.</p>"
-msgstr ""
+#: fas/templates/group/list.html:28
+msgid "Group Type"
+msgstr "グループのタイプ"
+
+#: fas/help.py:53
+#, fuzzy
+msgid "<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>"
+msgstr "<p>通常、ここは空白で結構です。いくつかの値は 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', 'mtn' を含んでいます。これらの値は、もしグループがshellアクセスを終了しようとしているととき又は、fedorahostedのような場所にコミットアクセスしようとしているときのみ、意味をなします。</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
-msgstr ""
+msgstr "グループURL (オプション)"
 
 #: fas/help.py:54
-msgid ""
-"<p>A URL or wiki page for the group (for example, <a "
-"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
-msgstr ""
+msgid "<p>A URL or wiki page for the group (for example, <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
+msgstr "<p>URLまたはグループのwikiページ (例 <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>) </p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "グループのメーリングリスト (オプション)"
 
 #: fas/help.py:55
-msgid ""
-"<p>A mailing list for the group (for example, fedora-infrastructure-"
-"list@redhat.com).</p>"
-msgstr ""
+msgid "<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>"
+msgstr "<p>グループのメーリングリスト (例 fedora-infrastructure-list@redhat.com)</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "グループのメーリングリストURL (オプション)"
 
 #: fas/help.py:56
-msgid ""
-"<p>A URL for the group's mailing list (for example, <a "
-"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list</a>).</p>"
-msgstr ""
+msgid "<p>A URL for the group's mailing list (for example, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+msgstr "<p>グループのメーリングリストのURL (例 <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>)</p>"
 
 #: fas/help.py:57
 msgid "Group IRC Channel (Optional)"
-msgstr ""
+msgstr "グループのIRCチャネル (オプション)"
 
 #: fas/help.py:57
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
-msgstr ""
+msgstr "<p>グループのIRCチャネル (例 #fedora-admin)</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Network (Optional)"
-msgstr ""
+msgstr "グループのIRCネットワーク (オプション)"
 
 #: fas/help.py:58
-msgid ""
-"<p>The IRC Network for the group's IRC channel (for example, "
-"Freenode).</p>"
-msgstr ""
+msgid "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
+msgstr "<p>グループのIRCチャネルのためのIRCネットワーク (例 Freenode)</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
-msgstr ""
+msgstr "スポンサーが必要"
 
 #: fas/help.py:59
-msgid ""
-"<p>If your group requires sponsorship (recommended), this means that when"
-" a user is approved by a sponsor.  That relationship is recorded in the "
-"account system.  If user A sponsors user N, then in viewing the members "
-"of this group, people will know to contact user A about user N if "
-"something goes wrong.  If this box is unchecked, this means that only "
-"approval is needed and no relationship is recorded about who did the "
-"approving</p>"
-msgstr ""
+#, fuzzy
+msgid "<p>If your group requires sponsorship (recommended), this means that when a user is approved by a sponsor.  That relationship is recorded in the account system.  If user A sponsors user N, then in viewing the members of this group, people will know to contact user A about user N if something goes wrong.  If this box is unchecked, this means that only approval is needed and no relationship is recorded about who did the approving</p>"
+msgstr "<p>もしグループがスポンサーを必要とする場合(居た方がよい)、一人のユーザがスポンサーとなります。この所属はアカウントシステムに保存されます。もしユーザAがユーザNのスポンサーだとすると、グループのメンバーを見ると、人々は問題があった場合にユーザAにユーザNについてのコンタクトをとることになります。もしこのボックスがチェックされていない場合、それは承認が必要であることだけを湿しており、誰がこの所属の承認を行ったかは記録されません。</p>"
 
 #: fas/help.py:60
 msgid "Self Removal"
-msgstr ""
+msgstr "自分を削除"
 
 #: fas/help.py:60
-msgid ""
-"<p>Should users be able to remove themselves from this group without "
-"sponsor / admin intervention?  (recommended yes)</p>"
-msgstr ""
+msgid "<p>Should users be able to remove themselves from this group without sponsor / admin intervention?  (recommended yes)</p>"
+msgstr "<p>ユーザはスポンサー又は管理者の介入なしに、自分を削除することができるようにすべきですか？ (有効がおすすめ)</p>"
 
 #: fas/help.py:61
 msgid "Must Belong To"
-msgstr ""
+msgstr "所属の義務"
 
 #: fas/help.py:61
-msgid ""
-"<p>Before a user can join this group, they must belong to the group "
-"listed in this box.  Recommended values are for the 'cla_done' group.</p>"
-msgstr ""
+msgid "<p>Before a user can join this group, they must belong to the group listed in this box.  Recommended values are for the 'cla_done' group.</p>"
+msgstr "<p>ユーザがグループに参加する前に、彼らはこのボックスにリストされているグループに所属していなければいけません。おすすめの値は 'cla_done' グループです。</p>"
 
 #: fas/help.py:62
 msgid "Join Message"
-msgstr ""
+msgstr "メッセージに参加"
 
 #: fas/help.py:62
-msgid ""
-"<p>This message will go out to users when they apply to the group.  It "
-"should be informative and offer tips about what to do next.  A "
-"description of the group would also be valuable here</p>"
-msgstr ""
+msgid "<p>This message will go out to users when they apply to the group.  It should be informative and offer tips about what to do next.  A description of the group would also be valuable here</p>"
+msgstr "<p>このメッセージはグループに参加しているユーザに届きます。これは有益で、次の作業についてのコツを提供するものであるべきです。グループの記述も価値のあるものであるべきでしょう。</p>"
 
 #: fas/help.py:63
 msgid "Client Side Cert"
-msgstr ""
+msgstr "Client Side Cert"
 
 #: fas/help.py:63
-msgid ""
-"<p>The client side cert is generally used to grant access to upload "
-"packages to Fedora or for other authentication purposes like with koji.  "
-"You should save this certificate to ~/.fedora.cert.  If you are not a "
-"package maintainer there is no need to worry about the client side cert."
-"  Please note that whenever a new cert is generated, all old ones are "
-"revoked.</p>"
-msgstr ""
+msgid "<p>The client side cert is generally used to grant access to upload packages to Fedora or for other authentication purposes like with koji.  You should save this certificate to ~/.fedora.cert.  If you are not a package maintainer there is no need to worry about the client side cert.  Please note that whenever a new cert is generated, all old ones are revoked.</p>"
+msgstr "<p>client side certとは、一般にFedoraにパッケージをアップロードするためや、kojiのような他の承認目的のの承認アクセスに使用されます。あなたはこの証明書を ~/.fedora.cert に保存すべきです。もしあなたがパッケージメンテナンス担当でない場合、client side certについては気にしなくてかまいません。注意として、新しい証明書が生成された時はいつでも、古い証明書は無効となります。</p>"
 
 #: fas/help.py:64
 msgid "Longitude and Latitude"
-msgstr ""
+msgstr "経度・緯度"
 
 #: fas/help.py:64
-msgid ""
-"<p>Your longitude and latitude.  This optional field should be entered as"
-" a floating point number.  For instance, 312.333 or -21.2.  This may be "
-"used for mapping purposes, but will not be used if you have privacy "
-"enabled for your account.</p>"
-msgstr ""
+msgid "<p>Your longitude and latitude.  This optional field should be entered as a floating point number.  For instance, 312.333 or -21.2.  This may be used for mapping purposes, but will not be used if you have privacy enabled for your account.</p>"
+msgstr "<p>あなたの経度と緯度です。このオプションのフィールドは、小数点以下も入力してください。例 312.333 又は -21.2。これはマッピングに使用されますが、あなたのアカウントのプライバシーが有効になっている場合は使用されません。</p>"
 
 #: fas/help.py:65
 msgid "Rules for Application"
-msgstr ""
+msgstr "参加のルール"
 
 #: fas/help.py:65
-msgid ""
-"<p>Rules or steps that applicants should follow before appliying to your "
-"group.  This will be shown to users before they apply to your group.</p>"
-msgstr ""
+msgid "<p>Rules or steps that applicants should follow before appliying to your group.  This will be shown to users before they apply to your group.</p>"
+msgstr "<p>参加希望者があなたのグループに参加する為に従うルールまたはステップ。これはグループ参加まえにユーザから見ることができます。</p>"
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "この OpenID はCLAにサインするまでアクティブになりません。"
 
-#: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
-msgid ""
-"Your last OpenID request could not be retrieved.  Try re-authenticating "
-"to the OpenID consumer."
-msgstr ""
+#: fas/openid_samadhi.py:190
+#: fas/openid_samadhi.py:236
+msgid "Your last OpenID request could not be retrieved.  Try re-authenticating to the OpenID consumer."
+msgstr "最後の OpenID リクエストは承認されませんでした。再度 OpenID コンシューマに再認証してみてください。"
 
 #: fas/safasprovider.py:262
 #, python-format
 msgid "Loading: %(visitmod)s"
-msgstr ""
+msgstr "ロード中: %(visitmod)s"
 
 #: fas/user.py:231
 #, python-format
 msgid "You cannot edit %s"
-msgstr ""
+msgstr "あなたは %s を編集できません"
 
 #: fas/user.py:255
 #, python-format
 msgid "You do not have permission to edit '%s'"
-msgstr ""
+msgstr "あなたは '%s' を編集する権限を持っていません"
 
 #: fas/user.py:262
 msgid "Only administrator can enable or disable an account."
-msgstr ""
+msgstr "管理者だけが、アカウントの有効化又は、無効化を行えます。"
 
 #: fas/user.py:283
 msgid "Somebody is already using that email address."
-msgstr ""
+msgstr "他の人が既にそのemailアドレスを使用しています。"
 
 #: fas/user.py:286
-msgid ""
-"Before your new email takes effect, you must confirm it.  You should "
-"receive an email with instructions shortly."
-msgstr ""
+msgid "Before your new email takes effect, you must confirm it.  You should receive an email with instructions shortly."
+msgstr "新しいemailを適応する前に、あなたが承認しなければいけません。簡単な説明付きのemailが届きます。"
 
 #: fas/user.py:290
 #, python-format
 msgid "Email Change Requested for %s"
-msgstr ""
+msgstr "%s のemail変更リクエスト"
 
 #: fas/user.py:291
 #, python-format
@@ -777,87 +692,86 @@ msgid ""
 "\n"
 "https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 msgstr ""
+"\n"
+"あなたは最近Fedoraアカウントシステムにこのemailアドレスに変更するよう\n"
+"リクエストしました。email変更を完了するには、以下のURLを訪れることで、\n"
+"emailの所有を承認しなければいけません。(最初にFedoraアカウントでログイン\n"
+"する必要があります):\n"
+"\n"
+"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 
 #: fas/user.py:316
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr ""
+msgstr "アカウントの詳細は保存されませんでした: %s"
 
 #: fas/user.py:320
 #, python-format
 msgid "Fedora Account Data Update %s"
-msgstr ""
+msgstr "Fedoraアカウントデータアップデート %s"
 
 #: fas/user.py:352
 msgid "Your account details have been saved."
-msgstr ""
+msgstr "アカウントの詳細は保存されました。"
 
 #: fas/user.py:466
 #, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr ""
+msgstr "不正なフィールドがありました: %(error)s"
 
 #: fas/user.py:480
 #, python-format
 msgid "No users found matching '%s'"
-msgstr ""
+msgstr "'%s' にマッチするユーザが見つかりません"
 
 #: fas/user.py:522
-msgid ""
-"Your pending email change has been canceled.  The email change token has "
-"been invalidated."
-msgstr ""
+msgid "Your pending email change has been canceled.  The email change token has been invalidated."
+msgstr "作業中のemail変更はキャンセルされました。email変更は無効になりました。"
 
-#: fas/user.py:526 fas/user.py:543
+#: fas/user.py:526
+#: fas/user.py:543
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "作業中のemail変更はありません。"
 
-#: fas/user.py:530 fas/user.py:547
+#: fas/user.py:530
+#: fas/user.py:547
 msgid "Invalid email change token."
-msgstr ""
+msgstr "不正なemail変更がされました。"
 
 #: fas/user.py:556
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr ""
+msgstr "emailの '%s' への変更が成功しました。"
 
 #: fas/user.py:565
 msgid "No need to sign up, you have an account!"
-msgstr ""
+msgstr "サインアップする必要はありません。あなたはアカウントを持っています！"
 
-#: fas/user.py:581 fas/user.py:607
-msgid ""
-"We're sorry but out of special concern for children's privacy, we do not "
-"knowingly accept online personal information from children under the age "
-"of 13. We do not knowingly allow children under the age of 13 to become "
-"registered members of our sites or buy products and services on our "
-"sites. We do not knowingly collect or solicit personal information about "
-"children under 13."
-msgstr ""
+#: fas/user.py:581
+#: fas/user.py:607
+msgid "We're sorry but out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13."
+msgstr "申し訳ありませんが、わ子供のプライバシーを尊重し、13歳未満の子供の個人情報を受け付けません。また、13歳未満の子供に、我々のサイトに参加したり、製品やサービスを購入することを許可しません。さらに、13歳未満の子供に関する個人情報を集めたり、求めたりすることもありません。"
 
-#: fas/user.py:587 fas/user.py:611
-msgid ""
-"Sorry.  That email address is already in use. Perhaps you forgot your "
-"password?"
-msgstr ""
+#: fas/user.py:587
+#: fas/user.py:611
+msgid "Sorry.  That email address is already in use. Perhaps you forgot your password?"
+msgstr "残念ですが、そのemailアドレスはすでに使用されています。もしかしたら、パスワードをお忘れですか？"
 
 #: fas/user.py:594
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
+msgstr "アカウントを作成できませんでした。 %s にコンタクトし、アシストをお願いしてください。"
 
 #: fas/user.py:599
-msgid ""
-"Your password has been emailed to you.  Please log in with it and change "
-"your password"
-msgstr ""
+msgid "Your password has been emailed to you.  Please log in with it and change your password"
+msgstr "パスワードはあなたのemailに送られました。ログインして、パスワードを変更してください。"
 
 #: fas/user.py:625
 msgid "Welcome to the Fedora Project!"
-msgstr ""
+msgstr "ようこそFedoraプロジェクトへ！"
 
 #: fas/user.py:625
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -899,1131 +813,1164 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"新しいFedoraアカウントの作成をしました！\n"
+"あなたのユーザネーム: %(username)s\n"
+"あなたのパスワード: %(password)s\n"
+"\n"
+"%(base_url)s%(webpath)s/user/changepass\n"
+"に行き、変更してください。\n"
+"\n"
+"ようこそFedoraプロジェクトへ。あなたはサインアップを完了し、\n"
+"貢献を始めたくてたまらないかもしれません。また、我々はこのemailが\n"
+"正しい方向への分かりやすいガイドとなることを祈っています。\n"
+"\n"
+"\n"
+"Fedoraは多くの人が参加する面白いプロジェクトで、あなたは\n"
+"非常に多くの方法で貢献ができます。色々な分野の技術を全て\n"
+"使ってください。Fedoraに貢献する方法の種類については、\n"
+"我々のjoinベージを訪れ、全ての役割についての詳細を御覧ください。\n"
+"\n"
+"\n"
+"http://fedoraproject.org/en/join-fedora\n"
+"\n"
+"もし既にどのようにFedoraに貢献するか知っている場合、または興味のある\n"
+"分野のグループを見つけた場合は、あと数ステップ手続きがあるだけです。\n"
+"\n"
+"\n"
+"最初に、興味のあるチームまたはプロジェクトのメーリングリストにサインアップ\n"
+"してください。もし複数のグループの仕事に興味がある場合、遠慮なく\n"
+"たくさんのメーリングリストにサインアップしてください。\n"
+"メーリングリストは、どこに主な仕事があるかと、アサインされたタスク \n"
+"を示します。ですので、メーリングリストにとどまって、メッセージを\n"
+"追うようにしてください。\n"
+"\n"
+"これが終わったら、簡単な自己紹介をメーリングリストに送り、メンバーに\n"
+"経験とどのように貢献をしたいかを知らせてください。これにより、チームの\n"
+"メンバーは、Fedora貢献者としてのあなたの立ち位置を見つけるために\n"
+"協力してくれます。\n"
+"\n"
+"最後に、Fedoraプロジェクト全員より、あなたと仕事をすることを\n"
+"楽しみにしています！\n"
 
 #: fas/user.py:702
 msgid "Your password could not be changed."
-msgstr ""
+msgstr "パスワードは変更されませんでした。"
 
 #: fas/user.py:705
 msgid "Your password has been changed."
-msgstr ""
+msgstr "パスワードは変更されました。"
 
 #: fas/user.py:712
 msgid "You are already logged in!"
-msgstr ""
+msgstr "既にログインしています！"
 
 #: fas/user.py:720
 msgid "You are already logged in."
-msgstr ""
+msgstr "既にログインしています。"
 
 #: fas/user.py:726
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "ユーザネームとemailの組み合わせが存在しません！"
 
 #: fas/user.py:730
 msgid "username + email combo unknown."
-msgstr ""
+msgstr "ユーザネーム + email の組み合わせが不明です。"
 
-#: fas/user.py:733 fas/user.py:801 fas/user.py:827
+#: fas/user.py:733
+#: fas/user.py:801
+#: fas/user.py:827
 #, python-format
-msgid ""
-"Your account currently has status %(status)s.  For more information, "
-"please contact %(admin_email)s"
-msgstr ""
+msgid "Your account currently has status %(status)s.  For more information, please contact %(admin_email)s"
+msgstr "あなたのアカウントステータスは現在 %(status)s です。詳細は、 %(admin_email)s にコンタクトしてください。"
 
 #: fas/user.py:737
 #, python-format
-msgid ""
-"System accounts cannot have their passwords reset online.  Please contact"
-" %(admin_email)s to have it reset"
-msgstr ""
+msgid "System accounts cannot have their passwords reset online.  Please contact %(admin_email)s to have it reset"
+msgstr "システムアカウントはオンラインでパスワードリセットできません。リセットのためには %(admin_email)s にコンタクトしてください。"
 
 #: fas/user.py:748
 #, python-format
 msgid ""
 "\n"
-"Somebody (hopefully you) has requested a password reset for your account!"
-"\n"
+"Somebody (hopefully you) has requested a password reset for your account!\n"
 "To change your password (or to cancel the request), please visit\n"
-"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s"
-"\n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"誰かが (あなただと思いますが) アカウントのパスワードリセットをリクエストしました！\n"
+"パスワード変更は (またはリクエストのキャンセルは) 以下を訪れてください。\n"
+"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:760
-msgid ""
-"This user does not have a GPG Key ID set, so an encrypted email cannot be"
-" sent."
-msgstr ""
+msgid "This user does not have a GPG Key ID set, so an encrypted email cannot be sent."
+msgstr "このユーザはまた GPG Key ID セットを持っていないので、暗号化emailを送ることができません。"
 
 #: fas/user.py:764
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr ""
+msgstr "あなたのkeyは subkeys.pgp.net から取得できませんでした。"
 
 #: fas/user.py:786
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "パスワードリセットemailは暗号化できませんでした。"
 
 #: fas/user.py:788
 msgid "Fedora Project Password Reset"
-msgstr ""
+msgstr "Fedoraプロジェクトパスワードリセット"
 
 #: fas/user.py:791
 msgid "A password reset URL has been emailed to you."
-msgstr ""
+msgstr "パスワードリセットURLはあなたのemailに送られました。"
 
-#: fas/user.py:805 fas/user.py:832
+#: fas/user.py:805
+#: fas/user.py:832
 msgid "You do not have any pending password changes."
-msgstr ""
+msgstr "作業中のパスワード変更はありません。"
 
-#: fas/user.py:809 fas/user.py:838
+#: fas/user.py:809
+#: fas/user.py:838
 msgid "Invalid password change token."
-msgstr ""
+msgstr "不正なパスワード変更がされました。"
 
 #: fas/user.py:815
-msgid ""
-"Your password reset has been canceled.  The password change token has "
-"been invalidated."
-msgstr ""
+msgid "Your password reset has been canceled.  The password change token has been invalidated."
+msgstr "パスワードリセットがキャンセルされました。パスワード変更は無効になりました。"
 
 #: fas/user.py:848
 msgid "Your password can not be the same as your old password."
-msgstr ""
+msgstr "パスワードは旧パスワードと同じものは使えません。"
 
 #: fas/user.py:862
-msgid ""
-"You have successfully reset your password.  You should now be able to "
-"login below."
-msgstr ""
+msgid "You have successfully reset your password.  You should now be able to login below."
+msgstr "パスワードリセットに成功しました。以下からログインできます。"
 
 #: fas/user.py:886
+#, fuzzy
 msgid "Before generating a certificate, you must first complete the CLA."
-msgstr ""
+msgstr "証明書を生成する前に、最初にCLAに同意しなければいけません。"
 
 #: fas/user.py:955
 msgid "Your certificate could not be generated."
-msgstr ""
+msgstr "証明書は生成されませんでした。"
 
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
-msgstr ""
+msgstr "グループ '%(group)s' は存在しません。"
 
 #: fas/validators.py:70
 #, python-format
 msgid "The group '%(group)s' already exists."
-msgstr ""
+msgstr "グループ '%(group)s' はすでに存在します。"
 
 #: fas/validators.py:90
 #, python-format
 msgid "Invalid group type: %(type)s."
-msgstr ""
+msgstr "I不正なグループのタイプ: %(type)s."
 
 #: fas/validators.py:113
 msgid "Invalid sort key."
-msgstr ""
+msgstr "不正なsort key。"
 
 #: fas/validators.py:118
 #, python-format
 msgid "'%(user)s' does not exist."
-msgstr ""
+msgstr "'%(user)s' は存在しません。"
 
 #: fas/validators.py:136
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
-msgstr ""
+msgstr "エラー: 作成できませんでした - '%(user)s'"
 
 #: fas/validators.py:137
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr ""
+msgstr "'%(user)s' はすでに存在します。"
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "emailループを避けるため、emailアドレスに@fedoraproject.orgは使えません。"
 
 #: fas/validators.py:174
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "エラー -  不正な RSA SSH key: %(key)s"
 
 #: fas/validators.py:198
 #, python-format
-msgid ""
-"'%(username)s' is an illegal username.  A valid username must only "
-"contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
+msgid "'%(username)s' is an illegal username.  A valid username must only contain lowercase alphanumeric characters, and must start with a letter."
+msgstr "'%(username)s' は法的なユーザネームです。正しいユーザネームは全て小文字の英数字で、アルファベットで始まらなければいけません。"
 
 #: fas/validators.py:201
 #, python-format
 msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "'%(username)s' はブラックリスト登録されたユーザネームです。他を選択してください。"
 
 #: fas/validators.py:219
 #, python-format
 msgid "The language '%(lang)s' is not available."
-msgstr ""
+msgstr "言語 '%(lang)s' は取得できません。"
 
 #: fas/model/fasmodel.py:184
 msgid "user is already in this group"
-msgstr ""
+msgstr "ユーザはすでにこのグループに参加しています"
 
-#: fas/model/fasmodel.py:197 fas/model/fasmodel.py:212
+#: fas/model/fasmodel.py:197
+#: fas/model/fasmodel.py:212
 #: fas/model/fasmodel.py:268
 msgid "user is not a member"
-msgstr ""
+msgstr "ユーザはメンバーではありません"
 
 #: fas/model/fasmodel.py:201
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "管理者はそれより上にアップグレードできません"
 
 #: fas/model/fasmodel.py:216
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "ユーザはそれより下にダウングレードできません"
 
 #: fas/model/fasmodel.py:225
 msgid "user is not an unapproved member"
-msgstr ""
+msgstr "ユーザは承認されていないメンバーではありません"
 
 #: fas/templates/about.html:7
 msgid "About FAS"
-msgstr ""
+msgstr "FASについて"
 
 #: fas/templates/about.html:10
 msgid "FAS - The Open Account System"
-msgstr ""
+msgstr "FAS - オープンアカウントシステム"
 
 #: fas/templates/about.html:11
-msgid ""
-"FAS is designed around an open architecture.  Unlike the traditional "
-"account systems where a single admin or group of admins decide who gets "
-"to be in what group, FAS is completely designed to be self operating per "
-"team.  Every group is given at least one administrator who can then "
-"approve other people in the group.  Also, unlike traditional account "
-"systems.  FAS allows people to apply for the groups they want to be in.  "
-"This paridigm is interesting as it allows anyone to find out who is in "
-"what groups and contact them.  This openness is brought over from the "
-"same philosophies that make Open Source popular."
-msgstr ""
+msgid "FAS is designed around an open architecture.  Unlike the traditional account systems where a single admin or group of admins decide who gets to be in what group, FAS is completely designed to be self operating per team.  Every group is given at least one administrator who can then approve other people in the group.  Also, unlike traditional account systems.  FAS allows people to apply for the groups they want to be in.  This paridigm is interesting as it allows anyone to find out who is in what groups and contact them.  This openness is brought over from the same philosophies that make Open Source popular."
+msgstr "FASはオープンアーキテクチャ用にデザインされています。昔ながらのアカウントシステムのように、一人の管理者又は、グループの管理者たちがグループメンバーを決めるのではなく、FASはチーム毎に完全な自己管理を行ないます。全てのグループは最低一人の管理者を持ち、他の人のグループ参加を承認します。同様に、昔ながらのアカウントシステムとは違います。FASによって、人々は入りたいグループに参加希望できます。この考え方は面白く、誰でも誰がこのグループに居るかをみつけ、コンタクトすることができます。このオープン性はオープンソースを有名にしたものと同じ哲学から来ています。"
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
-msgstr ""
+msgstr "エチケット"
 
 #: fas/templates/about.html:13
-msgid ""
-"People shouldn't assume that by applying for a group that they're then in"
-" that group.  Consider it like applying for another job.  It often takes "
-"time.  For best odds of success, learn about the group you're applying "
-"for and get to know someone in the group.  Find someone with sponsor or "
-"admin access and ask them if they'd have time to mentor you.  Plan on "
-"spending at least a few days learning about the group, doing a mundane "
-"task, participating on the mailing list.  Sometimes this process can take"
-" weeks depending on the group.  It's best to know you will get sponsored "
-"before you apply."
-msgstr ""
+#, fuzzy
+msgid "People shouldn't assume that by applying for a group that they're then in that group.  Consider it like applying for another job.  It often takes time.  For best odds of success, learn about the group you're applying for and get to know someone in the group.  Find someone with sponsor or admin access and ask them if they'd have time to mentor you.  Plan on spending at least a few days learning about the group, doing a mundane task, participating on the mailing list.  Sometimes this process can take weeks depending on the group.  It's best to know you will get sponsored before you apply."
+msgstr "グループに参加希望することで、グループに参加したことにはなりません。他の職業を探すように、よく考えてください。貢献は時間をとるものです。すばらしい成功の為には、あなたが参加したいグループについて学び、グループにいる誰かについて知ってください。スポンサーとしての誰か又は、管理者権限を持つ人を見つけ、あなたのメンターとなる時間があるかを聞いてください。グループについて学び、平凡な仕事を行ない、メーリングリストに参加するのに数日要します。時にはこのグループのプロセスだけで１週間かかります。一番よい方法は、参加希望する前にスポンサーとなることです。"
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
-msgstr ""
+msgstr "ユーザ、スポンサー、管理者"
 
 #: fas/templates/about.html:15
-msgid ""
-"Once you're in the group, you're in the group.  Sponsorship and "
-"Administrators typically have special access in the group in questions.  "
-"Some groups consider sponsorship level to be of a higher involvement, "
-"partial ownership of the group for example.  But as far as the account "
-"system goes the distinction is easy.  Sponsors can approve new users and "
-"make people into sponsors.  They cannot, however, downgrade or remove "
-"other sponsors.  They also cannot change administrators in any way.  "
-"Administrators can do anything to anyone in the group."
-msgstr ""
+msgid "Once you're in the group, you're in the group.  Sponsorship and Administrators typically have special access in the group in questions.  Some groups consider sponsorship level to be of a higher involvement, partial ownership of the group for example.  But as far as the account system goes the distinction is easy.  Sponsors can approve new users and make people into sponsors.  They cannot, however, downgrade or remove other sponsors.  They also cannot change administrators in any way.  Administrators can do anything to anyone in the group."
+msgstr "一度グループに参加したら、グループに参加しています。スポンサーと管理者は、典型的にグループで特別なアクセス権限を持っています。いくつかのグループではスポンサーレベルの方が高い地位で、例としてはグループの一部のオーナーとなっています。しかし、アカウントシステムは使いやすい特徴があります。スポンサーは新しいユーザを承認し、人々をスポンサーとして参加させることができます。しかし、ダウングレードや他のスポンサーの削除はできません。同様に管理者を変更することもできません。管理者はグループの誰に対しても何でもすることができます。"
 
-#: fas/templates/error.html:7 fas/templates/home.html:7
+#: fas/templates/error.html:7
+#: fas/templates/home.html:7
 #: fas/templates/cla/index.html:20
 msgid "Fedora Accounts System"
-msgstr ""
+msgstr "Fedoraアカウントシステム"
 
 #: fas/templates/error.html:17
 msgid "Error!"
-msgstr ""
+msgstr "エラー！"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgstr "以下のエラーがあなたのリクエストに発生しました:"
 
 #: fas/templates/home.html:11
 msgid "To do queue:"
-msgstr ""
+msgstr "To do 一覧:"
 
 #: fas/templates/home.html:17
 #, python-format
-msgid ""
-"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> "
-"requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
+msgid "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> の <a href=\"%(groupview)s\">%(group)s</a> への参加希望は承認されました"
 
 #: fas/templates/home.html:29
 #, python-format
-msgid ""
-"CLA not completed.  To become a full Fedora Contributor please <a "
-"href=\"%s\">complete the CLA</a>."
-msgstr ""
+msgid "CLA not completed.  To become a full Fedora Contributor please <a href=\"%s\">complete the CLA</a>."
+msgstr "CLA にまだ同意していません。 Fedora貢献者となるためには <a href=\"%s\">CLAに同意してください</a>。"
 
 #: fas/templates/home.html:30
 #, python-format
-msgid ""
-"You have not submitted an SSH key, some Fedora resources require an SSH "
-"key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
+msgid "You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
+msgstr "まだSSH keyを送信していません。いくつかのFedoraリソースはSSH keyを必要とします。<a href=\"%s\">マイアカウント</a>を編集して送信してください。"
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "様々なタスク"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "client-side certificateをダウンロード"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Fedoraアカウントシステムにログイン"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
-msgstr ""
+msgstr "Fedora"
 
 #: fas/templates/master.html:37
 msgid "Learn about Fedora"
-msgstr ""
+msgstr "Fedoraについて学ぶ"
 
 #: fas/templates/master.html:38
 msgid "Download Fedora"
-msgstr ""
+msgstr "Fedoraのダウンロード"
 
 #: fas/templates/master.html:39
 msgid "Projects"
-msgstr ""
+msgstr "プロジェクト"
 
 #: fas/templates/master.html:40
 msgid "Join Fedora"
-msgstr ""
+msgstr "Fedoraに参加する"
 
 #: fas/templates/master.html:41
 msgid "Communicate"
-msgstr ""
+msgstr "コミュニケート"
 
 #: fas/templates/master.html:42
 msgid "Help/Documentation"
-msgstr ""
+msgstr "ヘルプ/ドキュメント"
 
 #: fas/templates/master.html:48
 msgid "Logged in:"
-msgstr ""
+msgstr "ログインしました: "
 
 #: fas/templates/master.html:61
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: fas/templates/master.html:62
 msgid "My Account"
-msgstr ""
+msgstr "マイアカウント"
 
 #: fas/templates/master.html:64
 msgid "News"
-msgstr ""
+msgstr "ニュース"
 
 #: fas/templates/master.html:69
 msgid "Locale:"
-msgstr ""
+msgstr "ロケール:"
 
 #: fas/templates/master.html:73
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: fas/templates/master.html:85
 msgid "About"
-msgstr ""
+msgstr "About"
 
 #: fas/templates/master.html:86
 msgid "Contact Us"
-msgstr ""
+msgstr "我々にコンタクトしてください"
 
 #: fas/templates/master.html:87
 msgid "Legal & Privacy"
-msgstr ""
+msgstr "リーガル & プライバシー"
 
 #: fas/templates/master.html:89
 msgid "Log Out"
-msgstr ""
+msgstr "ログアウト"
 
 #: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
-msgstr ""
+msgstr "FAS バージョン %s"
 
 #: fas/templates/master.html:95
-msgid ""
-"© 2009 Red Hat, Inc. and others.  Please send any comments or corrections"
-" to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
-msgstr ""
+msgid "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+msgstr "© 2009 Red Hat, Inc. and others.  コメントまたは訂正は <a href=\"mailto:webmaster@fedoraproject.org\">websites チーム</a> へ。"
 
 #: fas/templates/master.html:98
-msgid ""
-"The Fedora Project is maintained and driven by the community and "
-"sponsored by Red Hat.  This is a community maintained site.  Red Hat is "
-"not responsible for content."
-msgstr ""
+msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
+msgstr "Fedoraプロジェクトはコミュニティにより運営され、Red Hatがスポンサーです。ここはコミュニティが管理するサイトです。Red Hatはコンテンツについての責任を持ちません。"
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr ""
+msgstr "\"*\" はワイルドカードです (Ex: \"cvs*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
-#: fas/templates/search-box.html:14 fas/templates/user/list.html:18
+#: fas/templates/search-box.html:14
+#: fas/templates/user/list.html:18
 msgid "Results"
-msgstr ""
+msgstr "結果"
 
-#: fas/templates/search-box.html:17 fas/templates/search-box.html:24
+#: fas/templates/search-box.html:17
+#: fas/templates/search-box.html:24
 #: fas/templates/user/list.html:21
 msgid "All"
-msgstr ""
+msgstr "All"
 
 #: fas/templates/search-box.html:21
 msgid "Types"
-msgstr ""
+msgstr "タイプ"
 
 #: fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr ""
+msgstr "FAS2にようこそ"
 
 #: fas/templates/welcome.html:18
-msgid ""
-"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a "
-"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
-"or stop by #fedora-admin on irc.freenode.net."
-msgstr ""
+msgid "Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop by #fedora-admin on irc.freenode.net."
+msgstr "Fedoraアカウントシステム2にようこそ。バグは <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> へ送るか、 irc.freenode.net の #fedora-admin へ。"
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr ""
+msgstr "ログイン"
 
 #: fas/templates/welcome.html:22
 msgid "New Account"
-msgstr ""
+msgstr "新しいアカウント"
 
 #: fas/templates/welcome.html:23
 msgid "Why Join?"
-msgstr ""
+msgstr "なぜ参加するか？"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "Fedora Contributor License Agreement"
 
-#: fas/templates/cla/index.html:24 fas/templates/cla/index.html:27
+#: fas/templates/cla/index.html:24
+#: fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">テキスト版</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
-msgstr ""
+msgstr "既にCLAに同意しています。"
 
-#: fas/templates/cla/index.html:40 fas/templates/user/edit.html:26
+#: fas/templates/cla/index.html:40
+#: fas/templates/user/edit.html:26
 msgid "Full Name"
-msgstr ""
+msgstr "フルネーム"
 
-#: fas/templates/cla/index.html:45 fas/templates/user/edit.html:45
+#: fas/templates/cla/index.html:45
+#: fas/templates/user/edit.html:45
 msgid "Telephone Number"
-msgstr ""
+msgstr "電話番号"
 
-#: fas/templates/cla/index.html:55 fas/templates/user/edit.html:55
+#: fas/templates/cla/index.html:55
+#: fas/templates/user/edit.html:55
 msgid "Country"
-msgstr ""
+msgstr "国"
 
-#: fas/templates/cla/index.html:57 fas/templates/user/edit.html:57
+#: fas/templates/cla/index.html:57
+#: fas/templates/user/edit.html:57
 msgid "Select Country"
-msgstr ""
+msgstr "国を選択してください"
 
-#: fas/templates/cla/index.html:65 fas/templates/user/edit.html:65
+#: fas/templates/cla/index.html:65
+#: fas/templates/user/edit.html:65
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "もし国がリストにない場合、 \"Other\" を選択してください。"
 
 #: fas/templates/cla/index.html:68
-msgid ""
-"I certify that the above information (my name, country, and phone number)"
-" are accurate to the best of my knowledge."
-msgstr ""
+msgid "I certify that the above information (my name, country, and phone number) are accurate to the best of my knowledge."
+msgstr "上記の情報 (氏名、国、電話番号) が私が知っている限り、正しいことを証明します。"
 
 #: fas/templates/cla/index.html:71
 msgid "I agree"
-msgstr ""
+msgstr "同意する"
 
 #: fas/templates/cla/index.html:72
 msgid "I do not agree"
-msgstr ""
+msgstr "同意しない"
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
-msgstr ""
+msgstr "グループに参加する"
 
 #: fas/templates/group/apply.html:18
 msgid "Group Rules"
-msgstr ""
+msgstr "グループのルール"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
-msgstr ""
+msgstr "グループの編集"
 
 #: fas/templates/group/edit.html:10
 #, python-format
 msgid "Edit Group: %s"
-msgstr ""
+msgstr "グループの編集: %s"
 
-#: fas/templates/group/edit.html:13 fas/templates/group/new.html:18
+#: fas/templates/group/edit.html:13
+#: fas/templates/group/new.html:18
 msgid "Display Name:"
-msgstr ""
+msgstr "表示名: "
 
-#: fas/templates/group/edit.html:18 fas/templates/group/new.html:28
+#: fas/templates/group/edit.html:18
+#: fas/templates/group/new.html:28
 msgid "Group Type:"
-msgstr ""
+msgstr "グループのタイプ: "
 
-#: fas/templates/group/edit.html:23 fas/templates/group/view.html:47
+#: fas/templates/group/edit.html:23
+#: fas/templates/group/view.html:47
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
-#: fas/templates/group/edit.html:28 fas/templates/group/view.html:51
+#: fas/templates/group/edit.html:28
+#: fas/templates/group/view.html:51
 msgid "Mailing List:"
-msgstr ""
+msgstr "メーリングリスト:"
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr ""
+msgstr "メーリングリストURL:"
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr ""
+msgstr "IRC チャネル:"
 
 #: fas/templates/group/edit.html:43
 msgid "IRC Network:"
-msgstr ""
+msgstr "IRC ネットワーク:"
 
-#: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
+#: fas/templates/group/edit.html:48
+#: fas/templates/group/new.html:23
 msgid "Group Owner:"
-msgstr ""
+msgstr "グループのオーナー:"
 
-#: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
+#: fas/templates/group/edit.html:53
+#: fas/templates/group/new.html:33
 #: fas/templates/group/view.html:64
 msgid "Needs Sponsor:"
-msgstr ""
+msgstr "スポンサーが必要:"
 
-#: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
+#: fas/templates/group/edit.html:59
+#: fas/templates/group/new.html:38
 #: fas/templates/group/view.html:68
 msgid "Self Removal:"
-msgstr ""
+msgstr "自分を削除:"
 
 #: fas/templates/group/edit.html:65
 msgid "Group Prerequisite:"
-msgstr ""
+msgstr "グループの前提条件:"
 
 #: fas/templates/group/edit.html:71
 msgid "Group Join Message:"
-msgstr ""
+msgstr "グループへの参加メッセージ:"
 
-#: fas/templates/group/edit.html:76 fas/templates/group/new.html:53
+#: fas/templates/group/edit.html:76
+#: fas/templates/group/new.html:53
 #: fas/templates/group/view.html:42
 msgid "Rules for Application:"
-msgstr ""
+msgstr "参加するためのルール:"
 
-#: fas/templates/group/edit.html:81 fas/templates/user/edit.html:146
+#: fas/templates/group/edit.html:81
+#: fas/templates/user/edit.html:146
 msgid "Save!"
-msgstr ""
+msgstr "保存する！"
 
-#: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
+#: fas/templates/group/invite.html:7
+#: fas/templates/group/invite.html:10
 msgid "Invite a new community member!"
-msgstr ""
+msgstr "新しいコミュニティメンバーを招待する！"
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
-msgstr ""
+msgstr "email送信先:"
 
 #: fas/templates/group/invite.html:15
 msgid "From:"
-msgstr ""
+msgstr "送信元:"
 
 #: fas/templates/group/invite.html:16
 msgid "Subject:"
-msgstr ""
+msgstr "題名:"
 
 #: fas/templates/group/invite.html:17
 msgid "Message:"
-msgstr ""
+msgstr "メッセージ:"
 
 #: fas/templates/group/invite.html:39
 msgid "Send!"
-msgstr ""
+msgstr "送信する！"
 
 #: fas/templates/group/list.html:9
 msgid "Groups List"
-msgstr ""
+msgstr "グループのリスト"
 
-#: fas/templates/group/list.html:21 fas/templates/user/list.html:10
+#: fas/templates/group/list.html:21
+#: fas/templates/user/list.html:10
 #, python-format
 msgid "List (%s)"
-msgstr ""
+msgstr "リスト (%s)"
 
 #: fas/templates/group/list.html:22
 msgid "Search Groups"
-msgstr ""
+msgstr "グループを検索する"
 
 #: fas/templates/group/list.html:27
 msgid "Group"
-msgstr ""
+msgstr "グループ"
 
 #: fas/templates/group/list.html:27
 msgid "Description"
-msgstr ""
+msgstr "説明"
 
 #: fas/templates/group/list.html:28
 msgid "Prerequisite"
-msgstr ""
+msgstr "前提条件"
 
-#: fas/templates/group/list.html:29 fas/templates/user/edit.html:127
+#: fas/templates/group/list.html:29
+#: fas/templates/user/edit.html:127
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
-#: fas/templates/group/list.html:37 fas/templates/group/member-list.html:26
+#: fas/templates/group/list.html:37
+#: fas/templates/group/member-list.html:26
 #: fas/templates/group/member-list.html:29
 msgid "None"
-msgstr ""
+msgstr "なし"
 
-#: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:126
+#: fas/templates/group/list.html:40
+#: fas/templates/group/members.html:24
+#: fas/templates/group/view.html:22
+#: fas/templates/user/view.html:126
 msgid "Approved"
-msgstr ""
+msgstr "承認されました"
 
-#: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:127
+#: fas/templates/group/list.html:41
+#: fas/templates/group/members.html:25
+#: fas/templates/group/view.html:23
+#: fas/templates/user/view.html:127
 msgid "Unapproved"
-msgstr ""
+msgstr "承認されませんでした"
 
 #: fas/templates/group/member-list.html:14
 msgid "User"
-msgstr ""
+msgstr "ユーザ"
 
 #: fas/templates/group/member-list.html:16
 msgid "Date Added"
-msgstr ""
+msgstr "参加した日付"
 
 #: fas/templates/group/member-list.html:17
 msgid "Date Approved"
-msgstr ""
+msgstr "承認された日付"
 
 #: fas/templates/group/member-list.html:18
 msgid "Approval"
-msgstr ""
+msgstr "承認"
 
 #: fas/templates/group/member-list.html:19
 msgid "Role Type"
-msgstr ""
+msgstr "役割のタイプ"
 
 #: fas/templates/group/member-list.html:20
 msgid "Action"
-msgstr ""
+msgstr "アクション"
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
-msgstr ""
+msgstr "グループのメンバーを見る"
 
-#: fas/templates/group/members.html:23 fas/templates/group/view.html:21
+#: fas/templates/group/members.html:23
+#: fas/templates/group/view.html:21
 msgid "My Status:"
-msgstr ""
+msgstr "マイステータス;"
 
-#: fas/templates/group/members.html:26 fas/templates/group/view.html:24
+#: fas/templates/group/members.html:26
+#: fas/templates/group/view.html:24
 msgid "Not a Member"
-msgstr ""
+msgstr "メンバーではありません"
 
-#: fas/templates/group/members.html:34 fas/templates/group/view.html:32
+#: fas/templates/group/members.html:34
+#: fas/templates/group/view.html:32
 msgid "Remove me"
-msgstr ""
+msgstr "自分を削除してください"
 
 #: fas/templates/group/members.html:41
 msgid "Group Details"
-msgstr ""
+msgstr "グループの詳細"
 
 #: fas/templates/group/members.html:44
 msgid "Members"
-msgstr ""
+msgstr "メンバー"
 
-#: fas/templates/group/new.html:7 fas/templates/group/new.html:10
+#: fas/templates/group/new.html:7
+#: fas/templates/group/new.html:10
 msgid "Create a new FAS Group"
-msgstr ""
+msgstr "新しい FAS グループを作成する"
 
 #: fas/templates/group/new.html:13
 msgid "Group Name:"
-msgstr ""
+msgstr "グループの名前:"
 
 #: fas/templates/group/new.html:43
+#, fuzzy
 msgid "Must Belong To:"
-msgstr ""
+msgstr "所属の義務:"
 
-#: fas/templates/group/new.html:48 fas/templates/group/view.html:72
+#: fas/templates/group/new.html:48
+#: fas/templates/group/view.html:72
 msgid "Join Message:"
-msgstr ""
+msgstr "参加のメッセージ:"
 
 #: fas/templates/group/new.html:58
 msgid "Create!"
-msgstr ""
+msgstr "作成する！"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:133
+#: fas/templates/group/view.html:8
+#: fas/templates/user/view.html:133
 msgid "View Group"
-msgstr ""
+msgstr "グループを見る"
 
-#: fas/templates/group/view.html:34 fas/templates/user/view.html:18
+#: fas/templates/group/view.html:34
+#: fas/templates/user/view.html:18
 msgid "(edit)"
-msgstr ""
+msgstr "(編集)"
 
 #: fas/templates/group/view.html:37
 msgid "Name:"
-msgstr ""
+msgstr "名前:"
 
 #: fas/templates/group/view.html:38
 msgid "Description:"
-msgstr ""
+msgstr "説明;"
 
 #: fas/templates/group/view.html:39
 msgid "Owner:"
-msgstr ""
+msgstr "オーナー:"
 
 #: fas/templates/group/view.html:40
 msgid "Type:"
-msgstr ""
+msgstr "タイプ:"
 
 #: fas/templates/group/view.html:44
 msgid "Approved Members:"
-msgstr ""
+msgstr "承認されたメンバー:"
 
 #: fas/templates/group/view.html:58
 msgid "IRC:"
-msgstr ""
+msgstr "IRC:"
 
-#: fas/templates/group/view.html:65 fas/templates/group/view.html:69
+#: fas/templates/group/view.html:65
+#: fas/templates/group/view.html:69
 msgid "Yes"
-msgstr ""
+msgstr " はい"
 
-#: fas/templates/group/view.html:66 fas/templates/group/view.html:70
+#: fas/templates/group/view.html:66
+#: fas/templates/group/view.html:70
 msgid "No"
-msgstr ""
+msgstr "いいえ"
 
 #: fas/templates/group/view.html:73
 msgid "Prerequisite:"
-msgstr ""
+msgstr "前提条件:"
 
 #: fas/templates/group/view.html:76
 msgid "Created:"
-msgstr ""
+msgstr "作成されました:"
 
 #: fas/templates/group/view.html:78
 msgid "Add User:"
-msgstr ""
+msgstr "ユーザの追加:"
 
 #: fas/templates/group/view.html:95
 msgid "View Member List"
-msgstr ""
+msgstr "メンバーのリストを見る"
 
 #: fas/templates/group/view.html:97
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "スポンサー一覧"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "これは OpenID のサーバです"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">これ</a> は OpenID サーバのエンドポイントです。"
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
-msgstr ""
+msgstr "OpenID についての詳細は、こちら:"
 
 #: fas/templates/openid/about.html:20
+#, fuzzy
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "OpenID コミュニティwebサイトとは、このライブラリのホームです。"
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "正式な OpenID webサイト。"
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
 #: fas/templates/openid/authorizesite.html:32
 msgid "Approve OpenID Request?"
-msgstr ""
+msgstr "OpenID のリクエストを承認しますか？"
 
 #: fas/templates/openid/authorizesite.html:13
-msgid ""
-"A new site has asked to confirm your identity.  If you approve, the site "
-"represented by the trust root below will be told that you control "
-"identity URL listed below. (If you are using a delegated identity, the "
-"site will take care of reversing the delegation on its own.)"
-msgstr ""
+#, fuzzy
+msgid "A new site has asked to confirm your identity.  If you approve, the site represented by the trust root below will be told that you control identity URL listed below. (If you are using a delegated identity, the site will take care of reversing the delegation on its own.)"
+msgstr "新しいサイトがあなたのidentityの確認を要求しています。もし承認する場合、このサイトが以下のtrust rootによって表示され、以下の認証URLリストをコントロールできます。(もし代理のidentityを使用している場合、このサイトは自分の委任を変えないようにします)"
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
-msgstr ""
+msgstr "Identity:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Trust Root:"
 
 #: fas/templates/openid/authorizesite.html:26
+#, fuzzy
 msgid "Allow this authentication to proceed?"
-msgstr ""
+msgstr "この証明書を許可しますか？"
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
-msgstr ""
+msgstr "はい"
 
 #: fas/templates/openid/authorizesite.html:39
 msgid "no"
-msgstr ""
+msgstr "いいえ"
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
-msgstr ""
+msgstr "OpenID Identity ページ"
 
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "これは %(human_name)s (%(username)s) のOpenID identityです。"
 
 #: fas/templates/openid/id.html:24
 #, python-format
 msgid "This is an OpenID identity for %(username)s"
-msgstr ""
+msgstr "これは %(username)s のOpenID identityです。"
 
 #: fas/templates/openid/id.html:31
-msgid ""
-"Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora "
-"Account System<a>."
-msgstr ""
+msgid "Part of the <a href=\"https://admin.fedoraproject.org/accounts/\">Fedora Account System<a>."
+msgstr "<a href=\"https://admin.fedoraproject.org/accounts/\">Fedora アカウントシステム<a>の一部。"
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "ようこそFedora OpenID プロバイダへ"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
-msgid ""
-"You are logged in as %(username)s. Your OpenID identity URL is <a "
-"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
-msgstr ""
+msgid "You are logged in as %(username)s. Your OpenID identity URL is <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+msgstr "あなたは %(username)s としてログインしています。あなたのOpenID identity URL は<a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a> です"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
-msgstr ""
+msgstr "ログアウト"
 
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr ""
+msgstr "あなたは <a href=\"%(url)s\">ログイン</a> していません"
 
-#: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
-#: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
+#: fas/templates/user/changepass.html:7
+#: fas/templates/user/changepass.html:10
+#: fas/templates/user/changepass.html:16
+#: fas/templates/user/verifypass.html:16
 msgid "Change Password"
-msgstr ""
+msgstr "パスワード変更"
 
 #: fas/templates/user/changepass.html:13
 msgid "Current Password:"
-msgstr ""
+msgstr "パスワード変更:"
 
-#: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
+#: fas/templates/user/changepass.html:14
+#: fas/templates/user/verifypass.html:13
 msgid "New Password:"
-msgstr ""
+msgstr "新しいパスワード:"
 
-#: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
+#: fas/templates/user/changepass.html:15
+#: fas/templates/user/verifypass.html:14
 msgid "Confirm Password:"
-msgstr ""
+msgstr "パスワードを再度入力:"
 
 #: fas/templates/user/edit.html:20
 msgid "Edit Account"
-msgstr ""
+msgstr "アカウントの編集"
 
 #: fas/templates/user/edit.html:23
 #, python-format
 msgid "Edit Account (%s)"
-msgstr ""
+msgstr "アカウント (%s) の編集"
 
 #: fas/templates/user/edit.html:32
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: fas/templates/user/edit.html:35 fas/templates/user/view.html:31
+#: fas/templates/user/edit.html:35
+#: fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
-msgstr ""
+msgstr "( %(email)s への変更作業中 - <a href=\"%(url)s\">キャンセル</a>)"
 
 #: fas/templates/user/edit.html:76
 msgid "Latitude"
-msgstr ""
+msgstr "緯度"
 
 #: fas/templates/user/edit.html:81
 msgid "Longitude"
-msgstr ""
+msgstr "経度"
 
 #: fas/templates/user/edit.html:94
 msgid "IRC Nick"
-msgstr ""
+msgstr "IRC Nick"
 
 #: fas/templates/user/edit.html:110
 msgid "Time Zone"
-msgstr ""
+msgstr "タイムゾーン"
 
 #: fas/templates/user/edit.html:135
 msgid "Comments"
-msgstr ""
+msgstr "コメント"
 
 #: fas/templates/user/edit.html:141
 msgid "Privacy"
-msgstr ""
+msgstr "プライバシー"
 
-#: fas/templates/user/edit.html:147 fas/templates/user/verifyemail.html:17
+#: fas/templates/user/edit.html:147
+#: fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
-#: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
+#: fas/templates/user/gencert.html:10
+#: fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "証明書の世代"
 
 #: fas/templates/user/gencert.html:15
-msgid ""
-"The link below allows you to generate a certificate to authenticate to "
-"Fedora's buildsytems.  Please note that you can only have one valid "
-"certificate at any given time.  Once you generate a new certificate, any "
-"previous ones are revoked.  Currently, if you are not working on Fedora "
-"packaging, you will probably not need to have a certificate."
-msgstr ""
+msgid "The link below allows you to generate a certificate to authenticate to Fedora's buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate."
+msgstr "以下のリンクでFedora buildsytems に証明するための証明書を生成できます。常時１個しか正式な証明書を持てないことに注意してください。新しい証明書を作成すると、過去の証明書は全て無効となります。もし現在Fedoraパッケージングで仕事をしていないばあい、証明書を持つ必要はありません。"
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "証明書の生成"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "証明書の生成が無効になっています"
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
-msgid ""
-"Generating SSL Certificates is disabled on this machine.  If you were "
-"brought here by clicking a link it usually means there is a "
-"misconfiguration on the server.  Please contact %(accts_email)s to fix "
-"things."
-msgstr ""
+msgid "Generating SSL Certificates is disabled on this machine.  If you were brought here by clicking a link it usually means there is a misconfiguration on the server.  Please contact %(accts_email)s to fix things."
+msgstr "このマシンではSSL証明書の生成が無効になっています。もしリンクをクリックしてこのページに来た場合、通常はサーバの認証が失敗したことを意味します。 %(accts_email)s にコンタクトし、問題を解決してください。"
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
-msgstr ""
+msgstr "ユーザリスト"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "\"*\" はワイルドカードです (Ex: \"ric*\")"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
-msgstr ""
+msgstr "ユーザネーム"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:91
+#: fas/templates/user/list.html:34
+#: fas/templates/user/view.html:91
 msgid "CLA Done"
-msgstr ""
+msgstr "CLA 同意済"
 
-#: fas/templates/user/list.html:40 fas/templates/user/view.html:95
+#: fas/templates/user/list.html:40
+#: fas/templates/user/view.html:95
 msgid "Not Done"
-msgstr ""
+msgstr "未完"
 
-#: fas/templates/user/new.html:7 fas/templates/user/new.html:10
+#: fas/templates/user/new.html:7
+#: fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr ""
+msgstr "Fedoraアカウントにサインアップ"
 
-#: fas/templates/user/new.html:13 fas/templates/user/resetpass.html:13
+#: fas/templates/user/new.html:13
+#: fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr ""
+msgstr "ユーザネーム:"
 
-#: fas/templates/user/new.html:17 fas/templates/user/view.html:24
+#: fas/templates/user/new.html:17
+#: fas/templates/user/view.html:24
 msgid "Full Name:"
-msgstr ""
+msgstr "フルネーム:"
 
-#: fas/templates/user/new.html:22 fas/templates/user/resetpass.html:14
+#: fas/templates/user/new.html:22
+#: fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
-msgstr ""
+msgstr "Email:"
 
 #: fas/templates/user/new.html:43
 msgid "I am 13 years of age or older"
-msgstr ""
+msgstr "私は13歳以上です"
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
-msgstr ""
+msgstr "サインアップ！"
 
-#: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
-#: fas/templates/user/resetpass.html:19 fas/templates/user/verifypass.html:7
+#: fas/templates/user/resetpass.html:7
+#: fas/templates/user/resetpass.html:10
+#: fas/templates/user/resetpass.html:19
+#: fas/templates/user/verifypass.html:7
 #: fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr ""
+msgstr "パスワードのリセット"
 
-#: fas/templates/user/verifyemail.html:7 fas/templates/user/verifyemail.html:10
+#: fas/templates/user/verifyemail.html:7
+#: fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr ""
+msgstr "email変更リクエストを承認"
 
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "本当に email を: %s に変更しますか?"
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr ""
+msgstr "アカウントを見る"
 
 #: fas/templates/user/view.html:16
 msgid "Your Fedora Account"
-msgstr ""
+msgstr "あなたのFedoraアカウント"
 
 #: fas/templates/user/view.html:17
 #, python-format
 msgid "%s's Fedora Account"
-msgstr ""
+msgstr "%s' のFedoraアカウント"
 
 #: fas/templates/user/view.html:18
 msgid "Account Details"
-msgstr ""
+msgstr "アカウントの詳細"
 
 #: fas/templates/user/view.html:21
 msgid "Account Name:"
-msgstr ""
+msgstr "アカウントネーム:"
 
 #: fas/templates/user/view.html:36
 msgid "Telephone Number:"
-msgstr ""
+msgstr "電話番号:"
 
 #: fas/templates/user/view.html:40
 msgid "Postal Address:"
-msgstr ""
+msgstr "住所:"
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr ""
+msgstr "国:"
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
-msgstr ""
+msgstr "IRC Nick:"
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr ""
+msgstr "PGP Key:"
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr ""
+msgstr "Public SSH Key:"
 
 #: fas/templates/user/view.html:68
 msgid "Comments:"
-msgstr ""
+msgstr "コメント:"
 
 #: fas/templates/user/view.html:74
 msgid "Password:"
-msgstr ""
+msgstr "パスワード:"
 
 #: fas/templates/user/view.html:75
+#, fuzzy
 msgid "Valid"
-msgstr ""
+msgstr "Valid"
 
 #: fas/templates/user/view.html:78
 msgid "Account Status:"
-msgstr ""
+msgstr "アカウントのステータス:"
 
 #: fas/templates/user/view.html:81
 msgid "Active"
-msgstr ""
+msgstr "アクティブ"
 
 #: fas/templates/user/view.html:82
 msgid "Vacation"
-msgstr ""
+msgstr "休暇中"
 
 #: fas/templates/user/view.html:83
 msgid "Inactive"
-msgstr ""
+msgstr "休止中"
 
 #: fas/templates/user/view.html:84
+#, fuzzy
 msgid "Pinged"
-msgstr ""
+msgstr "Pinged"
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
-msgstr ""
+msgstr "無効"
 
 #: fas/templates/user/view.html:90
 msgid "CLA:"
-msgstr ""
+msgstr "CLA:"
 
 #: fas/templates/user/view.html:93
 msgid "Reject CLA"
-msgstr ""
+msgstr "CLAを拒否する"
 
 #: fas/templates/user/view.html:95
+#, fuzzy
 msgid "Complete it!"
-msgstr ""
+msgstr "同意してください！"
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
-msgstr ""
+msgstr "プライバシー"
 
 #: fas/templates/user/view.html:106
 msgid "Your Roles"
-msgstr ""
+msgstr "あなたの役割"
 
 #: fas/templates/user/view.html:107
 #, python-format
 msgid "%s's Roles"
-msgstr ""
+msgstr "%s の役割"
 
 #: fas/templates/user/view.html:124
 msgid "Status:"
-msgstr ""
+msgstr "ステータス:"
 
 #: fas/templates/user/view.html:130
 msgid "Tools:"
-msgstr ""
+msgstr "ツール:"
 
 #: fas/templates/user/view.html:134
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "新しいメンバーを招待する..."
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "グループのメンバーを管理..."
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "グループの詳細を管理..."
 
 #: fas/templates/user/view.html:140
 msgid "Queue:"
-msgstr ""
+msgstr "一覧:"
 
 #: fas/templates/user/view.html:144
 #, python-format
-msgid ""
-"<strong>%(user)s</strong> requests approval to join "
-"<strong>%(unapproved_role.group)s</strong>."
-msgstr ""
+msgid "<strong>%(user)s</strong> requests approval to join <strong>%(unapproved_role.group)s</strong>."
+msgstr "<strong>%(user)s</strong> が <strong>%(unapproved_role.group)s</strong> への参加承認を要求しています。"
 
