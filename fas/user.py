@@ -205,8 +205,8 @@ class User(controllers.Controller):
         admin = is_admin(identity.current)
         cla = cla_done(person)
         person_data = person.filter_private()
-        person_data['approved_memberships'] = person.approved_memberships
-        person_data['unapproved_memberships'] = person.unapproved_memberships
+        person_data['approved_memberships'] = list(person.approved_memberships)
+        person_data['unapproved_memberships'] = list(person.unapproved_memberships)
         person_data['roles'] = person.roles
 
         roles = person.roles

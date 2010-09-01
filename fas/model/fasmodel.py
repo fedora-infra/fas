@@ -371,7 +371,7 @@ class People(SABase):
         for field in self.roles:
             person_data['group_roles'][field.groupname] = field
 
-        person_data['memberships'] = self.memberships
+        person_data['memberships'] = list(self.memberships)
         person_data['roles'] = self.roles
 
 
