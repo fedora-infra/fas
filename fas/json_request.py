@@ -57,8 +57,8 @@ class JsonRequest(controllers.Controller):
         try:
             person = People.by_id(person_id)
             person_data = person.filter_private()
-            person_data['approved_memberships'] = person.approved_memberships
-            person_data['unapproved_memberships'] = person.unapproved_memberships
+            person_data['approved_memberships'] = list(person.approved_memberships)
+            person_data['unapproved_memberships'] = list(person.unapproved_memberships)
             return dict(success=True, person=person_data)
         except InvalidRequestError:
             return dict(success=False)
@@ -161,8 +161,8 @@ class JsonRequest(controllers.Controller):
         try:
             person = People.by_username(username)
             person_data = person.filter_private()
-            person_data['approved_memberships'] = person.approved_memberships
-            person_data['unapproved_memberships'] = person.unapproved_memberships
+            person_data['approved_memberships'] = list(person.approved_memberships)
+            person_data['unapproved_memberships'] = list(person.unapproved_memberships)
             return dict(success=True, person=person_data)
         except InvalidRequestError:
             return dict(success=False)
