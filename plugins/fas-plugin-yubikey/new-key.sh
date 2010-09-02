@@ -1,4 +1,6 @@
 #!/bin/bash
 set -e
-
-echo -n $(/usr/bin/ykksm-gen-keys --urandom $1 $1 | /usr/bin/gpg -a --encrypt -r DD9259AA -s | /usr/bin/ykksm-import --verbose --database 'DBI:Pg:dbname=ykksm;host=192.168.122.248' --db-user ykksmimporter --db-passwd otherpassword | /usr/bin/awk -F, '/line/{ print $2,$3,$4 }')
+cd /tmp
+echo "Passed $1" >&2
+echo -n $(/srv/dev/fas/plugins/fas-plugin-yubikey/gen_yubikey.py $1 | /usr/bin/ykksm-import --verbose --database 'DBI:Pg:dbname=ykksm;host=localhost' --db-user ykksmimporter --db-passwd uTi2oabe | /usr/bin/awk -F, '/line/{ print $2,$3,$4 }')
+#echo -n $(/usr/bin/ykksm-gen-keys --urandom $1 $1 | /usr/bin/gpg --homedir=/srv/dev/gpg -a --encrypt -r 5ADA7BBA -s | /usr/bin/ykksm-import --verbose --database 'DBI:Pg:dbname=ykksm;host=localhost' --db-user ykksmimporter --db-passwd uTi2oabe | /usr/bin/awk -F, '/line/{ print $2,$3,$4 }')

@@ -23,6 +23,7 @@ import subprocess
 admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
+client_id = '1'
 
 class YubikeySave(validators.Schema):
     targetname = KnownUser
@@ -39,7 +40,7 @@ def get_configs(configs_list):
         configs['prefix'] = 'Not Defined'
     return configs
 
-class AuthException(BaseException): pass
+class AuthException(Exception): pass
 
 def otp_verify(uid, otp):
     import sys, os, re
@@ -52,7 +53,7 @@ def otp_verify(uid, otp):
       raise AuthException('Unauthorized/Invalid OTP')
 
 
-    server_prefix = 'http://localhost/ykval-verify?id='
+    server_prefix = 'http://localhost/yk-val/verify?id='
     auth_regex = re.compile('^status=(?P<rc>\w{2})')
 
     server_url = server_prefix + client_id + "&otp=" + otp
@@ -111,7 +112,7 @@ class YubikeyPlugin(controllers.Controller):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         
-        stdoutput = subprocess.Popen(['/home/mmcgrath/git/fas/plugins/fas-plugin-yubikey/new-key.sh',  '%s' % person.id], stdout=subprocess.PIPE)
+        stdoutput = subprocess.Popen(['/srv/dev/fas/plugins/fas-plugin-yubikey/new-key.sh',  '%s' % person.id], stdout=subprocess.PIPE)
         string = stdoutput.stdout.read()
         return dict(key=string)
 
