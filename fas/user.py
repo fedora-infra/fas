@@ -24,6 +24,11 @@
 # @error_handler() takes a reference to the error() method defined in the
 # class (E0602)
 
+try:
+    from bunch import Bunch
+except ImportError:
+    from fedora.client import DictContainer as Bunch
+
 import turbogears
 from turbogears import controllers, expose, identity, \
         validate, validators, error_handler, config, redirect
@@ -525,26 +530,99 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
             limit = 100
 
         # Query db for all users and their status in cla_done
-        role_group_join = PersonRolesTable.join(GroupsTable,
-                and_(PersonRoles.group_id==Groups.id, Groups.name=='cla_done'))
-        people_join = PeopleTable.outerjoin(role_group_join,
-                PersonRoles.person_id==People.id)
+        stmt = select([PeopleTable, PersonRolesTable, GroupsTable]).where(
+                and_(People.id == PersonRoles.person_id,
+                    Groups.id == PersonRoles.group_id,
+                    People.id.in_(select([PersonRolesTable.c.person_id]).where(
+                        and_(PersonRoles.group_id == Groups.id,
+                            Groups.name == 'cla_done')).correlate(None)),
+                    People.username.ilike(re_search))
+                ).order_by(People.username).limit(limit)
+        stmt.use_labels = True
+        people = stmt.execute()
 
-        stmt = select([PeopleTable, PersonRolesTable.c.role_status],
-                from_obj=[people_join]).where(People.username.ilike(re_search)
-                          ).order_by(People.username).limit(limit)
-        people = People.query.add_column(PersonRoles.role_status
-                ).from_statement(stmt)
+        people_map = dict()
+        # This replicates what filter_private does.  At some point we might
+        # want to figure out a way to pull this into a function
+        if identity.in_any_group(config.get('admingroup', 'accounts'),
+            config.get('systemgroup', 'fas-system')):
+            # Admin and system are the same for now
+            user = 'admin'
+        elif identity.current.anonymous:
+            user = 'anonymous'
+        else:
+            user = 'public'
+        for record in people:
+            if record.people_username not in people_map:
+                # Person
+                person = Bunch()
+                if user == 'public':
+                    if identity.current.user_name == record.people_username:
+                        user = 'self'
+                    elif record.people_privacy:
+                        user = 'privacy'
+                for field in People.allow_fields['complete']:
+                    person[field] = None
+                for field in People.allow_fields[user]:
+                    person[field] = record['people_%s' % field]
+                if identity.in_group(config.get('thirdpartygroup',
+                    'thirdparty')):
+                    for field in People.allow_fields['thirdparty']:
+                        person[field] = record['people_%s' % field]
+                if 'password' not in People.allow_fields[user]:
+                    person.password = '*'
+                person.group_roles = {}
+                person.memberships = []
+                person.roles = []
+                people_map[record.people_username] = person
+                if user in ('self', 'privacy'):
+                    user = 'public'
+            else:
+                person = people_map[record.people_username]
+
+            if record.groups_name not in person.group_roles:
+                group = Bunch()
+                group.id = record.groups_id
+                group.display_name = record.groups_display_name
+                group.name = record.groups_name
+                group.invite_only = record.groups_invite_only
+                group.url = record.groups_url
+                group.creation = record.groups_creation
+                group.irc_network = record.groups_irc_network
+                group.needs_sponsor = record.groups_needs_sponsor
+                group.prerequisite_id = record.groups_prerequisite_id
+                group.user_can_remove = record.groups_user_can_remove
+                group.mailing_list_url = record.groups_mailing_list_url
+                group.mailing_list = record.groups_mailing_list
+                group.irc_channel = record.groups_irc_channel
+                group.apply_rules = record.groups_apply_rules
+                group.joinmsg = record.groups_joinmsg
+                group.group_type = record.groups_group_type
+                group.owner_id = record.groups_owner_id
+                person.memberships.append(group)
+
+                role = Bunch()
+                role.internal_comments = record.person_roles_internal_comments
+                role.role_status = record.person_roles_role_status
+                role.creation = record.person_roles_creation
+                role.sponsor_id = record.person_roles_sponsor_id
+                role.person_id = record.person_roles_person_id
+                role.approval = record.person_roles_approval
+                role.group_id = record.person_roles_group_id
+                role.role_type = record.person_roles_role_type
+                person.group_roles[record.groups_name] = role
+                person.roles.append(role)
 
         approved = []
         unapproved = []
-        for person in people.all():
-            user = person[0].filter_private()
+        for person in people_map.itervalues():
+            cla_status = person.group_roles['cla_done'].role_status
+
             # Current default is to return everything unless fields is set
             if fields:
                 # If set, return only the fields that were requested
                 try:
-                    user = dict((field, getattr(user, field)) for field
+                    person = dict((field, getattr(person, field)) for field
                             in fields)
                 except AttributeError, error:
                     # An invalid field was given
@@ -556,10 +634,10 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                         return dict(people=[], unapproved_people=[],
                                 search=search)
 
-            if person[1] == 'approved':
-                approved.append(user)
+            if cla_status == 'approved':
+                approved.append(person)
             else:
-                unapproved.append(user)
+                unapproved.append(person)
 
         if not (approved or unapproved):
             turbogears.flash(_("No users found matching '%s'") % search)
