@@ -18,6 +18,8 @@ from fas.auth import *
 from fas.user import KnownUser
 from fas.util import available_languages
 
+import subprocess
+
 admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
@@ -42,7 +44,6 @@ class AuthException(BaseException): pass
 def otp_verify(uid, otp):
     import sys, os, re
     import urllib2
-    client_id='2431'
 
     target = People.by_id(uid)
     configs = get_configs(Configs.query.filter_by(person_id=target.id, application='yubikey').all())
@@ -51,7 +52,7 @@ def otp_verify(uid, otp):
       raise AuthException('Unauthorized/Invalid OTP')
 
 
-    server_prefix = 'http://api.yubico.com/wsapi/verify?id='
+    server_prefix = 'http://localhost/ykval-verify?id='
     auth_regex = re.compile('^status=(?P<rc>\w{2})')
 
     server_url = server_prefix + client_id + "&otp=" + otp
@@ -102,6 +103,17 @@ class YubikeyPlugin(controllers.Controller):
 
         configs = get_configs(Configs.query.filter_by(person_id=person.id, application='yubikey').all())
         return dict(admin=admin, person=person, personal=personal, configs=configs)
+
+    @identity.require(turbogears.identity.not_anonymous())
+    @expose(template='json')
+    def genkey(self):
+        
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        
+        stdoutput = subprocess.Popen(['/home/mmcgrath/git/fas/plugins/fas-plugin-yubikey/new-key.sh',  '%s' % person.id], stdout=subprocess.PIPE)
+        string = stdoutput.stdout.read()
+        return dict(key=string)
 
     @expose(template="fas.templates.error")
     def error(self, tg_errors=None):
