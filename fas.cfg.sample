@@ -77,6 +77,8 @@ mail.encoding = 'utf-8'
 # mail.transport='smtp'
 
 # DATABASE
+ykksm_db="postgres://ykksmimporter:ykksmimporter@localhost/ykksm"
+ykval_db="postgres://ykval_verifier:ykval_verifier@localhost/ykval"
 
 # pick the form for your database
 # sqlobject.dburi="postgres://username@hostname/databasename"

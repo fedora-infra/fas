@@ -2,7 +2,7 @@
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import metadata, mapper, get_engine, session
-from sqlalchemy import Table, Column, Integer, String, MetaData, Boolean
+from sqlalchemy import Table, Column, Integer, String, MetaData, Boolean, create_engine
 from sqlalchemy.exceptions import IntegrityError
 
 import cherrypy
@@ -23,11 +23,13 @@ from fas.util import available_languages
 from random import choice
 import time, string
 
+ykksm_db_uri = config.get('ykksm_db')
+ykval_db_uri = config.get('ykval_db')
 
-get_engine()
+ykksm_metadata = MetaData(ykksm_db_uri)
+ykval_metadata = MetaData(ykval_db_uri)
 
-#metadata = MetaData()
-ykksm_table = Table('yubikeys', metadata,
+ykksm_table = Table('yubikeys', ykksm_metadata,
                 Column('serialnr', Integer, primary_key=True),
                 Column('publicname', String, nullable=False),
                 Column('created', String, nullable=False),
@@ -37,6 +39,18 @@ ykksm_table = Table('yubikeys', metadata,
                 Column('creator', String, nullable=False),
                 Column('active', Boolean, default=True),
                 Column('hardware', Boolean, default=True) )
+
+ykval_table = Table('yubikeys', ykval_metadata,
+                Column('active', Boolean, default=True),
+                Column('created', Integer, nullable=False),
+                Column('modified', Integer, nullable=False),
+                Column('yk_publicname', String, primary_key=True),
+                Column('yk_counter', Integer, nullable=False),
+                Column('yk_use', Integer, nullable=False),
+                Column('yk_low', Integer, nullable=False),
+                Column('yk_high', Integer, nullable=False),
+                Column('nonce', String, default=''),
+                Column('notes', String, default='') )
 
 
 class Ykksm(object):
@@ -51,14 +65,21 @@ class Ykksm(object):
         self.active = active
         self.hardware = hardware
 
-    @classmethod
-    def by_serialnr(cls, serialnr):
-        '''
-        A class method that permits to search keys by serial number
-        '''
-        return cls.query.filter_by(serialnr==serialnr).one()
+class Ykval(object):
+    def __init__(self, active, created, modified, yk_publicname, yk_counter, yk_use, yk_low, yk_high, nonce, notes):
+        self.active = active
+        self.created = created
+        self.modified = modified
+        self.yk_publicname = yk_publicname
+        self.yk_counter = yk_counter
+        self.yk_use = yk_use
+        self.yk_low = yk_low
+        self.yk_high = yk_high
+        self.nonce = nonce
+        self.notes = notes
 
 mapper(Ykksm, ykksm_table)
+mapper(Ykval, ykval_table)
 
 import subprocess
 
@@ -198,9 +219,14 @@ class YubikeyPlugin(controllers.Controller):
             session.delete(old_ykksm)
             new_ykksm = Ykksm(serialnr=person.id, publicname=publicname, created=created, internalname=internalname, aeskey=aeskey, lockcode=lockcode, creator=username)
             old_ykksm = new_ykksm
-            #session.add(new_ykksm)
             session.flush()
-
+        try:
+            old_ykval = session.query(Ykval).filter_by(yk_publicname=publicname).all()[0]
+            session.delete(old_ykval)
+            session.flush()
+        except IndexError:
+            # No old record?  Maybe they never used their key
+            pass
             
         string = "%s %s %s" % (publicname, internalname, aeskey)
         return dict(key=string)
