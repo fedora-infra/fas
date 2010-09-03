@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
-from turbogears.database import session
+from turbogears.database import metadata, mapper, get_engine, session
+from sqlalchemy import Table, Column, Integer, String, MetaData, Boolean
+from sqlalchemy.exceptions import IntegrityError
 
 import cherrypy
 
@@ -17,6 +19,46 @@ from fas.model import Log
 from fas.auth import *
 from fas.user import KnownUser
 from fas.util import available_languages
+
+from random import choice
+import time, string
+
+
+get_engine()
+
+#metadata = MetaData()
+ykksm_table = Table('yubikeys', metadata,
+                Column('serialnr', Integer, primary_key=True),
+                Column('publicname', String, nullable=False),
+                Column('created', String, nullable=False),
+                Column('internalname', String, nullable=False),
+                Column('aeskey', String, nullable=False),
+                Column('lockcode', String, nullable=False),
+                Column('creator', String, nullable=False),
+                Column('active', Boolean, default=True),
+                Column('hardware', Boolean, default=True) )
+
+
+class Ykksm(object):
+    def __init__(self, serialnr, publicname, created, internalname, aeskey, lockcode, creator, active=True, hardware=True):
+        self.serialnr = serialnr
+        self.publicname = publicname
+        self.created = created
+        self.internalname = internalname
+        self.aeskey = aeskey
+        self.lockcode = lockcode
+        self.creator = creator
+        self.active = active
+        self.hardware = hardware
+
+    @classmethod
+    def by_serialnr(cls, serialnr):
+        '''
+        A class method that permits to search keys by serial number
+        '''
+        return cls.query.filter_by(serialnr==serialnr).one()
+
+mapper(Ykksm, ykksm_table)
 
 import subprocess
 
@@ -72,6 +114,33 @@ def otp_verify(uid, otp):
     turbogears.redirect('/yubikey/')
     return dict()
 
+def hex2modhex (string):
+    ''' Convert a hex string to a modified hex string '''
+    replacement = { '0': 'c',
+                    '1': 'b',
+                    '2': 'd',
+                    '3': 'e',
+                    '4': 'f',
+                    '5': 'g',
+                    '6': 'h',
+                    '7': 'i',
+                    '8': 'j',
+                    '9': 'k',
+                    'a': 'l',
+                    'b': 'n',
+                    'c': 'r',
+                    'd': 't',
+                    'e': 'u',
+                    'f': 'v' }
+    new_string = ''
+    for letter in string:
+        new_string = new_string + replacement[letter]
+    return new_string
+
+def gethexrand(length):
+    return ''.join([choice('0123456789abcdef') for i in range(length)]).lower()
+
+
 
 class YubikeyPlugin(controllers.Controller):
     capabilities = ['yubikey_plugin']
@@ -111,9 +180,29 @@ class YubikeyPlugin(controllers.Controller):
         
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        
-        stdoutput = subprocess.Popen(['/srv/dev/fas/plugins/fas-plugin-yubikey/new-key.sh',  '%s' % person.id], stdout=subprocess.PIPE)
-        string = stdoutput.stdout.read()
+
+        created = time.strftime("%Y-%m-%dT%H:%M:%S")
+        hexctr = "%012x" % person.id
+        publicname = hex2modhex(hexctr)
+        internalname = gethexrand(12)
+        aeskey = gethexrand(32)
+        lockcode = gethexrand(12)
+
+        try:
+            new_ykksm = Ykksm(serialnr=person.id, publicname=publicname, created=created, internalname=internalname, aeskey=aeskey, lockcode=lockcode, creator=username)
+            session.add(new_ykksm)
+            session.flush() 
+        except IntegrityError:
+            session.rollback()
+            old_ykksm = session.query(Ykksm).filter_by(serialnr=person.id).all()[0]
+            session.delete(old_ykksm)
+            new_ykksm = Ykksm(serialnr=person.id, publicname=publicname, created=created, internalname=internalname, aeskey=aeskey, lockcode=lockcode, creator=username)
+            old_ykksm = new_ykksm
+            #session.add(new_ykksm)
+            session.flush()
+
+            
+        string = "%s %s %s" % (publicname, internalname, aeskey)
         return dict(key=string)
 
     @expose(template="fas.templates.error")
