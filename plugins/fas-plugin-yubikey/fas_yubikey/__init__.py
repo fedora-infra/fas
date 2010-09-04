@@ -290,8 +290,9 @@ class YubikeyPlugin(controllers.Controller):
         return dict()
 
     @identity.require(turbogears.identity.not_anonymous())
-    @expose(format="json", allow_json=True)
+    @expose(format="text", allow_json=True)
     def dump(self):
+        dump_list = []
         person = People.by_username(identity.current.user_name)
         if identity.in_group(admin_group) or \
             identity.in_group(system_group):
@@ -300,8 +301,11 @@ class YubikeyPlugin(controllers.Controller):
                 if attr.person_id not in yubikey_attrs:
                     yubikey_attrs[attr.person_id] = {}
                 yubikey_attrs[attr.person_id][attr.attribute] = attr.value
-            return dict(yubikey_attrs=yubikey_attrs)
-        return dict()
+            for user_id in yubikey_attrs:
+                if yubikey_attrs[user_id]['enabled'] == u'1':
+                    dump_list.append('%s:%s' % (People.by_id(user_id).username, yubikey_attrs[user_id]['prefix']))
+            return '\n'.join(dump_list)
+        return '# Sorry, must be in an admin group to get these'
     
     @expose(template="fas.templates.help")
     def help(self, id='none'):
