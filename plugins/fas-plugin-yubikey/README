@@ -7,28 +7,59 @@ yubikey -> FAS -> yubi-val-server -> yubi-ksm
 
 You can use the public yubikey server if you want.
 
-=============
-Generate keys
-=============
-$ gpg --gen-key
+===========
+Installation
+===========
 
-# This generates 5 keys (urandom 1 5)
-$ ykksm-gen-keys --urandom 1 5 | gpg -a --encrypt -r B35CEB6A -s > keys.txt
+First install yubikey-ksm and yubikey-val.  These are the directions for postgres.  Mysql and others should work but are not tested / documented.
 
-$ ykksm-import --verbose --database 'DBI:Pg:dbname=ykksm;host=192.168.122.248' --db-user ykksmimporter --db-passwd otherpassword < keys.txt
+Create the yubikey-ksm database
+$ sudo su - postgres
+$ createdb ykksm
+$ psql ykksm < /usr/share/doc/yubikey-ksm-1.3/ykksm-db.sql
+$ psql ykksm
+ykksm=# CREATE USER ykksmimporter PASSWORD 'mypass';
+ykksm=# GRANT INSERT,UPDATE,DELETE,SELECT ON yubikeys TO ykksmimporter;
+ykksm=# CREATE USER ykksmreader PASSWORD 'mypass';
+ykksm=# GRANT SELECT ON yubikeys TO ykksmimporter;
 
-This will print a key as follows:
+Note, ykksmimporter is going to be used by fas turbogears configs, ykksmreader will be used by the yubikey-ksm app
 
-line: 1,cccccccccccb,f240a4672a4c,69bf8215ced308e2fe7032f45f39308a,f1bbdd72e6a3,2010-08-31T11:38:19,
-        serialnr 1 publicname cccccccccccb internalname f240a4672a4c aeskey 69bf8215ced308e2fe7032f45f39308a lockcode f1bbdd72e6a3 created 2010-08-31T11:38:19 accessed  eol
+
+Next create the yubikey-val database
+
+$ sudo su - postgres
+$ createdb ykksm
+$ psql ykval < /usr/share/doc/yubikey-val-2.6/ykval-db.sql
+$ psql ykval
+ykval=# CREATE USER ykval_verifier PASSWORD 'mypass';
+ykval=# GRANT SELECT,INSERT,UPDATE,DELETE ON yubikeys TO ykval_verifier;
+ykval=# GRANT SELECT ON clients TO ykval_verifier; 
+ykval=# GRANT SELECT, INSERT, UPDATE, DELETE ON queue TO ykval_verifier;
+
+
+Next, alter your config files:
+
+/etc/ykksm/ykksm-config: use the ykksmreader username and password
+/etc/ykksm/ykval-config: Use the ykval_verifier username and password.
+                         Also have the return array() at the bottom point to localhost
+                         Comment out the __YKVAL_SYNC_POOL__ and __YKVAL_ALLOWED_SYNC_POOL__ sections
+/etc/fas.cfg: Add ykksm_db="postgres://ykksmimporter:yourpass@localhost/ykksm"
+                  ykval_db="postgres://ykval_verifier:yourpass@localhost/ykval"
+
+
+By default the ykksm is exposed at http://localhost/yk-ksm?otp=
+By default the ykval is exposed at http://localhost/yk-val/verify?client_id=1&otp=
+
+Last just insert a client into the ykval database that you will use:
+
+$ sudo su - postgres
+$ psql ykval
+ykval=# insert into clients (id, created) VALUES (1, 1);
 
 
 ===========
 Burn key
 ===========
 
-To copy the key onto a usb yubikey run the following (Note: It will destroy the old key)
-
-# ykpersonalize -ofixed=cccccccccccb -a69bf8215ced308e2fe7032f45f39308a -ouid=f240a4672a4c
-
-Note the above values are pulled from the "line: 1" bit above
+Simply run the burnkey script provided, it will burn a key.
