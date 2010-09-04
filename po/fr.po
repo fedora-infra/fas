@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2010-02-16 22:45+0100\n"
-"Last-Translator: Pablo Martin-Gomez <pablo.martin-gomez@laposte.net>\n"
-"Language-Team: Français <fedora-trans-fr@redhat.com>\n"
+"PO-Revision-Date: 2010-09-04 14:23+0200\n"
+"Last-Translator: Thomas Canniot <mrtom@fedoraproject.org>\n"
+"Language-Team: French <trans-fr@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.4\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: fas/auth.py:285
@@ -97,8 +97,7 @@ msgstr "Vous faites déjà partie du groupe « %s »."
 
 #: fas/cla.py:306
 #, python-format
-msgid ""
-"You have successfully completed the CLA.  You are now in the '%s' group."
+msgid "You have successfully completed the CLA.  You are now in the '%s' group."
 msgstr ""
 "Vous avez signé le CLA avec succès. Vous faites maintenant partie du groupe "
 "« %s »."
@@ -116,8 +115,7 @@ msgstr "Vous ne pouvez pas modifier la configuration de %s"
 #: fas/configs.py:183
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr ""
-"Impossible de sauvegarder la configuration dans la base de données : %s"
+msgstr "Impossible de sauvegarder la configuration dans la base de données : %s"
 
 #: fas/configs.py:187
 msgid "Config value successfully updated"
@@ -776,8 +774,7 @@ msgstr "Réseau IRC du groupe (optionnel)"
 #: fas/help.py:58
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
-"<p>Le réseau IRC pour le salon IRC du groupe (par exemple, Freenode).</p>"
+msgstr "<p>Le réseau IRC pour le salon IRC du groupe (par exemple, Freenode).</p>"
 
 #: fas/help.py:59
 msgid "Needs Sponsor"
@@ -1301,8 +1298,7 @@ msgid "'%(user)s' already exists."
 msgstr "« %(user)s » existe déjà."
 
 #: fas/validators.py:160
-msgid ""
-"To prevent email loops, your email address cannot be @fedoraproject.org."
+msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr ""
 "Afin d'éviter les boucles de courriel, votre adresse de courriel ne peut pas "
 "se terminer par @fedoraproject.org."
@@ -1324,8 +1320,7 @@ msgstr ""
 
 #: fas/validators.py:201
 #, python-format
-msgid ""
-"'%(username)s' is an blacklisted username.  Please choose a different one."
+msgid "'%(username)s' is an blacklisted username.  Please choose a different one."
 msgstr ""
 "« %(username)s » est un nom d'utilisateur présent sur la liste noire. "
 "Veuillez en choisir un différent."
@@ -1505,7 +1500,7 @@ msgstr "Fedora"
 
 #: fas/templates/master.html:37
 msgid "Learn about Fedora"
-msgstr "En apprendre plus sur Fedora"
+msgstr "En savoir plus sur Fedora"
 
 #: fas/templates/master.html:38
 msgid "Download Fedora"
@@ -1614,7 +1609,7 @@ msgstr "Types"
 
 #: fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr "Bienvenu sur FAS2"
+msgstr "Bienvenue sur FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
@@ -1622,7 +1617,7 @@ msgid ""
 "\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop "
 "by #fedora-admin on irc.freenode.net."
 msgstr ""
-"Bienvenu sur le système de compte Fedora 2. Veuillez déposer les bogues sur "
+"Bienvenue sur le système de compte Fedora 2. Veuillez déposer les bogues sur "
 "<a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
 "ou arrêtez-vous sur #fedora-admin sur irc.freenode.net."
 
@@ -1965,8 +1960,7 @@ msgstr "Ceci est un serveur OpenID"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
-"<a href=\"$endpoint_url\">Ceci</a> est l'« endpoint »d'un serveur OpenID."
+msgstr "<a href=\"$endpoint_url\">Ceci</a> est l'« endpoint »d'un serveur OpenID."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
@@ -2043,7 +2037,7 @@ msgstr ""
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr "Bienvenu sur le fournisseur OpenID de Fedora"
+msgstr "Bienveneu sur le fournisseur OpenID de Fedora"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -2370,3 +2364,4 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> demande une approbation pour faire partie de "
 "<strong>%(unapproved_role.group)s</strong>."
+
