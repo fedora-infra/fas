@@ -76,6 +76,9 @@ mail.encoding = 'utf-8'
 # If running TurboMail version 3 or newer set this value:
 # mail.transport='smtp'
 
+# Enable yubikeys
+yubi_server_prefix='http://localhost/yk-val/verify?id='
+
 # DATABASE
 ykksm_db="postgres://ykksmimporter:ykksmimporter@localhost/ykksm"
 ykval_db="postgres://ykval_verifier:ykval_verifier@localhost/ykval"
