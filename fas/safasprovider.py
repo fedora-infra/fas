@@ -36,8 +36,13 @@ from turbogears.database import session
 from turbogears.util import load_class
 from turbogears.identity import set_login_attempted
 
+from fas.model import People, Configs
+
 import pytz
 from datetime import datetime
+
+import sys, os, re
+import urllib2
 
 import cherrypy
 
@@ -59,6 +64,44 @@ except NameError:
 # these will be set when the provider is initialised.
 user_class = None
 visit_class = None
+
+def get_configs(configs_list):
+    configs = {}
+    for config in configs_list:
+        configs[config.attribute] = config.value
+    if 'enabled' not in configs:
+        configs['enabled'] = '0'
+    if 'prefix' not in configs:
+        configs['prefix'] = 'Not Defined'
+    return configs
+
+def otp_validate(user_name, otp):
+    client_id = '1'
+
+    target = People.by_username(user_name)
+    configs = get_configs(Configs.query.filter_by(person_id=target.id, application='yubikey').all())
+
+    if not otp.startswith(configs['prefix']):
+      return False
+    
+    config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
+    server_prefix = 'http://localhost/yk-val/verify?id='
+    auth_regex = re.compile('^status=(?P<rc>\w{2})')
+        
+    server_url = server_prefix + client_id + "&otp=" + otp
+    
+    fh = urllib2.urlopen(server_url)
+    
+    for line in fh:
+      match = auth_regex.search(line.strip('\n'))
+      if match:
+        if match.group('rc') == 'OK':
+          return True
+        else:
+          return False
+        break
+        
+    return False
 
 class SaFasIdentity(object):
     '''Identity that uses a model from a database (via SQLAlchemy).'''
@@ -362,6 +405,11 @@ class SaFasIdentityProvider(object):
             return False
         if not password:
             return False
+
+        # Check if yubi-authentication is being used
+        if len(password) and password.startswith('ccccc') and config.get('yubi_server_prefix', False):
+            return otp_validate(user_name, password)
+
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
