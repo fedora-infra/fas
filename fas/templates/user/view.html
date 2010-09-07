@@ -123,8 +123,8 @@
       <dl>
         <dt>${_('Status:')}</dt>
         <dd>
-        <span class="approved" py:if="role.group in person.approved_memberships">${_('Approved')}</span>
-        <span class="unapproved" py:if="role.group in person.unapproved_memberships">${_('Unapproved')}</span>
+        <span class="approved" py:if="role.role_status == 'approved'">${_('Approved')}</span>
+        <span class="unapproved" py:if="role.role_status == 'unapproved'">${_('Unapproved')}</span>
         </dd>
         <py:if test="personal">
         <dt>${_('Tools:')}</dt>

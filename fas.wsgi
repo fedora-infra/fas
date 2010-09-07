@@ -1,15 +1,19 @@
 #!/usr/bin/python
+__requires__ = 'SQLAlchemy >= 0.5, <= 0.6'
+
 import sys
-sys.path.append('/home/ricky/work/fedora/fas/fas/')
-sys.path.append('/home/ricky/work/fedora/fas/')
-sys.path.append('/home/ricky/work/fedora/fas/plugins/fas-plugin-asterisk')
+sys.path.append('/srv/dev/fas/fas/')
+sys.path.append('/srv/dev/fas/')
+sys.path.append('/srv/dev/fas/plugins/fas-plugin-asterisk')
+sys.path.append('/srv/dev/fas/plugins/fas-plugin-yubikey')
 sys.stdout = sys.stderr
 
 import pkg_resources
 pkg_resources.require('CherryPy <= 3.0alpha')
+pkg_resources.require('SQLAlchemy')
 
 import os
-os.environ['PYTHON_EGG_CACHE'] = '/home/ricky/work/fedora/fas/fas.egg-info/'
+os.environ['PYTHON_EGG_CACHE'] = '/srv/dev/fas/fas.egg-info/'
 
 import atexit
 import cherrypy
@@ -26,7 +30,7 @@ class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
 
 turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
-turbogears.update_config(configfile="/home/ricky/work/fedora/fas/fas.cfg", modulename="fas.config")
+turbogears.update_config(configfile="/srv/dev/fas/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'autoreload.on': False}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
 

@@ -11,6 +11,12 @@ import getopt
 import xmlrpclib
 import smtplib
 from email.Message import Message
+import warnings
+
+# Ignore DeprecationWarnings.  This allows us to stop getting email
+# from the cron job.  We'll see the same warnings from the server starting up
+warnings.simplefilter('ignore', DeprecationWarning)
+
 import turbogears
 import bugzilla
 from turbogears import config
