@@ -85,7 +85,7 @@ def otp_validate(user_name, otp):
       return False
     
     config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
-    server_prefix = 'http://localhost/yk-val/verify?id='
+    server_prefix = config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
     auth_regex = re.compile('^status=(?P<rc>\w{2})')
         
     server_url = server_prefix + client_id + "&otp=" + otp
