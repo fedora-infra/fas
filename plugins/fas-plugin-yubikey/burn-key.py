@@ -2,7 +2,7 @@
 
 # ykpersonalize -ofixed=ccccccccccci -afcaa0c5bf2e83ec040e4aeb7f8565293 -ouid=1e7f1da7d6d1
 from fedora.client import AccountSystem, AuthError
-from getpass import getpass
+from getpass import getpass, getuser
 import subprocess, sys, gettext
 from optparse import OptionParser
 
@@ -27,6 +27,11 @@ if not opts.username:
     print _('Please provide a username.')
     parser.print_help()
     sys.exit(0)
+
+if not getuser() == 'root':
+    print _('''Please run this program as root as it will need to write
+directly to the yubikey usb''')
+    sys.exit(5)
 
 print _(
 '''
