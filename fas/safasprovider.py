@@ -407,7 +407,7 @@ class SaFasIdentityProvider(object):
             return False
 
         # Check if yubi-authentication is being used
-        if len(password) and password.startswith('ccccc') and config.get('yubi_server_prefix', False):
+        if len(password) == 44 and password.startswith('ccccc') and config.get('yubi_server_prefix', False):
             return otp_validate(user_name, password)
 
         # TG identity providers take user_name in case an external provider
