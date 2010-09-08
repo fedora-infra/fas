@@ -84,7 +84,6 @@ def otp_validate(user_name, otp):
     if not otp.startswith(configs['prefix']):
       return False
     
-    config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
     server_prefix = config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
     auth_regex = re.compile('^status=(?P<rc>\w{2})')
         
