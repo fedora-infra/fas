@@ -69,6 +69,7 @@ CREATE TABLE people (
     latitude numeric,
     longitude numeric,
     privacy BOOLEAN DEFAULT FALSE,
+    alias_enabled BOOLEAN DEFAULT TRUE,
     check (status in ('active', 'inactive', 'expired', 'admin_disabled'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
