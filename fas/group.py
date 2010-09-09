@@ -638,44 +638,47 @@ into the e-mail aliases within an hour.
             content_type='text/plain; charset=utf-8')
     @expose(allow_json=True)
     def dump(self, groupname=None, role_type=None):
-        sponsorTables = PeopleTable.join(PersonRolesTable,
-                People.id==PersonRoles.sponsor_id)
         if not groupname:
-            people = People.query.order_by('username').add_column(
-                    literal_column("'user'").label('role_type')).all()
-
-            # retrieve sponsorship info:
-            sponsorCount = select(
-                    [People.username, func.count(People.username)],
-                    from_obj = sponsorTables).group_by(People.username)
-            sponsorship = dict(pair for pair in sponsorCount.execute())
+            stmt = select([People.privacy, People.username, People.email,
+                People.human_name, "'user'", 's.sponsored'],
+                from_obj=PeopleTable.outerjoin(select([PersonRoles.sponsor_id,
+                        func.count(PersonRoles.sponsor_id).label('sponsored')]
+                        ).group_by(PersonRoles.sponsor_id
+                            ).correlate().alias('s')
+                )).order_by(People.username)
         else:
-            # Retrieve necessary info about the users who are approved in
-            # this group
-            people = People.query.join('roles').filter(
-                    PersonRoles.role_status=='approved').join(
-                        PersonRoles.group).add_column(
-                            PersonRoles.role_type).filter(
-                                Groups.name==groupname).order_by('username')
-            if role_type:
-                people = people.filter(PersonRoles.role_type==role_type)
+            stmt = select([People.privacy, People.username, People.email,
+                People.human_name, PersonRoles.role_type, 's.sponsored'],
+                from_obj=GroupsTable.join(PersonRolesTable).join(PeopleTable,
+                    onclause=PeopleTable.c.id==PersonRolesTable.c.person_id
+                    ).outerjoin(select([PersonRoles.sponsor_id,
+                        func.count(PersonRoles.sponsor_id).label('sponsored')]
+                        ).where(and_(
+                            PersonRoles.group_id==Groups.id,
+                            Groups.name==groupname)).group_by(
+                                PersonRoles.sponsor_id).correlate().alias('s')
+                )).where(Groups.name==groupname).order_by(People.username)
 
-            # retrieve sponsorship info:
-            sponsorCount = select(
-                    [People.username, func.count(People.username)],
-                    from_obj=sponsorTables.join(
-                        GroupsTable, PersonRoles.group_id==Groups.id)
-                    ).group_by(People.username).where(Groups.name==groupname)
-            sponsorship = dict(pair for pair in sponsorCount.execute())
+        people = []
+        if identity.in_any_group(config.get('admingroup', 'accounts'),
+                config.get('systemgroup', 'fas-system')):
+            user = 'admin'
+        elif identity.current.anonymous:
+            user = 'anonymous'
+        else:
+            user = 'public'
+            username = identity.current.user_name
 
-        # Run filter_private
-        filterPrivacy = ((p[0].filter_private(), p[1]) for p in people)
-        # We filter this so that sending information via json is quick(er)
-        filteredPeople = ((p[0].username, p[0].email, p[0].human_name, p[1],
-                sponsorship.get(p[0].username, 0)) for p in filterPrivacy)
-        sortedPeople = sorted(filteredPeople)
-
-        return dict(people=sortedPeople)
+        for row in stmt.execute():
+            person = list(row[1:])
+            if not row['sponsored']:
+                person[-1] = 0
+            if row['privacy'] and user != 'admin' \
+                    and username != row['username']:
+                # filter private data
+                person[2] = u''
+            people.append(person)
+        return dict(people=people)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=GroupInvite())
