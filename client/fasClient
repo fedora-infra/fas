@@ -429,8 +429,12 @@ class MakeShellAccounts(AccountSystem):
         for line in email_template.readlines():
             email_file.write(line)
 
-        username_email = [(self.users[uid]['username'],
-            self.users[uid]['email']) for uid in self.good_users]
+        username_email = []
+        for uid in self.good_users:
+            if self.users[uid]['alias_enabled']:
+                username_email.append( (self.users[uid]['username'], self.users[uid]['email']) )
+        #username_email = [(self.users[uid]['username'],
+        #    self.users[uid]['email']) for uid in self.good_users]
         username_email.sort()
 
         for username, email in username_email:

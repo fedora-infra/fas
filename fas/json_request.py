@@ -133,14 +133,16 @@ class JsonRequest(controllers.Controller):
                 PeopleTable.c.ssh_key,
                 PeopleTable.c.email,
                 PeopleTable.c.privacy,
+                PeopleTable.c.alias_enabled
                 ], PeopleTable.c.status == 'active').execute()
-            for id, username, password, human_name, ssh_key, email, privacy in people_list:
+            for id, username, password, human_name, ssh_key, email, privacy, alias_enabled in people_list:
                 people[id] = {
                     'username': username,
                     'password': password,
                     'human_name': human_name,
                     'ssh_key': ssh_key,
                     'email': email,
+                    'alias_enabled': alias_enabled
                 }
 
                 if privacy:
