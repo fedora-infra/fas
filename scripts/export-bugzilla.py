@@ -6,6 +6,7 @@ pkg_resources.require('CherryPy >= 2.0, < 3.0alpha')
 import logging
 logging.basicConfig()
 
+import os
 import sys
 import getopt
 import xmlrpclib
@@ -20,7 +21,10 @@ warnings.simplefilter('ignore', DeprecationWarning)
 import turbogears
 import bugzilla
 from turbogears import config
-turbogears.update_config(configfile="./export-bugzilla.cfg")
+cfgfile = '/etc/export-bugzilla.cfg'
+if os.access('./export-bugzilla.cfg', os.R_OK):
+    cfgfile = './export-bugzilla.cfg'
+turbogears.update_config(configfile=cfgfile)
 from turbogears.database import session
 from fas.model import BugzillaQueue
 
