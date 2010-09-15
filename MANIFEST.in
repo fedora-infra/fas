@@ -1,25 +1,4 @@
-include fas2.sql
-include README COPYING TODO
-include *.cfg *.conf *.wsgi *.spec
-include fas.cfg.sample
-include convert.py start-fas
-include client/*.conf
-include scripts/*.cfg
-include fas/config/*
-include fas/static/*
-include fas/static/images/balloons/*
-include fas/static/js/*
-include fas/static/theme/fas/css/*
-include fas/static/theme/fas/images/*
-include fas/templates/cla/*.html
-include fas/templates/cla/*.txt
-include fas/templates/group/*.html
-include fas/templates/group/*.txt
-include fas/templates/openid/*.html
-include fas/templates/openid/*.xml
-include fas/templates/user/*.html
-include fas/templates/user/*.txt
-include fas/templates/*.html
-include po/LINGUAS
-include po/*.po
-include po/*.pot
+recursive-include fas/public *
+include fas/public/favicon.ico
+recursive-include fas/i18n *
+recursive-include fas/templates *

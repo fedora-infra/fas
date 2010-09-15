@@ -1,4 +1,0 @@
-ALTER TABLE people ALTER COLUMN privacy SET DEFAULT FALSE;
-UPDATE people SET privacy = False WHERE privacy IS NULL;
-ALTER TABLE people ALTER COLUMN privacy SET NOT NULL;
-

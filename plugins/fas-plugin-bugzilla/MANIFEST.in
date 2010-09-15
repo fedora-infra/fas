@@ -1,3 +1,0 @@
-include fas_bugzilla/__init__.py
-include fas_bugzilla/templates/*.html
-include fas_bugzilla/templates/*.py
