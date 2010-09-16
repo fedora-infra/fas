@@ -13,6 +13,8 @@ from fas.controllers.error import ErrorController
 from fas import model
 from fas.controllers.secure import SecureController
 
+from fas.controllers.group import Group
+
 __all__ = ['RootController']
 
 
@@ -30,13 +32,16 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
+
+    group = Group()
+
     secc = SecureController()
 
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
 
     error = ErrorController()
 
-    @expose('fas.templates.index')
+    @expose('fas.templates.welcome')
     def index(self):
         """Handle the front-page."""
         return dict(page='index')

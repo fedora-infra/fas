@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="master.html" />
+  <head>
+    <title>${_('Welcome to FAS2')}</title>
+    <style type="text/css">
+      #content ul
+      {
+        list-style: square;
+        margin: 1ex 3ex;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+    ${Markup(_('Welcome to the Fedora Accounts System 2.  Please submit bugs to &lt;a href="https://fedorahosted.org/fas/"&gt;https://fedorahosted.org/fas/&lt;/a&gt; or stop by #fedora-admin on irc.freenode.net.'))}
+    </p>
+    <ul>
+      <li><a href="${tg.url('/login')}">${_('Log In')}</a></li>
+      <li><a href="${tg.url('/user/new')}">${_('New Account')}</a></li>
+      <li><a href="http://fedoraproject.org/wiki/Join">${_('Why Join?')}</a></li>
+    </ul>
+  </body>
+</html>

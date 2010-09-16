@@ -9,7 +9,7 @@ from pylons.i18n import _, ungettext, N_
 from tw.api import WidgetBunch
 import fas.model as model
 
-__all__ = ['BaseController']
+__all__ = ['Controller', 'BaseController']
 
 
 class BaseController(TGController):
