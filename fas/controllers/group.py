@@ -15,16 +15,18 @@ from fas.controllers.secure import SecureController
 
 from ipalib import api
 
+api.bootstrap(debug=False)
+api.finalize()
+api.Backend.xmlclient.connect()
+
+
 class Group(BaseController):
     """
         Group Controller for group listing and operations
     """
-    @expose('json')
-    def list(self):
+    @expose('fas.templates.group.list')
+    def list(self, search=u'a'):
         """Return a simple group list"""
-        api.bootstrap(debug=False)
-        api.finalize()
-        api.Backend.xmlclient.connect()
-        group_list = api.Command.group_find(u'')
-        return dict(group_list=group_list)
+        groups = api.Command.group_find(search)
+        return dict(groups=groups, search=search)
 
