@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the
 #  fedorahosted package.
 #
+# Robert Antoni Buj Gelonch <robert.buj@gmail.com>, 2010
 # Xavier Conde Rueda <xavi.conde@gmail.com>
 #
 # This file is translated according to the glossary and style guide of
@@ -22,7 +23,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-08-06 21:01-0400\n"
-"PO-Revision-Date: 2010-08-30 08:47+0100\n"
+"PO-Revision-Date: 2010-09-21 18:20+0100\n"
 "Last-Translator: Robert Antoni Buj Gelonch <robert.buj@gmail.com>\n"
 "Language-Team: Catalan <fedora@softcatala.net>\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.4\n"
 "X-Poedit-Language: Catalan\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: fas/auth.py:285
 #, python-format
@@ -926,7 +928,7 @@ msgstr ""
 #: fas/validators.py:137
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr ""
+msgstr "'%(user)s' ja existeix."
 
 #: fas/validators.py:160
 msgid "To prevent email loops, your email address cannot be @fedoraproject.org."
@@ -1006,7 +1008,7 @@ msgstr ""
 #: fas/templates/home.html:7
 #: fas/templates/cla/index.html:20
 msgid "Fedora Accounts System"
-msgstr ""
+msgstr "FAS (Fedora Accounts System)"
 
 #: fas/templates/error.html:17
 msgid "Error!"
@@ -1018,12 +1020,12 @@ msgstr ""
 
 #: fas/templates/home.html:11
 msgid "To do queue:"
-msgstr ""
+msgstr "Coses a fer:"
 
 #: fas/templates/home.html:17
 #, python-format
 msgid "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> sol·licita l'aprovació per a unir-se a <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:29
 #, python-format
@@ -1037,15 +1039,15 @@ msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr ""
+msgstr "Tasques miscel·lànies"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr ""
+msgstr "Baixa el certificat del cantó del client"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Inicia la sessió a FAS (Fedora Accounts System)"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
@@ -1122,11 +1124,11 @@ msgstr "FAS versió %s"
 
 #: fas/templates/master.html:95
 msgid "© 2009 Red Hat, Inc. and others.  Please send any comments or corrections to the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
-msgstr ""
+msgstr "© 2009 Red Hat, Inc. i d'altres. Si us plau envieu qualsevol comentari o correcció als <a href=\"mailto:webmaster@fedoraproject.org\">equips del lloc web</a>."
 
 #: fas/templates/master.html:98
 msgid "The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content."
-msgstr ""
+msgstr "El projecte Fedora és mantingut i conduït per la comunitat i patrocinat per Red Hat. Aquest és un lloc mantingut per la comunitat. Red Hat no se'n fa responsable del contingut."
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
@@ -1173,13 +1175,13 @@ msgstr "Per què unir-se?"
 
 #: fas/templates/cla/index.html:23
 msgid "Fedora Contributor License Agreement"
-msgstr ""
+msgstr "CLA (Contributor License Agreement) de Fedora"
 
 #: fas/templates/cla/index.html:24
 #: fas/templates/cla/index.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr ""
+msgstr "<a href=\"%(url)s\">Versió de text</a>"
 
 #: fas/templates/cla/index.html:30
 msgid "You have already successfully completed the CLA."
@@ -1552,11 +1554,11 @@ msgstr ""
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
-msgstr ""
+msgstr "Identitat:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Arrel de confiança:"
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
@@ -1590,7 +1592,7 @@ msgstr ""
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "Benvinguts al proveïdor d'OpenID de Fedora"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -1664,22 +1666,22 @@ msgstr "Franja horària"
 
 #: fas/templates/user/edit.html:135
 msgid "Comments"
-msgstr ""
+msgstr "Comentaris"
 
 #: fas/templates/user/edit.html:141
 msgid "Privacy"
-msgstr ""
+msgstr "Privacitat"
 
 #: fas/templates/user/edit.html:147
 #: fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #: fas/templates/user/gencert.html:10
 #: fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr ""
+msgstr "Generació del certificat"
 
 #: fas/templates/user/gencert.html:15
 msgid "The link below allows you to generate a certificate to authenticate to Fedora's buildsytems.  Please note that you can only have one valid certificate at any given time.  Once you generate a new certificate, any previous ones are revoked.  Currently, if you are not working on Fedora packaging, you will probably not need to have a certificate."
@@ -1687,12 +1689,12 @@ msgstr ""
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr ""
+msgstr "Genera un certificat"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr ""
+msgstr "Inhabilita la generació de certificats"
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -1748,7 +1750,7 @@ msgstr "Tinc 13 anys o més"
 
 #: fas/templates/user/new.html:48
 msgid "Sign up!"
-msgstr ""
+msgstr "Doneu-vos d'alta!"
 
 #: fas/templates/user/resetpass.html:7
 #: fas/templates/user/resetpass.html:10
@@ -1867,7 +1869,7 @@ msgstr ""
 
 #: fas/templates/user/view.html:98
 msgid "Privacy:"
-msgstr ""
+msgstr "Privacitat:"
 
 #: fas/templates/user/view.html:106
 msgid "Your Roles"
@@ -1888,15 +1890,15 @@ msgstr "Eines:"
 
 #: fas/templates/user/view.html:134
 msgid "Invite a New Member..."
-msgstr ""
+msgstr "Convideu a un nou membre..."
 
 #: fas/templates/user/view.html:135
 msgid "Manage Group Membership..."
-msgstr ""
+msgstr "Gestioneu l'afiliació al grup..."
 
 #: fas/templates/user/view.html:136
 msgid "Manage Group Details..."
-msgstr ""
+msgstr "Gestioneu els detalls del grup..."
 
 #: fas/templates/user/view.html:140
 msgid "Queue:"
