@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas-plugin-yubikey
-Version:        0.1
+Version:        0.2
 Release:        1%{?dist}
 Summary:        Yubikey plugin for FAS2
 
@@ -19,10 +19,10 @@ BuildRequires:  python-setuptools-devel
 BuildRequires:  python-setuptools
 %endif
 #BuildRequires:  fas
-Requires:       fas >= 0.8.4.2
+Requires:       fas >= 0.8.4.5
 
 %description
-Asterisk plugin for FAS2
+Yubikey plugin for FAS2
 
 %prep
 %setup -q
@@ -49,5 +49,8 @@ Asterisk plugin for FAS2
 
 
 %changelog
+* Fri Sep 24 2010 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
+- New upstream release
+
 * Mon May 11 2009 Mike McGrath <mmcgrath@redhat.com> - 0.1-1
 - Initial RPM Package.
