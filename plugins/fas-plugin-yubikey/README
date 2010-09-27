@@ -21,7 +21,7 @@ $ psql ykksm
 ykksm=# CREATE USER ykksmimporter PASSWORD 'mypass';
 ykksm=# GRANT INSERT,UPDATE,DELETE,SELECT ON yubikeys TO ykksmimporter;
 ykksm=# CREATE USER ykksmreader PASSWORD 'mypass';
-ykksm=# GRANT SELECT ON yubikeys TO ykksmimporter;
+ykksm=# GRANT SELECT ON yubikeys TO reader;
 
 Note, ykksmimporter is going to be used by fas turbogears configs, ykksmreader will be used by the yubikey-ksm app
 
@@ -29,7 +29,7 @@ Note, ykksmimporter is going to be used by fas turbogears configs, ykksmreader w
 Next create the yubikey-val database
 
 $ sudo su - postgres
-$ createdb ykksm
+$ createdb ykval
 $ psql ykval < /usr/share/doc/yubikey-val-2.6/ykval-db.sql
 $ psql ykval
 ykval=# CREATE USER ykval_verifier PASSWORD 'mypass';
