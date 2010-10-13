@@ -504,6 +504,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
         # Work around a bug in TG (1.0.4.3-2)
         # When called as /user/list/*  search is a str type.
         # When called as /user/list/?search=* search is a unicode type.
+        if not search:
+            search = u'*'
         if not isinstance(search, unicode) and isinstance(search, basestring):
             search = unicode(search, 'utf-8', 'replace')
 
@@ -535,9 +537,13 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
                     Groups.id == PersonRoles.group_id,
                     People.id.in_(select([PersonRolesTable.c.person_id]).where(
                         and_(PersonRoles.group_id == Groups.id,
-                            Groups.name == 'cla_done')).correlate(None)),
+			    Groups.name == 'cla_done',
+                            People.id == PersonRoles.person_id,
+                            People.username.ilike(re_search))
+			    ).order_by(People.username).limit(limit
+			    ).correlate(None)),
                     People.username.ilike(re_search))
-                ).order_by(People.username).limit(limit)
+                ).order_by(People.username)
         stmt.use_labels = True
         people = stmt.execute()
 
