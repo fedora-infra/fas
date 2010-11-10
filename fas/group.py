@@ -657,7 +657,9 @@ into the e-mail aliases within an hour.
                             PersonRoles.group_id==Groups.id,
                             Groups.name==groupname)).group_by(
                                 PersonRoles.sponsor_id).correlate().alias('s')
-                )).where(Groups.name==groupname).order_by(People.username)
+                            )).where(and_(Groups.name==groupname,
+                                PersonRoles.role_status=='approved')
+                                ).order_by(People.username)
 
         people = []
         if identity.in_any_group(config.get('admingroup', 'accounts'),
