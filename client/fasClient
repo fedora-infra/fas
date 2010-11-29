@@ -419,6 +419,7 @@ class MakeShellAccounts(AccountSystem):
     def make_aliases_text(self):
         '''Create the aliases file'''
         email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
+        recipient_file = codecs.open(os.path.join(self.temp, 'relay_recipient_maps'), mode='w', encoding='utf-8')
         try:
             email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
         except IOError, e:
@@ -433,6 +434,8 @@ class MakeShellAccounts(AccountSystem):
         for uid in self.good_users:
             if self.users[uid]['alias_enabled']:
                 username_email.append( (self.users[uid]['username'], self.users[uid]['email']) )
+            else:
+                recipient_file.write('%s@fedoraproject.org OK\n' % self.users[uid]['username'])
         #username_email = [(self.users[uid]['username'],
         #    self.users[uid]['email']) for uid in self.good_users]
         username_email.sort()
@@ -490,6 +493,8 @@ class MakeShellAccounts(AccountSystem):
             if members:
                 members.sort()
                 email_file.write('%s-members: %s\n' % (groupname, ','.join(members)))
+        email_file.close()
+        recipient_file.close()
 
     def create_home_dirs(self, users, modes=None):
         ''' Create homedirs and home base dir if they do not exist '''
@@ -579,7 +584,10 @@ class MakeShellAccounts(AccountSystem):
     def install_aliases(self):
         '''Install the aliases file'''
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
+        move(os.path.join(self.temp, 'relay_recipient_maps'), os.path.join(prefix, 'etc/postfix/relay_recipient_maps'))
         subprocess.call(['/usr/bin/newaliases'])
+        subprocess.call(['/sbin/restorecon', '/etc/postfix/relay_recipient_maps'])
+        subprocess.call(['/usr/sbin/postmap', '/etc/postfix/relay_recipient_maps'])
 
     def user_info(self, username):
         '''Print information on a user'''
