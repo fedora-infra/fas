@@ -26,6 +26,12 @@ import re
 
 from turbogears import config
 import turbogears
+try:
+    # TG 1.1.1
+    from turbogears.identity.base import IdentityWrapper
+except ImportError:
+    # TG-1.0.x
+    from turbogears.identity import IdentityWrapper
 
 from sqlalchemy.exceptions import InvalidRequestError
 
@@ -40,7 +46,7 @@ def is_admin(person):
         otherwise False
     '''
     admingroup = config.get('admingroup')
-    if isinstance(person, turbogears.identity.IdentityWrapper):
+    if isinstance(person, IdentityWrapper):
         # Save a db lookup when using an identity
         if admingroup in person.groups:
             return True
