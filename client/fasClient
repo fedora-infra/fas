@@ -554,10 +554,12 @@ class MakeShellAccounts(AccountSystem):
                    key = self.users[uid]['ssh_key']
                 if not os.path.exists(ssh_dir):
                     os.makedirs(ssh_dir, mode=0700)
-                f = codecs.open(os.path.join(ssh_dir, 'authorized_keys'), mode='w', encoding='utf-8')
+                key_file = os.path.join(ssh_dir, 'authorized_keys')
+                f = codecs.open(key_file, mode='w', encoding='utf-8')
                 f.write(key + '\n')
                 f.close()
-                os.chmod(os.path.join(ssh_dir, 'authorized_keys'), 0600)
+                os.chmod(key_file, 0600)
+                subprocess.call(['/sbin/restorecon', '-R', ssh_dir])
                 os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
 
     def install_passwd_db(self):
