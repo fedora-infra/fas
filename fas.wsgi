@@ -1,5 +1,9 @@
 #!/usr/bin/python
-__requires__ = 'SQLAlchemy >= 0.5, <= 0.6'
+import __main__
+if not hasattr(__main__, '_requires__'):
+    __main__.__requires__ = []
+__main__.__requires__.append('SQLAlchemy >= 0.5, <= 0.6')
+__main__.__requires__.append('TurboGears[future]')
 
 import sys
 sys.path.append('/srv/dev/fas/fas/')
