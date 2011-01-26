@@ -402,6 +402,7 @@ updated information is:
   longitude:      %(longitude)s
   privacy flag:   %(privacy)s
   ssh_key:        %(ssh_key)s
+  gpg_keyid:      %(gpg_keyid)s
 
 If the above information is incorrect, please log in and fix it:
 https://admin.fedoraproject.org/accounts/user/edit/%(username)s
@@ -415,7 +416,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
          'latitude'       : target.latitude,
          'longitude'      : target.longitude,
          'privacy'        : target.privacy,
-         'ssh_key'        : target.ssh_key }
+         'ssh_key'        : target.ssh_key,
+         'gpg_keyid'      : target.gpg_keyid }
             send_mail(target.email, change_subject, change_text)
             turbogears.flash(_('Your account details have been saved.') + \
                 '  ' + emailflash)
