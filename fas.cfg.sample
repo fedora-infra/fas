@@ -69,12 +69,15 @@ auto_approve_groups = 'cvsextras:fedorabugs|cla_fedora:cla_done|cla_redhat:cla_d
 # fas/config/app.cfg
 
 mail.on = False
-mail.server = 'localhost'
 #mail.testmode = True
 mail.debug = False
 mail.encoding = 'utf-8'
+mail.server = 'localhost'
 # If running TurboMail version 3 or newer set this value:
 # mail.transport='smtp'
+# mail.smtp.server = 'localhost'
+# mail.smtp.debug = False
+# mail.manager = 'demand'
 
 # Enable yubikeys
 yubi_server_prefix='http://localhost/yk-val/verify?id='
