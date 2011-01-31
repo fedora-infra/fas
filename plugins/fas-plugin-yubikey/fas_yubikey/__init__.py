@@ -6,6 +6,7 @@ from sqlalchemy import Table, Column, Integer, String, MetaData, Boolean, create
 from sqlalchemy.exceptions import IntegrityError
 
 import cherrypy
+import turbomail
 
 from genshi.template.plugin import TextTemplateEnginePlugin
 
@@ -272,7 +273,12 @@ class YubikeyPlugin(controllers.Controller):
         for config in new_configs:
             c = Configs(application='yubikey', attribute=config, value=new_configs[config])
             target.configs.append(c)
-
+        mail_subject=_('Fedora Yubikey changed for %s' % target)
+        mail_text=_('''
+You have changed your Yubikey on your Fedora account %s. If you did not make
+this change, please contact admin@fedoraproject.org''' % target)
+        email='%s@fedoraproject.org' % target
+        send_mail(email, mail_subject, mail_text)
         turbogears.flash(_("Changes saved.  Please allow up to 1 hour for changes to be realized."))
         turbogears.redirect('/yubikey/')
         return dict()
@@ -343,3 +349,11 @@ class YubikeyPlugin(controllers.Controller):
 
     def sidebarentries(self):
         return [('Yubikey', self.path)]
+
+def send_mail(to_addr, subject, text, from_addr=None):
+    if from_addr is None:
+        from_addr = config.get('accounts_email')
+    message = turbomail.Message(from_addr, to_addr, subject)
+    message.plain = text
+    turbomail.enqueue(message)
+
