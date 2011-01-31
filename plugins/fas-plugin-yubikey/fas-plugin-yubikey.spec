@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas-plugin-yubikey
-Version:        0.2
+Version:        0.7
 Release:        1%{?dist}
 Summary:        Yubikey plugin for FAS2
 
@@ -49,6 +49,9 @@ Yubikey plugin for FAS2
 
 
 %changelog
+* Sun Jan 30 2011 Jon Stanley <jonstanley@gmail.com> - 0.7-1
+- New upstream release
+
 * Fri Sep 24 2010 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
 - New upstream release
 

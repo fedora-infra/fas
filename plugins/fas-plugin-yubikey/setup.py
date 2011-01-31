@@ -15,7 +15,7 @@ package_data = find_package_data(where='fas_yubikey', package='fas_yubikey', exc
 
 setup(
     name = "fas-plugin-yubikey",
-    version = "0.6",
+    version = "0.7",
     packages = find_packages(),
 
     package_data = package_data,
