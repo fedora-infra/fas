@@ -997,7 +997,7 @@ forward to working with you!
             return dict()
         if person.status == ('bot'):
             turbogears.flash(_('System accounts cannot have their ' + \
-                'passwords reset online.  Please contact %(admin_email)s' + \
+                'passwords reset online.  Please contact %(admin_email)s ' + \
                 'to have it reset') % \
                     {'admin_email': config.get('accounts_email')})
             reset_subject = _('Warning: attempted reset of system account')

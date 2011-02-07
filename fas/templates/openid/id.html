@@ -28,7 +28,7 @@
       ${tg_flash}
     </div>
     <p>
-    ${Markup(_('Part of the &lt;a href="${tg.url('/accounts/')}"&gt;Fedora Account System&lt;a&gt;.'))}
+    ${Markup(_('Part of the &lt;a href="%(url)s"&gt;Fedora Account System&lt;a&gt;.') % {'url' : tg.url('/accounts/')})}
     </p>
   </body>
 </html>

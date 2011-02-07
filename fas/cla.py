@@ -284,7 +284,7 @@ Thanks!
                 not person.human_name or \
                 not person.country_code:
                 turbogears.flash(_('To complete the CLA, we must have your ' + \
-                    'name telephone number, and country.  Please ensure they ' + \
+                    'name, telephone number, and country.  Please ensure they ' + \
                     'have been filled out.'))
                 turbogears.redirect('/cla/')
 
@@ -292,12 +292,12 @@ Thanks!
         country_codes = [c for c in GeoIP.country_codes if c not in blacklist]
 
         if person.country_code not in country_codes:
-            turbogears.flash(_('To complete the CLA, a valid country code' + \
+            turbogears.flash(_('To complete the CLA, a valid country code ' + \
             'must be specified.  Please select one now.'))
             turbogears.redirect('/cla/')
         if [True for char in person.telephone if char not in self.PHONEDIGITS]:
             turbogears.flash(_('Telephone numbers can only consist of ' + \
-                'numbers, "-", "+", "(", ")", or " ".  Please reenter using' +\
+                'numbers, "-", "+", "(", ")", or " ".  Please reenter using ' +\
                 'only those characters.'))
             turbogears.redirect('/cla/')
 
