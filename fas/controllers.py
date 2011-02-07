@@ -115,6 +115,10 @@ def get_locale(locale=None):
         return cherrypy.request.simple_cookie['fas_locale'].value
     except KeyError:
         pass
+    try:
+        return config.get('default_language')
+    except AttributeError:
+        pass
     return turbogears.i18n.utils._get_locale()
 
 config.update({'i18n.get_locale': get_locale})

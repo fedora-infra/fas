@@ -30,7 +30,10 @@ log = logging.getLogger('fas.util')
 
 def available_languages():
     """Return available languages for a given domain."""
-    our_languages = ['en', 'de', 'es', 'hu', 'it', 'pl', 'zh_CN']
+    try:
+        our_languages = config.get('available_languages')
+    except AtributeError:
+        our_languages = ['en', 'de', 'es', 'hu', 'it', 'pl', 'zh_CN']
     return our_languages
     # *sigh* Hardcoding is less pain.
     our_languages = []

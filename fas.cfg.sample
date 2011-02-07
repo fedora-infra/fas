@@ -7,6 +7,11 @@ tgcaptcha.key = 'Cx{$<_1W@]\Zv}*On;z]e'
 tgcaptcha.jpeg_generator = 'mcdermott'
 
 theme = 'fas'
+
+# Language support
+available_languages = ['en', 'de', 'es', 'hu', 'it', 'pl', 'zh_CN']
+default_language = 'en'
+
 # TODO: better namespacing (maybe a [fas] section)
 # admingroup is for humans that can see and do anything
 admingroup = 'accounts'
