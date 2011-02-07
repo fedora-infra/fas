@@ -428,14 +428,14 @@ class Group(controllers.Controller):
                     tg_url('/group/view/%s' % groupname)
                 sponsors_addr = '%(group)s-sponsors@%(host)s' % \
                     {'group': group.name, 'host': config.get('email_host')}
-                sponsor_subject = 'Fedora \'%(group)s\' sponsor needed for %(user)s' % \
+                sponsor_subject = _('Fedora \'%(group)s\' sponsor needed for %(user)s') % \
                     {'user': target.username, 'group': group.name}
-                sponsors_text = '''
+                sponsors_text = _('''
 Fedora user %(user)s <%(email)s> has requested
 membership for %(applicant)s in the %(group)s group and needs a sponsor.
 
 Please go to %(url)s to take action.  
-''' % { 'user': person.username,
+''') % { 'user': person.username,
     'applicant': target.username,
     'email': person.email,
     'url': sponsor_url,
@@ -485,12 +485,12 @@ Thank you for applying for the %(group)s group.
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
-                sponsor_subject = 'Your Fedora \'%s\' membership has been sponsored' % group.name
-                sponsor_text = '''
+                sponsor_subject = _('Your Fedora \'%s\' membership has been sponsored') % group.name
+                sponsor_text = _('''
 %(user)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
 propagate into the e-mail aliases and CVS repository within an hour.
-''' % {'group': group.name, 'user': person.username, 'email': person.email}
+''') % {'group': group.name, 'user': person.username, 'email': person.email}
 
                 send_mail(target.email, sponsor_subject, sponsor_text)
 
@@ -526,13 +526,13 @@ propagate into the e-mail aliases and CVS repository within an hour.
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
-                removal_subject = 'Your Fedora \'%s\' membership has been removed' % group.name
-                removal_text = '''
+                removal_subject = _('Your Fedora \'%s\' membership has been removed') % group.name
+                removal_text = _('''
 %(user)s <%(email)s> has removed you from the '%(group)s'
 group of the Fedora Accounts System This change is effective
 immediately for new operations, and should propagate into the e-mail
 aliases within an hour.
-''' % {'group': group.name, 'user': person.username, 'email': person.email}
+''') % {'group': group.name, 'user': person.username, 'email': person.email}
 
                 send_mail(target.email, removal_subject, removal_text)
 
@@ -567,18 +567,18 @@ aliases within an hour.
                     {'name': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
-                upgrade_subject = 'Your Fedora \'%s\' membership has been upgraded' % group.name
+                upgrade_subject = _('Your Fedora \'%s\' membership has been upgraded') % group.name
 
                 # Should we make person.upgrade return this?
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
 
-                upgrade_text = '''
+                upgrade_text = _('''
 %(user)s <%(email)s> has upgraded you to %(status)s status in the
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''' % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
+''') % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
 
                 send_mail(target.email, upgrade_subject, upgrade_text)
 
@@ -612,17 +612,17 @@ into the e-mail aliases within an hour.
                     {'name': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             else:
-                downgrade_subject = 'Your Fedora \'%s\' membership has been downgraded' % group.name
+                downgrade_subject = _('Your Fedora \'%s\' membership has been downgraded') % group.name
 
                 role = PersonRoles.query.filter_by(group=group, member=target).one()
                 status = role.role_type
 
-                downgrade_text = '''
+                downgrade_text = _('''
 %(user)s <%(email)s> has downgraded you to %(status)s status in the
 '%(group)s' group of the Fedora Accounts System This change is
 effective immediately for new operations, and should propagate
 into the e-mail aliases within an hour.
-''' % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
+''') % {'group': group.name, 'user': person.username, 'email': person.email, 'status': status}
 
                 send_mail(target.email, downgrade_subject, downgrade_text)
 

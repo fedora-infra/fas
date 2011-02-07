@@ -181,8 +181,8 @@ class CLA(controllers.Controller):
             date_time = datetime.utcnow()
             Log(author_id=user.id, description='Revoked %s CLA' %
                 person.username, changetime=date_time)
-            revoke_subject = 'Fedora ICLA Revoked'
-            revoke_text = '''
+            revoke_subject = _('Fedora ICLA Revoked')
+            revoke_text = _('''
 Hello %(human_name)s,
 
 We're sorry to bother you but we had to reject your CLA for now because
@@ -207,7 +207,7 @@ If you have questions about what specifically might be the problem with your
 account, please contact us at accounts@fedoraproject.org.
 
 Thanks!
-    ''' % {'username': person.username,
+    ''') % {'username': person.username,
     'human_name': person.human_name,
     'editurl' : config.get('base_url_filter.base_url').rstrip('/')}
 
@@ -333,9 +333,9 @@ Thanks!
         Log(author_id = person.id, description = 'Completed CLA',
             changetime = date_time)
         cla_subject = \
-            'Fedora ICLA completed for %(human_name)s (%(username)s)' % \
+            _('Fedora ICLA completed for %(human_name)s (%(username)s)') % \
             {'username': person.username, 'human_name': person.human_name}
-        cla_text = '''
+        cla_text = _('''
 Fedora user %(username)s has completed an ICLA (below).
 Username: %(username)s
 Email: %(email)s
@@ -346,7 +346,7 @@ If you need to revoke it, please visit this link:
 
 === CLA ===
 
-''' % {'username': person.username,
+''') % {'username': person.username,
 'email': person.email,
 'date': date_time.ctime(),
 'rejecturl' : config.get('base_url_filter.base_url').rstrip('/')}

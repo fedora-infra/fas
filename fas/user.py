@@ -386,7 +386,7 @@ login with your Fedora account first):
         else:
             change_subject = _('Fedora Account Data Update %s') % \
                 target.username
-            change_text = '''
+            change_text = _('''
 You have just updated information about your account.  If you did not request
 these changes please contact admin@fedoraproject.org and let them know.  Your
 updated information is:
@@ -407,7 +407,7 @@ updated information is:
 If the above information is incorrect, please log in and fix it:
 
    %(editurl)s/accounts/user/edit/%(username)s
-''' % { 'username'       : target.username,
+''') % { 'username'       : target.username,
          'ircnick'        : target.ircnick,
          'telephone'      : target.telephone,
          'locale'         : target.locale,
@@ -1000,11 +1000,11 @@ forward to working with you!
                 'passwords reset online.  Please contact %(admin_email)s' + \
                 'to have it reset') % \
                     {'admin_email': config.get('accounts_email')})
-            reset_subject = 'Warning: attempted reset of system account'
-            reset_text = '''
+            reset_subject = _('Warning: attempted reset of system account')
+            reset_text = _('''
 Warning: Someone attempted to reset the password for system account
 %(account)s via the web interface.
-''' % {'account': username}
+''') % {'account': username}
             send_mail(config.get('accounts_email'), reset_subject, reset_text)
             return dict()
 
@@ -1275,15 +1275,15 @@ To change your password (or to cancel the request), please visit
         keydump = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
         cherrypy.request.headers['Accept'] = 'text'
 
-        gencert_subject = 'A new certificate has been generated for %s' % \
+        gencert_subject = _('A new certificate has been generated for %s') % \
             person.username
-        gencert_text = '''
+        gencert_text = _('''
 You have generated a new SSL certificate.  If you did not request this,
 please cc admin@fedoraproject.org and let them know.
 
 Note that certificates generated prior to the current one have been
 automatically revoked, and should stop working within the hour.
-'''
+''')
         send_mail(person.email, gencert_subject, gencert_text)
         Log(author_id=person.id, description='Certificate generated for %s' %
             person.username)
