@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.7.5
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -30,6 +30,7 @@ Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-tgcaptcha
+Requires: python-webob
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -62,9 +63,11 @@ Additional scripts that work as clients to the accounts system.
 %{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
+%{__install} -m 644 fas.conf.wsgi %{buildroot}%{_sysconfdir}/httpd/conf.d/fas.conf
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 %{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
@@ -94,6 +97,7 @@ Additional scripts that work as clients to the accounts system.
 %{_sbindir}/start-fas
 %{_sbindir}/export-bugzilla
 %{_sbindir}/account-expiry
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/fas.conf
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/account-expiry.cfg
@@ -105,6 +109,10 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Mon Feb 07 2011 Jim Lieb <lieb@sea-troll.net> - 0.8.7.5-1.1
+- Localize UI to Yahoo.
+- Make wsgi instantiation work
+
 * Fri Sep 24 2010 Mike McGrath <mmcgrath@redhat.com> - 0.8.7.5-1
 - Upstream released new version
 

@@ -6,10 +6,8 @@ __main__.__requires__.append('SQLAlchemy >= 0.5, <= 0.6')
 __main__.__requires__.append('TurboGears[future]')
 
 import sys
-sys.path.append('/srv/dev/fas/fas/')
-sys.path.append('/srv/dev/fas/')
-sys.path.append('/srv/dev/fas/plugins/fas-plugin-asterisk')
-sys.path.append('/srv/dev/fas/plugins/fas-plugin-yubikey')
+sys.path.append('/usr/lib/python2.6/site-packages/fas/')
+sys.path.append('/usr/lib/python2.6/site-packages/tgcaptcha/')
 sys.stdout = sys.stderr
 
 import pkg_resources
@@ -17,7 +15,7 @@ pkg_resources.require('CherryPy <= 3.0alpha')
 pkg_resources.require('SQLAlchemy')
 
 import os
-os.environ['PYTHON_EGG_CACHE'] = '/srv/dev/fas/fas.egg-info/'
+os.environ['PYTHON_EGG_CACHE'] = '/var/www/.python-eggs'
 
 import atexit
 import cherrypy
@@ -34,7 +32,7 @@ class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
 
 turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
-turbogears.update_config(configfile="/srv/dev/fas/fas.cfg", modulename="fas.config")
+turbogears.update_config(configfile="/etc/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'autoreload.on': False}})
 turbogears.config.update({'global': {'server.log_to_screen': False}})
 
