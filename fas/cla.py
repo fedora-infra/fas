@@ -201,13 +201,15 @@ the CLA we would appreciate it.
         for more information about what's going on.
 
 .. [2]: Edit your account by logging in at this URL:
-        https://admin.fedoraproject.org/accounts/user/edit/%(username)s
+        %(editurl)s/accounts/user/edit/%(username)s
 
 If you have questions about what specifically might be the problem with your
 account, please contact us at accounts@fedoraproject.org.
 
 Thanks!
-    ''' % {'username': person.username, 'human_name': person.human_name}
+    ''' % {'username': person.username,
+    'human_name': person.human_name,
+    'editurl' : config.get('base_url_filter.base_url').rstrip('/')}
 
             send_mail(person.email, revoke_subject, revoke_text)
 
@@ -340,13 +342,14 @@ Email: %(email)s
 Date: %(date)s
 
 If you need to revoke it, please visit this link:
-    https://admin.fedoraproject.org/accounts/cla/reject/%(username)s
+    %(rejecturl)s/accounts/cla/reject/%(username)s
 
 === CLA ===
 
 ''' % {'username': person.username,
 'email': person.email,
-'date': date_time.ctime(),}
+'date': date_time.ctime(),
+'rejecturl' : config.get('base_url_filter.base_url').rstrip('/')}
         # Sigh..  if only there were a nicer way.
         plugin = TextTemplateEnginePlugin()
         cla_text += plugin.transform(dict(person=person),

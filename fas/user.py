@@ -360,8 +360,8 @@ to this address.  To complete the email change, you must confirm your
 ownership of this email by visiting the following URL (you will need to
 login with your Fedora account first):
 
-https://admin.fedoraproject.org/accounts/user/verifyemail/%s
-''') % token
+%(verifyurl)s/accounts/user/verifyemail/%(token)s
+''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
                 send_mail(email, change_subject, change_text)
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
@@ -405,7 +405,8 @@ updated information is:
   gpg_keyid:      %(gpg_keyid)s
 
 If the above information is incorrect, please log in and fix it:
-https://admin.fedoraproject.org/accounts/user/edit/%(username)s
+
+   %(editurl)s/accounts/user/edit/%(username)s
 ''' % { 'username'       : target.username,
          'ircnick'        : target.ircnick,
          'telephone'      : target.telephone,
@@ -417,7 +418,8 @@ https://admin.fedoraproject.org/accounts/user/edit/%(username)s
          'longitude'      : target.longitude,
          'privacy'        : target.privacy,
          'ssh_key'        : target.ssh_key,
-         'gpg_keyid'      : target.gpg_keyid }
+         'gpg_keyid'      : target.gpg_keyid,
+         'editurl'        : config.get('base_url_filter.base_url').rstrip('/')}
             send_mail(target.email, change_subject, change_text)
             turbogears.flash(_('Your account details have been saved.') + \
                 '  ' + emailflash)
@@ -1010,8 +1012,10 @@ Warning: Someone attempted to reset the password for system account
         mail = _('''
 Somebody (hopefully you) has requested a password reset for your account!
 To change your password (or to cancel the request), please visit
-https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s
-''') % {'user': username, 'token': token}
+
+%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s
+''') % {'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'),
+        'user': username, 'token': token}
         if encrypted:
             # TODO: Move this out to mail function 
             # think of how to make sure this doesn't get
