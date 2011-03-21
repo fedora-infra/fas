@@ -6,7 +6,7 @@ Fedora Account System
 	  Mike McGrath
 	  Toshio Kuratomi
 	  Yaakov Nemoy
-:Contact: fedora-infrastructure-list@redhat.com
+:Contact: infrastructure@lists.fedoraproject.org
 :Date: Wed, 26 March, 2008
 :For FAS version: 0.8.x
 
@@ -116,14 +116,14 @@ Then make sure the bottom of /var/lib/pgsql/data/pg_hba.conf looks like::
   # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 
   # "local" is for Unix domain socket connections only
-  local   all         all                               ident sameuser
+  local   all         all                               ident
   # IPv4 local connections:
-  #host    all         all         127.0.0.1/32          ident sameuser
+  #host    all         all         127.0.0.1/32          ident
+  host    all         all         127.0.0.1/32          md5
   # IPv6 local connections:
-  #host    all         all         ::1/128               ident sameuser
- 
-  host all all 0.0.0.0 0.0.0.0 md5
-  host all all ::1/128         md5
+  #host    all         all         ::1/128               ident
+  host    all         all         ::1/128               md5
+
 
 Then just start the postgres database:
 
@@ -160,7 +160,7 @@ the data and import the schema::
   sudo -u postgres createuser --encrypted --pwprompt fedora
   sudo -u postgres psql < fas2.sql
 
-The you need to import changes to make your database current with the latest
+Then you need to import changes to make your database current with the latest
 development version.
 
 NOTE: In other distros, the command might just be 'migrate'
