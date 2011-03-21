@@ -28,7 +28,7 @@
     </py:if>
     </py:for>
     <ul class="queue">
-      <li py:if="not cla" class="unapproved">${Markup(_('CLA not completed.  To become a full Fedora Contributor please &lt;a href="%s"&gt;complete the CLA&lt;/a&gt;.') % tg.url('/cla/'))}</li>
+      <li py:if="not cla" class="unapproved">${Markup(_('FPCA not completed.  To become a full Fedora Contributor please &lt;a href="%s"&gt;complete the FPCA&lt;/a&gt;.') % tg.url('/fpca/'))}</li>
       <li py:if="not person.ssh_key">${Markup(_('You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing &lt;a href="%s"&gt;My Account&lt;/a&gt;') % tg.url('/user/edit'))}</li>
     </ul>
     <h2>${_('Miscellaneous Tasks')}</h2>

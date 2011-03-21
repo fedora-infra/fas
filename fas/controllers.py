@@ -35,7 +35,7 @@ from fas import release
 from fas.user import User, generate_token
 from fas.group import Group
 from fas.configs import Config
-from fas.cla import CLA
+from fas.fpca import FPCA
 from fas.json_request import JsonRequest
 from fas.help import Help
 from fas.model import Session, People
@@ -138,7 +138,7 @@ class Root(plugin.RootController):
 
     user = User()
     group = Group()
-    cla = CLA()
+    fpca = FPCA()
     json = JsonRequest()
     config = Config()
     help = Help()
