@@ -1200,8 +1200,8 @@ To change your password (or to cancel the request), please visit
             if self.json_request():
                 return dict(cla=False)
             turbogears.flash(_('Before generating a certificate, you must ' + \
-                'first complete the CLA.'))
-            turbogears.redirect('/cla/')
+                'first complete the FPCA.'))
+            turbogears.redirect('/fpca/')
             return dict()
 
         response.headers["content-disposition"] = "attachment"
