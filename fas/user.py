@@ -541,11 +541,11 @@ If the above information is incorrect, please log in and fix it:
                     Groups.id == PersonRoles.group_id,
                     People.id.in_(select([PersonRolesTable.c.person_id]).where(
                         and_(PersonRoles.group_id == Groups.id,
-			    Groups.name == 'cla_done',
+                Groups.name == 'cla_done',
                             People.id == PersonRoles.person_id,
                             People.username.ilike(re_search))
-			    ).order_by(People.username).limit(limit
-			    ).correlate(None)),
+                ).order_by(People.username).limit(limit
+                ).correlate(None)),
                     People.username.ilike(re_search))
                 ).order_by(People.username)
         stmt.use_labels = True
