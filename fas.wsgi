@@ -34,7 +34,6 @@ turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 turbogears.update_config(configfile="/etc/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'autoreload.on': False}})
-turbogears.config.update({'global': {'server.log_to_screen': False}})
 
 turbogears.startup.call_on_startup.append(fedora.tg.tg1utils.enable_csrf)
 
