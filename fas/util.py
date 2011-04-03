@@ -21,7 +21,7 @@
 import os
 import codecs
 
-from ktchen.text.converters import to_bytes
+from kitchen.text.converters import to_bytes
 import turbomail
 from turbogears import config
 from turbogears.i18n.tg_gettext import get_locale_dir
