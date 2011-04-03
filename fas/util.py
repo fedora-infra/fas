@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008 Red Hat, Inc. All rights reserved.
+# Copyright © 2011 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -20,6 +20,8 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 import os
 import codecs
+
+from ktchen.text.converters import to_bytes
 import turbomail
 from turbogears import config
 from turbogears.i18n.tg_gettext import get_locale_dir
@@ -54,4 +56,13 @@ def send_mail(to_addr, subject, text, from_addr=None):
         from_addr = config.get('accounts_email')
     message = turbomail.Message(from_addr, to_addr, subject)
     message.plain = text
-    turbomail.enqueue(message)
+    if config.get('mail.on', False):
+        turbomail.enqueue(message)
+    else:
+        log.debug('Would have sent: %(subject)s' % {
+            'subject': to_bytes(subject)})
+        log.debug('To: %(recipients)s' % {
+            'recipients': to_bytes(to_addr)})
+        log.debug('From: %(sender)s' % {
+            'sender': to_bytes(from_addr)})
+        log.debug('%s' % to_bytes(text))
