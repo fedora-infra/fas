@@ -24,6 +24,7 @@ Requires: babel
 Requires: pygpgme
 Requires: python-babel
 Requires: python-genshi
+Requires: python-kitchen
 Requires: pytz
 Requires: python-openid
 Requires: python-GeoIP
