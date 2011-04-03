@@ -17,5 +17,5 @@
 
 
 -- Add the cla_fpca group to phase out the fedora_cla group
-insert into table groups (name, display_name, owner_id, group_type, invite_only) values ('cla_fpca', 'Signers of the Fedora Project Contributor Agreement', 100001, 'cla', true);
+insert into groups (name, display_name, owner_id, group_type, invite_only, url) values ('cla_fpca', 'Signers of the Fedora Project Contributor Agreement', 100001, 'cla', true, 'http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement');
 
