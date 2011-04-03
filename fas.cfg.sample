@@ -67,7 +67,7 @@ openssl_ou = "Upload Files"
 
 # Groups that automatically grant membership to other groups
 # Format: 'group1:a,b,c|group2:d,e,f'
-auto_approve_groups = 'cvsextras:fedorabugs|cla_fedora:cla_done|cla_redhat:cla_done|cla_dell:cla_done|cla_ibm:cla_done'
+auto_approve_groups = 'cvsextras:fedorabugs|cla_fpca:cla_done|cla_redhat:cla_done|cla_dell:cla_done|cla_ibm:cla_done'
 
 # This is where all of your settings go for your development environment # Settings that are the same for both development and production
 # (such as template engine, encodings, etc.) all go in 
