@@ -24,6 +24,13 @@ script.
 Upgrading
 ---------
 
+0.8.7 => 0.8.8
+==============
+We still haven't worked out using migrate scripts on our database servers so
+the changes here need to be done like this:
+
+  sudo -u postgres psql fas2 < updates/fas2-0.8.7_to_0.8.8.sql
+
 0.8.5 => future
 ===============
 
