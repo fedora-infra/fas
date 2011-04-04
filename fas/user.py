@@ -62,7 +62,7 @@ import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
-from fas.auth import is_admin, cla_done, can_edit_user
+from fas.auth import is_admin, cla_done, fpca_done, can_edit_user
 from fas.util import available_languages
 from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
         ValidLanguage, UnknownUser, ValidUsername
@@ -209,6 +209,7 @@ class User(controllers.Controller):
             personal = False
         admin = is_admin(identity.current)
         cla = cla_done(person)
+        fpca = fpca_done(person)
         person_data = person.filter_private()
         person_data['approved_memberships'] = list(person.approved_memberships)
         person_data['unapproved_memberships'] = list(person.unapproved_memberships)
@@ -219,7 +220,7 @@ class User(controllers.Controller):
                 'PersonRole': ('group',),
                 'Groups': ('unapproved_roles',),
                 }
-        return dict(person=person_data, cla=cla, personal=personal,
+        return dict(person=person_data, cla=cla, fpca=fpca, personal=personal,
                 admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())

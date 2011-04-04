@@ -193,6 +193,30 @@ def cla_done(person):
         pass
     return False
 
+def fpca_done(person):
+    '''Checks if the user has completed the FPCA.
+
+    :arg person: People object or username to check for FPCA status
+    :returns: True if the user has completed the FPCA otherwise False
+    '''
+    cla_fedora_group = config.get('cla_fedora_group')
+    if isinstance(person, basestring):
+        try:
+            PersonRoles.query.filter_by(role_status='approved').join('group'
+                    ).filter_by(name=cla_fedora_group).join('member'
+                            ).filter_by(username=person).one()
+            return True
+        except InvalidRequestError:
+            # Not in the group
+            pass
+    try:
+        if person.group_roles[cla_fedora_group].role_status == 'approved':
+            return True
+    except KeyError:
+        # Not in the group
+        pass
+    return False
+
 def can_edit_user(person, target):
     '''Check whether the user has privileges to edit the target user.
 

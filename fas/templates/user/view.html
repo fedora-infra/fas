@@ -88,11 +88,34 @@
           </dd>
         </py:if>
         <dt>${_('FPCA:')}</dt>
-        <dd><span py:if="cla" class="approved">${_('FPCA Done')}
+        <!-- The FPCA/CLA section is a little complex right now as we need to
+             tell people to sign the FPCA but we aren't rejecting people who have
+             only cla_fedora right now.  After this interim period we can return to
+             using a test for cla only.
+        <dd py:choose="cla">
+          <span py:when="True" class="approved">${_('FPCA Done')}
             <py:if test="admin">
             (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)</py:if>
           </span>
-          <span py:if="not cla" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
+          <span py:otherwise="" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
+          <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
+        </dd>
+          -->
+        <dd py:choose="cla">
+        <span py:when="True" class="approved">
+          <py:if test="fpca">
+            ${_('FPCA Signed')}
+          </py:if>
+          <py:if test="not fpca">
+          ${_('CLA Done')} - <span class="unapproved">${_('FPCA Not Done')}
+            <py:if test="personal">- ${_('Fedora has switched from the CLA to the FPCA')}(<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if>
+            </span>
+            </py:if>
+            <py:if test="admin">
+            (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)</py:if>
+          </span>
+
+          <span py:otherwise="" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
           <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
         </dd>
         <dt>${_('Privacy:')}</dt>
