@@ -36,7 +36,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 from fedora.tg.tg1utils import request_format
 
 from fas.model import People, Groups, Log
-from fas.auth import is_admin, cla_done, fpca_done
+from fas.auth import is_admin, fpca_done
 from fas.util import send_mail
 import fas
 
@@ -227,15 +227,15 @@ Thanks!
     def send(self, human_name, telephone, country_code, postal_address=None,
         confirm=False, agree=False):
         '''Send FPCA'''
-        
+
         # TO DO: Pull show_postal_address in at the class level
         # as it's used in three methods now
         show = {}
         show['show_postal_address'] = config.get('show_postal_address')
-        
+
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if cla_done(person):
+        if fpca_done(person):
             turbogears.flash(_('You have already completed the FPCA.'))
             turbogears.redirect('/fpca/')
             return dict()
