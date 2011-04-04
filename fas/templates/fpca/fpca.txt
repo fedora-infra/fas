@@ -1,7 +1,5 @@
-The Fedora Project
 The Fedora Project Contributor Agreement
 http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement
-[DRAFT, version 2010-11-01]
 
 
 Goal
@@ -172,11 +170,8 @@ specific electronic means established by Fedora (such as by
 click-through acceptance means).
 
     Full name: ${person.human_name}  E-Mail: ${person.email}
-
     Country: ${person.country_code}
-
     Telephone: ${person.telephone}
-
     Facsimile: ${person.facsimile}
 
 You may also, at Your option, and without eliminating the requirement
