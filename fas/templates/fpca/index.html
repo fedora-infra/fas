@@ -25,13 +25,14 @@
       {'url': tg.url('/fpca/text')})}
     <xi:include href="fpca.html" />
     ${Markup(_('&lt;a href="%(url)s"&gt;Text Version&lt;/a&gt;') %
-      {'url': tg.url('/fpca/text')})}
-    <p py:if="cla">
+    {'url': tg.url('/fpca/text')})}
+    <py:choose test="cla">
+    <p py:when="True">
     ${Markup(_('You have already successfully completed the FPCA.') %
       {'url': tg.url('/fpca/text')})}
-      </p>
+    </p>
 
-    <py:if test="not cla">
+    <py:otherwise>
     <p>If any of the following is inaccurate, please correct it now:
     <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/cla_accuracy')}'});</script>
     </p>
@@ -72,6 +73,7 @@
         <input type="submit" value="${_('I do not agree')}" />
       </div>
     </form>
-   </py:if>
+  </py:otherwise>
+  </py:choose>
   </body>
 </html>
