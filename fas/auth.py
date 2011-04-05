@@ -246,9 +246,9 @@ def undeprecated_cla_done(person):
 
     cla_roles = set()
     for role in PersonRoles.query.filter_by(role_status='approved').join('group'
-            ).filter_by(GroupsTable.group_type=='cla').join('member'
+            ).filter(GroupsTable.c.group_type=='cla').join('member'
                     ).filter_by(username=name).all():
-        cla_roles.add(role.name)
+        cla_roles.add(role.group.name)
 
     # If the cla is considered signed only because of deprecated groups, 
     # return negative here.
