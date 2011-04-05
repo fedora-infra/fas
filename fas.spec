@@ -1,14 +1,14 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.7.5
-Release:        1%{?dist}.1
+Version:        0.8.8
+Release:        0.1.a1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.gz
+Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.a1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -110,6 +110,9 @@ Additional scripts that work as clients to the accounts system.
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Apr 5 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8-0.1.a1
+- Update for FPCA
+
 * Mon Feb 07 2011 Jim Lieb <lieb@sea-troll.net> - 0.8.7.5-1.1
 - Localize UI to Yahoo.
 - Make wsgi instantiation work
