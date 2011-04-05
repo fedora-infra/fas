@@ -19,3 +19,5 @@
 -- Add the cla_fpca group to phase out the fedora_cla group
 insert into groups (name, display_name, owner_id, group_type, invite_only, url) values ('cla_fpca', 'Signers of the Fedora Project Contributor Agreement', 100001, 'cla', true, 'http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement');
 
+-- Change schema so that the group_type is mandatory
+alter table groups ALTER COLUMN group_type set not null;
