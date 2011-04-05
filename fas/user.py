@@ -208,7 +208,6 @@ class User(controllers.Controller):
         else:
             personal = False
         admin = is_admin(identity.current)
-        cla = cla_done(person)
         (cla, undeprecated_cla) = undeprecated_cla_done(person)
         person_data = person.filter_private()
         person_data['approved_memberships'] = list(person.approved_memberships)
@@ -535,13 +534,16 @@ If the above information is incorrect, please log in and fix it:
         if not limit and request_format() != 'json':
             limit = 100
 
+        # cla_done group
+        cla_done_group = config.get('cla_done_group', 'cla_done')
+
         # Query db for all users and their status in cla_done
         stmt = select([PeopleTable, PersonRolesTable, GroupsTable]).where(
                 and_(People.id == PersonRoles.person_id,
                     Groups.id == PersonRoles.group_id,
                     People.id.in_(select([PersonRolesTable.c.person_id]).where(
                         and_(PersonRoles.group_id == Groups.id,
-                Groups.name == 'cla_done',
+                Groups.name == cla_done_group,
                             People.id == PersonRoles.person_id,
                             People.username.ilike(re_search))
                 ).order_by(People.username).limit(limit
@@ -626,7 +628,7 @@ If the above information is incorrect, please log in and fix it:
         approved = []
         unapproved = []
         for person in people_map.itervalues():
-            cla_status = person.group_roles['cla_done'].role_status
+            cla_status = person.group_roles[cla_done_group].role_status
 
             # Current default is to return everything unless fields is set
             if fields:

@@ -46,7 +46,7 @@
       </div>
       <div class="field">
         <label for="prerequisite">${_('Must Belong To:')}</label>
-        <input type="text" id="prerequisite" name="prerequisite" value="cla_done" />
+        <input type="text" id="prerequisite" name="prerequisite" value="${tg.config('cla_done_group', 'cla_done')}" />
         <script type="text/javascript">var group_prerequisite = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_prerequisite')}'});</script>
       </div>
       <div class="field">
