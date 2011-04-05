@@ -87,35 +87,23 @@
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script>
           </dd>
         </py:if>
-        <dt>${_('FPCA:')}</dt>
-        <!-- The FPCA/CLA section is a little complex right now as we need to
-             tell people to sign the FPCA but we aren't rejecting people who have
-             only cla_fedora right now.  After this interim period we can return to
-             using a test for cla only.
-        <dd py:choose="cla">
-          <span py:when="True" class="approved">${_('FPCA Done')}
-            <py:if test="admin">
-            (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)</py:if>
-          </span>
-          <span py:otherwise="" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
-          <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
-        </dd>
-          -->
+        <dt>${_('Contributor Agreement:')}</dt>
         <dd py:choose="cla">
         <span py:when="True" class="approved">
-          <py:if test="fpca">
-            ${_('FPCA Signed')}
+          <py:if test="undeprecated">
+            ${_('CLA Signed')}
           </py:if>
-          <py:if test="not fpca">
-          ${_('CLA Done')} - <span class="unapproved">${_('FPCA Not Done')}
-            <py:if test="personal">- ${_('Fedora has switched from the CLA to the FPCA')}(<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if>
+          <py:if test="not undeprecated">
+          ${_('CLA Done')} - <span class="unapproved">${_('New CLA Not Signed')}
+            <py:if test="personal">- ${_('We need contributors to sign the new Contributor Agreement')}(<a href="${tg.url('/fpca/')}">${_('Complete it now!')}</a>)</py:if>
             </span>
-            </py:if>
-            <py:if test="admin">
-            (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)</py:if>
+          </py:if>
+          <py:if test="admin">
+            (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)
+          </py:if>
           </span>
 
-          <span py:otherwise="" class="unapproved">${_('Not Done')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
+          <span py:otherwise="" class="unapproved">${_('Not Signed')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
           <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
         </dd>
         <dt>${_('Privacy:')}</dt>

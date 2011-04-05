@@ -35,7 +35,7 @@ except ImportError:
 
 from sqlalchemy.exceptions import InvalidRequestError
 
-from fas.model import PersonRoles
+from fas.model import GroupsTable, PersonRoles
 
 def is_admin(person):
     '''Checks if the user is a FAS admin
@@ -193,29 +193,69 @@ def cla_done(person):
         pass
     return False
 
-def fpca_done(person):
-    '''Checks if the user has completed the FPCA.
+def standard_cla_done(person):
+    '''Checks if the user has completed the specific standard CLA
 
-    :arg person: People object or username to check for FPCA status
-    :returns: True if the user has completed the FPCA otherwise False
+    This is useful when we want to check whether the CLA that we have people
+    sign via this app has been completed, for instance, when choosing whether
+    they've already signed it.
+
+    :arg person: People object or username to check for CLA status
+    :returns: True if the user has completed the CLA otherwise False
     '''
-    cla_fedora_group = config.get('cla_fedora_group')
+    standard_cla_group = config.get('cla_fedora_group')
     if isinstance(person, basestring):
         try:
             PersonRoles.query.filter_by(role_status='approved').join('group'
-                    ).filter_by(name=cla_fedora_group).join('member'
+                    ).filter_by(name=standard_cla_group).join('member'
                             ).filter_by(username=person).one()
             return True
         except InvalidRequestError:
             # Not in the group
             pass
     try:
-        if person.group_roles[cla_fedora_group].role_status == 'approved':
+        if person.group_roles[standard_cla_group].role_status == 'approved':
             return True
     except KeyError:
         # Not in the group
         pass
     return False
+
+def undeprecated_cla_done(person):
+    '''Checks if the user has completed the cla.
+
+    As opposed to :func:`cla_done`, this method returns information about both
+    whether the cla has been satisfied and whether the cla has been satisfied
+    by a deprecated method.  This is useful if you have switched to a new CLA
+    and want to have a transition period where either CLA is okay but you want
+    to warn people that they need to sign the new version.
+
+    :arg person: People object or username to check for FPCA status
+    :rtype: tuple
+    :returns: The first element of the tuple is True if the cla_done_group is
+        approved otherwise False.  The second element of the tuple is True if
+        a non-deprecated cla group is approved, otherwise False.
+    '''
+    cla_done_group = config.get('cla_done_group')
+    cla_deprecated = frozenset(config.get('cla_deprecated_groups', []))
+
+    if isinstance(person, basestring):
+        name = person
+    else:
+        name = person.username
+
+    cla_roles = set()
+    for role in PersonRoles.query.filter_by(role_status='approved').join('group'
+            ).filter_by(GroupsTable.group_type=='cla').join('member'
+                    ).filter_by(username=name).all():
+        cla_roles.add(role.name)
+
+    # If the cla is considered signed only because of deprecated groups, 
+    # return negative here.
+    cla_roles.difference_update(cla_deprecated)
+    if len(cla_roles) >= 2:
+        return (cla_done_group in cla_roles, True)
+    return (cla_done_group in cla_roles, False)
 
 def can_edit_user(person, target):
     '''Check whether the user has privileges to edit the target user.

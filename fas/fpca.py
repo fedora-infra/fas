@@ -36,7 +36,7 @@ from genshi.template.plugin import TextTemplateEnginePlugin
 from fedora.tg.tg1utils import request_format
 
 from fas.model import People, Groups, Log
-from fas.auth import is_admin, fpca_done
+from fas.auth import is_admin, standard_cla_done, undeprecated_cla_done
 from fas.util import send_mail
 import fas
 
@@ -86,9 +86,9 @@ class FPCA(controllers.Controller):
                 turbogears.flash(_('A valid country and telephone number are' +
                         ' required to complete the FPCA.  Please fill them ' +
                         'out below.'))
-        cla = fpca_done(person)
+        (cla, undeprecated_cla) = undeprecated_cla_done(person)
         person = person.filter_private()
-        return dict(cla=cla, person=person, date=datetime.utcnow().ctime(),
+        return dict(cla=undeprecated_cla, person=person, date=datetime.utcnow().ctime(),
                     show=show)
 
     def _cla_dependent(self, group):
@@ -235,7 +235,7 @@ Thanks!
 
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
-        if fpca_done(person):
+        if standard_cla_done(person):
             turbogears.flash(_('You have already completed the FPCA.'))
             turbogears.redirect('/fpca/')
             return dict()
