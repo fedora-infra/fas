@@ -45,7 +45,7 @@ from fas import _
 class CLA(controllers.Controller):
     ''' Processes CLA workflow '''
     # Group name for people having signed the CLA
-    CLAGROUPNAME = config.get('cla_fedora_group')
+    CLAGROUPNAME = config.get('cla_standard_group')
     # Meta group for everyone who has satisfied the requirements of the CLA
     # (By signing or having a corporate signatue or, etc)
     CLAMETAGROUPNAME = config.get('cla_done_group')

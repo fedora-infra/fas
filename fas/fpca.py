@@ -45,7 +45,7 @@ from fas import _
 class FPCA(controllers.Controller):
     ''' Processes FPCA workflow '''
     # Group name for people having signed the FPCA
-    CLAGROUPNAME = config.get('cla_fedora_group')
+    CLAGROUPNAME = config.get('cla_standard_group')
     # Meta group for everyone who has satisfied the requirements of the FPCA
     # (By signing or having a corporate signatue or, etc)
     CLAMETAGROUPNAME = config.get('cla_done_group')

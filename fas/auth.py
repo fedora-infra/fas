@@ -203,7 +203,7 @@ def standard_cla_done(person):
     :arg person: People object or username to check for CLA status
     :returns: True if the user has completed the CLA otherwise False
     '''
-    standard_cla_group = config.get('cla_fedora_group')
+    standard_cla_group = config.get('cla_standard_group')
     if isinstance(person, basestring):
         try:
             PersonRoles.query.filter_by(role_status='approved').join('group'
