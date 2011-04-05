@@ -43,7 +43,7 @@ from fas.model import SessionTable
 
 from fas.openid_samadhi import OpenID
 
-from fas.auth import cla_done
+from fas.auth import fpca_done
 from fas.util import available_languages
 
 from fas import plugin
@@ -172,7 +172,7 @@ class Root(plugin.RootController):
     def home(self):
         user_name = turbogears.identity.current.user_name
         person = People.by_username(user_name)
-        cla = cla_done(person)
+        cla = fpca_done(person)
 
         person = person.filter_private()
         return dict(person=person, memberships=person['memberships'], cla=cla)
