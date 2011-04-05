@@ -54,7 +54,7 @@ import time
 
 from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
-from sqlalchemy.sql import select, and_, not_
+from sqlalchemy.sql import select, and_
 
 from fedora.tg.tg1utils import request_format
 
@@ -441,8 +441,7 @@ If the above information is incorrect, please log in and fix it:
         groups_to_return = []
         # Special Logic, find out all the people who are in more then one group
         if '@all' in groups_to_return_list:
-            groups_results = Groups.query().filter(
-                                not_(Groups.name.ilike('cla%')))
+            groups_results = Groups.query().filter(Groups.group_type!='cla')
             for group in groups_results:
                 groups_to_return.append(group.name)
 
