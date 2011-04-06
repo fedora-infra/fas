@@ -8,7 +8,7 @@ Summary:        Fedora Account System
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.a1.tar.gz
+Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}a1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -52,7 +52,7 @@ Requires: nss_db
 Additional scripts that work as clients to the accounts system.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}a1
 
 
 %build
@@ -66,18 +66,20 @@ Additional scripts that work as clients to the accounts system.
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
+%{__install} fas.wsgi %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
 %{__install} -m 644 fas.conf.wsgi %{buildroot}%{_sysconfdir}/httpd/conf.d/fas.conf
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
-%{__cp} fas.wsgi %{buildroot}%{_datadir}/fas/
 
 %{__install} -m 0755 scripts/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
 %{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
 
 %{__install} -m 0755 scripts/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
 %{__install} -m 0600 scripts/account-expiry.cfg %{buildroot}%{_sysconfdir}/
+
+cp -pr updates/ %{buildroot}%{_datadir}/fas
 
 %find_lang %{name}
 
@@ -86,7 +88,7 @@ Additional scripts that work as clients to the accounts system.
 
 
 %pre
-/usr/sbin/useradd -c 'Fedora Acocunt System user' -s /sbin/nologin \
+/usr/sbin/useradd -c 'Fedora Account System user' -s /sbin/nologin \
     -r -M -d %{_datadir}/fas fas &> /dev/null || :
 
 
@@ -96,6 +98,7 @@ Additional scripts that work as clients to the accounts system.
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
+%{_bindir}/fas.wsgi
 %{_sbindir}/export-bugzilla
 %{_sbindir}/account-expiry
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/fas.conf
@@ -112,6 +115,8 @@ Additional scripts that work as clients to the accounts system.
 %changelog
 * Tue Apr 5 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8-0.1.a1
 - Update for FPCA
+- Move fas.wsgi into /usr/sbin
+- Include the updates directory in the package
 
 * Mon Feb 07 2011 Jim Lieb <lieb@sea-troll.net> - 0.8.7.5-1.1
 - Localize UI to Yahoo.

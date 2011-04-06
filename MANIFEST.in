@@ -24,3 +24,4 @@ include fas/templates/*.html
 include po/LINGUAS
 include po/*.po
 include po/*.pot
+include updates/*
