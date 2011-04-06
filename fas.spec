@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.8
-Release:        0.1.a1%{?dist}
+Release:        0.2.a1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -98,7 +98,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
-%{_bindir}/fas.wsgi
+%{_sbindir}/fas.wsgi
 %{_sbindir}/export-bugzilla
 %{_sbindir}/account-expiry
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/fas.conf
