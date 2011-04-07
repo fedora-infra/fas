@@ -13,7 +13,7 @@ WSGIRestrictSignal Off
 WSGIDaemonProcess fas  processes=2 threads=2 maximum-requests=1000 user=fas display-name=fas inactivity-timeout=30
 WSGIPythonOptimize 1
 
-WSGIScriptAlias /accounts /usr/share/fas/fas.wsgi/accounts
+WSGIScriptAlias /accounts /usr/sbin/fas.wsgi/accounts
 
 <Location /accounts>
     WSGIProcessGroup fas
