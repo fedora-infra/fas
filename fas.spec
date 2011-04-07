@@ -64,12 +64,10 @@ Additional scripts that work as clients to the accounts system.
 %{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/httpd/conf.d
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 %{__install} fas.wsgi %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
-%{__install} -m 644 fas.conf.wsgi %{buildroot}%{_sysconfdir}/httpd/conf.d/fas.conf
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 
@@ -94,7 +92,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README TODO COPYING fas2.sql fas.spec
+%doc README TODO COPYING fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
@@ -117,6 +115,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 - Update for FPCA
 - Move fas.wsgi into /usr/sbin
 - Include the updates directory in the package
+- Make the apache configfile %%doc instead of installing it
 
 * Mon Feb 07 2011 Jim Lieb <lieb@sea-troll.net> - 0.8.7.5-1.1
 - Localize UI to Yahoo.
