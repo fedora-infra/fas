@@ -94,6 +94,7 @@ server.webpath='/accounts'
 base_url_filter.on = True
 base_url_filter.use_x_forwarded_host = False
 base_url_filter.base_url = "http://localhost:8088/"
+fas.url = "http://localhost:8088/accounts/"
 
 # Knobs to tweak for debugging
 
@@ -163,14 +164,6 @@ openssl_l = "Raleigh"
 openssl_o = "Fedora Project"
 openssl_ou = "Fedora User Cert"
 
-[/fedora-server-ca.cert]
-static_filter.on = True
-static_filter.file = "/etc/pki/fas/fedora-server-ca.cert"
-
-[/fedora-upload-ca.cert]
-static_filter.on = True
-static_filter.file = "/etc/pki/fas/fedora-upload-ca.cert"
-
 # Note: gpg is for encrypting password reset mail if the user has
 # a gpg key registered.  It's currently broken
 gpgexec = "/usr/bin/gpg"
@@ -179,6 +172,14 @@ gpg_fingerprint = "C199 1E25 D00A D200 2D2E  54D1 BF7F 1647 C54E 8410"
 # If you were wondering, this isn't a real passphrase :)
 gpg_passphrase = "m00!s@ysth3c0w"
 gpg_keyserver = "hkp://subkeys.pgp.net"
+
+[/fedora-server-ca.cert]
+static_filter.on = True
+static_filter.file = "/etc/pki/fas/fedora-server-ca.cert"
+
+[/fedora-upload-ca.cert]
+static_filter.on = True
+static_filter.file = "/etc/pki/fas/fedora-upload-ca.cert"
 
 # LOGGING
 # Logging configuration generally follows the style of the standard
