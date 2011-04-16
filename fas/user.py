@@ -884,7 +884,7 @@ skill sets. To find out about the different ways you can contribute to
 Fedora, you can visit our join page which provides more information
 about all the different roles we have available.
 
-http://fedoraproject.org/en/join-fedora
+http://join.fedoraproject.org/
 
 If you already know how you want to contribute to Fedora, and have
 found the group already working in the area you're interested in, then
