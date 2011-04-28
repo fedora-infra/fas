@@ -14,6 +14,8 @@ include fas/static/theme/fas/css/*
 include fas/static/theme/fas/images/*
 include fas/templates/cla/*.html
 include fas/templates/cla/*.txt
+include fas/templates/fpca/*.html
+include fas/templates/fpca/*.txt
 include fas/templates/group/*.html
 include fas/templates/group/*.txt
 include fas/templates/openid/*.html
