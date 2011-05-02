@@ -99,7 +99,6 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %{_sbindir}/fas.wsgi
 %{_sbindir}/export-bugzilla
 %{_sbindir}/account-expiry
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/fas.conf
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/account-expiry.cfg
