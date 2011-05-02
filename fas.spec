@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.8
-Release:        0.2.a1%{?dist}
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -52,7 +52,7 @@ Requires: nss_db
 Additional scripts that work as clients to the accounts system.
 
 %prep
-%setup -q -n %{name}-%{version}a1
+%setup -q -n %{name}-%{version}
 
 
 %build
@@ -111,6 +111,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Mon May 2 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8-1
+- Final release
+
 * Tue Apr 5 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8-0.1.a1
 - Update for FPCA
 - Move fas.wsgi into /usr/sbin
