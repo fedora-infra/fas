@@ -35,7 +35,12 @@ def available_languages():
     try:
         our_languages = config.get('available_languages')
     except AtributeError:
-        our_languages = ['en', 'de', 'es', 'hu', 'it', 'pl', 'zh_CN']
+        our_languages = [
+            'en', 'bs', 'cs', 'de', 'el', 'es',
+            'fa', 'fr', 'hu', 'id', 'it', 'ja',
+            'pl', 'pt_BR', 'ru', 'zh_CN'
+        ]
+
     return our_languages
     # *sigh* Hardcoding is less pain.
     our_languages = []
