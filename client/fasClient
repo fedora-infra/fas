@@ -33,6 +33,12 @@ from fedora.client import AccountSystem, AuthError, ServerError
 from urllib2 import URLError
 
 try:
+    import selinux
+    have_selinux = (selinux.is_selinux_enabled() == 1)
+except ImportError:
+    have_selinux = False
+
+try:
     import cPickle as pickle
 except ImportError:
     import pickle
@@ -559,8 +565,9 @@ class MakeShellAccounts(AccountSystem):
                 f.write(key + '\n')
                 f.close()
                 os.chmod(key_file, 0600)
-                subprocess.call(['/sbin/restorecon', '-R', ssh_dir])
                 os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
+                if have_selinux:
+                    selinux.restorecon(ssh_dir, recursive=True)
             else:
                 # If the user does not have an SSH key listed, ensure
                 # that their authorized_key file does not exist.
@@ -595,7 +602,8 @@ class MakeShellAccounts(AccountSystem):
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
         move(os.path.join(self.temp, 'relay_recipient_maps'), os.path.join(prefix, 'etc/postfix/relay_recipient_maps'))
         subprocess.call(['/usr/bin/newaliases'])
-        subprocess.call(['/sbin/restorecon', '/etc/postfix/relay_recipient_maps'])
+        if have_selinux:
+            selinux.restorecon('/etc/postfix/relay_recipient_maps')
         subprocess.call(['/usr/sbin/postmap', '/etc/postfix/relay_recipient_maps'])
 
     def user_info(self, username):
