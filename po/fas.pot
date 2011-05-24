@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-05-02 18:07-0400\n"
+"POT-Creation-Date: 2011-05-24 10:17-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -369,7 +369,7 @@ msgid ""
 "\n"
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
-"propagate into the e-mail aliases and CVS repository within an hour.\n"
+"propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
 
 #: fas/group.py:500
@@ -1579,7 +1579,7 @@ msgid ""
 msgstr ""
 
 #: fas/templates/search-box.html:8
-msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
+msgid "\"*\" is a wildcard (Ex: \"git*\")"
 msgstr ""
 
 #: fas/templates/search-box.html:11

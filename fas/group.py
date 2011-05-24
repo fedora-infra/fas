@@ -489,7 +489,7 @@ Thank you for applying for the %(group)s group.
                 sponsor_text = _('''
 %(user)s <%(email)s> has sponsored you for membership in the %(group)s
 group of the Fedora account system. If applicable, this change should
-propagate into the e-mail aliases and CVS repository within an hour.
+propagate into the e-mail aliases and git repository within an hour.
 ''') % {'group': group.name, 'user': person.username, 'email': person.email}
 
                 send_mail(target.email, sponsor_subject, sponsor_text)
