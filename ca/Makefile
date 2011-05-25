@@ -52,7 +52,7 @@ init:
 
 help:
 	@echo make sign req=in.csr cert=out.cert
-	@echo '  - signs in.csr, outputting to out.cert
+	@echo '  - signs in.csr, outputting to out.cert'
 	@echo
 	@echo make revoke cert=filename
 	@echo '  - revokes certificate in named file and calls gencrl'
