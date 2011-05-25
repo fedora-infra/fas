@@ -34,8 +34,11 @@ from urllib2 import URLError
 
 try:
     import selinux
+    from shutil import rmtree
+    from selinux import copytree, install as move
     have_selinux = (selinux.is_selinux_enabled() == 1)
 except ImportError:
+    from shutil import move, rmtree, copytree
     have_selinux = False
 
 try:
@@ -45,8 +48,6 @@ except ImportError:
 
 import ConfigParser
 from optparse import OptionParser
-
-from shutil import move, rmtree, copytree
 
 import gettext
 import locale
