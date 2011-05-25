@@ -5,7 +5,7 @@
   py:strip="True">
   <div py:def="search_box(url_fragment)">
     <form method="post" action="${tg.url(url_fragment)}">
-      <p>${_('"*" is a wildcard (Ex: "cvs*")')}</p>
+      <p>${_('"*" is a wildcard (Ex: "git*")')}</p>
       <div>
         <input type="text" value="${search}" name="search" size="15 "/>
         <input type="submit" value="${_('Search')}" />

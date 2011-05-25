@@ -47,6 +47,7 @@ Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
 Requires: authconfig
 Requires: nss_db
+Requires: libselinux-python
 
 %description clients
 Additional scripts that work as clients to the accounts system.
