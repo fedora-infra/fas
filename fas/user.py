@@ -44,9 +44,14 @@ import re
 import gpgme
 import StringIO
 import crypt
-import random
+import string
 import subprocess
 from OpenSSL import crypto
+
+if config.get('use_openssl_rand_bytes', False):
+    from OpenSSL.rand import bytes as rand_bytes
+else:
+    from os import urandom as rand_bytes
 
 import pytz
 from datetime import datetime
@@ -116,52 +121,48 @@ def generate_password(password=None, length=16):
     ''' Generate Password
 
     :arg password: Plain text password to be crypted.  Random one generated
-                    if blank.
+                    if None.
     :arg length: Length of password to generate.
     returns: crypt.crypt utf-8 password
     '''
     secret = {} # contains both hash and password
 
-    if not password:
-        # Exclude 1,l and 0,O
-        chars = '23456789abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ'
-        password = ''
-        # char_num is just a counter for the loop (W0612)
-        for char_num in xrange(length): # pylint: disable-msg=W0612
-            password += random.choice(chars)
+    # From crypt(3) manpage.
+    salt_charset = string.ascii_letters + string.digits + './'
+    salt = random_string(salt_charset, 16)
+    hash_id = '6' # SHA-512
+    salt_str = '$' + hash_id + '$' + salt
 
-    secret['hash'] = crypt.crypt(password.encode('utf-8'), "$1$%s" % \
-        generate_salt(8))
+    if password is None:
+        password_charset = string.ascii_letters + string.digits
+        password = random_string(password_charset, length)
+
+    secret['hash'] = crypt.crypt(password.encode('utf-8'), salt_str)
     secret['pass'] = password
 
     return secret
 
-def generate_salt(length=8):
-    ''' Generates salt for password
+def random_string(charset, length):
+    '''Generates a random string for password and salts.
+
+    This use a pseudo-random number generator suitable for cryptographic
+    use, such as /dev/urandom or (better) OpenSSL's RAND_bytes.
 
     :arg length: Length of salt to be generated
     :returns: String of salt
     '''
-    chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    salt = ''
-    # char_num is just a counter for the loop (W0612)
-    for char_num in xrange(length): # pylint: disable-msg=W0612
-        salt += random.choice(chars)
-    return salt
+    s = ''
 
-def generate_token(length=32):
-    ''' Genrate token.  Typically used when resetting password or verifying
-                        a new email address.
+    while length > 0:
+        r = rand_bytes(length)
+        for c in r:
+            # Discard all bytes that aren't in the charset.  This is the
+            # simplest way to ensure that the function is not biased.
+            if c in charset:
+                s += c
+                length -= 1
 
-    :arg length: Length of token to generate
-    :returns: String of token
-    '''
-    chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    token = ''
-    # char_num is just a counter for the loop (W0612)
-    for char_num in xrange(length): # pylint: disable-msg=W0612
-        token += random.choice(chars)
-    return token
+    return s
 
 class User(controllers.Controller):
     ''' Our base User controller for user based operations '''
@@ -349,7 +350,8 @@ class User(controllers.Controller):
                 emailflash = _('Before your new email takes effect, you ' + \
                     'must confirm it.  You should receive an email with ' + \
                     'instructions shortly.')
-                token = generate_token()
+                token_charset = string.ascii_letters + string.digits
+                token = rand_string(token_charset, 32)
                 target.unverified_email = email
                 target.emailtoken = token
                 change_subject = _('Email Change Requested for %s') % \

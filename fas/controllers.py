@@ -32,7 +32,7 @@ from fedora.tg import controllers as f_ctrlers
 from fedora.tg.tg1utils import request_format
 
 from fas import release
-from fas.user import User, generate_token
+from fas.user import User
 from fas.group import Group
 from fas.configs import Config
 from fas.fpca import FPCA
@@ -203,11 +203,6 @@ class Root(plugin.RootController):
                     ' reset your password below.'))
                 if request_format() != 'json':
                     redirect('/user/resetpass')
-                #username = request.fas_provided_username
-                #token = generate_token()
-                #person = People.by_username(username)
-                #person.passwordtoken = token
-                #redirect('/user/verifypass/%s/%s' % (username, token))
             if request.fas_identity_failure_reason == 'status_account_disabled':
                 turbogears.flash(_('Your account is currently disabled.  For'
                         ' more information, please contact %(admin_email)s' %
