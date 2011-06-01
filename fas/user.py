@@ -929,21 +929,22 @@ forward to working with you!
     def setpass(self, currentpassword, password, passwordcheck):
         username = identity.current.user_name
         person  = People.by_username(username)
+
         if password != passwordcheck:
             turbogears.flash(_('passwords did not match'))
             return dict()
-#        current_encrypted = generate_password(currentpassword)
-#        print "PASS: %s %s" % (current_encrypted, person.password)
+
         if not person.password == crypt.crypt(currentpassword.encode('utf-8'),
                 person.password):
             turbogears.flash(_('Your current password did not match'))
             return dict()
-        # TODO: Enable this when we need to.
-        #if currentpassword == password:
-        #    turbogears.flash('Your new password cannot be the same as your old
-        #    one.')
-        #    return dict()
+
+        if currentpassword == password:
+            turbogears.flash('Your new password cannot be the same as your old one.')
+            return dict()
+
         newpass = generate_password(password)
+
         try:
             person.old_password = person.password
             person.password = newpass['hash']
