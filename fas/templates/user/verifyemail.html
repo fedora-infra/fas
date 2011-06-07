@@ -13,7 +13,7 @@
         <p>
         ${_('Do you really want to change your email to: %s?') % person.unverified_email}
         </p>
-        <input type="submit" value="${_('Confirm')}" />
+        <input class="sub-button" type="submit" value="${_('Confirm')}" />
         <a href="${tg.url('/user/verifyemail/%s/%s/cancel') % (person.username, token)}">${_('Cancel')}</a>
       </div>
     </form>
