@@ -388,9 +388,9 @@ class MakeShellAccounts(AccountSystem):
             passwd_file.write('0%i %s:x:%s:%s:%s:%s:%s\n' % (i, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write('.%s %s:x:%s:%s:%s:%s:%s\n' % (username, username, uid, uid, human_name, home_dir, shell))
 
-            shadow_file.write('=%s %s:%s:99999:0:99999:7:::\n' % (uid, username, password))
-            shadow_file.write('0%i %s:%s:99999:0:99999:7:::\n' % (i, username, password))
-            shadow_file.write('.%s %s:%s:99999:0:99999:7:::\n' % (username, username, password))
+            shadow_file.write('=%s %s:%s::::7:::\n' % (uid, username, password))
+            shadow_file.write('0%i %s:%s::::7:::\n' % (i, username, password))
+            shadow_file.write('.%s %s:%s::::7:::\n' % (username, username, password))
             i += 1
 
         passwd_file.close()
