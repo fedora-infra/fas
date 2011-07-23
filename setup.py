@@ -221,5 +221,21 @@ setup(
             'turbogears.identity.provider': (
                 'safas4 = fas.safasprovider:SaFasIdentityProvider',
             ),
+            'turbogears.widgets': (
+                'tgcaptcha2 = fas.tgcaptcha2.widgets',
+            ),
+            # For the enhanced captcha
+            'tgcaptcha2.jpeg_generators': (
+                'mcdermott = fas.tgcaptcha2.plugins.image.vanasco_dowty:generate_jpeg',
+                'vanasco_dowty = fas.tgcaptch2.plugins.image.vanasco_dowty:generate_jpeg',
+            ),
+            'tgcaptcha2.question_generators': (
+                'random_ascii = fas.tgcaptcha.plugins.text.random_ascii:generate_text',
+                'random_equation = fas.tgcaptcha.plugins.text.random_equation:generate_text',
+            ),
+            'paste.paster_create_template': (
+                'tgcaptcha = tgcaptcha:TGCaptchaConfig',
+            ),
+            # End enhanced captcha
     }
 )

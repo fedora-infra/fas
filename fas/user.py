@@ -34,8 +34,8 @@ from turbogears import controllers, expose, identity, \
         validate, validators, error_handler, config, redirect
 from turbogears.database import session
 import cherrypy
-from tgcaptcha import CaptchaField
-from tgcaptcha.validator import CaptchaFieldValidator
+from fas.tgcaptcha2 import CaptchaField
+from fas.tgcaptcha2.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
 
