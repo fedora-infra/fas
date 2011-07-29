@@ -1,24 +1,23 @@
-# translation of fas.master.po to Greek Fedora team
 # Translations template for PROJECT.
-# Copyright (C) 2009 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-#
+# 
 # Pierros Papadeas <pierros@papadeas.gr>, 2009.
 # Thalia Papoutsaki <saliyath@gmail.com>, 2009.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-05-02 18:07-0400\n"
-"PO-Revision-Date: 2009-10-22 16:52+0200\n"
-"Last-Translator: Thalia Papoutsaki <saliyath@gmail.com>\n"
-"Language-Team: Greek Fedora team <fedora-trans-el@redhat.com>\n"
-"Language: \n"
+"Project-Id-Version: Fedora Account System\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
+"POT-Creation-Date: 2011-05-24 10:17-0400\n"
+"PO-Revision-Date: 2011-07-29 22:29+0000\n"
+"Last-Translator: toshio <a.badger@gmail.com>\n"
+"Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.4\n"
+"Generated-By: Babel 0.9.5\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: fas/auth.py:360
 #, python-format
@@ -71,13 +70,11 @@ msgid ""
 "of this is people abbreviating their name like \"B L Couper\" instead of\n"
 "providing their actual full name \"Bill Lay Couper\".  Other causes of this\n"
 "include are using a country, or phone number that isn't accurate [1]_.\n"
-"If you could edit your account [2]_ to fix any of these problems and "
-"resubmit\n"
+"If you could edit your account [2]_ to fix any of these problems and resubmit\n"
 "the CLA we would appreciate it.\n"
 "\n"
 ".. [1]: Why does it matter that we have your real name and phone\n"
-"        number?   It's because the CLA is a legal document and should we "
-"ever\n"
+"        number?   It's because the CLA is a legal document and should we ever\n"
 "        need to contact you about one of your contributions (as an example,\n"
 "        because someone contacts *us* claiming that it was really they who\n"
 "        own the copyright to the contribution) we might need to contact you\n"
@@ -86,8 +83,7 @@ msgid ""
 ".. [2]: Edit your account by logging in at this URL:\n"
 "        %(editurl)s/accounts/user/edit/%(username)s\n"
 "\n"
-"If you have questions about what specifically might be the problem with "
-"your\n"
+"If you have questions about what specifically might be the problem with your\n"
 "account, please contact us at accounts@fedoraproject.org.\n"
 "\n"
 "Thanks!\n"
@@ -117,21 +113,17 @@ msgstr "Δεν ήταν δυνατή η αποθήκευση των ενημερ
 
 #: fas/cla.py:286
 msgid ""
-"To complete the CLA, we must have your name, telephone number, and country.  "
-"Please ensure they have been filled out."
+"To complete the CLA, we must have your name, telephone number, and country."
+"  Please ensure they have been filled out."
 msgstr ""
-"Για να ολοκληρωθεί το CLA πρέπει να έχουμε όνομα, αριθμό τηλεφώνου και χώρα. "
-"Παρακαλούμε διασφαλίστε πως έχουν συμπληρωθεί. "
+"Για να ολοκληρωθεί το CLA πρέπει να έχουμε όνομα, αριθμό τηλεφώνου και χώρα."
+" Παρακαλούμε διασφαλίστε πως έχουν συμπληρωθεί. "
 
-# κωδικός κλήσης??
 #: fas/cla.py:295
-#, fuzzy
 msgid ""
 "To complete the CLA, a valid country code must be specified.  Please select "
 "one now."
 msgstr ""
-"Για να ολοκληρωθεί το CLA ένας έγκυρος διεθνής κωδικός κλήσης πρέπει να "
-"οριστεί. Παρακαλούμε επιλέξτε έναν τώρα."
 
 #: fas/cla.py:299
 msgid ""
@@ -152,10 +144,9 @@ msgid "You are already a part of the '%s' group."
 msgstr "Είστε ήδη μέρος της ομάδας '%s'."
 
 #: fas/cla.py:336
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora ICLA completed for %(human_name)s (%(username)s)"
 msgstr ""
-"Αυτή είναι μια OpenID ταυτότητα για τον/την %(human_name)s (%(username)s)"
 
 #: fas/cla.py:338
 #, python-format
@@ -180,14 +171,14 @@ msgid ""
 msgstr "Συμπληρώσατε επιτυχώς το CLA. Είστε τώρα στην ομάδα '%s'. "
 
 #: fas/configs.py:126
-#, fuzzy, python-format
+#, python-format
 msgid "You cannot look at configs for %s"
-msgstr "Δεν μπορείτε να δείτε το configs για %s"
+msgstr ""
 
 #: fas/configs.py:167
-#, fuzzy, python-format
+#, python-format
 msgid "You cannot edit configs for %s"
-msgstr "Δεν μπορείτε να επεξεργαστείτε το configs για %s"
+msgstr ""
 
 #: fas/configs.py:191
 #, python-format
@@ -195,13 +186,13 @@ msgid "Error saving the config to the database: %s"
 msgstr "Σφάλμα κατά την αποθήκευση του config στη βάση δεδομένων: %s"
 
 #: fas/configs.py:195
-#, fuzzy
 msgid "Config value successfully updated"
-msgstr "Η τιμή Config ενημερώθηκε επιτυχώς"
+msgstr ""
 
 #: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
-msgstr "Ο παλιός σας κωδικός έχει λήξει. Παρακαλούμε επαναφέρετε τον παρακάτω."
+msgstr ""
+"Ο παλιός σας κωδικός έχει λήξει. Παρακαλούμε επαναφέρετε τον παρακάτω."
 
 #: fas/controllers.py:214
 #, python-format
@@ -235,58 +226,44 @@ msgid ""
 msgstr ""
 
 #: fas/fpca.py:163
-#, fuzzy
 msgid "You are not allowed to reject FPCAs."
-msgstr "Δεν σας επιτρέπεται να απορρίψετε τα CLAs."
+msgstr ""
 
 #: fas/fpca.py:215
-#, fuzzy
 msgid "FPCA Successfully Removed."
-msgstr "Επιτυχής αφαίρεση CLA"
+msgstr ""
 
 #: fas/fpca.py:239
-#, fuzzy
 msgid "You have already completed the FPCA."
-msgstr "Έχετε ήδη συμπληρώσει το CLA."
+msgstr ""
 
 #: fas/fpca.py:243
-#, fuzzy
 msgid "You have not completed the FPCA."
-msgstr "Δεν έχετε συμπληρώσει το CLA."
+msgstr ""
 
 #: fas/fpca.py:284
-#, fuzzy
 msgid ""
-"To complete the FPCA, we must have your name telephone number, and country.  "
-"Please ensure they have been filled out."
+"To complete the FPCA, we must have your name telephone number, and country."
+"  Please ensure they have been filled out."
 msgstr ""
-"Για να ολοκληρωθεί το CLA πρέπει να έχουμε όνομα, αριθμό τηλεφώνου και χώρα. "
-"Παρακαλούμε διασφαλίστε πως έχουν συμπληρωθεί. "
 
-# κωδικός κλήσης??
 #: fas/fpca.py:293
-#, fuzzy
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
 msgstr ""
-"Για να ολοκληρωθεί το CLA ένας έγκυρος διεθνής κωδικός κλήσης πρέπει να "
-"οριστεί. Παρακαλούμε επιλέξτε έναν τώρα."
 
 #: fas/fpca.py:297
-#, fuzzy
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
 msgstr ""
-"Οι αριθμοί τηλεφώνου πρέπει να αποτελούνται από νούμερα, \"-\", \"+\", "
-"\"(\", \")\", ή \" \".  Παρακαλούμε επανεισάγετε μόνο τέτοιους χαρακτήρες."
 
 #: fas/fpca.py:358
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr "Συμπληρώσατε επιτυχώς το CLA. Είστε τώρα στην ομάδα '%s'. "
+msgstr ""
 
 #: fas/group.py:162 fas/group.py:198
 #, python-format
@@ -397,9 +374,9 @@ msgstr ""
 "Ο/η %(user)s δεν ήταν δυνατό να βρει σπόνσορα από το %(group)s: %(error)s"
 
 #: fas/group.py:488
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
-msgstr "Ο '%s' βρήκε σπόνσορα!"
+msgstr ""
 
 #: fas/group.py:489
 #, python-format
@@ -407,7 +384,7 @@ msgid ""
 "\n"
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
-"propagate into the e-mail aliases and CVS repository within an hour.\n"
+"propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
 
 #: fas/group.py:500
@@ -419,7 +396,8 @@ msgstr "Ο '%s' βρήκε σπόνσορα!"
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr ""
-"Δεν μπορείτε να μετακινήσετε τον χρήστη '%(user)s' από την ομάδα '%(group)s'."
+"Δεν μπορείτε να μετακινήσετε τον χρήστη '%(user)s' από την ομάδα "
+"'%(group)s'."
 
 #: fas/group.py:525
 #, python-format
@@ -461,9 +439,9 @@ msgstr ""
 "%(error)s"
 
 #: fas/group.py:570
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
-msgstr " To %s αναβαθμίστηκε!"
+msgstr ""
 
 #: fas/group.py:576
 #, python-format
@@ -493,9 +471,9 @@ msgstr ""
 "%(error)s"
 
 #: fas/group.py:615
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr "Το %s υποβαθμίστηκε!"
+msgstr ""
 
 #: fas/group.py:620
 #, python-format
@@ -517,7 +495,7 @@ msgid "Come join The Fedora Project!"
 msgstr "Ελάτε να συμμετάσχετε στο έργο Fedora!"
 
 #: fas/group.py:708
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "%(user)s <%(email)s> has invited you to join the Fedora\n"
@@ -536,28 +514,6 @@ msgid ""
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
-"\n"
-"Ο/η %(user)s <%(email)s> σας προσκάλεσε να συμμετέχετε στο Έργο\n"
-"Fedora! Είμαστε μια κοινότητα από χρήστες και προγραμματιστές που παράγουν\n"
-"ολοκληρωμένα λειτουργικά συστήματα από τελείως ανοικτό και ελεύθερο "
-"λογισμικό\n"
-"(FOSS). Ο/η  %(user)s πιστεύει πως έχετε γνώσεις και ικανότητες\n"
-"που σας κάνουν ιδανικό για την κοινότητα Fedora και πως μπορεί να σας "
-"ενδιαφέρουν\n"
-"να συνεισφέρετε.\n"
-"\n"
-"Πώς θα μπορούσατε να συνεργαστείτε με την κοινότητα Fedora, να "
-"χρησιμοποιήσετε και να αναπτύξετε\n"
-"τις ικανότητες σας? Κοίταξτε στο http://fedoraproject.org/join-fedora για "
-"κάποιες ιδέες.\n"
-"Η κοινότητα μας είναι κάτι παραπάνω από μερικούς δημιουργούς λογισμικού -- "
-"σας έχουμε θέση\n"
-"ακόμα κι αν είστε καλλιτέχνης, κατασκευαστής ιστοσελίδων, συγγραφέας ή\n"
-"άνθρωπος κοινωνικών σχέσεων. Θα αναπτυχθείτε και θα μάθετε να δουλεύετε σε "
-"μια ομάδα με άλλους\n"
-"έξυπνους και ταλαντούχους ανθρώπους.\n"
-"\n"
-"Το Fedora και το FOSS αλλάζουν τον κόσμο -- ελάτε να συμμετάσχετε!"
 
 #: fas/group.py:728
 #, python-format
@@ -578,29 +534,19 @@ msgid "<p>We could not find that help item</p>"
 msgstr "<p>Αυτό το αντικείμενο βοηθείας δεν βρέθηκε</p>"
 
 #: fas/help.py:27
-#, fuzzy
 msgid "Accuracy of FPCA Information"
-msgstr "Ακριβεία των πληροφοριών του CLA"
+msgstr ""
 
 #: fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>The FPCA is a legal document.  We need to have accurate information "
-"attached to it just in case we ever need to contact you about a contribution "
-"that you make to the project.  Imagine if we were to get a call from a "
+"attached to it just in case we ever need to contact you about a contribution"
+" that you make to the project.  Imagine if we were to get a call from a "
 "lawyer at some other company claiming that they own the copyright to your "
 "work and we have to tell them we have a right to use it because \"Mickey "
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
-"<p>Το CLA είναι νόμιμο έγγραφο. Χρειάζεται να έχουμε ακριβείς "
-"επισυναπτόμενες πληροφορίες σε περίπτωση που χρειαστεί επικοινωνήσουμε μαζί "
-"σας για κάποια συνεισφορά σας στο έργο. Φανταστείτε εάν μας έκανε ένα "
-"τηλεφώνημα ένας δικηγόρος άλλης εταιρείας ισχυριζόμενος πως κατέχει τα "
-"πνευματικά δικαιώματα της δουλειάς που κάνατε, και θα έπρεπε να του πούμε "
-"πως έχουμε δικαίωμα να τη χρησιμοποιήσουμε επειδή ο \"Mickey Moose\" έκανε "
-"τη συνεισφορά του σε εμάς αλλά δεν έχουμε τηλέφωνο να επικοινωνήσουμε μαζί "
-"του! Μια εν δυνάμει δύσκολη κατάσταση.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -612,10 +558,10 @@ msgid ""
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
 msgstr ""
-"<p>To IRC Nick χρησιμοποιείται για να σας αναγνωρίζουμε στο irc.freenode."
-"net. Παρακαλούμε εισάγετε πρώτα το nick σας στο irc.freenode.net και μετά "
-"συμπληρώστε το εδώ ώστε να μπορεί κάπoιος να σας βρει όταν θα είστε online</"
-"p>"
+"<p>To IRC Nick χρησιμοποιείται για να σας αναγνωρίζουμε στο "
+"irc.freenode.net. Παρακαλούμε εισάγετε πρώτα το nick σας στο "
+"irc.freenode.net και μετά συμπληρώστε το εδώ ώστε να μπορεί κάπoιος να σας "
+"βρει όταν θα είστε online</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -623,9 +569,9 @@ msgstr "Email (Απαιτείται)"
 
 #: fas/help.py:29
 msgid ""
-"<p>This email address should be your prefered email contact and will be used "
-"to send various official emails to.  This is also where your @fedoraproject."
-"org email will get forwarded</p>"
+"<p>This email address should be your prefered email contact and will be used"
+" to send various official emails to.  This is also where your "
+"@fedoraproject.org email will get forwarded</p>"
 msgstr ""
 "<p>Aυτή η διεύθυνση είναι το μέσο που επιλέγετε για την επικοινωνία σας και "
 "σε αυτή θα σας αποστέλλονται τα επίσημα email. Σε αυτήν επίσης θα "
@@ -636,9 +582,8 @@ msgid "Full Name (Required)"
 msgstr "Ονοματεπώνυμο (Απαιτείται)"
 
 #: fas/help.py:30
-#, fuzzy
 msgid "<p>Your Human Name or \"real life\" name</p>"
-msgstr "<p>Το Ανθρώπινο Όνομα ή \"πραγματικό\" όνομα</p>"
+msgstr ""
 
 #: fas/help.py:31 fas/templates/user/edit.html:99
 msgid "GPG Key ID"
@@ -647,11 +592,11 @@ msgstr "ID κλειδιού GPG"
 #: fas/help.py:31
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
-"you or to encrypt information so that only the recipients can read it.  This "
-"can be used when a password reset is sent to your email.</p>"
+"you or to encrypt information so that only the recipients can read it.  This"
+" can be used when a password reset is sent to your email.</p>"
 msgstr ""
-"<p>Το GPG κλειδί χρησιμοποιείται γενικά για να σιγουρεύει πως το μήνυμα ή το "
-"email εστάλη από εσάς ή για να κρυπτογραφεί πληροφορίες ώστε μόνο οι "
+"<p>Το GPG κλειδί χρησιμοποιείται γενικά για να σιγουρεύει πως το μήνυμα ή το"
+" email εστάλη από εσάς ή για να κρυπτογραφεί πληροφορίες ώστε μόνο οι "
 "παραλήπτες να μπορούν να διαβάσουν. Αυτό μπορεί να χρησιμοποιηθεί μια "
 "επαναφορά κωδικού αποστέλλεται στο email σας.</p>"
 
@@ -660,19 +605,14 @@ msgid "Telephone"
 msgstr "Τηλέφωνο"
 
 #: fas/help.py:32 fas/help.py:40
-#, fuzzy
 msgid ""
-"<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/"
-"Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>.  Sometimes during a "
-"time of emergency someone from the Fedora Project may need to contact you.  "
-"For more information see our <a href=\"http://fedoraproject.org/wiki/Legal/"
-"PrivacyPolicy\">Privacy Policy</a></p>"
+"<p>Required in order to complete the <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
+"  Sometimes during a time of emergency someone from the Fedora Project may "
+"need to contact you.  For more information see our <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
+"Policy</a></p>"
 msgstr ""
-"<p>Είναι απαραίτητο για να συμπληρώσετε το <a href=\"http://fedoraproject."
-"org/wiki/Legal/Licenses/CLA\">CLA</a>.  Μερικές φορές σε ώρα ανάγκης μπορεί "
-"κάποιος από το Fedora Project να θέλει να επικοινωνήσει μαζί σας. Για "
-"περισσότερες πληροφορίες δείτε το <a href=\"http://fedoraproject.org/wiki/"
-"Legal/PrivacyPolicy\">Privacy Policy</a></p>"
 
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/fpca/index.html:51 fas/templates/user/edit.html:50
@@ -682,12 +622,13 @@ msgstr "Ταχυδρομική διεύθυνση"
 #: fas/help.py:33
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
-"a> about any concerns.</p>"
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
+"Policy</a> about any concerns.</p>"
 msgstr ""
 "<p>Αυτή πρέπει να είναι η διέθυνση ηλεκτρονικού ταχυδρομείου για να "
-"επικοινωνούμε μαζί σας. Δείτε το <a href=\"http://fedoraproject.org/wiki/"
-"Legal/PrivacyPolicy\">Privacy Policy</a> για τα σχετικά.</p>"
+"επικοινωνούμε μαζί σας. Δείτε το <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
+"Policy</a> για τα σχετικά.</p>"
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
@@ -711,8 +652,8 @@ msgstr "Κατάσταση λογαριασμού"
 
 #: fas/help.py:36
 msgid ""
-"<p>Shows account status, possible values include<ul><li>active</"
-"li><li>vacation</li><li>inactive</li></ul></p>"
+"<p>Shows account status, possible values "
+"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
 "<p>Δείχνει την κατάσταση του λογαριασμού με πιθανές τιμές τις "
 "<ul><li>ενεργός</li><li>διακοπές</li><li>ανενεργός</li></ul></p>"
@@ -722,21 +663,14 @@ msgid "FPCA"
 msgstr ""
 
 #: fas/help.py:37
-#, fuzzy
 msgid ""
 "<p>In order to become a full Fedora contributor you must complete the <a "
-"href=\"http://fedoraproject.org/wiki/Legal:"
-"Fedora_Project_Contributor_Agreement\">Fedora Project Contributor Agreement</"
-"a>.  This license is a legal agreement between you and Red Hat.  Full status "
-"allows people to contribute content and code and is recommended for anyone "
-"interested in getting involved in the Fedora Project.</p>"
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora"
+" Project Contributor Agreement</a>.  This license is a legal agreement "
+"between you and Red Hat.  Full status allows people to contribute content "
+"and code and is recommended for anyone interested in getting involved in the"
+" Fedora Project.</p>"
 msgstr ""
-"<p>Για να γίνετε ένας Fedora contributor πρέπει να συμπληρώσετε το <a href="
-"\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Contributor License "
-"Agreement</a>.  Αυτή η άδεια είναι μια νόμιμη συμφωνία μεταξύ εσάς και της "
-"Red Hat.  Σε κατάσταση πλήρους αποδοχής σας επιτρέπεται να συνεισφέρετε στο "
-"περιεχόμενο και στον κώδικα και προτείνεται για όποιον ενδιαφέρεται να "
-"συμβαλλει στο Fedora Project.</p>"
 
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
@@ -746,8 +680,8 @@ msgstr "Δημόσιο κλειδί RSA SSH"
 msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
-"keygen\" for more information on creating your key (it must be an RSA key).  "
-"Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"keygen\" for more information on creating your key (it must be an RSA key)."
+"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
 "<p>Πολλοί πόροι απαιτούν ένα δημόσιο κλειδί πιστοποίησης για να δουλέψουν. "
 "Ανεβάζοντας το δημόσιο κλειδί σας σε εμάς, μπορείτε να συνδεθείτε στους "
@@ -777,10 +711,10 @@ msgstr "Πρέπει να είναι άνω των 13 χρόνων. "
 
 #: fas/help.py:41
 msgid ""
-"<p>Out of special concern for children's privacy, we do not knowingly accept "
-"online personal information from children under the age of 13. We do not "
-"knowingly allow children under the age of 13 to become registered members of "
-"our sites or buy products and services on our sites. We do not knowingly "
+"<p>Out of special concern for children's privacy, we do not knowingly accept"
+" online personal information from children under the age of 13. We do not "
+"knowingly allow children under the age of 13 to become registered members of"
+" our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
 "<p>Εξαιτίας ειδικού ενδιαφέροντος για το παιδικό απόρρητο, συνειδητά δεν "
@@ -795,8 +729,8 @@ msgstr "Απόκρυψη πληροφοριών"
 
 #: fas/help.py:42
 msgid ""
-"<p>In accordance with our privacy policy, you can choose to hide some of the "
-"information given on this page from other people.  Please see the privacy "
+"<p>In accordance with our privacy policy, you can choose to hide some of the"
+" information given on this page from other people.  Please see the privacy "
 "policy for complete details.</p>"
 msgstr ""
 "<p>Βάσει της πολιτικής προσωπιικού απορρήτου, μπορείτε να επιλέξετε να "
@@ -810,14 +744,14 @@ msgstr "Εφαρμογή"
 #: fas/help.py:43
 #, python-format
 msgid ""
-"<p>Applying for a group is like applying for a job and it can certainly take "
-"a while to get in.  Many groups have their own rules about how to actually "
+"<p>Applying for a group is like applying for a job and it can certainly take"
+" a while to get in.  Many groups have their own rules about how to actually "
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
 "<p>Όταν κάνετε αίτηση για μια ομάδα είναι σαν να κάνετε αίτηση για μια "
-"δουλειά και μπορεί να πάρει κάποιο χρόνο μέχρι να γίνετε μέλη. Πολλές ομάδες "
-"έχουν τους δικούς τους κανόνες για το πως να γίνετε αποδεκτοί ή να βρείτε "
+"δουλειά και μπορεί να πάρει κάποιο χρόνο μέχρι να γίνετε μέλη. Πολλές ομάδες"
+" έχουν τους δικούς τους κανόνες για το πως να γίνετε αποδεκτοί ή να βρείτε "
 "σπόνσορα. Για περισσότερες πληροφορίες για το πως λειτουργεί το σύστημα "
 "δείτε στο <a href=\"%s\">about page</a>.</p>"
 
@@ -828,8 +762,8 @@ msgstr "Αφαίρεση"
 #: fas/help.py:44
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in "
-"the group.  They will need to re-apply to get in.  Admins can remove anyone, "
-"Sponsors can remove users, users can't remove anyone.</p>"
+"the group.  They will need to re-apply to get in.  Admins can remove anyone,"
+" Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
 "<p>Εάν απομακρύνετε ένα άτομο από μια ομάδα, τότε αυτό δεν θα είναι πια "
 "μέλος της. Θα πρέπει να ξανακάνει αίτηση για να ξαναμπεί. Οι Admins μπορούν "
@@ -842,14 +776,14 @@ msgstr "Αναβάθμιση"
 
 #: fas/help.py:45
 msgid ""
-"<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</"
-"li><li>From sponsor -> administrator</li><li>administrators cannot be "
-"upgraded beyond administrator</li></ul></p>"
+"<p>Upgrade a persons status in this group.<ul><li>from user -> to "
+"sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot "
+"be upgraded beyond administrator</li></ul></p>"
 msgstr ""
 "<p>Αναβαθμίστε την κατάσταση ενός ατόμου σ' αυτήν την ομάδα.<ul><li>από "
 "χρήστη -> σε σπόνσορα</li><li>Από σπόνσορα -> administrator</li><li>οι "
-"administrators δεν είναι δυνατόν να αναβαθμιστούν πέρα από administrator</"
-"li></ul></p>"
+"administrators δεν είναι δυνατόν να αναβαθμιστούν πέρα από "
+"administrator</li></ul></p>"
 
 #: fas/help.py:46 fas/templates/group/member-list.html:54
 msgid "Downgrade"
@@ -871,15 +805,11 @@ msgid "Approve"
 msgstr "Αποδοχή"
 
 #: fas/help.py:47
-#, fuzzy
 msgid ""
 "<p>A sponsor or administrator can approve users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "approve the user.</p>"
 msgstr ""
-"<p>Ένας σπόνσορας ή administrator μπορεί να αποδεχτεί χρήστες να μπουν στην "
-"ομάδα. Όταν ο χρήστης κάνει αίτηση για την ομάδα, πηγαίνετε στη σελίδα της "
-"ομάδας και κάντε κλικ στην αποδοχή για να γίνει αποδεκτός ο χρήστης.</p>"
 
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
@@ -929,9 +859,8 @@ msgid "Display Name"
 msgstr "Εμφάνιση Ονόματος"
 
 #: fas/help.py:51
-#, fuzzy
 msgid "<p>More human readable name of the group</p>"
-msgstr "<p>Πιο πραγματικό και ευανάγνωστο όνομα ομάδας</p>"
+msgstr ""
 
 #: fas/help.py:52
 msgid "Group Owner"
@@ -946,17 +875,12 @@ msgid "Group Type"
 msgstr "Τύπος ομάδας"
 
 #: fas/help.py:53
-#, fuzzy
 msgid ""
 "<p>Normally it is safe to leave this blank.  Though some values include "
 "'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only "
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
 msgstr ""
-"<p>Κανονικά είναι ασφαλές να το αφήνετε κενό. Αν και κάποιες τιμές περιέχουν "
-"τα 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', και 'mtn'.  Αυτές οι "
-"τιμές πραγματικά έχουν σημασία εάν η ομάδα σκοπεύει να έχει shell access ή "
-"commit access σε μέρη όπως το fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
@@ -964,13 +888,11 @@ msgstr "URL Ομάδας (Προαιρετικό)"
 
 #: fas/help.py:54
 msgid ""
-"<p>A URL or wiki page for the group (for example, <a href=\"https://"
-"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
-"Infrastructure</a>).</p>"
+"<p>A URL or wiki page for the group (for example, <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 msgstr ""
-"<p>Ένα URL ή μια σελίδα wiki για την ομάδα (για παράδειγμα, <a href="
-"\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/"
-"wiki/Infrastructure</a>).</p>"
+"<p>Ένα URL ή μια σελίδα wiki για την ομάδα (για παράδειγμα, <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
@@ -990,13 +912,15 @@ msgstr "Mailing List URL Ομάδας (Προαιρετικό)"
 
 #: fas/help.py:56
 msgid ""
-"<p>A URL for the group's mailing list (for example, <a href=\"http://www."
-"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
-"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+"<p>A URL for the group's mailing list (for example, <a "
+"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 msgstr ""
-"<p>Ένα URL για τη mailing list της ομάδας (για παράδειγμα, <a href=\"http://"
-"www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www."
-"redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+"<p>Ένα URL για τη mailing list της ομάδας (για παράδειγμα, <a "
+"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 
 #: fas/help.py:57
 msgid "Invite Only"
@@ -1025,7 +949,8 @@ msgstr "IRC Network Ομάδας (Προαιρετικό)"
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
 msgstr ""
-"<p>Το δίκτυο IRC για το κανάλι IRC της ομάδας (για παράδειγμα, Freenode).</p>"
+"<p>Το δίκτυο IRC για το κανάλι IRC της ομάδας (για παράδειγμα, "
+"Freenode).</p>"
 
 #: fas/help.py:60
 msgid "Needs Sponsor"
@@ -1034,47 +959,43 @@ msgstr "Χρειάζεται Σπόνσορα"
 #: fas/help.py:60
 msgid ""
 "<p>If your group requires sponsorship (recommended), this means that when a "
-"user is approved by a sponsor.  That relationship is recorded in the account "
-"system.  If user A sponsors user N, then in viewing the members of this "
+"user is approved by a sponsor.  That relationship is recorded in the account"
+" system.  If user A sponsors user N, then in viewing the members of this "
 "group, people will know to contact user A about user N if something goes "
 "wrong.  If this box is unchecked, this means that only approval is needed "
 "and no relationship is recorded about who did the approving</p>"
 msgstr ""
 "<p>Εάν η ομάδα σας απαιτεί σπόνσορα (προτείνεται), αυτό σημαίνει πως ένας "
 "χρήστης γίνεται αποδεκτός από κάποιον σπόνσορα. Αυτή η σχέση είναι "
-"καταγεγραμμένη στο σύστημα λογαριασμών. Εάν ο χρήστης Α είναι σπόνσορας στον "
-"χρήστη Ν, τότε βλέποντας τα μέλη της ομάδας, όλοι θα ξέρουν να "
+"καταγεγραμμένη στο σύστημα λογαριασμών. Εάν ο χρήστης Α είναι σπόνσορας στον"
+" χρήστη Ν, τότε βλέποντας τα μέλη της ομάδας, όλοι θα ξέρουν να "
 "επικοινωνήσουν με τον χρήστη Α για τον χρήστη Ν εάν κάτι πάει στραβά. Εάν "
 "αυτό το κουτί δεν είναι τσεκαρισμένο, σημαίνει πως χρειάζεται μόνο αποδοχή "
 "και δεν καταγράφεται ποιος έκανε την αποδοχή<p>"
 
 #: fas/help.py:61
-#, fuzzy
 msgid "Self Removal"
-msgstr "Αυτο-αφαίρεση"
+msgstr ""
 
 #: fas/help.py:61
 msgid ""
-"<p>Should users be able to remove themselves from this group without "
-"sponsor / admin intervention?  (recommended yes)</p>"
+"<p>Should users be able to remove themselves from this group without sponsor"
+" / admin intervention?  (recommended yes)</p>"
 msgstr ""
 "<p>Θα έπρεπε οι χρήστες να μπορούν να απομακρύνουν τον εαυτό τους από αυτή "
-"την ομάδα χωρίς την παρέμβαση κάποιου σπόνσορα / admin?  (προτείνεται ναι)</"
-"p>"
+"την ομάδα χωρίς την παρέμβαση κάποιου σπόνσορα / admin?  (προτείνεται "
+"ναι)</p>"
 
 #: fas/help.py:62
 msgid "Must Belong To"
 msgstr "Πρέπει να ανήκει σε"
 
 #: fas/help.py:62
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
 msgstr ""
-"<p>Πριν κάποιος χρήστης να συμμετέχει σε μια ομάδα, πρέπει να ανήκει στην "
-"ομάδα που βρίσκεται σ' αυτό το κουτί. Προτινόμενες τιμές είναι για την ομάδα "
-"'cla_done'.</p>"
 
 #: fas/help.py:63
 msgid "Join Message"
@@ -1091,25 +1012,17 @@ msgstr ""
 "το τι να κάνουν μετά. Μια περιγραφή της ομάδας θα ήταν επίσης χρήσιμη</p>"
 
 #: fas/help.py:64
-#, fuzzy
 msgid "Client Side Cert"
-msgstr "Client Side Cert"
+msgstr ""
 
 #: fas/help.py:64
-#, fuzzy
 msgid ""
-"<p>The client side cert is generally used to grant access to upload packages "
-"to Fedora or for other authentication purposes like with koji.  You should "
+"<p>The client side cert is generally used to grant access to upload packages"
+" to Fedora or for other authentication purposes like with koji.  You should "
 "save this certificate to ~/.fedora.cert.  If you are not a package "
 "maintainer there is no need to worry about the client side cert.  Please "
 "note that whenever a new cert is generated, all old ones are revoked.</p>"
 msgstr ""
-"<p>Το client side cert χρησιμοποιείται γενικά για να σας παρέχεται πρόσβαση "
-"να ανεβάζετε πακέτα στο Fedora ή για άλλους σκοπούς πιστοποίησης όπως με το "
-"koji. Θα πρέπει να αποθηκεύσετε το πισοτποιητικό αυτό στο ~/.fedora.cert. Αν "
-"δεν είστε συντηρητής πακέτων δεν χρειάζεται να ανησυχείτε για το client side "
-"cert. Παρακαλούμε σημειώστε πως κάθε φορά ένα νέο cert δημιουργείτε, όλα τα "
-"παλαιότερα ακυρώνονται.</p>"
 
 #: fas/help.py:65
 msgid "Longitude and Latitude"
@@ -1128,17 +1041,16 @@ msgstr ""
 "ενεργοποιημένο το απόρρητο του λογαριασμού σας.</p>"
 
 #: fas/help.py:66
-#, fuzzy
 msgid "Rules for Application"
-msgstr "Όροι Αίτησης"
+msgstr ""
 
 #: fas/help.py:66
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr ""
-"<p>Κανόνες και βήματα που οι αιτούντες θα πρέπει να ακολουθήσουν πριν κάνουν "
-"αίτηση για την ομάδα σας. Θα εκθέτονται στους χρήστες πριν κάνουν αίτηση "
+"<p>Κανόνες και βήματα που οι αιτούντες θα πρέπει να ακολουθήσουν πριν κάνουν"
+" αίτηση για την ομάδα σας. Θα εκθέτονται στους χρήστες πριν κάνουν αίτηση "
 "στην ομάδα σας.</p>"
 
 #: fas/openid_samadhi.py:80
@@ -1173,11 +1085,8 @@ msgid "You do not have permission to edit '%s'"
 msgstr "Δεν έχετε άδεια να επεξεργαστείτε το '%s'"
 
 #: fas/user.py:319
-#, fuzzy
 msgid "Only admin can enable or disable an account."
 msgstr ""
-"Μόνο οι διαχειριστές μπορούν να ενεργοποιήσουν ή να απενεργοποιήσουν ένα "
-"λογαριασμό."
 
 #: fas/user.py:344
 msgid "Somebody is already using that email address."
@@ -1185,8 +1094,8 @@ msgstr "Κάποιος χρησιμοποιεί ήδη αυτή τη διεύθ�
 
 #: fas/user.py:349
 msgid ""
-"Before your new email takes effect, you must confirm it.  You should receive "
-"an email with instructions shortly."
+"Before your new email takes effect, you must confirm it.  You should receive"
+" an email with instructions shortly."
 msgstr ""
 "Πριν το νέο σας email τεθεί σε εφαρμογή, πρέπει να το επιβεβαιώσετε. Θα "
 "παραλάβετε ένα email με οδηγίες σύντομα."
@@ -1197,7 +1106,7 @@ msgid "Email Change Requested for %s"
 msgstr ""
 
 #: fas/user.py:357
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have recently requested to change your Fedora Account System email\n"
@@ -1207,16 +1116,6 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
-"\n"
-"Ζητήσατε πρόσφατα να αλλάξετε το email σας στο Σύστημα Λογαριασμών Fedora "
-"(FAS)\n"
-"μέσω αυτής της διεύθυνσης. Για να ολοκληρώσετε την αλλάγη πρέπει να "
-"επιβεβαιώσετε την\n"
-"κυριότητα αυτού του email πηγαίνοντας στην παρακάτω διεύθυνση URL (θα "
-"χρειαστεί να\n"
-"συνδεθείτε με τον προσωπικό σας λογαριασμό Fedora πρώτα):\n"
-"\n"
-"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 
 #: fas/user.py:382
 #, python-format
@@ -1232,10 +1131,8 @@ msgstr "Ενημέρωση Δεδομένων Λογαριασμού Fedora %s"
 #, python-format
 msgid ""
 "\n"
-"You have just updated information about your account.  If you did not "
-"request\n"
-"these changes please contact admin@fedoraproject.org and let them know.  "
-"Your\n"
+"You have just updated information about your account.  If you did not request\n"
+"these changes please contact admin@fedoraproject.org and let them know.  Your\n"
 "updated information is:\n"
 "\n"
 "  username:       %(username)s\n"
@@ -1261,9 +1158,9 @@ msgid "Your account details have been saved."
 msgstr "Οι λεπτομέρειες του λογαριασμού σας αποθηκεύτηκαν."
 
 #: fas/user.py:641
-#, fuzzy, python-format
+#, python-format
 msgid "Invalid field specified: %(error)s"
-msgstr "Μη έγκυρο πεδίο: %(error)s"
+msgstr ""
 
 #: fas/user.py:655
 #, python-format
@@ -1271,13 +1168,10 @@ msgid "No users found matching '%s'"
 msgstr "Δεν βρέθηκαν χρήστες να ταιριάζουν στο '%s'"
 
 #: fas/user.py:703
-#, fuzzy
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
-"Η επαναφορά του κωδικού σας ακυρώθηκε. Η αλλαγή του κωδικού που πήρατε "
-"ακυρώθηκε."
 
 #: fas/user.py:708 fas/user.py:730
 msgid "You do not have any pending email changes."
@@ -1309,8 +1203,8 @@ msgstr ""
 "δεν αποδεχόμαστε online προσωπικές πληροφορίες από παιδιά κάτω των 13 "
 "χρόνων. Συνειδητά δεν επιτρέπουμε παιδιά κάτω των 13 να γίνουν εγγεγραμμένα "
 "μέλη στις σελίδες μας ή να αγοράσουν προϊόντα και υπηρεσίες από τις σελίδες "
-"μας. Συνειδητά δεν συλλέγουμε ή αποζητάμε πληροφορίες για παιδιά κάτω των 13 "
-"χρόνων. "
+"μας. Συνειδητά δεν συλλέγουμε ή αποζητάμε πληροφορίες για παιδιά κάτω των 13"
+" χρόνων. "
 
 #: fas/user.py:800 fas/user.py:853
 msgid ""
@@ -1336,15 +1230,15 @@ msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
-"Ο κωδικός σας έχει σταλεί στο email σας. Παρακαλούμε συνδεθείτε με αυτόν και "
-"αλλάξτε τον κωδικό σας."
+"Ο κωδικός σας έχει σταλεί στο email σας. Παρακαλούμε συνδεθείτε με αυτόν και"
+" αλλάξτε τον κωδικό σας."
 
 #: fas/user.py:868
 msgid "Welcome to the Fedora Project!"
 msgstr "Καλωσήρθατε στο Έργο Fedora."
 
 #: fas/user.py:868
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -1386,22 +1280,14 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
-"\n"
-"Δημιουργήσατε ένα νέο λογαριασμό Fedora!\n"
-"Το όνομα χρήστη σας είναι: %(username)s\n"
-"Ο νέος κωδικός σας είναι: %(password)s\n"
-"\n"
-"Παρακαλούμε πηγαίντε στο %(base_url)s%(webpath)s/user/changepass\n"
-"για να τον αλλάξετε.\n"
 
 #: fas/user.py:931
 msgid "passwords did not match"
 msgstr ""
 
 #: fas/user.py:937
-#, fuzzy
 msgid "Your current password did not match"
-msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού σας. "
+msgstr ""
 
 #: fas/user.py:953
 msgid "Your password could not be changed."
@@ -1433,8 +1319,8 @@ msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
 msgstr ""
-"Ο λογαριασμός σας είναι %(status)s. Για περισσότερες πληροφορίες παρακαλούμε "
-"επικοινωνήστε στο %(admin_email)s"
+"Ο λογαριασμός σας είναι %(status)s. Για περισσότερες πληροφορίες παρακαλούμε"
+" επικοινωνήστε στο %(admin_email)s"
 
 #: fas/user.py:1001
 #, python-format
@@ -1459,7 +1345,7 @@ msgid ""
 msgstr ""
 
 #: fas/user.py:1014
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "Somebody (hopefully you) has requested a password reset for your account!\n"
@@ -1467,12 +1353,6 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
-"\n"
-"Κάποιος (ελπίζουμε εσείς) ζήτησε μια επαναφορά κωδικού για τον λογαριασμό "
-"σας!\n"
-"Για να αλλάξετε τον κωδικό σας (ή για να ακυρώσετε την αίτηση), παρακαλούμε "
-"επισκεφθείτε το\n"
-"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:1028
 msgid ""
@@ -1499,22 +1379,18 @@ msgid "A password reset URL has been emailed to you."
 msgstr "Σας εστάλη το URL για την επαναφορά του κωδικού."
 
 #: fas/user.py:1092
-#, fuzzy
 msgid "You don't have any pending password changes."
-msgstr "Δεν έχετε καμία εκκρρεμή αλλαγή κωδικού."
+msgstr ""
 
 #: fas/user.py:1096 fas/user.py:1144
 msgid "Invalid password change token."
 msgstr ""
 
 #: fas/user.py:1104
-#, fuzzy
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
-"Η επαναφορά του κωδικού σας ακυρώθηκε. Η αλλαγή του κωδικού που πήρατε "
-"ακυρώθηκε."
 
 #: fas/user.py:1126
 msgid "Both passwords must match"
@@ -1536,19 +1412,17 @@ msgstr ""
 "Επαναφέρατε επιτυχώς τον κωδικό σας. Μπορείτε τώρα να συνδεθείτε παρακάτω."
 
 #: fas/user.py:1204
-#, fuzzy
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr ""
-"Πριν δημιουργήσετε ένα πιστοποιητικό, πρέπει πρώτα να συμπληρώσετε το CLA."
 
 #: fas/user.py:1274
 msgid "Your certificate could not be generated."
 msgstr "Το πιστοποιητικό σας δεν ήταν δυνατό να δημιουργηθεί."
 
 #: fas/user.py:1280
-#, fuzzy, python-format
+#, python-format
 msgid "A new certificate has been generated for %s"
-msgstr "Το πιστοποιητικό σας δεν ήταν δυνατό να δημιουργηθεί."
+msgstr ""
 
 #: fas/user.py:1282
 msgid ""
@@ -1595,12 +1469,9 @@ msgid "'%(user)s' already exists."
 msgstr "Ο χρήστης '%(user)s' υπάρχει ήδη."
 
 #: fas/validators.py:160
-#, fuzzy
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr ""
-"Για να αποφευχθούν τυχόν άστοχες διαδρομές το email σας δεν μπορεί να είναι "
-"@fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
@@ -1608,14 +1479,11 @@ msgid "Error - Not a valid RSA SSH key: %(key)s"
 msgstr "Σφάλμα- Μη έγκυρο κλειδί RSA SSH: %(key)s"
 
 #: fas/validators.py:198
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must only contain "
 "lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
-"Το '%(username)s' είναι ένα μη νόμιμο όνομα χρήστη. Ένα έγκυρο όνομα χρήστη "
-"πρέπει να περιλαμβάνει μόνο πεζούς αλαφαρηθμητικούς χαρακτήρες (αριθμούς και "
-"γράμματα) και πρέπει να ξεκινά με ένα γράμμα. "
 
 #: fas/validators.py:201
 #, python-format
@@ -1661,18 +1529,18 @@ msgstr "FAS - Ο Ανοικτός Λογαριασμός Συστήματος"
 
 #: fas/templates/about.html:11
 msgid ""
-"FAS is designed around an open architecture.  Unlike the traditional account "
-"systems where a single admin or group of admins decide who gets to be in "
-"what group, FAS is completely designed to be self operating per team.  Every "
-"group is given at least one administrator who can then approve other people "
-"in the group.  Also, unlike traditional account systems.  FAS allows people "
-"to apply for the groups they want to be in.  This paridigm is interesting as "
-"it allows anyone to find out who is in what groups and contact them.  This "
-"openness is brought over from the same philosophies that make Open Source "
-"popular."
+"FAS is designed around an open architecture.  Unlike the traditional account"
+" systems where a single admin or group of admins decide who gets to be in "
+"what group, FAS is completely designed to be self operating per team.  Every"
+" group is given at least one administrator who can then approve other people"
+" in the group.  Also, unlike traditional account systems.  FAS allows people"
+" to apply for the groups they want to be in.  This paridigm is interesting "
+"as it allows anyone to find out who is in what groups and contact them.  "
+"This openness is brought over from the same philosophies that make Open "
+"Source popular."
 msgstr ""
-"Το FAS είναι σχεδιασμένο βάσει μιας ανοικτής αρχιτεκτονικής. Εν αντιθέσει με "
-"τα παραδοσιακά συστήματα λογαριασμών όπου ένας διαχειριστής ή μια ομάδα "
+"Το FAS είναι σχεδιασμένο βάσει μιας ανοικτής αρχιτεκτονικής. Εν αντιθέσει με"
+" τα παραδοσιακά συστήματα λογαριασμών όπου ένας διαχειριστής ή μια ομάδα "
 "διαχειριστών αποφασίζουν ποιοι θα μπουν στην ομάδα, το FAS είναι "
 "ολοκληρωτικά σχεδιασμένο έτσι ώστε να λειτουργείται ανά ομάδα. Κάθε ομάδα "
 "έχει τουλάχιστον έναν διαχειριστή που θα μπορεί να αποδέχεται άλλα άτομα "
@@ -1683,9 +1551,8 @@ msgstr ""
 "γεννήθηκε από την ίδια φιλοσοφία που έκανε το Ελεύθερο Λογισμικό διάσημο. "
 
 #: fas/templates/about.html:12
-#, fuzzy
 msgid "Etiquette"
-msgstr "Ετικέτα"
+msgstr ""
 
 #: fas/templates/about.html:13
 msgid ""
@@ -1696,26 +1563,25 @@ msgid ""
 "access and ask them if they'd have time to mentor you.  Plan on spending at "
 "least a few days learning about the group, doing a mundane task, "
 "participating on the mailing list.  Sometimes this process can take weeks "
-"depending on the group.  It's best to know you will get sponsored before you "
-"apply."
+"depending on the group.  It's best to know you will get sponsored before you"
+" apply."
 msgstr ""
 "Οι άνθρωποι δεν θα έπρεπε να συμπεραίνουν ότι υποβάλλοντας αίτηση σε μια "
-"ομάδα είναι αυτομάτως μέλη της. Σκεφτείτε το σαν μια αίτηση για μια νέα θέση "
-"εργασίας. Συχνά χρειάζεται χρόνος. Για να έχετε περισσότερες πιθανότητες "
+"ομάδα είναι αυτομάτως μέλη της. Σκεφτείτε το σαν μια αίτηση για μια νέα θέση"
+" εργασίας. Συχνά χρειάζεται χρόνος. Για να έχετε περισσότερες πιθανότητες "
 "αποδοχής, μάθετε περαιτέρω πληροφορίες για την ομάδα και γνωρίστε κάποιον "
-"που είναι ήδη σ΄αυτήν. Βρείτε κάποιον με δικαιώματα σπόνσορα και διαχειριστή "
-"και ρωτήστε τον αν έχει χρόνο να σας συμβουλέψει. Σχεδιάστε να αφιερώσετε "
+"που είναι ήδη σ΄αυτήν. Βρείτε κάποιον με δικαιώματα σπόνσορα και διαχειριστή"
+" και ρωτήστε τον αν έχει χρόνο να σας συμβουλέψει. Σχεδιάστε να αφιερώσετε "
 "κάποιες μέρες μαθαίνοντας για την ομάδα, κάνοντας κάποιο εύκολο έργο και "
 "συμμετέχοντας στη mailing list. Κάποιες φορές αυτή η διαδικασία μπορεί να "
-"πάρει εβδομάδες ανάλογα με την ομάδα. Είναι φυσικά καλύτερο να γνωρίζετε πως "
-"θα σας συμβουλέψει κάποιος πριν κάνετε αίτηση. "
+"πάρει εβδομάδες ανάλογα με την ομάδα. Είναι φυσικά καλύτερο να γνωρίζετε πως"
+" θα σας συμβουλέψει κάποιος πριν κάνετε αίτηση. "
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
 msgstr "Χρήστες, Σπόνσορες, Διαχειριστές"
 
 #: fas/templates/about.html:15
-#, fuzzy
 msgid ""
 "Once you're in the group, you're in the group.  Sponsorship and "
 "Administrators typically have special access in the group in questions.  "
@@ -1726,14 +1592,6 @@ msgid ""
 "sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
-"Μόλις μπείτε στην ομάδα, είστε ενεργό μέλος. Οι Σπόνσορες (Sponsorship) και "
-"οι Administrators τυπικά έχουν ειδική πρόσβαση στις υποθέσεις της ομάδας. "
-"Κάποιες ομάδες θεωρούν η ιδιότητα του σπόνσορα να είναι η μεγαλύτερη "
-"ανάμιξη, η μερική ιδιοκτησία της ομάδας για παράδειγμα. Αλλά όσον αφορά τη "
-"διάκριση είναι εύκολο. Οι σπόνσορες μπορούν να κάνουν αποδεκτούς νέους "
-"χρήστες και να χρίσουν σπόνσορες. Αλλά δεν μπορούν να υποβαθμίσουν ή να "
-"απομακρύνουν άλλους σπόνσορες. Οι Administrators μπορούν να κάνουν οτιδήποτε "
-"σε οποιονδήποτε στην ομάδα."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/cla/index.html:20 fas/templates/fpca/index.html:20
@@ -1753,23 +1611,18 @@ msgid "To do queue:"
 msgstr ""
 
 #: fas/templates/home.html:15
-#, fuzzy, python-format
+#, python-format
 msgid ""
-"FPCA not completed.  To become a full Fedora Contributor please <a href=\"%s"
-"\">complete the FPCA</a>."
+"FPCA not completed.  To become a full Fedora Contributor please <a "
+"href=\"%s\">complete the FPCA</a>."
 msgstr ""
-"To CLA δεν έχει συμπληρωθεί. Για να γίνετε πλήρως Fedora Contributor "
-"παρακαλούμε <a href=\"%s\">συμπληρώστε το CLA</a>."
 
 #: fas/templates/home.html:16
-#, fuzzy, python-format
+#, python-format
 msgid ""
-"You have not submitted an SSH key, some Fedora resources require an SSH "
-"key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
+"You have not submitted an SSH key, some Fedora resources require an SSH key."
+"  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
-"Δεν έχετε υποβάλλει ένα SSH Key, κάποιες από τις υπηρεσίες Fedora απαιτούν "
-"SSH key. Παρακαλούμε υποβάλλετε το δικό σας στο <a href=\"%s\">My Account</"
-"a> "
 
 #: fas/templates/home.html:22
 #, python-format
@@ -1778,8 +1631,8 @@ msgid ""
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
 msgstr ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> ζητά να "
-"γίνει αποδεκτός για να συμμετέχει στην ομάδα <a href=\"%(groupview)s\">"
-"%(group)s</a>."
+"γίνει αποδεκτός για να συμμετέχει στην ομάδα <a "
+"href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
@@ -1854,9 +1707,8 @@ msgid "Contact Us"
 msgstr "Επικοινωνήστε μαζί μας"
 
 #: fas/templates/master.html:87
-#, fuzzy
 msgid "Legal & Privacy"
-msgstr "Νομιμότητα & Απόρρητο"
+msgstr ""
 
 #: fas/templates/master.html:89
 msgid "Log Out"
@@ -1868,13 +1720,10 @@ msgid "FAS version %s"
 msgstr "Έκδοση FAS %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
-"© 2011 Red Hat, Inc. and others.  Please send any comments or corrections to "
-"the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"© 2011 Red Hat, Inc. and others.  Please send any comments or corrections to"
+" the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-"© 2009 Red Hat, Inc. και άλλοι.  Παρακαλούμε στείλτε σχόλια και διορθώσεις "
-"στο <a href=\"mailto:webmaster@fedoraproject.org\">ομάδα ιστοτόπων</a>."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1882,12 +1731,12 @@ msgid ""
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
 msgstr ""
-"Το έργο Fedora συντηρείται και οδηγείται από την κοινότητα και επιχορηγείται "
-"από τη Red Hat. Αυτός ο ιστότοπος συντηρείται από την κοινότητα. Η Red Hat "
+"Το έργο Fedora συντηρείται και οδηγείται από την κοινότητα και επιχορηγείται"
+" από τη Red Hat. Αυτός ο ιστότοπος συντηρείται από την κοινότητα. Η Red Hat "
 "δεν είναι υπεύθυνη για το περιεχόμενο."
 
 #: fas/templates/search-box.html:8
-msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
+msgid "\"*\" is a wildcard (Ex: \"git*\")"
 msgstr ""
 
 #: fas/templates/search-box.html:11
@@ -1913,13 +1762,14 @@ msgstr "Καλωσήρθατε στο FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
-"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href="
-"\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop "
-"by #fedora-admin on irc.freenode.net."
+"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
+"stop by #fedora-admin on irc.freenode.net."
 msgstr ""
 "Καλωσήρθατε στο Σύστημα Λογαριασμών Fedora (FAS). Παρακαλούμε αναφέρετε "
-"σφάλματα στο <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted."
-"org/fas/</a> ή κάντε μια στάση στο #fedora-admin on irc.freenode.net."
+"σφάλματα στο <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> ή "
+"κάντε μια στάση στο #fedora-admin on irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1989,14 +1839,12 @@ msgid "I do not agree"
 msgstr "Δεν συμφωνώ"
 
 #: fas/templates/fpca/index.html:23
-#, fuzzy
 msgid "Fedora Project Contributor Agreement"
-msgstr "Fedora Contributor License Agreement"
+msgstr ""
 
 #: fas/templates/fpca/index.html:31
-#, fuzzy
 msgid "You have already successfully completed the FPCA."
-msgstr "Έχετε ήδη συμπληρώσει επιτυχώς το CLA."
+msgstr ""
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
@@ -2059,9 +1907,8 @@ msgstr "Χρειάζεται Σπόνσορα:"
 
 #: fas/templates/group/edit.html:65 fas/templates/group/new.html:43
 #: fas/templates/group/view.html:79
-#, fuzzy
 msgid "Self Removal:"
-msgstr "Αυτο-αφαίρεση:"
+msgstr ""
 
 #: fas/templates/group/edit.html:71
 msgid "Group Prerequisite:"
@@ -2081,9 +1928,8 @@ msgid "Save!"
 msgstr "Αποθήκευση!"
 
 #: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
-#, fuzzy
 msgid "Invite a new community member!"
-msgstr "Προσκαλέστε ένα νέο μέλος!"
+msgstr ""
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
@@ -2127,9 +1973,8 @@ msgid "Description"
 msgstr "Περιγραφή"
 
 #: fas/templates/group/list.html:28
-#, fuzzy
 msgid "Prerequisite"
-msgstr "Προϋπόθεση"
+msgstr ""
 
 #: fas/templates/group/list.html:29 fas/templates/user/edit.html:127
 msgid "Status"
@@ -2281,9 +2126,8 @@ msgid "View Member List"
 msgstr "Προεπισκόπηση λίστας μελών"
 
 #: fas/templates/group/view.html:110
-#, fuzzy
 msgid "Sponsorship Queue"
-msgstr "Ουρά για Σπόνσορες"
+msgstr ""
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
@@ -2298,9 +2142,8 @@ msgid "For more information about OpenID, see:"
 msgstr "Για περισσότερες πληροφορίες σχετικά με το OpenID δείτε:"
 
 #: fas/templates/openid/about.html:20
-#, fuzzy
 msgid "An OpenID community web site, home of this library."
-msgstr "Η ιστοσελίδα της κοινότητας του OpenID, εστία αυτής της βιβλιοθήκης."
+msgstr ""
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
@@ -2313,27 +2156,20 @@ msgid "Approve OpenID Request?"
 msgstr "Αποδοχή αιτήματος για OpenID?"
 
 #: fas/templates/openid/authorizesite.html:13
-#, fuzzy
 msgid ""
 "A new site has asked to confirm your identity.  If you approve, the site "
 "represented by the trust root below will be told that you control identity "
-"URL listed below. (If you are using a delegated identity, the site will take "
-"care of reversing the delegation on its own.)"
+"URL listed below. (If you are using a delegated identity, the site will take"
+" care of reversing the delegation on its own.)"
 msgstr ""
-"Ένα νέο site ζητά να επιβεβαιώσετε την ταυτότητα σας. Εάν το αποδέχεστε, το "
-"site που εκπροσωπείται από το παρακάτω trust root, θα ενημερωθεί πως "
-"ελέγχετε την διεύθυνση URL που παρατίθεται παρακάτω. (Αν χρησιμοποιείτε μια "
-"εξουσιοδοτημένη ταυτότητα, το site θα φροντίσει να αναιρέσει από μόνο του "
-"την εξουσιοδότηση.) "
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
 msgstr "Ταυτότητα:"
 
 #: fas/templates/openid/authorizesite.html:21
-#, fuzzy
 msgid "Trust Root:"
-msgstr "Trust Root:"
+msgstr ""
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
@@ -2363,25 +2199,22 @@ msgid "This is an OpenID identity for %(username)s"
 msgstr "Αυτή είναι μια OpenID ταυτότητα για τον/την %(username)s "
 
 #: fas/templates/openid/id.html:31
-#, fuzzy, python-format
+#, python-format
 msgid "Part of the <a href=\"%(url)s\">Fedora Account System<a>."
 msgstr ""
-"Τμήμα του <a href=\"https://admin.fedoraproject.org/accounts/\">Συστήματος "
-"Λογαριασμών Fedora (FAS)<a>."
 
 #: fas/templates/openid/welcome.html:9
-#, fuzzy
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr "Καλωσήρθατε στον Fedora OpenID Παροχέα (Fedora OpenID Provider)"
+msgstr ""
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
 msgid ""
-"You are logged in as %(username)s. Your OpenID identity URL is <a href="
-"\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+"You are logged in as %(username)s. Your OpenID identity URL is <a "
+"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
-"Είστε συνδεδεμένος/η ως %(username)s. Το URL της OpenID ταυτότητας σας είναι "
-"<a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+"Είστε συνδεδεμένος/η ως %(username)s. Το URL της OpenID ταυτότητας σας είναι"
+" <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -2461,7 +2294,6 @@ msgid "Certificate Generation"
 msgstr "Δημιουργία Πισοποιητικού"
 
 #: fas/templates/user/gencert.html:15
-#, fuzzy
 msgid ""
 "The link below allows you to generate a certificate to authenticate to "
 "Fedora's buildsytems.  Please note that you can only have one valid "
@@ -2469,12 +2301,6 @@ msgid ""
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
 msgstr ""
-"Το link παρακάτω σας επιτρέπει να δημιουργήσετε ένα πιστοποιητικό για την "
-"αυθεντικοποίηση στα συστήματα του Fedora. Παρακαλούμε σημειώστε πως μπορείτε "
-"να έχετε μόνο ένα πιστοποιητικό ανά χρονικό διάστημα. Μόλις δημιουργήσετε "
-"ένα νέο πιστοποιητικό, όποιο προηγούμενο καταργείται. Γενικά αν δεν "
-"δουλεύετε αυτήν την περίοδο σε κάποιο πακέτο Fedora, πιθανώς δεν θα "
-"χρειαστείτε κάποιο πιστοποιητικό."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
@@ -2482,16 +2308,15 @@ msgstr "Δημιουργήστε ένα πιστοποιητικό"
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
-#, fuzzy
 msgid "Certificate Generation Disabled"
-msgstr "Δυνατότητα Δημιουργίας Πιστοποιητικού Απενεργοποιημένη"
+msgstr ""
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
 msgid ""
 "Generating SSL Certificates is disabled on this machine.  If you were "
-"brought here by clicking a link it usually means there is a misconfiguration "
-"on the server.  Please contact %(accts_email)s to fix things."
+"brought here by clicking a link it usually means there is a misconfiguration"
+" on the server.  Please contact %(accts_email)s to fix things."
 msgstr ""
 "Η δημιουργία πιστοποιητικών SSL είναι απενεργοποιημένη σε αυτό το μηχάνημα. "
 "Εάν φτάσατε εδώ από κάποιο link, συνήθως αυτό υποδηλώνει μια κακή ρύθμιση "
@@ -2503,9 +2328,8 @@ msgid "Users List"
 msgstr "Λίστα χρηστών"
 
 #: fas/templates/user/list.html:12
-#, fuzzy
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr "\"*\" is a wildcard (Ex: \"ric*\")"
+msgstr ""
 
 #: fas/templates/user/list.html:26
 msgid "Username"
@@ -2533,8 +2357,8 @@ msgstr ""
 
 #: fas/templates/user/new.html:11
 msgid ""
-"(i.e. it cannot be changed after registration and will never be deleted from "
-"the system)."
+"(i.e. it cannot be changed after registration and will never be deleted from"
+" the system)."
 msgstr ""
 
 #: fas/templates/user/new.html:11
@@ -2555,9 +2379,8 @@ msgid "Email:"
 msgstr "Email:"
 
 #: fas/templates/user/new.html:28
-#, fuzzy
 msgid "Verify Email:"
-msgstr "Email:"
+msgstr ""
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2665,23 +2488,20 @@ msgid "Inactive"
 msgstr "Ανενεργός"
 
 #: fas/templates/user/view.html:84
-#, fuzzy
 msgid "Pinged"
-msgstr "Pinged"
+msgstr ""
 
 #: fas/templates/user/view.html:85
 msgid "Disabled"
 msgstr "Απενεργοποιημένος"
 
 #: fas/templates/user/view.html:90
-#, fuzzy
 msgid "Contributor Agreement:"
-msgstr "Fedora Contributor License Agreement"
+msgstr ""
 
 #: fas/templates/user/view.html:94
-#, fuzzy
 msgid "CLA Signed"
-msgstr "Το CLA έγινε"
+msgstr ""
 
 #: fas/templates/user/view.html:97
 msgid "New CLA Not Signed"
@@ -2692,19 +2512,16 @@ msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
 #: fas/templates/user/view.html:98
-#, fuzzy
 msgid "Complete it now!"
-msgstr "Συμπληρώστε το!"
+msgstr ""
 
 #: fas/templates/user/view.html:102
-#, fuzzy
 msgid "Reject FPCA"
-msgstr "Απόρριψη του CLA"
+msgstr ""
 
 #: fas/templates/user/view.html:106
-#, fuzzy
 msgid "Not Signed"
-msgstr "Δεν έγινε"
+msgstr ""
 
 #: fas/templates/user/view.html:106
 msgid "Complete it!"
@@ -2744,19 +2561,14 @@ msgid "Manage Group Details..."
 msgstr "Διαχείρηση Λεπτομερειών Ομάδας..."
 
 #: fas/templates/user/view.html:151
-#, fuzzy
 msgid "Queue:"
-msgstr "Ουρά:"
+msgstr ""
 
 #: fas/templates/user/view.html:155
 #, python-format
 msgid ""
-"<strong>%(user)s</strong> requests approval to join <strong>"
-"%(unapproved_role.group)s</strong>."
+"<strong>%(user)s</strong> requests approval to join "
+"<strong>%(unapproved_role.group)s</strong>."
 msgstr ""
 
-#~ msgid "CLA"
-#~ msgstr "CLA"
 
-#~ msgid "CLA:"
-#~ msgstr "CLA:"

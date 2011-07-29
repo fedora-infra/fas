@@ -1,20 +1,22 @@
-# Hungarian translation of Fedora Account System.
-# Copyright (C) 2008-2009 Fedora Project
-# This file is distributed under the same license as the Fedora website.
+# Translations template for PROJECT.
+# Copyright (C) 2011 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# 
 # Sulyok Péter <peti@fedoraproject.org>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: fas master\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-05-02 18:07-0400\n"
-"PO-Revision-Date: 2009-08-14 07:38+0200\n"
-"Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
-"Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
-"Language: hu\n"
+"Project-Id-Version: Fedora Account System\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
+"POT-Creation-Date: 2011-05-24 10:17-0400\n"
+"PO-Revision-Date: 2011-07-29 22:30+0000\n"
+"Last-Translator: toshio <a.badger@gmail.com>\n"
+"Language-Team: Hungarian <trans-hu@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Generated-By: Babel 0.9.5\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: fas/auth.py:360
 #, python-format
@@ -66,13 +68,11 @@ msgid ""
 "of this is people abbreviating their name like \"B L Couper\" instead of\n"
 "providing their actual full name \"Bill Lay Couper\".  Other causes of this\n"
 "include are using a country, or phone number that isn't accurate [1]_.\n"
-"If you could edit your account [2]_ to fix any of these problems and "
-"resubmit\n"
+"If you could edit your account [2]_ to fix any of these problems and resubmit\n"
 "the CLA we would appreciate it.\n"
 "\n"
 ".. [1]: Why does it matter that we have your real name and phone\n"
-"        number?   It's because the CLA is a legal document and should we "
-"ever\n"
+"        number?   It's because the CLA is a legal document and should we ever\n"
 "        need to contact you about one of your contributions (as an example,\n"
 "        because someone contacts *us* claiming that it was really they who\n"
 "        own the copyright to the contribution) we might need to contact you\n"
@@ -81,8 +81,7 @@ msgid ""
 ".. [2]: Edit your account by logging in at this URL:\n"
 "        %(editurl)s/accounts/user/edit/%(username)s\n"
 "\n"
-"If you have questions about what specifically might be the problem with "
-"your\n"
+"If you have questions about what specifically might be the problem with your\n"
 "account, please contact us at accounts@fedoraproject.org.\n"
 "\n"
 "Thanks!\n"
@@ -111,11 +110,11 @@ msgstr "Az időszerűsített adatokat nem sikerült elmenteni."
 
 #: fas/cla.py:286
 msgid ""
-"To complete the CLA, we must have your name, telephone number, and country.  "
-"Please ensure they have been filled out."
+"To complete the CLA, we must have your name, telephone number, and country."
+"  Please ensure they have been filled out."
 msgstr ""
-"A CLA befejezéséhez meg kell kapnunk az ön nevét, telefonszámát és országát. "
-"Kérem győződjék meg arról, hogy kitöltötte a szükséges mezőket!"
+"A CLA befejezéséhez meg kell kapnunk az ön nevét, telefonszámát és országát."
+" Kérem győződjék meg arról, hogy kitöltötte a szükséges mezőket!"
 
 #: fas/cla.py:295
 msgid ""
@@ -130,8 +129,8 @@ msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter using only those characters."
 msgstr ""
-"Telefonszám csak számokból, illetve „-”, „+”, „(”, „)”, „ ” jelekből állhat. "
-"Kérem adja meg újra csak e jeleket használva."
+"Telefonszám csak számokból, illetve „-”, „+”, „(”, „)”, „ ” jelekből állhat."
+" Kérem adja meg újra csak e jeleket használva."
 
 #: fas/cla.py:314 fas/cla.py:328 fas/fpca.py:312 fas/fpca.py:326
 #, python-format
@@ -144,9 +143,9 @@ msgid "You are already a part of the '%s' group."
 msgstr "Ön már az „%s” csoport tagja."
 
 #: fas/cla.py:336
-#, fuzzy, python-format
+#, python-format
 msgid "Fedora ICLA completed for %(human_name)s (%(username)s)"
-msgstr "Ez egy OpenID azonosság %(human_name)s (%(username)s) számára"
+msgstr ""
 
 #: fas/cla.py:338
 #, python-format
@@ -225,57 +224,44 @@ msgid ""
 msgstr ""
 
 #: fas/fpca.py:163
-#, fuzzy
 msgid "You are not allowed to reject FPCAs."
-msgstr "Ön nem utasíthat el CLA-t."
+msgstr ""
 
 #: fas/fpca.py:215
-#, fuzzy
 msgid "FPCA Successfully Removed."
-msgstr "CLA-t sikerült eltávolítani."
+msgstr ""
 
 #: fas/fpca.py:239
-#, fuzzy
 msgid "You have already completed the FPCA."
-msgstr "Ön már befejezte a CLA-t."
+msgstr ""
 
 #: fas/fpca.py:243
-#, fuzzy
 msgid "You have not completed the FPCA."
-msgstr "Ön még nem fejezte be a CLA-t."
+msgstr ""
 
 #: fas/fpca.py:284
-#, fuzzy
 msgid ""
-"To complete the FPCA, we must have your name telephone number, and country.  "
-"Please ensure they have been filled out."
+"To complete the FPCA, we must have your name telephone number, and country."
+"  Please ensure they have been filled out."
 msgstr ""
-"A CLA befejezéséhez meg kell kapnunk az ön nevét, telefonszámát és országát. "
-"Kérem győződjék meg arról, hogy kitöltötte a szükséges mezőket!"
 
 #: fas/fpca.py:293
-#, fuzzy
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
 msgstr ""
-"A CLA befejezéséhez meg kell adni egy érvényes országkódot. Kérem válasszon "
-"most egyet."
 
 #: fas/fpca.py:297
-#, fuzzy
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
 msgstr ""
-"Telefonszám csak számokból, illetve „-”, „+”, „(”, „)”, „ ” jelekből állhat. "
-"Kérem adja meg újra csak e jeleket használva."
 
 #: fas/fpca.py:358
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr "Önnek sikerült befejeznie a CLA-t. Ön most már a „%s” csoportban van."
+msgstr ""
 
 #: fas/group.py:162 fas/group.py:198
 #, python-format
@@ -339,7 +325,7 @@ msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr ""
 
 #: fas/group.py:433
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "Fedora user %(user)s <%(email)s> has requested\n"
@@ -347,12 +333,6 @@ msgid ""
 "\n"
 "Please go to %(url)s to take action.  \n"
 msgstr ""
-"\n"
-"Fedora használó %(user)s, mint %(name)s <%(email)s> tagságot kért\n"
-"%(applicant)s (%(applicant_name)s) jelentkezőnek %(group)s csoportba, és "
-"szüksége van egy támogatóra.\n"
-"\n"
-"Kérem menjen a %(url)s helyre, hogy tehessen érte!  \n"
 
 #: fas/group.py:444
 #, python-format
@@ -388,9 +368,9 @@ msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s nem támogatható %(group)s csoportban: %(error)s"
 
 #: fas/group.py:488
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
-msgstr "„%s” támogatva!"
+msgstr ""
 
 #: fas/group.py:489
 #, python-format
@@ -398,12 +378,8 @@ msgid ""
 "\n"
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
-"propagate into the e-mail aliases and CVS repository within an hour.\n"
+"propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
-"\n"
-"%(user)s <%(email)s> támogatta az ön tagságát %(group)s\n"
-"Fedora számlarendszer csoportban. Ha kell, ezt a változást továbbítják\n"
-"az email álnevekre és a CVS tárolókba egy órán belül.\n"
 
 #: fas/group.py:500
 #, python-format
@@ -459,9 +435,9 @@ msgstr ""
 "%(error)s"
 
 #: fas/group.py:570
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
-msgstr "%s felfejlesztve!"
+msgstr ""
 
 #: fas/group.py:576
 #, python-format
@@ -495,9 +471,9 @@ msgstr ""
 "%(name)s használót nem sikerült lefokozni %(group)s csoportban: %(error)s"
 
 #: fas/group.py:615
-#, fuzzy, python-format
+#, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr "%s lefokozva!"
+msgstr ""
 
 #: fas/group.py:620
 #, python-format
@@ -548,8 +524,7 @@ msgstr ""
 "Fedora Tervhez!  Mi használók és fejlesztők közössége vagyunk, akik egy\n"
 "teljes operációs rendszert termelünk kizárólag szabad és nyílt forrású\n"
 "szoftverekből (FOSS).  %(user)s azt gondolja, hogy ön olyan\n"
-"tudással és képességekkel rendelkezik, amitől ön jól illik a Fedora "
-"közösségbe, és talán szeretne hozzájárulni.\n"
+"tudással és képességekkel rendelkezik, amitől ön jól illik a Fedora közösségbe, és talán szeretne hozzájárulni.\n"
 "\n"
 "Hogyan állhat be a Fedora közösség csapatába, hogy használja és fejlessze\n"
 "a tudását?  Tekintse meg a http://fedoraproject.org/join-fedora lapot \n"
@@ -579,27 +554,19 @@ msgid "<p>We could not find that help item</p>"
 msgstr "<p>Ez a súgó elem nincs meg</p>"
 
 #: fas/help.py:27
-#, fuzzy
 msgid "Accuracy of FPCA Information"
-msgstr "CLA adatok pontossága"
+msgstr ""
 
 #: fas/help.py:27
-#, fuzzy
 msgid ""
 "<p>The FPCA is a legal document.  We need to have accurate information "
-"attached to it just in case we ever need to contact you about a contribution "
-"that you make to the project.  Imagine if we were to get a call from a "
+"attached to it just in case we ever need to contact you about a contribution"
+" that you make to the project.  Imagine if we were to get a call from a "
 "lawyer at some other company claiming that they own the copyright to your "
 "work and we have to tell them we have a right to use it because \"Mickey "
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
-"<p>A CLA jogi dokumentum. Szükségünk van pontos adatokra, ha esetleg szükség "
-"lenne kapcsolatba lépni önnel egy hozzájárulása kapcsán.  Képzelje el, ha "
-"kapnánk egy hívást egy cég jogászától, aki állítja, hogy birtokolják az ön "
-"munkája szerzői jogait, és nekünk azt kellene mondanunk, hogy miénk a jog, "
-"mert „Mekk Elek” ruházta ránk, és nincs egy telefonszám ahol elérhetnénk! "
-"Kínos helyzet lehetne.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -612,8 +579,8 @@ msgid ""
 "can find you online when they need to</p>"
 msgstr ""
 "<p>Az IRC becenevet az irc.freenode.neten használják azonosításra. Kérem "
-"előbb regisztrálja becenevét az irc.freenode.net helyen, majd töltse ki ezt, "
-"hogy megtalálhassák amikor kell!</p>"
+"előbb regisztrálja becenevét az irc.freenode.net helyen, majd töltse ki ezt,"
+" hogy megtalálhassák amikor kell!</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -621,9 +588,9 @@ msgstr "Email (szükséges)"
 
 #: fas/help.py:29
 msgid ""
-"<p>This email address should be your prefered email contact and will be used "
-"to send various official emails to.  This is also where your @fedoraproject."
-"org email will get forwarded</p>"
+"<p>This email address should be your prefered email contact and will be used"
+" to send various official emails to.  This is also where your "
+"@fedoraproject.org email will get forwarded</p>"
 msgstr ""
 "<p>Ez az email cím az ön preferált email elérhetősége. Ide fogják küldeni a "
 "különféle hivatalos üzeneteket. Az ön @fedoraproject.orgra érkező leveleit "
@@ -644,8 +611,8 @@ msgstr "GPG kulcs azonosító"
 #: fas/help.py:31
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
-"you or to encrypt information so that only the recipients can read it.  This "
-"can be used when a password reset is sent to your email.</p>"
+"you or to encrypt information so that only the recipients can read it.  This"
+" can be used when a password reset is sent to your email.</p>"
 msgstr ""
 "<p>A GPG kulcsot általában üzenet vagy levél hitelesítésére (igazolja, hogy "
 "az üzenet a feladótól jött) illetve titkosítására (csak a címzett tudja "
@@ -657,19 +624,14 @@ msgid "Telephone"
 msgstr "Telefon"
 
 #: fas/help.py:32 fas/help.py:40
-#, fuzzy
 msgid ""
-"<p>Required in order to complete the <a href=\"http://fedoraproject.org/wiki/"
-"Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>.  Sometimes during a "
-"time of emergency someone from the Fedora Project may need to contact you.  "
-"For more information see our <a href=\"http://fedoraproject.org/wiki/Legal/"
-"PrivacyPolicy\">Privacy Policy</a></p>"
+"<p>Required in order to complete the <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
+"  Sometimes during a time of emergency someone from the Fedora Project may "
+"need to contact you.  For more information see our <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
+"Policy</a></p>"
 msgstr ""
-"<p>Szükséges a <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA"
-"\">CLA</a> befejezéséhez. Néha vészhelyzetben lehet, hogy valakinek a Fedora "
-"Tervből el kell érnie önt. További tájékoztatásért olvassa el a <a href="
-"\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Személyes adatok "
-"szabályzat</a>át.</p>"
 
 #: fas/help.py:33 fas/templates/cla/index.html:50
 #: fas/templates/fpca/index.html:51 fas/templates/user/edit.html:50
@@ -679,8 +641,8 @@ msgstr "Postacím"
 #: fas/help.py:33
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</"
-"a> about any concerns.</p>"
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
+"Policy</a> about any concerns.</p>"
 msgstr ""
 "<p>Ez az ön levelezési címe, ahol elérhető.  Ha kétségei vannak, olvassa el "
 "a <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Személyes "
@@ -708,32 +670,25 @@ msgstr "Számla állapot"
 
 #: fas/help.py:36
 msgid ""
-"<p>Shows account status, possible values include<ul><li>active</"
-"li><li>vacation</li><li>inactive</li></ul></p>"
+"<p>Shows account status, possible values "
+"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Számla állapotot mutat. Lehetséges értékek:<ul><li>tevékeny</"
-"li><li>szünetel</li><li>tétlen</li></ul></p>"
+"<p>Számla állapotot mutat. Lehetséges "
+"értékek:<ul><li>tevékeny</li><li>szünetel</li><li>tétlen</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
 msgstr ""
 
 #: fas/help.py:37
-#, fuzzy
 msgid ""
 "<p>In order to become a full Fedora contributor you must complete the <a "
-"href=\"http://fedoraproject.org/wiki/Legal:"
-"Fedora_Project_Contributor_Agreement\">Fedora Project Contributor Agreement</"
-"a>.  This license is a legal agreement between you and Red Hat.  Full status "
-"allows people to contribute content and code and is recommended for anyone "
-"interested in getting involved in the Fedora Project.</p>"
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora"
+" Project Contributor Agreement</a>.  This license is a legal agreement "
+"between you and Red Hat.  Full status allows people to contribute content "
+"and code and is recommended for anyone interested in getting involved in the"
+" Fedora Project.</p>"
 msgstr ""
-"<p>Ahhoz, hogy teljes Fedora hozzájárulóvá váljon, be kell fejeznie a <a "
-"href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">Hozzájáruló "
-"engedély egyezmény</a>t (CLA). Ez az engedély egy jogi megegyezés ön és a "
-"Red Hat között. A teljes állapot megengedi az embereknek, hogy tartalommal "
-"és kóddal járuljanak hozzá, és ajánlott mindenkinek, akit érdekel a Fedora "
-"Tervben való részvétel.</p>"
 
 #: fas/help.py:38 fas/templates/user/edit.html:104
 msgid "Public RSA SSH Key"
@@ -743,8 +698,8 @@ msgstr "Nyilvános RSA SSH kulcs"
 msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
-"keygen\" for more information on creating your key (it must be an RSA key).  "
-"Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"keygen\" for more information on creating your key (it must be an RSA key)."
+"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
 msgstr ""
 "<p>Sok erőforrás nyilvános kulcsú hitelesítést igényel a működéséhez. Az ön "
 "nyilvános kulcsának feltöltése után bejelentkezhet a kiszolgálóinkra. "
@@ -761,8 +716,8 @@ msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
 msgstr ""
-"<p>Nem angolul beszélő emberek ezzel tudják kiválasztani a saját nyelvüket.</"
-"p>"
+"<p>Nem angolul beszélő emberek ezzel tudják kiválasztani a saját "
+"nyelvüket.</p>"
 
 #: fas/help.py:40
 msgid "Country Code"
@@ -774,10 +729,10 @@ msgstr "Csak 13 éven felülieknek"
 
 #: fas/help.py:41
 msgid ""
-"<p>Out of special concern for children's privacy, we do not knowingly accept "
-"online personal information from children under the age of 13. We do not "
-"knowingly allow children under the age of 13 to become registered members of "
-"our sites or buy products and services on our sites. We do not knowingly "
+"<p>Out of special concern for children's privacy, we do not knowingly accept"
+" online personal information from children under the age of 13. We do not "
+"knowingly allow children under the age of 13 to become registered members of"
+" our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
 msgstr ""
 "<p>Külön a gyermekek személyes adataira való tekintettel, nem fogadunk el "
@@ -792,12 +747,12 @@ msgstr "Adatok elrejtése"
 
 #: fas/help.py:42
 msgid ""
-"<p>In accordance with our privacy policy, you can choose to hide some of the "
-"information given on this page from other people.  Please see the privacy "
+"<p>In accordance with our privacy policy, you can choose to hide some of the"
+" information given on this page from other people.  Please see the privacy "
 "policy for complete details.</p>"
 msgstr ""
-"<p>A személyes adatok szabályzatunk szerint választhatja néhány itt megadott "
-"adat elrejtését mások elől.  Kérem tekintse meg a szeméyes adatok "
+"<p>A személyes adatok szabályzatunk szerint választhatja néhány itt megadott"
+" adat elrejtését mások elől.  Kérem tekintse meg a szeméyes adatok "
 "szabályzatot teljes részletesség kedvéért.</p>"
 
 #: fas/help.py:43 fas/templates/group/list.html:43
@@ -807,15 +762,15 @@ msgstr "Alkalmazás"
 #: fas/help.py:43
 #, python-format
 msgid ""
-"<p>Applying for a group is like applying for a job and it can certainly take "
-"a while to get in.  Many groups have their own rules about how to actually "
+"<p>Applying for a group is like applying for a job and it can certainly take"
+" a while to get in.  Many groups have their own rules about how to actually "
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
 msgstr ""
 "<p>Jelentkezés egy csoportba, az olyan mint jelentkezni egy állásra, és "
 "bizonyosan eltarthat egy darabig, amíg bekerül. Sok csoportnak vanak saját "
-"szabályai arról, hogyan lehet ténylegesen jóváhagyást vagy támogatást kapni. "
-"További tudnivalók a számlarendszer működéséről a <a href=\"%s\">névjegy "
+"szabályai arról, hogyan lehet ténylegesen jóváhagyást vagy támogatást kapni."
+" További tudnivalók a számlarendszer működéséről a <a href=\"%s\">névjegy "
 "lap</a>on.</p>"
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
@@ -825,8 +780,8 @@ msgstr "Eltávolítás"
 #: fas/help.py:44
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in "
-"the group.  They will need to re-apply to get in.  Admins can remove anyone, "
-"Sponsors can remove users, users can't remove anyone.</p>"
+"the group.  They will need to re-apply to get in.  Admins can remove anyone,"
+" Sponsors can remove users, users can't remove anyone.</p>"
 msgstr ""
 "<p>Egy személy eltávolítása egy csoportból, azt fogja okozni, hogy a "
 "használó többé nem tartozik a csoportba, és újra jelentkeznie kell, hogy "
@@ -839,9 +794,9 @@ msgstr "Fejlesztés"
 
 #: fas/help.py:45
 msgid ""
-"<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</"
-"li><li>From sponsor -> administrator</li><li>administrators cannot be "
-"upgraded beyond administrator</li></ul></p>"
+"<p>Upgrade a persons status in this group.<ul><li>from user -> to "
+"sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot "
+"be upgraded beyond administrator</li></ul></p>"
 msgstr ""
 "<p>Személyek állapotának felfejlesztése e csoportban.<ul><li>használóból -> "
 "támogatóvá</li><li>támogatóból -> adminisztrátorrá</li><li>adminisztrátort "
@@ -914,8 +869,8 @@ msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
 msgstr ""
-"<p>A megteremteni kívánt csoport neve.  Kisbetűs alfanumerikus lehet, de „-” "
-"és „_” megengedett.</p>"
+"<p>A megteremteni kívánt csoport neve.  Kisbetűs alfanumerikus lehet, de „-”"
+" és „_” megengedett.</p>"
 
 #: fas/help.py:51
 msgid "Display Name"
@@ -946,8 +901,8 @@ msgid ""
 msgstr ""
 "<p>Rendszerint üresen lehet hagyni. Persze néhány érték: 'tracking', "
 "'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'. Ez az érték csak akkor "
-"számít, ha a csoport végül parancssor vagy beküldés hozzáférést kap valahol, "
-"mint amilyen a fedorahosted.</p>"
+"számít, ha a csoport végül parancssor vagy beküldés hozzáférést kap valahol,"
+" mint amilyen a fedorahosted.</p>"
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
@@ -955,13 +910,11 @@ msgstr "Csoport URL (nem szükséges)"
 
 #: fas/help.py:54
 msgid ""
-"<p>A URL or wiki page for the group (for example, <a href=\"https://"
-"fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/"
-"Infrastructure</a>).</p>"
+"<p>A URL or wiki page for the group (for example, <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 msgstr ""
-"<p>A csoport URL vagy wiki lapja (például: <a href=\"https://fedoraproject."
-"org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>)."
-"</p>"
+"<p>A csoport URL vagy wiki lapja (például: <a "
+"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
@@ -972,8 +925,8 @@ msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
 msgstr ""
-"<p>A csoport levelező listája (például: fedora-infrastructure-list@redhat."
-"com).</p>"
+"<p>A csoport levelező listája (például: fedora-infrastructure-"
+"list@redhat.com).</p>"
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
@@ -981,13 +934,15 @@ msgstr "Csoport levelező lista URL (nem szükséges)"
 
 #: fas/help.py:56
 msgid ""
-"<p>A URL for the group's mailing list (for example, <a href=\"http://www."
-"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
-"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+"<p>A URL for the group's mailing list (for example, <a "
+"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 msgstr ""
-"<p>A csoport levelező listájának URL-je (például: <a·href=\"http://www."
-"redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat."
-"com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
+"<p>A csoport levelező listájának URL-je (például: "
+"<a·href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
+"list</a>).</p>"
 
 #: fas/help.py:57
 msgid "Invite Only"
@@ -1024,8 +979,8 @@ msgstr "Támogatót igényel"
 #: fas/help.py:60
 msgid ""
 "<p>If your group requires sponsorship (recommended), this means that when a "
-"user is approved by a sponsor.  That relationship is recorded in the account "
-"system.  If user A sponsors user N, then in viewing the members of this "
+"user is approved by a sponsor.  That relationship is recorded in the account"
+" system.  If user A sponsors user N, then in viewing the members of this "
 "group, people will know to contact user A about user N if something goes "
 "wrong.  If this box is unchecked, this means that only approval is needed "
 "and no relationship is recorded about who did the approving</p>"
@@ -1044,8 +999,8 @@ msgstr "Öneltávolítás"
 
 #: fas/help.py:61
 msgid ""
-"<p>Should users be able to remove themselves from this group without "
-"sponsor / admin intervention?  (recommended yes)</p>"
+"<p>Should users be able to remove themselves from this group without sponsor"
+" / admin intervention?  (recommended yes)</p>"
 msgstr ""
 "<p>Tudják a használók eltávolítani magukat e csoportból támogató / "
 "adminisztrátor beavatkozása nélkül? (ajánlott az igen)</p>"
@@ -1055,13 +1010,11 @@ msgid "Must Belong To"
 msgstr "Tartoznia kell"
 
 #: fas/help.py:62
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
 msgstr ""
-"<p>Mielőtt egy használó beáll e csoportba, az alábbi dobozban felsorolt "
-"csoportokhoz kell tartoznia.  Ajánlott érték a „cla_done” csoport.</p>"
 
 #: fas/help.py:63
 msgid "Join Message"
@@ -1083,18 +1036,18 @@ msgstr "Ügyfél oldali tanúsítvány"
 
 #: fas/help.py:64
 msgid ""
-"<p>The client side cert is generally used to grant access to upload packages "
-"to Fedora or for other authentication purposes like with koji.  You should "
+"<p>The client side cert is generally used to grant access to upload packages"
+" to Fedora or for other authentication purposes like with koji.  You should "
 "save this certificate to ~/.fedora.cert.  If you are not a package "
 "maintainer there is no need to worry about the client side cert.  Please "
 "note that whenever a new cert is generated, all old ones are revoked.</p>"
 msgstr ""
 "<p>Az ügyfél oldali igazolványt általában hozzáférés biztosítására "
 "használják csomagok feltöltésére Fedorába, vagy más hitelesítési célból, "
-"mint amilyen koji.  Mentse el e tanusítványt a ~/.fedora.cert fájlba.  Ha ön "
-"nem csomag karbantartó, nem szükséges aggódnia az ügyfél oldali igazolás "
-"miatt. Kérem vegye észre, hogy amikor új igazolványt készít, minden korábbit "
-"visszavonnak.</p>"
+"mint amilyen koji.  Mentse el e tanusítványt a ~/.fedora.cert fájlba.  Ha ön"
+" nem csomag karbantartó, nem szükséges aggódnia az ügyfél oldali igazolás "
+"miatt. Kérem vegye észre, hogy amikor új igazolványt készít, minden korábbit"
+" visszavonnak.</p>"
 
 #: fas/help.py:65
 msgid "Longitude and Latitude"
@@ -1107,8 +1060,8 @@ msgid ""
 "for mapping purposes, but will not be used if you have privacy enabled for "
 "your account.</p>"
 msgstr ""
-"<p>Földrajzi szélesség és hosszúság.  Ezt az extra mezőt tizedestört alakban "
-"kell megadni.  Például 312.333 vagy -21.2.  Ez térképekhez használható, de "
+"<p>Földrajzi szélesség és hosszúság.  Ezt az extra mezőt tizedestört alakban"
+" kell megadni.  Például 312.333 vagy -21.2.  Ez térképekhez használható, de "
 "nem használjuk, ha az adatrejtést engedélyezi a számláján.</p>"
 
 #: fas/help.py:66
@@ -1156,9 +1109,8 @@ msgid "You do not have permission to edit '%s'"
 msgstr "Nincs jogosultsága „%s” szerkesztésére"
 
 #: fas/user.py:319
-#, fuzzy
 msgid "Only admin can enable or disable an account."
-msgstr "Csak adminisztrátor engedélyezhet illetve tilthat számlát."
+msgstr ""
 
 #: fas/user.py:344
 msgid "Somebody is already using that email address."
@@ -1166,8 +1118,8 @@ msgstr "Valaki már használja azt az email címet."
 
 #: fas/user.py:349
 msgid ""
-"Before your new email takes effect, you must confirm it.  You should receive "
-"an email with instructions shortly."
+"Before your new email takes effect, you must confirm it.  You should receive"
+" an email with instructions shortly."
 msgstr ""
 "Mielőtt az új email életbe lép, meg kell erősítenie.  Hamarosan kapnia kell "
 "erről egy emailt az utasításokkal."
@@ -1178,7 +1130,7 @@ msgid "Email Change Requested for %s"
 msgstr "Email változás igényelve %s használónak"
 
 #: fas/user.py:357
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have recently requested to change your Fedora Account System email\n"
@@ -1188,15 +1140,6 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
-"\n"
-"Ön nem régen kérte a Fedora Számlarendszer email megváltoztatását e címre.\n"
-"Az email változás befejezéséhez, meg kell erősítenie, hogy birtokolja ezt az "
-"emailt\n"
-"a következő URL meglátogatásával (először be kell majd jelentkeznie a "
-"Fedora\n"
-"számlájára):\n"
-"\n"
-"https://admin.fedoraproject.org/accounts/user/verifyemail/%s\n"
 
 #: fas/user.py:382
 #, python-format
@@ -1212,10 +1155,8 @@ msgstr "Fedora számla adat frissítés %s"
 #, python-format
 msgid ""
 "\n"
-"You have just updated information about your account.  If you did not "
-"request\n"
-"these changes please contact admin@fedoraproject.org and let them know.  "
-"Your\n"
+"You have just updated information about your account.  If you did not request\n"
+"these changes please contact admin@fedoraproject.org and let them know.  Your\n"
 "updated information is:\n"
 "\n"
 "  username:       %(username)s\n"
@@ -1251,13 +1192,10 @@ msgid "No users found matching '%s'"
 msgstr "Nem találhatók használó mint „%s”"
 
 #: fas/user.py:703
-#, fuzzy
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
-"Az ön függőben lévő email változása törölve. Az email változás jelzés "
-"érvénytelenítve."
 
 #: fas/user.py:708 fas/user.py:730
 msgid "You do not have any pending email changes."
@@ -1287,8 +1225,8 @@ msgid ""
 msgstr ""
 "Sajnáljuk, de külön a gyermekek személyes adataira való tekintettel, nem "
 "fogadunk el személyes adatokat 13 éven aluli gyermekektől. Tudva nem "
-"engedünk 13 éven aluli gyermekeket beiratkozni a helyeinkre, vagy termékeket "
-"és szolgáltatásokat vásárolni a helyeinken. Tudva nem gyűjtünk vagy kérünk "
+"engedünk 13 éven aluli gyermekeket beiratkozni a helyeinkre, vagy termékeket"
+" és szolgáltatásokat vásárolni a helyeinken. Tudva nem gyűjtünk vagy kérünk "
 "személyes adatokat 13 éven aluli gyermekekről."
 
 #: fas/user.py:800 fas/user.py:853
@@ -1320,7 +1258,7 @@ msgid "Welcome to the Fedora Project!"
 msgstr "Üdvözli a Fedora Terv!"
 
 #: fas/user.py:868
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "You have created a new Fedora account!\n"
@@ -1362,54 +1300,14 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
-"\n"
-"Ön új Fedora számlát teremtett!\n"
-"Az azonosítója: %(username)s\n"
-"Az új jelszava: %(password)s\n"
-"\n"
-"Kérem menjen ide: %(base_url)s%(webpath)s/user/changepass\n"
-"hogy megváltoztassa.\n"
-"\n"
-"Üdvözli a Fedora Terv. Most, hogy feliratkozott egy számláért, ön\n"
-"valószínűleg ég a vágytól, hogy megkezdje hozzájárulását, és erre gondolva\n"
-"reméljük, hogy ezen üzenettel elvezethetjük a jó irányba, hogy ez a\n"
-"folyamat a lehető legkönnyebb legyen.\n"
-"\n"
-"Fedora izgalmas terv sok tevékenységgel, és ön rengeteg féle módon\n"
-"hozzájárulhat mindenféle képességgel. Hogy megtudja a Fedorához\n"
-"történő hozzájárulás különböző formáit, ellátogathat a csatlakozás\n"
-"oldalunkra, ami további tájékoztatással szolgál a különféle szerepekről,\n"
-"amik nálunk elérhetőek.\n"
-"\n"
-"http://fedoraproject.org/en/join-fedora\n"
-"\n"
-"Ha ön már tudja, hogyan akar Fedorához hozzájárulni, és megtalálta\n"
-"a csoportot, ami azon a területen dolgozik, ami önt érdekli, akkor\n"
-"néhány lépés van még az elinduláshoz.\n"
-"\n"
-"Mindenek előtt iratkozzon fel az önt érdeklő csapat vagy terv levelező\n"
-"listájára – és ha több csoport munkája érdekli, nyugodtan iratkozzon fel\n"
-"annyi levelező listára, amennyire csak tetszik! Ez azért fontos, mert\n"
-"a levelező listákon történik a munka szervezésének oroszlánrésze,\n"
-"a feladatok kiosztása, úgyhogy maradjon a kapcsolatban, hogy biztosan\n"
-"ne maradjon le semmiről.\n"
-"\n"
-"Amint ez megvan, valószínűleg bölcs dolog küldeni egy rövid bemutatkozást\n"
-"a listára, hogy megtudják milyen tapasztalata van, és hogyan szeretne\n"
-"segíteni. Innen, a csapat korábbi tagjai fogják segíteni, hogy a saját \n"
-"lábára álljon mint Fedora hozzájáruló.\n"
-"\n"
-"Végül, mindenkitől itt a Fedora Tervben, alig várjuk, hogy önnel\n"
-"dolgozhassunk!\n"
 
 #: fas/user.py:931
 msgid "passwords did not match"
 msgstr ""
 
 #: fas/user.py:937
-#, fuzzy
 msgid "Your current password did not match"
-msgstr "A jelszavát nem sikerült megváltoztatni."
+msgstr ""
 
 #: fas/user.py:953
 msgid "Your password could not be changed."
@@ -1466,7 +1364,7 @@ msgid ""
 msgstr ""
 
 #: fas/user.py:1014
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "Somebody (hopefully you) has requested a password reset for your account!\n"
@@ -1474,19 +1372,14 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
-"\n"
-"Valaki (remélhetőleg ön) jelszó visszaállítást kért az ön számlájára! A "
-"jelszó\n"
-"megváltoztatásához (vagy a kérelem törléséhez), kérem látogasson el ide:\n"
-"https://admin.fedoraproject.org/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:1028
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
 msgstr ""
-"E használónak nincs GPG kulcsa beállítva, így nem lehet titkosított üzenetet "
-"küldeni."
+"E használónak nincs GPG kulcsa beállítva, így nem lehet titkosított üzenetet"
+" küldeni."
 
 #: fas/user.py:1034
 msgid "Your key could not be retrieved from subkeys.pgp.net"
@@ -1505,9 +1398,8 @@ msgid "A password reset URL has been emailed to you."
 msgstr "Jelszó visszaállító URL elküldve önnek."
 
 #: fas/user.py:1092
-#, fuzzy
 msgid "You don't have any pending password changes."
-msgstr "Önnek nincs függő jelszóváltoztatása."
+msgstr ""
 
 #: fas/user.py:1096 fas/user.py:1144
 msgid "Invalid password change token."
@@ -1542,18 +1434,17 @@ msgstr ""
 "alább."
 
 #: fas/user.py:1204
-#, fuzzy
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr "Igazolás készítése előtt, be kell fejeznie a CLA-t."
+msgstr ""
 
 #: fas/user.py:1274
 msgid "Your certificate could not be generated."
 msgstr "Nem sikerült igazolványt készíteni."
 
 #: fas/user.py:1280
-#, fuzzy, python-format
+#, python-format
 msgid "A new certificate has been generated for %s"
-msgstr "Nem sikerült igazolványt készíteni."
+msgstr ""
 
 #: fas/user.py:1282
 msgid ""
@@ -1661,25 +1552,25 @@ msgstr "FAS – A nyílt számlarendszer"
 
 #: fas/templates/about.html:11
 msgid ""
-"FAS is designed around an open architecture.  Unlike the traditional account "
-"systems where a single admin or group of admins decide who gets to be in "
-"what group, FAS is completely designed to be self operating per team.  Every "
-"group is given at least one administrator who can then approve other people "
-"in the group.  Also, unlike traditional account systems.  FAS allows people "
-"to apply for the groups they want to be in.  This paridigm is interesting as "
-"it allows anyone to find out who is in what groups and contact them.  This "
-"openness is brought over from the same philosophies that make Open Source "
-"popular."
+"FAS is designed around an open architecture.  Unlike the traditional account"
+" systems where a single admin or group of admins decide who gets to be in "
+"what group, FAS is completely designed to be self operating per team.  Every"
+" group is given at least one administrator who can then approve other people"
+" in the group.  Also, unlike traditional account systems.  FAS allows people"
+" to apply for the groups they want to be in.  This paridigm is interesting "
+"as it allows anyone to find out who is in what groups and contact them.  "
+"This openness is brought over from the same philosophies that make Open "
+"Source popular."
 msgstr ""
 "FAS-t nyílt architektúra köré tervezték. Nem úgy mint a hagyományos "
 "számlarendszereket, ahol egy adminisztrátor vagy adminisztrátorok csoportja "
 "dönti el, hogy ki melyik csoportba kerül. FAS-t teljes egészében "
 "csoportonként önműködőnek tervezték. Minden csoport kap legalább egy "
 "adminisztrátort, aki beengedhet más embereket a csoportba. Szintén "
-"hagyományos rendszerektő eltérően FAS engedi, hogy az emberek jelentkezzenek "
-"csoportokba, amikbe be akarnak kerülni. Ez a paradigma azért érdekes, mert "
-"mindenkinek megengedi, hogy megtudja ki melyik csoportban van és kapcsolatba "
-"lépjen velük. A nyíltság ugyanabból a bölcsességből származik, ami a nyílt "
+"hagyományos rendszerektő eltérően FAS engedi, hogy az emberek jelentkezzenek"
+" csoportokba, amikbe be akarnak kerülni. Ez a paradigma azért érdekes, mert "
+"mindenkinek megengedi, hogy megtudja ki melyik csoportban van és kapcsolatba"
+" lépjen velük. A nyíltság ugyanabból a bölcsességből származik, ami a nyílt "
 "forrást népszerűvé tette."
 
 #: fas/templates/about.html:12
@@ -1695,17 +1586,17 @@ msgid ""
 "access and ask them if they'd have time to mentor you.  Plan on spending at "
 "least a few days learning about the group, doing a mundane task, "
 "participating on the mailing list.  Sometimes this process can take weeks "
-"depending on the group.  It's best to know you will get sponsored before you "
-"apply."
+"depending on the group.  It's best to know you will get sponsored before you"
+" apply."
 msgstr ""
-"Az embereknek nem kellene feltételezni egy csoportba jelentkezve, hogy akkor "
-"benne vannak a csoportban. Tekintsék úgy mint egy másik állásra való "
+"Az embereknek nem kellene feltételezni egy csoportba jelentkezve, hogy akkor"
+" benne vannak a csoportban. Tekintsék úgy mint egy másik állásra való "
 "jelentkezést. Gyakran időbe telik. A siker legnagyobb esélye érdekében, "
 "ismerje meg a csoportot, amibe jelentkezik, és ismerkedjen meg valakivel a "
 "csoportból. Találjon valakit támogató vagy adminisztrátor hozzáféréssel, és "
 "kérdezze meg, hogy van-e ideje tanácsadásra! Tervezzen be legalább néhány "
-"napot a csoport megismerésére valami hétköznapi rutinfeladat elvégzésével, a "
-"levelező listán való részvétellel. Néha ez a folyamat hetekig is tarthat "
+"napot a csoport megismerésére valami hétköznapi rutinfeladat elvégzésével, a"
+" levelező listán való részvétellel. Néha ez a folyamat hetekig is tarthat "
 "csoporttól függően. A legjobb tudni jelentkezés előtt, hogy támogatják-e."
 
 #: fas/templates/about.html:14
@@ -1750,19 +1641,17 @@ msgid "To do queue:"
 msgstr "Tennivalók:"
 
 #: fas/templates/home.html:15
-#, fuzzy, python-format
+#, python-format
 msgid ""
-"FPCA not completed.  To become a full Fedora Contributor please <a href=\"%s"
-"\">complete the FPCA</a>."
+"FPCA not completed.  To become a full Fedora Contributor please <a "
+"href=\"%s\">complete the FPCA</a>."
 msgstr ""
-"CLA nincs befejezve. Kérem <a href=\"%s\">fejezze be a CLA-t</a> ahhoz, hogy "
-"teljes Fedora hozzájárulóvá váljon!"
 
 #: fas/templates/home.html:16
 #, python-format
 msgid ""
-"You have not submitted an SSH key, some Fedora resources require an SSH "
-"key.  Please submit yours by editing <a href=\"%s\">My Account</a>"
+"You have not submitted an SSH key, some Fedora resources require an SSH key."
+"  Please submit yours by editing <a href=\"%s\">My Account</a>"
 msgstr ""
 "Ön nem küldött be SSH kulcsot. Néhány Fedora erőforrás SSH kulcsot igényel. "
 "Kérem küldje be a kulcsát a <a href=\"%s\">My Account</a> szerkesztésével!"
@@ -1862,14 +1751,10 @@ msgid "FAS version %s"
 msgstr "FAS változat %s"
 
 #: fas/templates/master.html:95
-#, fuzzy
 msgid ""
-"© 2011 Red Hat, Inc. and others.  Please send any comments or corrections to "
-"the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"© 2011 Red Hat, Inc. and others.  Please send any comments or corrections to"
+" the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
-"© 2009 Red Hat, Inc. és mások.  Kérem küldjenek minden hozzászólást vagy "
-"javítást a <a href=\"mailto:webmaster@fedoraproject.org\">webhely csapatnak</"
-"a>!"
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1877,12 +1762,12 @@ msgid ""
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
 msgstr ""
-"A Fedora Tervet a közösség tartja fent és vezeti a Red Hat támogatásával. Ez "
-"egy közösségi hely. Red Hat nem felelős a tartalomért."
+"A Fedora Tervet a közösség tartja fent és vezeti a Red Hat támogatásával. Ez"
+" egy közösségi hely. Red Hat nem felelős a tartalomért."
 
 #: fas/templates/search-box.html:8
-msgid "\"*\" is a wildcard (Ex: \"cvs*\")"
-msgstr "„*” helyettesítő jel (Pl: „cvs*”)"
+msgid "\"*\" is a wildcard (Ex: \"git*\")"
+msgstr ""
 
 #: fas/templates/search-box.html:11
 msgid "Search"
@@ -1907,13 +1792,13 @@ msgstr "Üdvözli a FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
-"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a href="
-"\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or stop "
-"by #fedora-admin on irc.freenode.net."
+"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
+"stop by #fedora-admin on irc.freenode.net."
 msgstr ""
-"Üdvözli a Fedora Számlarendszer 2. Kérem küldje a hibákat a <a href="
-"\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> helyre, "
-"vagy az irc.freenode.net #fedora-admin csatornáján."
+"Üdvözli a Fedora Számlarendszer 2. Kérem küldje a hibákat a <a "
+"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
+"helyre, vagy az irc.freenode.net #fedora-admin csatornáján."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1983,14 +1868,12 @@ msgid "I do not agree"
 msgstr "Nem értek egyet"
 
 #: fas/templates/fpca/index.html:23
-#, fuzzy
 msgid "Fedora Project Contributor Agreement"
-msgstr "Fedora Hozzájárulói engedély egyezmény (CLA)"
+msgstr ""
 
 #: fas/templates/fpca/index.html:31
-#, fuzzy
 msgid "You have already successfully completed the FPCA."
-msgstr "Önnek már sikerült befejeznie a CLA-t."
+msgstr ""
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
@@ -2305,8 +2188,8 @@ msgstr "Jóváhagyja az OpenID kérelmet?"
 msgid ""
 "A new site has asked to confirm your identity.  If you approve, the site "
 "represented by the trust root below will be told that you control identity "
-"URL listed below. (If you are using a delegated identity, the site will take "
-"care of reversing the delegation on its own.)"
+"URL listed below. (If you are using a delegated identity, the site will take"
+" care of reversing the delegation on its own.)"
 msgstr ""
 "Egy új hely kérte az azonosság megerősítését. Ha jóváhagyja, a hely – az "
 "alábbi bizalom gyökérben – azt az üzenetet kapja, hogy ön ellenőrzi az "
@@ -2348,11 +2231,9 @@ msgid "This is an OpenID identity for %(username)s"
 msgstr "Ez egy OpenID azonosság %(username)s számára"
 
 #: fas/templates/openid/id.html:31
-#, fuzzy, python-format
+#, python-format
 msgid "Part of the <a href=\"%(url)s\">Fedora Account System<a>."
 msgstr ""
-"A·<a href=\"https://admin.fedoraproject.org/accounts/"
-"\">Fedora·Számlarendszer<a> része."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2361,11 +2242,11 @@ msgstr "Üdvözli a Fedora OpenID Ellátó!"
 #: fas/templates/openid/welcome.html:16
 #, python-format
 msgid ""
-"You are logged in as %(username)s. Your OpenID identity URL is <a href="
-"\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+"You are logged in as %(username)s. Your OpenID identity URL is <a "
+"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 msgstr ""
-"Ön %(username)s néven jelentkezett be. Az ön OpenID azonosság URL-je <a href="
-"\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+"Ön %(username)s néven jelentkezett be. Az ön OpenID azonosság URL-je <a "
+"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -2471,12 +2352,12 @@ msgstr "Igazolvány készítés letiltva"
 #, python-format
 msgid ""
 "Generating SSL Certificates is disabled on this machine.  If you were "
-"brought here by clicking a link it usually means there is a misconfiguration "
-"on the server.  Please contact %(accts_email)s to fix things."
+"brought here by clicking a link it usually means there is a misconfiguration"
+" on the server.  Please contact %(accts_email)s to fix things."
 msgstr ""
 "Az SSL igazolványok készítését letiltották e gépen.  Ha ön egy hivatkozás "
-"útján jutott ide, az azt jelenti, hogy rosszul állítottáb be a kiszolgálót.  "
-"Kérem lépjen kapcsolatba %(accts_email)s címen, hogy kijavítsák."
+"útján jutott ide, az azt jelenti, hogy rosszul állítottáb be a kiszolgálót."
+"  Kérem lépjen kapcsolatba %(accts_email)s címen, hogy kijavítsák."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
@@ -2512,8 +2393,8 @@ msgstr ""
 
 #: fas/templates/user/new.html:11
 msgid ""
-"(i.e. it cannot be changed after registration and will never be deleted from "
-"the system)."
+"(i.e. it cannot be changed after registration and will never be deleted from"
+" the system)."
 msgstr ""
 
 #: fas/templates/user/new.html:11
@@ -2534,9 +2415,8 @@ msgid "Email:"
 msgstr "Email:"
 
 #: fas/templates/user/new.html:28
-#, fuzzy
 msgid "Verify Email:"
-msgstr "Email:"
+msgstr ""
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2652,14 +2532,12 @@ msgid "Disabled"
 msgstr "Letiltva"
 
 #: fas/templates/user/view.html:90
-#, fuzzy
 msgid "Contributor Agreement:"
-msgstr "Fedora Hozzájárulói engedély egyezmény (CLA)"
+msgstr ""
 
 #: fas/templates/user/view.html:94
-#, fuzzy
 msgid "CLA Signed"
-msgstr "CLA kész"
+msgstr ""
 
 #: fas/templates/user/view.html:97
 msgid "New CLA Not Signed"
@@ -2670,19 +2548,16 @@ msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
 #: fas/templates/user/view.html:98
-#, fuzzy
 msgid "Complete it now!"
-msgstr "Befejezés!"
+msgstr ""
 
 #: fas/templates/user/view.html:102
-#, fuzzy
 msgid "Reject FPCA"
-msgstr "CLA elutasítás"
+msgstr ""
 
 #: fas/templates/user/view.html:106
-#, fuzzy
 msgid "Not Signed"
-msgstr "Nem kész"
+msgstr ""
 
 #: fas/templates/user/view.html:106
 msgid "Complete it!"
@@ -2728,93 +2603,10 @@ msgstr "Sor:"
 #: fas/templates/user/view.html:155
 #, python-format
 msgid ""
-"<strong>%(user)s</strong> requests approval to join <strong>"
-"%(unapproved_role.group)s</strong>."
+"<strong>%(user)s</strong> requests approval to join "
+"<strong>%(unapproved_role.group)s</strong>."
 msgstr ""
-"<strong>%(user)s</strong> jóváhagyást kér <strong>%(unapproved_role.group)s</"
-"strong> csoportba."
+"<strong>%(user)s</strong> jóváhagyást kér "
+"<strong>%(unapproved_role.group)s</strong> csoportba."
 
-#~ msgid "CLA"
-#~ msgstr "CLA"
 
-#~ msgid "CLA:"
-#~ msgstr "CLA:"
-
-#~ msgid "Can the postal system really deliver to that address?"
-#~ msgstr "Tényleg tud kézbesíteni a posta arra a címre?"
-
-#~ msgid "Welcome, %s"
-#~ msgstr "Üdvözöljük %s"
-
-#~ msgid ""
-#~ "The credentials you supplied were not correct or did not grant access to "
-#~ "this resource."
-#~ msgstr ""
-#~ "Az benyújtott igazolások hibásak, vagy nem jogosítják fel hozzáférésre "
-#~ "ehhez az erőforráshoz."
-
-#~ msgid "You must provide your credentials before accessing this resource."
-#~ msgstr ""
-#~ "Fel kell mutatni az igazolásait mielőtt hozzáférhetne eme erőforráshoz."
-
-#~ msgid "Please log in."
-#~ msgstr "Kérem jelentkezzen be!"
-
-#~ msgid "You have successfully logged out."
-#~ msgstr "Sikerült kijelentkezni."
-
-#~ msgid "Login"
-#~ msgstr "Bejelentkezés"
-
-#~ msgid "User Name:"
-#~ msgstr "Név:"
-
-#~ msgid "Forgot Password?"
-#~ msgstr "Elfelejtett jelszó?"
-
-#~ msgid "Sign Up"
-#~ msgstr "Feliratkozás"
-
-#~ msgid "An account has already been registered with that email address."
-#~ msgstr "Egy számlát már regisztráltak ezzel az email címmel."
-
-#~ msgid "Encrypt/Sign password reset email"
-#~ msgstr "Jelszó visszaállítás üzenet titkosítása/aláírása"
-
-#~ msgid "'%s' is an illegal username."
-#~ msgstr "„%s” érvénytelen név."
-
-#~ msgid "New Group"
-#~ msgstr "Új csoport"
-
-#~ msgid "User List"
-#~ msgstr "Használó lista"
-
-#~ msgid "Group List"
-#~ msgstr "Csoportlista"
-
-#~ msgid "Human Name"
-#~ msgstr "Emberi név"
-
-#~ msgid "Real Name:"
-#~ msgstr "Valódi név:"
-
-#~ msgid "Dummy Plugin!"
-#~ msgstr "Vakdugó!"
-
-#~ msgid "The OpenID request could not be decoded."
-#~ msgstr "Az OpenID kérést nem sikerült visszafejteni."
-
-#~ msgid "Fedora Project OpenID Provider"
-#~ msgstr "Fedora Terv OpenID Ellátó"
-
-#~ msgid "Allow <strong>%s</strong> to authenticate to your OpenID identity?"
-#~ msgstr ""
-#~ "Engedi, hogy <strong>%s</strong> hitelesítse az ön OpenID azonosítóját?"
-
-#~ msgid "Submit"
-#~ msgstr "Beküldés"
-
-#~ msgid ""
-#~ "To update any of this information, <a href=\"%s\">edit your account</a>."
-#~ msgstr "Ezen adatok frissítéséhez: <a href=\"%s\">számla szerkesztése</a>."
