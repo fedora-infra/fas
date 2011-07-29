@@ -292,24 +292,35 @@ example:
 ------------
 Localization
 ------------
+
+We use the translation services at transifex.net to manage po files, coordinate
+people translating strings, and merge new strings to the files.  The following
+instructions briefly tell how to use transifex to update the source languages
+files and pull new translations for release.  Actually doing translations can
+be found in the `transifex user's guide`_.
+
+.. `transifex user's guide`:: http://help.transifex.net/user-guide/translating.html
+
+
 To generate the POT file (located in the po/ subdirectory), run the
-following from the top level directory:
+following from the top level directory::
 
   pybabel extract -F pybabel.conf -o po/fas.pot fas/
 
-Message merging should be done manually using msgmerge at this point:
+Then upload this pot file to transifex::
+  tx push -s
 
-  cd po
-  for file in *.po;
-  do msgmerge $file fas.pot > $file.new;
-  mv $file.new $file;
-  done
+To pull messages from transifex prior to making a release, do::
+  tx pull -a
 
-  python setup.py build
+Transifex will perform merging of strings for you.
 
-compiles the PO files and places them where TurboGears will look for
-them.  To enable a language to be available to users, it must be added
-to po/LINGUAS.
+To enable the languages in FAS, you must compile the PO files and places them
+where TurboGears will look for them.  Then you need to enable the language to
+be available to users by adding it to po/LINGUAS.
+
+Remember that we commit to the git repo the pot file and the po files.  We do
+not commit mo files.
 
 -------
 Plugins
