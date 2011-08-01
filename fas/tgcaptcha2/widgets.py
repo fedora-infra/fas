@@ -1,7 +1,7 @@
 import pkg_resources
 import turbogears as tg
 import controller
-from tgcaptcha.validator import CaptchaFieldValidator
+from tgcaptcha2.validator import CaptchaFieldValidator
 import gettext
 _ = gettext.gettext
 

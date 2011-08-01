@@ -1,6 +1,6 @@
 from turbogears.validators import Schema, Invalid, FormValidator, \
     String
-from tgcaptcha import controller
+from tgcaptcha2 import controller
 import gettext
 from turbogears import config
 from datetime import datetime

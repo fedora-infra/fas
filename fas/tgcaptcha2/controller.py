@@ -1,7 +1,7 @@
 from turbogears import controllers, expose
 import turbogears as tg
 import cherrypy
-from tgcaptcha import model
+from fas.tgcaptcha2 import model
 import random
 from cStringIO import StringIO
 from Crypto.Cipher import AES
