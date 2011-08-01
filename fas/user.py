@@ -77,7 +77,7 @@ from fas import _
 #system_group = config.get('systemgroup', 'fas-system')
 #thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
-CAPTCHA = CaptchaField(name='captcha', label=_('Enter the code shown'))
+CAPTCHA = CaptchaField(name='captcha', label=_('Solve the math problem'))
 
 class UserCreate(validators.Schema):
     ''' Validate information for a new user '''
