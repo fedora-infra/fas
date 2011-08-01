@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-05-24 10:17-0400\n"
-"PO-Revision-Date: 2011-07-29 22:29+0000\n"
+"POT-Creation-Date: 2011-08-01 16:40-0700\n"
+"PO-Revision-Date: 2011-08-01 23:41+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.5\n"
+"Generated-By: Babel 0.9.6\n"
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -189,12 +189,12 @@ msgstr "Σφάλμα κατά την αποθήκευση του config στη �
 msgid "Config value successfully updated"
 msgstr ""
 
-#: fas/controllers.py:202
+#: fas/controllers.py:203
 msgid "Your old password has expired.  Please reset your password below."
 msgstr ""
 "Ο παλιός σας κωδικός έχει λήξει. Παρακαλούμε επαναφέρετε τον παρακάτω."
 
-#: fas/controllers.py:214
+#: fas/controllers.py:210
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
@@ -203,7 +203,7 @@ msgstr ""
 "Ο λογαριασμός σας είναι προς το παρόν απενεργοποιημένος. Για περισσότερες "
 "πληροφορίες επικοινωνήστε στο %(admin_email)sadmin_email"
 
-#: fas/controllers.py:227
+#: fas/controllers.py:223
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Η γλώσσα '%s' δεν είναι διαθέσιμη."
@@ -265,21 +265,21 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr ""
 
-#: fas/group.py:162 fas/group.py:198
+#: fas/group.py:163 fas/group.py:199
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "Δεν μπορείτε να δείτε το '%s'"
 
-#: fas/group.py:221 fas/group.py:239
+#: fas/group.py:222 fas/group.py:240
 msgid "Only FAS adminstrators can create groups."
 msgstr "Μόνο οι διαχειριστές του FAS μπορούν να δημιουργήσουν ομάδες.  "
 
-#: fas/group.py:260
+#: fas/group.py:261
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "Η ομάδα: '%s' δεν ήταν δυνατό να δημιουργηθεί."
 
-#: fas/group.py:270
+#: fas/group.py:271
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
@@ -288,48 +288,48 @@ msgstr ""
 "Η ομάδα: '%(group)s' δημιουργήθηκε, αλλά ο χρήστης '%(user)s' δεν ήταν "
 "δυνατό να προστεθεί ως διαχειριστής ομάδας."
 
-#: fas/group.py:272
+#: fas/group.py:273
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "Η ομάδα: '%s' δημιουργήθηκε."
 
-#: fas/group.py:287 fas/group.py:305
+#: fas/group.py:288 fas/group.py:306
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "Δεν μπορείτε να επεξεργαστείτε το '%s'. "
 
-#: fas/group.py:331
+#: fas/group.py:332
 msgid "The group details could not be saved."
 msgstr "Δεν ήταν δυνατή η αποθήκευση των λεπτομερειών της ομάδας."
 
-#: fas/group.py:335
+#: fas/group.py:336
 msgid "The group details have been saved."
 msgstr "Οι λεπτομέρειες της ομάδας αποθηκεύτηκαν."
 
-#: fas/group.py:364
+#: fas/group.py:365
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Δεν βρέθηκαν Ομάδες για '%s'"
 
-#: fas/group.py:389 fas/group.py:411
+#: fas/group.py:390 fas/group.py:412
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr ""
 "Ο χρήστης %(user)s δεν μπορεί να υποβάλλει αίτηση στην ομάδα %(group)s."
 
-#: fas/group.py:419
+#: fas/group.py:420
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr ""
 "Ο χρήστης %(user)s δεν μπορεί να υποβάλλει αίτηση στην ομάδα %(group)s: "
 "%(error)s"
 
-#: fas/group.py:431
+#: fas/group.py:432
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr ""
 
-#: fas/group.py:433
+#: fas/group.py:434
 #, python-format
 msgid ""
 "\n"
@@ -339,12 +339,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr ""
 
-#: fas/group.py:444
+#: fas/group.py:445
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Αιτήση για την ομάδα '%(group)s'"
 
-#: fas/group.py:446
+#: fas/group.py:447
 #, python-format
 msgid ""
 "\n"
@@ -357,28 +357,28 @@ msgstr ""
 "\n"
 "%(joinmsg)s\n"
 
-#: fas/group.py:460
+#: fas/group.py:461
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "Ο χρήστης %(user)s έκανε αίτηση στην ομάδα %(group)s!"
 
-#: fas/group.py:477
+#: fas/group.py:478
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Δεν μπορείτε να γίνετε σπόνσορας στον '%s'"
 
-#: fas/group.py:484
+#: fas/group.py:485
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr ""
 "Ο/η %(user)s δεν ήταν δυνατό να βρει σπόνσορα από το %(group)s: %(error)s"
 
-#: fas/group.py:488
+#: fas/group.py:489
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr ""
 
-#: fas/group.py:489
+#: fas/group.py:490
 #, python-format
 msgid ""
 "\n"
@@ -387,31 +387,31 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
 
-#: fas/group.py:500
+#: fas/group.py:501
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "Ο '%s' βρήκε σπόνσορα!"
 
-#: fas/group.py:517
+#: fas/group.py:518
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr ""
 "Δεν μπορείτε να μετακινήσετε τον χρήστη '%(user)s' από την ομάδα "
 "'%(group)s'."
 
-#: fas/group.py:525
+#: fas/group.py:526
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr ""
 "Δεν έγινε δυνατή η αφαίρεση του χρήστη %(user)s από την ομάδα %(group)s: "
 "%(error)s"
 
-#: fas/group.py:529
+#: fas/group.py:530
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr ""
 
-#: fas/group.py:530
+#: fas/group.py:531
 #, python-format
 msgid ""
 "\n"
@@ -421,29 +421,29 @@ msgid ""
 "aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:542
+#: fas/group.py:543
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "Ο/η %(name)s αφαιρέθηκε από την ομάδα %(group)s"
 
-#: fas/group.py:559
+#: fas/group.py:560
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Δεν μπορείτε να αναβαθμίσετε το '%s'"
 
-#: fas/group.py:566
+#: fas/group.py:567
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr ""
 " Δεν έγινε δυνατή η αναβάθμιση του/της %(name)s στην ομάδα %(group)s: "
 "%(error)s"
 
-#: fas/group.py:570
+#: fas/group.py:571
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr ""
 
-#: fas/group.py:576
+#: fas/group.py:577
 #, python-format
 msgid ""
 "\n"
@@ -453,29 +453,29 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:588
+#: fas/group.py:589
 #, python-format
 msgid "%s has been upgraded!"
 msgstr " To %s αναβαθμίστηκε!"
 
-#: fas/group.py:604
+#: fas/group.py:605
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Δεν μπορείτε να υποβαθμίσετε το '%s'"
 
-#: fas/group.py:611
+#: fas/group.py:612
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr ""
 " Δεν έγινε δυνατή η υποβάθμιση του/της %(name)s στην ομάδα %(group)s: "
 "%(error)s"
 
-#: fas/group.py:615
+#: fas/group.py:616
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr ""
 
-#: fas/group.py:620
+#: fas/group.py:621
 #, python-format
 msgid ""
 "\n"
@@ -485,16 +485,16 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:632
+#: fas/group.py:633
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "Το %s υποβαθμίστηκε!"
 
-#: fas/group.py:707
+#: fas/group.py:708
 msgid "Come join The Fedora Project!"
 msgstr "Ελάτε να συμμετάσχετε στο έργο Fedora!"
 
-#: fas/group.py:708
+#: fas/group.py:709
 #, python-format
 msgid ""
 "\n"
@@ -515,12 +515,12 @@ msgid ""
 "Fedora and FOSS are changing the world -- come be a part of it!"
 msgstr ""
 
-#: fas/group.py:728
+#: fas/group.py:729
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Το μήνυμα εστάλη στο: %s"
 
-#: fas/group.py:731
+#: fas/group.py:732
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Δεν είστε στην ομάδα '%s'."
@@ -1070,29 +1070,29 @@ msgstr ""
 msgid "Loading: %(visitmod)s"
 msgstr "Εκτελείται φόρτωση: %(visitmod)s"
 
-#: fas/user.py:75
-msgid "Enter the code shown"
+#: fas/user.py:80
+msgid "Solve the math problem"
 msgstr ""
 
-#: fas/user.py:247
+#: fas/user.py:248
 #, python-format
 msgid "You cannot edit %s"
 msgstr "Δεν μπορείτε να επεξεργαστείτε το %s"
 
-#: fas/user.py:310
+#: fas/user.py:311
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "Δεν έχετε άδεια να επεξεργαστείτε το '%s'"
 
-#: fas/user.py:319
+#: fas/user.py:320
 msgid "Only admin can enable or disable an account."
 msgstr ""
 
-#: fas/user.py:344
+#: fas/user.py:345
 msgid "Somebody is already using that email address."
 msgstr "Κάποιος χρησιμοποιεί ήδη αυτή τη διεύθυνση email."
 
-#: fas/user.py:349
+#: fas/user.py:350
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
@@ -1100,12 +1100,12 @@ msgstr ""
 "Πριν το νέο σας email τεθεί σε εφαρμογή, πρέπει να το επιβεβαιώσετε. Θα "
 "παραλάβετε ένα email με οδηγίες σύντομα."
 
-#: fas/user.py:355
+#: fas/user.py:357
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr ""
 
-#: fas/user.py:357
+#: fas/user.py:359
 #, python-format
 msgid ""
 "\n"
@@ -1117,17 +1117,17 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:382
+#: fas/user.py:384
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Δεν ήταν δυνατή η αποθήκευση των λεπτομερειών του λογαριασμού σας: %s"
 
-#: fas/user.py:387
+#: fas/user.py:389
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Ενημέρωση Δεδομένων Λογαριασμού Fedora %s"
 
-#: fas/user.py:389
+#: fas/user.py:391
 #, python-format
 msgid ""
 "\n"
@@ -1153,44 +1153,44 @@ msgid ""
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
 msgstr ""
 
-#: fas/user.py:424
+#: fas/user.py:426
 msgid "Your account details have been saved."
 msgstr "Οι λεπτομέρειες του λογαριασμού σας αποθηκεύτηκαν."
 
-#: fas/user.py:641
+#: fas/user.py:643
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr ""
 
-#: fas/user.py:655
+#: fas/user.py:657
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Δεν βρέθηκαν χρήστες να ταιριάζουν στο '%s'"
 
-#: fas/user.py:703
+#: fas/user.py:705
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:708 fas/user.py:730
+#: fas/user.py:710 fas/user.py:732
 msgid "You do not have any pending email changes."
 msgstr "Δεν έχετε καμία εκκρεμή αλλαγή στο email σας. "
 
-#: fas/user.py:712 fas/user.py:734
+#: fas/user.py:714 fas/user.py:736
 msgid "Invalid email change token."
 msgstr ""
 
-#: fas/user.py:744
+#: fas/user.py:746
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Αλλάξατε επιτυχώς το email σας στο '%s'"
 
-#: fas/user.py:759
+#: fas/user.py:761
 msgid "No need to sign up, you have an account!"
 msgstr "Δεν χρειάζεται να εγγραφείτε, έχετε λογαριασμό."
 
-#: fas/user.py:788 fas/user.py:842
+#: fas/user.py:790 fas/user.py:844
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1206,7 +1206,7 @@ msgstr ""
 "μας. Συνειδητά δεν συλλέγουμε ή αποζητάμε πληροφορίες για παιδιά κάτω των 13"
 " χρόνων. "
 
-#: fas/user.py:800 fas/user.py:853
+#: fas/user.py:802 fas/user.py:855
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
@@ -1214,18 +1214,18 @@ msgstr ""
 "Συγνώμη. Αυτή η διεύθυνση email χρησιμοποιείται ήδη. Μήπως ξεχάσατε τον "
 "κωδικό σας? "
 
-#: fas/user.py:806
+#: fas/user.py:808
 msgid "Sorry.  Email addresses do not match"
 msgstr ""
 
-#: fas/user.py:813
+#: fas/user.py:815
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr ""
 "Δεν ήταν δυνατή η δημιουργία του λογαριασμού σας. Παρακαλούμε επικοινωνήστε "
 "στο %s για βοήθεια. "
 
-#: fas/user.py:820
+#: fas/user.py:822
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
@@ -1233,11 +1233,11 @@ msgstr ""
 "Ο κωδικός σας έχει σταλεί στο email σας. Παρακαλούμε συνδεθείτε με αυτόν και"
 " αλλάξτε τον κωδικό σας."
 
-#: fas/user.py:868
+#: fas/user.py:870
 msgid "Welcome to the Fedora Project!"
 msgstr "Καλωσήρθατε στο Έργο Fedora."
 
-#: fas/user.py:868
+#: fas/user.py:870
 #, python-format
 msgid ""
 "\n"
@@ -1281,39 +1281,39 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:931
+#: fas/user.py:934
 msgid "passwords did not match"
 msgstr ""
 
-#: fas/user.py:937
+#: fas/user.py:939
 msgid "Your current password did not match"
 msgstr ""
 
-#: fas/user.py:953
+#: fas/user.py:956
 msgid "Your password could not be changed."
 msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού σας. "
 
-#: fas/user.py:956
+#: fas/user.py:959
 msgid "Your password has been changed."
 msgstr "Ο κωδικός σας άλλαξε."
 
-#: fas/user.py:967
+#: fas/user.py:970
 msgid "You are already logged in!"
 msgstr "Είστε ήδη συνδεδεμένος/η."
 
-#: fas/user.py:981
+#: fas/user.py:984
 msgid "You are already logged in."
 msgstr "Είστε ήδη συνδεδεμένος/η!"
 
-#: fas/user.py:987
+#: fas/user.py:990
 msgid "Username email combo does not exist!"
 msgstr "Ο συνδυασμός ονόματος χρήστη και email δεν υπάρχει."
 
-#: fas/user.py:991
+#: fas/user.py:994
 msgid "username + email combo unknown."
 msgstr "συνδυασμός ονόματος χρήστη - email άγνωστος. "
 
-#: fas/user.py:994 fas/user.py:1086 fas/user.py:1130
+#: fas/user.py:997 fas/user.py:1089 fas/user.py:1133
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
@@ -1322,7 +1322,7 @@ msgstr ""
 "Ο λογαριασμός σας είναι %(status)s. Για περισσότερες πληροφορίες παρακαλούμε"
 " επικοινωνήστε στο %(admin_email)s"
 
-#: fas/user.py:1001
+#: fas/user.py:1004
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
@@ -1332,11 +1332,11 @@ msgstr ""
 "online. Παρακαλούμε επικοινωνήστε στο %(admin_email)s για να γίνει η "
 "επαναφορά."
 
-#: fas/user.py:1005
+#: fas/user.py:1008
 msgid "Warning: attempted reset of system account"
 msgstr ""
 
-#: fas/user.py:1006
+#: fas/user.py:1009
 #, python-format
 msgid ""
 "\n"
@@ -1344,7 +1344,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr ""
 
-#: fas/user.py:1014
+#: fas/user.py:1017
 #, python-format
 msgid ""
 "\n"
@@ -1354,7 +1354,7 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:1028
+#: fas/user.py:1031
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
@@ -1362,69 +1362,69 @@ msgstr ""
 "Ο χρήστης δεν έχει ID κλειδιού GPG κι έτσι δεν είναι δυνατή η αποστολή "
 "κρυπτογραφημένου email."
 
-#: fas/user.py:1034
+#: fas/user.py:1037
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Το κλειδί σας δεν μπορεί να ανακτηθεί από το subkeys.pgp.net"
 
-#: fas/user.py:1061
+#: fas/user.py:1064
 msgid "Your password reset email could not be encrypted."
 msgstr "Το email επαναφοράς κλειδιού δεν ήταν δυνατό να κρυπτογραφηθεί."
 
-#: fas/user.py:1064
+#: fas/user.py:1067
 msgid "Fedora Project Password Reset"
 msgstr "Επαναφορά κωδικού Έργου Fedora"
 
-#: fas/user.py:1068
+#: fas/user.py:1071
 msgid "A password reset URL has been emailed to you."
 msgstr "Σας εστάλη το URL για την επαναφορά του κωδικού."
 
-#: fas/user.py:1092
+#: fas/user.py:1095
 msgid "You don't have any pending password changes."
 msgstr ""
 
-#: fas/user.py:1096 fas/user.py:1144
+#: fas/user.py:1099 fas/user.py:1147
 msgid "Invalid password change token."
 msgstr ""
 
-#: fas/user.py:1104
+#: fas/user.py:1107
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
 
-#: fas/user.py:1126
+#: fas/user.py:1129
 msgid "Both passwords must match"
 msgstr ""
 
-#: fas/user.py:1138
+#: fas/user.py:1141
 msgid "You do not have any pending password changes."
 msgstr "Δεν έχετε καμία εκκρρεμή αλλαγή κωδικού."
 
-#: fas/user.py:1154
+#: fas/user.py:1157
 msgid "Your password can not be the same as your old password."
 msgstr "Ο κωδικός σας δεν μπορεί να είναι ίδιος με τον παλιό σας κωδικό."
 
-#: fas/user.py:1169
+#: fas/user.py:1172
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr ""
 "Επαναφέρατε επιτυχώς τον κωδικό σας. Μπορείτε τώρα να συνδεθείτε παρακάτω."
 
-#: fas/user.py:1204
+#: fas/user.py:1207
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr ""
 
-#: fas/user.py:1274
+#: fas/user.py:1277
 msgid "Your certificate could not be generated."
 msgstr "Το πιστοποιητικό σας δεν ήταν δυνατό να δημιουργηθεί."
 
-#: fas/user.py:1280
+#: fas/user.py:1283
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr ""
 
-#: fas/user.py:1282
+#: fas/user.py:1285
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -2395,10 +2395,13 @@ msgid "Sign up!"
 msgstr "Εγγραφή!"
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
-#: fas/templates/user/resetpass.html:19 fas/templates/user/verifypass.html:7
-#: fas/templates/user/verifypass.html:10
+#: fas/templates/user/verifypass.html:7 fas/templates/user/verifypass.html:10
 msgid "Reset Password"
 msgstr "Επαναφορά κωδικού"
+
+#: fas/templates/user/resetpass.html:19
+msgid "Reset"
+msgstr ""
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2569,6 +2572,18 @@ msgstr ""
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
+msgstr ""
+
+#: fas/tgcaptcha2/validator.py:14
+msgid "Incorrect value."
+msgstr ""
+
+#: fas/tgcaptcha2/validator.py:15
+msgid "Too much time elapsed. Please try again."
+msgstr ""
+
+#: fas/tgcaptcha2/widgets.py:39
+msgid "obfuscated letters"
 msgstr ""
 
 

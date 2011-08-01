@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-05-24 10:17-0400\n"
-"PO-Revision-Date: 2011-07-29 22:31+0000\n"
+"POT-Creation-Date: 2011-08-01 16:40-0700\n"
+"PO-Revision-Date: 2011-08-01 23:41+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Russian <trans-ru@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.5\n"
+"Generated-By: Babel 0.9.6\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
@@ -191,11 +191,11 @@ msgstr "Ошибка при сохранении настроек в базу: %
 msgid "Config value successfully updated"
 msgstr "Настройки успешно обновлены."
 
-#: fas/controllers.py:202
+#: fas/controllers.py:203
 msgid "Your old password has expired.  Please reset your password below."
 msgstr "Время действия пароля истекло. Установите новый пароль ниже."
 
-#: fas/controllers.py:214
+#: fas/controllers.py:210
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
@@ -204,7 +204,7 @@ msgstr ""
 "Ваша учётная запись заблокирована. За дополнительной информацией обратитесь "
 "к %(admin_email)sadmin_email"
 
-#: fas/controllers.py:227
+#: fas/controllers.py:223
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Язык «%s» недоступен."
@@ -266,21 +266,21 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr ""
 
-#: fas/group.py:162 fas/group.py:198
+#: fas/group.py:163 fas/group.py:199
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "Вы не можете просмотреть «%s»"
 
-#: fas/group.py:221 fas/group.py:239
+#: fas/group.py:222 fas/group.py:240
 msgid "Only FAS adminstrators can create groups."
 msgstr "Только администраторы FAS могут создавать группы."
 
-#: fas/group.py:260
+#: fas/group.py:261
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "Не удалось создать группу «%s»."
 
-#: fas/group.py:270
+#: fas/group.py:271
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
@@ -289,46 +289,46 @@ msgstr ""
 "Группа «%(group)s» создана, но не удалось добавить пользователя «%(user)s» в"
 " список администраторов группы."
 
-#: fas/group.py:272
+#: fas/group.py:273
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "Была создана группа «%s»."
 
-#: fas/group.py:287 fas/group.py:305
+#: fas/group.py:288 fas/group.py:306
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "Вы не можете изменить «%s»."
 
-#: fas/group.py:331
+#: fas/group.py:332
 msgid "The group details could not be saved."
 msgstr "Не удалось сохранить подробности группы."
 
-#: fas/group.py:335
+#: fas/group.py:336
 msgid "The group details have been saved."
 msgstr "Сохранены подробности группы."
 
-#: fas/group.py:364
+#: fas/group.py:365
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Не найдены группы, соответствующие «%s»"
 
-#: fas/group.py:389 fas/group.py:411
+#: fas/group.py:390 fas/group.py:412
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s не может подать заявку на вступление в %(group)s."
 
-#: fas/group.py:419
+#: fas/group.py:420
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr ""
 "Не удалось создать заявку для %(user)s на вступление в %(group)s: %(error)s"
 
-#: fas/group.py:431
+#: fas/group.py:432
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr ""
 
-#: fas/group.py:433
+#: fas/group.py:434
 #, python-format
 msgid ""
 "\n"
@@ -338,12 +338,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr ""
 
-#: fas/group.py:444
+#: fas/group.py:445
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Заявка на вступление в группу «%(group)s»"
 
-#: fas/group.py:446
+#: fas/group.py:447
 #, python-format
 msgid ""
 "\n"
@@ -356,28 +356,28 @@ msgstr ""
 "\n"
 "%(joinmsg)s\n"
 
-#: fas/group.py:460
+#: fas/group.py:461
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s подал заявку на вступление в %(group)s."
 
-#: fas/group.py:477
+#: fas/group.py:478
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Вы не можете поручиться за «%s»"
 
-#: fas/group.py:484
+#: fas/group.py:485
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr ""
 "Не удалось поручиться за %(user)s при вступлении в %(group)s: %(error)s"
 
-#: fas/group.py:488
+#: fas/group.py:489
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr ""
 
-#: fas/group.py:489
+#: fas/group.py:490
 #, python-format
 msgid ""
 "\n"
@@ -386,27 +386,27 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
 
-#: fas/group.py:500
+#: fas/group.py:501
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "Вы поручились за «%s»."
 
-#: fas/group.py:517
+#: fas/group.py:518
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Вы не можете исключить пользователя «%(user)s» из «%(group)s»."
 
-#: fas/group.py:525
+#: fas/group.py:526
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "Не удалось удалить %(user)s из %(group)s: %(error)s"
 
-#: fas/group.py:529
+#: fas/group.py:530
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr ""
 
-#: fas/group.py:530
+#: fas/group.py:531
 #, python-format
 msgid ""
 "\n"
@@ -416,27 +416,27 @@ msgid ""
 "aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:542
+#: fas/group.py:543
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s успешно удалён из %(group)s"
 
-#: fas/group.py:559
+#: fas/group.py:560
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Вы не можете повысить «%s»"
 
-#: fas/group.py:566
+#: fas/group.py:567
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "Не удалось повысить %(name)s в %(group)s: %(error)s"
 
-#: fas/group.py:570
+#: fas/group.py:571
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr ""
 
-#: fas/group.py:576
+#: fas/group.py:577
 #, python-format
 msgid ""
 "\n"
@@ -446,27 +446,27 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:588
+#: fas/group.py:589
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "Повышен статус «%s»."
 
-#: fas/group.py:604
+#: fas/group.py:605
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Вы не можете понизить «%s»"
 
-#: fas/group.py:611
+#: fas/group.py:612
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "Не удалось понизить %(name)s в %(group)s: %(error)s"
 
-#: fas/group.py:615
+#: fas/group.py:616
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr ""
 
-#: fas/group.py:620
+#: fas/group.py:621
 #, python-format
 msgid ""
 "\n"
@@ -476,16 +476,16 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 
-#: fas/group.py:632
+#: fas/group.py:633
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "Понижен статус «%s»."
 
-#: fas/group.py:707
+#: fas/group.py:708
 msgid "Come join The Fedora Project!"
 msgstr "Присоединяйтесь к проекту Fedora!"
 
-#: fas/group.py:708
+#: fas/group.py:709
 #, python-format
 msgid ""
 "\n"
@@ -522,12 +522,12 @@ msgstr ""
 "\n"
 "Fedora и свободное программное обеспечение меняют мир — приходи и присоединяйся!"
 
-#: fas/group.py:728
+#: fas/group.py:729
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Сообщение отправлено пользователю %s"
 
-#: fas/group.py:731
+#: fas/group.py:732
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Вы не являетесь участником группы «%s»."
@@ -1083,29 +1083,29 @@ msgstr ""
 msgid "Loading: %(visitmod)s"
 msgstr "Загрузка: %(visitmod)s"
 
-#: fas/user.py:75
-msgid "Enter the code shown"
+#: fas/user.py:80
+msgid "Solve the math problem"
 msgstr ""
 
-#: fas/user.py:247
+#: fas/user.py:248
 #, python-format
 msgid "You cannot edit %s"
 msgstr "Вы не можете редактировать %s"
 
-#: fas/user.py:310
+#: fas/user.py:311
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "Вы не имеете доступа к редактированию «%s»"
 
-#: fas/user.py:319
+#: fas/user.py:320
 msgid "Only admin can enable or disable an account."
 msgstr ""
 
-#: fas/user.py:344
+#: fas/user.py:345
 msgid "Somebody is already using that email address."
 msgstr "Кто-то уже использует этот электронный адрес."
 
-#: fas/user.py:349
+#: fas/user.py:350
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
@@ -1113,12 +1113,12 @@ msgstr ""
 "Необходимо подтвердить электронный адрес. Вы получите письмо с инструкциями "
 "в ближайшее время."
 
-#: fas/user.py:355
+#: fas/user.py:357
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Запрошено изменение адреса для пользователя %s"
 
-#: fas/user.py:357
+#: fas/user.py:359
 #, python-format
 msgid ""
 "\n"
@@ -1130,17 +1130,17 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:382
+#: fas/user.py:384
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Не удалось сохранить информацию об учётной записи: %s"
 
-#: fas/user.py:387
+#: fas/user.py:389
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Обновление данных учётной записи Fedora: %s"
 
-#: fas/user.py:389
+#: fas/user.py:391
 #, python-format
 msgid ""
 "\n"
@@ -1166,44 +1166,44 @@ msgid ""
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
 msgstr ""
 
-#: fas/user.py:424
+#: fas/user.py:426
 msgid "Your account details have been saved."
 msgstr "Информация об учётной записи сохранена."
 
-#: fas/user.py:641
+#: fas/user.py:643
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Неверно указаны поля: %(error)s"
 
-#: fas/user.py:655
+#: fas/user.py:657
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Не найдены пользователи, соответствующие «%s»"
 
-#: fas/user.py:703
+#: fas/user.py:705
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:708 fas/user.py:730
+#: fas/user.py:710 fas/user.py:732
 msgid "You do not have any pending email changes."
 msgstr "Нет ожидающих запросов изменения адреса электронной почты."
 
-#: fas/user.py:712 fas/user.py:734
+#: fas/user.py:714 fas/user.py:736
 msgid "Invalid email change token."
 msgstr "Неправильный токен электронного адреса."
 
-#: fas/user.py:744
+#: fas/user.py:746
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Электронный адрес успешно изменён на «%s»"
 
-#: fas/user.py:759
+#: fas/user.py:761
 msgid "No need to sign up, you have an account!"
 msgstr "Нет необходимости в регистрации, у вас уже есть учётная запись."
 
-#: fas/user.py:788 fas/user.py:842
+#: fas/user.py:790 fas/user.py:844
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1218,35 +1218,35 @@ msgstr ""
 " сайтах и приобретать товары и услуги. Мы сознательно не собираем или "
 "запрашиваем личную информацию о детях младше 13 лет."
 
-#: fas/user.py:800 fas/user.py:853
+#: fas/user.py:802 fas/user.py:855
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr "Извините, но этот адрес уже используется. Возможно, вы забыли пароль?"
 
-#: fas/user.py:806
+#: fas/user.py:808
 msgid "Sorry.  Email addresses do not match"
 msgstr ""
 
-#: fas/user.py:813
+#: fas/user.py:815
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr ""
 "Не удалось создать учётную запись. Пожалуйста, свяжитесь с %s для получения "
 "помощи."
 
-#: fas/user.py:820
+#: fas/user.py:822
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr ""
 "Пароль был выслан на ваш адрес. Пожалуйста, измените пароль после входа."
 
-#: fas/user.py:868
+#: fas/user.py:870
 msgid "Welcome to the Fedora Project!"
 msgstr "Добро пожаловать в проект Fedora!"
 
-#: fas/user.py:868
+#: fas/user.py:870
 #, python-format
 msgid ""
 "\n"
@@ -1290,39 +1290,39 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:931
+#: fas/user.py:934
 msgid "passwords did not match"
 msgstr ""
 
-#: fas/user.py:937
+#: fas/user.py:939
 msgid "Your current password did not match"
 msgstr ""
 
-#: fas/user.py:953
+#: fas/user.py:956
 msgid "Your password could not be changed."
 msgstr "Не удалось изменить пароль."
 
-#: fas/user.py:956
+#: fas/user.py:959
 msgid "Your password has been changed."
 msgstr "Пароль успешно изменён."
 
-#: fas/user.py:967
+#: fas/user.py:970
 msgid "You are already logged in!"
 msgstr "Вы уже вошли!"
 
-#: fas/user.py:981
+#: fas/user.py:984
 msgid "You are already logged in."
 msgstr "Вы уже вошли."
 
-#: fas/user.py:987
+#: fas/user.py:990
 msgid "Username email combo does not exist!"
 msgstr "Такие имя пользователя и почтовый адрес не существуют!"
 
-#: fas/user.py:991
+#: fas/user.py:994
 msgid "username + email combo unknown."
 msgstr "имя пользователя + почтовый адрес неизвестен."
 
-#: fas/user.py:994 fas/user.py:1086 fas/user.py:1130
+#: fas/user.py:997 fas/user.py:1089 fas/user.py:1133
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
@@ -1331,7 +1331,7 @@ msgstr ""
 "Статус вашей учётной записи: %(status)s.  За дополнительной информацией "
 "обратитесь к %(admin_email)s"
 
-#: fas/user.py:1001
+#: fas/user.py:1004
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
@@ -1340,11 +1340,11 @@ msgstr ""
 "Пароли системных учётных записей нельзя изменить с помощью онлайн служб. "
 "Обратитесь к %(admin_email)s."
 
-#: fas/user.py:1005
+#: fas/user.py:1008
 msgid "Warning: attempted reset of system account"
 msgstr ""
 
-#: fas/user.py:1006
+#: fas/user.py:1009
 #, python-format
 msgid ""
 "\n"
@@ -1352,7 +1352,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr ""
 
-#: fas/user.py:1014
+#: fas/user.py:1017
 #, python-format
 msgid ""
 "\n"
@@ -1362,7 +1362,7 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:1028
+#: fas/user.py:1031
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
@@ -1370,69 +1370,69 @@ msgstr ""
 "Этот пользователь не предоставил идентификатор и GPG-ключ, поэтому нельзя "
 "отправить сообщение в зашифрованном виде."
 
-#: fas/user.py:1034
+#: fas/user.py:1037
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Не удалось получить ваш ключ с subkeys.pgp.net"
 
-#: fas/user.py:1061
+#: fas/user.py:1064
 msgid "Your password reset email could not be encrypted."
 msgstr "Сообщение сброса пароля не может быть зашифровано."
 
-#: fas/user.py:1064
+#: fas/user.py:1067
 msgid "Fedora Project Password Reset"
 msgstr "Изменить пароль доступа к проекту Fedora"
 
-#: fas/user.py:1068
+#: fas/user.py:1071
 msgid "A password reset URL has been emailed to you."
 msgstr "URL для сброса пароля отправлен на ваш электронный адрес."
 
-#: fas/user.py:1092
+#: fas/user.py:1095
 msgid "You don't have any pending password changes."
 msgstr ""
 
-#: fas/user.py:1096 fas/user.py:1144
+#: fas/user.py:1099 fas/user.py:1147
 msgid "Invalid password change token."
 msgstr "Неверный токен изменения пароля."
 
-#: fas/user.py:1104
+#: fas/user.py:1107
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
 "Запрос изменения пароля был отменен. Токены сброса пароля аннулированы."
 
-#: fas/user.py:1126
+#: fas/user.py:1129
 msgid "Both passwords must match"
 msgstr ""
 
-#: fas/user.py:1138
+#: fas/user.py:1141
 msgid "You do not have any pending password changes."
 msgstr "Нет ожидающих запросов изменения пароля."
 
-#: fas/user.py:1154
+#: fas/user.py:1157
 msgid "Your password can not be the same as your old password."
 msgstr "Новый пароль не должен совпадать со старым паролем."
 
-#: fas/user.py:1169
+#: fas/user.py:1172
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "Вы успешно изменили пароль. Теперь вы можете выполнить вход."
 
-#: fas/user.py:1204
+#: fas/user.py:1207
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr ""
 
-#: fas/user.py:1274
+#: fas/user.py:1277
 msgid "Your certificate could not be generated."
 msgstr "Не удалось сгенерировать сертификат."
 
-#: fas/user.py:1280
+#: fas/user.py:1283
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr ""
 
-#: fas/user.py:1282
+#: fas/user.py:1285
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -2415,10 +2415,13 @@ msgid "Sign up!"
 msgstr "Подписаться!"
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
-#: fas/templates/user/resetpass.html:19 fas/templates/user/verifypass.html:7
-#: fas/templates/user/verifypass.html:10
+#: fas/templates/user/verifypass.html:7 fas/templates/user/verifypass.html:10
 msgid "Reset Password"
 msgstr "Изменить пароль"
+
+#: fas/templates/user/resetpass.html:19
+msgid "Reset"
+msgstr ""
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2592,5 +2595,17 @@ msgid ""
 msgstr ""
 "<strong>%(user)s</strong> ожидает подтверждения на вступление в "
 "<strong>%(unapproved_role.group)s</strong>."
+
+#: fas/tgcaptcha2/validator.py:14
+msgid "Incorrect value."
+msgstr ""
+
+#: fas/tgcaptcha2/validator.py:15
+msgid "Too much time elapsed. Please try again."
+msgstr ""
+
+#: fas/tgcaptcha2/widgets.py:39
+msgid "obfuscated letters"
+msgstr ""
 
 
