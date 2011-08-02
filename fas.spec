@@ -30,7 +30,6 @@ Requires: python-openid
 Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
-Requires: python-tgcaptcha
 Requires: python-webob
 
 %description
