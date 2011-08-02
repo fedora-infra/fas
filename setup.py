@@ -229,7 +229,7 @@ setup(
                 'mcdermott = fas.tgcaptcha2.plugins.image.vanasco_dowty:generate_jpeg',
                 'vanasco_dowty = fas.tgcaptcha2.plugins.image.vanasco_dowty:generate_jpeg',
             ),
-            'tgcaptcha2.question_generators': (
+            'tgcaptcha2.text_generators': (
                 'random_ascii = fas.tgcaptcha2.plugins.text.random_ascii:generate_text',
                 'random_equation = fas.tgcaptcha2.plugins.text.random_equation:generate_text',
             ),
