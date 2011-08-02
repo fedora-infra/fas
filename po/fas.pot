@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-08-01 16:40-0700\n"
+"POT-Creation-Date: 2011-08-01 17:32-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2218,7 +2218,7 @@ msgid "I am 13 years of age or older"
 msgstr ""
 
 #: fas/templates/user/new.html:55
-msgid "Type the letters in the box"
+msgid "Answer this math equation"
 msgstr ""
 
 #: fas/templates/user/new.html:58

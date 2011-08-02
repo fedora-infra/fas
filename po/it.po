@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-08-01 16:40-0700\n"
-"PO-Revision-Date: 2011-08-01 23:41+0000\n"
+"POT-Creation-Date: 2011-08-01 17:32-0700\n"
+"PO-Revision-Date: 2011-08-02 00:33+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Italian <trans-it@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -2452,7 +2452,7 @@ msgid "I am 13 years of age or older"
 msgstr "Ho più di 13 anni"
 
 #: fas/templates/user/new.html:55
-msgid "Type the letters in the box"
+msgid "Answer this math equation"
 msgstr ""
 
 #: fas/templates/user/new.html:58
