@@ -11,7 +11,7 @@ from turbogears import config
 font_path =  config.get('tgcaptcha.plugin.mcdermott.font_path')
 if not font_path:
     font_path = os.path.abspath(
-                resource_filename('tgcaptcha', 'static/fonts/tuffy/Tuffy.ttf'))
+                resource_filename('tgcaptcha2', 'static/fonts/tuffy/Tuffy.ttf'))
 if not os.path.exists(font_path):
     font_path = os.path.normpath('/usr/share/fonts/tulrich-tuffy/Tuffy.ttf')
 assert os.path.exists(font_path), \

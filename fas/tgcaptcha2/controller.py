@@ -24,12 +24,12 @@ class CaptchaController(controllers.Controller):
         self.jpeg_generator = None
         # find the jpeg generator
         jpeg_gen = tg.config.get('tgcaptcha.jpeg_generator', 'vanasco_dowty')
-        for ep in iter_entry_points('tgcaptcha.jpeg_generators', jpeg_gen):
+        for ep in iter_entry_points('tgcaptcha2.jpeg_generators', jpeg_gen):
             self.jpeg_generator = ep.load()
         # find the text generator
         self.text_generator = None
         txt_gen = tg.config.get('tgcaptcha.text_generator', 'random_ascii')
-        for ep in iter_entry_points('tgcaptcha.text_generators', txt_gen):
+        for ep in iter_entry_points('tgcaptcha2.text_generators', txt_gen):
             self.text_generator = ep.load()
 
     def image(self, value):

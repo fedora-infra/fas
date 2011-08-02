@@ -9,9 +9,9 @@ from turbogears.widgets import CSSLink, JSLink, Widget, WidgetDescription, \
     register_static_directory, CompoundFormField, FormField, HiddenField
 from turbogears import widgets
 
-js_dir = pkg_resources.resource_filename("tgcaptcha",
+js_dir = pkg_resources.resource_filename("tgcaptcha2",
                                          "static/javascript")
-register_static_directory("tgcaptcha", js_dir)
+register_static_directory("tgcaptcha2", js_dir)
 
 captcha_controller = controller.CaptchaController()
 

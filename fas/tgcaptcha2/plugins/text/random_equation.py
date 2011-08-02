@@ -2,7 +2,7 @@
 import random
 from turbogears import config
 
-plugin_name = 'tgcaptcha.plugin.random_equation.'
+plugin_name = 'tgcaptcha2.plugin.random_equation.'
 range_start = int(config.get(plugin_name + 'range_start', 0))
 range_end = int(config.get(plugin_name + 'range_end', 100))
 
