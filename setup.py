@@ -227,14 +227,14 @@ setup(
             # For the enhanced captcha
             'tgcaptcha2.jpeg_generators': (
                 'mcdermott = fas.tgcaptcha2.plugins.image.vanasco_dowty:generate_jpeg',
-                'vanasco_dowty = fas.tgcaptch2.plugins.image.vanasco_dowty:generate_jpeg',
+                'vanasco_dowty = fas.tgcaptcha2.plugins.image.vanasco_dowty:generate_jpeg',
             ),
             'tgcaptcha2.question_generators': (
-                'random_ascii = fas.tgcaptcha.plugins.text.random_ascii:generate_text',
-                'random_equation = fas.tgcaptcha.plugins.text.random_equation:generate_text',
+                'random_ascii = fas.tgcaptcha2.plugins.text.random_ascii:generate_text',
+                'random_equation = fas.tgcaptcha2.plugins.text.random_equation:generate_text',
             ),
             'paste.paster_create_template': (
-                'tgcaptcha = tgcaptcha:TGCaptchaConfig',
+                'tgcaptcha2 = tgcaptcha2:TGCaptchaConfig',
             ),
             # End enhanced captcha
     }
