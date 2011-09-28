@@ -30,7 +30,9 @@ import syslog
 import datetime
 import subprocess
 import time
+
 from fedora.client import AccountSystem, AuthError, ServerError
+from kitchen.text.converters import to_bytes
 from urllib2 import URLError
 
 try:
@@ -533,7 +535,7 @@ class MakeShellAccounts(AccountSystem):
         ''' Create homedirs and home base dir if they do not exist '''
         if modes is None:
             modes = {}
-        home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        home_dir_base = to_bytes(os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/')))
         if not os.path.exists(home_dir_base):
             os.makedirs(home_dir_base, mode=0755)
             if have_selinux:
@@ -574,7 +576,7 @@ class MakeShellAccounts(AccountSystem):
     def create_ssh_key_user(self, uid):
         home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
         username = self.users[uid]['username']
-        ssh_dir = os.path.join(home_dir_base, username, '.ssh')
+        ssh_dir = to_bytes(os.path.join(home_dir_base, username, '.ssh'))
         key_file = os.path.join(ssh_dir, 'authorized_keys')
         if self.users[uid]['ssh_key']:
             if users[uid]['ssh_cmd'] or users[uid]['ssh_options']:
