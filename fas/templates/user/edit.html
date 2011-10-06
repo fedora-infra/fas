@@ -8,7 +8,7 @@
     bad_codes = tg.config('country_blacklist', [])
     countries = GeoIP.country_names
 
-    countries = dict((unicode(c[0]), unicode(c[1], 'latin-1')) for c in countries.iteritems() if c[0] not in bad_codes):
+    countries = dict((unicode(c[0]), unicode(c[1], 'latin-1')) for c in countries.iteritems() if c[0] not in bad_codes)
 
   ?>
 
