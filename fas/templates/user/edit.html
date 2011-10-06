@@ -8,11 +8,8 @@
     bad_codes = tg.config('country_blacklist', [])
     countries = GeoIP.country_names
 
-    for c in bad_codes:
-        try:
-            del countries[c]
-        except KeyError:
-            pass
+    countries = dict((unicode(c[0]), unicode(c[1], 'latin-1')) for c in countries.iteritems() if c[0] not in bad_codes):
+
   ?>
 
   <xi:include href="../master.html" />
