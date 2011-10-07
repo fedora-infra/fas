@@ -228,7 +228,7 @@ class ValidLanguage(validators.FancyValidator):
             raise validators.Invalid(self.message('not_available', state, lang=value),
                     value, state)
 
-class PasswordStrength(validators.Unicode):
+class PasswordStrength(validators.UnicodeString):
     '''Make sure that a password meets our strength requirements'''
 
     messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, iupper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone means they need 20 or more characters.'),
