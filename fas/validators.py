@@ -227,3 +227,50 @@ class ValidLanguage(validators.FancyValidator):
         if value not in available_languages():
             raise validators.Invalid(self.message('not_available', state, lang=value),
                     value, state)
+
+class PasswordStrength(validators.Unicode):
+    '''Make sure that a password meets our strength requirements'''
+
+    messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, iupper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone means they need 20 or more characters.'),
+            'xkcd': _('Malicious hackers read xkcd, you know')}
+
+    def validate_python(self, value, state):
+        # http://xkcd.com/936/
+        if value.lower() in (u'correct horse battery staple',
+                u'correcthorsebatterystaple', u'tr0ub4dor&3'):
+            raise validators.Invalid(self.message('xkcd', state), value, state)
+
+        length = len(value)
+        if length >= 20:
+            return
+        if length < 9:
+            raise validators.Invalid(self.message('strength', state),
+                    value, state)
+
+        lower = upper = digit = space = symbol = False
+
+        for c in value:
+            if c.isalpha():
+                if c.islower():
+                    lower = True
+                else:
+                    upper = True
+            elif c.isdigit():
+                digit = True
+            elif c.isspace():
+                space = True
+            else:
+                symbol = True
+
+        if upper and lower and digit and symbol:
+            if length < 9:
+                raise validators.Invalid(self.message('strength', state),
+                        value, state)
+        elif upper and lower and (digit or symbol):
+            if length < 10:
+                raise validators.Invalid(self.message('strength', state),
+                        value, state)
+        elif (lower or upper) and (digit or symbol):
+            if length < 12:
+                raise validators.Invalid(self.message('strength', state),
+                        value, state)

@@ -2,7 +2,7 @@
 ''' Provides user IO to FAS '''
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2010 Red Hat, Inc. All rights reserved.
+# Copyright © 2008-2011 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -69,8 +69,8 @@ from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
 from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
 from fas.util import available_languages
-from fas.validators import KnownUser, ValidSSHKey, NonFedoraEmail, \
-        ValidLanguage, UnknownUser, ValidUsername
+from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
+        NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -107,14 +107,14 @@ class UserSetPassword(validators.Schema):
     ''' Validate new and old passwords '''
     currentpassword = validators.String
     # TODO (after we're done with most testing): Add complexity requirements?
-    password = validators.String(min=8)
-    passwordcheck = validators.String
+    password = PasswordStrength()
+    passwordcheck = validators.UnicodeString()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 class UserResetPassword(validators.Schema):
     # TODO (after we're done with most testing): Add complexity requirements?
-    password = validators.String(min=8)
-    passwordcheck = validators.String
+    password = PasswordStrength()
+    passwordcheck = validators.UnicodeString()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 def generate_password(password=None, length=16):
@@ -166,6 +166,9 @@ def random_string(charset, length):
 
 class User(controllers.Controller):
     ''' Our base User controller for user based operations '''
+    # Regex to tell if something looks like a crypted password
+    crypted_password_re = re.compile('^\$[0-9]\$.*\$.*')
+
     def __init__(self):
         '''Create a User Controller.
         '''
@@ -782,7 +785,7 @@ If the above information is incorrect, please log in and fix it:
         '''
         # TODO: perhaps implement a timeout- delete account
         #           if the e-mail is not verified (i.e. the person changes
-        #           their password) withing X days.
+        #           their password) within X days.
 
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
@@ -912,7 +915,7 @@ forward to working with you!
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
         return person
-        
+
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")
     def changepass(self):
@@ -930,17 +933,22 @@ forward to working with you!
         username = identity.current.user_name
         person  = People.by_username(username)
 
+        # This is here due to a bug in older formencode where
+        # ChainedValidators did not fire
         if password != passwordcheck:
             turbogears.flash(_('passwords did not match'))
             return dict()
 
+        # These are done here instead of in the validator because we may not
+        # have access to identity when testing the validators
         if not person.password == crypt.crypt(currentpassword.encode('utf-8'),
                 person.password):
             turbogears.flash(_('Your current password did not match'))
             return dict()
 
         if currentpassword == password:
-            turbogears.flash('Your new password cannot be the same as your old one.')
+            turbogears.flash(_(
+                'Your new password cannot be the same as your old one.'))
             return dict()
 
         newpass = generate_password(password)
@@ -1125,6 +1133,10 @@ To change your password (or to cancel the request), please visit
         :returns: empty dict or error
         '''
         person = People.by_username(username)
+
+        # Note: the following check should be done by the validator.  It's
+        # here because of a bug in older formencode that caused chained
+        # validators to not fire.
         if password != passwordcheck:
             turbogears.flash(_("Both passwords must match"))
             return dict()
@@ -1151,12 +1163,17 @@ To change your password (or to cancel the request), please visit
         # Re-enabled!
         if person.status in ('inactive'):
             # Check that the password has changed.
-            if person.old_password:
-                if crypt.crypt(password.encode('utf-8'), person.old_password) \
-                    == person.old_password:
-                    turbogears.flash(_('Your password can not be the same ' + \
+            if (person.old_password and
+                    crypt.crypt(password.encode('utf-8'), person.old_password)
+                        == person.old_password) or (
+                    person.password and
+                    self.crypted_password_re.match(person.password) and
+                    crypt.crypt(password.encode('utf-8'), person.password)
+                        == person.old_password):
+                turbogears.flash(_('Your password can not be the same ' + \
                         'as your old password.'))
-                    return dict(person=person, token=token)
+                return dict(person=person, token=token)
+
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
 

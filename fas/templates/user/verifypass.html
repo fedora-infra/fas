@@ -8,6 +8,8 @@
   </head>
   <body>
     <h2>${_('Reset Password')}</h2>
+    <p>${_('Pick a password or phrase that is long but memorable.  Use a mix of
+    upper and lowercase letters as well as numbers and punctuation.')}</p>
     <form action="${tg.url('/user/setnewpass/%s/%s') % (person.username, token)}" method="post">
       <ul>
         <div class="field"><label for="password">${_('New Password:')}</label> <input type="password" id="password" name="password" /></div>
