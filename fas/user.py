@@ -106,13 +106,11 @@ class UserCreate(validators.Schema):
 class UserSetPassword(validators.Schema):
     ''' Validate new and old passwords '''
     currentpassword = validators.String
-    # TODO (after we're done with most testing): Add complexity requirements?
     password = PasswordStrength()
     passwordcheck = validators.UnicodeString()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 class UserResetPassword(validators.Schema):
-    # TODO (after we're done with most testing): Add complexity requirements?
     password = PasswordStrength()
     passwordcheck = validators.UnicodeString()
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
