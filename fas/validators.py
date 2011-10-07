@@ -263,14 +263,12 @@ class PasswordStrength(validators.UnicodeString):
                 symbol = True
 
         if upper and lower and digit and symbol:
-            if length < 9:
-                raise validators.Invalid(self.message('strength', state),
-                        value, state)
+            if length >= 9:
+                return
         elif upper and lower and (digit or symbol):
-            if length < 10:
-                raise validators.Invalid(self.message('strength', state),
-                        value, state)
+            if length >= 10:
+                return
         elif (lower or upper) and (digit or symbol):
-            if length < 12:
-                raise validators.Invalid(self.message('strength', state),
-                        value, state)
+            if length >= 12:
+                return
+        raise validators.Invalid(self.message('strength', state), value, state)
