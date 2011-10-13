@@ -4,7 +4,7 @@ import random
 import os.path
 from pkg_resources import resource_filename
 
-plugin_name = 'tgcaptcha2.plugin.vanasco_dowty.'
+plugin_name = 'fas.tgcaptcha2.plugin.vanasco_dowty.'
 
 width = int(config.get(plugin_name + 'width', 300))
 height = int(config.get(plugin_name + 'height', 100))
@@ -14,7 +14,7 @@ fg_color = config.get(plugin_name + 'fg_color',
 font_size_min = int(config.get(plugin_name + 'font_size_min', 30))
 font_size_max = int(config.get(plugin_name + 'font_size_max', 45))
 font_paths = config.get(plugin_name + 'font_paths',
-                [os.path.abspath(resource_filename('tgcaptcha2', 
+                [os.path.abspath(resource_filename('fas.tgcaptcha2',
                                 'static/fonts/tuffy/Tuffy.ttf'))])
 
 captcha.font__paths = font_paths

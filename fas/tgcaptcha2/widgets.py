@@ -1,7 +1,7 @@
 import pkg_resources
 import turbogears as tg
 import controller
-from tgcaptcha2.validator import CaptchaFieldValidator
+from fas.tgcaptcha2.validator import CaptchaFieldValidator
 import gettext
 _ = gettext.gettext
 
@@ -9,9 +9,9 @@ from turbogears.widgets import CSSLink, JSLink, Widget, WidgetDescription, \
     register_static_directory, CompoundFormField, FormField, HiddenField
 from turbogears import widgets
 
-js_dir = pkg_resources.resource_filename("tgcaptcha2",
+js_dir = pkg_resources.resource_filename("fas.tgcaptcha2",
                                          "static/javascript")
-register_static_directory("tgcaptcha2", js_dir)
+register_static_directory("fas.tgcaptcha2", js_dir)
 
 captcha_controller = controller.CaptchaController()
 
