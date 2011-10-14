@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2009 Red Hat, Inc. All rights reserved.
+# Copyright © 2008-2011 Red Hat, Inc. All rights reserved.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -116,11 +116,9 @@ def get_locale(locale=None):
     except KeyError:
         pass
 
-    default_language = config.get('default_language')
-    if default_language is not None:
-        return default_language
-
-    return turbogears.i18n.utils._get_locale()
+    default_language = config.get('default_language',
+            turbogears.i18n.utils._get_locale())
+    return default_language
 
 config.update({'i18n.get_locale': get_locale})
 
