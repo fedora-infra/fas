@@ -352,7 +352,7 @@ class User(controllers.Controller):
                     'must confirm it.  You should receive an email with ' + \
                     'instructions shortly.')
                 token_charset = string.ascii_letters + string.digits
-                token = rand_string(token_charset, 32)
+                token = random_string(token_charset, 32)
                 target.unverified_email = email
                 target.emailtoken = token
                 change_subject = _('Email Change Requested for %s') % \
@@ -1019,7 +1019,8 @@ Warning: Someone attempted to reset the password for system account
             send_mail(config.get('accounts_email'), reset_subject, reset_text)
             return dict()
 
-        token = generate_token()
+        token_charset = string.ascii_letters + string.digits
+        token = random_string(token_charset, 32)
         mail = _('''
 Somebody (hopefully you) has requested a password reset for your account!
 To change your password (or to cancel the request), please visit
