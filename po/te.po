@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Sveinn í Felli <sveinki@nett.is>, 2010.
+# ప్రవీణ్ యిళ్ళ <mail2ipn@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
@@ -11,12 +11,12 @@ msgstr ""
 "POT-Creation-Date: 2011-10-18 18:09-0500\n"
 "PO-Revision-Date: 2011-10-18 23:10+0000\n"
 "Last-Translator: neb <nick@bebout.net>\n"
-"Language-Team: Icelandic (http://www.transifex.net/projects/p/fedora/team/is/)\n"
+"Language-Team: Telugu (http://www.transifex.net/projects/p/fedora/team/te/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: is\n"
+"Language: te\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: fas/auth.py:360
@@ -463,7 +463,7 @@ msgstr ""
 
 #: fas/group.py:708
 msgid "Come join The Fedora Project!"
-msgstr ""
+msgstr "వచ్చి ఫెడోరా పరియోజనలో చేరండి!"
 
 #: fas/group.py:709
 #, python-format
@@ -489,7 +489,7 @@ msgstr ""
 #: fas/group.py:729
 #, python-format
 msgid "Message sent to: %s"
-msgstr ""
+msgstr "సందేశం వీరికి పంపబడింది: %s"
 
 #: fas/group.py:732
 #, python-format
@@ -498,7 +498,7 @@ msgstr ""
 
 #: fas/help.py:26 fas/help.py:77
 msgid "Error"
-msgstr "Villa"
+msgstr "దోషం"
 
 #: fas/help.py:26 fas/help.py:77
 msgid "<p>We could not find that help item</p>"
@@ -521,7 +521,7 @@ msgstr ""
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
-msgstr ""
+msgstr "IRC మారుపేరు (ఐచ్ఛికం)"
 
 #: fas/help.py:28
 msgid ""
@@ -532,7 +532,7 @@ msgstr ""
 
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr ""
+msgstr "ఈమెయిల్ (అవసరం)"
 
 #: fas/help.py:29
 msgid ""
@@ -543,7 +543,7 @@ msgstr ""
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
-msgstr ""
+msgstr "పూర్తి పేరు (అవసరం)"
 
 #: fas/help.py:30
 msgid "<p>Your Human Name or \"real life\" name</p>"
@@ -551,7 +551,7 @@ msgstr ""
 
 #: fas/help.py:31 fas/templates/user/edit.html:96
 msgid "GPG Key ID"
-msgstr ""
+msgstr "జిపిజి కీ ఐడీ"
 
 #: fas/help.py:31
 msgid ""
@@ -562,7 +562,7 @@ msgstr ""
 
 #: fas/help.py:32
 msgid "Telephone"
-msgstr ""
+msgstr "టెలీఫోన్"
 
 #: fas/help.py:32 fas/help.py:40
 msgid ""
@@ -577,7 +577,7 @@ msgstr ""
 #: fas/help.py:33 fas/templates/cla/index.html:46
 #: fas/templates/fpca/index.html:47 fas/templates/user/edit.html:47
 msgid "Postal Address"
-msgstr ""
+msgstr "తపాలా చిరునామా"
 
 #: fas/help.py:33
 msgid ""
@@ -588,15 +588,15 @@ msgstr ""
 
 #: fas/help.py:34
 msgid "Timezone (Optional)"
-msgstr ""
+msgstr "సమయక్షేత్రం (ఐచ్ఛికం)"
 
 #: fas/help.py:34
 msgid "<p>Please specify the time zone you are in.</p>"
-msgstr ""
+msgstr "<p>దయచేసి మీరు ఏ సమయక్షేత్రంలో ఉన్నారో తెలుపండి.</p>"
 
 #: fas/help.py:35
 msgid "Comments (Optional)"
-msgstr ""
+msgstr "వ్యాఖ్యలు (ఐచ్ఛికం)"
 
 #: fas/help.py:35
 msgid "<p>Misc comments about yourself.</p>"
@@ -604,7 +604,7 @@ msgstr ""
 
 #: fas/help.py:36 fas/templates/user/list.html:27
 msgid "Account Status"
-msgstr ""
+msgstr "ఖాతా స్థితి"
 
 #: fas/help.py:36
 msgid ""
@@ -650,7 +650,7 @@ msgstr ""
 
 #: fas/help.py:40
 msgid "Country Code"
-msgstr ""
+msgstr "దేశం కోడ్"
 
 #: fas/help.py:41
 msgid "Must be over 13 Years"
@@ -667,7 +667,7 @@ msgstr ""
 
 #: fas/help.py:42
 msgid "Hide Information"
-msgstr ""
+msgstr "సమాచారం దాయి"
 
 #: fas/help.py:42
 msgid ""
@@ -678,7 +678,7 @@ msgstr ""
 
 #: fas/help.py:43 fas/templates/group/list.html:43
 msgid "Apply"
-msgstr ""
+msgstr "అనువర్తించు"
 
 #: fas/help.py:43
 #, python-format
@@ -691,7 +691,7 @@ msgstr ""
 
 #: fas/help.py:44 fas/templates/group/member-list.html:46
 msgid "Remove"
-msgstr ""
+msgstr "తీసివేయి"
 
 #: fas/help.py:44
 msgid ""
@@ -702,7 +702,7 @@ msgstr ""
 
 #: fas/help.py:45 fas/templates/group/member-list.html:50
 msgid "Upgrade"
-msgstr ""
+msgstr "ఉన్నతీకరించు"
 
 #: fas/help.py:45
 msgid ""
@@ -724,7 +724,7 @@ msgstr ""
 
 #: fas/help.py:47 fas/templates/group/member-list.html:41
 msgid "Approve"
-msgstr ""
+msgstr "ఆమోదించు"
 
 #: fas/help.py:47
 msgid ""
@@ -736,7 +736,7 @@ msgstr ""
 #: fas/help.py:48 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr ""
+msgstr "ప్రాయోజకుడు"
 
 #: fas/help.py:48
 msgid ""
@@ -748,7 +748,7 @@ msgstr ""
 
 #: fas/help.py:49
 msgid "Add User"
-msgstr ""
+msgstr "వాడుకరిని జతచేయి"
 
 #: fas/help.py:49
 msgid ""
@@ -758,7 +758,7 @@ msgstr ""
 
 #: fas/help.py:50
 msgid "Group Name"
-msgstr ""
+msgstr "గుంపు పేరు"
 
 #: fas/help.py:50
 msgid ""
@@ -768,7 +768,7 @@ msgstr ""
 
 #: fas/help.py:51
 msgid "Display Name"
-msgstr ""
+msgstr "ప్రదర్శనా నామం"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
@@ -776,7 +776,7 @@ msgstr ""
 
 #: fas/help.py:52
 msgid "Group Owner"
-msgstr ""
+msgstr "గుంపు యజమాని"
 
 #: fas/help.py:52
 msgid "<p>The name of the owner who will run this group</p>"
@@ -784,7 +784,7 @@ msgstr ""
 
 #: fas/help.py:53 fas/templates/group/list.html:28
 msgid "Group Type"
-msgstr ""
+msgstr "గుంపు రకం"
 
 #: fas/help.py:53
 msgid ""
@@ -796,7 +796,7 @@ msgstr ""
 
 #: fas/help.py:54
 msgid "Group URL (Optional)"
-msgstr ""
+msgstr "గుంపు URL (ఐచ్ఛికం)"
 
 #: fas/help.py:54
 msgid ""
@@ -806,7 +806,7 @@ msgstr ""
 
 #: fas/help.py:55
 msgid "Group Mailing List (Optional)"
-msgstr ""
+msgstr "గుంపు మెయిలింగు జాబితా (ఐచ్ఛికం)"
 
 #: fas/help.py:55
 msgid ""
@@ -816,7 +816,7 @@ msgstr ""
 
 #: fas/help.py:56
 msgid "Group Mailing List URL (Optional)"
-msgstr ""
+msgstr "గుంపు మెయిలింగు జాబితా URL (ఐచ్ఛికం)"
 
 #: fas/help.py:56
 msgid ""
@@ -828,7 +828,7 @@ msgstr ""
 
 #: fas/help.py:57
 msgid "Invite Only"
-msgstr ""
+msgstr "ఆహ్వానం మాత్రమే"
 
 #: fas/help.py:57
 msgid ""
@@ -839,7 +839,7 @@ msgstr ""
 
 #: fas/help.py:58
 msgid "Group IRC Channel (Optional)"
-msgstr ""
+msgstr "గుంపు IRC ఛానల్ (ఐచ్ఛికం)"
 
 #: fas/help.py:58
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
@@ -847,7 +847,7 @@ msgstr ""
 
 #: fas/help.py:59
 msgid "Group IRC Network (Optional)"
-msgstr ""
+msgstr "గుంపు IRC నెట్‌వర్క్ (ఐచ్ఛికం)"
 
 #: fas/help.py:59
 msgid ""
@@ -891,7 +891,7 @@ msgstr ""
 
 #: fas/help.py:63
 msgid "Join Message"
-msgstr ""
+msgstr "చేరినపుడు సందేశం"
 
 #: fas/help.py:63
 msgid ""
@@ -915,7 +915,7 @@ msgstr ""
 
 #: fas/help.py:65
 msgid "Longitude and Latitude"
-msgstr ""
+msgstr "అక్షాంశం మరియు రేఖాంశం"
 
 #: fas/help.py:65
 msgid ""
@@ -927,7 +927,7 @@ msgstr ""
 
 #: fas/help.py:66
 msgid "Rules for Application"
-msgstr ""
+msgstr "అనువర్తనానికి నిబంధనలు"
 
 #: fas/help.py:66
 msgid ""

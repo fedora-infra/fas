@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Sveinn í Felli <sveinki@nett.is>, 2010.
+# Valentin Laskov <laskov@festa.bg>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
@@ -11,35 +11,43 @@ msgstr ""
 "POT-Creation-Date: 2011-10-18 18:09-0500\n"
 "PO-Revision-Date: 2011-10-18 23:10+0000\n"
 "Last-Translator: neb <nick@bebout.net>\n"
-"Language-Team: Icelandic (http://www.transifex.net/projects/p/fedora/team/is/)\n"
+"Language-Team: Bulgarian <trans-bg@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: is\n"
+"Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
 msgstr ""
+"Необходимо е %s членство преди кандидатурата Ви за тази група да бъде "
+"одобрена"
 
 #: fas/cla.py:76
 msgid ""
 "A telephone number is required to complete the CLA.  Please fill out below."
 msgstr ""
+"За подписването на CLA е необходим телефонен номер.  Моля, попълнете го по-"
+"долу."
 
 #: fas/cla.py:80
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the CLA.  Please fill them out below."
 msgstr ""
+"За подписването на CLA са необходими валидни държава и телефонен номер или "
+"пощенски адрес.  Моля, попълнете ги по-долу."
 
 #: fas/cla.py:86
 msgid ""
 "A valid country and telephone number are required to complete the CLA.  "
 "Please fill them out below."
 msgstr ""
+"За подписването на CLA са необходими валидни държава и телефонен номер.  "
+"Моля, попълнете ги по-долу."
 
 #: fas/cla.py:163
 msgid "You are not allowed to reject CLAs."
@@ -498,7 +506,7 @@ msgstr ""
 
 #: fas/help.py:26 fas/help.py:77
 msgid "Error"
-msgstr "Villa"
+msgstr ""
 
 #: fas/help.py:26 fas/help.py:77
 msgid "<p>We could not find that help item</p>"

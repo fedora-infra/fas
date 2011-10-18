@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Sveinn í Felli <sveinki@nett.is>, 2010.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
@@ -11,18 +11,18 @@ msgstr ""
 "POT-Creation-Date: 2011-10-18 18:09-0500\n"
 "PO-Revision-Date: 2011-10-18 23:10+0000\n"
 "Last-Translator: neb <nick@bebout.net>\n"
-"Language-Team: Icelandic (http://www.transifex.net/projects/p/fedora/team/is/)\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
+msgstr "Вступ до цієї групи неможливий до вступу до групи %s"
 
 #: fas/cla.py:76
 msgid ""
@@ -43,7 +43,7 @@ msgstr ""
 
 #: fas/cla.py:163
 msgid "You are not allowed to reject CLAs."
-msgstr ""
+msgstr "Ви не можете відхиляти ліцензійні угоди учасника розробки."
 
 #: fas/cla.py:174 fas/fpca.py:174
 #, python-format
@@ -93,11 +93,11 @@ msgstr ""
 
 #: fas/cla.py:241
 msgid "You have already completed the CLA."
-msgstr ""
+msgstr "Ви вже погодилися з умовами ліцензійної угоди учасника розробки."
 
 #: fas/cla.py:245
 msgid "You have not completed the CLA."
-msgstr ""
+msgstr "Ви ще не погодилися з умовами ліцензійної угоди учасника розробки."
 
 #: fas/cla.py:248 fas/fpca.py:246
 msgid "You must confirm that your personal information is accurate."
@@ -498,7 +498,7 @@ msgstr ""
 
 #: fas/help.py:26 fas/help.py:77
 msgid "Error"
-msgstr "Villa"
+msgstr ""
 
 #: fas/help.py:26 fas/help.py:77
 msgid "<p>We could not find that help item</p>"
