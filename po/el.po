@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-18 18:09-0500\n"
-"PO-Revision-Date: 2011-10-18 23:10+0000\n"
-"Last-Translator: neb <nick@bebout.net>\n"
+"POT-Creation-Date: 2011-10-27 15:26-0700\n"
+"PO-Revision-Date: 2011-10-27 22:31+0000\n"
+"Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1158,40 +1158,40 @@ msgstr ""
 msgid "Your account details have been saved."
 msgstr "Οι λεπτομέρειες του λογαριασμού σας αποθηκεύτηκαν."
 
-#: fas/user.py:644
+#: fas/user.py:672
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr ""
 
-#: fas/user.py:658
+#: fas/user.py:686
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Δεν βρέθηκαν χρήστες να ταιριάζουν στο '%s'"
 
-#: fas/user.py:706
+#: fas/user.py:734
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:711 fas/user.py:733
+#: fas/user.py:739 fas/user.py:761
 msgid "You do not have any pending email changes."
 msgstr "Δεν έχετε καμία εκκρεμή αλλαγή στο email σας. "
 
-#: fas/user.py:715 fas/user.py:737
+#: fas/user.py:743 fas/user.py:765
 msgid "Invalid email change token."
 msgstr ""
 
-#: fas/user.py:747
+#: fas/user.py:775
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Αλλάξατε επιτυχώς το email σας στο '%s'"
 
-#: fas/user.py:762
+#: fas/user.py:790
 msgid "No need to sign up, you have an account!"
 msgstr "Δεν χρειάζεται να εγγραφείτε, έχετε λογαριασμό."
 
-#: fas/user.py:791 fas/user.py:845
+#: fas/user.py:819 fas/user.py:873
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1207,7 +1207,7 @@ msgstr ""
 "μας. Συνειδητά δεν συλλέγουμε ή αποζητάμε πληροφορίες για παιδιά κάτω των 13"
 " χρόνων. "
 
-#: fas/user.py:803 fas/user.py:856
+#: fas/user.py:831 fas/user.py:884
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
@@ -1215,18 +1215,18 @@ msgstr ""
 "Συγνώμη. Αυτή η διεύθυνση email χρησιμοποιείται ήδη. Μήπως ξεχάσατε τον "
 "κωδικό σας? "
 
-#: fas/user.py:809
+#: fas/user.py:837
 msgid "Sorry.  Email addresses do not match"
 msgstr ""
 
-#: fas/user.py:816
+#: fas/user.py:844
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr ""
 "Δεν ήταν δυνατή η δημιουργία του λογαριασμού σας. Παρακαλούμε επικοινωνήστε "
 "στο %s για βοήθεια. "
 
-#: fas/user.py:823
+#: fas/user.py:851
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
@@ -1234,11 +1234,11 @@ msgstr ""
 "Ο κωδικός σας έχει σταλεί στο email σας. Παρακαλούμε συνδεθείτε με αυτόν και"
 " αλλάξτε τον κωδικό σας."
 
-#: fas/user.py:871
+#: fas/user.py:899
 msgid "Welcome to the Fedora Project!"
 msgstr "Καλωσήρθατε στο Έργο Fedora."
 
-#: fas/user.py:871
+#: fas/user.py:899
 #, python-format
 msgid ""
 "\n"
@@ -1282,43 +1282,43 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:937
+#: fas/user.py:965
 msgid "passwords did not match"
 msgstr ""
 
-#: fas/user.py:944
+#: fas/user.py:972
 msgid "Your current password did not match"
 msgstr ""
 
-#: fas/user.py:948
+#: fas/user.py:976
 msgid "Your new password cannot be the same as your old one."
 msgstr ""
 
-#: fas/user.py:962
+#: fas/user.py:990
 msgid "Your password could not be changed."
 msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού σας. "
 
-#: fas/user.py:965
+#: fas/user.py:993
 msgid "Your password has been changed."
 msgstr "Ο κωδικός σας άλλαξε."
 
-#: fas/user.py:976
+#: fas/user.py:1004
 msgid "You are already logged in!"
 msgstr "Είστε ήδη συνδεδεμένος/η."
 
-#: fas/user.py:990
+#: fas/user.py:1018
 msgid "You are already logged in."
 msgstr "Είστε ήδη συνδεδεμένος/η!"
 
-#: fas/user.py:996
+#: fas/user.py:1024
 msgid "Username email combo does not exist!"
 msgstr "Ο συνδυασμός ονόματος χρήστη και email δεν υπάρχει."
 
-#: fas/user.py:1000
+#: fas/user.py:1028
 msgid "username + email combo unknown."
 msgstr "συνδυασμός ονόματος χρήστη - email άγνωστος. "
 
-#: fas/user.py:1003 fas/user.py:1096 fas/user.py:1144
+#: fas/user.py:1031 fas/user.py:1124 fas/user.py:1172
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
@@ -1327,7 +1327,7 @@ msgstr ""
 "Ο λογαριασμός σας είναι %(status)s. Για περισσότερες πληροφορίες παρακαλούμε"
 " επικοινωνήστε στο %(admin_email)s"
 
-#: fas/user.py:1010
+#: fas/user.py:1038
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
@@ -1337,11 +1337,11 @@ msgstr ""
 "online. Παρακαλούμε επικοινωνήστε στο %(admin_email)s για να γίνει η "
 "επαναφορά."
 
-#: fas/user.py:1014
+#: fas/user.py:1042
 msgid "Warning: attempted reset of system account"
 msgstr ""
 
-#: fas/user.py:1015
+#: fas/user.py:1043
 #, python-format
 msgid ""
 "\n"
@@ -1349,7 +1349,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr ""
 
-#: fas/user.py:1024
+#: fas/user.py:1052
 #, python-format
 msgid ""
 "\n"
@@ -1359,7 +1359,7 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:1038
+#: fas/user.py:1066
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
@@ -1367,69 +1367,69 @@ msgstr ""
 "Ο χρήστης δεν έχει ID κλειδιού GPG κι έτσι δεν είναι δυνατή η αποστολή "
 "κρυπτογραφημένου email."
 
-#: fas/user.py:1044
+#: fas/user.py:1072
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Το κλειδί σας δεν μπορεί να ανακτηθεί από το subkeys.pgp.net"
 
-#: fas/user.py:1071
+#: fas/user.py:1099
 msgid "Your password reset email could not be encrypted."
 msgstr "Το email επαναφοράς κλειδιού δεν ήταν δυνατό να κρυπτογραφηθεί."
 
-#: fas/user.py:1074
+#: fas/user.py:1102
 msgid "Fedora Project Password Reset"
 msgstr "Επαναφορά κωδικού Έργου Fedora"
 
-#: fas/user.py:1078
+#: fas/user.py:1106
 msgid "A password reset URL has been emailed to you."
 msgstr "Σας εστάλη το URL για την επαναφορά του κωδικού."
 
-#: fas/user.py:1102
+#: fas/user.py:1130
 msgid "You don't have any pending password changes."
 msgstr ""
 
-#: fas/user.py:1106 fas/user.py:1158
+#: fas/user.py:1134 fas/user.py:1186
 msgid "Invalid password change token."
 msgstr ""
 
-#: fas/user.py:1114
+#: fas/user.py:1142
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
 
-#: fas/user.py:1140
+#: fas/user.py:1168
 msgid "Both passwords must match"
 msgstr ""
 
-#: fas/user.py:1152
+#: fas/user.py:1180
 msgid "You do not have any pending password changes."
 msgstr "Δεν έχετε καμία εκκρρεμή αλλαγή κωδικού."
 
-#: fas/user.py:1172
+#: fas/user.py:1200
 msgid "Your password can not be the same as your old password."
 msgstr "Ο κωδικός σας δεν μπορεί να είναι ίδιος με τον παλιό σας κωδικό."
 
-#: fas/user.py:1188
+#: fas/user.py:1216
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr ""
 "Επαναφέρατε επιτυχώς τον κωδικό σας. Μπορείτε τώρα να συνδεθείτε παρακάτω."
 
-#: fas/user.py:1223
+#: fas/user.py:1251
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr ""
 
-#: fas/user.py:1293
+#: fas/user.py:1321
 msgid "Your certificate could not be generated."
 msgstr "Το πιστοποιητικό σας δεν ήταν δυνατό να δημιουργηθεί."
 
-#: fas/user.py:1299
+#: fas/user.py:1327
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr ""
 
-#: fas/user.py:1301
+#: fas/user.py:1329
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1711,58 +1711,58 @@ msgstr "Επικοινωνία"
 msgid "Help/Documentation"
 msgstr "Βοήθεια/Τεκμηρίωση"
 
-#: fas/templates/master.html:49
+#: fas/templates/master.html:48
 msgid "Logged in:"
 msgstr "Συνδεδεμένος:"
 
-#: fas/templates/master.html:62
+#: fas/templates/master.html:61
 msgid "Home"
 msgstr "Αρχική"
 
-#: fas/templates/master.html:63
+#: fas/templates/master.html:62
 msgid "My Account"
 msgstr "Ο λογαριασμός μου"
 
-#: fas/templates/master.html:65
+#: fas/templates/master.html:64
 msgid "News"
 msgstr "Νέα"
 
-#: fas/templates/master.html:70
+#: fas/templates/master.html:69
 msgid "Locale:"
 msgstr ""
 
-#: fas/templates/master.html:74
+#: fas/templates/master.html:73
 msgid "OK"
 msgstr "ΟΚ"
 
-#: fas/templates/master.html:86
+#: fas/templates/master.html:85
 msgid "About"
 msgstr "Σχετικά"
 
-#: fas/templates/master.html:87
+#: fas/templates/master.html:86
 msgid "Contact Us"
 msgstr "Επικοινωνήστε μαζί μας"
 
-#: fas/templates/master.html:88
+#: fas/templates/master.html:87
 msgid "Legal & Privacy"
 msgstr ""
 
-#: fas/templates/master.html:90
+#: fas/templates/master.html:89
 msgid "Log Out"
 msgstr "Αποσύνδεση"
 
-#: fas/templates/master.html:93
+#: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
 msgstr "Έκδοση FAS %s"
 
-#: fas/templates/master.html:96
+#: fas/templates/master.html:95
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
 
-#: fas/templates/master.html:99
+#: fas/templates/master.html:98
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
@@ -1809,10 +1809,14 @@ msgid "Log In"
 msgstr "Σύνδεση"
 
 #: fas/templates/welcome.html:22
+msgid "Forgot Password?"
+msgstr ""
+
+#: fas/templates/welcome.html:23
 msgid "New Account"
 msgstr "Νέος λογαριασμός"
 
-#: fas/templates/welcome.html:23
+#: fas/templates/welcome.html:24
 msgid "Why Join?"
 msgstr "Γιατί να συμμετέχετε?"
 
@@ -2259,25 +2263,55 @@ msgid "You are not <a href=\"%(url)s\">logged in</a>."
 msgstr "Δεν είστε <a href=\"%(url)s\">συνδεδεμένος/η</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
-#: fas/templates/user/changepass.html:17 fas/templates/user/verifypass.html:17
+#: fas/templates/user/changepass.html:24 fas/templates/user/verifypass.html:17
 msgid "Change Password"
 msgstr "Αλλαγή κωδικού"
 
-#: fas/templates/user/changepass.html:12 fas/templates/user/verifypass.html:11
+#: fas/templates/user/changepass.html:12
 msgid ""
-"Pick a password or phrase that is long but memorable.  Use a mix of upper "
-"and lowercase letters as well as numbers and punctuation."
+"Passphrases need to be of a certain complexity to prevent attackers from "
+"guessing it by having a computer try different combinations of characters in"
+" rapid succession.  To make such brute force attacks harder we enforce some "
+"minimum levels of strength:"
 msgstr ""
 
 #: fas/templates/user/changepass.html:14
+msgid ""
+"A passphrase with symbols, upper and lowercase letters, and digits must be "
+"at least 9 characters"
+msgstr ""
+
+#: fas/templates/user/changepass.html:15
+msgid ""
+"A passphrase with upper and lowercase letters and digits must be at least 10"
+" characters"
+msgstr ""
+
+#: fas/templates/user/changepass.html:16
+msgid ""
+"A passphrase with lowercase letters and digits must be at least 12 "
+"characters"
+msgstr ""
+
+#: fas/templates/user/changepass.html:17
+msgid "A passphrase with letters alone must be at least 20 characters"
+msgstr ""
+
+#: fas/templates/user/changepass.html:19
+msgid ""
+"Remember that these are minimum levels.  You are encouraged to make your "
+"passphrases longer and more complex than the minimum values."
+msgstr ""
+
+#: fas/templates/user/changepass.html:21
 msgid "Current Password:"
 msgstr "Τρέχον κωδικός:"
 
-#: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
+#: fas/templates/user/changepass.html:22 fas/templates/user/verifypass.html:14
 msgid "New Password:"
 msgstr "Νέος κωδικός:"
 
-#: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:15
+#: fas/templates/user/changepass.html:23 fas/templates/user/verifypass.html:15
 msgid "Confirm Password:"
 msgstr "Επιβεβαίωση κωδικού:"
 
@@ -2455,6 +2489,12 @@ msgstr "Θέλετε πραγματικά να αλλάξετε το email σα�
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
 msgstr "Επιβαβαίωση"
+
+#: fas/templates/user/verifypass.html:11
+msgid ""
+"Pick a password or phrase that is long but memorable.  Use a mix of upper "
+"and lowercase letters as well as numbers and punctuation."
+msgstr ""
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
