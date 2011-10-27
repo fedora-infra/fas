@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008 Red Hat, Inc.
+# Copyright © 2011 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -29,7 +29,7 @@ pkg_resources.require("TurboGears")
 
 import turbogears
 import cherrypy
-import fedora.tg.tg1utils
+import fedora.tg.utils
 
 cherrypy.lowercase_api = True
 
@@ -48,7 +48,7 @@ turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
 def start():
     '''Start the CherryPy application server.'''
-    turbogears.startup.call_on_startup.append(fedora.tg.tg1utils.enable_csrf)
+    turbogears.startup.call_on_startup.append(fedora.tg.utils.enable_csrf)
     setupdir = os.path.dirname(os.path.dirname(__file__))
     curdir = os.getcwd()
 

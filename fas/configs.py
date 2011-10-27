@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2008 Red Hat, Inc.
+# Copyright © 2011 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -34,7 +34,7 @@ from turbogears import validate, validators, controllers, expose, flash, \
         error_handler, identity, redirect
 from turbogears.database import session
 
-from fedora.tg.tg1utils import request_format
+from fedora.tg.utils import request_format
 
 from fas.model import Configs, People
 from fas.validators import KnownUser

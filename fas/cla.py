@@ -2,7 +2,7 @@
 ''' Used for processing CLA requests'''
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2009 Red Hat, Inc.
+# Copyright © 2011 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -33,7 +33,7 @@ from datetime import datetime
 import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
 
-from fedora.tg.tg1utils import request_format
+from fedora.tg.utils import request_format
 
 from fas.model import People, Groups, Log
 from fas.auth import is_admin, cla_done
