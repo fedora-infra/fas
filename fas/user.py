@@ -59,7 +59,7 @@ import time
 
 from sqlalchemy import func
 from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
-from sqlalchemy.sql import select, and_
+from sqlalchemy.sql import select
 
 from fedora.tg.tg1utils import request_format
 
@@ -474,6 +474,11 @@ If the above information is incorrect, please log in and fix it:
 
         return dict(people=people_dict, unapproved_people=[], search=search)
 
+    #class UserList(validators.Schema):
+    #   search = validators.UnicodeString()
+    #   fields = validators.Set()
+    #   limit = validators.Int()
+    #@validate(validators=UserList())
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
     def list(self, search=u'a*', fields=None, limit=None):
@@ -537,26 +542,18 @@ If the above information is incorrect, please log in and fix it:
         if not limit and request_format() != 'json':
             limit = 100
 
-        # cla_done group
-        cla_done_group = config.get('cla_done_group', 'cla_done')
-
-        # Query db for all users and their status in cla_done
-        stmt = select([PeopleTable, PersonRolesTable, GroupsTable]).where(
-                and_(People.id == PersonRoles.person_id,
-                    Groups.id == PersonRoles.group_id,
-                    People.id.in_(select([PersonRolesTable.c.person_id]).where(
-                        and_(PersonRoles.group_id == Groups.id,
-                Groups.name == cla_done_group,
-                            People.id == PersonRoles.person_id,
-                            People.username.ilike(re_search))
-                ).order_by(People.username).limit(limit
-                ).correlate(None)),
-                    People.username.ilike(re_search))
-                ).order_by(People.username)
+        joined_roles = PeopleTable.outerjoin(PersonRolesTable,
+                onclause=PersonRolesTable.c.person_id==PeopleTable.c.id)\
+                    .outerjoin(GroupsTable,
+                    onclause=PersonRolesTable.c.group_id==GroupsTable.c.id)
+        stmt = select([joined_roles]).where(People.username.ilike(re_search))\
+                .order_by(People.username).limit(limit)
         stmt.use_labels = True
         people = stmt.execute()
 
         people_map = dict()
+        group_map = dict()
+
         # This replicates what filter_private does.  At some point we might
         # want to figure out a way to pull this into a function
         if identity.in_any_group(config.get('admingroup', 'accounts'),
@@ -567,35 +564,56 @@ If the above information is incorrect, please log in and fix it:
             user = 'anonymous'
         else:
             user = 'public'
+        # user_perms is a synonym for user with one difference
+        # If user is public then we end up changing user_perms
+        # depending on whether the record is for the user themselves and if
+        # the record has privacy set
+        user_perms = user
+
         for record in people:
             if record.people_username not in people_map:
-                # Person
+                # Create a new person
                 person = Bunch()
                 if user == 'public':
+                    # The general public gets different fields depending on
+                    # the record being accessed
                     if identity.current.user_name == record.people_username:
-                        user = 'self'
+                        user_perms = 'self'
                     elif record.people_privacy:
-                        user = 'privacy'
+                        user_perms = 'privacy'
+                    else:
+                        user_perms = 'public'
+
+                # Clear all the fields so the client side doesn't get KeyError
                 for field in People.allow_fields['complete']:
                     person[field] = None
-                for field in People.allow_fields[user]:
+
+                # Fill in the people record
+                for field in People.allow_fields[user_perms]:
                     person[field] = record['people_%s' % field]
                 if identity.in_group(config.get('thirdpartygroup',
                     'thirdparty')):
+                    # Thirdparty is a little strange as it has to obey the
+                    # privacy flag just like a normal user but we allow a few
+                    # fields to be sent on in addition (ssh_key for now)
                     for field in People.allow_fields['thirdparty']:
                         person[field] = record['people_%s' % field]
-                if 'password' not in People.allow_fields[user]:
+                # Make sure the password field is a default value that won't
+                # cause issue for scripts
+                if 'password' not in People.allow_fields[user_perms]:
                     person.password = '*'
+
                 person.group_roles = {}
                 person.memberships = []
                 person.roles = []
                 people_map[record.people_username] = person
-                if user in ('self', 'privacy'):
-                    user = 'public'
             else:
+                # We need to have a reference to the person since we're
+                # going to add a group to it
                 person = people_map[record.people_username]
 
-            if record.groups_name not in person.group_roles:
+            if record.groups_name not in group_map:
+                # Create the group
                 group = Bunch()
                 group.id = record.groups_id
                 group.display_name = record.groups_display_name
@@ -614,6 +632,12 @@ If the above information is incorrect, please log in and fix it:
                 group.joinmsg = record.groups_joinmsg
                 group.group_type = record.groups_group_type
                 group.owner_id = record.groups_owner_id
+                group_map[record.groups_name] = group
+            else:
+                group = group_map[record.groups_name]
+
+            if group.name not in person.group_roles:
+                # Add the group to the person record
                 person.memberships.append(group)
 
                 role = Bunch()
@@ -625,13 +649,17 @@ If the above information is incorrect, please log in and fix it:
                 role.approval = record.person_roles_approval
                 role.group_id = record.person_roles_group_id
                 role.role_type = record.person_roles_role_type
-                person.group_roles[record.groups_name] = role
+                person.group_roles[group.name] = role
                 person.roles.append(role)
 
         approved = []
         unapproved = []
+        cla_done_group = config.get('cla_done_group', 'cla_done')
         for person in people_map.itervalues():
-            cla_status = person.group_roles[cla_done_group].role_status
+            if cla_done_group in person.group_roles:
+                cla_status = person.group_roles[cla_done_group].role_status
+            else:
+                cla_status = 'unapproved'
 
             # Current default is to return everything unless fields is set
             if fields:
