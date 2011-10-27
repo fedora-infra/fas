@@ -1,7 +1,7 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.8
+Version:        0.8.8.90
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -12,14 +12,14 @@ Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools-devel
+BuildRequires:  python2-devel
+BuildRequires:  python-setuptools
 BuildRequires:  TurboGears
 BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy
 Requires: python-TurboMail
-Requires: python-fedora >= 0.3.9.92
+Requires: python-fedora >= 0.3.25
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
@@ -110,6 +110,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Oct 27 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8.90-1
+- Beta of the 0.8.9 release.
+
 * Mon May 2 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8-1
 - Final release
 
@@ -188,71 +191,3 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 
 * Thu Feb 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.8-1
 - New upstream release that fixes some security issues.
-
-* Thu Nov 6 2008 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.4.7-1
-- New upstream release that fixes some fasClient issues.
-
-* Mon Nov 3 2008 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.4.6-1
-- New upstream release.
-
-* Thu Sep 11 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.4.5-1
-- Upstream released a new version.
-
-* Thu Aug 14 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.4-1
-- Upstream released a new version.
-
-* Tue Jul 29 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.3-1
-- Upstream released a new version.
-
-* Mon Jun 16 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.2-1
-- Upstream released a new version.
-
-* Tue May 27 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.1-1
-- Upstream released a new version
-
-* Tue May 27 2008 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4-1
-- Upstream released a new version
-- Added pyOpenSSL
-
-* Fri May 16 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.3.2-2
-- Upstream released a new version
-- Added python-GeoIP
-
-* Thu May 15 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.3.1-1
-- updated to a new version (release didn't get updated)
-
-* Thu May 15 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.3-1
-- Upstream released new version
-
-* Tue Mar 26 2008 McGrath <mmcgrath@redhat.com> - 0.8.2-1
-- Upstream released a new version
-
-* Tue Mar 14 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8.1-1
-- Upstream released a new version
-
-* Tue Mar 14 2008 Mike McGrath <mmcgrath@redhat.com> - 0.8-1
-- Upstream released a new version
-
-* Tue Mar 13 2008 Mike McGrath <mmcgrath@redhat.com> - 0.7.1-1
-- Upstream released new version
-
-* Tue Mar 13 2008 Mike McGrath <mmcgrath@redhat.com> - 0.7-1
-- Upstream released new version
-
-* Tue Mar 13 2008 Mike McGrath <mmcgrath@redhat.com> - 0.6-1
-- Upstream released a new version
-
-* Tue Mar 11 2008 Mike McGrath <mmcgrath@redhat.com> - 0.5-1
-- Upstream released a new version
-
-* Tue Mar 11 2008 Mike McGrath <mmcgrath@redhat.com> - 0.4-1
-- added fas.conf will fix later.
-
-* Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.3-1
-- Upstream released a new version.
-
-* Mon Mar 10 2008 Mike McGrath <mmcgrath@redhat.com> - 0.2-1
-- Added fas user/group
-
-* Mon Mar 10 2008 Toshio Kuratomi <tkuratom@redhat.com> - 0.1-1
-- Initial Build.
