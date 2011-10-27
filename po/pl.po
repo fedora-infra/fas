@@ -2,14 +2,15 @@
 # Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # 
-# Piotr Drąg <piotrdrag@gmail.com>, 2008.
+# Translators:
+# Piotr Drąg <piotrdrag@gmail.com>, 2008, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-08-01 17:32-0700\n"
-"PO-Revision-Date: 2011-08-02 00:33+0000\n"
-"Last-Translator: toshio <a.badger@gmail.com>\n"
+"POT-Creation-Date: 2011-10-18 18:09-0500\n"
+"PO-Revision-Date: 2011-10-18 23:10+0000\n"
+"Last-Translator: neb <nick@bebout.net>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/fedora/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,18 +29,23 @@ msgstr ""
 msgid ""
 "A telephone number is required to complete the CLA.  Please fill out below."
 msgstr ""
+"Wymagany jest numer telefonu, aby wypełnić CLA. Proszę wpisać go poniżej."
 
 #: fas/cla.py:80
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the CLA.  Please fill them out below."
 msgstr ""
+"Wymagany jest prawidłowy kraj i numer telefonu lub adres pocztowy, aby "
+"wypełnić CLA. Proszę wpisać je poniżej."
 
 #: fas/cla.py:86
 msgid ""
 "A valid country and telephone number are required to complete the CLA.  "
 "Please fill them out below."
 msgstr ""
+"Wymagany jest kraj i numer telefonu, aby wypełnić CLA. Proszę wpisać je "
+"poniżej."
 
 #: fas/cla.py:163
 msgid "You are not allowed to reject CLAs."
@@ -56,7 +62,7 @@ msgstr ""
 
 #: fas/cla.py:184
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "Odrzucono ICLA Fedory"
 
 #: fas/cla.py:185
 #, python-format
@@ -88,6 +94,30 @@ msgid ""
 "Thanks!\n"
 "    "
 msgstr ""
+"\n"
+"Witaj, %(human_name)s,\n"
+"\n"
+"Przepraszamy, ale musieliśmy chwilowo odrzucić twoje CLA, ponieważ podane\n"
+"przez ciebie informacje wydają się być niepoprawne. Najczęściej chodzi o\n"
+"skracanie imion, np. \"J. K. Kowalski\" zamiast pełnego imienia i nazwiska\n"
+"\"Jan Karol Kowalski\". Inną przyczyną może być użycie nieprawdziwego kraju\n"
+"lub numeru telefonu. [1]_. Prosilibyśmy o zmodyfikowanie swojego konta [2]_,\n"
+"aby poprawić te problemy i o ponowne wysłanie CLA.\n"
+"\n"
+".. [1]: Dlaczego prawdziwość nazwiska i numeru telefonu ma znaczenie? Jest\n"
+"        tak, ponieważ CLA to dokument prawny i w razie potrzeby (na\n"
+"        przykład jeśli ktoś skontaktuje się z nami twierdząc, że  to on\n"
+"        posiada prawa do twojej pracy) musimy skontaktować się z tobą, aby\n"
+"        dowiedzieć się, o co chodzi.\n"
+"\n"
+".. [2]: Konto można modyfikować logując się za pomocą tego adresu URL:\n"
+"        %(editurl)s/accounts/user/edit/%(username)s\n"
+"\n"
+"W razie pytań o konkretne problemy z kontem prosimy skontaktować\n"
+"się z accounts@fedoraproject.org (w języku angielskim).\n"
+"\n"
+"Dziękujemy!\n"
+"    "
 
 #: fas/cla.py:217
 msgid "CLA Successfully Removed."
@@ -145,7 +175,7 @@ msgstr "Użytkownik jest już w grupie \"%s\"."
 #: fas/cla.py:336
 #, python-format
 msgid "Fedora ICLA completed for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "Wypełniono ICLA Fedory dla użytkownika %(human_name)s (%(username)s)"
 
 #: fas/cla.py:338
 #, python-format
@@ -162,6 +192,17 @@ msgid ""
 "=== CLA ===\n"
 "\n"
 msgstr ""
+"\n"
+"Użytkownik Fedory %(username)s wypełnił ICLA (poniżej).\n"
+"Nazwa użytkownika: %(username)s\n"
+"Adres e-mail: %(email)s\n"
+"Data: %(date)s\n"
+"\n"
+"Jeśli musi zostać odrzucone, proszę odwiedzić ten odnośnik:\n"
+"    %(rejecturl)s/accounts/cla/reject/%(username)s\n"
+"\n"
+"=== CLA ===\n"
+"\n"
 
 #: fas/cla.py:361
 #, python-format
@@ -188,11 +229,11 @@ msgstr "Błąd podczas zapisywania konfiguracji do bazy danych: %s"
 msgid "Config value successfully updated"
 msgstr "Pomyślnie zaktualizowano wartość konfiguracji"
 
-#: fas/controllers.py:203
+#: fas/controllers.py:201
 msgid "Your old password has expired.  Please reset your password below."
 msgstr "Stare hasło wygasło. Proszę zresetować je poniżej."
 
-#: fas/controllers.py:210
+#: fas/controllers.py:208
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
@@ -201,7 +242,7 @@ msgstr ""
 "Konto jest obecnie wyłączone. Aby dowiedzieć się więcej, proszę skontaktować"
 " się z %(admin_email)sadmin_email (w języku angielskim)"
 
-#: fas/controllers.py:223
+#: fas/controllers.py:221
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Język \"%s\" jest niedostępny."
@@ -210,58 +251,69 @@ msgstr "Język \"%s\" jest niedostępny."
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
 msgstr ""
+"Wymagany jest numer telefonu, aby wypełnić FPCA. Proszę wpisać go poniżej."
 
 #: fas/fpca.py:80
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
 msgstr ""
+"Wymagany jest prawidłowy kraj i numer telefonu lub adres pocztowy, aby "
+"wypełnić FPCA. Proszę wpisać je poniżej."
 
 #: fas/fpca.py:86
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
 msgstr ""
+"Wymagany jest prawidłowy kraj i numer telefonu, aby wypełnić FPCA. Proszę "
+"wpisać je poniżej."
 
 #: fas/fpca.py:163
 msgid "You are not allowed to reject FPCAs."
-msgstr ""
+msgstr "Brak uprawnień do odrzucania FPCA."
 
 #: fas/fpca.py:215
 msgid "FPCA Successfully Removed."
-msgstr ""
+msgstr "Pomyślnie usunięto FPCA."
 
 #: fas/fpca.py:239
 msgid "You have already completed the FPCA."
-msgstr ""
+msgstr "Już wypełniono FPCA."
 
 #: fas/fpca.py:243
 msgid "You have not completed the FPCA."
-msgstr ""
+msgstr "Nie wypełniono FPCA."
 
 #: fas/fpca.py:284
 msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
 msgstr ""
+"Aby wypełnić FPCA, musimy znać imię i nazwisko, numer telefonu oraz kraj "
+"zamieszkania. Proszę upewnić się, że je podano."
 
 #: fas/fpca.py:293
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
 msgstr ""
+"Aby wypełnić FPCA, należy podać prawidłowy kod kraju. Proszę wybrać go "
+"teraz."
 
 #: fas/fpca.py:297
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
 msgstr ""
+"Numery telefonu mogą zawierać tylko cyfry, \"-\", \"+\", \"(\", \")\" lub \""
+" \". Proszę ponownie podać telefon używając tylko tych znaków."
 
 #: fas/fpca.py:358
 #, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr ""
+msgstr "Pomyślnie wypełniono FPCA. Użytkownik jest teraz w grupie \"%s\"."
 
 #: fas/group.py:163 fas/group.py:199
 #, python-format
@@ -323,7 +375,7 @@ msgstr ""
 #: fas/group.py:432
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
-msgstr ""
+msgstr "Wymagany jest sponsor Fedory \"%(group)s\" dla użytkownika %(user)s"
 
 #: fas/group.py:434
 #, python-format
@@ -334,6 +386,11 @@ msgid ""
 "\n"
 "Please go to %(url)s to take action.  \n"
 msgstr ""
+"\n"
+"Użytkownik Fedory %(user)s <%(email)s> poprosił o\n"
+"członkostwo dla użytkownika %(applicant)s w grupie %(group)s i wymaga sponsora.\n"
+"\n"
+"Proszę przejść do %(url)s, aby wykonać działanie.  \n"
 
 #: fas/group.py:445
 #, python-format
@@ -372,7 +429,7 @@ msgstr ""
 #: fas/group.py:489
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
-msgstr ""
+msgstr "Członkostwo Fedory \"%s\" zostało zasponsorowane"
 
 #: fas/group.py:490
 #, python-format
@@ -382,6 +439,11 @@ msgid ""
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
+"\n"
+"Użytkownik %(user)s <%(email)s> zasponsorował użytkownika dla członkostwa\n"
+"w grupie %(group)s Systemu kont Fedory. Jeśli to wymagane, ta zmiana\n"
+"powinna zostać odzwierciedlona w aliasach e-mail i repozytorium git w\n"
+"ciągu godziny.\n"
 
 #: fas/group.py:501
 #, python-format
@@ -401,7 +463,7 @@ msgstr "Nie można usunąć użytkownika %(user)s z grupy %(group)s: %(error)s"
 #: fas/group.py:530
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
-msgstr ""
+msgstr "Członkostwo Fedory \"%s\" zostało usunięte"
 
 #: fas/group.py:531
 #, python-format
@@ -412,6 +474,10 @@ msgid ""
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
 msgstr ""
+"\n"
+"Użytkownik %(user)s <%(email)s> usunął użytkownika z grupy %(group)s\n"
+"Systemu kont Fedory. Ta zmiana jest uwzględniona natychmiast dla nowych\n"
+"działań, i powinna zostać odzwierciedlona w aliasach e-mail w ciągu godziny.\n"
 
 #: fas/group.py:543
 #, python-format
@@ -432,7 +498,7 @@ msgstr ""
 #: fas/group.py:571
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
-msgstr ""
+msgstr "Członkostwo Fedory \"%s\" zostało awansowane"
 
 #: fas/group.py:577
 #, python-format
@@ -443,6 +509,11 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"Użytkownik %(user)s <%(email)s> awansował użytkownika do stanu %(status)s w\n"
+"grupie \"%(group)s\" Systemu kont Fedory. Ta zmiana jest uwzględniona\n"
+"natychmiast dla nowych działań, i powinna zostać odzwierciedlona w\n"
+"aliasach e-mail w ciągu godziny.\n"
 
 #: fas/group.py:589
 #, python-format
@@ -463,7 +534,7 @@ msgstr ""
 #: fas/group.py:616
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr ""
+msgstr "Członkostwo Fedory \"%s\" zostało zdegradowane"
 
 #: fas/group.py:621
 #, python-format
@@ -474,6 +545,11 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"Użytkownik %(user)s <%(email)s> zdegradował użytkownika do stanu %(status)s\n"
+"w grupie \"%(group)s\" Systemu kont Fedory. Ta zmiana jest uwzględniona\n"
+"natychmiast dla nowych działań, i powinna zostać odzwierciedlona w aliasach\n"
+"e-mail w ciągu godziny.\n"
 
 #: fas/group.py:633
 #, python-format
@@ -541,7 +617,7 @@ msgstr "<p>Nie można odnaleźć tego elementu pomocy</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of FPCA Information"
-msgstr ""
+msgstr "Prawidłowość informacji FPCA"
 
 #: fas/help.py:27
 msgid ""
@@ -553,6 +629,13 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
+"<p>FPCA jest dokumentem prawniczym. Należy dołączyć do niego prawidłowe "
+"informacje w razie, gdybyśmy musieli się skontaktować z tobą w sprawie "
+"współudziału w projekcie. Wyobraź sobie, że zadzwonił do nas prawnik z innej"
+" firmy twierdzącej, że posiada prawa autorskie do twojej pracy, a my musimy "
+"im odpowiedzieć, że to nieprawda, ponieważ \"Myszka Miki\" dała nam ten kod,"
+" ale nie mamy żadnego numeru telefonu ani adresu do niej. To potencjalnie "
+"bardzo śliska sprawa.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -590,7 +673,7 @@ msgstr "Imię i nazwisko (wymagane)"
 msgid "<p>Your Human Name or \"real life\" name</p>"
 msgstr "<p>Prawdziwe imię i nazwisko</p>"
 
-#: fas/help.py:31 fas/templates/user/edit.html:99
+#: fas/help.py:31 fas/templates/user/edit.html:96
 msgid "GPG Key ID"
 msgstr "Identyfikator klucza GPG"
 
@@ -618,9 +701,15 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
 msgstr ""
+"<p>Wymagane do wypełnienia <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
+" Czasami w razie nagłego wypadku ktoś z Projektu Fedora może skontaktować "
+"się z użytkownikiem. Aby dowiedzieć się więcej, proszę zobaczyć <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">politykę "
+"prywatności</a></p>"
 
-#: fas/help.py:33 fas/templates/cla/index.html:50
-#: fas/templates/fpca/index.html:51 fas/templates/user/edit.html:50
+#: fas/help.py:33 fas/templates/cla/index.html:46
+#: fas/templates/fpca/index.html:47 fas/templates/user/edit.html:47
 msgid "Postal Address"
 msgstr "Adres pocztowy"
 
@@ -665,7 +754,7 @@ msgstr ""
 
 #: fas/help.py:37
 msgid "FPCA"
-msgstr ""
+msgstr "FPCA"
 
 #: fas/help.py:37
 msgid ""
@@ -676,8 +765,14 @@ msgid ""
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
 msgstr ""
+"<p>Aby zostać pełnoprawnym współtwórcą Fedory, należy wypełnić <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Warunki"
+" licencji współtwórcy Projektu Fedory</a>. Ta licencja jest legalnym "
+"porozumieniem między użytkownikiem i firmą Red Hat. Pełnoprawny status "
+"pozwala na współtworzenie zawartości i kodu oraz jest zalecane wszystkim "
+"zainteresowanym udzielaniem się w Projekcie Fedora.</p>"
 
-#: fas/help.py:38 fas/templates/user/edit.html:104
+#: fas/help.py:38 fas/templates/user/edit.html:101
 msgid "Public RSA SSH Key"
 msgstr "Publiczny klucz SSH RSA"
 
@@ -693,7 +788,7 @@ msgstr ""
 " \"man ssh-keygen\", aby dowiedzieć się więcej o tworzeniu klucza (musi być "
 "kluczem RSA). Po utworzeniu należy wysłać plik ~/.ssh/id_rsa.pub</p>"
 
-#: fas/help.py:39 fas/templates/user/edit.html:120
+#: fas/help.py:39 fas/templates/user/edit.html:117
 msgid "Locale"
 msgstr "Język"
 
@@ -931,7 +1026,7 @@ msgstr ""
 
 #: fas/help.py:57
 msgid "Invite Only"
-msgstr ""
+msgstr "Tylko na zaproszenie"
 
 #: fas/help.py:57
 msgid ""
@@ -939,6 +1034,10 @@ msgid ""
 "will hide the usual \"Apply!\" links and buttons.  Users can still be added "
 "to a group directly by an admin or sponsor.</p>"
 msgstr ""
+"<p>Jeśli użytkownicy nie powinni mieć możliwości aplikacji do grupy, to "
+"ustawienie ukrywa zwyczajowe odnośniki i przyciski \"Aplikuj\". Użytkownicy "
+"mogą w dalszym ciągu być dodawani do grupy bezpośrednio przez administratora"
+" lub sponsora.</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Channel (Optional)"
@@ -1000,6 +1099,8 @@ msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
 msgstr ""
+"<p>Zanim użytkownik będzie mógł dołączyć do tej grupy, musi należeć do grup "
+"wyświetlonych w tym polu. Zalecane wartości to grupa \"%s\".</p>"
 
 #: fas/help.py:63
 msgid "Join Message"
@@ -1082,27 +1183,27 @@ msgstr "Wczytywanie: %(visitmod)s"
 
 #: fas/user.py:80
 msgid "Solve the math problem"
-msgstr ""
+msgstr "Proszę rozwiązać równanie matematyczne"
 
-#: fas/user.py:248
+#: fas/user.py:249
 #, python-format
 msgid "You cannot edit %s"
 msgstr "Nie można zmodyfikować %s"
 
-#: fas/user.py:311
+#: fas/user.py:312
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "Brak uprawnień do modyfikowania \"%s\""
 
-#: fas/user.py:320
+#: fas/user.py:321
 msgid "Only admin can enable or disable an account."
-msgstr ""
+msgstr "Tylko administratorzy mogą włączać lub wyłączać konto."
 
-#: fas/user.py:345
+#: fas/user.py:346
 msgid "Somebody is already using that email address."
 msgstr "Ktoś już używa tego adresu e-mail."
 
-#: fas/user.py:350
+#: fas/user.py:351
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
@@ -1110,12 +1211,12 @@ msgstr ""
 "Zanim nowy adres e-mail zostanie uwzględniony, należy go potwierdzić. "
 "Użytkownik powinien wkrótce otrzymać wiadomość e-mail z instrukcjami."
 
-#: fas/user.py:357
+#: fas/user.py:358
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Zażądano zmiany adresu e-mail dla %s"
 
-#: fas/user.py:359
+#: fas/user.py:360
 #, python-format
 msgid ""
 "\n"
@@ -1126,18 +1227,25 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
+"\n"
+"Zażądano zmiany adresu e-mail w systemie kont Fedory na ten adres. Aby\n"
+"zakończyć zmianę adresu e-mail, należy potwierdzić własność tego adresu\n"
+"e-mail odwiedzając następujący adres (wymagane będzie najpierw\n"
+"zalogowanie się na koncie Fedory):\n"
+"\n"
+"%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
-#: fas/user.py:384
+#: fas/user.py:385
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Nie można zapisać szczegółów konta: %s"
 
-#: fas/user.py:389
+#: fas/user.py:390
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Aktualizacja danych kont Fedory %s"
 
-#: fas/user.py:391
+#: fas/user.py:392
 #, python-format
 msgid ""
 "\n"
@@ -1162,45 +1270,68 @@ msgid ""
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
 msgstr ""
+"\n"
+"Właśnie zaktualizowano informacje o koncie użytkownika. Jeśli to nie\n"
+"użytkownik zażądał tych zmian, to proszę się skontaktować z\n"
+"admin@fedoraproject.org (w języku angielskim). Zaktualizowane informacje to:\n"
+"\n"
+"  username:       %(username)s\n"
+"  ircnick:        %(ircnick)s\n"
+"  telephone:      %(telephone)s\n"
+"  locale:         %(locale)s\n"
+"  postal_address: %(postal_address)s\n"
+"  timezone:       %(timezone)s\n"
+"  country code:   %(country_code)s\n"
+"  latitude:       %(latitude)s\n"
+"  longitude:      %(longitude)s\n"
+"  privacy flag:   %(privacy)s\n"
+"  ssh_key:        %(ssh_key)s\n"
+"  gpg_keyid:      %(gpg_keyid)s\n"
+"\n"
+"Jeśli powyższe informacje są niepoprawne, to proszę się zalogować i je poprawić:\n"
+"\n"
+"   %(editurl)s/accounts/user/edit/%(username)s\n"
 
-#: fas/user.py:426
+#: fas/user.py:427
 msgid "Your account details have been saved."
 msgstr "Zapisano szczegóły konta."
 
-#: fas/user.py:643
+#: fas/user.py:644
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Podano nieprawidłowe pole: %(error)s"
 
-#: fas/user.py:657
+#: fas/user.py:658
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Nie odnaleziono użytkowników pasujących do \"%s\""
 
-#: fas/user.py:705
+#: fas/user.py:706
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
+"Anulowano oczekującą zmianę adresu e-mail. Token zmiany adresu e-mail został"
+" unieważniony."
 
-#: fas/user.py:710 fas/user.py:732
+#: fas/user.py:711 fas/user.py:733
 msgid "You do not have any pending email changes."
 msgstr "Brak oczekujących zmian adresów e-mail."
 
-#: fas/user.py:714 fas/user.py:736
+#: fas/user.py:715 fas/user.py:737
 msgid "Invalid email change token."
 msgstr "Nieprawidłowy token zmiany adresu e-mail."
 
-#: fas/user.py:746
+#: fas/user.py:747
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Pomyślnie zmieniono adres e-mail na \"%s\""
 
-#: fas/user.py:761
+#: fas/user.py:762
 msgid "No need to sign up, you have an account!"
 msgstr "Nie musisz zakładać konta, masz już je!"
 
-#: fas/user.py:790 fas/user.py:844
+#: fas/user.py:791 fas/user.py:845
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1216,24 +1347,24 @@ msgstr ""
 "na naszych stronach. Nie zbieramy świadomie informacji osobistych o "
 "dzieciach poniżej 13 roku życia."
 
-#: fas/user.py:802 fas/user.py:855
+#: fas/user.py:803 fas/user.py:856
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr "Ten adres e-mail jest już używany. Może zapomniano hasła?"
 
-#: fas/user.py:808
+#: fas/user.py:809
 msgid "Sorry.  Email addresses do not match"
-msgstr ""
+msgstr "Adresy e-mail się nie zgadzają"
 
-#: fas/user.py:815
+#: fas/user.py:816
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr ""
 "Nie można utworzyć konta. Proszę skontaktować się z %s (w języki "
 "angielskim), aby uzyskać pomoc."
 
-#: fas/user.py:822
+#: fas/user.py:823
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
@@ -1241,11 +1372,11 @@ msgstr ""
 "Hasło zostało wysłane w wiadomości e-mail. Proszę zalogować się za jego "
 "pomocą i zmienić je"
 
-#: fas/user.py:870
+#: fas/user.py:871
 msgid "Welcome to the Fedora Project!"
 msgstr "Witaj w Projekcie Fedora!"
 
-#: fas/user.py:870
+#: fas/user.py:871
 #, python-format
 msgid ""
 "\n"
@@ -1288,40 +1419,81 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Utworzono nowe konto Fedory!\n"
+"Nazwa użytkownika: %(username)s\n"
+"Nowe hasło: %(password)s\n"
+"\n"
+"Proszę przejść do %(base_url)s%(webpath)s/user/changepass, aby je zmienić.\n"
+"\n"
+"Witaj w Projekcie Fedora. Teraz, kiedy założyłeś konto, prawdopodobnie\n"
+"desperacko chcesz zacząć tworzenie, a z myślą o tym mamy nadzieję, że ta\n"
+"wiadomość e-mail skieruje cię w dobrym kierunku, aby ułatwić ten proces,\n"
+"jak to tylko możliwe.\n"
+"\n"
+"Fedora jest ekscytującym projektem, w którym wiele się dzieje i można go\n"
+"współtworzyć na wiele sposobów, używając różnych umiejętności. Aby\n"
+"dowiedzieć się o różnych sposobach współtworzenia Fedory, można odwiedzić\n"
+"stronę o dołączaniu, która podaje więcej informacji o wszystkich,\n"
+"różnorodnych dostępnych rolach.\n"
+"\n"
+"http://fedoraproject.org/pl/join-fedora\n"
+"\n"
+"Jeśli wiesz już, jak chcesz współtworzyć Fedorę, i znalazłeś grupę już\n"
+"pracującą nad obszarem, który cię interesuje, pozostało tylko kilka kroków.\n"
+"\n"
+"Po pierwsze musisz zapisać się na listę mailingową zespołu lub projektu,\n"
+"który cię interesuje - a jeśli jesteś zainteresowany więcej niż jedną\n"
+"grupą, możesz zapisać się do tylu list, ilu chcesz! Jest tak, ponieważ\n"
+"listy mailingowe to miejsca, gdzie większość pracy jest organizowana, a\n"
+"zadania są przydzielane, tak więc aby być na czasie, czytaj wiadomości na\n"
+"tych listach.\n"
+"\n"
+"Kiedy już to zrobisz, najlepiej jest wysłać krótkie wprowadzenie na listę,\n"
+"powiadamiając członków grupy o twoich doświadczeniach i o tym, jak\n"
+"zamierzasz pomagać. Od teraz członkowie zespołu pomogą ci odnaleźć swoje\n"
+"miejsce jako współtwórca Fedory.\n"
+"\n"
+"A na koniec: wszyscy członkowie Projektu Fedora nie mogą się doczekać, aby\n"
+"z tobą pracować!\n"
 
-#: fas/user.py:934
+#: fas/user.py:937
 msgid "passwords did not match"
-msgstr ""
+msgstr "hasła się nie zgadzają"
 
-#: fas/user.py:939
+#: fas/user.py:944
 msgid "Your current password did not match"
+msgstr "Bieżące hasło się nie zgadza"
+
+#: fas/user.py:948
+msgid "Your new password cannot be the same as your old one."
 msgstr ""
 
-#: fas/user.py:956
+#: fas/user.py:962
 msgid "Your password could not be changed."
 msgstr "Nie można zmienić hasła."
 
-#: fas/user.py:959
+#: fas/user.py:965
 msgid "Your password has been changed."
 msgstr "Zmieniono hasło."
 
-#: fas/user.py:970
+#: fas/user.py:976
 msgid "You are already logged in!"
 msgstr "Użytkownik jest już zalogowany."
 
-#: fas/user.py:984
+#: fas/user.py:990
 msgid "You are already logged in."
 msgstr "Użytkownik jest już zalogowany."
 
-#: fas/user.py:990
+#: fas/user.py:996
 msgid "Username email combo does not exist!"
 msgstr "Kombinacja nazwy użytkownika i adresu e-mail nie istnieje."
 
-#: fas/user.py:994
+#: fas/user.py:1000
 msgid "username + email combo unknown."
 msgstr "nieznana kombinacja nazwy użytkownika i adresu e-mail."
 
-#: fas/user.py:997 fas/user.py:1089 fas/user.py:1133
+#: fas/user.py:1003 fas/user.py:1096 fas/user.py:1144
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
@@ -1330,7 +1502,7 @@ msgstr ""
 "Konto ma obecnie stan %(status)s. Aby dowiedzieć się więcej, proszę "
 "skontaktować się z %(admin_email)s (w języku angielskim)"
 
-#: fas/user.py:1004
+#: fas/user.py:1010
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
@@ -1339,19 +1511,22 @@ msgstr ""
 "Konta systemowe nie mogą przywracać haseł online. Proszę skontaktować się z "
 "%(admin_email)s (w języku angielskim), aby je przywrócić"
 
-#: fas/user.py:1008
+#: fas/user.py:1014
 msgid "Warning: attempted reset of system account"
-msgstr ""
+msgstr "Ostrzeżenie: próbowano resetować konto systemowe"
 
-#: fas/user.py:1009
+#: fas/user.py:1015
 #, python-format
 msgid ""
 "\n"
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
 msgstr ""
+"\n"
+"Ostrzeżenie: ktoś poróbował resetować hasło konta systemowego\n"
+"%(account)s przez interfejs WWW.\n"
 
-#: fas/user.py:1017
+#: fas/user.py:1024
 #, python-format
 msgid ""
 "\n"
@@ -1360,8 +1535,13 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"Ktoś (prawdopodobnie ty) zażądał resetowania hasła konta.\n"
+"Aby zmienić hasło (lub anulować żądanie), proszę odwiedzić\n"
+"\n"
+"%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:1031
+#: fas/user.py:1038
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
@@ -1369,68 +1549,68 @@ msgstr ""
 "Ten użytkownik nie ustawił identyfikatora klucza GPG, więc nie można wysłać "
 "zaszyfrowanej wiadomości e-mail."
 
-#: fas/user.py:1037
+#: fas/user.py:1044
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Nie można pobrać klucza z subkeys.pgp.net"
 
-#: fas/user.py:1064
+#: fas/user.py:1071
 msgid "Your password reset email could not be encrypted."
 msgstr "Nie można zaszyfrować wiadomości e-mail resetowania hasła."
 
-#: fas/user.py:1067
+#: fas/user.py:1074
 msgid "Fedora Project Password Reset"
 msgstr "Resetowanie hasła Projektu Fedora"
 
-#: fas/user.py:1071
+#: fas/user.py:1078
 msgid "A password reset URL has been emailed to you."
 msgstr "Adres resetowania hasła został wysłany w wiadomości e-mail."
 
-#: fas/user.py:1095
+#: fas/user.py:1102
 msgid "You don't have any pending password changes."
-msgstr ""
+msgstr "Brak oczekujących zmian haseł."
 
-#: fas/user.py:1099 fas/user.py:1147
+#: fas/user.py:1106 fas/user.py:1158
 msgid "Invalid password change token."
 msgstr "Nieprawidłowy token zmiany hasła."
 
-#: fas/user.py:1107
+#: fas/user.py:1114
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr "Anulowano resetowanie hasła. Token zmiany hasła został unieważniony."
 
-#: fas/user.py:1129
+#: fas/user.py:1140
 msgid "Both passwords must match"
-msgstr ""
+msgstr "Oba hasła muszą się zgadzać"
 
-#: fas/user.py:1141
+#: fas/user.py:1152
 msgid "You do not have any pending password changes."
 msgstr "Brak oczekujących zmian haseł."
 
-#: fas/user.py:1157
+#: fas/user.py:1172
 msgid "Your password can not be the same as your old password."
 msgstr "Hasło nie może być takie samo jak stare hasło."
 
-#: fas/user.py:1172
+#: fas/user.py:1188
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "Pomyślnie zresetowano hasło. Można się teraz zalogować."
 
-#: fas/user.py:1207
+#: fas/user.py:1223
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
+msgstr "Przed utworzeniem certyfikatu należy wypełnić FPCA."
 
-#: fas/user.py:1277
+#: fas/user.py:1293
 msgid "Your certificate could not be generated."
 msgstr "Nie można utworzyć certyfikatu."
 
-#: fas/user.py:1283
+#: fas/user.py:1299
 #, python-format
 msgid "A new certificate has been generated for %s"
-msgstr ""
+msgstr "Utworzono nowy certyfikat dla %s"
 
-#: fas/user.py:1285
+#: fas/user.py:1301
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1439,6 +1619,12 @@ msgid ""
 "Note that certificates generated prior to the current one have been\n"
 "automatically revoked, and should stop working within the hour.\n"
 msgstr ""
+"\n"
+"Utworzono nowy certyfikat SSL. Jeśli użytkownik o to nie prosił, to\n"
+"proszę się skontaktować z admin@fedoraproject.org (w języku angielskim).\n"
+"\n"
+"Proszę zauważyć, że certyfikaty utworzone przed obecnym zostały\n"
+"automatycznie odrzucone i powinny przestać działać w ciągu godziny.\n"
 
 #: fas/validators.py:52
 #, python-format
@@ -1508,6 +1694,38 @@ msgstr ""
 #, python-format
 msgid "The language '%(lang)s' is not available."
 msgstr "Język \"%(lang)s\" jest niedostępny."
+
+#: fas/validators.py:234
+msgid ""
+"Passwords must meet certain strength requirements.  If they have a mix of "
+"symbols, upper and lowercase letters, and digits they must be at least 9 "
+"characters.  If they have a mix of upper and lowercase letters and digits "
+"they must be at least 10 characters.  If they have lowercase letters and "
+"digits, they must be at least 12 characters.  Letters alone means they need "
+"20 or more characters."
+msgstr ""
+
+#: fas/validators.py:235
+msgid "Malicious hackers read xkcd, you know"
+msgstr ""
+
+#: fas/validators.py:299
+msgid "You must enter your legal name"
+msgstr ""
+
+#: fas/validators.py:300
+msgid ""
+"You must include both your last name and first name.  If your name really "
+"only consists of a single letter, you may check the override checkbox to "
+"submit this name."
+msgstr ""
+
+#: fas/validators.py:301
+msgid ""
+"You must include the full form of your names, not just initials.  If your "
+"fullname really has one letter portions, you may check the override checkbox"
+" to submit this name."
+msgstr ""
 
 #: fas/model/fasmodel.py:186
 msgid "user is already in this group"
@@ -1612,7 +1830,7 @@ msgstr ""
 "ze wszystkimi w grupie."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
-#: fas/templates/cla/index.html:20 fas/templates/fpca/index.html:20
+#: fas/templates/cla/index.html:16 fas/templates/fpca/index.html:16
 msgid "Fedora Accounts System"
 msgstr "System kont Fedory"
 
@@ -1634,6 +1852,8 @@ msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
 msgstr ""
+"Nie wypełniono FPCA. Aby zostać pełnoprawnym współtwórcą Fedory, należy <a "
+"href=\"%s\">wypełnić FPCA</a>."
 
 #: fas/templates/home.html:16
 #, python-format
@@ -1694,58 +1914,58 @@ msgstr "Komunikacja"
 msgid "Help/Documentation"
 msgstr "Pomoc/dokumentacja"
 
-#: fas/templates/master.html:48
+#: fas/templates/master.html:49
 msgid "Logged in:"
 msgstr "Zalogowany:"
 
-#: fas/templates/master.html:61
+#: fas/templates/master.html:62
 msgid "Home"
 msgstr "Strona domowa"
 
-#: fas/templates/master.html:62
+#: fas/templates/master.html:63
 msgid "My Account"
 msgstr "Moje konto"
 
-#: fas/templates/master.html:64
+#: fas/templates/master.html:65
 msgid "News"
 msgstr "Wiadomości"
 
-#: fas/templates/master.html:69
+#: fas/templates/master.html:70
 msgid "Locale:"
 msgstr "Język:"
 
-#: fas/templates/master.html:73
+#: fas/templates/master.html:74
 msgid "OK"
 msgstr "OK"
 
-#: fas/templates/master.html:85
+#: fas/templates/master.html:86
 msgid "About"
 msgstr "Informacje o"
 
-#: fas/templates/master.html:86
+#: fas/templates/master.html:87
 msgid "Contact Us"
 msgstr "Kontakt"
 
-#: fas/templates/master.html:87
+#: fas/templates/master.html:88
 msgid "Legal & Privacy"
 msgstr "Kwestie prawne i polityka prywatności"
 
-#: fas/templates/master.html:89
+#: fas/templates/master.html:90
 msgid "Log Out"
 msgstr "Wyloguj się"
 
-#: fas/templates/master.html:92
+#: fas/templates/master.html:93
 #, python-format
 msgid "FAS version %s"
 msgstr "FAS wersja %s"
 
-#: fas/templates/master.html:95
+#: fas/templates/master.html:96
 msgid ""
-"© 2011 Red Hat, Inc. and others.  Please send any comments or corrections to"
-" the <a href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
+"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
 msgstr ""
 
-#: fas/templates/master.html:98
+#: fas/templates/master.html:99
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
@@ -1757,7 +1977,7 @@ msgstr ""
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"git*\")"
-msgstr ""
+msgstr "\"*\" jest wieloznacznikiem (np. \"git*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
@@ -1782,13 +2002,10 @@ msgstr "Witaj w FAS2"
 
 #: fas/templates/welcome.html:18
 msgid ""
-"Welcome to the Fedora Accounts System 2.  Please submit bugs to <a "
+"Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
 msgstr ""
-"Witaj w systemie kont Fedory 2. Proszę zgłaszać błędy na stronie <a "
-"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> lub"
-" kanale #fedora-admin na irc.freenode.net (w języku angielskim)."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1802,46 +2019,46 @@ msgstr "Nowe konto"
 msgid "Why Join?"
 msgstr "Po co się przyłączać?"
 
-#: fas/templates/cla/index.html:23
+#: fas/templates/cla/index.html:19
 msgid "Fedora Contributor License Agreement"
 msgstr "Warunki licencji współtwórcy Fedory"
 
-#: fas/templates/cla/index.html:24 fas/templates/cla/index.html:27
-#: fas/templates/fpca/index.html:24 fas/templates/fpca/index.html:27
+#: fas/templates/cla/index.html:20 fas/templates/cla/index.html:23
+#: fas/templates/fpca/index.html:20 fas/templates/fpca/index.html:23
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
 msgstr "<a href=\"%(url)s\">Wersja tekstowa</a>"
 
-#: fas/templates/cla/index.html:30
+#: fas/templates/cla/index.html:26
 msgid "You have already successfully completed the CLA."
 msgstr "Już wypełniono CLA."
 
-#: fas/templates/cla/index.html:40 fas/templates/fpca/index.html:41
-#: fas/templates/user/edit.html:26
+#: fas/templates/cla/index.html:36 fas/templates/fpca/index.html:37
+#: fas/templates/user/edit.html:23
 msgid "Full Name"
 msgstr "Imię i nazwisko"
 
-#: fas/templates/cla/index.html:45 fas/templates/fpca/index.html:46
-#: fas/templates/user/edit.html:45
+#: fas/templates/cla/index.html:41 fas/templates/fpca/index.html:42
+#: fas/templates/user/edit.html:42
 msgid "Telephone Number"
 msgstr "Numer telefonu"
 
-#: fas/templates/cla/index.html:55 fas/templates/fpca/index.html:56
-#: fas/templates/user/edit.html:55
+#: fas/templates/cla/index.html:51 fas/templates/fpca/index.html:52
+#: fas/templates/user/edit.html:52
 msgid "Country"
 msgstr "Kraj"
 
-#: fas/templates/cla/index.html:57 fas/templates/fpca/index.html:58
-#: fas/templates/user/edit.html:57
+#: fas/templates/cla/index.html:53 fas/templates/fpca/index.html:54
+#: fas/templates/user/edit.html:54
 msgid "Select Country"
 msgstr "Wybór kraju"
 
-#: fas/templates/cla/index.html:65 fas/templates/fpca/index.html:66
-#: fas/templates/user/edit.html:65
+#: fas/templates/cla/index.html:61 fas/templates/fpca/index.html:62
+#: fas/templates/user/edit.html:62
 msgid "If your country is not listed, select \"Other\""
 msgstr "Jeśli na liście brak kraju zamieszkania, należy wybrać \"Inne\""
 
-#: fas/templates/cla/index.html:68 fas/templates/fpca/index.html:69
+#: fas/templates/cla/index.html:64 fas/templates/fpca/index.html:65
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
@@ -1849,21 +2066,21 @@ msgstr ""
 "Potwierdzam, że powyższe informacje (imię i nazwisko, kraj zamieszkania oraz"
 " numer telefonu) są prawdziwe, zgodnie z moją wiedzą."
 
-#: fas/templates/cla/index.html:71 fas/templates/fpca/index.html:72
+#: fas/templates/cla/index.html:67 fas/templates/fpca/index.html:68
 msgid "I agree"
 msgstr "Zgadzam się"
 
-#: fas/templates/cla/index.html:72 fas/templates/fpca/index.html:73
+#: fas/templates/cla/index.html:68 fas/templates/fpca/index.html:69
 msgid "I do not agree"
 msgstr "Nie zgadzam się"
 
-#: fas/templates/fpca/index.html:23
+#: fas/templates/fpca/index.html:19
 msgid "Fedora Project Contributor Agreement"
-msgstr ""
+msgstr "Warunki licencji współtwórcy Projektu Fedora"
 
-#: fas/templates/fpca/index.html:31
+#: fas/templates/fpca/index.html:27
 msgid "You have already successfully completed the FPCA."
-msgstr ""
+msgstr "Już wypełniono FPCA."
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
@@ -1917,7 +2134,7 @@ msgstr "Właściciel grupy:"
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:71
 msgid "Invite Only:"
-msgstr ""
+msgstr "Tylko na zaproszenie:"
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
@@ -1942,7 +2159,7 @@ msgstr "Wiadomość o dołączeniu do grupy:"
 msgid "Rules for Application:"
 msgstr "Reguły aplikacji:"
 
-#: fas/templates/group/edit.html:87 fas/templates/user/edit.html:146
+#: fas/templates/group/edit.html:87 fas/templates/user/edit.html:143
 msgid "Save!"
 msgstr "Zapisz"
 
@@ -1995,7 +2212,7 @@ msgstr "Opis"
 msgid "Prerequisite"
 msgstr "Wymagania wstępne"
 
-#: fas/templates/group/list.html:29 fas/templates/user/edit.html:127
+#: fas/templates/group/list.html:29 fas/templates/user/edit.html:124
 msgid "Status"
 msgstr "Stan"
 
@@ -2089,6 +2306,8 @@ msgstr "Wyświetl grupę"
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
 msgstr ""
+"Grupa jest tylko na zaproszenie. Proszę skontaktować się ze sponsorami "
+"grupy, aby dowiedzieć się więcej."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
@@ -2223,7 +2442,7 @@ msgstr "To jest tożsamość OpenID dla %(username)s"
 #: fas/templates/openid/id.html:31
 #, python-format
 msgid "Part of the <a href=\"%(url)s\">Fedora Account System<a>."
-msgstr ""
+msgstr "Część <a href=\"%(url)s\">Systemu kont Fedory<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2248,66 +2467,72 @@ msgid "You are not <a href=\"%(url)s\">logged in</a>."
 msgstr "Użytkownik nie jest <a href=\"%(url)s\">zalogowany</a>."
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
-#: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:16
+#: fas/templates/user/changepass.html:17 fas/templates/user/verifypass.html:17
 msgid "Change Password"
 msgstr "Zmień hasło"
 
-#: fas/templates/user/changepass.html:13
+#: fas/templates/user/changepass.html:12 fas/templates/user/verifypass.html:11
+msgid ""
+"Pick a password or phrase that is long but memorable.  Use a mix of upper "
+"and lowercase letters as well as numbers and punctuation."
+msgstr ""
+
+#: fas/templates/user/changepass.html:14
 msgid "Current Password:"
 msgstr "Obecne hasło:"
 
-#: fas/templates/user/changepass.html:14 fas/templates/user/verifypass.html:13
+#: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
 msgid "New Password:"
 msgstr "Nowe hasło:"
 
-#: fas/templates/user/changepass.html:15 fas/templates/user/verifypass.html:14
+#: fas/templates/user/changepass.html:16 fas/templates/user/verifypass.html:15
 msgid "Confirm Password:"
 msgstr "Potwierdzenie hasła:"
 
-#: fas/templates/user/edit.html:20
+#: fas/templates/user/edit.html:17
 msgid "Edit Account"
 msgstr "Zmodyfikuj konto"
 
-#: fas/templates/user/edit.html:23
+#: fas/templates/user/edit.html:20
 #, python-format
 msgid "Edit Account (%s)"
 msgstr "Zmodyfikuj konto (%s)"
 
-#: fas/templates/user/edit.html:32
+#: fas/templates/user/edit.html:29
 msgid "Email"
 msgstr "Adres e-mail"
 
-#: fas/templates/user/edit.html:35 fas/templates/user/view.html:31
+#: fas/templates/user/edit.html:32 fas/templates/user/view.html:31
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
 msgstr "(oczekiwana zmiana na %(email)s - <a href=\"%(url)s\">anuluj</a>)"
 
-#: fas/templates/user/edit.html:76
+#: fas/templates/user/edit.html:73
 msgid "Latitude"
 msgstr "Szerokość geograficzna"
 
-#: fas/templates/user/edit.html:81
+#: fas/templates/user/edit.html:78
 msgid "Longitude"
 msgstr "Długość geograficzna"
 
-#: fas/templates/user/edit.html:94
+#: fas/templates/user/edit.html:91
 msgid "IRC Nick"
 msgstr "Pseudonim na IRC"
 
-#: fas/templates/user/edit.html:110
+#: fas/templates/user/edit.html:107
 msgid "Time Zone"
 msgstr "Strefa czasowa"
 
-#: fas/templates/user/edit.html:135
+#: fas/templates/user/edit.html:132
 msgid "Comments"
 msgstr "Komentarze"
 
-#: fas/templates/user/edit.html:141
+#: fas/templates/user/edit.html:138
 msgid "Privacy"
 msgstr "Prywatność"
 
-#: fas/templates/user/edit.html:147 fas/templates/user/verifyemail.html:17
-#: fas/templates/user/verifypass.html:17
+#: fas/templates/user/edit.html:144 fas/templates/user/verifyemail.html:17
+#: fas/templates/user/verifypass.html:18
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -2377,21 +2602,24 @@ msgstr "Załóż konto Fedory"
 
 #: fas/templates/user/new.html:11
 msgid "NOTE:"
-msgstr ""
+msgstr "UWAGA:"
 
 #: fas/templates/user/new.html:11
 msgid "Username is permanent"
-msgstr ""
+msgstr "Nazwa użytkownika jest stała"
 
 #: fas/templates/user/new.html:11
 msgid ""
 "(i.e. it cannot be changed after registration and will never be deleted from"
 " the system)."
 msgstr ""
+"(tzn. nie może być zmieniana po rejestracji i nigdy nie zostanie usunięta z "
+"systemu)."
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
 msgstr ""
+"Informacje osobiste mogą być aktualizowane lub usuwane w dowolnym czasie."
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2408,7 +2636,7 @@ msgstr "Adres e-mail:"
 
 #: fas/templates/user/new.html:28
 msgid "Verify Email:"
-msgstr ""
+msgstr "Sprawdzenie adresu e-mail:"
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2416,7 +2644,7 @@ msgstr "Mam 13 lat lub więcej"
 
 #: fas/templates/user/new.html:55
 msgid "Answer this math equation"
-msgstr ""
+msgstr "Proszę rozwiązać to równanie matematyczne"
 
 #: fas/templates/user/new.html:58
 msgid "Sign up!"
@@ -2429,7 +2657,7 @@ msgstr "Zresetuj hasło"
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
-msgstr ""
+msgstr "Zresetuj"
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2528,31 +2756,31 @@ msgstr "Wyłączone"
 
 #: fas/templates/user/view.html:90
 msgid "Contributor Agreement:"
-msgstr ""
+msgstr "Warunki licencji współtwórcy:"
 
 #: fas/templates/user/view.html:94
 msgid "CLA Signed"
-msgstr ""
+msgstr "Podpisano CLA"
 
 #: fas/templates/user/view.html:97
 msgid "New CLA Not Signed"
-msgstr ""
+msgstr "Nie podpisano nowego CLA"
 
 #: fas/templates/user/view.html:98
 msgid "We need contributors to sign the new Contributor Agreement"
-msgstr ""
+msgstr "Współtwórcy muszą podpisać nowe warunki licencji współtwórcy"
 
 #: fas/templates/user/view.html:98
 msgid "Complete it now!"
-msgstr ""
+msgstr "Wypełnij teraz"
 
 #: fas/templates/user/view.html:102
 msgid "Reject FPCA"
-msgstr ""
+msgstr "Odrzuć FPCA"
 
 #: fas/templates/user/view.html:106
 msgid "Not Signed"
-msgstr ""
+msgstr "Nie podpisano"
 
 #: fas/templates/user/view.html:106
 msgid "Complete it!"
@@ -2606,14 +2834,14 @@ msgstr ""
 
 #: fas/tgcaptcha2/validator.py:14
 msgid "Incorrect value."
-msgstr ""
+msgstr "Niepoprawna wartość."
 
 #: fas/tgcaptcha2/validator.py:15
 msgid "Too much time elapsed. Please try again."
-msgstr ""
+msgstr "Upłynęło za duża czasu. Proszę spróbować ponownie."
 
 #: fas/tgcaptcha2/widgets.py:39
 msgid "obfuscated letters"
-msgstr ""
+msgstr "zaciemnione litery"
 
 

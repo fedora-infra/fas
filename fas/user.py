@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ''' Provides user IO to FAS '''
 #
-# Copyright © 2008  Ricky Zhou All rights reserved.
-# Copyright © 2008-2011 Red Hat, Inc. All rights reserved.
+# Copyright © 2008  Ricky Zhou
+# Copyright © 2008-2011 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
