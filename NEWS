@@ -1,0 +1,27 @@
+====
+NEWS
+====
+
+:Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
+:Date: 27 Oct 2011
+:Version: 0.8.x
+
+
+-----------------------
+0.8.9 (not yet release)
+-----------------------
+* Add password strength checking
+* Add a forgot password link to the front page
+* New, easier to use captcha!
+
+* Fix python-fedora deprecation warnings
+* Now pulling translations from transifex.net
+* Switch to using openssl's random functions if available
+* Use glibc's sha512 crypt hashes when crypting passwords
+* Fix to fasClient to drop privileges before writing out user's SSH key
+
+* Fix /user/list not returning any people who have not signed the CLA
+* Fix for newer GeoIP data
+* Fix a traceback when disabling invite_only
+* Fix for locale setting
+* Fix when calling selinux functions in fasClient

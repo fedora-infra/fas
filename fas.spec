@@ -92,7 +92,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README TODO COPYING fas2.sql fas.spec fas.conf.wsgi
+%doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
 %{_datadir}/fas/
 %{_sbindir}/start-fas
