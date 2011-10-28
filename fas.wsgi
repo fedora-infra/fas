@@ -22,7 +22,7 @@ import cherrypy
 import cherrypy._cpwsgi
 import turbogears
 import turbogears.startup
-import fedora.tg.tgutils
+import fedora.tg.utils
 
 class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
     def before_main(self):

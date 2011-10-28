@@ -15,7 +15,7 @@ font_size_min = int(config.get(plugin_name + 'font_size_min', 30))
 font_size_max = int(config.get(plugin_name + 'font_size_max', 45))
 font_paths = config.get(plugin_name + 'font_paths',
         [os.path.normpath('/usr/share/fonts/tulrich-tuffy/Tuffy.ttf'),
-            resource_filename('tgcaptcha2', 'static/fonts/tuffy/Tuffy.ttf'))
+            resource_filename('tgcaptcha2', 'static/fonts/tuffy/Tuffy.ttf')
         ])
 
 captcha.font__paths = font_paths
