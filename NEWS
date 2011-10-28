@@ -13,7 +13,8 @@ NEWS
 * Add password strength checking
 * Add a forgot password link to the front page
 * New, easier to use captcha!
-* Mention that usernames must be ASCII
+* Mention that usernames must be ASCII (Adam Dutko)
+* No longer show that vacation is a valid status (Adam Dutko)
 * Fix python-fedora deprecation warnings
 * Now pulling translations from transifex.net
 * Switch to using openssl's random functions if available
