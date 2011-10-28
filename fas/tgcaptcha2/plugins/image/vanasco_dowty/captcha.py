@@ -59,7 +59,10 @@ SOFTWARE.
 
 """
 
-import md5
+try:
+    from hashlib import md5 as md5_constructor
+except ImportError:
+    from md5 import new as md5_constructor
 import random
 import math 
 import os
@@ -123,11 +126,11 @@ class _Captcha(_ErrorLoggingObject) :
 
     def _generate_key( self , captcha_time_start=None , captcha_seed=None ):
         """Returns a hash based on text , seed , and site_secrect"""
-        return md5.new("%s|%s|%s" %(captcha__site_secret,captcha_time_start,captcha_seed)).hexdigest()
+        return md5_constructor("%s|%s|%s" %(captcha__site_secret,captcha_time_start,captcha_seed)).hexdigest()
 
     def generate_captcha_text(self):
         """Automagically generates a string of text based on a key (length is from file default or override)"""
-        return ''.join(md5.new("%s|%s|%s" %(captcha__site_secret,self.captcha_key,self.captcha_time_start)).hexdigest()[0:6])
+        return ''.join(md5_constructor("%s|%s|%s" %(captcha__site_secret,self.captcha_key,self.captcha_time_start)).hexdigest()[0:6])
 
     def _captcha_key__uncombine( self ):
         ( self.captcha_key , self.captcha_time_start ) = self.captcha_key_combined.split('_')
