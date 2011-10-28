@@ -13,13 +13,12 @@ NEWS
 * Add password strength checking
 * Add a forgot password link to the front page
 * New, easier to use captcha!
-
 * Fix python-fedora deprecation warnings
 * Now pulling translations from transifex.net
 * Switch to using openssl's random functions if available
 * Use glibc's sha512 crypt hashes when crypting passwords
 * Fix to fasClient to drop privileges before writing out user's SSH key
-
+* Make the webmaster mail configurable (Adam Dutko)
 * Fix /user/list not returning any people who have not signed the CLA
 * Fix for newer GeoIP data
 * Fix a traceback when disabling invite_only
