@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-27 15:26-0700\n"
-"PO-Revision-Date: 2011-10-27 22:31+0000\n"
+"POT-Creation-Date: 2011-10-28 11:27-0700\n"
+"PO-Revision-Date: 2011-10-28 18:29+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -221,18 +221,18 @@ msgstr "データベース: %s への設定の保存中にエラーが発生し�
 msgid "Config value successfully updated"
 msgstr "設定は正しくアップデートされました"
 
-#: fas/controllers.py:201
+#: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
 msgstr "古いパスワードは有効期限が切れました。  以下で再度パスワードを設定してください。"
 
-#: fas/controllers.py:208
+#: fas/controllers.py:209
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
 msgstr "あなたのアカウントは一時的に無効になっています。詳しくは %(admin_email)sadmin_email に連絡をとってください。"
 
-#: fas/controllers.py:221
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "言語 '%s' は取得できません。"
@@ -1561,10 +1561,9 @@ msgstr "エラー -  不正な RSA SSH key: %(key)s"
 #: fas/validators.py:198
 #, python-format
 msgid ""
-"'%(username)s' is an illegal username.  A valid username must only contain "
-"lowercase alphanumeric characters, and must start with a letter."
+"'%(username)s' is an illegal username.  A valid username must be ASCII, only"
+" contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
-"'%(username)s' は法的なユーザネームです。正しいユーザネームは全て小文字の英数字で、アルファベットで始まらなければいけません。"
 
 #: fas/validators.py:201
 #, python-format
@@ -1824,12 +1823,11 @@ msgid "FAS version %s"
 msgstr "FAS バージョン %s"
 
 #: fas/templates/master.html:95
+#, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
-"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
-"© 2011 Red Hat, Inc.  コメントや訂正があれば <a "
-"href=\"mailto:webmaster@fedoraproject.org\">websites team</a> までお送りください。"
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1881,7 +1879,7 @@ msgstr "ログイン"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr ""
+msgstr "パスワード忘れ？"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -2344,34 +2342,36 @@ msgid ""
 " rapid succession.  To make such brute force attacks harder we enforce some "
 "minimum levels of strength:"
 msgstr ""
+"攻撃者がコンピューターに異なる文字の組み合わせを素早く試行させることにより、パスフレーズを推測することを防ぐために、パスフレーズは一定の複雑性を持たなければいけません。"
+"  そのようなブルートフォース攻撃を難しくするために、最低限の強度レベルをいくつか強制しています。"
 
 #: fas/templates/user/changepass.html:14
 msgid ""
 "A passphrase with symbols, upper and lowercase letters, and digits must be "
 "at least 9 characters"
-msgstr ""
+msgstr "記号、大文字、小文字および数字を含むパスフレーズは9文字以上でなければいけません"
 
 #: fas/templates/user/changepass.html:15
 msgid ""
 "A passphrase with upper and lowercase letters and digits must be at least 10"
 " characters"
-msgstr ""
+msgstr "大文字、小文字および数字を含むパスフレーズは10文字以上でなければいけません"
 
 #: fas/templates/user/changepass.html:16
 msgid ""
 "A passphrase with lowercase letters and digits must be at least 12 "
 "characters"
-msgstr ""
+msgstr "小文字と数字を含むパスフレーズは12文字以上でなければいけません"
 
 #: fas/templates/user/changepass.html:17
 msgid "A passphrase with letters alone must be at least 20 characters"
-msgstr ""
+msgstr "英字のみを含むパスフレーズは20文字以上でなければいけません"
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
-msgstr ""
+msgstr "これらは最低限であることを覚えておいてください。  パスフレーズをより長くかつより複雑にすることが推奨されます。"
 
 #: fas/templates/user/changepass.html:21
 msgid "Current Password:"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-27 15:26-0700\n"
-"PO-Revision-Date: 2011-10-27 22:31+0000\n"
+"POT-Creation-Date: 2011-10-28 11:27-0700\n"
+"PO-Revision-Date: 2011-10-28 18:29+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/fedora/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -209,18 +209,18 @@ msgstr "向数据库保存配置时出错：%s"
 msgid "Config value successfully updated"
 msgstr "配置已成功更新"
 
-#: fas/controllers.py:201
+#: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
 msgstr "您的旧密码已过期。请在下面重新设置密码。"
 
-#: fas/controllers.py:208
+#: fas/controllers.py:209
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
 msgstr "您的账户已停用。要了解更多信息，请联系 %(admin_email)sadmin_email"
 
-#: fas/controllers.py:221
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "语言 '%s' 不存在。"
@@ -1428,9 +1428,9 @@ msgstr "错误 - 不是一个有效的 RSA SSH 密匙：%(key)s"
 #: fas/validators.py:198
 #, python-format
 msgid ""
-"'%(username)s' is an illegal username.  A valid username must only contain "
-"lowercase alphanumeric characters, and must start with a letter."
-msgstr "'%(username)s' 为无效用户名。有效的用户名必须由小写字母数字构成，并必须以字母开头。"
+"'%(username)s' is an illegal username.  A valid username must be ASCII, only"
+" contain lowercase alphanumeric characters, and must start with a letter."
+msgstr ""
 
 #: fas/validators.py:201
 #, python-format
@@ -1681,9 +1681,10 @@ msgid "FAS version %s"
 msgstr "FAS 版本 %s"
 
 #: fas/templates/master.html:95
+#, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
-"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
 
 #: fas/templates/master.html:98

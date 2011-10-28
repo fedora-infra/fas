@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-27 15:26-0700\n"
-"PO-Revision-Date: 2011-10-27 22:31+0000\n"
+"POT-Creation-Date: 2011-10-28 11:27-0700\n"
+"PO-Revision-Date: 2011-10-28 18:29+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Indonesian <trans-id@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -189,13 +189,13 @@ msgstr "Kesalahan saat menyimpan konfigurasi ke basis data: %s"
 msgid "Config value successfully updated"
 msgstr "Nilai konfigurasi berhasil diperbarui"
 
-#: fas/controllers.py:201
+#: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
 msgstr ""
 "Kata sandi lama Anda telah kadaluarsa. Silakan reset kata sandi Anda di "
 "bawah."
 
-#: fas/controllers.py:208
+#: fas/controllers.py:209
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
@@ -204,7 +204,7 @@ msgstr ""
 "Akun Anda saat ini telah dinonaktifkan. Untuk informasi lebih lanjut, "
 "silakan menyureli admin %(admin_email)s"
 
-#: fas/controllers.py:221
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Bahasa '%s' tidak tersedia."
@@ -1501,12 +1501,9 @@ msgstr "Galat - Bukan kunci SSH RSA yang valid: %(key)s"
 #: fas/validators.py:198
 #, python-format
 msgid ""
-"'%(username)s' is an illegal username.  A valid username must only contain "
-"lowercase alphanumeric characters, and must start with a letter."
+"'%(username)s' is an illegal username.  A valid username must be ASCII, only"
+" contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
-"'%(username)s' adalah nama pengguna yang ilegal. Nama pengguna yang valid "
-"hanya boleh mengandung karakter alfanumerik berhuruf kecil, dan harus "
-"diawali dengan sebuah huruf."
 
 #: fas/validators.py:201
 #, python-format
@@ -1786,9 +1783,10 @@ msgid "FAS version %s"
 msgstr "FAS versi %s"
 
 #: fas/templates/master.html:95
+#, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
-"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
 
 #: fas/templates/master.html:98

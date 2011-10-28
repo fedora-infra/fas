@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-27 15:26-0700\n"
-"PO-Revision-Date: 2011-10-27 22:31+0000\n"
+"POT-Creation-Date: 2011-10-28 11:27-0700\n"
+"PO-Revision-Date: 2011-10-28 18:29+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -190,12 +190,12 @@ msgstr "Σφάλμα κατά την αποθήκευση του config στη �
 msgid "Config value successfully updated"
 msgstr ""
 
-#: fas/controllers.py:201
+#: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
 msgstr ""
 "Ο παλιός σας κωδικός έχει λήξει. Παρακαλούμε επαναφέρετε τον παρακάτω."
 
-#: fas/controllers.py:208
+#: fas/controllers.py:209
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
@@ -204,7 +204,7 @@ msgstr ""
 "Ο λογαριασμός σας είναι προς το παρόν απενεργοποιημένος. Για περισσότερες "
 "πληροφορίες επικοινωνήστε στο %(admin_email)sadmin_email"
 
-#: fas/controllers.py:221
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Η γλώσσα '%s' δεν είναι διαθέσιμη."
@@ -1486,8 +1486,8 @@ msgstr "Σφάλμα- Μη έγκυρο κλειδί RSA SSH: %(key)s"
 #: fas/validators.py:198
 #, python-format
 msgid ""
-"'%(username)s' is an illegal username.  A valid username must only contain "
-"lowercase alphanumeric characters, and must start with a letter."
+"'%(username)s' is an illegal username.  A valid username must be ASCII, only"
+" contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
 
 #: fas/validators.py:201
@@ -1757,9 +1757,10 @@ msgid "FAS version %s"
 msgstr "Έκδοση FAS %s"
 
 #: fas/templates/master.html:95
+#, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
-"href=\"mailto:webmaster@fedoraproject.org\">websites team</a>."
+"href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
 
 #: fas/templates/master.html:98
