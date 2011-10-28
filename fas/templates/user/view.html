@@ -79,7 +79,6 @@
           <dd>
             <div py:choose="person.status" py:strip="True">
               <span py:when="'active'" class="approved">${_('Active')}</span>
-              <span py:when="'vacation'" class="approved">${_('Vacation')}</span>
               <span py:when="'inactive'" class="unapproved">${_('Inactive')}</span>
               <span py:when="'pinged'" class="approved">${_('Pinged')}</span>
               <span py:when="'admin_disabled'" class="unapproved">${_('Disabled')}</span>

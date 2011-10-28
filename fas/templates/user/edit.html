@@ -123,7 +123,7 @@ Unfortunately, checked can't be used as a boolean, only as a flag.  Silly HTML4 
       <div class="field">
         <label for="status">${_('Status')}:</label>
         <select id="status" name="status">
-          <option py:for="status in ('active', 'vacation', 'inactive')" value="${status}" py:attrs="{'selected': target.status == status and 'selected' or None}">${status}</option>
+          <option py:for="status in ('active', 'inactive')" value="${status}" py:attrs="{'selected': target.status == status and 'selected' or None}">${status}</option>
           <option py:if="admin" value="admin_disabled" py:attrs="{'selected': target.status == 'admin_disabled' and 'selected' or None}">disabled</option>
         </select>
         <script type="text/javascript">var hb7 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script>
