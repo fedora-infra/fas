@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 11:27-0700\n"
-"PO-Revision-Date: 2011-10-28 18:29+0000\n"
+"POT-Creation-Date: 2011-10-28 12:32-0700\n"
+"PO-Revision-Date: 2011-10-28 19:34+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.net/projects/p/fedora/team/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -629,10 +629,8 @@ msgstr "وضعیت حساب"
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+"include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>نشان دادن وضعیت های حساب، مقادیر ممکن "
-"شامل<ul><li>فعال</li><li>سفر</li><li>غیرفعال</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -1920,12 +1918,12 @@ msgid "None"
 msgstr "هیچ یک"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
 msgid "Approved"
 msgstr "تایید شده"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:138
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
 msgid "Unapproved"
 msgstr "تایید نشده"
 
@@ -1997,7 +1995,7 @@ msgstr "پیام پیوستن:"
 msgid "Create!"
 msgstr "ساختن!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:144
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
 msgid "View Group"
 msgstr "دیدن گروه"
 
@@ -2312,7 +2310,7 @@ msgstr "\"*\" یک جانشین است است ( مانند \"ric*\")"
 msgid "Username"
 msgstr "نام کاربری"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:97
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
 msgid "CLA Done"
 msgstr "CLA کامل"
 
@@ -2466,91 +2464,87 @@ msgid "Active"
 msgstr "فعال"
 
 #: fas/templates/user/view.html:82
-msgid "Vacation"
-msgstr "تعطیلات"
-
-#: fas/templates/user/view.html:83
 msgid "Inactive"
 msgstr "غیرفعال"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:83
 msgid "Pinged"
 msgstr "پینگ شده"
 
-#: fas/templates/user/view.html:85
+#: fas/templates/user/view.html:84
 msgid "Disabled"
 msgstr "غیرفعال"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:89
 msgid "Contributor Agreement:"
 msgstr ""
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:93
 msgid "CLA Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:96
 msgid "New CLA Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "Complete it now!"
 msgstr ""
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:101
 msgid "Reject FPCA"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Complete it!"
 msgstr "کامل کنید!"
 
-#: fas/templates/user/view.html:109
+#: fas/templates/user/view.html:108
 msgid "Privacy:"
 msgstr "حریم خصوصی:"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:116
 msgid "Your Roles"
 msgstr "نقشهای شما"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:117
 #, python-format
 msgid "%s's Roles"
 msgstr "نقش های %s"
 
-#: fas/templates/user/view.html:135
+#: fas/templates/user/view.html:134
 msgid "Status:"
 msgstr "وضعیت:"
 
-#: fas/templates/user/view.html:141
+#: fas/templates/user/view.html:140
 msgid "Tools:"
 msgstr "ابزارها:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:144
 msgid "Invite a New Member..."
 msgstr "دعوت عضو جدید..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:145
 msgid "Manage Group Membership..."
 msgstr "مدیریت عضویت گروه..."
 
-#: fas/templates/user/view.html:147
+#: fas/templates/user/view.html:146
 msgid "Manage Group Details..."
 msgstr "مدیریت جزییات گروه..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:150
 msgid "Queue:"
 msgstr "صف:"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:154
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

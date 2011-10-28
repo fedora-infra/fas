@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 11:27-0700\n"
-"PO-Revision-Date: 2011-10-28 18:29+0000\n"
+"POT-Creation-Date: 2011-10-28 12:32-0700\n"
+"PO-Revision-Date: 2011-10-28 19:34+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -761,10 +761,8 @@ msgstr "Estado de la Cuenta"
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+"include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Muestra el estado de la cuenta, los valores posibles son "
-"<ul><li>activa</li><li>vacaciones</li><li>inactiva</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -2281,12 +2279,12 @@ msgid "None"
 msgstr "Ninguno"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
 msgid "Approved"
 msgstr "Aprobado"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:138
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
 msgid "Unapproved"
 msgstr "Desaprobado"
 
@@ -2358,7 +2356,7 @@ msgstr "Mensaje de Inscripción:"
 msgid "Create!"
 msgstr "¡Crear!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:144
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
 msgid "View Group"
 msgstr "Ver Grupo"
 
@@ -2677,7 +2675,7 @@ msgstr "\"*\" es un comodín (Ej: \"ric*\")"
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:97
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
 msgid "CLA Done"
 msgstr "CLA Completado"
 
@@ -2838,92 +2836,88 @@ msgid "Active"
 msgstr "Activa"
 
 #: fas/templates/user/view.html:82
-msgid "Vacation"
-msgstr "Vacaciones"
-
-#: fas/templates/user/view.html:83
 msgid "Inactive"
 msgstr "Inactiva"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:83
 msgid "Pinged"
 msgstr "Pinged"
 
-#: fas/templates/user/view.html:85
+#: fas/templates/user/view.html:84
 msgid "Disabled"
 msgstr "Deshabilitada"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:89
 msgid "Contributor Agreement:"
 msgstr "Acuerdo de contribuyente:"
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:93
 msgid "CLA Signed"
 msgstr "CLA firmado"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:96
 msgid "New CLA Not Signed"
 msgstr "Nuevo CLA sin firmar"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 "Necesitamos que los contribuyentes firmen el nuevo Acuerdo de Contribuyente"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "Complete it now!"
 msgstr "¡Complete esto ahora!"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:101
 msgid "Reject FPCA"
 msgstr "Rechazar FPCA"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Not Signed"
 msgstr "Sin firmar"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Complete it!"
 msgstr "¡Complétalo!"
 
-#: fas/templates/user/view.html:109
+#: fas/templates/user/view.html:108
 msgid "Privacy:"
 msgstr "Privacidad:\t"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:116
 msgid "Your Roles"
 msgstr "Sus Roles"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:117
 #, python-format
 msgid "%s's Roles"
 msgstr "Roles de %s"
 
-#: fas/templates/user/view.html:135
+#: fas/templates/user/view.html:134
 msgid "Status:"
 msgstr "Estado:"
 
-#: fas/templates/user/view.html:141
+#: fas/templates/user/view.html:140
 msgid "Tools:"
 msgstr "Herramientas:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:144
 msgid "Invite a New Member..."
 msgstr "Invite un Miembro Nuevo..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:145
 msgid "Manage Group Membership..."
 msgstr "Administrar las Membresías del Grupo..."
 
-#: fas/templates/user/view.html:147
+#: fas/templates/user/view.html:146
 msgid "Manage Group Details..."
 msgstr "Administrar los Detalles del Grupo..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:150
 msgid "Queue:"
 msgstr "Pendientes:"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:154
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 11:27-0700\n"
-"PO-Revision-Date: 2011-10-28 18:29+0000\n"
+"POT-Creation-Date: 2011-10-28 12:32-0700\n"
+"PO-Revision-Date: 2011-10-28 19:34+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Hungarian <trans-hu@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -716,10 +716,8 @@ msgstr "Azonosító állapot"
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+"include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Számla állapotot mutat. Lehetséges "
-"értékek:<ul><li>tevékeny</li><li>szünetel</li><li>tétlen</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -2146,12 +2144,12 @@ msgid "None"
 msgstr "Semmi"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
 msgid "Approved"
 msgstr "Jóváhagyva"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:138
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
 msgid "Unapproved"
 msgstr "Jóváhagyandó"
 
@@ -2223,7 +2221,7 @@ msgstr "Kísérő szöveg:"
 msgid "Create!"
 msgstr "Létrehozás!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:144
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
 msgid "View Group"
 msgstr "Csoport megtekintése"
 
@@ -2541,7 +2539,7 @@ msgstr "„*” helyettesítő jel (Pl: „ric*”)"
 msgid "Username"
 msgstr "Név"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:97
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
 msgid "CLA Done"
 msgstr "CLA kész"
 
@@ -2697,92 +2695,88 @@ msgid "Active"
 msgstr "Aktív"
 
 #: fas/templates/user/view.html:82
-msgid "Vacation"
-msgstr "Távollét"
-
-#: fas/templates/user/view.html:83
 msgid "Inactive"
 msgstr "Inaktív"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:83
 msgid "Pinged"
 msgstr "Megpingetve"
 
-#: fas/templates/user/view.html:85
+#: fas/templates/user/view.html:84
 msgid "Disabled"
 msgstr "Letiltva"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:89
 msgid "Contributor Agreement:"
 msgstr "Hozzájárulói Egyezmény:"
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:93
 msgid "CLA Signed"
 msgstr "CLA kész"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:96
 msgid "New CLA Not Signed"
 msgstr "Az új CLA nincs aláírva"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 "Szükségünk van hozzájárulókra hogy aláírják az új Hozzájárulói Egyezményt"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "Complete it now!"
 msgstr "Töltse ki most!"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:101
 msgid "Reject FPCA"
 msgstr "FPCA elutasítása"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Not Signed"
 msgstr "Nincs aláírva"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Complete it!"
 msgstr "Befejezés!"
 
-#: fas/templates/user/view.html:109
+#: fas/templates/user/view.html:108
 msgid "Privacy:"
 msgstr "Személyes:"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:116
 msgid "Your Roles"
 msgstr "Szerepkörei"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:117
 #, python-format
 msgid "%s's Roles"
 msgstr "%s szerepkörei"
 
-#: fas/templates/user/view.html:135
+#: fas/templates/user/view.html:134
 msgid "Status:"
 msgstr "Állapot:"
 
-#: fas/templates/user/view.html:141
+#: fas/templates/user/view.html:140
 msgid "Tools:"
 msgstr "Eszközök:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:144
 msgid "Invite a New Member..."
 msgstr "Új tag meghívása…"
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:145
 msgid "Manage Group Membership..."
 msgstr "Csoport tagság igazgatása…"
 
-#: fas/templates/user/view.html:147
+#: fas/templates/user/view.html:146
 msgid "Manage Group Details..."
 msgstr "Csoport részletek igazgatása…"
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:150
 msgid "Queue:"
 msgstr "Sor:"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:154
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 11:27-0700\n"
-"PO-Revision-Date: 2011-10-28 18:29+0000\n"
+"POT-Creation-Date: 2011-10-28 12:32-0700\n"
+"PO-Revision-Date: 2011-10-28 19:34+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -654,10 +654,8 @@ msgstr "Κατάσταση λογαριασμού"
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+"include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Δείχνει την κατάσταση του λογαριασμού με πιθανές τιμές τις "
-"<ul><li>ενεργός</li><li>διακοπές</li><li>ανενεργός</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -2024,12 +2022,12 @@ msgid "None"
 msgstr "Κανένα"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
 msgid "Approved"
 msgstr "Αποδεκτό"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:138
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
 msgid "Unapproved"
 msgstr "Μη αποδεκτό"
 
@@ -2101,7 +2099,7 @@ msgstr "Μήνυμα Συμμετοχής:"
 msgid "Create!"
 msgstr "Δημιουργία:"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:144
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
 msgid "View Group"
 msgstr "Προεπισκόπηση ομάδας"
 
@@ -2409,7 +2407,7 @@ msgstr ""
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:97
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
 msgid "CLA Done"
 msgstr "Το CLA έγινε"
 
@@ -2563,91 +2561,87 @@ msgid "Active"
 msgstr "Ενεργός"
 
 #: fas/templates/user/view.html:82
-msgid "Vacation"
-msgstr "Διακοπές"
-
-#: fas/templates/user/view.html:83
 msgid "Inactive"
 msgstr "Ανενεργός"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:83
 msgid "Pinged"
 msgstr ""
 
-#: fas/templates/user/view.html:85
+#: fas/templates/user/view.html:84
 msgid "Disabled"
 msgstr "Απενεργοποιημένος"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:89
 msgid "Contributor Agreement:"
 msgstr ""
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:93
 msgid "CLA Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:96
 msgid "New CLA Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "Complete it now!"
 msgstr ""
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:101
 msgid "Reject FPCA"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Complete it!"
 msgstr "Συμπληρώστε το!"
 
-#: fas/templates/user/view.html:109
+#: fas/templates/user/view.html:108
 msgid "Privacy:"
 msgstr "Απόρρητο:"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:116
 msgid "Your Roles"
 msgstr "Οι ρόλοι σας"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:117
 #, python-format
 msgid "%s's Roles"
 msgstr "%s's Ρόλοι"
 
-#: fas/templates/user/view.html:135
+#: fas/templates/user/view.html:134
 msgid "Status:"
 msgstr "Κατάσταση:"
 
-#: fas/templates/user/view.html:141
+#: fas/templates/user/view.html:140
 msgid "Tools:"
 msgstr "Εργαλεία:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:144
 msgid "Invite a New Member..."
 msgstr "Προσκαλέστε ένα νέο μέλος..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:145
 msgid "Manage Group Membership..."
 msgstr "Διαχείρηση Ιδιοτήτων Μελών Ομάδας..."
 
-#: fas/templates/user/view.html:147
+#: fas/templates/user/view.html:146
 msgid "Manage Group Details..."
 msgstr "Διαχείρηση Λεπτομερειών Ομάδας..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:150
 msgid "Queue:"
 msgstr ""
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:154
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

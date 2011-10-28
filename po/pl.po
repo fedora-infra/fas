@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 11:27-0700\n"
-"PO-Revision-Date: 2011-10-28 18:29+0000\n"
+"POT-Creation-Date: 2011-10-28 12:32-0700\n"
+"PO-Revision-Date: 2011-10-28 19:34+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/fedora/team/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -747,10 +747,8 @@ msgstr "Stan konta"
 #: fas/help.py:36
 msgid ""
 "<p>Shows account status, possible values "
-"include<ul><li>active</li><li>vacation</li><li>inactive</li></ul></p>"
+"include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
-"<p>Wyświetla stan konta, możliwe wartości to "
-"<ul><li>aktywne</li><li>urlop</li><li>nieaktywne</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -1678,6 +1676,9 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
+"\"%(username)s\" jest niedozwoloną nazwą użytkownika. Prawidłowa nazwa "
+"użytkownika może zawierać tylko alfanumeryczne znaki ASCII i musi zaczynać "
+"się od litery."
 
 #: fas/validators.py:201
 #, python-format
@@ -1973,6 +1974,8 @@ msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
+"© 2011 Red Hat, Inc. Prosimy wysyłać wszystkie komentarze lub poprawki do <a"
+" href=\"mailto:%(webmaster)s\">zespołu stron WWW</a> (w języku angielskim)."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -2238,12 +2241,12 @@ msgid "None"
 msgstr "Brak"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
 msgid "Approved"
 msgstr "Zaakceptowany"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:138
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
 msgid "Unapproved"
 msgstr "Niezaakceptowany"
 
@@ -2315,7 +2318,7 @@ msgstr "Wiadomość o dołączeniu:"
 msgid "Create!"
 msgstr "Utwórz"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:144
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
 msgid "View Group"
 msgstr "Wyświetl grupę"
 
@@ -2644,7 +2647,7 @@ msgstr "\"*\" jest wieloznacznikiem (np. \"ric*\")"
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:97
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
 msgid "CLA Done"
 msgstr "Ukończono CLA"
 
@@ -2803,91 +2806,87 @@ msgid "Active"
 msgstr "Aktywne"
 
 #: fas/templates/user/view.html:82
-msgid "Vacation"
-msgstr "Urlop"
-
-#: fas/templates/user/view.html:83
 msgid "Inactive"
 msgstr "Nieaktywne"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:83
 msgid "Pinged"
 msgstr "Odpytane"
 
-#: fas/templates/user/view.html:85
+#: fas/templates/user/view.html:84
 msgid "Disabled"
 msgstr "Wyłączone"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:89
 msgid "Contributor Agreement:"
 msgstr "Warunki licencji współtwórcy:"
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:93
 msgid "CLA Signed"
 msgstr "Podpisano CLA"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:96
 msgid "New CLA Not Signed"
 msgstr "Nie podpisano nowego CLA"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr "Współtwórcy muszą podpisać nowe warunki licencji współtwórcy"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:97
 msgid "Complete it now!"
 msgstr "Wypełnij teraz"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:101
 msgid "Reject FPCA"
 msgstr "Odrzuć FPCA"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Not Signed"
 msgstr "Nie podpisano"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:105
 msgid "Complete it!"
 msgstr "Wypełnij"
 
-#: fas/templates/user/view.html:109
+#: fas/templates/user/view.html:108
 msgid "Privacy:"
 msgstr "Prywatność:"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:116
 msgid "Your Roles"
 msgstr "Role użytkownika"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:117
 #, python-format
 msgid "%s's Roles"
 msgstr "Role użytkownika %s"
 
-#: fas/templates/user/view.html:135
+#: fas/templates/user/view.html:134
 msgid "Status:"
 msgstr "Stan:"
 
-#: fas/templates/user/view.html:141
+#: fas/templates/user/view.html:140
 msgid "Tools:"
 msgstr "Narzędzia:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:144
 msgid "Invite a New Member..."
 msgstr "Zaproś nowego członka..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:145
 msgid "Manage Group Membership..."
 msgstr "Zarządzaj członkostwem w grupach..."
 
-#: fas/templates/user/view.html:147
+#: fas/templates/user/view.html:146
 msgid "Manage Group Details..."
 msgstr "Zarządzaj szczegółami grupy..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:150
 msgid "Queue:"
 msgstr "Kolejka:"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:154
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
