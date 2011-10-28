@@ -5,7 +5,11 @@ from fas.tgcaptcha2 import model
 import random
 from cStringIO import StringIO
 from Crypto.Cipher import AES
-import sha
+try:
+    from hashlib import sha_constructor
+except ImportError:
+    from sha import new as sha_constructor
+
 import base64
 from pkg_resources import iter_entry_points
 import logging
@@ -18,7 +22,7 @@ class CaptchaController(controllers.Controller):
         if key == 'secret':
             log.warning('You need to set the "tgcaptcha.key" value in your '
                         'config file')
-        key = sha.new(key).hexdigest()[:32]
+        key = sha_constructor(key).hexdigest()[:32]
         random.seed()
         self.aes = AES.new(key, AES.MODE_ECB)
         self.jpeg_generator = None
