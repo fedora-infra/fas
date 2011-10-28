@@ -126,7 +126,8 @@ config.update({'i18n.get_locale': get_locale})
 def add_custom_stdvars(variables):
     return variables.update({'gettext': _, "lang": get_locale(),
     'available_languages': available_languages(), 
-    'fas_version': release.VERSION})
+    'fas_version': release.VERSION,
+    'webmaster_email': config.get('webmaster_email')})
 turbogears.view.variable_providers.append(add_custom_stdvars)
 
 # from fas import json

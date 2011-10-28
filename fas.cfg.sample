@@ -56,6 +56,8 @@ privileged_view_groups = "(^fas-.*)"
 accounts_email = "nobody@fedoraproject.org"
 # Who should be listed as the legal contact for the Contributor Agreement?
 legal_cla_email = "nobody@fedoraproject.org"
+# Who should be listed as the webmaster contact for the site?
+webmaster_email = "webmaster@fedoraproject.org"
 
 # All groups and some users get email aliases created for them via a cron
 # job.  This setting is appended to group names when sending email to members
