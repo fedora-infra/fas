@@ -196,8 +196,8 @@ class ValidUsername(validators.FancyValidator):
     username_blacklist = config.get('username_blacklist').split(',')
 
     messages = {'invalid_username': _("'%(username)s' is an illegal username.  "
-        "A valid username must only contain lowercase alphanumeric characters, "
-        "and must start with a letter."),
+        "A valid username must be ASCII, only contain lowercase alphanumeric "
+        "characters, and must start with a letter."),
         'blacklist': _("'%(username)s' is an blacklisted username.  Please "
         "choose a different one.")}
 

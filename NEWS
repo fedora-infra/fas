@@ -13,6 +13,7 @@ NEWS
 * Add password strength checking
 * Add a forgot password link to the front page
 * New, easier to use captcha!
+* Mention that usernames must be ASCII
 * Fix python-fedora deprecation warnings
 * Now pulling translations from transifex.net
 * Switch to using openssl's random functions if available
