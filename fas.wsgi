@@ -6,8 +6,6 @@ __main__.__requires__.append('SQLAlchemy >= 0.5, <= 0.6')
 __main__.__requires__.append('TurboGears[future]')
 
 import sys
-sys.path.append('/var/www/fas/')
-sys.path.append('/usr/lib/python2.6/site-packages/tgcaptcha/')
 sys.stdout = sys.stderr
 
 import pkg_resources
@@ -32,7 +30,7 @@ class MyNestedVariablesFilter(turbogears.startup.NestedVariablesFilter):
 
 turbogears.startup.NestedVariablesFilter = MyNestedVariablesFilter
 
-turbogears.update_config(configfile="/var/www/fas/fas.cfg", modulename="fas.config")
+turbogears.update_config(configfile="/etc/fas.cfg", modulename="fas.config")
 turbogears.config.update({'global': {'autoreload.on': False}})
 
 turbogears.startup.call_on_startup.append(fedora.tg.utils.enable_csrf)
