@@ -52,6 +52,9 @@ Once you have commit rights you can also push over ssh:
 
     git push ssh://git.fedorahosted.org/git/fas
 
+You can view tickets, outstanding issues and more by visiting the Trac instance for FAS located at:
+
+    https://fedorahosted.org/fas/
 
 Common Fedora Packages
 ======================
