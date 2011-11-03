@@ -13,8 +13,8 @@ NEWS
 * Add password strength checking
 * Add a forgot password link to the front page
 * New, easier to use captcha!
-* Mention that usernames must be ASCII (Adam Dutko)
-* No longer show that vacation is a valid status (Adam Dutko)
+* Mention that usernames must be ASCII (Adam M. Dutko)
+* No longer show that vacation is a valid status (Adam M. Dutko)
 * Fix python-fedora deprecation warnings
 * Now pulling translations from transifex.net
 * Switch to using openssl's random functions if available
@@ -26,3 +26,5 @@ NEWS
 * Fix a traceback when disabling invite_only
 * Fix for locale setting
 * Fix when calling selinux functions in fasClient
+* In the public key tooltip, mention users can upload multiple ssh keys to FAS. (Adam M. Dutko)
+* Split the README into README, HACKING and INSTALL files. (Adam M. Dutko)
