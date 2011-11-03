@@ -1,16 +1,17 @@
 # 
-from sqlalchemy import Table, Column, MetaData, Text
-from migrate import migrate_engine
-from migrate.changeset import create_column, drop_column
+from sqlalchemy import Table, Column, Text, MetaData
 
-metadata = MetaData(migrate_engine)
+metadata = MetaData()
 
-GroupsTable = Table('groups', metadata, autoload=True)
-col = Column("apply_rules", Text)
+groups = Table(
+    'groups', metadata,
+    Column("apply_rules", Text),    
+)
 
 def upgrade():
-	create_column(col, GroupsTable)
+    meta.bind = migrate_engine
+    groups.create()	
 
 def downgrade():
-	drop_column(col, GroupsTable)
-
+    meta.bind = migrate_engine
+    groups.drop()
