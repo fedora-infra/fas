@@ -1,0 +1,260 @@
+=================================
+HACKING the Fedora Account System
+=================================
+
+:Authors: Adam M. Dutko 
+:Contact: infrastructure@lists.fedoraproject.org
+:Date: Wed, 02 November, 2011
+:For FAS version: 0.8.x
+
+This file provides a guideline to new developers hacking on the Fedora Account System. It is not yet complete.
+
+.. contents::
+
+-------
+Caveats
+-------
+
+Add specific directions for each Fedora release if there any and finish this file.
+
+All Releases
+============
+
+Fedora 15 Caveats
+=================
+
+Fedora 14 Caveats
+=================
+
+On F14 you need to do the following until/unless the python-fedora change is released:
+    -- uninstall python-fedora if it is installed
+    -- yum erase python-fedora
+    -- yum install Django
+    -- yum install python-repoze-who-friendlyform
+    -- wget http://kojipkgs.fedoraproject.org/packages/python-fedora/0.3.25.1/1.fc14.1/noarch/python-fedora-0.3.25.1-1.fc14.1.noarch.rpm
+    -- rpm -ivh python-fedora-0.3.25.1-1.fc14.1.noarch.rpm
+
+-------------
+Prerequisites
+-------------
+
+Before you can get started hacking on the Fedora Account System (FAS) you will need to have a fedora account in the production instance of FAS. You will also need to complete the Contributor License Agreement (CLA). Once these things are done you will need to become a member of the FAS Git Commit group by first becoming an apprentice through Fedora Infrastructure then proving your competency (this is easier than it sounds so don't let it seem intimidating).
+
+Alernatively, you can start hacking on FAS without commit access and submit patches to the mailing list:
+
+    infrastructure@lists.fedoraproject.org
+
+You should use the mailing list and Internet Relay Chat (IRC) to ask questions about FAS. The IRC channel is #fedora-admin on the Freenode network (irc.freenode.net). You can access the FAS code base through git:
+
+    git clone git://git.fedorahosted.org/git/fas.git
+
+Once you have commit rights you can also push over ssh:
+
+    git push ssh://git.fedorahosted.org/git/fas
+
+
+Common Fedora Packages
+======================
+
+If you're developing on Fedora (good idea) you will need to use yum to install the packages required to run your FAS test instance:
+
+  yum install git-core postgresql-plpython postgresql-server postgresql-python \
+  python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
+  python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
+  python-fedora python-migrate python-memcached python-tgcaptcha pyOpenSSL gettext
+
+Please read the ''Caveats'' section for important caveats about particular releases.
+
+Common RHEL Packages
+====================
+
+If you're developing on RedHat Enterprise Linux (RHEL) you will need to use yum to install the packages required to run your FAS test instance:
+
+  yum install git-core postgresql-pl postgresql-server postgresql-python \
+  python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
+  python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
+  python-fedora python-migrate python-memcached python-tgcaptcha pyOpenSSL gettext
+
+For RHEL5 (and above) please note the naming difference in the postgresql-plpython package. On RHEL5 (and above) this package is referred to as postgresql-pl instead of postgresql-plpython.
+
+Database
+========
+
+FAS requires a database. The database must also be a postgres database since we use postgres specific triggers to manage some of the data (like syncing accounts with bugzilla). For help on this particular step, please refer to the INSTALL file located in the same directory as this file.
+
+Installation Steps
+==================
+
+Before you start hacking you should follow the steps outlined in the INSTALL document to get your own development version of FAS running.
+
+-------
+HACKING
+-------
+
+Thank you for hacking on FAS! There are other pieces you can configure such as setting up Apache + mod_wsgi to serve FAS, adjusting settings, testing integration with other components and etc. Please read the INSTALL file for more information on these options.
+
+NOTE: Do we follow Python (PEP-8) style guidelines?
+
+----------------
+MAKING A RELEASE
+----------------
+
+1. Make sure that any feature branches you want have been merged.
+2. Update the version in fas.spec and fas/release.py.  Commit the changes to
+   the master branch.
+3. Push the results to the server.
+4. Make a fresh clone of the repository::
+      cd /var/tmp
+      git clone git://git.fedorahosted.org/git/fas
+5. Make the source tarball in that directory::
+      cd /var/tmp/fas
+      python setup.py sdist
+6. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
+   target for that::
+      mv dist/*.tar.gz .
+      rpmbuild-md5 -bs --nodeps fas.spec
+      koji build --scratch dist-5E-epel-infra fas*.src.rpm
+7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
+   infrastructure repository::
+      scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
+      ssh puppet1
+      wget # all rpm files from the scratch build
+      rpm --addsign *.rpm
+      # Move rpms to the epel infrastructure dir
+      # createrepo the new repository
+8. tag the release::
+      cd [LOCAL GIT REPO]
+      git tag [RELEASE VERSION NUMBER]
+      git push --tags
+9. Install in staging and test.  Then upgrade the app servers.
+
+---------------
+ENABLING OPENID
+---------------
+
+For OpenID support, run tg-admin -c fas.cfg sql create to create the OpenID tables.
+
+----------------------------
+Apache + mod_wsgi deployment
+----------------------------
+
+WSGI or, Web Server Gateway Interface is a specification to allow servers and
+applications to communicate with each other.  It's one method that allows Turbo
+Gears to scale properly.  To install it run:
+
+  # yum -y install httpd mod_wsgi
+
+next create a configuration file in /etc/httpd/conf.d/accounts.conf with the
+following information in it:
+
+# File Start
+WSGISocketPrefix /var/run/wsgi
+
+# Repress TG's stdoutput
+WSGIRestrictStdout On
+
+# TG implements its own signal handler.
+WSGIRestrictSignal Off
+
+# These are the real tunables
+WSGIDaemonProcess daemon processes=2 threads=2 maximum-requests=1000 user=fas display-name=fas inactivity-timeout=30
+WSGIPythonOptimize 1
+
+WSGIScriptAlias /accounts /path/to/turbogears/fas/fas.wsgi/accounts
+
+<Directory /path/to/turbogears/fas/>
+    WSGIProcessGroup fas
+    Order deny,allow
+    Allow from all
+</Directory>
+
+#EOF
+
+Finally edit fas.wsgi and add the proper values for your setup and start the
+server with:
+
+/etc/init.d/httpd start
+
+--------------------
+Enabling Local Users
+--------------------
+* THIS IS EXPERIMENTAL *
+
+To allow local users to log in to your system, first enable fas via the
+client in fas/client/fasClient.py
+
+  ./fasClient -e
+
+To disable run
+
+  ./fasClient -d
+
+To sync with your local install run:
+
+  ./fasClient -i
+
+To test, look and see if your groups or users show up with getent.  For
+example:
+
+  getent passwd
+  getent group
+
+------------
+Localization
+------------
+
+We use the translation services at transifex.net to manage po files, coordinate
+people translating strings, and merge new strings to the files.  The following
+instructions briefly tell how to use transifex to update the source languages
+files and pull new translations for release.  Actually doing translations can
+be found in the `transifex user's guide`_.
+
+.. `transifex user's guide`:: http://help.transifex.net/user-guide/translating.html
+
+To generate the POT file (located in the po/ subdirectory), run the
+following from the top level directory::
+
+  pybabel extract -F pybabel.conf -o po/fas.pot fas/
+
+Then upload this pot file to transifex::
+
+  tx push -s
+
+To pull messages from transifex prior to making a release, do::
+
+  tx pull -a
+
+Transifex will perform merging of strings for you.
+
+To enable the languages in FAS, you must compile the PO files and places them
+where TurboGears will look for them.  Then you need to enable the language to
+be available to users by adding it to po/LINGUAS.
+
+Remember that we commit to the git repo the pot file and the po files.  We do
+not commit mo files.
+
+-------
+Plugins
+-------
+
+FAS2 has a plugin system for adding new functionality.  There is a sample,
+dummy plugin in the FAS2 install that you can try out and use as the basis
+of your own plugins.  Enabling it for testing currently requires a few
+steps.  When installed things will be much simpler::
+
+  cd plugins/dummy_plugin
+  python setup.py egg_info
+  cd ../
+  export PYTHONPATH=${PYTHONPATH}:`pwd`/dummy_plugin
+  cd ../
+  ./start-fas
+
+You should then be able to browse to::
+
+  http://localhost:8088/accounts/dummy
+
+and see some simple output from the dummy plugin.
+
+In a real install, the plugin will be installed to a directory already on your
+PYTHONPATH (for instance, site-packages) so there won't be a need to set the
+PYTHONPATH variable explicitly.
