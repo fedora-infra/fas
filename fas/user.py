@@ -1368,3 +1368,13 @@ automatically revoked, and should stop working within the hour.
         person.last_seen = last_seen
         session.flush()
         return dict()
+
+    @identity.require(identity.not_anonymous())
+    @expose()
+    def clearkey(self):
+        username = identity.current.user_name
+        person  = People.by_username(username)
+        person.ssh_key = ''
+        turbogears.flash(_('Your key have been removed.'))
+        turbogears.redirect('/user/view/%s' % username)
+        return dict()
