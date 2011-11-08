@@ -61,7 +61,9 @@
         - -->
         <py:if test="personal or admin">
           <dt>${_('Public SSH Key:')}</dt>
-          <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;</dd>
+          <dd py:if="person.ssh_key" title="${person.ssh_key}">${person.ssh_key[:20]}....&nbsp;
+	    <a href="${tg.url('/user/clearkey')}">(clear)</a>
+	  </dd>
           <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
         </py:if>
         <py:if test="person.comments">
