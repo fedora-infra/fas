@@ -2,6 +2,7 @@ from datetime import datetime
 import calendar
 import cPickle
 
+
 class Captcha(object):
     """Pertinent data about a Captcha.
     

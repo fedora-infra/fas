@@ -32,6 +32,7 @@ country_blacklist = ["--", "A1", "A2", "AN", "AS", "AX", "BI", "BL", "BV", "CC",
 # Captcha
 tgcaptcha.key = 'Cx{$<_1W@]\Zv}*On;z]e'
 tgcaptcha.jpeg_generator = 'mcdermott'
+tgcaptcha.audio = True
 
 ###
 ### Administrative settings

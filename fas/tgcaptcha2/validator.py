@@ -8,16 +8,17 @@ from datetime import datetime
 _ = gettext.gettext
 
 captcha_controller = controller.CaptchaController()
-        
+
+
 class ValidCaptchaInput(FormValidator):
-    
+
     messages = {'incorrect': _("Incorrect value."),
                 'timeout': _("Too much time elapsed. Please try again.")}
-    
+
     __unpackargs__ = ('captchahidden', 'captchainput')
-    
+
     timeout = int(config.get('tgcaptcha.timeout', 5))
-    
+
     def validate_python(self, field_dict, state):
         hidden = str(field_dict['captchahidden'])
         input_val = str(field_dict['captchainput'])
@@ -30,12 +31,11 @@ class ValidCaptchaInput(FormValidator):
         elapsed = datetime.utcnow() - payload.created
         if elapsed.seconds > self.timeout * 60:
             raise Invalid(self.message('timeout', state), field_dict, state)
-        
-        
+
+
 class CaptchaFieldValidator(Schema):
 
     captchahidden = String(min=44, max=44)
     captchainput = String(not_empty=True)
 
     chained_validators = [ValidCaptchaInput('captchahidden', 'captchainput')]
-        

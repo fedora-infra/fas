@@ -21,11 +21,21 @@ class CaptchaInputField(FormField):
     This widget doesn't do any validation, and should only be used if you 
     want to do your own validation.
     """
+    enable = tg.config.get('tgcaptcha.audio', True)
+    sound = ""
+    if enable:
+        sound = """
+        <a href="${controller}/sound/${payload}">
+            <img src="${tg.url('/static/theme/fas/images/gnome_audio_volume_medium.png')}"
+            alt="Audio file" />
+        </a>
+        """
     template = """
     <span xmlns:py="http://purl.org/kid/ns#">
         <img id="${field_id}_img" 
             src="${controller}/image/${payload}" 
             alt="${alt}"/>
+        %s
         <input 
             type="text"
             name="${name}"
@@ -33,7 +43,7 @@ class CaptchaInputField(FormField):
             id="${field_id}"
             py:attrs="attrs"/> 
     </span>
-    """    
+    """ % sound
     params = ['controller', 'payload', 'alt', "attrs"] 
     controller = tg.url(tg.config.get("tgcaptcha.controller", "/captcha"))
     alt = _('obfuscated letters')
@@ -76,3 +86,4 @@ class CaptchaFieldDesc(widgets.WidgetDescription):
 __all__ = [ 'CaptchaField', 
             'CaptchaInputField']
     
+

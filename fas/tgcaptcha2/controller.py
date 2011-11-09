@@ -3,12 +3,15 @@ import turbogears as tg
 import cherrypy
 from fas.tgcaptcha2 import model
 import random
+import os
 from cStringIO import StringIO
 from Crypto.Cipher import AES
 try:
     from hashlib import sha_constructor
 except ImportError:
     from sha import new as sha_constructor
+
+from subprocess import PIPE, Popen
 
 import base64
 from pkg_resources import iter_entry_points
@@ -35,6 +38,29 @@ class CaptchaController(controllers.Controller):
         txt_gen = tg.config.get('tgcaptcha.text_generator', 'random_ascii')
         for ep in iter_entry_points('tgcaptcha2.text_generators', txt_gen):
             self.text_generator = ep.load()
+
+    def sound(self, captcha):
+        enable = tg.config.get('tgcaptcha.audio', True)
+        if enable:
+            captcha = self.model_from_payload(captcha)
+            filename = '%s.wav' % (base64.urlsafe_b64encode(os.urandom(30)))
+
+            try:
+                cmd = ['espeak', '%s' % captcha.label, '-w', '%s' % filename]
+                proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
+                output, error = proc.communicate()
+            except Exception, err:
+                print "ERROR: %s" % err
+            f = open(filename)
+            cherrypy.response.headers['Content-Type'] = 'audio/basic'
+            f.seek(0)
+            content = f.read()
+            os.remove(filename)
+            return content
+        else:
+            tg.flash('No audio captcha')
+            tg.redirect('/user/new')
+    sound = expose()(sound)
 
     def image(self, value):
         "Serve a jpeg for the given payload value."
