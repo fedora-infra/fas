@@ -98,39 +98,6 @@ Thank you for hacking on FAS! There are other pieces you can configure such as s
 
 NOTE: Do we follow Python (PEP-8) style guidelines?
 
-----------------
-MAKING A RELEASE
-----------------
-
-1. Make sure that any feature branches you want have been merged.
-2. Update the version in fas.spec and fas/release.py.  Commit the changes to
-   the master branch.
-3. Push the results to the server.
-4. Make a fresh clone of the repository::
-      cd /var/tmp
-      git clone git://git.fedorahosted.org/git/fas
-5. Make the source tarball in that directory::
-      cd /var/tmp/fas
-      python setup.py sdist
-6. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
-   target for that::
-      mv dist/*.tar.gz .
-      rpmbuild-md5 -bs --nodeps fas.spec
-      koji build --scratch dist-5E-epel-infra fas*.src.rpm
-7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
-   infrastructure repository::
-      scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
-      ssh puppet1
-      wget # all rpm files from the scratch build
-      rpm --addsign *.rpm
-      # Move rpms to the epel infrastructure dir
-      # createrepo the new repository
-8. tag the release::
-      cd [LOCAL GIT REPO]
-      git tag [RELEASE VERSION NUMBER]
-      git push --tags
-9. Install in staging and test.  Then upgrade the app servers.
-
 ---------------
 ENABLING OPENID
 ---------------
@@ -231,10 +198,84 @@ Transifex will perform merging of strings for you.
 
 To enable the languages in FAS, you must compile the PO files and places them
 where TurboGears will look for them.  Then you need to enable the language to
-be available to users by adding it to po/LINGUAS.
+be available to users by adding it to fas.cfg.sample.
 
 Remember that we commit to the git repo the pot file and the po files.  We do
 not commit mo files.
+
+----------------
+MAKING A RELEASE
+----------------
+
+1. Make sure that any feature branches you want have been merged.
+2. Pull in new translations using tx pull -a.  Add any new translations to the
+   fas.cfg.sample file.  Commit the changes.
+2. Update the version in fas.spec and fas/release.py.  Commit the changes to
+   the master branch.
+3. Push the results to the server.
+4. Make a fresh clone of the repository::
+      cd /var/tmp
+      git clone git://git.fedorahosted.org/git/fas
+5. Make the source tarball in that directory::
+      cd /var/tmp/fas
+      python setup.py sdist
+6. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
+   target for that::
+      mv dist/*.tar.gz .
+      rpmbuild-md5 -bs --nodeps fas.spec
+      koji build --scratch dist-5E-epel-infra fas*.src.rpm
+7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
+   infrastructure repository::
+      scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
+      ssh puppet1
+      wget # all rpm files from the scratch build
+      rpm --addsign *.rpm
+      # Move rpms to the epel infrastructure dir
+      # createrepo the new repository
+8. tag the release::
+      cd [LOCAL GIT REPO]
+      git tag [RELEASE VERSION NUMBER]
+      git push --tags
+9. Install in staging and test. 
+10. If time allows, read and do the :id:`Getting Translated` section below.
+11. Finally, upgrade the production fas servers.
+
+
+Getting Translated
+==================
+
+If the release is not time critical, it's wise to get it translated prior to
+release.  Allow 8 to 10 days for this to happen.
+
+1) Make sure that all the steps in :id:`Localization` are done.
+
+2) Announce to the other committers (via
+   infrastructure@lists.fedoraproject.org) that we are in string freeze
+   preparatory to making a release.  Explain that string freeze means that
+   changes and additions to the strings people see should not be done on the
+   main fas branch -- do such changes on a branch and merge it after the
+   release.
+
+3) Email trans@lists.fedoraproject.org that you're making a release.  FAS is
+   halfway between upstream project and Fedora website so each translation
+   team there will update what they have the time to do.  Include the following
+   information:
+
+   * The staging fas server can be looked at for the running code:
+     https://admin.stg.fedoraproject.org/accounts/
+   * Code can be viewed at http://git.fedorahosted.org/git/?p=fas.git;a=tree
+   * The date that you're going to release (Remember, you want it to be 8-10
+     days from this announcement)
+   * If you have the time to make daily, weekly, etc updates to stg to pull in
+     the new translations mention that so the translators know whether they can
+     expect to see their changes in a live environment or not.
+4) When you make a new test release, be sure you remember the tx pull step from
+   above or you won't be pulling in the new translations.  When you accept new
+   commits, be sure that there are no new strings.  If new strings are
+   unavoidable in he fixing of a bug, email trans@lists.fedoraproject.org to
+   make people aware of it.
+5) When the release date arrives, spin the new release into an rpm as above
+   (remembering to run tx pull -a :-) and make the release.
 
 -------
 Plugins
