@@ -1375,6 +1375,6 @@ automatically revoked, and should stop working within the hour.
         username = identity.current.user_name
         person  = People.by_username(username)
         person.ssh_key = ''
-        turbogears.flash(_('Your key have been removed.'))
+        turbogears.flash(_('Your key has been removed.'))
         turbogears.redirect('/user/view/%s' % username)
         return dict()
