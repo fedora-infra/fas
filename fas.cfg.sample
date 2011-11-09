@@ -21,7 +21,8 @@ theme = 'fas'
 show_postal_address = 0
 
 # Language support
-available_languages = ['en', 'de', 'es', 'hu', 'it', 'pl', 'zh_CN']
+available_languages = ['en', 'bs', 'cs', 'de', 'el', 'es', 'fa', 'fr', 'hu', 'id', 'it', 'ja', 'pl', 'pt_BR', 'ru', 'zh_CN']
+
 default_language = 'en'
 
 # Country codes from GEOIP that we don't want to display in
@@ -77,7 +78,7 @@ cla_deprecated_groups = ['cla_fedora']
 
 # Groups that automatically grant membership to other groups
 # Format: 'group1:a,b,c|group2:d,e,f'
-auto_approve_groups = 'packager:fedorabugs|triagers:fedorabugs|cla_fpca:cla_done|cla_redhat:cla_done|cla_dell:cla_done|cla_ibm:cla_done|cla_intel:cla_done'
+auto_approve_groups = 'packager:fedorabugs|triagers:fedorabugs|docs-writers:fedorabugs|cla_fpca:cla_done|cla_redhat:cla_done|cla_dell:cla_done|cla_ibm:cla_done|cla_intel:cla_done'
 
 # Some server parameters that you may want to tweak
 server.socket_port=8088
