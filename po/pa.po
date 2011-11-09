@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 12:32-0700\n"
-"PO-Revision-Date: 2011-10-28 19:34+0000\n"
+"POT-Creation-Date: 2011-11-09 09:00-0800\n"
+"PO-Revision-Date: 2011-11-09 17:02+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Panjabi (Punjabi) <punjabi-users@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
@@ -659,7 +659,10 @@ msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
-"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
+" wish to login through several hosts, each with their own public key, you "
+"can create a concatenated file of public ssh keys and upload it in lieu of "
+"the individual ssh public key.</p>"
 msgstr ""
 
 #: fas/help.py:39 fas/templates/user/edit.html:117
@@ -1328,6 +1331,10 @@ msgid ""
 "automatically revoked, and should stop working within the hour.\n"
 msgstr ""
 
+#: fas/user.py:1378
+msgid "Your key has been removed."
+msgstr ""
+
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
@@ -1883,12 +1890,12 @@ msgid "None"
 msgstr ""
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:138
 msgid "Approved"
 msgstr ""
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:139
 msgid "Unapproved"
 msgstr ""
 
@@ -1960,7 +1967,7 @@ msgstr ""
 msgid "Create!"
 msgstr ""
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:145
 msgid "View Group"
 msgstr ""
 
@@ -2261,7 +2268,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:98
 msgid "CLA Done"
 msgstr ""
 
@@ -2394,108 +2401,112 @@ msgstr ""
 msgid "Public SSH Key:"
 msgstr ""
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:65
+msgid "(remove ssh key)"
+msgstr ""
+
+#: fas/templates/user/view.html:70
 msgid "Comments:"
 msgstr ""
 
-#: fas/templates/user/view.html:74
+#: fas/templates/user/view.html:76
 msgid "Password:"
 msgstr ""
 
-#: fas/templates/user/view.html:75
+#: fas/templates/user/view.html:77
 msgid "Valid"
 msgstr ""
 
-#: fas/templates/user/view.html:78
+#: fas/templates/user/view.html:80
 msgid "Account Status:"
 msgstr ""
 
-#: fas/templates/user/view.html:81
+#: fas/templates/user/view.html:83
 msgid "Active"
 msgstr ""
 
-#: fas/templates/user/view.html:82
+#: fas/templates/user/view.html:84
 msgid "Inactive"
 msgstr ""
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:85
 msgid "Pinged"
 msgstr ""
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:86
 msgid "Disabled"
 msgstr ""
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
 msgstr ""
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:95
 msgid "CLA Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:96
+#: fas/templates/user/view.html:98
 msgid "New CLA Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "Complete it now!"
 msgstr ""
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:103
 msgid "Reject FPCA"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Complete it!"
 msgstr ""
 
-#: fas/templates/user/view.html:108
+#: fas/templates/user/view.html:110
 msgid "Privacy:"
 msgstr ""
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:118
 msgid "Your Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:119
 #, python-format
 msgid "%s's Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:134
+#: fas/templates/user/view.html:136
 msgid "Status:"
 msgstr ""
 
-#: fas/templates/user/view.html:140
+#: fas/templates/user/view.html:142
 msgid "Tools:"
 msgstr ""
 
-#: fas/templates/user/view.html:144
+#: fas/templates/user/view.html:146
 msgid "Invite a New Member..."
 msgstr ""
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:147
 msgid "Manage Group Membership..."
 msgstr ""
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:148
 msgid "Manage Group Details..."
 msgstr ""
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:152
 msgid "Queue:"
 msgstr ""
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:156
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

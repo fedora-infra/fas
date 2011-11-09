@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 12:32-0700\n"
-"PO-Revision-Date: 2011-10-28 19:34+0000\n"
+"POT-Creation-Date: 2011-11-09 09:00-0800\n"
+"PO-Revision-Date: 2011-11-09 17:02+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Italian <trans-it@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -177,6 +177,17 @@ msgid ""
 "=== CLA ===\n"
 "\n"
 msgstr ""
+"\n"
+"Fedora user %(username)s has completed an ICLA (below).\n"
+"Username: %(username)s\n"
+"Email: %(email)s\n"
+"Date: %(date)s\n"
+"\n"
+"If you need to revoke it, please visit this link:\n"
+"    %(rejecturl)s/accounts/cla/reject/%(username)s\n"
+"\n"
+"=== CLA ===\n"
+"\n"
 
 #: fas/cla.py:361
 #, python-format
@@ -702,6 +713,8 @@ msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
+"<p>Mostra lo stato dell'account, possibili valori "
+"includono<ul><li>attivo</li><li>inattivo</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -726,13 +739,11 @@ msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
-"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
+" wish to login through several hosts, each with their own public key, you "
+"can create a concatenated file of public ssh keys and upload it in lieu of "
+"the individual ssh public key.</p>"
 msgstr ""
-"<p>Molte risorse richiedono un'autenticazione con chiave pubblica per "
-"funzionare.  Inviandoci la tua chiave pubblica, potrai entrare sui nostri "
-"server.  Digita \"man ssh-keygen\" per maggiori informazioni sulla creazione"
-" della chiave (deve essere una chiave RSA).  Una volta creata dovrai "
-"inviarci la ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:117
 msgid "Locale"
@@ -1130,7 +1141,7 @@ msgstr "Caricamento: %(visitmod)s"
 
 #: fas/user.py:80
 msgid "Solve the math problem"
-msgstr ""
+msgstr "Risolve il problema matematico"
 
 #: fas/user.py:249
 #, python-format
@@ -1144,7 +1155,7 @@ msgstr "Non si ha il permesso di editare '%s'"
 
 #: fas/user.py:321
 msgid "Only admin can enable or disable an account."
-msgstr ""
+msgstr "Solo un amministatore può abilitare o disabilitare un account."
 
 #: fas/user.py:346
 msgid "Somebody is already using that email address."
@@ -1230,6 +1241,8 @@ msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
+"Il tuo cambio di email pendente è stato cancellato. Il token di cambio email"
+" è stato invalidato."
 
 #: fas/user.py:739 fas/user.py:761
 msgid "You do not have any pending email changes."
@@ -1274,7 +1287,7 @@ msgstr ""
 
 #: fas/user.py:837
 msgid "Sorry.  Email addresses do not match"
-msgstr ""
+msgstr "Spiacente.  L''indirizzo Email non corrisponde"
 
 #: fas/user.py:844
 #, python-format
@@ -1341,15 +1354,15 @@ msgstr ""
 
 #: fas/user.py:965
 msgid "passwords did not match"
-msgstr ""
+msgstr "la password non corrisponde"
 
 #: fas/user.py:972
 msgid "Your current password did not match"
-msgstr ""
+msgstr "La password corrente non corrisponde"
 
 #: fas/user.py:976
 msgid "Your new password cannot be the same as your old one."
-msgstr ""
+msgstr "La tua nuova password non può essere uguale alla tua precedente."
 
 #: fas/user.py:990
 msgid "Your password could not be changed."
@@ -1395,7 +1408,7 @@ msgstr ""
 
 #: fas/user.py:1042
 msgid "Warning: attempted reset of system account"
-msgstr ""
+msgstr "Attenzione: tentativo di reset del tuo account di sistema"
 
 #: fas/user.py:1043
 #, python-format
@@ -1404,6 +1417,8 @@ msgid ""
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
 msgstr ""
+"\n"
+"Attenzione: Qualcuno sta provando a eseguire un reset della password per il tuo account di sistema %(account)s attraverso l'interfaccia web.\n"
 
 #: fas/user.py:1052
 #, python-format
@@ -1414,6 +1429,11 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"Qualcuno (speriamo te) ha richiesto il reset della password per il tuo account!\n"
+"Per cambiare la password (od annullare la richiesta), sei pregato di visitare\n"
+"\n"
+"%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:1066
 msgid ""
@@ -1441,7 +1461,7 @@ msgstr "Un URL di reset della password ti è stato inviato per email."
 
 #: fas/user.py:1130
 msgid "You don't have any pending password changes."
-msgstr ""
+msgstr "Non hai nessun cambio di password pendente."
 
 #: fas/user.py:1134 fas/user.py:1186
 msgid "Invalid password change token."
@@ -1457,7 +1477,7 @@ msgstr ""
 
 #: fas/user.py:1168
 msgid "Both passwords must match"
-msgstr ""
+msgstr "Entrambe le password devono coincidere"
 
 #: fas/user.py:1180
 msgid "You do not have any pending password changes."
@@ -1476,7 +1496,7 @@ msgstr ""
 
 #: fas/user.py:1251
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
+msgstr "Prima di genereare un certificato, devi completare prima la FPCA."
 
 #: fas/user.py:1321
 msgid "Your certificate could not be generated."
@@ -1485,7 +1505,7 @@ msgstr "Il tuo certificato non può essere generato."
 #: fas/user.py:1327
 #, python-format
 msgid "A new certificate has been generated for %s"
-msgstr ""
+msgstr "Un nuovo certificato è stato generato per %s"
 
 #: fas/user.py:1329
 msgid ""
@@ -1495,6 +1515,10 @@ msgid ""
 "\n"
 "Note that certificates generated prior to the current one have been\n"
 "automatically revoked, and should stop working within the hour.\n"
+msgstr ""
+
+#: fas/user.py:1378
+msgid "Your key has been removed."
 msgstr ""
 
 #: fas/validators.py:52
@@ -1549,6 +1573,9 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
+"'%(username)s' è un nome utente non valido.  Un nome utente valido deve "
+"essere un ASCII, che contiene solo caratteri alfanumerici minuscoli, e deve "
+"cominciare con una lettera."
 
 #: fas/validators.py:201
 #, python-format
@@ -1575,11 +1602,11 @@ msgstr ""
 
 #: fas/validators.py:235
 msgid "Malicious hackers read xkcd, you know"
-msgstr ""
+msgstr "Hacker maliziosi leggono xkcd, sai"
 
 #: fas/validators.py:299
 msgid "You must enter your legal name"
-msgstr ""
+msgstr "Devi inserire il tuo nome all'anagrafe"
 
 #: fas/validators.py:300
 msgid ""
@@ -1723,6 +1750,8 @@ msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
 msgstr ""
+"FPCA non completata.  Per diventare un Fedora Contributor si prega di <a "
+"href=\"%s\">completare la FPCA</a>."
 
 #: fas/templates/home.html:16
 #, python-format
@@ -1834,6 +1863,8 @@ msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
+"© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
+"href=\"mailto:%(webmaster)s\">websites team</a>."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1847,7 +1878,7 @@ msgstr ""
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"git*\")"
-msgstr ""
+msgstr "\"*\" è una wildcard (Es: \"git*\")"
 
 #: fas/templates/search-box.html:11
 msgid "Search"
@@ -1883,7 +1914,7 @@ msgstr "Accesso"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Password dimenticata?"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -1950,11 +1981,11 @@ msgstr "Non sono d'accordo"
 
 #: fas/templates/fpca/index.html:19
 msgid "Fedora Project Contributor Agreement"
-msgstr ""
+msgstr "Fedora Project Contributor Agreement"
 
 #: fas/templates/fpca/index.html:27
 msgid "You have already successfully completed the FPCA."
-msgstr ""
+msgstr "Hai completato con successo la FPCA."
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
@@ -2008,7 +2039,7 @@ msgstr "Proprietario del gruppo:"
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:71
 msgid "Invite Only:"
-msgstr ""
+msgstr "Invita solo:"
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
@@ -2096,12 +2127,12 @@ msgid "None"
 msgstr "Nulla"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:138
 msgid "Approved"
 msgstr "Approvato"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:139
 msgid "Unapproved"
 msgstr "Non approvato"
 
@@ -2173,13 +2204,15 @@ msgstr "Messaggio di adesione:"
 msgid "Create!"
 msgstr "Crea!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:145
 msgid "View Group"
 msgstr "Mostra gruppo"
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
 msgstr ""
+"il Grouppo è solo su invito.  Contatta il tuo sponsor group per maggiori "
+"informazioni."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
@@ -2314,7 +2347,7 @@ msgstr "Questa è un'identità OpenID per %(username)s"
 #: fas/templates/openid/id.html:31
 #, python-format
 msgid "Part of the <a href=\"%(url)s\">Fedora Account System<a>."
-msgstr ""
+msgstr "Link per il <a href=\"%(url)s\">Fedora Account System<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2356,28 +2389,36 @@ msgid ""
 "A passphrase with symbols, upper and lowercase letters, and digits must be "
 "at least 9 characters"
 msgstr ""
+"Una passphrase con simboli, maiuscole o minuscole e numeri fatta di almeno 9"
+" caratteri"
 
 #: fas/templates/user/changepass.html:15
 msgid ""
 "A passphrase with upper and lowercase letters and digits must be at least 10"
 " characters"
 msgstr ""
+"Una passphrase con maiuscole o minuscole e numeri fatta di almeno 10 "
+"caratteri"
 
 #: fas/templates/user/changepass.html:16
 msgid ""
 "A passphrase with lowercase letters and digits must be at least 12 "
 "characters"
 msgstr ""
+"Una passphrase con lettere minuscole e numeri che deve essere di almeno 12 "
+"caratteri"
 
 #: fas/templates/user/changepass.html:17
 msgid "A passphrase with letters alone must be at least 20 characters"
-msgstr ""
+msgstr "Una passphrase di sole lettere che deve essere di almeno 20 caratteri"
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
 msgstr ""
+"Ricorda che questi sono livelli minimi. Vi incoraggiamo a scegliere "
+"passphrase più lunghe e più complesse dei valori minimi proposti."
 
 #: fas/templates/user/changepass.html:21
 msgid "Current Password:"
@@ -2489,7 +2530,7 @@ msgstr "\"*\" è una wildcard (Es: \"ric*\")"
 msgid "Username"
 msgstr "Username"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:98
 msgid "CLA Done"
 msgstr "CLA completata"
 
@@ -2503,21 +2544,25 @@ msgstr "Iscriviti per un Fedora account"
 
 #: fas/templates/user/new.html:11
 msgid "NOTE:"
-msgstr ""
+msgstr "NOTA:"
 
 #: fas/templates/user/new.html:11
 msgid "Username is permanent"
-msgstr ""
+msgstr "Il nome utente è permanente"
 
 #: fas/templates/user/new.html:11
 msgid ""
 "(i.e. it cannot be changed after registration and will never be deleted from"
 " the system)."
 msgstr ""
+"(es. non puòà essere cambiato dopo la registrazione e non sarà mail "
+"cancellato dal sistema)."
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
 msgstr ""
+"Le informazioni personali possono essere aggiornate o rimosse in qualisiasi "
+"momento"
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2534,7 +2579,7 @@ msgstr "Email:"
 
 #: fas/templates/user/new.html:28
 msgid "Verify Email:"
-msgstr ""
+msgstr "Verifica Email:"
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2542,7 +2587,7 @@ msgstr "Ho più di 13 anni"
 
 #: fas/templates/user/new.html:55
 msgid "Answer this math equation"
-msgstr ""
+msgstr "Rispondi a questo problema matematico"
 
 #: fas/templates/user/new.html:58
 msgid "Sign up!"
@@ -2555,7 +2600,7 @@ msgstr "Reset password"
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2622,108 +2667,113 @@ msgstr "Chiave PGP:"
 msgid "Public SSH Key:"
 msgstr "Chiave pubblica SSH:"
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:65
+msgid "(remove ssh key)"
+msgstr ""
+
+#: fas/templates/user/view.html:70
 msgid "Comments:"
 msgstr "Commenti:"
 
-#: fas/templates/user/view.html:74
+#: fas/templates/user/view.html:76
 msgid "Password:"
 msgstr "Password:"
 
-#: fas/templates/user/view.html:75
+#: fas/templates/user/view.html:77
 msgid "Valid"
 msgstr "Valido"
 
-#: fas/templates/user/view.html:78
+#: fas/templates/user/view.html:80
 msgid "Account Status:"
 msgstr "Stato account:"
 
-#: fas/templates/user/view.html:81
+#: fas/templates/user/view.html:83
 msgid "Active"
 msgstr "Attivo"
 
-#: fas/templates/user/view.html:82
+#: fas/templates/user/view.html:84
 msgid "Inactive"
 msgstr "Inattivo"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:85
 msgid "Pinged"
 msgstr "Pingato"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:86
 msgid "Disabled"
 msgstr "Disabilitato"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
-msgstr ""
+msgstr "Contributor Agreement:"
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:95
 msgid "CLA Signed"
-msgstr ""
+msgstr "CLA firmata"
 
-#: fas/templates/user/view.html:96
+#: fas/templates/user/view.html:98
 msgid "New CLA Not Signed"
-msgstr ""
+msgstr "La nuova CLA non è stata firmata"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
+"Abbiamo bisogno che i contributor firmino il nuovo Contributor Agreement"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "Complete it now!"
-msgstr ""
+msgstr "Completalo ora!"
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:103
 msgid "Reject FPCA"
-msgstr ""
+msgstr "Rifiuta la FPCA"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Not Signed"
-msgstr ""
+msgstr "Non firmata"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Complete it!"
 msgstr "Completa!"
 
-#: fas/templates/user/view.html:108
+#: fas/templates/user/view.html:110
 msgid "Privacy:"
 msgstr "Privacy:"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:118
 msgid "Your Roles"
 msgstr "Ruoli"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:119
 #, python-format
 msgid "%s's Roles"
 msgstr "Ruoli di %s"
 
-#: fas/templates/user/view.html:134
+#: fas/templates/user/view.html:136
 msgid "Status:"
 msgstr "Stato:"
 
-#: fas/templates/user/view.html:140
+#: fas/templates/user/view.html:142
 msgid "Tools:"
 msgstr "Strumenti:"
 
-#: fas/templates/user/view.html:144
+#: fas/templates/user/view.html:146
 msgid "Invite a New Member..."
 msgstr "Invita un nuovo membro..."
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:147
 msgid "Manage Group Membership..."
 msgstr "Gestisci l'appartenenza al gruppo..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:148
 msgid "Manage Group Details..."
 msgstr "Gestisci i dettagli del gruppo..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:152
 msgid "Queue:"
 msgstr "Coda:"
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:156
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
@@ -2734,14 +2784,14 @@ msgstr ""
 
 #: fas/tgcaptcha2/validator.py:14
 msgid "Incorrect value."
-msgstr ""
+msgstr "Valore non corretto"
 
 #: fas/tgcaptcha2/validator.py:15
 msgid "Too much time elapsed. Please try again."
-msgstr ""
+msgstr "Troppo tempo intercorso. Si prega di riprovare"
 
 #: fas/tgcaptcha2/widgets.py:39
 msgid "obfuscated letters"
-msgstr ""
+msgstr "lettere offuscate"
 
 

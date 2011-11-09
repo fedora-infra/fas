@@ -4,13 +4,14 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Hajime Taira <htaira@redhat.com>, 2011.
 # Tomoyuki KATO <tomo@dream.daynight.jp>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 12:32-0700\n"
-"PO-Revision-Date: 2011-10-28 19:34+0000\n"
+"POT-Creation-Date: 2011-11-09 09:00-0800\n"
+"PO-Revision-Date: 2011-11-09 17:02+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +35,7 @@ msgstr "CLAを完了させるには、電話番号が必要です。  以下を�
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the CLA.  Please fill them out below."
-msgstr "CLAを完了させるには、有効な国および、電話番号または郵便番号が必要です。  以下を埋めてください。"
+msgstr "CLAを完了させるには、有効な国および、電話番号または郵便番号が必要です。以下を埋めてください。"
 
 #: fas/cla.py:86
 msgid ""
@@ -52,7 +53,7 @@ msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
 msgstr ""
-"CLAと %(person)s に依存するグループの削除中にエラーが発生しました。\n"
+"CLAおよび、%(person)s に依存するグループの削除中にエラーが発生しました。\n"
 "エラー: %(error)s"
 
 #: fas/cla.py:184
@@ -90,7 +91,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"こんにちは %(human_name)s さん,\n"
+"%(human_name)s さん\n"
 "\n"
 "お手数をおかけして申し訳ございませんが、提供された情報が不正であると\n"
 "みなされたので、あなたの CLA を拒否しなければいけません。\n"
@@ -113,7 +114,7 @@ msgstr ""
 "具体的にアカウントに起きた問題について質問があれば、\n"
 "accounts@fedoraproject.org で私たちにご連絡ください。\n"
 "\n"
-"ありがとうございます!\n"
+"よろしくお願い致します。\n"
 "    "
 
 #: fas/cla.py:217
@@ -122,19 +123,19 @@ msgstr "CLAを正常に削除しました。"
 
 #: fas/cla.py:241
 msgid "You have already completed the CLA."
-msgstr "すでにこのCLAに同意しています。"
+msgstr "このCLAにすでに同意しています。"
 
 #: fas/cla.py:245
 msgid "You have not completed the CLA."
-msgstr "まだこのCLAに同意していません。"
+msgstr "このCLAにまだ同意していません。"
 
 #: fas/cla.py:248 fas/fpca.py:246
 msgid "You must confirm that your personal information is accurate."
-msgstr "この個人情報が正しいことを確認しなければいけません。"
+msgstr "この個人情報が正しいことを確認してください。"
 
 #: fas/cla.py:266 fas/fpca.py:264
 msgid "Your updated information could not be saved."
-msgstr "アップデートした情報は保存できませんでした。"
+msgstr "更新した情報は保存できませんでした。"
 
 #: fas/cla.py:286
 msgid ""
@@ -162,7 +163,7 @@ msgstr "'%s' グループに加わることができませんでした。"
 #: fas/cla.py:324 fas/fpca.py:322
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr "あなたは既に '%s' グループに参加しています。"
+msgstr "すでに '%s' グループに参加しています。"
 
 #: fas/cla.py:336
 #, python-format
@@ -187,14 +188,13 @@ msgstr ""
 "\n"
 "Fedora ユーザー %(username)s は ICLA (以下) を完了しました。\n"
 "ユーザー名: %(username)s\n"
-"Email: %(email)s\n"
-"日付: %(date)s\n"
+"電子メール: %(email)s\n"
+"同意日: %(date)s\n"
 "\n"
 "もし破棄したければ、このリンクを参照してください:\n"
 "    %(rejecturl)s/accounts/cla/reject/%(username)s\n"
 "\n"
 "=== CLA ===\n"
-"\n"
 
 #: fas/cla.py:361
 #, python-format
@@ -219,7 +219,7 @@ msgstr "データベース: %s への設定の保存中にエラーが発生し�
 
 #: fas/configs.py:195
 msgid "Config value successfully updated"
-msgstr "設定は正しくアップデートされました"
+msgstr "設定は正しく更新されました。"
 
 #: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
@@ -230,12 +230,12 @@ msgstr "古いパスワードは有効期限が切れました。  以下で再�
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
-msgstr "あなたのアカウントは一時的に無効になっています。詳しくは %(admin_email)sadmin_email に連絡をとってください。"
+msgstr "あなたのアカウントは一時的に無効になっています。詳しくは管理者の電子メール %(admin_email)s までご連絡ください。"
 
 #: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
-msgstr "言語 '%s' は取得できません。"
+msgstr "言語 '%s' は提供されていません。"
 
 #: fas/fpca.py:76
 msgid ""
@@ -417,7 +417,7 @@ msgstr ""
 "\n"
 "%(user)s <%(email)s> が Fedora account system の %(group)s\n"
 "グループにおけるあなたのメンバーシップをスポンサーしました。\n"
-"適用できれば、1時間以内にe-mail エイリアスと git リポジトリーに\n"
+"適用できれば、1時間以内に電子メールのエイリアスと git リポジトリーに\n"
 "反映されます。\n"
 
 #: fas/group.py:501
@@ -450,9 +450,9 @@ msgid ""
 "aliases within an hour.\n"
 msgstr ""
 "\n"
-"%(user)s <%(email)s> があなたを Fedora Accounts System のグループ\n"
+"%(user)s <%(email)s> があなたをFedoraアカウントシステムのグループ\n"
 "'%(group)s' から除名しました。この変更は新しい操作に対して\n"
-"直ちに反映され、1時間以内に e-mail アドレスに反映されます。\n"
+"直ちに反映され、1時間以内に電子メールアドレスに反映されます。\n"
 
 #: fas/group.py:543
 #, python-format
@@ -484,10 +484,10 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 "\n"
-"%(user)s <%(email)s> が Fedora Accounts System のグループ\n"
+"%(user)s <%(email)s> が Fedoraアカウントシステムのグループ\n"
 "'%(group)s' において、あなたを %(status)s 状態に更新しました。\n"
 "この変更は新しい操作に対して直ちに反映され、\n"
-"1時間以内に e-mail アドレスに反映されます。\n"
+"1時間以内に電子メールアドレスに反映されます。\n"
 
 #: fas/group.py:589
 #, python-format
@@ -519,10 +519,10 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr ""
 "\n"
-"%(user)s <%(email)s> が Fedora Accounts System のグループ\n"
+"%(user)s <%(email)s> が Fedoraアカウントシステムのグループ\n"
 "'%(group)s' において、あなたを %(status)s 状態にダウングレードしました。\n"
 "この変更は新しい操作に対して直ちに反映され、\n"
-"1時間以内に e-mail アドレスに反映されます。\n"
+"1時間以内に電子メールアドレスに反映されます。\n"
 
 #: fas/group.py:633
 #, python-format
@@ -618,7 +618,7 @@ msgstr ""
 
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr "Email (必須)"
+msgstr "電子メール (必須)"
 
 #: fas/help.py:29
 msgid ""
@@ -626,8 +626,8 @@ msgid ""
 " to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
 msgstr ""
-"<p>このemailアドレスは、あなたのemailアドレスであるべきです。様々な正式なemailを送信するものとなります。  "
-"また、@fedoraproject.org のemailアドレスにも転送されます。</p>"
+"<p>この電子メールアドレスは、あなたの優先の電子メールアドレスであるべきです。さまざまな公式な電子メールを送信するために使用されます。  "
+"また、@fedoraproject.org の電子メールアドレスにも転送されます。</p>"
 
 #: fas/help.py:30
 msgid "Full Name (Required)"
@@ -648,7 +648,7 @@ msgid ""
 " can be used when a password reset is sent to your email.</p>"
 msgstr ""
 "<p>GPG キー "
-"は一般にあなたからのメッセージやemailを証明したり、受信者のみが読めるよう暗号化する際に使われます。これは、emailにパスワードリセットが送信された時にも使うことができます。</p>"
+"は一般にあなたからのメッセージや電子メールを証明したり、受信者のみが読めるよう暗号化する際に使われます。これは、電子メールにパスワードリセットが送信された時にも使うことができます。</p>"
 
 #: fas/help.py:32
 msgid "Telephone"
@@ -708,7 +708,7 @@ msgstr "アカウントステータス"
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
-msgstr ""
+msgstr "<p>アカウントの状態を表示します、<ul><li>アクティブ</li><li>休止中</li></ul> のいずれかです</p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -738,11 +738,11 @@ msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
-"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
+" wish to login through several hosts, each with their own public key, you "
+"can create a concatenated file of public ssh keys and upload it in lieu of "
+"the individual ssh public key.</p>"
 msgstr ""
-"<p>公開鍵の認証には多くのリソースが必要です。公開キーをアップロードする場合、我々のサーバにログインしてください。 \"man ssh-"
-"keygen\" とタイプすることで、キー作成のための詳細情報が見れます（RSA "
-"キーでなくてはいけません）。作成できたら、~/.ssh/id_rsa.pub をアップロードしてください。</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:117
 msgid "Locale"
@@ -865,13 +865,13 @@ msgstr ""
 
 #: fas/help.py:49
 msgid "Add User"
-msgstr "ユーザの追加"
+msgstr "ユーザーの追加"
 
 #: fas/help.py:49
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
-msgstr "<p>手動でユーザをグループに追加します。彼らのユーザネームをここに書き\"追加\"をクリックしてください。</p>"
+msgstr "<p>手動でユーザーをグループに追加します。彼らのユーザーネームをここに書き\"追加\"をクリックしてください。</p>"
 
 #: fas/help.py:50
 msgid "Group Name"
@@ -889,7 +889,7 @@ msgstr "表示名"
 
 #: fas/help.py:51
 msgid "<p>More human readable name of the group</p>"
-msgstr "<p>人間がもう少し読みやすいグループの名前</p>"
+msgstr "<p>人間が読みやすいグループの名前</p>"
 
 #: fas/help.py:52
 msgid "Group Owner"
@@ -1034,7 +1034,7 @@ msgstr ""
 
 #: fas/help.py:64
 msgid "Client Side Cert"
-msgstr "Client Side Cert"
+msgstr "クライアントサイド証明書"
 
 #: fas/help.py:64
 msgid ""
@@ -1044,10 +1044,9 @@ msgid ""
 "maintainer there is no need to worry about the client side cert.  Please "
 "note that whenever a new cert is generated, all old ones are revoked.</p>"
 msgstr ""
-"<p>client side "
-"certとは、一般にFedoraにパッケージをアップロードするためや、kojiのような他の承認目的のの承認アクセスに使用されます。あなたはこの証明書を "
-"~/.fedora.cert に保存すべきです。もしあなたがパッケージメンテナンス担当でない場合、client side "
-"certについては気にしなくてかまいません。注意として、新しい証明書が生成された時はいつでも、古い証明書は無効となります。</p>"
+"<p>クライアントサイド証明書とは、一般にFedoraにパッケージをアップロードするためや、kojiのような他の承認目的のの承認アクセスに使用されます。あなたはこの証明書を"
+" ~/.fedora.cert "
+"に保存すべきです。もしあなたがパッケージメンテナンス担当でない場合、クライアントサイド証明書については気にしなくてかまいません。注意として、新しい証明書が生成された時はいつでも、古い証明書は無効となります。</p>"
 
 #: fas/help.py:65
 msgid "Longitude and Latitude"
@@ -1108,18 +1107,18 @@ msgstr "管理者のみがアカウントを有効化もしくは無効化でき
 
 #: fas/user.py:346
 msgid "Somebody is already using that email address."
-msgstr "他の人がすでにそのemailアドレスを使用しています。"
+msgstr "他の人がすでにその電子メールアドレスを使用しています。"
 
 #: fas/user.py:351
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
-msgstr "新しいemailを適応する前に、あなたが承認しなければいけません。簡単な説明付きのemailが届きます。"
+msgstr "新しい電子メールを適応する前に、あなたが承認しなければいけません。簡単な説明付きの電子メールが届きます。"
 
 #: fas/user.py:358
 #, python-format
 msgid "Email Change Requested for %s"
-msgstr "%s のemail変更リクエスト"
+msgstr "%s の電子メールの変更要求"
 
 #: fas/user.py:360
 #, python-format
@@ -1133,9 +1132,9 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
 "\n"
-"あなたの Fedora アカウントシステムの email をこのアドレスに変更するよう\n"
-"リクエストされました。email の変更を完了するには、以下の URL を参照する\n"
-"ことにより、この email の所有について確認しなければいけません。\n"
+"あなたのFedoraアカウントシステムの電子メールをこのアドレスに変更するよう\n"
+"リクエストされました。電子メールの変更を完了するには、以下の URL を参照する\n"
+"ことにより、この電子メールの所有について確認しなければいけません。\n"
 "（まず Fedora アカウントにログインする必要があります）:\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
@@ -1215,20 +1214,20 @@ msgstr "'%s' にマッチするユーザが見つかりません"
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
-msgstr "保留にしている email 変更が取り消されました。   email 変更のトークンは無効になりました。"
+msgstr "保留にしている電子メールの変更が取り消されました。   電子メールの変更のトークンは無効になりました。"
 
 #: fas/user.py:739 fas/user.py:761
 msgid "You do not have any pending email changes."
-msgstr "作業中のemail変更はありません。"
+msgstr "作業中の電子メールの変更はありません。"
 
 #: fas/user.py:743 fas/user.py:765
 msgid "Invalid email change token."
-msgstr "不正なemail変更がされました。"
+msgstr "不正な電子メールの変更がされました。"
 
 #: fas/user.py:775
 #, python-format
 msgid "You have successfully changed your email to '%s'"
-msgstr "emailの '%s' への変更が成功しました。"
+msgstr "電子メールの '%s' への変更が成功しました。"
 
 #: fas/user.py:790
 msgid "No need to sign up, you have an account!"
@@ -1249,11 +1248,11 @@ msgstr ""
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
-msgstr "残念ですが、そのemailアドレスはすでに使用されています。もしかしたら、パスワードをお忘れですか？"
+msgstr "残念ですが、その電子メールアドレスはすでに使用されています。もしかしたら、パスワードをお忘れですか？"
 
 #: fas/user.py:837
 msgid "Sorry.  Email addresses do not match"
-msgstr "申し訳ないです。  Email アドレスが一致しませんでした"
+msgstr "申し訳ないです。  電子メールアドレスが一致しませんでした"
 
 #: fas/user.py:844
 #, python-format
@@ -1264,7 +1263,7 @@ msgstr "アカウントを作成できませんでした。 %s にコンタク�
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
-msgstr "パスワードはあなたのemailに送られました。ログインして、パスワードを変更してください。"
+msgstr "パスワードはあなたの電子メールに送られました。ログインして、パスワードを変更してください。"
 
 #: fas/user.py:899
 msgid "Welcome to the Fedora Project!"
@@ -1322,7 +1321,7 @@ msgstr ""
 "\n"
 "ようこそ、Fedora Projectへ。これでアカウントのサインアップを完了したので、\n"
 "貢献を始めたくてたまらないかもしれません。このプロセスができる限り簡単に\n"
-"なるよう、この E-mail があなたを正しい方向に導けることを期待しています。\n"
+"なるよう、この電子メールがあなたを正しい方向に導けることを期待しています。\n"
 "\n"
 "Fedora は、多くの人が参加する面白いプロジェクトで、いろいろな分野のスキル\n"
 "のすべての方法を使用して、非常に多くの方法で貢献ができます。\n"
@@ -1379,18 +1378,20 @@ msgstr "既にログインしています。"
 
 #: fas/user.py:1024
 msgid "Username email combo does not exist!"
-msgstr "ユーザネームとemailの組み合わせが存在しません！"
+msgstr "ユーザー名と電子メールの組み合わせが存在しません！"
 
 #: fas/user.py:1028
 msgid "username + email combo unknown."
-msgstr "ユーザネーム + email の組み合わせが不明です。"
+msgstr "ユーザ名と電子メールの組み合わせが不明です。"
 
 #: fas/user.py:1031 fas/user.py:1124 fas/user.py:1172
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
-msgstr "あなたのアカウントステータスは現在 %(status)s です。詳細は、 %(admin_email)s にコンタクトしてください。"
+msgstr ""
+"あなたのアカウントステータスは現在 %(status)s です。詳細は管理者の電子メールアドレス %(admin_email)s "
+"までコンタクトしてください。"
 
 #: fas/user.py:1038
 #, python-format
@@ -1398,7 +1399,8 @@ msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
 msgstr ""
-"システムアカウントはオンラインでパスワードリセットできません。リセットのためには %(admin_email)s にコンタクトしてください。"
+"システムアカウントはオンラインでパスワードリセットできません。リセットのためには管理者の電子メールアドレス %(admin_email)s "
+"までコンタクトしてください。"
 
 #: fas/user.py:1042
 msgid "Warning: attempted reset of system account"
@@ -1434,7 +1436,7 @@ msgstr ""
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
-msgstr "このユーザはまた GPG Key ID セットを持っていないので、暗号化emailを送ることができません。"
+msgstr "このユーザーはまた GPG キー ID セットを持っていないので、暗号化電子メールを送ることができません。"
 
 #: fas/user.py:1072
 msgid "Your key could not be retrieved from subkeys.pgp.net"
@@ -1442,7 +1444,7 @@ msgstr "あなたのkeyは subkeys.pgp.net から取得できませんでした�
 
 #: fas/user.py:1099
 msgid "Your password reset email could not be encrypted."
-msgstr "パスワードリセットemailは暗号化できませんでした。"
+msgstr "パスワードリセットの電子メールは暗号化できませんでした。"
 
 #: fas/user.py:1102
 msgid "Fedora Project Password Reset"
@@ -1450,7 +1452,7 @@ msgstr "Fedoraプロジェクトパスワードリセット"
 
 #: fas/user.py:1106
 msgid "A password reset URL has been emailed to you."
-msgstr "パスワードリセットURLはあなたのemailに送られました。"
+msgstr "パスワードリセットURLはあなたの電子メールに送られました。"
 
 #: fas/user.py:1130
 msgid "You don't have any pending password changes."
@@ -1513,6 +1515,10 @@ msgstr ""
 "現在のものより前に生成された証明書は自動的に破棄され、\n"
 "一時間以内に止められることに注意してください。\n"
 
+#: fas/user.py:1378
+msgid "Your key has been removed."
+msgstr ""
+
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
@@ -1550,7 +1556,7 @@ msgstr "'%(user)s' はすでに存在します。"
 #: fas/validators.py:160
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr "emailループを避けるため、emailアドレスに@fedoraproject.orgは使えません。"
+msgstr "電子メールのループを避けるため、電子メールアドレスに @fedoraproject.org は使えません。"
 
 #: fas/validators.py:174
 #, python-format
@@ -1562,13 +1568,13 @@ msgstr "エラー -  不正な RSA SSH key: %(key)s"
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
+msgstr "'%(username)s' は無効なユーザー名です。  有効なユーザー名は小文字の英数字のみを含み、文字で始まらなければいけません。"
 
 #: fas/validators.py:201
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr "'%(username)s' はブラックリスト登録されたユーザネームです。他を選択してください。"
+msgstr "'%(username)s' はブラックリスト登録されたユーザー名です。他を選択してください。"
 
 #: fas/validators.py:219
 #, python-format
@@ -1616,12 +1622,12 @@ msgstr ""
 
 #: fas/model/fasmodel.py:186
 msgid "user is already in this group"
-msgstr "ユーザはすでにこのグループに参加しています"
+msgstr "ユーザーはすでにこのグループに参加しています"
 
 #: fas/model/fasmodel.py:199 fas/model/fasmodel.py:214
 #: fas/model/fasmodel.py:270
 msgid "user is not a member"
-msgstr "ユーザはメンバーではありません"
+msgstr "ユーザーはメンバーではありません"
 
 #: fas/model/fasmodel.py:203
 msgid "administrators cannot be upgraded any further"
@@ -1629,11 +1635,11 @@ msgstr "管理者はそれより上にアップグレードできません"
 
 #: fas/model/fasmodel.py:218
 msgid "users cannot be downgraded any further"
-msgstr "ユーザはそれより下にダウングレードできません"
+msgstr "ユーザーはこれ以上ダウングレードできません"
 
 #: fas/model/fasmodel.py:227
 msgid "user is not an unapproved member"
-msgstr "ユーザは承認されていないメンバーではありません"
+msgstr "ユーザーは承認されていないメンバーではありません"
 
 #: fas/templates/about.html:7
 msgid "About FAS"
@@ -1677,7 +1683,7 @@ msgstr ""
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
-msgstr "ユーザ、スポンサー、管理者"
+msgstr "ユーザー、スポンサー、管理者"
 
 #: fas/templates/about.html:15
 msgid ""
@@ -1690,7 +1696,7 @@ msgid ""
 "sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
 msgstr ""
-"一度グループに参加したら、グループに参加しています。スポンサーと管理者は、典型的にグループで特別なアクセス権限を持っています。いくつかのグループではスポンサーレベルの方が高い地位で、例としてはグループの一部のオーナーとなっています。しかし、アカウントシステムは使いやすい特徴があります。スポンサーは新しいユーザを承認し、人々をスポンサーとして参加させることができます。しかし、ダウングレードや他のスポンサーの削除はできません。同様に管理者を変更することもできません。管理者はグループの誰に対しても何でもすることができます。"
+"一度グループに参加したら、グループに参加しています。スポンサーと管理者は、典型的にグループで特別なアクセス権限を持っています。いくつかのグループではスポンサーレベルの方が高い地位で、例としてはグループの一部のオーナーとなっています。しかし、アカウントシステムは使いやすい特徴があります。スポンサーは新しいユーザーを承認し、人々をスポンサーとして参加させることができます。しかし、ダウングレードや他のスポンサーの削除はできません。同様に管理者を変更することもできません。管理者はグループの誰に対しても何でもすることができます。"
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/cla/index.html:16 fas/templates/fpca/index.html:16
@@ -1742,7 +1748,7 @@ msgstr "様々なタスク"
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr "client-side certificateをダウンロード"
+msgstr "クライアントサイド証明書をダウンロード"
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
@@ -1827,6 +1833,8 @@ msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
+"© 2011 Red Hat, Inc.  コメントや訂正があれば <a href=\"mailto:%(webmaster)s\">websites "
+"team</a> までお送りください。"
 
 #: fas/templates/master.html:98
 msgid ""
@@ -1870,7 +1878,7 @@ msgid ""
 msgstr ""
 "Fedoraアカウントシステムにようこそ。  バグは、<a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> "
-"に提出するか、irc.freenode.net の #fedora-admin までお願いします。"
+"に報告するか、irc.freenode.net の #fedora-admin までご報告をお願いします。"
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -2036,7 +2044,7 @@ msgstr "新しいコミュニティメンバーを招待する！"
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
-msgstr "email送信先:"
+msgstr "電子メールの送信先:"
 
 #: fas/templates/group/invite.html:15
 msgid "From:"
@@ -2089,18 +2097,18 @@ msgid "None"
 msgstr "なし"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:138
 msgid "Approved"
 msgstr "承認されました"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:139
 msgid "Unapproved"
 msgstr "承認されませんでした"
 
 #: fas/templates/group/member-list.html:14
 msgid "User"
-msgstr "ユーザ"
+msgstr "ユーザー"
 
 #: fas/templates/group/member-list.html:16
 msgid "Date Added"
@@ -2166,7 +2174,7 @@ msgstr "参加のメッセージ:"
 msgid "Create!"
 msgstr "作成する！"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:145
 msgid "View Group"
 msgstr "グループを見る"
 
@@ -2222,7 +2230,7 @@ msgstr "作成されました:"
 
 #: fas/templates/group/view.html:89
 msgid "Add User:"
-msgstr "ユーザの追加:"
+msgstr "ユーザーの追加:"
 
 #: fas/templates/group/view.html:107 fas/templates/group/view.html:108
 msgid "View Member List"
@@ -2395,7 +2403,7 @@ msgstr "アカウント (%s) の編集"
 
 #: fas/templates/user/edit.html:29
 msgid "Email"
-msgstr "Email"
+msgstr "電子メール"
 
 #: fas/templates/user/edit.html:32 fas/templates/user/view.html:31
 #, python-format
@@ -2462,12 +2470,12 @@ msgid ""
 "brought here by clicking a link it usually means there is a misconfiguration"
 " on the server.  Please contact %(accts_email)s to fix things."
 msgstr ""
-"このマシンではSSL証明書の生成が無効になっています。もしリンクをクリックしてこのページに来た場合、通常はサーバの認証が失敗したことを意味します。 "
+"このマシンではSSL証明書の生成が無効になっています。もしリンクをクリックしてこのページに来た場合、通常はサーバー認証が失敗したことを意味します。 "
 "%(accts_email)s にコンタクトし、問題を解決してください。"
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
-msgstr "ユーザリスト"
+msgstr "ユーザーリスト"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
@@ -2475,9 +2483,9 @@ msgstr "\"*\" はワイルドカードです (Ex: \"ric*\")"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
-msgstr "ユーザネーム"
+msgstr "ユーザー名"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:98
 msgid "CLA Done"
 msgstr "CLA 同意済"
 
@@ -2509,7 +2517,7 @@ msgstr "個人情報はいつでも更新および削除できます。"
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr "ユーザネーム:"
+msgstr "ユーザー名:"
 
 #: fas/templates/user/new.html:18 fas/templates/user/view.html:24
 msgid "Full Name:"
@@ -2518,11 +2526,11 @@ msgstr "フルネーム:"
 #: fas/templates/user/new.html:23 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
-msgstr "Email:"
+msgstr "電子メール:"
 
 #: fas/templates/user/new.html:28
 msgid "Verify Email:"
-msgstr "Emailの確認:"
+msgstr "電子メールの確認:"
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2548,12 +2556,12 @@ msgstr "リセット"
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr "email変更リクエストを承認"
+msgstr "メールの変更リクエストを承認"
 
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr "本当に email を: %s に変更しますか?"
+msgstr "本当に電子メールをに変更しますか: %s ?"
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
@@ -2610,108 +2618,112 @@ msgstr "PGP Key:"
 msgid "Public SSH Key:"
 msgstr "Public SSH Key:"
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:65
+msgid "(remove ssh key)"
+msgstr ""
+
+#: fas/templates/user/view.html:70
 msgid "Comments:"
 msgstr "コメント:"
 
-#: fas/templates/user/view.html:74
+#: fas/templates/user/view.html:76
 msgid "Password:"
 msgstr "パスワード:"
 
-#: fas/templates/user/view.html:75
+#: fas/templates/user/view.html:77
 msgid "Valid"
 msgstr "有効"
 
-#: fas/templates/user/view.html:78
+#: fas/templates/user/view.html:80
 msgid "Account Status:"
 msgstr "アカウントのステータス:"
 
-#: fas/templates/user/view.html:81
+#: fas/templates/user/view.html:83
 msgid "Active"
 msgstr "アクティブ"
 
-#: fas/templates/user/view.html:82
+#: fas/templates/user/view.html:84
 msgid "Inactive"
 msgstr "休止中"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:85
 msgid "Pinged"
 msgstr "疎通確認済み"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:86
 msgid "Disabled"
 msgstr "無効"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
 msgstr "Contributor Agreement:"
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:95
 msgid "CLA Signed"
 msgstr "CLA署名済み"
 
-#: fas/templates/user/view.html:96
+#: fas/templates/user/view.html:98
 msgid "New CLA Not Signed"
 msgstr "新しいCLAに未署名"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr "貢献者が新しい Contributor Agreement に署名する必要があります"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "Complete it now!"
 msgstr "今すぐ完了してください！"
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:103
 msgid "Reject FPCA"
 msgstr "FPCAを拒否する"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Not Signed"
 msgstr "未署名"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Complete it!"
 msgstr "完了してください！"
 
-#: fas/templates/user/view.html:108
+#: fas/templates/user/view.html:110
 msgid "Privacy:"
 msgstr "プライバシー"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:118
 msgid "Your Roles"
 msgstr "あなたの役割"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:119
 #, python-format
 msgid "%s's Roles"
 msgstr "%s の役割"
 
-#: fas/templates/user/view.html:134
+#: fas/templates/user/view.html:136
 msgid "Status:"
 msgstr "ステータス:"
 
-#: fas/templates/user/view.html:140
+#: fas/templates/user/view.html:142
 msgid "Tools:"
 msgstr "ツール:"
 
-#: fas/templates/user/view.html:144
+#: fas/templates/user/view.html:146
 msgid "Invite a New Member..."
 msgstr "新しいメンバーを招待する..."
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:147
 msgid "Manage Group Membership..."
 msgstr "グループのメンバーを管理..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:148
 msgid "Manage Group Details..."
 msgstr "グループの詳細を管理..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:152
 msgid "Queue:"
 msgstr "一覧:"
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:156
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

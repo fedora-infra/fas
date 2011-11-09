@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 12:32-0700\n"
-"PO-Revision-Date: 2011-10-28 19:34+0000\n"
+"POT-Creation-Date: 2011-11-09 09:00-0800\n"
+"PO-Revision-Date: 2011-11-09 17:02+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -763,6 +763,8 @@ msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
 msgstr ""
+"<p>Muestra el estado de la cuenta, los valores posibles "
+"incluyen<ul><li>activo</li><li>inactivo</li></ul></p>"
 
 #: fas/help.py:37
 msgid "FPCA"
@@ -793,13 +795,11 @@ msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
-"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
+" wish to login through several hosts, each with their own public key, you "
+"can create a concatenated file of public ssh keys and upload it in lieu of "
+"the individual ssh public key.</p>"
 msgstr ""
-"<p>Muchos recursos requieren una autenticación a través de llaves públicas "
-"para funcionar.  Al cargar su clave pública usted podrá ingresar a nuestros "
-"servidores.  Consulte \"man ssh-keygen\" para mayor información acerca de la"
-" creación de su clave (debe ser una clave RSA).  Una vez creada usted debe "
-"cargar el archivo ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:117
 msgid "Locale"
@@ -1662,6 +1662,10 @@ msgstr ""
 "Note que los certificados generados antes que este, han sido revocados automáticamente,\n"
 "y deberán dejar de funcionar en menos de una hora.\n"
 
+#: fas/user.py:1378
+msgid "Your key has been removed."
+msgstr ""
+
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
@@ -1714,6 +1718,9 @@ msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr ""
+"'%(username)s' es un nombre de usuario ilegal. Un nombre de usuario debe ser"
+" ASCII, solo contener caracteres alfanuméricos en minúscula, y debe empezar "
+"con una letra."
 
 #: fas/validators.py:201
 #, python-format
@@ -2013,6 +2020,8 @@ msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr ""
+"© 2011 Red Hat, Inc.  Por favor envíe cualquier comentario o corrección al "
+"<a href=\"mailto:%(webmaster)s\">equipo de sitios web</a>."
 
 #: fas/templates/master.html:98
 msgid ""
@@ -2066,7 +2075,7 @@ msgstr "Ingresar"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr ""
+msgstr "¿Olvido su contraseña?"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -2279,12 +2288,12 @@ msgid "None"
 msgstr "Ninguno"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:138
 msgid "Approved"
 msgstr "Aprobado"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:139
 msgid "Unapproved"
 msgstr "Desaprobado"
 
@@ -2356,7 +2365,7 @@ msgstr "Mensaje de Inscripción:"
 msgid "Create!"
 msgstr "¡Crear!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:145
 msgid "View Group"
 msgstr "Ver Grupo"
 
@@ -2536,34 +2545,46 @@ msgid ""
 " rapid succession.  To make such brute force attacks harder we enforce some "
 "minimum levels of strength:"
 msgstr ""
+"Las frases de paso deben ser de una cierta complejidad para evitar que "
+"atacantes tengan acceso a su equipo probando diferentes combinaciones de "
+"caracteres en una sucesión rápida.Hemos reforzado los niveles mínimos de "
+"fortaleza para hacer mas difíciles los ataques de fuerza bruta:"
 
 #: fas/templates/user/changepass.html:14
 msgid ""
 "A passphrase with symbols, upper and lowercase letters, and digits must be "
 "at least 9 characters"
 msgstr ""
+"Una frase de paso con símbolos, letras mayúsculas y minúsculas, y dígitos "
+"debe tener al menos 9 caracteres"
 
 #: fas/templates/user/changepass.html:15
 msgid ""
 "A passphrase with upper and lowercase letters and digits must be at least 10"
 " characters"
 msgstr ""
+"Una frase de paso con letras mayúsculas y minúsculas, y dígitos debe tener "
+"al menos 10 caracteres"
 
 #: fas/templates/user/changepass.html:16
 msgid ""
 "A passphrase with lowercase letters and digits must be at least 12 "
 "characters"
 msgstr ""
+"Una frase de paso con solo letras minúsculas y dígitos debe tener al menos "
+"12 caracteres"
 
 #: fas/templates/user/changepass.html:17
 msgid "A passphrase with letters alone must be at least 20 characters"
-msgstr ""
+msgstr "Una frase de paso con solo letras debe tener al menos 20 caracteres"
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
 msgstr ""
+"Recuerde que estos son niveles mínimos. Se le anima a hacer su frases de "
+"paso más larga y compleja que estos valores mínimos."
 
 #: fas/templates/user/changepass.html:21
 msgid "Current Password:"
@@ -2675,7 +2696,7 @@ msgstr "\"*\" es un comodín (Ej: \"ric*\")"
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:98
 msgid "CLA Done"
 msgstr "CLA Completado"
 
@@ -2815,109 +2836,113 @@ msgstr "Clave PGP:"
 msgid "Public SSH Key:"
 msgstr "Clave pública de SSH:"
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:65
+msgid "(remove ssh key)"
+msgstr ""
+
+#: fas/templates/user/view.html:70
 msgid "Comments:"
 msgstr "Comentarios:"
 
-#: fas/templates/user/view.html:74
+#: fas/templates/user/view.html:76
 msgid "Password:"
 msgstr "Contraseña:"
 
-#: fas/templates/user/view.html:75
+#: fas/templates/user/view.html:77
 msgid "Valid"
 msgstr "Válido"
 
-#: fas/templates/user/view.html:78
+#: fas/templates/user/view.html:80
 msgid "Account Status:"
 msgstr "Estado de la Cuenta:"
 
-#: fas/templates/user/view.html:81
+#: fas/templates/user/view.html:83
 msgid "Active"
 msgstr "Activa"
 
-#: fas/templates/user/view.html:82
+#: fas/templates/user/view.html:84
 msgid "Inactive"
 msgstr "Inactiva"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:85
 msgid "Pinged"
 msgstr "Pinged"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:86
 msgid "Disabled"
 msgstr "Deshabilitada"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
 msgstr "Acuerdo de contribuyente:"
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:95
 msgid "CLA Signed"
 msgstr "CLA firmado"
 
-#: fas/templates/user/view.html:96
+#: fas/templates/user/view.html:98
 msgid "New CLA Not Signed"
 msgstr "Nuevo CLA sin firmar"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 "Necesitamos que los contribuyentes firmen el nuevo Acuerdo de Contribuyente"
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "Complete it now!"
 msgstr "¡Complete esto ahora!"
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:103
 msgid "Reject FPCA"
 msgstr "Rechazar FPCA"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Not Signed"
 msgstr "Sin firmar"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Complete it!"
 msgstr "¡Complétalo!"
 
-#: fas/templates/user/view.html:108
+#: fas/templates/user/view.html:110
 msgid "Privacy:"
 msgstr "Privacidad:\t"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:118
 msgid "Your Roles"
 msgstr "Sus Roles"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:119
 #, python-format
 msgid "%s's Roles"
 msgstr "Roles de %s"
 
-#: fas/templates/user/view.html:134
+#: fas/templates/user/view.html:136
 msgid "Status:"
 msgstr "Estado:"
 
-#: fas/templates/user/view.html:140
+#: fas/templates/user/view.html:142
 msgid "Tools:"
 msgstr "Herramientas:"
 
-#: fas/templates/user/view.html:144
+#: fas/templates/user/view.html:146
 msgid "Invite a New Member..."
 msgstr "Invite un Miembro Nuevo..."
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:147
 msgid "Manage Group Membership..."
 msgstr "Administrar las Membresías del Grupo..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:148
 msgid "Manage Group Details..."
 msgstr "Administrar los Detalles del Grupo..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:152
 msgid "Queue:"
 msgstr "Pendientes:"
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:156
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

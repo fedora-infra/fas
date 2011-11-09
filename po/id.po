@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-10-28 12:32-0700\n"
-"PO-Revision-Date: 2011-10-28 19:34+0000\n"
+"POT-Creation-Date: 2011-11-09 09:00-0800\n"
+"PO-Revision-Date: 2011-11-09 17:02+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Indonesian <trans-id@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -684,13 +684,11 @@ msgid ""
 "<p>Many resources require public key authentiaction to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
-"  Once created you will want to upload ~/.ssh/id_rsa.pub</p>"
+"  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
+" wish to login through several hosts, each with their own public key, you "
+"can create a concatenated file of public ssh keys and upload it in lieu of "
+"the individual ssh public key.</p>"
 msgstr ""
-"<p>Banyak sumber daya yang membutuhkan otentikasi kunci publik agar dapat "
-"berjalan. Dengan mengunggah kunci publik Anda ke kami, maka Anda dapat masuk"
-" ke server-server kami. Ketik \"man ssh-keygen\" untuk informasi lebih "
-"lanjut tentang cara membuat kunci Anda (harus berupa kunci RSA). Setelah "
-"dibuat Anda harus mengunggah ~/.ssh/id_rsa.pub</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:117
 msgid "Locale"
@@ -1450,6 +1448,10 @@ msgid ""
 "automatically revoked, and should stop working within the hour.\n"
 msgstr ""
 
+#: fas/user.py:1378
+msgid "Your key has been removed."
+msgstr ""
+
 #: fas/validators.py:52
 #, python-format
 msgid "The group '%(group)s' does not exist."
@@ -2048,12 +2050,12 @@ msgid "None"
 msgstr "Tidak Ada"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:136
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:138
 msgid "Approved"
 msgstr "Disetujui"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:137
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:139
 msgid "Unapproved"
 msgstr "Tidak disetujui"
 
@@ -2125,7 +2127,7 @@ msgstr "Pesan Bergabung:"
 msgid "Create!"
 msgstr "Buat!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:143
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:145
 msgid "View Group"
 msgstr "Lihat Grup"
 
@@ -2443,7 +2445,7 @@ msgstr "\"*\" adalah sebuah wildcard (Mis: \"ric*\")"
 msgid "Username"
 msgstr "Nama Pengguna"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:96
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:98
 msgid "CLA Done"
 msgstr "CLA Selesai"
 
@@ -2576,108 +2578,112 @@ msgstr "Kunci PGP:"
 msgid "Public SSH Key:"
 msgstr "Kunci SSH Publik:"
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:65
+msgid "(remove ssh key)"
+msgstr ""
+
+#: fas/templates/user/view.html:70
 msgid "Comments:"
 msgstr "Komentar:"
 
-#: fas/templates/user/view.html:74
+#: fas/templates/user/view.html:76
 msgid "Password:"
 msgstr "Kata Sandi:"
 
-#: fas/templates/user/view.html:75
+#: fas/templates/user/view.html:77
 msgid "Valid"
 msgstr "Valid"
 
-#: fas/templates/user/view.html:78
+#: fas/templates/user/view.html:80
 msgid "Account Status:"
 msgstr "Status Akun:"
 
-#: fas/templates/user/view.html:81
+#: fas/templates/user/view.html:83
 msgid "Active"
 msgstr "Aktif"
 
-#: fas/templates/user/view.html:82
+#: fas/templates/user/view.html:84
 msgid "Inactive"
 msgstr "Nonaktif"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:85
 msgid "Pinged"
 msgstr "Telah diping"
 
-#: fas/templates/user/view.html:84
+#: fas/templates/user/view.html:86
 msgid "Disabled"
 msgstr "Dimatikan"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
 msgstr ""
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:95
 msgid "CLA Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:96
+#: fas/templates/user/view.html:98
 msgid "New CLA Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:97
+#: fas/templates/user/view.html:99
 msgid "Complete it now!"
 msgstr ""
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:103
 msgid "Reject FPCA"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:107
 msgid "Complete it!"
 msgstr "Selesaikan!"
 
-#: fas/templates/user/view.html:108
+#: fas/templates/user/view.html:110
 msgid "Privacy:"
 msgstr "Privasi:"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:118
 msgid "Your Roles"
 msgstr "Peran Anda"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:119
 #, python-format
 msgid "%s's Roles"
 msgstr "Peran %s"
 
-#: fas/templates/user/view.html:134
+#: fas/templates/user/view.html:136
 msgid "Status:"
 msgstr "Status:"
 
-#: fas/templates/user/view.html:140
+#: fas/templates/user/view.html:142
 msgid "Tools:"
 msgstr "Perkakas:"
 
-#: fas/templates/user/view.html:144
+#: fas/templates/user/view.html:146
 msgid "Invite a New Member..."
 msgstr "Ajak Anggota Baru..."
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:147
 msgid "Manage Group Membership..."
 msgstr "Kelola Keanggotaan Grup..."
 
-#: fas/templates/user/view.html:146
+#: fas/templates/user/view.html:148
 msgid "Manage Group Details..."
 msgstr "Kelola Detail Grup..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:152
 msgid "Queue:"
 msgstr "Antrian:"
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:156
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
