@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-11-09 09:00-0800\n"
-"PO-Revision-Date: 2011-11-09 17:02+0000\n"
+"POT-Creation-Date: 2011-11-09 09:28-0800\n"
+"PO-Revision-Date: 2011-11-09 17:29+0000\n"
 "Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,200 +27,6 @@ msgid "%s membership required before application to this group is allowed"
 msgstr ""
 "Se requiere ser miembro del grupo %s antes de que se le permita postular a "
 "este"
-
-#: fas/cla.py:76
-msgid ""
-"A telephone number is required to complete the CLA.  Please fill out below."
-msgstr ""
-"Es necesario un numero te teléfono para completar el CLA. Por favor "
-"completar a continuación."
-
-#: fas/cla.py:80
-msgid ""
-"A valid country and telephone number or postal address is required to "
-"complete the CLA.  Please fill them out below."
-msgstr ""
-"Es necesario un país y numero de teléfono o dirección postal valido para "
-"completar el CLA. Por favor completar a continuación."
-
-#: fas/cla.py:86
-msgid ""
-"A valid country and telephone number are required to complete the CLA.  "
-"Please fill them out below."
-msgstr ""
-"Es necesario un país y numero de teléfono valido para completar el CLA. Por "
-"favor completar a continuación."
-
-#: fas/cla.py:163
-msgid "You are not allowed to reject CLAs."
-msgstr "Usted no puede rechazar los CLAs."
-
-#: fas/cla.py:174 fas/fpca.py:174
-#, python-format
-msgid ""
-"Error removing cla and dependent groups for %(person)s\n"
-" Error was: %(error)s"
-msgstr ""
-"Error al borrar cla y otros grupos dependientes para %(person)s\n"
-" El error fue: %(error)s"
-
-#: fas/cla.py:184
-msgid "Fedora ICLA Revoked"
-msgstr "Fedora ICLA Revocado"
-
-#: fas/cla.py:185
-#, python-format
-msgid ""
-"\n"
-"Hello %(human_name)s,\n"
-"\n"
-"We're sorry to bother you but we had to reject your CLA for now because\n"
-"information you provided has been deemed incorrect.  The most common cause\n"
-"of this is people abbreviating their name like \"B L Couper\" instead of\n"
-"providing their actual full name \"Bill Lay Couper\".  Other causes of this\n"
-"include are using a country, or phone number that isn't accurate [1]_.\n"
-"If you could edit your account [2]_ to fix any of these problems and resubmit\n"
-"the CLA we would appreciate it.\n"
-"\n"
-".. [1]: Why does it matter that we have your real name and phone\n"
-"        number?   It's because the CLA is a legal document and should we ever\n"
-"        need to contact you about one of your contributions (as an example,\n"
-"        because someone contacts *us* claiming that it was really they who\n"
-"        own the copyright to the contribution) we might need to contact you\n"
-"        for more information about what's going on.\n"
-"\n"
-".. [2]: Edit your account by logging in at this URL:\n"
-"        %(editurl)s/accounts/user/edit/%(username)s\n"
-"\n"
-"If you have questions about what specifically might be the problem with your\n"
-"account, please contact us at accounts@fedoraproject.org.\n"
-"\n"
-"Thanks!\n"
-"    "
-msgstr ""
-"\n"
-"Hola %(human_name)s,\n"
-"\n"
-"Lamentamos molestarlo pero debemos rechazar su CLA por \n"
-"ahora porque la información que nos dió se ha considerado\n"
-"incorrecta. La causa más común es gente que abrevian sus nombres como \"B L Couper\" en vez de proveer el nombre\n"
-"completo \"Bill Lay Couper\".  Otras causas son usar un país, o un \n"
-"número de teléfono que no es preciso [1]_.\n"
-"Si pudiera editar su cuenta  [2]_ para corregir cualquiera de estos problemas y volver a subirlo, será valioso para nosotros.\n"
-"\n"
-".. [1]: Por qué es importante que tengamos su nombre real y \n"
-"        número de teléfono?  Es porque el CLA es un documento \n"
-"        legal y si necesitáramos contactarlo acerca de alguna de \n"
-"        sus contribuciones (por ejemplo, porque alguien nos \n"
-"        contacte diciendo que son ellos los que tienen los derechos \n"
-"        de autor de la contribución) podríamos necesitar \n"
-"        contactarlo para que nos dé información adicional acerca \n"
-"        de lo que está sucediendo.\n"
-"\n"
-".. [2]: Edite su cuenta ingresando en:\n"
-"        %(editurl)s/accounts/user/edit/%(username)s\n"
-"\n"
-"Si tiene preguntas acerca de cuál podría ser específicamente el \n"
-"problema con su cuenta, por favor contáctenos en  \n"
-"accounts@fedoraproject.org.\n"
-"\n"
-"¡Gracias!\n"
-"    "
-
-#: fas/cla.py:217
-msgid "CLA Successfully Removed."
-msgstr "CLA borrado exitosamente."
-
-#: fas/cla.py:241
-msgid "You have already completed the CLA."
-msgstr "Usted ya ha completado el CLA."
-
-#: fas/cla.py:245
-msgid "You have not completed the CLA."
-msgstr "Usted no ha completado el CLA."
-
-#: fas/cla.py:248 fas/fpca.py:246
-msgid "You must confirm that your personal information is accurate."
-msgstr "Usted debe confirmar que su información personal es correcta."
-
-#: fas/cla.py:266 fas/fpca.py:264
-msgid "Your updated information could not be saved."
-msgstr "La información actualizada no ha podido ser guardada."
-
-#: fas/cla.py:286
-msgid ""
-"To complete the CLA, we must have your name, telephone number, and country."
-"  Please ensure they have been filled out."
-msgstr ""
-"Para completar el CLA, requerimos su nombre, número telefónico, dirección "
-"postal y país.  Por favor, asegúrese de que dicha información haya sido "
-"completada."
-
-#: fas/cla.py:295
-msgid ""
-"To complete the CLA, a valid country code must be specified.  Please select "
-"one now."
-msgstr ""
-"Para completar el CLA se debe especificar un código de país válido.  Por "
-"favor seleccione uno ahora."
-
-#: fas/cla.py:299
-msgid ""
-"Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
-"or \" \".  Please reenter using only those characters."
-msgstr ""
-"Los números telefónicos solo pueden contener números, \"-\", \"+\", \"(\", "
-"\")\", o \" \".  Por favor ingrese nuevamente la información utilizando "
-"solamente estos caracteres."
-
-#: fas/cla.py:314 fas/cla.py:328 fas/fpca.py:312 fas/fpca.py:326
-#, python-format
-msgid "You could not be added to the '%s' group."
-msgstr "Usted no pudo ser agregado al grupo '%s'."
-
-#: fas/cla.py:324 fas/fpca.py:322
-#, python-format
-msgid "You are already a part of the '%s' group."
-msgstr "Usted ya es miembro del grupo '%s'."
-
-#: fas/cla.py:336
-#, python-format
-msgid "Fedora ICLA completed for %(human_name)s (%(username)s)"
-msgstr "Fedora ICLA completado para %(human_name)s (%(username)s)"
-
-#: fas/cla.py:338
-#, python-format
-msgid ""
-"\n"
-"Fedora user %(username)s has completed an ICLA (below).\n"
-"Username: %(username)s\n"
-"Email: %(email)s\n"
-"Date: %(date)s\n"
-"\n"
-"If you need to revoke it, please visit this link:\n"
-"    %(rejecturl)s/accounts/cla/reject/%(username)s\n"
-"\n"
-"=== CLA ===\n"
-"\n"
-msgstr ""
-"\n"
-"El usuario Fedora %(username)s ha completado el ICLA (abajo).\n"
-"Nombre de usuario: %(username)s\n"
-"Correo electrónico: %(email)s\n"
-"Fecha: %(date)s\n"
-"\n"
-"Si necesita revocar esto, por favor visite este enlace:\n"
-"    %(rejecturl)s/accounts/cla/reject/%(username)s\n"
-"\n"
-"=== CLA ===\n"
-"\n"
-
-#: fas/cla.py:361
-#, python-format
-msgid ""
-"You have successfully completed the CLA.  You are now in the '%s' group."
-msgstr ""
-"Usted ha completado exitosamente el CLA.  Ahora es miembro del grupo '%s'."
 
 #: fas/configs.py:126
 #, python-format
@@ -286,6 +92,15 @@ msgstr ""
 msgid "You are not allowed to reject FPCAs."
 msgstr "No tiene permitido rechazar FPCAs"
 
+#: fas/fpca.py:174
+#, python-format
+msgid ""
+"Error removing cla and dependent groups for %(person)s\n"
+" Error was: %(error)s"
+msgstr ""
+"Error al borrar cla y otros grupos dependientes para %(person)s\n"
+" El error fue: %(error)s"
+
 #: fas/fpca.py:215
 msgid "FPCA Successfully Removed."
 msgstr "FPCA removido con éxito."
@@ -297,6 +112,14 @@ msgstr "Ya tiene completo el FPCA."
 #: fas/fpca.py:243
 msgid "You have not completed the FPCA."
 msgstr "No tiene completo el FPCA"
+
+#: fas/fpca.py:246
+msgid "You must confirm that your personal information is accurate."
+msgstr "Usted debe confirmar que su información personal es correcta."
+
+#: fas/fpca.py:264
+msgid "Your updated information could not be saved."
+msgstr "La información actualizada no ha podido ser guardada."
 
 #: fas/fpca.py:284
 msgid ""
@@ -321,6 +144,16 @@ msgid ""
 msgstr ""
 "El numero de telefono solo puede consistir en numero, \"-\", \"+\", \"(\", "
 "\")\", o \" \". Por favor ingrese el numero usando solo estos caracteres."
+
+#: fas/fpca.py:312 fas/fpca.py:326
+#, python-format
+msgid "You could not be added to the '%s' group."
+msgstr "Usted no pudo ser agregado al grupo '%s'."
+
+#: fas/fpca.py:322
+#, python-format
+msgid "You are already a part of the '%s' group."
+msgstr "Usted ya es miembro del grupo '%s'."
 
 #: fas/fpca.py:358
 #, python-format
@@ -721,8 +554,8 @@ msgstr ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Política de "
 "Privacidad</a></p>"
 
-#: fas/help.py:33 fas/templates/cla/index.html:46
-#: fas/templates/fpca/index.html:47 fas/templates/user/edit.html:47
+#: fas/help.py:33 fas/templates/fpca/index.html:47
+#: fas/templates/user/edit.html:47
 msgid "Postal Address"
 msgstr "Dirección Postal"
 
@@ -792,7 +625,7 @@ msgstr "Clave pública RSA para SSH"
 
 #: fas/help.py:38
 msgid ""
-"<p>Many resources require public key authentiaction to work.  By uploading "
+"<p>Many resources require public key authentication to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
 "keygen\" for more information on creating your key (it must be an RSA key)."
 "  Once created you will want to upload ~/.ssh/id_rsa.pub. <br /><br />If you"
@@ -1885,7 +1718,7 @@ msgstr ""
 "pueden hacer cualquier modificación a cualquiera de los miembros del grupo."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
-#: fas/templates/cla/index.html:16 fas/templates/fpca/index.html:16
+#: fas/templates/fpca/index.html:16
 msgid "Fedora Accounts System"
 msgstr "Sistema de Cuentas de Fedora"
 
@@ -2085,46 +1918,40 @@ msgstr "Cuenta Nueva"
 msgid "Why Join?"
 msgstr "¿Por qué registrarse?"
 
-#: fas/templates/cla/index.html:19
-msgid "Fedora Contributor License Agreement"
-msgstr "Acuerdo de Licencia de Contribuyente de Fedora"
+#: fas/templates/fpca/index.html:19
+msgid "Fedora Project Contributor Agreement"
+msgstr "FPCA - Acuerdo de Contribuyente del Proyecto Fedora"
 
-#: fas/templates/cla/index.html:20 fas/templates/cla/index.html:23
 #: fas/templates/fpca/index.html:20 fas/templates/fpca/index.html:23
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
 msgstr "<a href=\"%(url)s\">Versión de Texto</a>"
 
-#: fas/templates/cla/index.html:26
-msgid "You have already successfully completed the CLA."
-msgstr "Usted ha completado exitosamente el CLA."
+#: fas/templates/fpca/index.html:27
+msgid "You have already successfully completed the FPCA."
+msgstr "Ha completado con exito el FPCA."
 
-#: fas/templates/cla/index.html:36 fas/templates/fpca/index.html:37
-#: fas/templates/user/edit.html:23
+#: fas/templates/fpca/index.html:37 fas/templates/user/edit.html:23
 msgid "Full Name"
 msgstr "Nombre Completo"
 
-#: fas/templates/cla/index.html:41 fas/templates/fpca/index.html:42
-#: fas/templates/user/edit.html:42
+#: fas/templates/fpca/index.html:42 fas/templates/user/edit.html:42
 msgid "Telephone Number"
 msgstr "Número de Teléfono"
 
-#: fas/templates/cla/index.html:51 fas/templates/fpca/index.html:52
-#: fas/templates/user/edit.html:52
+#: fas/templates/fpca/index.html:52 fas/templates/user/edit.html:52
 msgid "Country"
 msgstr "País"
 
-#: fas/templates/cla/index.html:53 fas/templates/fpca/index.html:54
-#: fas/templates/user/edit.html:54
+#: fas/templates/fpca/index.html:54 fas/templates/user/edit.html:54
 msgid "Select Country"
 msgstr "Seleccione el País"
 
-#: fas/templates/cla/index.html:61 fas/templates/fpca/index.html:62
-#: fas/templates/user/edit.html:62
+#: fas/templates/fpca/index.html:62 fas/templates/user/edit.html:62
 msgid "If your country is not listed, select \"Other\""
 msgstr "Si su país no se encuentra en la lista, seleccione \"Otro\""
 
-#: fas/templates/cla/index.html:64 fas/templates/fpca/index.html:65
+#: fas/templates/fpca/index.html:65
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
@@ -2132,21 +1959,13 @@ msgstr ""
 "Certifico que la información registrada en la parte superior (mi nombre, "
 "dirección, país y número telefónico) es correcta y exacta."
 
-#: fas/templates/cla/index.html:67 fas/templates/fpca/index.html:68
+#: fas/templates/fpca/index.html:68
 msgid "I agree"
 msgstr "Acepto"
 
-#: fas/templates/cla/index.html:68 fas/templates/fpca/index.html:69
+#: fas/templates/fpca/index.html:69
 msgid "I do not agree"
 msgstr "No acepto"
-
-#: fas/templates/fpca/index.html:19
-msgid "Fedora Project Contributor Agreement"
-msgstr "FPCA - Acuerdo de Contribuyente del Proyecto Fedora"
-
-#: fas/templates/fpca/index.html:27
-msgid "You have already successfully completed the FPCA."
-msgstr "Ha completado con exito el FPCA."
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
