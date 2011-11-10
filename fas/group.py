@@ -35,7 +35,7 @@ from turbogears.database import session
 import cherrypy
 import sqlalchemy
 from sqlalchemy import select, func
-from sqlalchemy.sql import literal_column, and_
+from sqlalchemy.sql import and_
 
 import re
 
@@ -421,36 +421,50 @@ class Group(controllers.Controller):
                     {'user': target.username, 'group': group.name, 'error': e})
                 turbogears.redirect('/group/view/%s' % group.name)
             else:
-                # TODO: How do we handle gettext calls for these kinds of emails?  Different sponsors might have different language preferences.
-                # TODO: CC to right place, put a bit more thought into how to most elegantly do this
-                # TODO: Maybe that @fedoraproject.org (and even -sponsors) should be configurable somewhere?
-
+                # TODO: Localize for each recipient.  This will require
+                # some database calls so we'll also need to check whether it
+                # makes things too slow.
+                # Basic outline is:
+                # for person_role in group.approved_roles:
+                #     if person_role.role_type in ('administrator', 'sponsor'):
+                #         sponsors_addr = p.member.email
+                #         locale = p.member.locale or 'C'
+                #         ## Do all the rest of the stuff to construct the
+                #         ## email message -- the _(locale=locale) will
+                #         ## translate the strings for that recipient
+                #         send_mail(sponsors_addr, join_subject, join_text)
+                # ## And if we still want to send this message to the user,
+                # ## have to set locale = target.locale or 'C' and construct
+                # ## the email one additional time and send to target.email
+                locale = 'en'
                 sponsor_url = config.get('base_url_filter.base_url') + \
                     tg_url('/group/view/%s' % groupname)
                 sponsors_addr = '%(group)s-sponsors@%(host)s' % \
                     {'group': group.name, 'host': config.get('email_host')}
-                sponsor_subject = _('Fedora \'%(group)s\' sponsor needed for %(user)s') % \
-                    {'user': target.username, 'group': group.name}
+                sponsor_subject = _('Fedora \'%(group)s\' sponsor needed for %(user)s',
+                        locale=locale) % {'user': target.username,
+                                'group': group.name}
                 sponsors_text = _('''
 Fedora user %(user)s <%(email)s> has requested
 membership for %(applicant)s in the %(group)s group and needs a sponsor.
 
 Please go to %(url)s to take action.  
-''') % { 'user': person.username,
-    'applicant': target.username,
-    'email': person.email,
-    'url': sponsor_url,
-    'group': group.name }
+''', locale=locale) % { 'user': person.username,
+        'applicant': target.username,
+        'email': person.email,
+        'url': sponsor_url,
+        'group': group.name }
 
-                join_subject = _('Application to the \'%(group)s\' group') % \
-                    {'user': target.username, 'group': group.name}
+                join_subject = _('Application to the \'%(group)s\' group',
+                        locale=locale) % {'user': target.username,
+                                'group': group.name}
                 join_text = _('''
 Thank you for applying for the %(group)s group.  
 
 %(joinmsg)s
-''') % { 'user': person.username,
-    'joinmsg': group.joinmsg,
-    'group': group.name }
+''', locale=locale) % { 'user': person.username,
+        'joinmsg': group.joinmsg,
+        'group': group.name }
 
                 send_mail(sponsors_addr, sponsor_subject, sponsors_text)
                 send_mail(target.email, join_subject, join_text)
