@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Arnes Arnautović <arnes99@gmail.com>, 2009.
+# Arnes  <arnes99@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2011-11-09 09:28-0800\n"
-"PO-Revision-Date: 2011-11-09 17:29+0000\n"
-"Last-Translator: toshio <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2011-11-09 21:37+0000\n"
+"Last-Translator: aarnes <arnes99@gmail.com>\n"
 "Language-Team: Bosnian (http://www.transifex.net/projects/p/fedora/team/bs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,22 +69,28 @@ msgstr "Jezik '%s' nije dostupan."
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
 msgstr ""
+"Telefonski broj je potreban za završavanje UDFP-a.  Molimo da ga popunite "
+"ispod."
 
 #: fas/fpca.py:80
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
 msgstr ""
+"Važeći državni i telefonski broj ili poštanska adresa su potrebni za "
+"završavanje UDFP-a.  Molimo da ih popunite ispod."
 
 #: fas/fpca.py:86
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
 msgstr ""
+"Važeći državni i telefonski broj su potrebni za završavanje UDFP-a.  Molimo "
+"da ih popunite ispod."
 
 #: fas/fpca.py:163
 msgid "You are not allowed to reject FPCAs."
-msgstr ""
+msgstr "Nije Vam dopušteno da odbijate UDFP-ove."
 
 #: fas/fpca.py:174
 #, python-format
@@ -96,15 +103,15 @@ msgstr ""
 
 #: fas/fpca.py:215
 msgid "FPCA Successfully Removed."
-msgstr ""
+msgstr "UDFP uspješno odstranjen."
 
 #: fas/fpca.py:239
 msgid "You have already completed the FPCA."
-msgstr ""
+msgstr "Već ste jednom završili UDFP."
 
 #: fas/fpca.py:243
 msgid "You have not completed the FPCA."
-msgstr ""
+msgstr "Niste završili UDFP."
 
 #: fas/fpca.py:246
 msgid "You must confirm that your personal information is accurate."
@@ -119,18 +126,24 @@ msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
 msgstr ""
+"Da bi završili UDFP moramo imati Vaše ime, telefonski broj i državu.  Molimo"
+" Vas da se pobrinete da su popunjeni."
 
 #: fas/fpca.py:293
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
 msgstr ""
+"Da bi završili UDFP važeći broj države se mora odrediti.  Molimo, odaberite "
+"jedan sada."
 
 #: fas/fpca.py:297
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
 msgstr ""
+"Telefonski brojevi se mogu sastojati samo od brojeva, \"-\", \"+\", \"(\", "
+"\")\", ili \" \".  Molimo, ponovno unesite koristeći samo ove znakove."
 
 #: fas/fpca.py:312 fas/fpca.py:326
 #, python-format
@@ -146,7 +159,7 @@ msgstr "Već ste dio '%s' grupe."
 #, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr ""
+msgstr "Uspješno ste završili UDFP.  Sada ste u '%s' grupi."
 
 #: fas/group.py:163 fas/group.py:199
 #, python-format
@@ -207,7 +220,7 @@ msgstr "%(user)s se nije mogao(la) aplicirati %(group)s: %(error)s"
 #: fas/group.py:432
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
-msgstr ""
+msgstr "Fedora '%(group)s' sponzor potreban za %(user)s"
 
 #: fas/group.py:434
 #, python-format
@@ -218,6 +231,11 @@ msgid ""
 "\n"
 "Please go to %(url)s to take action.  \n"
 msgstr ""
+"\n"
+"Fedora korisnik %(user)s <%(email)s> je zatražio \n"
+"članstvo za %(applicant)s u %(group)s grupi i treba sponzora.\n"
+"\n"
+"Molimo, idite na %(url)s da poduzmete neku akciju.  \n"
 
 #: fas/group.py:445
 #, python-format
@@ -255,7 +273,7 @@ msgstr "%(user)s se nije mogao(la) sponzorisati u %(group)s: %(error)s"
 #: fas/group.py:489
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
-msgstr ""
+msgstr "Vaše Fedora '%s' članstvo je sponzorisano."
 
 #: fas/group.py:490
 #, python-format
@@ -265,6 +283,10 @@ msgid ""
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> Vas je sponzorisao za članstvo u %(group)s\n"
+"grupi Fedora sistema. If applicable, this change should\n"
+"propagate into the e-mail aliases and git repository within an hour.\n"
 
 #: fas/group.py:501
 #, python-format
@@ -284,7 +306,7 @@ msgstr "%(user)s se nije mogao(la) odstraniti sa %(group)s: %(error)s"
 #: fas/group.py:530
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
-msgstr ""
+msgstr "Vaše Fedora '%s' članstvo je odstranjeno"
 
 #: fas/group.py:531
 #, python-format
@@ -295,6 +317,9 @@ msgid ""
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> Vas je odstranio iz '%(group)s' grupe \n"
+"Fedora sistema računa. Ova promjena stupa na snagu istog trenutka za nove operacije i trebala bi se propagirati u e-pošta alijase unutar jednog sata.\n"
 
 #: fas/group.py:543
 #, python-format
@@ -314,7 +339,7 @@ msgstr "%(name)s nije mogao(la) biti nadograđen(a) u %(group)s: %(error)s"
 #: fas/group.py:571
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
-msgstr ""
+msgstr "Vaše Fedora '%s' članstvo je nadograđeno"
 
 #: fas/group.py:577
 #, python-format
@@ -344,7 +369,7 @@ msgstr "%(name)s nivo se nemože smanjiti u %(group)s: %(error)s"
 #: fas/group.py:616
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr ""
+msgstr "Vaše Fedora '%s' članstvo je degradirano"
 
 #: fas/group.py:621
 #, python-format
@@ -355,6 +380,9 @@ msgid ""
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
 msgstr ""
+"\n"
+"%(user)s <%(email)s> Vas je degradirao na %(status)s statut u \n"
+"'%(group)s' grupi Fedora sistema računa. Ova promjena stupa na snagu istog trenutka za nove operacije i trebala bi se propagirati u e-pošta alijase unutar jednog sata.\n"
 
 #: fas/group.py:633
 #, python-format
@@ -422,7 +450,7 @@ msgstr "<p>Nismo mogli naći tu stavku pomoći</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of FPCA Information"
-msgstr ""
+msgstr "Tačnost UDFP informacija"
 
 #: fas/help.py:27
 msgid ""
@@ -434,6 +462,12 @@ msgid ""
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
 msgstr ""
+"<p>UDFP je legalan dokument.  Trebamo tačne informacije na njemu u slučaju "
+"da Vas trebamo kontaktirati u vezi doprinosa koji dajete projektu.  "
+"Zamislite da dobijemo poziv od advokata neke druge firme koji tvrdi da oni "
+"posjeduju autorska prava na Vaš rad a mi im moramo reći da imamo pravo da ga"
+" koristimo jer nam ga je doprinjeo\"Edo Edić\" a mi nemamo telefonski broj "
+"da ga kontaktiramo!  Potencionalno veoma nezavidna situacija.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -499,6 +533,12 @@ msgid ""
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
 msgstr ""
+"<p>Potrebno zbog završavanja <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">UDFP-a</a>."
+"  Ponekad tijekom potrebe hitne pomoći netko iz Fedora projekta Vas može "
+"kontaktirati.  Za više informacija pogledajte našu <a "
+"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Pravila "
+"privatnosti</a></p>"
 
 #: fas/help.py:33 fas/templates/fpca/index.html:47
 #: fas/templates/user/edit.html:47
@@ -545,7 +585,7 @@ msgstr ""
 
 #: fas/help.py:37
 msgid "FPCA"
-msgstr ""
+msgstr "UDFP"
 
 #: fas/help.py:37
 msgid ""
@@ -556,6 +596,12 @@ msgid ""
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
 msgstr ""
+"<p>Da bi postali punopravni Fedora doprinositelj morate završiti <a "
+"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Ugovor"
+" doprinositelja Fedora projekta</a>.  Ova dozvola je legalni ugovor između "
+"Vas i Red Hat-a.  Punopravni statut omogućava ljudima da doprinose sadržaj i"
+" kod i preporučljiv je za bilo koga zainteresiranog da se uključi u Fedora "
+"projekt.</p>"
 
 #: fas/help.py:38 fas/templates/user/edit.html:101
 msgid "Public RSA SSH Key"
@@ -819,6 +865,10 @@ msgid ""
 "will hide the usual \"Apply!\" links and buttons.  Users can still be added "
 "to a group directly by an admin or sponsor.</p>"
 msgstr ""
+"<p>Ako korisnici nebi trebali biti u mogućnosti da se prijave za ovu grupu, "
+"postavljajući ovo sakriti će se \"Prijavi se!\" linkovi i dugmad.  Korisnici"
+" se i dalje mogu dodati grupi direktno od strane administratora ili "
+"sponzora.</p>"
 
 #: fas/help.py:58
 msgid "Group IRC Channel (Optional)"
@@ -879,6 +929,8 @@ msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
 msgstr ""
+"<p>Prije nego se korisnik pridruži ovoj grupi on mora pripadati grupi "
+"prikazanoj u ovoj kutiji.  Preporučene vrijednosti su za '%s' grupu.</p>"
 
 #: fas/help.py:63
 msgid "Join Message"
@@ -960,7 +1012,7 @@ msgstr "Punjenje: %(visitmod)s"
 
 #: fas/user.py:80
 msgid "Solve the math problem"
-msgstr ""
+msgstr "Riješi matematički problem"
 
 #: fas/user.py:249
 #, python-format
@@ -1104,7 +1156,7 @@ msgstr ""
 
 #: fas/user.py:837
 msgid "Sorry.  Email addresses do not match"
-msgstr ""
+msgstr "Žao nam je.  Email adrese se nepodudaraju."
 
 #: fas/user.py:844
 #, python-format
@@ -1167,18 +1219,52 @@ msgid ""
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
+"\n"
+"Napravili ste novi Fedora račun!\n"
+"Vaše korisničko ime je: %(username)s\n"
+"Vaša šifra je: %(password)s\n"
+"\n"
+"Molimo, idite na %(base_url)s%(webpath)s/user/changepass\n"
+"da bi je promijenili.\n"
+"\n"
+"Dobrodošli u Fedora projekt. Sada kada ste napravili račun vjerovatno ste očajni da počnete doprinositi i sa tim an umu nadamo se da će Vas ovo e-pismo uputiti na pravi put da bi \n"
+"proces bio što lakši.\n"
+"\n"
+"Fedora je uzbudljiv projekt gdje se dosta toga događa i Vi možete\n"
+"doprinjeti na ogroman broj načina, koristeći različite sposobnosti. Da bi saznali o raznim načinima da doprinesete Fedori možete posjetiti našu stranicu za pridruživanje koja omogućuje više informacija\n"
+"o svim različitim dostupnim ulogama.\n"
+"\n"
+"http://join.fedoraproject.org/\n"
+"\n"
+"Ako već znate kako želite doprinjeti Fedori i pronašli ste \n"
+"grupu koja već radi u području za koje ste zainteresovani onda \n"
+"za Vas postoji još par koraka za nastavak.\n"
+"\n"
+"Najprije se morate prijaviti na poštansku listu tima ili projekta za koji ste zainteresirani a ako ste zainteresirani za više od \n"
+"jedne grupe slobodno se prijavite na onoliko poštanskih listi \n"
+"koliko želite! Ovo je zbog toga što se na poštanskim listama organizira većina posla \n"
+"te zadaci dodjeljuju, stoga da bi znali dešavanja pobrinite se \n"
+"da pratite poruke.\n"
+"\n"
+"Kada je ovo gotovo vjerovatno je mudro poslati kratko predstavljanje \n"
+"listi dajući im do znanja kakvo iskustvo imate te kako bi \n"
+"željeli pomoći. Odavde, postojeći članovi tima će Vam pomoći da \n"
+"se snađete kao Fedora doprinositelj.\n"
+"\n"
+"I konačno, od svih nas ovdje na Fedora projektu željno \n"
+"iščekujemo da radimo sa Vama!\n"
 
 #: fas/user.py:965
 msgid "passwords did not match"
-msgstr ""
+msgstr "šifre se nepodudaraju"
 
 #: fas/user.py:972
 msgid "Your current password did not match"
-msgstr ""
+msgstr "Vaša trenutna šifra se nepodudara"
 
 #: fas/user.py:976
 msgid "Your new password cannot be the same as your old one."
-msgstr ""
+msgstr "Vaša nova šifra nemože biti ista kao Vaša stara."
 
 #: fas/user.py:990
 msgid "Your password could not be changed."
@@ -1224,7 +1310,7 @@ msgstr ""
 
 #: fas/user.py:1042
 msgid "Warning: attempted reset of system account"
-msgstr ""
+msgstr "Upozorenje: pokušaj ponovnog postavljanja sistemskog računa"
 
 #: fas/user.py:1043
 #, python-format
@@ -1233,6 +1319,9 @@ msgid ""
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
 msgstr ""
+"\n"
+"Upozorenje: Netko je pokušao da ponovno postavi šifru za sistemski račun\n"
+"%(account)s putem web interfejsa.\n"
 
 #: fas/user.py:1052
 #, python-format
@@ -1243,6 +1332,10 @@ msgid ""
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
+"\n"
+"Netko (nadamo se Vi) je zahtjevao ponovno postavljanje šifre za Vaš račun!\n"
+"Da bi promjenili svoju šifru (ili da prekinete zahtjev), molimo da posjetite\n"
+"%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:1066
 msgid ""
@@ -1306,7 +1399,7 @@ msgstr ""
 
 #: fas/user.py:1251
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
+msgstr "Prije stvaranja certifikata morate prvo završiti UDFP."
 
 #: fas/user.py:1321
 msgid "Your certificate could not be generated."
@@ -1315,7 +1408,7 @@ msgstr "Vaš certifikat se nije mogao napraviti."
 #: fas/user.py:1327
 #, python-format
 msgid "A new certificate has been generated for %s"
-msgstr ""
+msgstr "Novi certifikat je stvoren za %s"
 
 #: fas/user.py:1329
 msgid ""
@@ -1326,6 +1419,12 @@ msgid ""
 "Note that certificates generated prior to the current one have been\n"
 "automatically revoked, and should stop working within the hour.\n"
 msgstr ""
+"\n"
+"Stvorili ste novi SSL certifikat.  Ako Vi ovo niste zatražili \n"
+"molimo da obavjestite administratora admin@fedoraproject.org. \n"
+"\n"
+"Pažnja: Certifikati stvoreni prije trenutnog su automatski \n"
+"nevažeći i trebali bi prestati vrijediti unutar jednog sata.\n"
 
 #: fas/user.py:1378
 msgid "Your key has been removed."
@@ -1405,14 +1504,19 @@ msgid ""
 "digits, they must be at least 12 characters.  Letters alone means they need "
 "20 or more characters."
 msgstr ""
+"Šifre moraju odgovarati određenim zahtjevima jačine.  Ako imaju mješavinu "
+"simbola, velikih i malih slova te brojeva moraju imati barem 9 znakova.  Ako"
+" imaju mješavinu velikih i malih slova te brojeva moraju imati najmanje 10 "
+"znakova.  Ako imaju mala slova te brojeve moraju imati barem 12 znakova.  "
+"Sama slova znači da je potrebno imati 20 ili više znakova."
 
 #: fas/validators.py:235
 msgid "Malicious hackers read xkcd, you know"
-msgstr ""
+msgstr "Znate, zlonamjerni hakeri čitaju xkcd"
 
 #: fas/validators.py:299
 msgid "You must enter your legal name"
-msgstr ""
+msgstr "Morate unijeti Vaše legalno ime"
 
 #: fas/validators.py:300
 msgid ""
@@ -1552,6 +1656,8 @@ msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
 msgstr ""
+"UDFP nije završen.  Da bi postali puni Fedora doprinositelj molimo <a "
+"href=\"%s\">završite UDFP</a>."
 
 #: fas/templates/home.html:16
 #, python-format
@@ -1711,7 +1817,7 @@ msgstr "Prijava"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Zaboravili ste šifru?"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -1723,7 +1829,7 @@ msgstr "Zašto se pridružiti?"
 
 #: fas/templates/fpca/index.html:19
 msgid "Fedora Project Contributor Agreement"
-msgstr ""
+msgstr "Ugovor doprinositelja Fedora projekta"
 
 #: fas/templates/fpca/index.html:20 fas/templates/fpca/index.html:23
 #, python-format
@@ -1732,7 +1838,7 @@ msgstr "<a href=\"%(url)s\">Tekst verzija</a>"
 
 #: fas/templates/fpca/index.html:27
 msgid "You have already successfully completed the FPCA."
-msgstr ""
+msgstr "Već ste jednom uspješno završili UDFP."
 
 #: fas/templates/fpca/index.html:37 fas/templates/user/edit.html:23
 msgid "Full Name"
@@ -1822,7 +1928,7 @@ msgstr "Vlasnik grupe:"
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:71
 msgid "Invite Only:"
-msgstr ""
+msgstr "Pristupanje samo po pozivu: "
 
 #: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
@@ -1994,6 +2100,8 @@ msgstr "Pogledaj grupu"
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
 msgstr ""
+"Pristupanje grupi je samo po pozivu.  Kontaktirajte sponzore grupe za više "
+"informacija."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
@@ -2128,7 +2236,7 @@ msgstr "Ovo je OpenID identitet za %(username)s"
 #: fas/templates/openid/id.html:31
 #, python-format
 msgid "Part of the <a href=\"%(url)s\">Fedora Account System<a>."
-msgstr ""
+msgstr "Dio <a href=\"%(url)s\">Fedora sistema računa<a>."
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
@@ -2320,13 +2428,15 @@ msgstr ""
 
 #: fas/templates/user/new.html:11
 msgid "Username is permanent"
-msgstr ""
+msgstr "Korisničko ime je trajno"
 
 #: fas/templates/user/new.html:11
 msgid ""
 "(i.e. it cannot be changed after registration and will never be deleted from"
 " the system)."
 msgstr ""
+"(tj. nemože se promijeniti nakon registracije i nikad neće biti obrisano sa "
+"sistema)."
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
@@ -2347,7 +2457,7 @@ msgstr "E-pošta:"
 
 #: fas/templates/user/new.html:28
 msgid "Verify Email:"
-msgstr ""
+msgstr "Provjeri adresu e-pošte:"
 
 #: fas/templates/user/new.html:49
 msgid "I am 13 years of age or older"
@@ -2355,7 +2465,7 @@ msgstr "Ja sam 13 godina star ili stariji"
 
 #: fas/templates/user/new.html:55
 msgid "Answer this math equation"
-msgstr ""
+msgstr "Riješi ovu matematičku jednačinu"
 
 #: fas/templates/user/new.html:58
 msgid "Sign up!"
@@ -2368,7 +2478,7 @@ msgstr "Ponovno postavljanje šifre"
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
-msgstr ""
+msgstr "Ponovno postavljanje"
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2437,7 +2547,7 @@ msgstr "Javni SSH ključ:"
 
 #: fas/templates/user/view.html:65
 msgid "(remove ssh key)"
-msgstr ""
+msgstr "(odstrani ssh ključ)"
 
 #: fas/templates/user/view.html:70
 msgid "Comments:"
@@ -2473,7 +2583,7 @@ msgstr "Isključen"
 
 #: fas/templates/user/view.html:91
 msgid "Contributor Agreement:"
-msgstr ""
+msgstr "Ugovor doprinositelja: "
 
 #: fas/templates/user/view.html:95
 msgid "CLA Signed"
@@ -2485,19 +2595,19 @@ msgstr ""
 
 #: fas/templates/user/view.html:99
 msgid "We need contributors to sign the new Contributor Agreement"
-msgstr ""
+msgstr "Trebamo doprinositelje da potpišu novi ugovor doprinositelja"
 
 #: fas/templates/user/view.html:99
 msgid "Complete it now!"
-msgstr ""
+msgstr "Završite ga sad!"
 
 #: fas/templates/user/view.html:103
 msgid "Reject FPCA"
-msgstr ""
+msgstr "Odbij UDFP"
 
 #: fas/templates/user/view.html:107
 msgid "Not Signed"
-msgstr ""
+msgstr "Nije potpisan"
 
 #: fas/templates/user/view.html:107
 msgid "Complete it!"
@@ -2551,14 +2661,14 @@ msgstr ""
 
 #: fas/tgcaptcha2/validator.py:14
 msgid "Incorrect value."
-msgstr ""
+msgstr "Nevažeća vrijednost."
 
 #: fas/tgcaptcha2/validator.py:15
 msgid "Too much time elapsed. Please try again."
-msgstr ""
+msgstr "Previše je vremena prošlo. Molimo pokušajte ponovno."
 
 #: fas/tgcaptcha2/widgets.py:39
 msgid "obfuscated letters"
-msgstr ""
+msgstr "nejasna slova"
 
 
