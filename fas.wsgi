@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import __main__
-if not hasattr(__main__, '_requires__'):
+if not hasattr(__main__, '__requires__'):
     __main__.__requires__ = []
 __main__.__requires__.append('SQLAlchemy >= 0.5, <= 0.6')
 __main__.__requires__.append('TurboGears[future]')
