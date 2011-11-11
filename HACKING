@@ -96,7 +96,7 @@ HACKING
 
 Thank you for hacking on FAS! There are other pieces you can configure such as setting up Apache + mod_wsgi to serve FAS, adjusting settings, testing integration with other components and etc. Please read the INSTALL file for more information on these options.
 
-NOTE: Do we follow Python (PEP-8) style guidelines?
+NOTE: We strive to follow Python (PEP-8) style guidelines.
 
 ---------------
 ENABLING OPENID
