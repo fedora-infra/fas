@@ -1,0 +1,3 @@
+FIX --> need to address the nullable column in 002_Add_people_privacy_column.py:
+
+Add the column without NOT NULL so all rows get a NULL value, UPDATE the column to set a value for all rows, then add the NOT NULL property to the column. This works for all column types.
