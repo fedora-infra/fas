@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2011-11-09 09:28-0800\n"
-"PO-Revision-Date: 2011-11-09 18:56+0000\n"
-"Last-Translator: raven <piotrdrag@gmail.com>\n"
+"POT-Creation-Date: 2011-11-17 20:55-0800\n"
+"PO-Revision-Date: 2011-11-18 04:57+0000\n"
+"Last-Translator: toshio <a.badger@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/fedora/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,28 +198,28 @@ msgstr "Nie można zapisać szczegółów grupy."
 msgid "The group details have been saved."
 msgstr "Zapisano szczegóły grupy."
 
-#: fas/group.py:365
+#: fas/group.py:368
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Nie odnaleziono grup pasujących do \"%s\""
 
-#: fas/group.py:390 fas/group.py:412
+#: fas/group.py:393 fas/group.py:415
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "Użytkownik %(user)s nie może wysłać aplikacji do grupy %(group)s."
 
-#: fas/group.py:420
+#: fas/group.py:423
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr ""
 "Użytkownik %(user)s nie może wysłać aplikacji do grupy %(group)s: %(error)s"
 
-#: fas/group.py:432
+#: fas/group.py:435
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "Wymagany jest sponsor Fedory \"%(group)s\" dla użytkownika %(user)s"
 
-#: fas/group.py:434
+#: fas/group.py:437
 #, python-format
 msgid ""
 "\n"
@@ -234,12 +234,12 @@ msgstr ""
 "\n"
 "Proszę przejść do %(url)s, aby wykonać działanie.  \n"
 
-#: fas/group.py:445
+#: fas/group.py:448
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Aplikacja do grupy \"%(group)s\""
 
-#: fas/group.py:447
+#: fas/group.py:450
 #, python-format
 msgid ""
 "\n"
@@ -252,28 +252,28 @@ msgstr ""
 "\n"
 "%(joinmsg)s\n"
 
-#: fas/group.py:461
+#: fas/group.py:464
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "Użytkownik %(user)s wysłał aplikację do grupy %(group)s."
 
-#: fas/group.py:478
+#: fas/group.py:481
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Nie można sponsorować \"%s\""
 
-#: fas/group.py:485
+#: fas/group.py:488
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr ""
 "Nie można sponsorować użytkownika %(user)s w grupie %(group)s: %(error)s"
 
-#: fas/group.py:489
+#: fas/group.py:492
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "Członkostwo Fedory \"%s\" zostało zasponsorowane"
 
-#: fas/group.py:490
+#: fas/group.py:493
 #, python-format
 msgid ""
 "\n"
@@ -287,27 +287,27 @@ msgstr ""
 "powinna zostać odzwierciedlona w aliasach e-mail i repozytorium git w\n"
 "ciągu godziny.\n"
 
-#: fas/group.py:501
+#: fas/group.py:504
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "Użytkownik \"%s\" został sponsorowany."
 
-#: fas/group.py:518
+#: fas/group.py:521
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Nie można usunąć użytkownika \"%(user)s\" z grupy \"%(group)s\"."
 
-#: fas/group.py:526
+#: fas/group.py:529
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "Nie można usunąć użytkownika %(user)s z grupy %(group)s: %(error)s"
 
-#: fas/group.py:530
+#: fas/group.py:533
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "Członkostwo Fedory \"%s\" zostało usunięte"
 
-#: fas/group.py:531
+#: fas/group.py:534
 #, python-format
 msgid ""
 "\n"
@@ -321,28 +321,28 @@ msgstr ""
 "Systemu kont Fedory. Ta zmiana jest uwzględniona natychmiast dla nowych\n"
 "działań, i powinna zostać odzwierciedlona w aliasach e-mail w ciągu godziny.\n"
 
-#: fas/group.py:543
+#: fas/group.py:546
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "Użytkownik %(name)s został usunięty z grupy %(group)s"
 
-#: fas/group.py:560
+#: fas/group.py:563
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Nie można awansować użytkownika \"%s\""
 
-#: fas/group.py:567
+#: fas/group.py:570
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr ""
 "Nie można awansować użytkownika %(name)s w grupie %(group)s: %(error)s"
 
-#: fas/group.py:571
+#: fas/group.py:574
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "Członkostwo Fedory \"%s\" zostało awansowane"
 
-#: fas/group.py:577
+#: fas/group.py:580
 #, python-format
 msgid ""
 "\n"
@@ -357,28 +357,28 @@ msgstr ""
 "natychmiast dla nowych działań, i powinna zostać odzwierciedlona w\n"
 "aliasach e-mail w ciągu godziny.\n"
 
-#: fas/group.py:589
+#: fas/group.py:592
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "Użytkownik %s został awansowany."
 
-#: fas/group.py:605
+#: fas/group.py:608
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Nie można zdegradować użytkownika \"%s\""
 
-#: fas/group.py:612
+#: fas/group.py:615
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr ""
 "Nie można zdegradować użytkownika %(name)s w grupie %(group)s: %(error)s"
 
-#: fas/group.py:616
+#: fas/group.py:619
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "Członkostwo Fedory \"%s\" zostało zdegradowane"
 
-#: fas/group.py:621
+#: fas/group.py:624
 #, python-format
 msgid ""
 "\n"
@@ -393,16 +393,16 @@ msgstr ""
 "natychmiast dla nowych działań, i powinna zostać odzwierciedlona w aliasach\n"
 "e-mail w ciągu godziny.\n"
 
-#: fas/group.py:633
+#: fas/group.py:636
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "Użytkownik %s został zdegradowany."
 
-#: fas/group.py:708
+#: fas/group.py:711
 msgid "Come join The Fedora Project!"
 msgstr "Przyłącz się do Projektu Fedora!"
 
-#: fas/group.py:709
+#: fas/group.py:712
 #, python-format
 msgid ""
 "\n"
@@ -439,12 +439,12 @@ msgstr ""
 "\n"
 "Fedora i FOSS zmieniają świat - zostań częścią nas!"
 
-#: fas/group.py:729
+#: fas/group.py:732
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Wysłano wiadomość do: %s"
 
-#: fas/group.py:732
+#: fas/group.py:735
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Użytkownik nie jest w grupie \"%s\"."
@@ -1813,16 +1813,12 @@ msgstr "Kontakt"
 msgid "Legal & Privacy"
 msgstr "Kwestie prawne i polityka prywatności"
 
-#: fas/templates/master.html:89
-msgid "Log Out"
-msgstr "Wyloguj się"
-
-#: fas/templates/master.html:92
+#: fas/templates/master.html:91
 #, python-format
 msgid "FAS version %s"
 msgstr "FAS wersja %s"
 
-#: fas/templates/master.html:95
+#: fas/templates/master.html:94
 #, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
@@ -1831,7 +1827,7 @@ msgstr ""
 "© 2011 Red Hat, Inc. Prosimy wysyłać wszystkie komentarze lub poprawki do <a"
 " href=\"mailto:%(webmaster)s\">zespołu stron WWW</a> (w języku angielskim)."
 
-#: fas/templates/master.html:98
+#: fas/templates/master.html:97
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
