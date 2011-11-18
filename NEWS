@@ -29,3 +29,5 @@ NEWS
 * Fix for locale setting
 * Fix when calling selinux functions in fasClient
 * Split the README into README, HACKING and INSTALL files. (Adam M. Dutko)
+* Add a parameter to /group/list to allow returning the group information
+  without members. (Adam M. Dutko)
