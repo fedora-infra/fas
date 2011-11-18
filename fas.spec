@@ -72,10 +72,10 @@ Additional scripts that work as clients to the accounts system.
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 
-%{__install} -m 0755 scripts/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
+%{__mv} %{buildroot}%{_bindir}/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
 %{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
 
-%{__install} -m 0755 scripts/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
+%{__mv} %{buildroot}%{_bindir}/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
 %{__install} -m 0600 scripts/account-expiry.cfg %{buildroot}%{_sysconfdir}/
 
 cp -pr updates/ %{buildroot}%{_datadir}/fas
