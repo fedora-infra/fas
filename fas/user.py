@@ -105,14 +105,14 @@ class UserCreate(validators.Schema):
 
 class UserSetPassword(validators.Schema):
     ''' Validate new and old passwords '''
-    currentpassword = validators.String
-    password = PasswordStrength()
-    passwordcheck = validators.UnicodeString()
+    currentpassword = validators.UnicodeString(not_empty=True)
+    password = PasswordStrength(not_empty=True)
+    passwordcheck = validators.UnicodeString(not_empty=True)
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 class UserResetPassword(validators.Schema):
-    password = PasswordStrength()
-    passwordcheck = validators.UnicodeString()
+    password = PasswordStrength(not_empty=True)
+    passwordcheck = validators.UnicodeString(not_empty=True)
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
 def generate_password(password=None, length=16):
