@@ -95,7 +95,18 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %defattr(-,root,root,-)
 %doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
-%{_datadir}/fas/
+# Bad Toshio.  Next release aims to fix this by making the location ofthe cert
+# files  configurable at build time
+%config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
+%config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
+%dir %{_datadir}/fas/
+%{_datadir}/fas/updates/
+%dir %{_datadir}/fas/static/
+%{_datadir}/fas/static/css/
+%{_datadir}/fas/static/images/
+%{_datadir}/fas/static/js/
+%{_datadir}/fas/static/theme/
+%{_datadir}/fas/static/robots.txt
 %{_sbindir}/start-fas
 %{_sbindir}/fas.wsgi
 %{_sbindir}/export-bugzilla
@@ -113,6 +124,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %changelog
 * Thu Nov 17 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9-1
 - FAS final release.
+- Mark the cert files as config
 
 * Thu Oct 27 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8.92-1
 - Going to to daily new rpms until release so translators can see their work.
