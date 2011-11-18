@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.9
+Version:        0.8.9.1
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -122,6 +122,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Fri Nov 18 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9.1-1
+- Important fix: the new strength checking validator introduced in 0.8.8.90 (or
+  hotfixes before that) was allowing users to set empty passwords.
+
 * Thu Nov 17 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9-1
 - FAS final release.
 - Mark the cert files as config

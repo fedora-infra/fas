@@ -9,7 +9,17 @@ NEWS
 -------
 0.8.9.1
 -------
-* The new password strength checking code was letting users set empty passwords
+* **Important fix** The new password strength checking code was letting users
+  set empty passwords.  This release fixes it.
+
+.. warning::
+
+    The 0.8.9 release includes a validator for password strength checking.
+    This validator was not run if the user did not enter a password.  This
+    allowed users to enter blank passwords.  If you ran the password strength
+    checking code either from the brief time when the 0.8.9 release was
+    available or from snapshots of the code, you should check that none of your
+    users set empty passwords.
 
 -----
 0.8.9
