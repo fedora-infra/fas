@@ -98,7 +98,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 # Bad Toshio.  Next release aims to fix this by making the location ofthe cert
 # files  configurable at build time
 %config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
-%config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
+%config(noreplace) %{_datadir}/fas/static/fedora-upload-ca.cert
 %dir %{_datadir}/fas/
 %{_datadir}/fas/updates/
 %dir %{_datadir}/fas/static/
