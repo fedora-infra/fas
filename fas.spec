@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.8.92
+Version:        0.8.9.1
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -72,10 +72,10 @@ Additional scripts that work as clients to the accounts system.
 %{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 
-%{__install} -m 0755 scripts/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
+%{__mv} %{buildroot}%{_bindir}/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
 %{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
 
-%{__install} -m 0755 scripts/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
+%{__mv} %{buildroot}%{_bindir}/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
 %{__install} -m 0600 scripts/account-expiry.cfg %{buildroot}%{_sysconfdir}/
 
 cp -pr updates/ %{buildroot}%{_datadir}/fas
@@ -95,7 +95,18 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %defattr(-,root,root,-)
 %doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
-%{_datadir}/fas/
+# Bad Toshio.  Next release aims to fix this by making the location ofthe cert
+# files  configurable at build time
+%config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
+%config(noreplace) %{_datadir}/fas/static/fedora-upload-ca.cert
+%dir %{_datadir}/fas/
+%{_datadir}/fas/updates/
+%dir %{_datadir}/fas/static/
+%{_datadir}/fas/static/css/
+%{_datadir}/fas/static/images/
+%{_datadir}/fas/static/js/
+%{_datadir}/fas/static/theme/
+%{_datadir}/fas/static/robots.txt
 %{_sbindir}/start-fas
 %{_sbindir}/fas.wsgi
 %{_sbindir}/export-bugzilla
@@ -111,6 +122,14 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Fri Nov 18 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9.1-1
+- Important fix: the new strength checking validator introduced in 0.8.8.90 (or
+  hotfixes before that) was allowing users to set empty passwords.
+
+* Thu Nov 17 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9-1
+- FAS final release.
+- Mark the cert files as config
+
 * Thu Oct 27 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.8.92-1
 - Going to to daily new rpms until release so translators can see their work.
 

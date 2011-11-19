@@ -171,7 +171,6 @@ setup(
     ],
     scripts = [
         'client/fasClient',
-        'client/fasClient.old',
         'client/restricted-shell',
         'scripts/account-expiry.py',
         'scripts/export-bugzilla.py',

@@ -342,7 +342,7 @@ class Group(controllers.Controller):
             as_format="plain", accept_format="text/plain",
             format="text", content_type='text/plain; charset=utf-8')
     @expose(template="fas.templates.group.list", allow_json=True)
-    def list(self, search='*'):
+    def list(self, search='*', with_members=True):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
 
@@ -351,13 +351,16 @@ class Group(controllers.Controller):
         re_search = re.sub(r'\*', r'%', search).lower()
         results = Groups.query.filter(Groups.name.like(re_search)).order_by('name').all()
         if self.jsonRequest():
-            membersql = sqlalchemy.select([PersonRoles.person_id, PersonRoles.group_id, PersonRoles.role_type], PersonRoles.role_status=='approved').order_by(PersonRoles.group_id)
-            members = membersql.execute()
-            for member in members:
-                try:
-                    memberships[member[1]].append({'person_id': member[0], 'role_type': member[2]})
-                except KeyError:
-                    memberships[member[1]]=[{'person_id': member[0], 'role_type': member[2]}]
+            if with_members:
+                membersql = sqlalchemy.select([PersonRoles.person_id, PersonRoles.group_id, PersonRoles.role_type], PersonRoles.role_status=='approved').order_by(PersonRoles.group_id)
+                members = membersql.execute()
+                for member in members:
+                    try:
+                        memberships[member[1]].append({'person_id': member[0], 'role_type': member[2]})
+                    except KeyError:
+                        memberships[member[1]]=[{'person_id': member[0], 'role_type': member[2]}]
+            else:
+                memberships = []
         for group in results:
             if can_view_group(person, group):
                 groups.append(group)

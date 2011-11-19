@@ -3,13 +3,27 @@ NEWS
 ====
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
-:Date: 27 Oct 2011
-:Version: 0.8.x
+:Date: 18 Nov 2011
+:Version: 0.8.9.1
 
+-------
+0.8.9.1
+-------
+* **Important fix** The new password strength checking code was letting users
+  set empty passwords.  This release fixes it.
 
------------------------
-0.8.9 (not yet release)
------------------------
+.. warning::
+
+    The 0.8.9 release includes a validator for password strength checking.
+    This validator was not run if the user did not enter a password.  This
+    allowed users to enter blank passwords.  If you ran the password strength
+    checking code either from the brief time when the 0.8.9 release was
+    available or from snapshots of the code, you should check that none of your
+    users set empty passwords.
+
+-----
+0.8.9
+-----
 * Add password strength checking
 * Add a forgot password link to the front page
 * New, easier to use captcha!
@@ -29,3 +43,5 @@ NEWS
 * Fix for locale setting
 * Fix when calling selinux functions in fasClient
 * Split the README into README, HACKING and INSTALL files. (Adam M. Dutko)
+* Add a parameter to /group/list to allow returning the group information
+  without members. (Adam M. Dutko)
