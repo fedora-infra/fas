@@ -74,8 +74,12 @@
         - -->
         <py:if test="personal or admin">
           <dt>${_('Password:')}</dt>
-          <dd><span class="approved">${_('Valid')}</span> <a href="${tg.url('/user/changepass')}">(change)</a></dd>
-          </py:if>
+          <dd>
+            <span class="approved" py:if="person.password not in ('!!', '*', '!')">${_('Valid')}</span>
+            <span class="unapproved" py:if="person.password in ('!!', '*', '!')">${_('Invalid')}</span>
+            <a href="${tg.url('/user/changepass')}">(change)</a>
+          </dd>
+        </py:if>
         <py:if test="person.status">
           <dt>${_('Account Status:')}</dt>
           <dd>

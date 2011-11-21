@@ -6,6 +6,13 @@ NEWS
 :Date: 18 Nov 2011
 :Version: 0.8.9.1
 
+-------------------
+0.8.10 (unreleased)
+-------------------
+* Update user template to show "Invalid" if a password field is '!!'
+  (which means that an administrator has removed the password otherwise
+  it would be a password hash).
+
 -------
 0.8.9.1
 -------
