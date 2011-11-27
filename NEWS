@@ -12,6 +12,8 @@ NEWS
 * Update user template to show "Invalid" if a password field is '!!'
   (which means that an administrator has removed the password otherwise
   it would be a password hash).
+* Update home template so that resetpass link works whether or not the URL of
+  the home page had a trailing slash.
 
 -------
 0.8.9.1
