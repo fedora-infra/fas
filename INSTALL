@@ -35,6 +35,9 @@ As a privileged user on a Fedora system run the following:
   su - postgres
   service postgresql initdb
 
+  NOTE: Please read the HACKING file for exceptions to this step for
+        newer versions of Fedora with systemd.
+
 As a privileged user on other systems such as RHEL run the following:
   
   su - postgres
@@ -44,6 +47,9 @@ Step Three: Adjust Postgresql Connection Settings
 =================================================
 
 As a privileged user on a Fedora system modify the pg_hba.conf file:
+
+  NOTE: Please read the HACKING file for exceptions to this step for
+        newer versions of Fedora.
 
   vi /var/lib/pgsql/data/pg_hba.conf
 
@@ -71,6 +77,10 @@ Step Four: Start Postgresql
 As a privileged user on a Fedora system run the following:
 
   service postgresql start
+
+  OR
+
+  sudo systemctl start postgresql.service
 
 As a privileged user on other systems such as RHEL run the following:
   

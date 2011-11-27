@@ -20,8 +20,37 @@ Add specific directions for each Fedora release if there any and finish this fil
 All Releases
 ============
 
+Fedora 16 Caveats
+=================
+
+----------
+PostgreSQL
+----------
+On F16 you'll need to initialize the PostgreSQL database as the user postgres and 
+not rely on the sysvinit script or service wrapper to do it for you. For example,
+
+sudo su - postgres
+initdb
+exit
+sudo systemctl start postgresql.service
+
+On F16 be aware the pg_hba.conf file options are 'ident' and not 'ident sameuser'.
+
+
 Fedora 15 Caveats
 =================
+
+----------
+PostgreSQL
+----------
+On F15 you'll need to initialize the PostgreSQL database as the user postgres and 
+not rely on the sysvinit script or service wrapper to do it for you. For example,
+
+sudo su - postgres
+initdb
+exit
+sudo systemctl start postgresql.service
+
 
 Fedora 14 Caveats
 =================
