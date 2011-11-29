@@ -984,6 +984,7 @@ forward to working with you!
             person.password = newpass['hash']
             person.password_changed = datetime.now(pytz.utc)
             Log(author_id=person.id, description='Password changed')
+            session.flush()
         # TODO: Make this catch something specific.
         except:
             Log(author_id=person.id, description='Password change failed!')
@@ -1196,7 +1197,7 @@ To change your password (or to cancel the request), please visit
                     person.password and
                     self.crypted_password_re.match(person.password) and
                     crypt.crypt(password.encode('utf-8'), person.password)
-                        == person.old_password):
+                        == person.password):
                 turbogears.flash(_('Your password can not be the same ' + \
                         'as your old password.'))
                 return dict(person=person, token=token)

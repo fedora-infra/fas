@@ -3,17 +3,20 @@ NEWS
 ====
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
-:Date: 18 Nov 2011
-:Version: 0.8.9.1
+:Date: 29 Nov 2011
+:Version: 0.8.10
 
--------------------
-0.8.10 (unreleased)
--------------------
+------
+0.8.10
+------
 * Update user template to show "Invalid" if a password field is '!!'
   (which means that an administrator has removed the password otherwise
   it would be a password hash).
 * Update home template so that resetpass link works whether or not the URL of
   the home page had a trailing slash.
+* Bugfix: When a user reset their password via the forgot password page, the
+  check for whether the user was changing to the current password was broken.
+  Fixed so that the current password is not allowed as the new password.
 
 -------
 0.8.9.1
