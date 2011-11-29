@@ -34,7 +34,7 @@ from sqlalchemy import Table, Column, ForeignKey, Sequence
 from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy import and_, select, literal_column
 from sqlalchemy.orm import relation
-from sqlalchemy.exceptions import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
 
 # A few sqlalchemy tricks:
 # Allow viewing foreign key relations as a dictionary

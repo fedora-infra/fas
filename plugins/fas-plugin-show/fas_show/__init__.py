@@ -31,7 +31,7 @@ import re
 
 from sqlalchemy import Table, Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import relation, backref
-from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from genshi.template.plugin import TextTemplateEnginePlugin
 

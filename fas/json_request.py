@@ -23,7 +23,7 @@
 import turbogears
 from turbogears import controllers, expose, identity, config
 
-from sqlalchemy.exceptions import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
 import sqlalchemy
 from sqlalchemy import select
 

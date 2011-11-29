@@ -58,7 +58,7 @@ from datetime import datetime
 import time
 
 from sqlalchemy import func
-from sqlalchemy.exceptions import IntegrityError, InvalidRequestError
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select
 
 from fedora.tg.utils import request_format
