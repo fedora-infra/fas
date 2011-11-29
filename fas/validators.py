@@ -36,7 +36,7 @@
 import re
 
 from turbogears import validators, config
-from sqlalchemy.exceptions import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
 from fas.util import available_languages
 
 from fas.model import People, Groups

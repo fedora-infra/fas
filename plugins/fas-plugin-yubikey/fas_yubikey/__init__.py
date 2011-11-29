@@ -3,7 +3,7 @@ import turbogears
 from turbogears import controllers, expose, paginate, identity, redirect, widgets, validate, validators, error_handler
 from turbogears.database import metadata, mapper, get_engine, session
 from sqlalchemy import Table, Column, Integer, String, MetaData, Boolean, create_engine
-from sqlalchemy.exceptions import IntegrityError
+from sqlalchemy.exc import IntegrityError
 
 import cherrypy
 import turbomail

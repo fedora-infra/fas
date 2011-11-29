@@ -33,7 +33,7 @@ except ImportError:
     # TG-1.0.x
     from turbogears.identity import IdentityWrapper
 
-from sqlalchemy.exceptions import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
 
 from fas.model import GroupsTable, PersonRoles
 

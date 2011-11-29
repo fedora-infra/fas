@@ -25,7 +25,7 @@ else:
     update_config(configfile="prod.cfg",modulename="fas.config")
 
 from sqlalchemy import *
-from sqlalchemy.exceptions import *
+from sqlalchemy.exc import *
 from fas.model import *
 
 
