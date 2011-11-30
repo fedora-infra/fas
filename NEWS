@@ -6,6 +6,16 @@ NEWS
 :Date: 29 Nov 2011
 :Version: 0.8.10
 
+--------
+0.8.10.0 (not released - proper version???)
+--------
+* JSON API: If the "/fpca/reject" method encounters an error talking to the 
+  database the error is now categorized as DBAPIError instead of
+  sqlalchemy.SQLError. python-fedora should not be calling this method. 
+  (Adam M. Dutko) 
+* fas/configs.py: set() now returns DBAPIError instead of SQLError on database
+  save error. (Adam M. Dutko)
+
 ------
 0.8.10
 ------
@@ -14,12 +24,6 @@ NEWS
   it would be a password hash).
 * Update home template so that resetpass link works whether or not the URL of
   the home page had a trailing slash.
-* JSON API: If the "/fpca/reject" method encounters an error talking to the 
-  database the error is now categorized as DBAPIError instead of
-  sqlalchemy.SQLError. python-fedora should not be calling this method. 
-  (Adam M. Dutko) 
-* fas/configs.py: set() now returns DBAPIError instead of SQLError on database
-  save error. (Adam M. Dutko)
 * Bugfix: When a user reset their password via the forgot password page, the
   check for whether the user was changing to the current password was broken.
   Fixed so that the current password is not allowed as the new password.
