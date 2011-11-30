@@ -240,6 +240,11 @@ class PasswordStrength(validators.UnicodeString):
                 u'correcthorsebatterystaple', u'tr0ub4dor&3'):
             raise validators.Invalid(self.message('xkcd', state), value, state)
 
+        diversity = set(value)
+        if len(diversity) < 2:
+            raise validators.Invalid(self.message('strength', state),
+                    value, state)
+
         length = len(value)
         if length >= 20:
             return
