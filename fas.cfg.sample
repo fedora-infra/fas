@@ -21,7 +21,7 @@ theme = 'fas'
 show_postal_address = 0
 
 # Language support
-available_languages = ['en', 'bg', 'bs', 'ca', 'cs', 'de', 'el', 'es', 'fa', 'fr', 'hi', 'hu', 'id', 'is', 'it', 'ja', 'nl', 'pa', 'pl', 'pt_BR', 'pt', 'ru', 'sq', 'sr', 'sv', 'te', 'uk', 'zh_CN', 'zh_TW']
+available_languages = ['en', 'en_GB', 'bg', 'bs', 'ca', 'cs', 'de', 'el', 'es', 'fa', 'fr', 'hi', 'hu', 'id', 'is', 'it', 'ja', 'nl', 'pa', 'pl', 'pt_BR', 'pt', 'ru', 'sq', 'sr', 'sv', 'te', 'uk', 'vi', 'zh_CN', 'zh_TW']
 
 default_language = 'en'
 

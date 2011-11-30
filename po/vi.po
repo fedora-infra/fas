@@ -3,26 +3,25 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Yuri Chornoivan <yurchor@ukr.net>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2011-11-29 14:09-0800\n"
-"PO-Revision-Date: 2011-11-29 22:12+0000\n"
-"Last-Translator: toshio <a.badger@gmail.com>\n"
-"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"PO-Revision-Date: 2011-07-29 19:53+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese (http://www.transifex.net/projects/p/fedora/team/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr "Вступ до цієї групи неможливий до вступу до групи %s"
+msgstr ""
 
 #: fas/configs.py:126
 #, python-format
