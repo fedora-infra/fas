@@ -14,6 +14,12 @@ NEWS
   it would be a password hash).
 * Update home template so that resetpass link works whether or not the URL of
   the home page had a trailing slash.
+* JSON API: If the "/fpca/reject" method encounters an error talking to the 
+  database the error is now categorized as DBAPIError instead of
+  sqlalchemy.SQLError. python-fedora should not be calling this method. 
+  (Adam M. Dutko) 
+* fas/configs.py: set() now returns DBAPIError instead of SQLError on database
+  save error. (Adam M. Dutko)
 
 -------
 0.8.9.1

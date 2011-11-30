@@ -28,7 +28,7 @@ template instead of using the generic interface.
 '''
 
 from sqlalchemy.sql import and_
-from sqlalchemy.exceptions import InvalidRequestError, SQLError
+from sqlalchemy.exc import InvalidRequestError, DBAPIError
 
 from turbogears import validate, validators, controllers, expose, flash, \
         error_handler, identity, redirect
@@ -187,9 +187,9 @@ class Config(controllers.Controller):
             # ScopedSession really does have a flush() method
             # pylint: disable-msg=E1101
             session.flush()
-        except SQLError, error:
+        except DBAPIError, error:
             flash(_('Error saving the config to the database: %s' % (error)))
-            return dict(exc='SQLError')
+            return dict(exc='DBAPIError')
 
         # On success return an empty dict
         flash(_('Config value successfully updated'))

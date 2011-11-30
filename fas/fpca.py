@@ -27,7 +27,7 @@ from turbogears.database import session
 
 import cherrypy
 
-from sqlalchemy.exceptions import SQLError
+from sqlalchemy.exc import DBAPIError
 
 from datetime import datetime
 import GeoIP
@@ -170,11 +170,11 @@ class FPCA(controllers.Controller):
                     role.role_status = 'unapproved'
             try:
                 session.flush()
-            except SQLError, error:
+            except DBAPIError, error:
                 turbogears.flash(_('Error removing cla and dependent groups' \
                         ' for %(person)s\n Error was: %(error)s') %
                         {'person': person_name, 'error': str(error)})
-                exc = 'sqlalchemy.SQLError'
+                exc = 'DBAPIError'
 
         if not exc:
             # Send a message that the ICLA has been revoked
