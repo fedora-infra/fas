@@ -20,8 +20,6 @@
     <h2>${_('Edit Account (%s)') % target.username}</h2>
     <div class="field">
       <label>${_('Password:')}</label>
-      <span class="approved" py:if="target.password not in ('!!', '*', '!')">${_('Valid')}</span>
-      <span class="unapproved" py:if="target.password in ('!!', '*', '!')">${_('Invalid')}</span>
       <a href="${tg.url('/user/changepass')}">(change)</a>
     </div>
     <form action="${tg.url('/user/save/%s' % target.username)}" method="post" enctype="multipart/form-data">
