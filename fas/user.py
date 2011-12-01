@@ -1024,8 +1024,8 @@ forward to working with you!
         except InvalidRequestError:
             turbogears.flash(_('Username email combo does not exist!'))
             turbogears.redirect('/user/resetpass')
-
-        if email != person.email:
+        
+        if email.lower() != person.email.lower():
             turbogears.flash(_("username + email combo unknown."))
             return dict()
         if person.status in ('expired', 'admin_disabled'):
