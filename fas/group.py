@@ -321,7 +321,8 @@ class Group(controllers.Controller):
                 group.url = url
                 group.mailing_list = mailing_list
                 group.mailing_list_url = mailing_list_url
-                group.invite_only = invite_only
+                if invite_only: 
+		    group.invite_only = True
                 group.irc_channel = irc_channel
                 group.irc_network = irc_network
                 group.joinmsg = joinmsg
