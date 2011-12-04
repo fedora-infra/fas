@@ -247,10 +247,10 @@ class Group(controllers.Controller):
             group.owner_id = person_owner.id
             group.group_type = group_type
             group.needs_sponsor = bool(needs_sponsor)
-	    if invite_only:
-		group.invite_only = True
-	    else:
-		group.invite_only = False
+            if invite_only:
+                group.invite_only = True
+            else:
+                group.invite_only = False
             group.user_can_remove = bool(user_can_remove)
             if prerequisite:
                 prerequisite = Groups.by_name(prerequisite)
@@ -326,9 +326,9 @@ class Group(controllers.Controller):
                 group.mailing_list = mailing_list
                 group.mailing_list_url = mailing_list_url
                 if invite_only: 
-		    group.invite_only = True
-		else:
-		    group.invite_only = False
+                    group.invite_only = True
+                else:
+                    group.invite_only = False
                 group.irc_channel = irc_channel
                 group.irc_network = irc_network
                 group.joinmsg = joinmsg
