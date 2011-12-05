@@ -6,15 +6,17 @@ NEWS
 :Date: 29 Nov 2011
 :Version: 0.8.10
 
---------
-0.8.10.0 (not released - proper version???)
---------
+------
+0.8.11 (unreleased)
+------
 * JSON API: If the "/fpca/reject" method encounters an error talking to the 
   database the error is now categorized as DBAPIError instead of
   sqlalchemy.SQLError. python-fedora should not be calling this method. 
   (Adam M. Dutko) 
 * fas/configs.py: set() now returns DBAPIError instead of SQLError on database
   save error. (Adam M. Dutko)
+* Implement the audio captcha, gives access to an audio file 'speaking' the
+  content of the captcha. (Pierre-Yves Chibon)
 
 ------
 0.8.10
