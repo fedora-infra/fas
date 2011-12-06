@@ -76,5 +76,5 @@ class Help(controllers.Controller):
         except KeyError:
             return dict(title=_('Error'), helpItem=[_('Error'), _('<p>We could not find that help item</p>')])
         # Transform to unicode as that's what genshi expects, not lazystring
-        helpitem = [unicode(s) for s in helpItem]
+        helpItem = [unicode(s) for s in helpItem]
         return dict(help=helpItem)
