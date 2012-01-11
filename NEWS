@@ -9,6 +9,7 @@ NEWS
 ------
 0.8.11 (unreleased)
 ------
+* Added feature to allow for email address or username at login (Ian Cole)
 * JSON API: If the "/fpca/reject" method encounters an error talking to the 
   database the error is now categorized as DBAPIError instead of
   sqlalchemy.SQLError. python-fedora should not be calling this method. 

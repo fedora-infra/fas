@@ -354,7 +354,14 @@ class SaFasIdentityProvider(object):
                 cherrypy.request.fas_provided_username = user_name
                 using_ssl = True
 
-        user = user_class.query.filter_by(username=user_name).first()
+        email_domain = '@' + config.get('email_host', '')
+        if email_domain != '@' and user_name.endswith(email_domain):
+            user_name = user_name[:-len(email_domain)]
+        
+        if '@' in user_name:
+	    user = user_class.query.filter_by(email=user_name).first()	
+	else:
+	    user = user_class.query.filter_by(username=user_name).first()
 
         if not user:
             log.warning("No such user: %s", user_name)
