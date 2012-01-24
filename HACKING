@@ -239,21 +239,22 @@ MAKING A RELEASE
 1. Make sure that any feature branches you want have been merged.
 2. Pull in new translations using tx pull -a.  Add any new translations to the
    fas.cfg.sample file.  Commit the changes.
-2. Update the version in fas.spec and fas/release.py.  Commit the changes to
+3. Update the version in fas.spec and fas/release.py.  Commit the changes to
    the master branch.
-3. Push the results to the server.
-4. Make a fresh clone of the repository::
+4. Make sure the NEWS file is up to date
+5. Push the results to the server.
+6. Make a fresh clone of the repository::
       cd /var/tmp
       git clone git://git.fedorahosted.org/git/fas
-5. Make the source tarball in that directory::
+7. Make the source tarball in that directory::
       cd /var/tmp/fas
       python setup.py sdist
-6. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
+8. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
    target for that::
       mv dist/*.tar.gz .
       rpmbuild-md5 -bs --nodeps fas.spec
       koji build --scratch dist-5E-epel-infra fas*.src.rpm
-7. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
+9. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
    infrastructure repository::
       scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
       ssh puppet1
@@ -261,13 +262,13 @@ MAKING A RELEASE
       rpm --addsign *.rpm
       # Move rpms to the epel infrastructure dir
       # createrepo the new repository
-8. tag the release::
+10. tag the release::
       cd [LOCAL GIT REPO]
       git tag [RELEASE VERSION NUMBER]
       git push --tags
-9. Install in staging and test. 
-10. If time allows, read and do the :id:`Getting Translated` section below.
-11. Finally, upgrade the production fas servers.
+11. Install in staging and test. 
+12. If time allows, read and do the :id:`Getting Translated` section below.
+13. Finally, upgrade the production fas servers.
 
 
 Getting Translated
