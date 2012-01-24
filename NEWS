@@ -3,11 +3,11 @@ NEWS
 ====
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
-:Date: 29 Nov 2011
-:Version: 0.8.10
+:Date: 24 Jan 2011
+:Version: 0.8.11
 
 ------
-0.8.11 (unreleased)
+0.8.11
 ------
 * Added feature to allow for email address or username at login (Ian Cole)
 * JSON API: If the "/fpca/reject" method encounters an error talking to the 
