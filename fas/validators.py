@@ -231,7 +231,7 @@ class ValidLanguage(validators.FancyValidator):
 class PasswordStrength(validators.UnicodeString):
     '''Make sure that a password meets our strength requirements'''
 
-    messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, upper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone means to have at least 3 differents characters and to be 20 or more long.'),
+    messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, upper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone need to have at least 3 different characters and be 20 or more characters in length.'),
             'xkcd': _('Malicious hackers read xkcd, you know')}
 
     def validate_python(self, value, state):
