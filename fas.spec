@@ -122,6 +122,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Jan 24 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.11-1
+- New upstream release -- allows email to be used to login, implements an audio
+  captcha, and normalizes some error codes.
+
 * Fri Nov 18 2011 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.9.1-1
 - Important fix: the new strength checking validator introduced in 0.8.8.90 (or
   hotfixes before that) was allowing users to set empty passwords.
