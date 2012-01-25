@@ -32,6 +32,8 @@ Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-webob
 Requires: tulrich-tuffy-fonts
+# For the audio captcha
+Requires: espeak
 
 %description
 The Fedora Account System is a web application that manages the accounts of
