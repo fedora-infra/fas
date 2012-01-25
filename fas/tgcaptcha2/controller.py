@@ -1,21 +1,23 @@
-from turbogears import controllers, expose
-import turbogears as tg
-import cherrypy
-from fas.tgcaptcha2 import model
-import random
-import os
+import base64
 from cStringIO import StringIO
-from Crypto.Cipher import AES
 try:
     from hashlib import sha_constructor
 except ImportError:
     from sha import new as sha_constructor
-
-from subprocess import PIPE, Popen
-
-import base64
-from pkg_resources import iter_entry_points
 import logging
+import os
+import random
+from subprocess import PIPE, Popen
+import tempfile
+
+import cherrypy
+from Crypto.Cipher import AES
+from pkg_resources import iter_entry_points
+from turbogears import controllers, expose
+import turbogears as tg
+
+from fas.tgcaptcha2 import model
+
 log = logging.getLogger("tgcaptcha.controller")
 
 class CaptchaController(controllers.Controller):
@@ -43,7 +45,7 @@ class CaptchaController(controllers.Controller):
         enable = tg.config.get('tgcaptcha.audio', True)
         if enable:
             captcha = self.model_from_payload(captcha)
-            filename = '%s.wav' % (base64.urlsafe_b64encode(os.urandom(30)))
+            fd, filename = tempfile.mkstemp('.wav')
 
             try:
                 cmd = ['espeak', '%s' % captcha.label, '-w', '%s' % filename]
@@ -80,7 +82,7 @@ class CaptchaController(controllers.Controller):
         c = model.Captcha()
         c.plaintext = self.text_generator()
         if isinstance(c.plaintext, tuple):
-             c.label = "%i + %i" %(c.plaintext[0], c.plaintext[1])
+             c.label = "%i + %i =" % (c.plaintext[0], c.plaintext[1])
              c.plaintext = str(c.plaintext[0] + c.plaintext[1])
         s = c.serialize()
         # pad shortfall with multiple Xs
