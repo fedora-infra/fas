@@ -65,7 +65,7 @@
 	  <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
           <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
 	  </dd>
-          <dd py:if="not person.ssh_key">No ssh key provided&nbsp;</dd>
+    <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
         </py:if>
         <py:if test="person.comments">
           <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
@@ -76,7 +76,7 @@
         <py:if test="personal or admin">
           <dt>${_('Password:')}</dt>
           <dd>
-            <a href="${tg.url('/user/changepass')}">(change)</a>
+          <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
           </dd>
         </py:if>
         <py:if test="person.status">
@@ -112,8 +112,8 @@
         </dd>
         <dt>${_('Privacy:')}</dt>
         <dd>
-          <span py:if="person.privacy">Account Information Private</span>
-          <span py:if="not person.privacy">Account Information Public</span>
+        <span py:if="person.privacy">${_('Account Information Private')}</span>
+        <span py:if="not person.privacy">${_('Account Information Public')}</span>
           <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
         </dd>
       </dl>

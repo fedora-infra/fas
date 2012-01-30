@@ -16,11 +16,11 @@
       <dl>
         <dt>${_('Yubikey Enabled')}</dt>
         <dd py:if="configs['enabled'] == '0'">
-          Disabled
+        ${_('Disabled')}
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_enabled')}'});</script>
         </dd>
         <dd py:if="configs['enabled'] == '1'">
-          Enabled
+        ${_('Enabled')}
           &nbsp;<script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_enabled')}'});</script>
         </dd>
       </dl>

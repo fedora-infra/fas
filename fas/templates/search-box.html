@@ -20,7 +20,7 @@
   <div py:def="types(url_fragment, types)">
     <h3>${_('Types')}</h3>
     <ul class="letters">
-      <li py:for="type in types"><a href="${tg.url('%s/%s' % (url_fragment, type))}">${type}</a></li>
+      <li py:for="type in types"><a href="${tg.url('%s/%s' % (url_fragment, type[0]))}">${type[1]}</a></li>
       <li><a href="${tg.url('%s' % url_fragment)}">${_('All')}</a></li>
     </ul>
   </div>

@@ -16,8 +16,8 @@
       <div class="field">
         <label for="yubikey_enabled">${_('Active')}:</label>
         <select name="yubikey_enabled">
-          <option value='0' py:attrs="dict(selected=(configs['enabled']=='0' and 'True' or None))">Disabled&nbsp;</option>
-          <option value='1' py:attrs="dict(selected=(configs['enabled']=='1' and 'True' or None))">Enabled&nbsp;</option>
+          <option value='0' py:attrs="dict(selected=(configs['enabled']=='0' and 'True' or None))">${_('Disabled')}&nbsp;</option>
+          <option value='1' py:attrs="dict(selected=(configs['enabled']=='1' and 'True' or None))">${_('Enabled')}&nbsp;</option>
         </select>
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/yubikey/help/yubikey_enabled')}'});</script>
       </div>

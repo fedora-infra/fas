@@ -28,7 +28,7 @@
     <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}" method="POST">
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
-        <input type="submit" value="${('Apply!')}" />
+        <input type="submit" value="${_('Apply!')}" />
       </div>
     </form>
     <a py:if="group in person.memberships" href="${tg.url('/group/remove/%s/%s' % (group.name, person.username))}">${_('Remove me')}</a>
@@ -39,7 +39,7 @@
     <span py:if='me.fedoraRoleStatus == "approved"'>${form(action=tg.url('modifyGroup'), value=value, method='post')}</span>
     -->
     <h3><a href="${tg.url('/group/view/%s' % group.name)}">${_('Group Details')}</a></h3>
-    ${types('/group/members/%s/%s' % (group.name, search), ['administrator', 'sponsor', 'user'])}
+    ${types('/group/members/%s/%s' % (group.name, search), [('administrator', _('administrator')), ('sponsor', _('sponsor')), ('user', _('user'))])}
     ${search_box('/group/members/%s' % group.name)}
     <h3>${_('Members')}</h3>
     ${member_table(members, group, person)}

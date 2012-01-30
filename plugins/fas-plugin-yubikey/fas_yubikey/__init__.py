@@ -101,7 +101,7 @@ def get_configs(configs_list):
     if 'enabled' not in configs:
         configs['enabled'] = '0'
     if 'prefix' not in configs:
-        configs['prefix'] = 'Not Defined'
+        configs['prefix'] = _('Not Defined')
     return configs
 
 class AuthException(Exception): pass
@@ -348,7 +348,7 @@ this change, please contact admin@fedoraproject.org''' % target)
             sidebar.entryfuncs.remove(self.sidebarentries)
 
     def sidebarentries(self):
-        return [('Yubikey', self.path)]
+        return [(_('Yubikey'), self.path)]
 
 def send_mail(to_addr, subject, text, from_addr=None):
     if from_addr is None:

@@ -30,7 +30,7 @@
     <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}" method="POST">
       <div>
         <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
-        <input type="submit" value="${('Apply!')}" />
+        <input type="submit" value="${_('Apply!')}" />
       </div>
     </form>
     <div py:if="group.invite_only and not group in person.memberships">
@@ -91,7 +91,7 @@
           <form action="${tg.url('/group/application_screen/%s' % group.name)}"
             method="post">
             <input type='text' size='15' name='targetname'/>
-            <input type="submit" value="${('Add')}" />
+            <input type="submit" value="${_('Add')}" />
             <script type="text/javascript">var group_user_add = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_user_add')}'});</script>
           </form>
         </dd>

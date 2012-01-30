@@ -20,7 +20,7 @@
     <h2>${_('Edit Account (%s)') % target.username}</h2>
     <div class="field">
       <label>${_('Password:')}</label>
-      <a href="${tg.url('/user/changepass')}">(change)</a>
+      <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
     </div>
     <form action="${tg.url('/user/save/%s' % target.username)}" method="post" enctype="multipart/form-data">
       <div class="field">
