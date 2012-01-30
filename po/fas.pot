@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-01-24 12:29-0800\n"
+"POT-Creation-Date: 2012-01-30 10:23-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -844,6 +844,22 @@ msgstr ""
 msgid "Loading: %(visitmod)s"
 msgstr ""
 
+#: fas/sidebar.py:23
+msgid "New Group"
+msgstr ""
+
+#: fas/sidebar.py:24
+msgid "User List"
+msgstr ""
+
+#: fas/sidebar.py:26
+msgid "Group List"
+msgstr ""
+
+#: fas/sidebar.py:27
+msgid "Join a Group"
+msgstr ""
+
 #: fas/user.py:80
 msgid "Solve the math problem"
 msgstr ""
@@ -1602,6 +1618,11 @@ msgstr ""
 msgid "Group Rules"
 msgstr ""
 
+#: fas/templates/group/apply.html:24 fas/templates/group/members.html:31
+#: fas/templates/group/view.html:33
+msgid "Apply!"
+msgstr ""
+
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
 msgstr ""
@@ -1703,6 +1724,14 @@ msgstr ""
 msgid "Groups List"
 msgstr ""
 
+#: fas/templates/group/list.html:17
+msgid "Create New Group"
+msgstr ""
+
+#: fas/templates/group/list.html:18
+msgid "Create Group"
+msgstr ""
+
 #: fas/templates/group/list.html:21 fas/templates/user/list.html:10
 #, python-format
 msgid "List (%s)"
@@ -1787,6 +1816,18 @@ msgstr ""
 msgid "Group Details"
 msgstr ""
 
+#: fas/templates/group/members.html:42
+msgid "administrator"
+msgstr ""
+
+#: fas/templates/group/members.html:42
+msgid "sponsor"
+msgstr ""
+
+#: fas/templates/group/members.html:42
+msgid "user"
+msgstr ""
+
 #: fas/templates/group/members.html:44
 msgid "Members"
 msgstr ""
@@ -1867,6 +1908,10 @@ msgstr ""
 
 #: fas/templates/group/view.html:89
 msgid "Add User:"
+msgstr ""
+
+#: fas/templates/group/view.html:94
+msgid "Add"
 msgstr ""
 
 #: fas/templates/group/view.html:107 fas/templates/group/view.html:108
@@ -2036,6 +2081,10 @@ msgstr ""
 
 #: fas/templates/user/edit.html:22 fas/templates/user/view.html:77
 msgid "Password:"
+msgstr ""
+
+#: fas/templates/user/edit.html:23 fas/templates/user/view.html:79
+msgid "(change)"
 msgstr ""
 
 #: fas/templates/user/edit.html:33
@@ -2255,6 +2304,10 @@ msgstr ""
 msgid "(remove ssh key)"
 msgstr ""
 
+#: fas/templates/user/view.html:68
+msgid "No ssh key provided"
+msgstr ""
+
 #: fas/templates/user/view.html:71
 msgid "Comments:"
 msgstr ""
@@ -2313,6 +2366,14 @@ msgstr ""
 
 #: fas/templates/user/view.html:113
 msgid "Privacy:"
+msgstr ""
+
+#: fas/templates/user/view.html:115
+msgid "Account Information Private"
+msgstr ""
+
+#: fas/templates/user/view.html:116
+msgid "Account Information Public"
 msgstr ""
 
 #: fas/templates/user/view.html:121
