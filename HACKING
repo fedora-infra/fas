@@ -286,6 +286,11 @@ release.  Allow 8 to 10 days for this to happen.
    main fas branch -- do such changes on a branch and merge it after the
    release.
 
+.. note:: We'd like to change the process here slightly -- create a test
+    instance of fas and deploy to that instead of staging.  Then make the
+    translators admins of the test instance.  That way they can see all of the
+    changes that they're making.
+
 3) Email trans@lists.fedoraproject.org that you're making a release.  FAS is
    halfway between upstream project and Fedora website so each translation
    team there will update what they have the time to do.  Include the following
