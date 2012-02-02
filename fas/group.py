@@ -729,8 +729,13 @@ into the e-mail aliases within an hour.
         group = Groups.by_name(groupname)
 
         if is_approved(person, group):
-            invite_subject = _('Come join The Fedora Project!')
-            invite_text = _('''
+            ### TODO: Make these translatable.  This will require taking
+            # a parameter to determine which language to send in.  Allow the
+            # user who is sending the invite to select a language since we
+            # figure that they know what the proper language will be.for the
+            # person they are sending to.
+            invite_subject = ('Come join The Fedora Project!')
+            invite_text = ('''
 %(user)s <%(email)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
