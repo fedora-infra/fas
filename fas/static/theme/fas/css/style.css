@@ -401,9 +401,25 @@ a
   color: #3465A4;
 }
 
-.flash
+.flash div.success, .flash div.info
 {
   background: #DEE6B1 url(../images/success.png) 10px 50% no-repeat;
+  border: 1px solid #CCBBAA;
+  padding: 1.5ex 15px 1.5ex 43px;
+  margin: 1ex 0;
+}
+
+.flash div.error
+{
+  background: #DEE6B1 url(../images/error.png) 10px 50% no-repeat;
+  border: 1px solid #CCBBAA;
+  padding: 1.5ex 15px 1.5ex 43px;
+  margin: 1ex 0;
+}
+
+.flash div.warning
+{
+  background: #DEE6B1 url(../images/warning.png) 10px 50% no-repeat;
   border: 1px solid #CCBBAA;
   padding: 1.5ex 15px 1.5ex 43px;
   margin: 1ex 0;

@@ -24,6 +24,12 @@ from fas.util import available_languages
 from random import choice
 import time, string
 
+import fancyflash as ff
+## Set the default timeout for message box display
+ff.set_default_flash_timeout(5)
+## Let FancyFlashWidget be included on every page
+ff.register_flash_widget()
+
 ykksm_db_uri = config.get('ykksm_db')
 ykval_db_uri = config.get('ykval_db')
 
@@ -258,7 +264,7 @@ class YubikeyPlugin(controllers.Controller):
         person = People.by_username(turbogears.identity.current.user_name)
         target = People.by_username(targetname)
         if not can_edit_user(person, target):
-            turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
+            ff.error(_("You do not have permission to edit '%s'") % target.username)
             turbogears.redirect('/yubikey')
             return dict()
 
@@ -290,7 +296,7 @@ this change, please contact admin@fedoraproject.org''' % target)
           otp_verify(uid, otp)
           turbogears.flash(_("Yubikey auth success."))
         except AuthException, error:
-          turbogears.flash(_("Yubikey auth Failed: %s." % error))
+          ff.error(_("Yubikey auth Failed: %s." % error))
 
         turbogears.redirect('/yubikey/')
         return dict()
