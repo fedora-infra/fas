@@ -7,6 +7,7 @@ directory. When the project is installed, easy_install will create a
 proper start script.
 '''
 __requires__='fas'
+__requires__='TurboGears'
 import sys
 from fas.commands import start, ConfigurationError
 
