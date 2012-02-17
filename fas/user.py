@@ -70,7 +70,8 @@ from fas import openssl_fas
 from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
-        NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername
+        NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
+        ValidHumanWithOverride
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -87,8 +88,9 @@ class UserCreate(validators.Schema):
         validators.String(max=32, min=3),
     )
     human_name = validators.All(
-        validators.String(not_empty=True, max=42),
-        validators.Regex(regex='^[^\n:<>]+$'),
+        validators.String(not_empty=True),
+        )
+    human_name_override = validators.All(
         )
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
@@ -101,7 +103,8 @@ class UserCreate(validators.Schema):
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.String(max=512)
     captcha = CaptchaFieldValidator()
-    chained_validators = [ validators.FieldsMatch('email', 'verify_email') ]
+    chained_validators = [ validators.FieldsMatch('email', 'verify_email'),
+                           ValidHumanWithOverride('human_name', 'human_name_override') ]
 
 class UserSetPassword(validators.Schema):
     ''' Validate new and old passwords '''
@@ -795,11 +798,12 @@ If the above information is incorrect, please log in and fix it:
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
     def create(self, username, human_name, email, verify_email, telephone=None,
-               postal_address=None, age_check=False, captcha=None):
+               postal_address=None, age_check=False, captcha=None, human_name_override=False):
         ''' Parse arguments from the UI and make sure everything is in order.
 
             :arg username: requested username
             :arg human_name: full name of new user
+            :arg human_name_override: override check of user's full name
             :arg email: email address of the new user
             :arg verify_email: double check of users email
             :arg telephone: telephone number of new user
