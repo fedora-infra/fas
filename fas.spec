@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.11
+Version:        0.8.12
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -124,6 +124,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Feb 21 2012 Xavier Laminen <laxathom@lxtnow.net> - 0.8.12-1
+- Upstream release.
+- Add heuristics human's name check.
+
 * Tue Jan 24 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.11-1
 - New upstream release -- allows email to be used to login, implements an audio
   captcha, and normalizes some error codes.
