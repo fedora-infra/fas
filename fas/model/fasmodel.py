@@ -144,12 +144,12 @@ class People(SABase):
             'old_password'),
         'public': ('id', 'username', 'human_name', 'gpg_keyid', 'email',
             'comments', 'affiliation', 'certificate_serial', 'creation',
-            'last_seen', 'status', 'status_change', 'locale',
+            'last_seen', 'status', 'status_change', 'locale', 'ircnick',
             'timezone', 'latitude', 'longitude', 'country_code',
             'privacy'),
         'privacy': ('id', 'username', 'email', 'comments',
-            'certificate_serial', 'creation', 'ircnick', 'last_seen',
-            'status', 'status_change', 'privacy'),
+            'certificate_serial', 'creation', 'last_seen', 'status',
+            'status_change', 'privacy'),
         'anonymous': ('id', 'username', 'comments', 'creation', 'privacy'),
         }
 
