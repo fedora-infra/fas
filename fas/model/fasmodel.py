@@ -144,7 +144,7 @@ class People(SABase):
             'old_password'),
         'public': ('id', 'username', 'human_name', 'gpg_keyid', 'email',
             'comments', 'affiliation', 'certificate_serial', 'creation',
-            'ircnick', 'last_seen', 'status', 'status_change', 'locale',
+            'last_seen', 'status', 'status_change', 'locale',
             'timezone', 'latitude', 'longitude', 'country_code',
             'privacy'),
         'privacy': ('id', 'username', 'email', 'comments',
