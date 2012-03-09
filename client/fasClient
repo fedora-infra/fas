@@ -589,8 +589,10 @@ class MakeShellAccounts(AccountSystem):
                key = self.users[uid]['ssh_key']
             if not os.path.exists(ssh_dir):
                 os.makedirs(ssh_dir, mode=0700)
-            f = codecs.open(key_file, mode='w', encoding='utf-8')
-            f.write(key + '\n')
+            f = codecs.open(key_file, mode='a+', encoding='utf-8')
+            if f.read() != key + '\n':
+               f.truncate(0)
+               f.write(key + '\n')
             f.close()
             os.chmod(key_file, 0600)
             #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
