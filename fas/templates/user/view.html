@@ -62,10 +62,10 @@
         <py:if test="personal or admin">
           <dt>${_('Public SSH Key:')}</dt>
           <dd py:if="person.ssh_key" title="${person.ssh_key}">
-	  <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
-          <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
-	  </dd>
-    <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
+            <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
+            <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
+          </dd>
+          <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
         </py:if>
         <py:if test="person.comments">
           <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
@@ -80,7 +80,19 @@
         <py:if test="personal or admin">
           <dt>${_('Password:')}</dt>
           <dd>
-          <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
+            <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
+          </dd>
+        </py:if>
+        <py:if test="person.blog_rss">
+          <dt>${_('RSS blog:')}</dt>
+          <dd>
+            <a href="${person.blog_rss}">${person.blog_rss}</a>
+          </dd>
+        </py:if>
+        <py:if test="person.blog_rss">
+          <dt>${_('Avatar blog:')}</dt>
+          <dd>
+            <img src="${person.blog_avatar}" alt="avatar ${person.username}" />
           </dd>
         </py:if>
         <py:if test="person.status">
@@ -102,7 +114,7 @@
             ${_('CLA Signed')}
           </py:if>
           <py:if test="not undeprecated">
-          ${_('CLA Done')} - <span class="unapproved">${_('New CLA Not Signed')}
+            ${_('CLA Done')} - <span class="unapproved">${_('New CLA Not Signed')}
             <py:if test="personal">- ${_('We need contributors to sign the new Contributor Agreement')}(<a href="${tg.url('/fpca/')}">${_('Complete it now!')}</a>)</py:if>
             </span>
           </py:if>

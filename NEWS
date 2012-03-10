@@ -24,6 +24,8 @@ NEWS
   to not only check for missing section of full name (last or first), but avoid
   potential false positives from users entering a middle initial.
   (Fraser S. Gutteridge)
+* Allow user to specify a blog and a hatergochi associated to their profile.
+  This will be used in complement with the .planet file. (Pierre-Yves Chibon)
 
 ------
 0.8.11

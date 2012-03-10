@@ -79,6 +79,12 @@ from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
         ValidHumanWithOverride
 from fas import _
 
+import fancyflash as ff
+## Set the default timeout for message box display
+ff.set_default_flash_timeout(5)
+## Let FancyFlashWidget be included on every page
+ff.register_flash_widget()
+
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
 #system_group = config.get('systemgroup', 'fas-system')
 #thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
@@ -264,8 +270,8 @@ class User(controllers.Controller):
                 'PersonRole': ('group',),
                 'Groups': ('unapproved_roles',),
                 }
-        return dict(person=person_data, cla=cla, undeprecated=undeprecated_cla, personal=personal,
-                admin=admin, show=show)
+        return dict(person=person_data, cla=cla, undeprecated=undeprecated_cla,
+                personal=personal, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
     @validate(validators={ 'targetname' : KnownUser })
@@ -294,7 +300,11 @@ class User(controllers.Controller):
             return dict()
 
         target = target.filter_private()
-        return dict(target=target, languages=languages, admin=admin, show=show)
+        allow_blog = False
+        if len(target.roles) > 1:
+            allow_blog = True
+        return dict(target=target, languages=languages, admin=admin,
+                    show=show, allow_blog=allow_blog)
 
     @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
@@ -303,7 +313,8 @@ class User(controllers.Controller):
     def save(self, targetname, human_name, telephone, email, status,
             postal_address=None, ssh_key=None, ircnick=None, gpg_keyid=None,
              comments='', locale='en', timezone='UTC', country_code='',
-             latitude=None, longitude=None, privacy=False):
+             latitude=None, longitude=None, privacy=False,
+             blog_rss=None, blog_avatar=None):
         ''' Saves user information to database
 
         :arg targetname: Target user to alter
@@ -321,6 +332,9 @@ class User(controllers.Controller):
         :arg country_code: Country Code of target user
         :arg latitude: Latitude of target user
         :arg privacy: Determine if the user info should be private for user
+        :arg blog_rss: The url of the rss feed for the user's blog
+        :arg blog_avatar: The url to the hatergochi used for the user's
+             blog
 
         :returns: empty dict
         '''
@@ -329,6 +343,7 @@ class User(controllers.Controller):
         person = People.by_username(username)
         target = People.by_username(targetname)
         emailflash = ''
+        msgs = []
 
         if not can_edit_user(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % \
@@ -405,9 +420,22 @@ login with your Fedora account first):
                     setattr(target, field, locals()[field])
                     changed.append(field)
 
+            if blog_rss.startswith('http'):
+                target.blog_rss = blog_rss
+            else:
+                target.blog_rss = None
+                msgs.append(_('The provided RSS feed for your blog '
+                'does not seem to be a valid url'))
+            if blog_avatar.startswith('http'):
+                target.blog_avatar = blog_avatar
+            else:
+                target.blog_avatar = None
+                msgs.append(_('The provided hatergochi for your avatar '
+                'does not seem to be a valid url'))
         except TypeError, error:
-            turbogears.flash(_('Your account details could not be saved: %s')
+            msgs.append(_('Your account details could not be saved: %s')
                 % error)
+            turbogears.flash('<br />'.join(msgs))
             turbogears.redirect("/user/edit/%s" % target.username)
             return dict()
         else:
@@ -430,6 +458,8 @@ updated information is:
   privacy flag:   %(privacy)s
   ssh_key:        %(ssh_key)s
   gpg_keyid:      %(gpg_keyid)s
+  blog_rss:       %(blog_rss)s
+  blog_avatar:    %(blog_avatar)s
 
 If the above information is incorrect, please log in and fix it:
 
@@ -446,9 +476,11 @@ If the above information is incorrect, please log in and fix it:
          'privacy'        : target.privacy,
          'ssh_key'        : target.ssh_key,
          'gpg_keyid'      : target.gpg_keyid,
+         'blog_rss'       : target.blog_rss,
+         'blog_avatar'    : target.blog_avatar,
          'editurl'        : config.get('base_url_filter.base_url').rstrip('/')}
             send_mail(target.email, change_subject, change_text)
-            turbogears.flash(_('Your account details have been saved.') + \
+            msgs.append(_('Your account details have been saved.') + \
                 '  ' + emailflash)
 
             fas.fedmsgshim.send_message(topic="user.update", msg={
@@ -456,6 +488,7 @@ If the above information is incorrect, please log in and fix it:
                 'user': { 'username': target.username, },
                 'fields': changed,
             })
+            turbogears.flash(' - '.join(msgs))
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
