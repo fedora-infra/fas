@@ -937,6 +937,10 @@ the list letting them know what experience you have and how you'd like
 to help. From here, existing members of the team will help you to find
 your feet as a Fedora contributor.
 
+Please remember that you are joining a community made of contributors
+from all around the world, as such please stop by the Community Code of 
+Conduct http://fedoraproject.org/wiki/Community_working_group/Code_of_Conduct
+
 And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
 ''') % {'username': person.username,
