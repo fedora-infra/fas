@@ -939,7 +939,7 @@ your feet as a Fedora contributor.
 
 Please remember that you are joining a community made of contributors
 from all around the world, as such please stop by the Community Code of 
-Conduct http://fedoraproject.org/wiki/Community_working_group/Code_of_Conduct
+Conduct https://fedoraproject.org/code-of-conduct
 
 And finally, from all of us here at the Fedora Project, we're looking
 forward to working with you!
