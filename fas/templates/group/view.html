@@ -110,5 +110,9 @@
       <h3>${_('Sponsorship Queue')}</h3>
       ${member_table(sponsor_queue, group, person)}
     </div>
+    <div py:if="10 >= len(members)" >
+        <h3>${_('Members')}</h3>
+        ${member_table(members, group, person)}
+    </div>
   </body>
 </html>

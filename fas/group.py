@@ -185,7 +185,14 @@ class Group(controllers.Controller):
             and_(Groups.name==groupname,
                 PersonRoles.role_status=='unapproved')).order_by(sort_map[order_by])
         unsponsored.json_props = {'PersonRoles': ['member']}
-        return dict(group=group, sponsor_queue=unsponsored)
+        members = PersonRoles.query.join('group').join('member', aliased=True).filter(
+            People.username.like('%')
+            ).outerjoin('sponsor', aliased=True).filter(
+            Groups.name==groupname,
+            ).order_by(sort_map[order_by])
+        print len(list(members))
+        return dict(group=group, sponsor_queue=unsponsored,
+            members=list(members))
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupMembers())
