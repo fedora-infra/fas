@@ -63,6 +63,9 @@ from sqlalchemy.sql import select
 
 from fedora.tg.utils import request_format
 
+import fedmsg
+import fedmsg.schema
+
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
@@ -369,6 +372,36 @@ login with your Fedora account first):
 %(verifyurl)s/accounts/user/verifyemail/%(token)s
 ''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
                 send_mail(email, change_subject, change_text)
+
+            # Build a list of the attributes that are being altered before we
+            # set them on the DB-backed object.  ssh_key needs a little extra
+            # checking below.
+            default = lambda s: s
+            fields = [
+                ('ircnick', default),
+                ('gpg_keyid', default),
+                ('telephone', default),
+                #('ssh_key', default),
+                ('postal_address', default),
+                ('comments', default),
+                ('locale', default),
+                ('timezone', default),
+                ('country_code', lambda s: s and s.strip() or ''),
+                ('latitude', lambda s: s and float(s)),
+                ('longitude', lambda s: s and float(s)),
+                ('privacy', default),
+            ]
+            changed = [
+                field for field, modify in fields
+                if modify(getattr(target, field)) != modify(locals()[field])
+            ]
+
+            # Handle the special case of ssh_key.
+            if ssh_key:
+                if target.ssh_key != ssh_key:
+                    changed.append('ssh_key')
+
+            # Set the attributes incoming from the form on the DB-backed object.
             target.ircnick = ircnick
             target.gpg_keyid = gpg_keyid
             target.telephone = telephone
@@ -429,6 +462,12 @@ If the above information is incorrect, please log in and fix it:
             send_mail(target.email, change_subject, change_text)
             turbogears.flash(_('Your account details have been saved.') + \
                 '  ' + emailflash)
+
+            fedmsg.send_message(topic="user.update", msg={
+                fedmsg.schema.AGENT: { 'username': person.username, },
+                fedmsg.schema.USER: { 'username': target.username, },
+                fedmsg.schema.FIELDS: changed,
+            })
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
@@ -950,6 +989,10 @@ forward to working with you!
         'base_url': config.get('base_url_filter.base_url'),
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
+        fedmsg.send_message(topic="user.create", msg={
+            fedmsg.schema.AGENT: { 'username': person.username, },
+            fedmsg.schema.USER: { 'username': person.username, },
+        })
         return person
 
     @identity.require(identity.not_anonymous())
@@ -1002,6 +1045,11 @@ forward to working with you!
             return dict()
         else:   
             turbogears.flash(_("Your password has been changed."))
+            fedmsg.send_message(topic="user.update", msg={
+                fedmsg.schema.AGENT: { 'username': person.username, },
+                fedmsg.schema.USER: { 'username': person.username, },
+                fedmsg.schema.FIELDS: ['password'],
+            })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
 
@@ -1386,6 +1434,11 @@ automatically revoked, and should stop working within the hour.
         username = identity.current.user_name
         person  = People.by_username(username)
         person.ssh_key = ''
+        fedmsg.send_message(topic="user.update", msg={
+            fedmsg.schema.AGENT: { 'username': person.username, },
+            fedmsg.schema.USER: { 'username': person.username, },
+            fedmsg.schema.FIELDS: ['ssh_key'],
+        })
         turbogears.flash(_('Your key has been removed.'))
         turbogears.redirect('/user/view/%s' % username)
         return dict()

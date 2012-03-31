@@ -34,6 +34,7 @@ Requires: python-webob
 Requires: tulrich-tuffy-fonts
 # For the audio captcha
 Requires: espeak
+Requires: python-fedmsg
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -124,6 +125,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Sat Mar 31 2012 Ralph Bean <rbean@redhat.com> - 0.8.12-2
+- Added dependency on fedmsg.
+
 * Tue Feb 21 2012 Xavier Laminen <laxathom@lxtnow.net> - 0.8.12-1
 - Upstream release.
 - Add heuristics human's name check.

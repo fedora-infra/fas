@@ -33,6 +33,9 @@ from datetime import datetime
 import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
 
+import fedmsg
+import fedmsg.schema
+
 from fedora.tg.utils import request_format
 
 from fas.model import People, Groups, Log
@@ -304,6 +307,12 @@ Thanks!
             # Everything is correct.
             person.apply(group, person) # Apply for the new group
             session.flush()
+
+            fedmsg.send_message(topic="group.member.apply", msg={
+                fedmsg.schema.AGENT: { 'username': person.username, },
+                fedmsg.schema.USER: { 'username': person.username, },
+                fedmsg.schema.GROUP: { 'name': group.name, },
+            })
         except fas.ApplyError:
             # This just means the user already is a member (probably
             # unapproved) of this group
@@ -354,6 +363,12 @@ If you need to revoke it, please visit this link:
                     encoding=None)
 
         send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
+
+        fedmsg.send_message(topic="group.member.sponsor", msg={
+            fedmsg.schema.AGENT: { 'username': person.username, },
+            fedmsg.schema.USER: { 'username': person.username, },
+            fedmsg.schema.GROUP: { 'name': group.name },
+        })
 
         turbogears.flash(_("You have successfully completed the FPCA.  You " + \
                             "are now in the '%s' group.") % group.name)
