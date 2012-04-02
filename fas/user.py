@@ -127,9 +127,12 @@ class UserSave(validators.Schema):
        validators.String(not_empty=True, max=42),
        validators.Regex(regex='^[^\n:<>]+$'),
     )
+    ircnick = validators.String(max=42)
     status = validators.OneOf([
         'active', 'inactive', 'expired', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
+    gpg_keyid = validators.String       # TODO - could use better validation
+    telephone = validators.String       # TODO - could use better validation
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
        NonFedoraEmail(not_empty=True, strip=True, max=128),
@@ -138,10 +141,12 @@ class UserSave(validators.Schema):
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
     postal_address = validators.String(max=512)
+    timezone = validators.String        # TODO - could use better validation
     country_code = validators.String(max=2, strip=True)
     privacy = validators.Bool
     latitude = validators.Number
     longitude = validators.Number
+    comments = validators.String        # TODO - could use better validation
 
 def generate_password(password=None, length=16):
     ''' Generate Password
@@ -374,50 +379,22 @@ login with your Fedora account first):
 ''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
                 send_mail(email, change_subject, change_text)
 
-            # Build a list of the attributes that are being altered before we
-            # set them on the DB-backed object.  ssh_key needs a little extra
-            # checking below.
-            default = lambda s: s
-            fields = [
-                ('ircnick', default),
-                ('gpg_keyid', default),
-                ('telephone', default),
-                #('ssh_key', default),
-                ('postal_address', default),
-                ('comments', default),
-                ('locale', default),
-                ('timezone', default),
-                ('country_code', lambda s: s and s.strip() or ''),
-                ('latitude', lambda s: s and float(s)),
-                ('longitude', lambda s: s and float(s)),
-                ('privacy', default),
-            ]
-            changed = [
-                field for field, modify in fields
-                if modify(getattr(target, field)) != modify(locals()[field])
-            ]
+            changed = []
+            for field, _validator in UserSave().fields.items():
+                if field in ['targetname']:
+                    continue
 
-            # Handle the special case of ssh_key.
-            if ssh_key:
-                if target.ssh_key != ssh_key:
-                    changed.append('ssh_key')
+                _mod = _validator.to_python
 
-            # Set the attributes incoming from the form on the DB-backed object.
-            target.ircnick = ircnick
-            target.gpg_keyid = gpg_keyid
-            target.telephone = telephone
-            if ssh_key:
-                target.ssh_key = ssh_key
-            target.postal_address = postal_address
-            target.comments = comments
-            target.locale = locale
-            target.timezone = timezone
-            target.country_code = country_code
-            target.latitude = latitude and float(latitude) or None
-            target.longitude = longitude and float(longitude) or None
-            target.privacy = privacy
-#            target.set_share_cc(share_country_code)
-#            target.set_share_loc(share_location)
+                # Allow adding or changing of ssh_key but not removing.
+                if field in ['ssh_key']:
+                    if not ssh_key:
+                        _mod = lambda s: ''
+
+                if _mod(getattr(target, field)) != locals()[field]:
+                    setattr(target, field, locals()[field])
+                    changed.append(field)
+
         except TypeError, error:
             turbogears.flash(_('Your account details could not be saved: %s')
                 % error)

@@ -224,7 +224,7 @@ class ValidLanguage(validators.FancyValidator):
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
-        if value not in available_languages():
+        if value not in available_languages() + ['C']:
             raise validators.Invalid(self.message('not_available', state, lang=value),
                     value, state)
 
