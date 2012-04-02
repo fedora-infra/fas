@@ -65,7 +65,7 @@ class GroupCreate(validators.Schema):
 
     name = validators.All(
         UnknownGroup,
-        validators.String(max=32, min=3),
+        validators.UnicodeString(max=32, min=3),
         validators.Regex(regex='^[a-z0-9\-_]+$'),
         )
     display_name = validators.NotEmpty
@@ -83,12 +83,25 @@ class GroupEdit(validators.Schema):
     groupname = KnownGroup
 
 class GroupSave(validators.Schema):
-    groupname = validators.All(KnownGroup, validators.String(max=32, min=2))
+    groupname = validators.All(
+        KnownGroup,
+        validators.UnicodeString(max=32, min=2),
+    )
     display_name = validators.NotEmpty
     owner = KnownUser
     prerequisite = KnownGroup
     group_type = ValidGroupType
-    invite_only = validators.Bool()
+    invite_only = validators.Bool
+    needs_sponsor = validators.Bool
+    user_can_remove = validators.Bool
+    prerequisite = KnownGroup               # or None
+    url = validators.UnicodeString              # TODO - Could be more precise.
+    mailing_list = validators.UnicodeString     # TODO - Could be more precise.
+    mailing_list_url = validators.UnicodeString # TODO - Could be more precise.
+    irc_channel = validators.UnicodeString      # TODO - Could be more precise.
+    irc_network = validators.UnicodeString      # TODO - Could be more precise.
+    joinmsg = validators.UnicodeString          # TODO - Could be more precise.
+    apply_rules = validators.UnicodeString      # TODO - Could be more precise.
 
 class GroupApply(validators.Schema):
     groupname = KnownGroup
@@ -119,8 +132,8 @@ class GroupSendInvite(validators.Schema):
 
 #class findUser(widgets.WidgetsList): 
 #    username = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='username', result_name='people')   
-#    action = widgets.HiddenField(default='apply', validator=validators.String(not_empty=True)) 
-#    groupname = widgets.HiddenField(validator=validators.String(not_empty=True)) 
+#    action = widgets.HiddenField(default='apply', validator=validators.UnicodeString(not_empty=True)) 
+#    groupname = widgets.HiddenField(validator=validators.UnicodeString(not_empty=True)) 
 #
 #findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite')) 
 
@@ -313,34 +326,25 @@ class Group(controllers.Controller):
         person = People.by_username(username)
         group = Groups.by_name(groupname)
 
+        changed = []
         if not can_edit_group(person, group):
             turbogears.flash(_("You cannot edit '%s'.") % group.name)
             turbogears.redirect('/group/view/%s' % group.name)
         else:
+            owner = People.by_username(owner)
+
+            if prerequisite:
+                prerequisite = Groups.by_name(prerequisite)
+
             try:
-                owner = People.by_username(owner)
-                group.display_name = display_name
-                group.owner = owner
-                group.group_type = group_type
-                group.needs_sponsor = bool(needs_sponsor)
-                group.user_can_remove = bool(user_can_remove)
-                if prerequisite:
-                    prerequisite = Groups.by_name(prerequisite)
-                    group.prerequisite = prerequisite
-                else:
-                    group.prerequisite = None
-                group.url = url
-                group.mailing_list = mailing_list
-                group.mailing_list_url = mailing_list_url
-                if invite_only: 
-                    group.invite_only = True
-                else:
-                    group.invite_only = False
-                group.irc_channel = irc_channel
-                group.irc_network = irc_network
-                group.joinmsg = joinmsg
-                group.apply_rules = apply_rules
-                # Log here
+                for field, _validator in GroupSave().fields.items():
+                    if field in ['groupname']:
+                        continue
+
+                    if getattr(group, field) != locals()[field]:
+                        setattr(group, field, locals()[field])
+                        changed.append(field)
+
                 session.flush()
             except:
                 turbogears.flash(_('The group details could not be saved.'))
@@ -350,6 +354,7 @@ class Group(controllers.Controller):
                 fedmsg.send_message(topic="group.update", msg={
                     fedmsg.schema.AGENT: { 'username': person.username, },
                     fedmsg.schema.GROUP: { 'name': group.name, },
+                    fedmsg.schema.FIELDS: changed,
                 })
                 turbogears.flash(_('The group details have been saved.'))
                 turbogears.redirect('/group/view/%s' % group.name)
