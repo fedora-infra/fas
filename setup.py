@@ -168,7 +168,7 @@ setup(
         'SQLAlchemy >= 0.5',
         'TurboMail',
         'python_fedora >= 0.3'
-        'fedmsg',
+        'fedmsg>=0.0.8',
     ],
     scripts = [
         'client/fasClient',

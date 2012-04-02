@@ -64,7 +64,6 @@ from sqlalchemy.sql import select
 from fedora.tg.utils import request_format
 
 import fedmsg
-import fedmsg.schema
 
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
@@ -442,9 +441,9 @@ If the above information is incorrect, please log in and fix it:
                 '  ' + emailflash)
 
             fedmsg.send_message(topic="user.update", msg={
-                fedmsg.schema.AGENT: { 'username': person.username, },
-                fedmsg.schema.USER: { 'username': target.username, },
-                fedmsg.schema.FIELDS: changed,
+                'agent': { 'username': person.username, },
+                'user': { 'username': target.username, },
+                'fields': changed,
             })
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
@@ -968,8 +967,8 @@ forward to working with you!
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
         fedmsg.send_message(topic="user.create", msg={
-            fedmsg.schema.AGENT: { 'username': person.username, },
-            fedmsg.schema.USER: { 'username': person.username, },
+            'agent': { 'username': person.username, },
+            'user': { 'username': person.username, },
         })
         return person
 
@@ -1024,9 +1023,9 @@ forward to working with you!
         else:   
             turbogears.flash(_("Your password has been changed."))
             fedmsg.send_message(topic="user.update", msg={
-                fedmsg.schema.AGENT: { 'username': person.username, },
-                fedmsg.schema.USER: { 'username': person.username, },
-                fedmsg.schema.FIELDS: ['password'],
+                'agent': { 'username': person.username, },
+                'user': { 'username': person.username, },
+                'fields': ['password'],
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
@@ -1413,9 +1412,9 @@ automatically revoked, and should stop working within the hour.
         person  = People.by_username(username)
         person.ssh_key = ''
         fedmsg.send_message(topic="user.update", msg={
-            fedmsg.schema.AGENT: { 'username': person.username, },
-            fedmsg.schema.USER: { 'username': person.username, },
-            fedmsg.schema.FIELDS: ['ssh_key'],
+            'agent': { 'username': person.username, },
+            'user': { 'username': person.username, },
+            'fields': ['ssh_key'],
         })
         turbogears.flash(_('Your key has been removed.'))
         turbogears.redirect('/user/view/%s' % username)

@@ -40,7 +40,6 @@ from sqlalchemy.sql import and_
 import re
 
 import fedmsg
-import fedmsg.schema
 
 import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
@@ -291,8 +290,8 @@ class Group(controllers.Controller):
                 turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': group.name, 'user': owner.username})
             else:
                 fedmsg.send_message(topic="group.create", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
+                    'agent': { 'username': person.username, },
+                    'group': { 'name': group.name, },
                 })
                 turbogears.flash(_("The group: '%s' has been created.") % group.name)
             turbogears.redirect('/group/view/%s' % group.name)
@@ -352,9 +351,9 @@ class Group(controllers.Controller):
                 Log(author_id=person.id, description='%s edited group %s' %
                     (person.username, group.name))
                 fedmsg.send_message(topic="group.update", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
-                    fedmsg.schema.FIELDS: changed,
+                    'agent': { 'username': person.username, },
+                    'group': { 'name': group.name, },
+                    'fields': changed,
                 })
                 turbogears.flash(_('The group details have been saved.'))
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -499,9 +498,9 @@ Thank you for applying for the %(group)s group.
                     (person.username, target.username, group.name))
 
                 fedmsg.send_message(topic="group.member.apply", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.USER: { 'username': target.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
+                    'agent': { 'username': person.username, },
+                    'user': { 'username': target.username, },
+                    'group': { 'name': group.name, },
                 })
 
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
@@ -545,9 +544,9 @@ propagate into the e-mail aliases and git repository within an hour.
                     (person.username, target.username, group.name))
 
                 fedmsg.send_message(topic="group.member.sponsor", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.USER: { 'username': target.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name },
+                    'agent': { 'username': person.username, },
+                    'user': { 'username': target.username, },
+                    'group': { 'name': group.name },
                 })
                 turbogears.flash(_("'%s' has been sponsored!") % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -592,9 +591,9 @@ aliases within an hour.
                     (person.username, target.username, group.name))
 
                 fedmsg.send_message(topic="group.member.remove", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.USER: { 'username': target.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
+                    'agent': { 'username': person.username, },
+                    'user': { 'username': target.username, },
+                    'group': { 'name': group.name, },
                 })
 
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
@@ -644,9 +643,9 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 fedmsg.send_message(topic="role.update", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.USER: { 'username': target.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
+                    'agent': { 'username': person.username, },
+                    'user': { 'username': target.username, },
+                    'group': { 'name': group.name, },
                 })
 
                 turbogears.flash(_('%s has been upgraded!') % target.username)
@@ -694,9 +693,9 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 fedmsg.send_message(topic="role.update", msg={
-                    fedmsg.schema.AGENT: { 'username': person.username, },
-                    fedmsg.schema.USER: { 'username': target.username, },
-                    fedmsg.schema.GROUP: { 'name': group.name, },
+                    'agent': { 'username': person.username, },
+                    'user': { 'username': target.username, },
+                    'group': { 'name': group.name, },
                 })
 
                 turbogears.flash(_('%s has been downgraded!') % target.username)

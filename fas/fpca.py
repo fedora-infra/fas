@@ -34,7 +34,6 @@ import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
 
 import fedmsg
-import fedmsg.schema
 
 from fedora.tg.utils import request_format
 
@@ -309,9 +308,9 @@ Thanks!
             session.flush()
 
             fedmsg.send_message(topic="group.member.apply", msg={
-                fedmsg.schema.AGENT: { 'username': person.username, },
-                fedmsg.schema.USER: { 'username': person.username, },
-                fedmsg.schema.GROUP: { 'name': group.name, },
+                'agent': { 'username': person.username, },
+                'user': { 'username': person.username, },
+                'group': { 'name': group.name, },
             })
         except fas.ApplyError:
             # This just means the user already is a member (probably
@@ -365,9 +364,9 @@ If you need to revoke it, please visit this link:
         send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
 
         fedmsg.send_message(topic="group.member.sponsor", msg={
-            fedmsg.schema.AGENT: { 'username': person.username, },
-            fedmsg.schema.USER: { 'username': person.username, },
-            fedmsg.schema.GROUP: { 'name': group.name },
+            'agent': { 'username': person.username, },
+            'user': { 'username': person.username, },
+            'group': { 'name': group.name },
         })
 
         turbogears.flash(_("You have successfully completed the FPCA.  You " + \
