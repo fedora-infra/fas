@@ -85,7 +85,9 @@ class GroupSave(validators.Schema):
     owner = KnownUser
     prerequisite = KnownGroup
     group_type = ValidGroupType
-    invite_only = validators.Bool()
+    invite_only = validators.StringBool()
+    needs_sponsor = validators.StringBool()
+    user_can_remove = validators.StringBool()
 
 class GroupApply(validators.Schema):
     groupname = KnownGroup

@@ -51,20 +51,32 @@
       </div>
       <div class="field">
         <label for="invite_only">${_('Invite Only:')}</label>
-        <input py:if="group.invite_only" type="checkbox" id="invite_only" name="invite_only" value="1" checked="checked" />
-        <input py:if="not group.invite_only" type="checkbox" id="invite_only" name="invite_only" value="1" />
+        <select id="invite_only" name="invite_only">
+          <option py:if="group.invite_only" value="0">No</option>
+          <option py:if="group.invite_only" value="1" selected="selected">Yes</option>
+          <option py:if="not group.invite_only" value="0" selected="selected">No</option>
+          <option py:if="not group.invite_only" value="1">Yes</option>
+        </select>
         <script type="text/javascript">var group_invite_only = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_invite_only')}'});</script>
       </div>
       <div class="field">
         <label for="needs_sponsor">${_('Needs Sponsor:')}</label>
-        <input py:if="group.needs_sponsor" type="checkbox" id="needs_sponsor" name="needs_sponsor" value="1" checked="checked" />
-        <input py:if="not group.needs_sponsor" type="checkbox" id="needs_sponsor" name="needs_sponsor" value="1" />
+        <select id="needs_sponsor" name="needs_sponsor">
+          <option py:if="group.needs_sponsor" value="0">No</option>
+          <option py:if="group.needs_sponsor" value="1" selected="selected">Yes</option>
+          <option py:if="not group.needs_sponsor" value="0" selected="selected">No</option>
+          <option py:if="not group.needs_sponsor" value="1">Yes</option>
+        </select>
         <script type="text/javascript">var group_needs_sponsor = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_needs_sponsor')}'});</script>
       </div>
       <div class="field">
         <label for="user_can_remove">${_('Self Removal:')}</label>
-        <input py:if="group.user_can_remove" type="checkbox" id="user_can_remove" name="user_can_remove" value="1" checked="checked" />
-        <input py:if="not group.user_can_remove" type="checkbox" id="user_can_remove" name="user_can_remove" value="1" />
+        <select id="user_can_remove" name="user_can_remove">
+          <option py:if="group.user_can_remove" value="0">No</option>
+          <option py:if="group.user_can_remove" value="1" selected="selected">Yes</option>
+          <option py:if="not group.user_can_remove" value="0" selected="selected">No</option>
+          <option py:if="not group.user_can_remove" value="1">Yes</option>
+        </select>
         <script type="text/javascript">var group_self_removal = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_self_removal')}'});</script>
       </div>
       <div class="field">
