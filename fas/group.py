@@ -91,9 +91,9 @@ class GroupSave(validators.Schema):
     owner = KnownUser
     prerequisite = KnownGroup
     group_type = ValidGroupType
-    invite_only = validators.Bool
-    needs_sponsor = validators.Bool
-    user_can_remove = validators.Bool
+    invite_only = validators.StringBool
+    needs_sponsor = validators.StringBool
+    user_can_remove = validators.StringBool
     prerequisite = KnownGroup               # or None
     url = validators.UnicodeString              # TODO - Could be more precise.
     mailing_list = validators.UnicodeString     # TODO - Could be more precise.
