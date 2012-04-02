@@ -88,10 +88,10 @@ class UserCreate(validators.Schema):
     username = validators.All(
         UnknownUser,
         ValidUsername(not_empty=True),
-        validators.String(max=32, min=3),
+        validators.UnicodeString(max=32, min=3),
     )
     human_name = validators.All(
-        validators.String(not_empty=True),
+        validators.UnicodeString(not_empty=True),
         )
     human_name_override = validators.All(
         )
@@ -104,7 +104,7 @@ class UserCreate(validators.Schema):
         NonFedoraEmail(not_empty=True, strip=True),
     )
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
-    postal_address = validators.String(max=512)
+    postal_address = validators.UnicodeString(max=512)
     captcha = CaptchaFieldValidator()
     chained_validators = [ validators.FieldsMatch('email', 'verify_email'),
                            ValidHumanWithOverride('human_name', 'human_name_override') ]
@@ -124,15 +124,15 @@ class UserResetPassword(validators.Schema):
 class UserSave(validators.Schema):
     targetname = KnownUser
     human_name = validators.All(
-       validators.String(not_empty=True, max=42),
+       validators.UnicodeString(not_empty=True, max=42),
        validators.Regex(regex='^[^\n:<>]+$'),
     )
-    ircnick = validators.String(max=42)
+    ircnick = validators.UnicodeString(max=42)
     status = validators.OneOf([
         'active', 'inactive', 'expired', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
-    gpg_keyid = validators.String       # TODO - could use better validation
-    telephone = validators.String       # TODO - could use better validation
+    gpg_keyid = validators.UnicodeString  # TODO - could use better validation
+    telephone = validators.UnicodeString  # TODO - could use better validation
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
        NonFedoraEmail(not_empty=True, strip=True, max=128),
@@ -140,13 +140,13 @@ class UserSave(validators.Schema):
     locale = ValidLanguage(not_empty=True, strip=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
     #fedoraPersonKeyId- Save this one for later :)
-    postal_address = validators.String(max=512)
-    timezone = validators.String        # TODO - could use better validation
-    country_code = validators.String(max=2, strip=True)
+    postal_address = validators.UnicodeString(max=512)
+    timezone = validators.UnicodeString   # TODO - could use better validation
+    country_code = validators.UnicodeString(max=2, strip=True)
     privacy = validators.Bool
     latitude = validators.Number
     longitude = validators.Number
-    comments = validators.String        # TODO - could use better validation
+    comments = validators.UnicodeString   # TODO - could use better validation
 
 def generate_password(password=None, length=16):
     ''' Generate Password
