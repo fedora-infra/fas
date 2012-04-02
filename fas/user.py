@@ -121,6 +121,28 @@ class UserResetPassword(validators.Schema):
     passwordcheck = validators.UnicodeString(not_empty=True)
     chained_validators = [validators.FieldsMatch('password', 'passwordcheck')]
 
+class UserSave(validators.Schema):
+    targetname = KnownUser
+    human_name = validators.All(
+       validators.String(not_empty=True, max=42),
+       validators.Regex(regex='^[^\n:<>]+$'),
+    )
+    status = validators.OneOf([
+        'active', 'inactive', 'expired', 'admin_disabled'])
+    ssh_key = ValidSSHKey(max=5000)
+    email = validators.All(
+       validators.Email(not_empty=True, strip=True, max=128),
+       NonFedoraEmail(not_empty=True, strip=True, max=128),
+    )
+    locale = ValidLanguage(not_empty=True, strip=True)
+    #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
+    #fedoraPersonKeyId- Save this one for later :)
+    postal_address = validators.String(max=512)
+    country_code = validators.String(max=2, strip=True)
+    privacy = validators.Bool
+    latitude = validators.Number
+    longitude = validators.Number
+
 def generate_password(password=None, length=16):
     ''' Generate Password
 
@@ -260,28 +282,7 @@ class User(controllers.Controller):
         return dict(target=target, languages=languages, admin=admin, show=show)
 
     @identity.require(identity.not_anonymous())
-    @validate(validators={
-        'targetname' : KnownUser,
-        'human_name' : validators.All(
-            validators.String(not_empty=True, max=42),
-            validators.Regex(regex='^[^\n:<>]+$'),
-            ),
-        'status' : validators.OneOf(['active', 'inactive', 'expired',
-            'admin_disabled']),
-        'ssh_key' : ValidSSHKey(max=5000),
-        'email' : validators.All(
-            validators.Email(not_empty=True, strip=True, max=128),
-            NonFedoraEmail(not_empty=True, strip=True, max=128),
-        ),
-        'locale' : ValidLanguage(not_empty=True, strip=True),
-        #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
-        #fedoraPersonKeyId- Save this one for later :)
-        'postal_address' : validators.String(max=512),
-        'country_code' : validators.String(max=2, strip=True),
-        'privacy' : validators.Bool,
-        'latitude' : validators.Number,
-        'longitude' : validators.Number
-    })
+    @validate(validators=UserSave())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.user.edit')
     def save(self, targetname, human_name, telephone, email, status,
