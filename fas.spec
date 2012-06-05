@@ -18,8 +18,11 @@ BuildRequires:  TurboGears
 BuildRequires:  gettext
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy
+# Note: python-fedora-turbogears will get rid of this dep someday so let's be
+# explicit here
+Requires: python-bugzilla
 Requires: python-TurboMail
-Requires: python-fedora >= 0.3.25
+Requires: python-fedora-turbogears >= 0.3.25
 Requires: babel
 Requires: pygpgme
 Requires: python-babel
