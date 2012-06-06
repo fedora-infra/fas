@@ -129,24 +129,24 @@ Then as the user you are using for development run the following from within the
 
   rm -f /tmp/fas2.sql
 
-Step Nine: Apply Schema Modifications (NOT DONE - DO NOT USE - SKIP)
-=============================================================
+Step Nine: Apply Schema Modifications (NOT NECESSARY FOR FRESH INSTALL)
+=======================================================================
 
+If you are updating your version to 0.8.12, you will need to upgrade the database schema.
 As the user you are using for development run the following from within the fresh fas clone:
 
-  ##NOTE: git mv database/versions/005.sql database/versions/005_postgres_upgrade.sql
-  ##NOTE: In other distributions the command might just be migrate.
-  # Don't forget, do *not* commit your manage.py scriptlet. 'manage.py' is
-  # included in .gitignore, but if you use another name, .gitignore can't ignore
-  # it.  It is specific to your development environment.
-  # You can find out more about how to use SQLAlchemy-Migrate here:
-  # http://code.google.com/p/sqlalchemy-migrate/
+  cp updates/fas2-0.8.11_to_0.8.12.sql /tmp
 
-  sqlalchemy-migrate version_control postgres://fedora:password@localhost/fas2 ./database
+Then change to the postgres user and issue the data definition statements by running the following:
 
-  sqlalchemy-migrate manage manage.py --repository=database --url=postgres://fedora:fedora@localhost/fas2
+  su - postgres (or sudo su - postgres)
+  psql < /tmp/fas2-0.8.11_to_0.8.12.sql
+  exit
 
-  python manage.py upgrade
+Then as the user you are using for development run the following from within the fresh fas clone:
+
+  rm -f /tmp/fas2-0.8.11_to_0.8.12.sql
+
 
 Step Ten: Customize the Configuration File
 ==========================================

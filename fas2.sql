@@ -72,6 +72,8 @@ CREATE TABLE people (
     longitude numeric,
     privacy BOOLEAN DEFAULT FALSE,
     alias_enabled BOOLEAN DEFAULT TRUE,
+    blog_rss text,
+    blog_avatar text,
     check (status in ('active', 'inactive', 'expired', 'admin_disabled'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
