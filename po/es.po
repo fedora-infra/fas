@@ -2514,7 +2514,7 @@ msgstr "Nick de IRC"
 
 #: fas/templates/user/edit.html:111
 msgid "Time Zone"
-msgstr "Huso Horario"
+msgstr "Zona Horaria"
 
 #: fas/templates/user/edit.html:136
 msgid "Comments"
@@ -2718,7 +2718,7 @@ msgstr "Clave PGP:"
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr "Clave pública de SSH:"
+msgstr "Clave pública SSH:"
 
 #: fas/templates/user/view.html:66
 msgid "(remove ssh key)"
