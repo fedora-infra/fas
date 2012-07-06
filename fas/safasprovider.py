@@ -83,14 +83,14 @@ def otp_validate(user_name, otp):
 
     if not otp.startswith(configs['prefix']):
       return False
-    
+
     server_prefix = config.get('yubi_server_prefix', 'http://localhost/yk-val/verify?id=')
     auth_regex = re.compile('^status=(?P<rc>\w{2})')
-        
+
     server_url = server_prefix + client_id + "&otp=" + otp
-    
+
     fh = urllib2.urlopen(server_url)
-    
+
     for line in fh:
       match = auth_regex.search(line.strip('\n'))
       if match:
@@ -99,7 +99,7 @@ def otp_validate(user_name, otp):
         else:
           return False
         break
-        
+
     return False
 
 class SaFasIdentity(object):
@@ -357,11 +357,11 @@ class SaFasIdentityProvider(object):
         email_domain = '@' + config.get('email_host', '')
         if email_domain != '@' and user_name.endswith(email_domain):
             user_name = user_name[:-len(email_domain)]
-        
+
         if '@' in user_name:
-	    user = user_class.query.filter_by(email=user_name).first()	
-	else:
-	    user = user_class.query.filter_by(username=user_name).first()
+            user = user_class.query.filter_by(email=user_name).first()
+        else:
+            user = user_class.query.filter_by(username=user_name).first()
 
         if not user:
             log.warning("No such user: %s", user_name)
