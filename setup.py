@@ -167,7 +167,7 @@ setup(
         'TurboGears >= 1.0.4',
         'SQLAlchemy >= 0.5',
         'TurboMail',
-        'python_fedora >= 0.3'
+        'python_fedora >= 0.3',
         'fedmsg>=0.0.8',
     ],
     scripts = [
