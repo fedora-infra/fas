@@ -3,8 +3,13 @@ NEWS
 ====
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
-:Date: 16 Feb 2012
-:Version: 0.8.12
+:Date: 6 Jul 2012
+:Version: 0.8.13
+
+------
+0.8.13
+------
+* Added fedmsg message publishing hooks (Ralph Bean).
 
 ------
 0.8.12
