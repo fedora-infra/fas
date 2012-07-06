@@ -63,7 +63,7 @@ from sqlalchemy.sql import select
 
 from fedora.tg.utils import request_format
 
-import fedmsg
+import fas.fedmsgshim
 
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
@@ -440,7 +440,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.flash(_('Your account details have been saved.') + \
                 '  ' + emailflash)
 
-            fedmsg.send_message(topic="user.update", msg={
+            fas.fedmsgshim.send_message(topic="user.update", msg={
                 'agent': { 'username': person.username, },
                 'user': { 'username': target.username, },
                 'fields': changed,
@@ -966,7 +966,7 @@ forward to working with you!
         'base_url': config.get('base_url_filter.base_url'),
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
-        fedmsg.send_message(topic="user.create", msg={
+        fas.fedmsgshim.send_message(topic="user.create", msg={
             'agent': { 'username': person.username, },
             'user': { 'username': person.username, },
         })
@@ -1022,7 +1022,7 @@ forward to working with you!
             return dict()
         else:   
             turbogears.flash(_("Your password has been changed."))
-            fedmsg.send_message(topic="user.update", msg={
+            fas.fedmsgshim.send_message(topic="user.update", msg={
                 'agent': { 'username': person.username, },
                 'user': { 'username': person.username, },
                 'fields': ['password'],
@@ -1411,7 +1411,7 @@ automatically revoked, and should stop working within the hour.
         username = identity.current.user_name
         person  = People.by_username(username)
         person.ssh_key = ''
-        fedmsg.send_message(topic="user.update", msg={
+        fas.fedmsgshim.send_message(topic="user.update", msg={
             'agent': { 'username': person.username, },
             'user': { 'username': person.username, },
             'fields': ['ssh_key'],

@@ -37,7 +37,7 @@ Requires: python-webob
 Requires: tulrich-tuffy-fonts
 # For the audio captcha
 Requires: espeak
-Requires: python-fedmsg
+#Requires: python-fedmsg  # We really do want this, just optional for now.
 
 %description
 The Fedora Account System is a web application that manages the accounts of

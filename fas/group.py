@@ -39,7 +39,7 @@ from sqlalchemy.sql import and_
 
 import re
 
-import fedmsg
+import fas.fedmsgshim
 
 import fas
 from fas.model import People, PeopleTable, PersonRoles, PersonRolesTable, \
@@ -289,7 +289,7 @@ class Group(controllers.Controller):
             except KeyError:
                 turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': group.name, 'user': owner.username})
             else:
-                fedmsg.send_message(topic="group.create", msg={
+                fas.fedmsgshim.send_message(topic="group.create", msg={
                     'agent': { 'username': person.username, },
                     'group': { 'name': group.name, },
                 })
@@ -350,7 +350,7 @@ class Group(controllers.Controller):
             else:
                 Log(author_id=person.id, description='%s edited group %s' %
                     (person.username, group.name))
-                fedmsg.send_message(topic="group.update", msg={
+                fas.fedmsgshim.send_message(topic="group.update", msg={
                     'agent': { 'username': person.username, },
                     'group': { 'name': group.name, },
                     'fields': changed,
@@ -497,7 +497,7 @@ Thank you for applying for the %(group)s group.
                 Log(author_id=target.id, description='%s applied %s to %s' %
                     (person.username, target.username, group.name))
 
-                fedmsg.send_message(topic="group.member.apply", msg={
+                fas.fedmsgshim.send_message(topic="group.member.apply", msg={
                     'agent': { 'username': person.username, },
                     'user': { 'username': target.username, },
                     'group': { 'name': group.name, },
@@ -543,7 +543,7 @@ propagate into the e-mail aliases and git repository within an hour.
                 Log(author_id=target.id, description='%s sponsored %s into %s' %
                     (person.username, target.username, group.name))
 
-                fedmsg.send_message(topic="group.member.sponsor", msg={
+                fas.fedmsgshim.send_message(topic="group.member.sponsor", msg={
                     'agent': { 'username': person.username, },
                     'user': { 'username': target.username, },
                     'group': { 'name': group.name },
@@ -590,7 +590,7 @@ aliases within an hour.
                 Log(author_id=target.id, description='%s removed %s from %s' %
                     (person.username, target.username, group.name))
 
-                fedmsg.send_message(topic="group.member.remove", msg={
+                fas.fedmsgshim.send_message(topic="group.member.remove", msg={
                     'agent': { 'username': person.username, },
                     'user': { 'username': target.username, },
                     'group': { 'name': group.name, },
@@ -642,7 +642,7 @@ into the e-mail aliases within an hour.
                 Log(author_id=target.id, description='%s upgraded %s to %s in %s' %
                     (person.username, target.username, status, group.name))
 
-                fedmsg.send_message(topic="role.update", msg={
+                fas.fedmsgshim.send_message(topic="role.update", msg={
                     'agent': { 'username': person.username, },
                     'user': { 'username': target.username, },
                     'group': { 'name': group.name, },
@@ -692,7 +692,7 @@ into the e-mail aliases within an hour.
                 Log(author_id=target.id, description='%s downgraded %s to %s in %s' %
                     (person.username, target.username, status, group.name))
 
-                fedmsg.send_message(topic="role.update", msg={
+                fas.fedmsgshim.send_message(topic="role.update", msg={
                     'agent': { 'username': person.username, },
                     'user': { 'username': target.username, },
                     'group': { 'name': group.name, },

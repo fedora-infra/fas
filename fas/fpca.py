@@ -33,7 +33,7 @@ from datetime import datetime
 import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
 
-import fedmsg
+import fas.fedmsgshim
 
 from fedora.tg.utils import request_format
 
@@ -307,7 +307,7 @@ Thanks!
             person.apply(group, person) # Apply for the new group
             session.flush()
 
-            fedmsg.send_message(topic="group.member.apply", msg={
+            fas.fas.fedmsgshimshim.send_message(topic="group.member.apply", msg={
                 'agent': { 'username': person.username, },
                 'user': { 'username': person.username, },
                 'group': { 'name': group.name, },
@@ -363,7 +363,7 @@ If you need to revoke it, please visit this link:
 
         send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
 
-        fedmsg.send_message(topic="group.member.sponsor", msg={
+        fas.fedmsgshim.send_message(topic="group.member.sponsor", msg={
             'agent': { 'username': person.username, },
             'user': { 'username': person.username, },
             'group': { 'name': group.name },
