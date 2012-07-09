@@ -70,4 +70,3 @@ def send_mail(to_addr, subject, text, from_addr=None):
             'recipients': to_bytes(to_addr)})
         log.debug('From: %(sender)s' % {
             'sender': to_bytes(from_addr)})
-        log.debug('%s' % to_bytes(text))
