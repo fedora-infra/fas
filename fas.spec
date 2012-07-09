@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -37,7 +37,9 @@ Requires: python-webob
 Requires: tulrich-tuffy-fonts
 # For the audio captcha
 Requires: espeak
-#Requires: python-fedmsg  # We really do want this, just optional for now.
+Requires: python-tgcaptcha2
+# We really do want this, just optional for now.
+#Requires: fedmsg
 
 %description
 The Fedora Account System is a web application that manages the accounts of
@@ -128,6 +130,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Fri Jul 06 2012 Ralph Bean <rbean@redhat.com> - 0.8.13-2
+- Typo fix.  python-fedmsg should just be 'fedmsg'.
+
 * Fri Jul 06 2012 Ralph Bean <rbean@redhat.com> - 0.8.13-1
 - Version bump for fedmsg in stg.
 
