@@ -6,12 +6,10 @@ messages.  If it is not installed, it will return silently.
 
 """
 
-print "HAI THERE"
 import warnings
 
 
 def send_message(*args, **kwargs):
-    print "OKAAAAYU"
     try:
         import fedmsg
         fedmsg.send_message(*args, **kwargs)
