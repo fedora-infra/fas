@@ -37,6 +37,7 @@ Requires: python-webob
 Requires: tulrich-tuffy-fonts
 # For the audio captcha
 Requires: espeak
+Requires: python-tgcaptcha2
 # We really do want this, just optional for now.
 #Requires: fedmsg
 
