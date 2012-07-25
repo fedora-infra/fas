@@ -1050,6 +1050,9 @@ forward to working with you!
         :arg encrypted: Should we encrypt the password
         :returns: empty dict
         '''
+        # Candidate for a validator later
+        username = username.lower()
+        email = email.lower()
         if identity.current.user_name:
             turbogears.flash(_("You are already logged in."))
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -1059,8 +1062,8 @@ forward to working with you!
         except InvalidRequestError:
             turbogears.flash(_('Username email combo does not exist!'))
             turbogears.redirect('/user/resetpass')
-        
-        if email.lower() != person.email.lower():
+
+        if email != person.email.lower():
             turbogears.flash(_("username + email combo unknown."))
             return dict()
         if person.status in ('expired', 'admin_disabled'):
