@@ -3,6 +3,7 @@
 #
 # Copyright © 2008  Ricky Zhou
 # Copyright © 2008-2011 Red Hat, Inc.
+# Copyright © 2012  Patrick Uiterwijk
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -20,6 +21,7 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #            Toshio Kuratomi <toshio@redhat.com>
+#            Patrick Uiterwijk <puiterwijk@fedoraproject.org>
 
 # @error_handler() takes a reference to the error() method defined in the
 # class (E0602)
@@ -38,6 +40,7 @@ from tgcaptcha2 import CaptchaField
 from tgcaptcha2.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
+from fas.lib.gpg import encrypt_text
 
 import os
 import re
@@ -102,11 +105,19 @@ class UserCreate(validators.Schema):
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
     )
+    security_question = validators.UnicodeString(not_empty=True)
+    security_answer = validators.UnicodeString(not_empty=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.UnicodeString(max=512)
     captcha = CaptchaFieldValidator()
     chained_validators = [ validators.FieldsMatch('email', 'verify_email'),
                            ValidHumanWithOverride('human_name', 'human_name_override') ]
+
+class UserSetSecurityQuestion(validators.Schema):
+    ''' Validate new security question and answer '''
+    currentpassword = validators.UnicodeString(not_empty=True)
+    newquestion = validators.UnicodeString(not_empty=True)
+    newanswer = validators.UnicodeString(not_empty=True)
 
 class UserSetPassword(validators.Schema):
     ''' Validate new and old passwords '''
@@ -813,7 +824,7 @@ If the above information is incorrect, please log in and fix it:
     @expose(template='fas.templates.new')
     @validate(validators=UserCreate())
     @error_handler(error) # pylint: disable-msg=E0602
-    def create(self, username, human_name, email, verify_email, telephone=None,
+    def create(self, username, human_name, email, verify_email, security_question, security_answer, telephone=None,
                postal_address=None, age_check=False, captcha=None, human_name_override=False):
         ''' Parse arguments from the UI and make sure everything is in order.
 
@@ -822,6 +833,8 @@ If the above information is incorrect, please log in and fix it:
             :arg human_name_override: override check of user's full name
             :arg email: email address of the new user
             :arg verify_email: double check of users email
+            :arg security_question: the security question in case user loses access to email
+            :arg security_answer: the answer to the security question
             :arg telephone: telephone number of new user
             :arg postal_address: Mailing address of user
             :arg age_check: verifies user is over 13 years old
@@ -858,8 +871,8 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/")
             return dict()
         try:
-            person = self.create_user(username, human_name, email, telephone, 
-                             postal_address, age_check)
+            person = self.create_user(username, human_name, email, security_question, security_answer, 
+                    telephone, postal_address, age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please " + \
                 "contact %s for assistance.") % config.get('accounts_email'))
@@ -873,14 +886,16 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect('/user/changepass')
             return dict()
 
-    def create_user(self, username, human_name, email, telephone=None,
-        postal_address=None, age_check=False, redirect_location='/'):
+    def create_user(self, username, human_name, email, security_question, security_answer, 
+        telephone=None, postal_address=None, age_check=False, redirect_location='/'):
         ''' create_user: saves user information to the database and sends a
             welcome email.
 
             :arg username: requested username
             :arg human_name: full name of new user
             :arg email: email address of the new user
+            :arg security_question: the question to identify the user when he loses access to his email
+            :arg security_answer: the answer to the security question
             :arg telephone: telephone number of new user
             :arg postal_address: Mailing address of user
             :arg age_check: verifies user is over 13 years old
@@ -911,6 +926,8 @@ If the above information is incorrect, please log in and fix it:
         person.telephone = telephone
         person.postal_address = postal_address
         person.email = email
+        person.security_question = security_question
+        person.security_answer = encrypt_text(config.get('key_securityquestion'), security_answer)
         person.password = '*'
         person.status = 'active'
         person.old_password = generate_password()['hash']
@@ -971,6 +988,50 @@ forward to working with you!
             'user': { 'username': person.username, },
         })
         return person
+
+    @identity.require(identity.not_anonymous())
+    @expose(template="fas.templates.user.changequestion")
+    def changequestion(self):
+        ''' Provides forms for user to change security question/answer
+
+        :rerturns: empty dict
+        '''
+        return dict()
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=UserSetSecurityQuestion())
+    @error_handler(error)
+    @expose(template="fas.templates.user.changequestion")
+    def setquestion(self, currentpassword, newquestion, newanswer):
+        username = identity.current.user_name
+        person = People.by_username(username)
+
+        # These are done here instead of in the validator because we may not
+        # have access to identity when testing the validators
+        if not person.password == crypt.crypt(currentpassword.encode('utf-8'),
+                person.password):
+            turbogears.flash(_('Your current password did not match'))
+            return dict()
+        
+        try:
+            person.security_question = newquestion
+            person.security_answer = encrypt_text(config.get('key_securityquestion'), newanswer)
+            Log(author_id=person.id, description='Security question changed')
+            session.flush()
+        # TODO: Make this catch something specific.
+        except:
+            Log(author_id=person.id, description='Security question change failed!')
+            turbogears.flash(_("Your security question could not be changed."))
+            return dict()
+        else:
+            turbogears.flash(_("Your security question has been changed."))
+            fas.fedmsgshim.send_message(topic="user.update", msg={
+                'agent': { 'username': person.username, },
+                'user': { 'username': person.username, },
+                'fields': ['security_question', 'security_answer'],
+            })
+            turbogears.redirect('/user/view/%s' % identity.current.user_name)
+            return dict()
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changepass")

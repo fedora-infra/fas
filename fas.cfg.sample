@@ -11,6 +11,11 @@ samadhi.baseurl = 'http://alpha.rzhou.org/'
 openidstore = "/var/tmp/fas/openid"
 
 ###
+### GPG Keys
+###
+key_securityquestion = '00000000'
+
+###
 ### UI
 ###
 

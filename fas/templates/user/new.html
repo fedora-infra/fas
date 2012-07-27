@@ -33,6 +33,15 @@
         <input type="text" id="email" name="verify_email" />
         <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_email')}'});</script>
       </div>
+      <div class="field">
+        <label for="security_question">${_('Security Question:')}</label>
+        <input type="text" id="security_question" name="security_question" />
+        <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_security_question')}'});</script>
+      </div>
+       <div class="field">
+        <label for="security_answer">${_('Security Answer:')}</label>
+        <input type="text" id="security_answer" name="security_answer" />
+      </div>
       <!--
       <div class="field">
         <label for="fedoraPersonBugzillaMail">${_('Bugzilla Email:')}</label>

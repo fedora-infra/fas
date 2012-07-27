@@ -73,6 +73,10 @@
         <!-- Note: password is changable so we don't hide it if it's
         - unavailable
         - -->
+        <py:if test="personal">
+          <dt>${_('Security question: ')}</dt>
+          <dd>${person.security_question}&nbsp;  <a href="${tg.url('/user/changequestion')}">${_('(change)')}</a></dd>
+        </py:if>
         <py:if test="personal or admin">
           <dt>${_('Password:')}</dt>
           <dd>

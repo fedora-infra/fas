@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2008  Ricky Zhou
-# Copyright © 2012 Red Hat, Inc.
+# Copyright © 2012 Patrick Uiterwijk
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -16,25 +15,18 @@
 # General Public License and may only be used or replicated with the express
 # permission of Red Hat, Inc.
 #
-# Author(s): Ricky Zhou <ricky@fedoraproject.org>
-#            Mike McGrath <mmcgrath@redhat.com>
-#            Toshio Kuratomi <tkuratom@redhat.com>
-#
-'''
-Release information about the Fedora Accounts System
-'''
+# Author(s): Patrick Uiterwijk <puiterwijk@fedoraproject.org>
+import os
+import io
+import gpgme
 
-VERSION = '0.8.14'
-NAME = 'fas'
-DESCRIPTION = 'The Fedora Account System'
-LONG_DESCRIPTION = '''
-Manage the accounts of contributors to the Fedora Project.
-'''
-AUTHOR = 'Ricky Zhou, Mike McGrath, Toshio Kuratomi, and Yaakov Nemoy'
-EMAIL = 'fedora-infrastructure-list@fedoraproject.org'
-COPYRIGHT = '2007-2011 Red Hat, Inc.'
-
-# if it's open source, you might want to specify these
-URL = 'https://admin.fedoraproject.org/accounts/'
-DOWNLOAD_URL = 'https://fas2.fedorahosted.org/'
-LICENSE = 'GPLv2'
+def encrypt_text(receiver, text):
+    plaintext = io.BytesIO(text.encode("UTF-8"))
+    ciphertext = io.BytesIO()
+    ctx = gpgme.Context()
+    ctx.armor = True
+    recipient = ctx.get_key(receiver)
+    ctx.encrypt([recipient], gpgme.ENCRYPT_ALWAYS_TRUST,
+            plaintext, ciphertext)
+    ciphertext.seek(0)
+    return ciphertext.getvalue().replace('\\\\n', '\n')

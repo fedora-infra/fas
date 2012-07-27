@@ -2,6 +2,7 @@
 #
 # Copyright © 2008  Red Hat, Inc.
 # Copyright © 2008  Ricky Zhou
+# Copyright © 2012  Patrick Uiterwijk
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -18,6 +19,7 @@
 #
 # Author(s): Toshio Kuratomi <tkuratom@redhat.com>
 #            Ricky Zhou <ricky@fedoraproject.org>
+#            Patrick Uiterwijk <puiterwijk@fedoraproject.org>
 #
 
 '''
@@ -114,7 +116,8 @@ class People(SABase):
             'telephone', 'facsimile', 'affiliation', 'certificate_serial',
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
-            'country_code', 'privacy', 'old_password', 'alias_enabled'),
+            'country_code', 'privacy', 'old_password', 'alias_enabled',
+            'security_question', 'security_answer'),
         # Full disclosure to admins
         'admin': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
             'password', 'passwordtoken', 'password_changed', 'email',
@@ -122,7 +125,8 @@ class People(SABase):
             'telephone', 'facsimile', 'affiliation', 'certificate_serial',
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
-            'country_code', 'privacy', 'old_password', 'alias_enabled'),
+            'country_code', 'privacy', 'old_password', 'alias_enabled',
+            'security_question', 'security_answer'),
         # Full disclosure to systems group
         'systems': ('id', 'username', 'human_name',
             'gpg_keyid', 'ssh_key', 'password', 'passwordtoken',
@@ -132,7 +136,7 @@ class People(SABase):
             'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude',
             'longitude', 'country_code', 'privacy', 'old_password',
-            'alias_enabled'),
+            'alias_enabled', 'security_question', 'security_answer'),
         # thirdparty gets the results of privacy and ssh_key in addition
         'thirdparty': ('ssh_key',),
         'self': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
@@ -141,7 +145,7 @@ class People(SABase):
             'affiliation', 'certificate_serial', 'creation', 'ircnick',
             'last_seen', 'status', 'status_change', 'locale', 'timezone',
             'latitude', 'longitude', 'country_code', 'privacy',
-            'old_password'),
+            'old_password', 'security_question'),
         'public': ('id', 'username', 'human_name', 'gpg_keyid', 'email',
             'comments', 'affiliation', 'certificate_serial', 'creation',
             'last_seen', 'status', 'status_change', 'locale', 'ircnick',

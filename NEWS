@@ -2,9 +2,14 @@
 NEWS
 ====
 
-:Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi
-:Date: 6 Jul 2012
-:Version: 0.8.13
+:Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk
+:Date: 28 Jul 2012
+:Version: 0.8.14
+
+------
+0.8.14
+------
+* Added Security questions, with encrypted answers (Patrick Uiterwijk).
 
 ------
 0.8.13

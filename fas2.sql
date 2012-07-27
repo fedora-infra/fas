@@ -49,6 +49,8 @@ CREATE TABLE people (
     email TEXT not null unique,
     emailtoken TEXT,
     unverified_email TEXT,
+    security_question TEXT NOT NULL DEFAULT '-',
+    security_answer TEXT NOT NULL DEFAULT '-',
     comments TEXT,
     postal_address TEXT,
     country_code char(2),
