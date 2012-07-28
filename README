@@ -6,6 +6,7 @@ Fedora Account System
 	  Mike McGrath
 	  Toshio Kuratomi
 	  Yaakov Nemoy
+          Patrick Uiterwijk
 :Contact: infrastructure@lists.fedoraproject.org
 :Date: Wed, 26 March, 2008
 :For FAS version: 0.8.x
@@ -23,6 +24,17 @@ script.
 ---------
 Upgrading
 ---------
+
+0.8.13 => 0.8.14
+================
+
+When upgrading to 0.8.14 the database schema changed slightly, and new
+configuration options got introduced, for the security questions system.
+The people table gets two new columns, for the question and answers, and
+the configuration gets a new option to specify the key used to encrypt the
+security answer. Apply the schema update like this:
+
+sudo -u postgres psql fas2 < updates/fas2-0.8.13_to_0.8.14.sql
 
 0.8.7 => 0.8.8
 ==============

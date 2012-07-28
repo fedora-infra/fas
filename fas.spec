@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.13
-Release:        2%{?dist}
+Version:        0.8.14
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -130,6 +130,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Sat Jul 28 2012 Patrick Uiterwijk <puiterwijk@gmail.com> - 0.8.14-1
+- Added security question system, with encrypted security answer
+
 * Fri Jul 06 2012 Ralph Bean <rbean@redhat.com> - 0.8.13-2
 - Typo fix.  python-fedmsg should just be 'fedmsg'.
 
