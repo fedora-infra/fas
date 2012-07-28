@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-01-30 10:23-0800\n"
-"PO-Revision-Date: 2012-01-31 09:56+0000\n"
-"Last-Translator: Richard E. van der Luit <nippur@fedoraproject.org>\n"
-"Language-Team: Dutch (http://www.transifex.net/projects/p/fedora/team/nl/)\n"
+"POT-Creation-Date: 2012-07-28 15:47-0400\n"
+"PO-Revision-Date: 2012-07-28 19:53+0000\n"
+"Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/fedora/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,8 +24,7 @@ msgstr ""
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
-"%s lidmaatschap vereist voordat  een aanvraag voor deze groep is toegestaan"
+msgstr "%s lidmaatschap vereist voordat  een aanvraag voor deze groep is toegestaan"
 
 #: fas/configs.py:126
 #, python-format
@@ -55,174 +54,155 @@ msgstr "Uw oude wachtwoord is verlopen.  Reset uw wachtwoord hieronder."
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
-msgstr ""
-"Uw account is momenteel uitgeschakeld.  Neem alstublieft voor meer "
-"informatie contact op met %(admin_email)sadmin_email"
+msgstr "Uw account is momenteel uitgeschakeld.  Neem alstublieft voor meer informatie contact op met %(admin_email)sadmin_email"
 
 #: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "De taal '%s' is niet beschikbaar."
 
-#: fas/fpca.py:76
+#: fas/fpca.py:78
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
-msgstr ""
-"Een telefoonnummer is verplicht om de FPCA af te kunnen maken.  Vul dat "
-"alstublieft hieronder in."
+msgstr "Een telefoonnummer is verplicht om de FPCA af te kunnen maken.  Vul dat alstublieft hieronder in."
 
-#: fas/fpca.py:80
+#: fas/fpca.py:82
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
-msgstr ""
-"Een geldig landennummer en telefoonnummer of postadres  is verplicht om de "
-"FPCA af te kunnen maken.  Vul dat alstublieft hieronder in."
+msgstr "Een geldig landennummer en telefoonnummer of postadres  is verplicht om de FPCA af te kunnen maken.  Vul dat alstublieft hieronder in."
 
-#: fas/fpca.py:86
+#: fas/fpca.py:88
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
-msgstr ""
-"Een geldig landennummer en telefoonnummer is verplicht om de FPCA af te "
-"kunnen maken.  Vul dat alstublieft hieronder in."
+msgstr "Een geldig landennummer en telefoonnummer is verplicht om de FPCA af te kunnen maken.  Vul dat alstublieft hieronder in."
 
-#: fas/fpca.py:163
+#: fas/fpca.py:165
 msgid "You are not allowed to reject FPCAs."
 msgstr "U kunt niet de FPCAs afwijzen."
 
-#: fas/fpca.py:174
+#: fas/fpca.py:176
 #, python-format
 msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
-msgstr ""
-"Fout bij verwijderen cla en afhankelijke groepen voor %(person)s\n"
-" Fout was: %(error)s"
+msgstr "Fout bij verwijderen cla en afhankelijke groepen voor %(person)s\n Fout was: %(error)s"
 
-#: fas/fpca.py:215
+#: fas/fpca.py:217
 msgid "FPCA Successfully Removed."
 msgstr "FPCA succesvol verwijderd."
 
-#: fas/fpca.py:239
+#: fas/fpca.py:241
 msgid "You have already completed the FPCA."
 msgstr "U hebt de FPCA al afgemaakt."
 
-#: fas/fpca.py:243
+#: fas/fpca.py:245
 msgid "You have not completed the FPCA."
 msgstr "U hebt de FPCA niet afgemaakt."
 
-#: fas/fpca.py:246
+#: fas/fpca.py:248
 msgid "You must confirm that your personal information is accurate."
 msgstr "U moet bevestigen dat uw persoonlijke informatie correct is"
 
-#: fas/fpca.py:264
+#: fas/fpca.py:266
 msgid "Your updated information could not be saved."
 msgstr "Uw bijgewerkte informatie kon niet worden opgeslagen."
 
-#: fas/fpca.py:284
+#: fas/fpca.py:286
 msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
-msgstr ""
-"Om de FPCA af te kunnen maken, moeten wij uw naam, telefoonnummer en land "
-"hebben.  Controleer of deze staan ingevuld."
+msgstr "Om de FPCA af te kunnen maken, moeten wij uw naam, telefoonnummer en land hebben.  Controleer of deze staan ingevuld."
 
-#: fas/fpca.py:293
+#: fas/fpca.py:295
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
-msgstr ""
-"Om de FPCA af te kunnen maken moet een geldige landencode worden opgegeven."
-"  Selecteer er alstublieft nu één."
+msgstr "Om de FPCA af te kunnen maken moet een geldige landencode worden opgegeven.  Selecteer er alstublieft nu één."
 
-#: fas/fpca.py:297
+#: fas/fpca.py:299
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
-msgstr ""
-"Telefoonnummers kunnen slechts bestaan uit nummers, \"-\", \"+\", \"(\", "
-"\")\", of \" \".  Vult u het alstublieft nogmaals in met uitsluitend deze "
-"tekens."
+msgstr "Telefoonnummers kunnen slechts bestaan uit nummers, \"-\", \"+\", \"(\", \")\", of \" \".  Vult u het alstublieft nogmaals in met uitsluitend deze tekens."
 
-#: fas/fpca.py:312 fas/fpca.py:326
+#: fas/fpca.py:320 fas/fpca.py:334
 #, python-format
 msgid "You could not be added to the '%s' group."
 msgstr "U kon niet aan de '%s' groep worden toegevoegd."
 
-#: fas/fpca.py:322
+#: fas/fpca.py:330
 #, python-format
 msgid "You are already a part of the '%s' group."
 msgstr "U neemt al aan de '%s' groep deel."
 
-#: fas/fpca.py:358
+#: fas/fpca.py:372
 #, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr "U hebt succesvol de FPCA afgemaakt.  U bent nu in de '%s' groep."
 
-#: fas/group.py:163 fas/group.py:199
+#: fas/group.py:178 fas/group.py:214
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "U kunt '%s' niet bekijken"
 
-#: fas/group.py:222 fas/group.py:240
+#: fas/group.py:237 fas/group.py:255
 msgid "Only FAS adminstrators can create groups."
 msgstr "Alleen FAS-beheerders kunnen groepen aanmaken."
 
-#: fas/group.py:265
+#: fas/group.py:280
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "De groep '%s' kan niet worden aangemaakt."
 
-#: fas/group.py:275
+#: fas/group.py:290
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
-msgstr ""
-"De groep: '%(group)s' is aangemaakt, maar '%(user)s' kon niet worden "
-"toegevoegd als een groepbeheerder."
+msgstr "De groep: '%(group)s' is aangemaakt, maar '%(user)s' kon niet worden toegevoegd als een groepbeheerder."
 
-#: fas/group.py:277
+#: fas/group.py:296
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "De groep: '%s' is aangemaakt."
 
-#: fas/group.py:292 fas/group.py:310
+#: fas/group.py:311 fas/group.py:330
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "U kunt '%s' niet bewerken."
 
-#: fas/group.py:339
+#: fas/group.py:349
 msgid "The group details could not be saved."
 msgstr "De groepdetails konden niet worden opgeslagen."
 
-#: fas/group.py:343
+#: fas/group.py:358
 msgid "The group details have been saved."
 msgstr "De groepdetails zijn opgeslagen."
 
-#: fas/group.py:375
+#: fas/group.py:390
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Geen groepen gevonden die voldoen aan '%s'"
 
-#: fas/group.py:400 fas/group.py:422
+#: fas/group.py:415 fas/group.py:437
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s kan niet aanmelden bij %(group)s."
 
-#: fas/group.py:430
+#: fas/group.py:445
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s kon niet aanmelden bij %(group)s: %(error)s"
 
-#: fas/group.py:454
+#: fas/group.py:469
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "Fedora '%(group)s' sponsor nodig voor %(user)s"
 
-#: fas/group.py:457
+#: fas/group.py:472
 #, python-format
 msgid ""
 "\n"
@@ -230,85 +210,72 @@ msgid ""
 "membership for %(applicant)s in the %(group)s group and needs a sponsor.\n"
 "\n"
 "Please go to %(url)s to take action.  \n"
-msgstr ""
-"\n"
-"Fedora gebruiker %(user)s <%(email)s> heeft lidmaatschap verzocht\n"
-"voor %(applicant)s in de %(group)s groep en heeft een sponsor nodig.\n"
-"\n"
-"Ga alstublieft naar %(url)s  en onderneem aktie.  \n"
+msgstr "\nFedora gebruiker %(user)s <%(email)s> heeft lidmaatschap verzocht\nvoor %(applicant)s in de %(group)s groep en heeft een sponsor nodig.\n\nGa alstublieft naar %(url)s  en onderneem aktie.  \n"
 
-#: fas/group.py:468
+#: fas/group.py:483
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Aanmelden bij de '%(group)s' groep"
 
-#: fas/group.py:471
+#: fas/group.py:486
 #, python-format
 msgid ""
 "\n"
 "Thank you for applying for the %(group)s group.  \n"
 "\n"
 "%(joinmsg)s\n"
-msgstr ""
-"\n"
-"Dank u voor de aanmelding bij de %(group)s groep.  \n"
-"\n"
-"%(joinmsg)s\n"
+msgstr "\nDank u voor de aanmelding bij de %(group)s groep.  \n\n%(joinmsg)s\n"
 
-#: fas/group.py:485
+#: fas/group.py:506
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s heeft zich aangemeld bij %(group)s!"
 
-#: fas/group.py:502
+#: fas/group.py:523
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "U kunt '%s' niet sponseren"
 
-#: fas/group.py:509
+#: fas/group.py:530
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s kon niet gesponsord worden %(group)s: %(error)s"
 
-#: fas/group.py:513
+#: fas/group.py:534
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "Uw Fedora '%s' lidmaatschap is gesponsord"
 
-#: fas/group.py:514
+#: fas/group.py:535
 #, python-format
 msgid ""
 "\n"
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and git repository within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> heeft u gesponsord in de %(group)s\n"
-"groep van het Fedora account systeem. Indien deze gebruiker dat ook inderdaad mag doen, zal deze verandering\n"
-"zich binnen een uur doorzetten in de e-mail aliassen en git repository.\n"
+msgstr "\n%(user)s <%(email)s> heeft u gesponsord in de %(group)s\ngroep van het Fedora account systeem. Indien deze gebruiker dat ook inderdaad mag doen, zal deze verandering\nzich binnen een uur doorzetten in de e-mail aliassen en git repository.\n"
 
-#: fas/group.py:525
+#: fas/group.py:551
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "'%s' wordt gesponsord!"
 
-#: fas/group.py:542
+#: fas/group.py:568
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "U kunt '%(user)s' niet van '%(group)s' verwijderen."
 
-#: fas/group.py:550
+#: fas/group.py:576
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "%(user)s kon niet worden verwijderd van %(group)s: %(error)s"
 
-#: fas/group.py:554
+#: fas/group.py:580
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "Uw Fedora '%s' lidmaatschap is verwijderd"
 
-#: fas/group.py:555
+#: fas/group.py:581
 #, python-format
 msgid ""
 "\n"
@@ -316,34 +283,29 @@ msgid ""
 "group of the Fedora Accounts System This change is effective\n"
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> heeft u verwijderd van de '%(group)s'\n"
-"groep van het Fedora Accounts System Deze verandering treedt\n"
-"direct in, en heeft binnen een uur invloed op de de e-mail\n"
-"aliassen.\n"
+msgstr "\n%(user)s <%(email)s> heeft u verwijderd van de '%(group)s'\ngroep van het Fedora Accounts System Deze verandering treedt\ndirect in, en heeft binnen een uur invloed op de de e-mail\naliassen.\n"
 
-#: fas/group.py:567
+#: fas/group.py:599
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s is verwijderd van %(group)s"
 
-#: fas/group.py:584
+#: fas/group.py:616
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "U kunt '%s' niet opwaarderen"
 
-#: fas/group.py:591
+#: fas/group.py:623
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s kon niet worden opgewaardeerd in %(group)s: %(error)s"
 
-#: fas/group.py:595
+#: fas/group.py:627
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "Uw Fedora '%s' lidmaatschap is opgewaardeerd"
 
-#: fas/group.py:601
+#: fas/group.py:633
 #, python-format
 msgid ""
 "\n"
@@ -351,34 +313,29 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> heeft u  opgewaardeerd naar %(status)s status in de\n"
-"'%(group)s' groep van het Fedora Accounts System Deze verandering treedt\n"
-"direct in, en heeft binnen een uur invloed op de de e-mail\n"
-"aliassen.\n"
+msgstr "\n%(user)s <%(email)s> heeft u  opgewaardeerd naar %(status)s status in de\n'%(group)s' groep van het Fedora Accounts System Deze verandering treedt\ndirect in, en heeft binnen een uur invloed op de de e-mail\naliassen.\n"
 
-#: fas/group.py:613
+#: fas/group.py:651
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s is opgewaardeerd!"
 
-#: fas/group.py:629
+#: fas/group.py:667
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "u kunt  '%s' niet afwaarderen"
 
-#: fas/group.py:636
+#: fas/group.py:674
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s kon niet worden afgewaardeerd in %(group)s: %(error)s"
 
-#: fas/group.py:640
+#: fas/group.py:678
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "Uw Fedora '%s' lidmaatschap is afgewaardeerd"
 
-#: fas/group.py:645
+#: fas/group.py:683
 #, python-format
 msgid ""
 "\n"
@@ -386,72 +343,28 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> heeft u afgewaardeerd naar de %(status)s status in the\n"
-"'%(group)s' groep van het Fedora Accounts System Deze verandering treedt\n"
-"direct in, en heeft binnen een uur invloed op de de e-mail\n"
-"aliassen.\n"
+msgstr "\n%(user)s <%(email)s> heeft u afgewaardeerd naar de %(status)s status in the\n'%(group)s' groep van het Fedora Accounts System Deze verandering treedt\ndirect in, en heeft binnen een uur invloed op de de e-mail\naliassen.\n"
 
-#: fas/group.py:657
+#: fas/group.py:701
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s is afgewaardeerd!"
 
-#: fas/group.py:732
-msgid "Come join The Fedora Project!"
-msgstr "Kom bij het Fedora Project!"
-
-#: fas/group.py:733
-#, python-format
-msgid ""
-"\n"
-"%(user)s <%(email)s> has invited you to join the Fedora\n"
-"Project!  We are a community of users and developers who produce a\n"
-"complete operating system from entirely free and open source software\n"
-"(FOSS).  %(user)s thinks that you have knowledge and skills\n"
-"that make you a great fit for the Fedora community, and that you might\n"
-"be interested in contributing.\n"
-"\n"
-"How could you team up with the Fedora community to use and develop your\n"
-"skills?  Check out http://fedoraproject.org/join-fedora for some ideas.\n"
-"Our community is more than just software developers -- we also have a\n"
-"place for you whether you're an artist, a web site builder, a writer, or\n"
-"a people person.  You'll grow and learn as you work on a team with other\n"
-"very smart and talented people.\n"
-"\n"
-"Fedora and FOSS are changing the world -- come be a part of it!"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> heeft je uitgenodigd in te stappen bij het Fedora Project!  \n"
-"Wij zijn een gemeenschap van gebruikers en developpers die \n"
-"een compleet operating systeem samenstellen uit geheel Free en Open Source Software (FOSS).  \n"
-"%(user)s denkt dat je de kennis en kwaliteiten hebt waardoor je een aanwinst bent voor de Fedora community \n"
-"en dat je wellicht geïnteresseerd zou kunnen zijn om hieraan bij te dragen.\n"
-"\n"
-"Hoe kan je meedoen met de Fedora community, zodat je jouw kwaliteiten in kan zetten en ontwikkelen?\n"
-"Bekijk eens http://fedoraproject.org/join-fedora voor enkele voorbeelden.\n"
-"Onze gemeenschap bestaat trouwens uit meer dan software developpers alleen -- we hebben eveneens plek voor \n"
-"kunstenaars, website bouwers, schrijvers, of 'people persons'.  \n"
-"Je wordt door op de uitnodiging in te gaan in de gelegenheid gesteld om te groeien en te leren door te werken met een team van eveneens slimme en getalenteerde mensen.\n"
-"\n"
-"Fedora en FOSS zijn de wereld aan het veranderen -- maak er deel van uit!"
-
-#: fas/group.py:753
+#: fas/group.py:802
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Bericht verzonden naar: %s"
 
-#: fas/group.py:756
+#: fas/group.py:805
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "U zit niet in de  '%s' groep."
 
-#: fas/help.py:26 fas/help.py:77
+#: fas/help.py:26 fas/help.py:78
 msgid "Error"
 msgstr "Fout"
 
-#: fas/help.py:26 fas/help.py:77
+#: fas/help.py:26 fas/help.py:78
 msgid "<p>We could not find that help item</p>"
 msgstr "<p>Help item niet gevonden</p>"
 
@@ -468,15 +381,7 @@ msgid ""
 "work and we have to tell them we have a right to use it because \"Mickey "
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
-msgstr ""
-"<p>De FPCA is een juridisch document.  Het is noodzakelijk dat er accurate "
-"informatie bijzit ingeval wij ooit contact met u moeten opnemen over "
-"bijdragen die u levert aan het project.  Stel u voor dat dat we een "
-"telefoontje krijgen van een advocaat van één of ander bedrijf, dat claimt "
-"dat zij het copyright van uw werk bezit, en wij moeten hun dan vertellen dat"
-" wij het recht bezitten het te gebruiken, omdat \"Mickey Moose\" het ons "
-"beschikbaar heeft gesteld en dat we geen telefoonnummer hebben om contact op"
-" te nemen!  Een potentieel lastige situatie.</p>"
+msgstr "<p>De FPCA is een juridisch document.  Het is noodzakelijk dat er accurate informatie bijzit ingeval wij ooit contact met u moeten opnemen over bijdragen die u levert aan het project.  Stel u voor dat dat we een telefoontje krijgen van een advocaat van één of ander bedrijf, dat claimt dat zij het copyright van uw werk bezit, en wij moeten hun dan vertellen dat wij het recht bezitten het te gebruiken, omdat \"Mickey Moose\" het ons beschikbaar heeft gesteld en dat we geen telefoonnummer hebben om contact op te nemen!  Een potentieel lastige situatie.</p>"
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -487,10 +392,7 @@ msgid ""
 "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please "
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
-msgstr ""
-"<p>IRC Nick wordt gebruikt om u te identificeren op irc.freenode.net.  "
-"Registreer uw nick alstublieft eerst succesvol op irc.freenode.net, vul dan "
-"pas dit in. Daarna kunnen mensen u via irc online vinden indien nodig.</p>"
+msgstr "<p>IRC Nick wordt gebruikt om u te identificeren op irc.freenode.net.  Registreer uw nick alstublieft eerst succesvol op irc.freenode.net, vul dan pas dit in. Daarna kunnen mensen u via irc online vinden indien nodig.</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -501,40 +403,44 @@ msgid ""
 "<p>This email address should be your prefered email contact and will be used"
 " to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
-msgstr ""
-"<p>Dit email-adres moet uw voorkeurs-emailcontact zijn en zal worden "
-"gebruikt om officiele emails van allerlei aard naar toe te sturen.  Dit is "
-"ook het adres waar uw @fedoraproject.org email naar doorgestuurd zal "
-"worden</p>"
+msgstr "<p>Dit email-adres moet uw voorkeurs-emailcontact zijn en zal worden gebruikt om officiele emails van allerlei aard naar toe te sturen.  Dit is ook het adres waar uw @fedoraproject.org email naar doorgestuurd zal worden</p>"
 
 #: fas/help.py:30
+msgid "Security question (Required)"
+msgstr ""
+
+#: fas/help.py:30
+msgid ""
+"<p>The security question is used when you have lost access to your email "
+"address. You can email the admins, and they will ask you this question, and "
+"confirm you give the correct answer, before resetting your password/email "
+"address</p>"
+msgstr ""
+
+#: fas/help.py:31
 msgid "Full Name (Required)"
 msgstr "Volledige Naam (verplicht)"
 
-#: fas/help.py:30
+#: fas/help.py:31
 msgid "<p>Your Human Name or \"real life\" name</p>"
 msgstr "<p>Uw Mensen Naam of \"real life\" naam</p>"
 
-#: fas/help.py:31 fas/templates/user/edit.html:100
+#: fas/help.py:32 fas/templates/user/edit.html:100
 msgid "GPG Key ID"
 msgstr "GPG Key ID"
 
-#: fas/help.py:31
+#: fas/help.py:32
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
 "you or to encrypt information so that only the recipients can read it.  This"
 " can be used when a password reset is sent to your email.</p>"
-msgstr ""
-"<p>Een GPG sleutel wordt over het algemeen gebruikt om te bewijzen dat een "
-"bericht of email van u afkwam, of om informatie te versleutelen zodat alleen"
-" de ontvanger het kan lezen.  Het kan worden gebruikt wanneer een wachtwoord"
-" reset naar uw email-adres wordt gestuurd.</p>"
+msgstr "<p>Een GPG sleutel wordt over het algemeen gebruikt om te bewijzen dat een bericht of email van u afkwam, of om informatie te versleutelen zodat alleen de ontvanger het kan lezen.  Het kan worden gebruikt wanneer een wachtwoord reset naar uw email-adres wordt gestuurd.</p>"
 
-#: fas/help.py:32
+#: fas/help.py:33
 msgid "Telephone"
 msgstr "Telefoon"
 
-#: fas/help.py:32 fas/help.py:40
+#: fas/help.py:33 fas/help.py:41
 msgid ""
 "<p>Required in order to complete the <a "
 "href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
@@ -542,63 +448,51 @@ msgid ""
 "need to contact you.  For more information see our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
-msgstr ""
-"<p>Verplicht om de <a "
-"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>"
-" af te kunnen maken.  In geval van nood zou het mogelijk kunnen zijn dat "
-"iemand van het Fedora Project contact met u moet opnemen.  Voor meer "
-"informatie zie onze <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
-"Policy</a></p>"
+msgstr "<p>Verplicht om de <a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a> af te kunnen maken.  In geval van nood zou het mogelijk kunnen zijn dat iemand van het Fedora Project contact met u moet opnemen.  Voor meer informatie zie onze <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a></p>"
 
-#: fas/help.py:33 fas/templates/fpca/index.html:47
+#: fas/help.py:34 fas/templates/fpca/index.html:47
 #: fas/templates/user/edit.html:51
 msgid "Postal Address"
 msgstr "Postadres"
 
-#: fas/help.py:33
+#: fas/help.py:34
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
-msgstr ""
-"<p>Dit moet een mail-adres zijn waarop u te bereiken bent.  Zie onze <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
-"Policy</a> indien u bedenkingen hebt.</p>"
+msgstr "<p>Dit moet een mail-adres zijn waarop u te bereiken bent.  Zie onze <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy Policy</a> indien u bedenkingen hebt.</p>"
 
-#: fas/help.py:34
+#: fas/help.py:35
 msgid "Timezone (Optional)"
 msgstr "Tijdzone (Optioneel)"
 
-#: fas/help.py:34
+#: fas/help.py:35
 msgid "<p>Please specify the time zone you are in.</p>"
 msgstr "<p>Specificeer de tijdzone waarin u bent.</p>"
 
-#: fas/help.py:35
+#: fas/help.py:36
 msgid "Comments (Optional)"
 msgstr "Opmerkingen (optioneel)"
 
-#: fas/help.py:35
+#: fas/help.py:36
 msgid "<p>Misc comments about yourself.</p>"
 msgstr "<p>Wat opmerkingen over uzelf.</p>"
 
-#: fas/help.py:36 fas/templates/user/list.html:27
+#: fas/help.py:37 fas/templates/user/list.html:27
 msgid "Account Status"
 msgstr "Account Status"
 
-#: fas/help.py:36
+#: fas/help.py:37
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
-msgstr ""
-"<p>Toont account status, mogelijke waarden "
-"zijn<ul><li>actief</li><li>inactief</li></ul></p>"
+msgstr "<p>Toont account status, mogelijke waarden zijn<ul><li>actief</li><li>inactief</li></ul></p>"
 
-#: fas/help.py:37
+#: fas/help.py:38
 msgid "FPCA"
 msgstr "FPCA"
 
-#: fas/help.py:37
+#: fas/help.py:38
 msgid ""
 "<p>In order to become a full Fedora contributor you must complete the <a "
 "href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora"
@@ -606,19 +500,13 @@ msgid ""
 "between you and Red Hat.  Full status allows people to contribute content "
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
-msgstr ""
-"<p>Om een volwaardige Fedora Contributor te worden, moet u de <a "
-"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora"
-" Project Contributor Agreement</a> geheel invullen.  Deze licentie is een "
-"juridische overeenkomst tussen u en Red Hat.  Volledige status stelt mensen "
-"in staat inhoud en code aan te leveren en wordt aanbevolen voor een ieder "
-"die betrokken is bij het Fedora Project.</p>"
+msgstr "<p>Om een volwaardige Fedora Contributor te worden, moet u de <a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora Project Contributor Agreement</a> geheel invullen.  Deze licentie is een juridische overeenkomst tussen u en Red Hat.  Volledige status stelt mensen in staat inhoud en code aan te leveren en wordt aanbevolen voor een ieder die betrokken is bij het Fedora Project.</p>"
 
-#: fas/help.py:38 fas/templates/user/edit.html:105
+#: fas/help.py:39 fas/templates/user/edit.html:105
 msgid "Public RSA SSH Key"
 msgstr "Public RSA SSH Key"
 
-#: fas/help.py:38
+#: fas/help.py:39
 msgid ""
 "<p>Many resources require public key authentication to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
@@ -627,292 +515,229 @@ msgid ""
 " wish to login through several hosts, each with their own public key, you "
 "can create a concatenated file of public ssh keys and upload it in lieu of "
 "the individual ssh public key.</p>"
-msgstr ""
-"<p>Vele bronnen vereisen authenticatie met een publieke sleutel om te kunnen"
-" werken.  Door uw publieke sleutel naar ons te uploaden bent u instaat om op"
-" onze servers in te loggen.  Typ \"man ssh-keygen\" voor meer informatie "
-"over het aanmaken van uw sleutel (het moet een RSA sleutel zijn).  Eenmaal "
-"aangemaakt wilt u  ~/.ssh/id_rsa.pub. <br /><br /> uploaden. Indien u over "
-"verschillende hosts wilt inloggen, elk met haar eigen publieke sleutel, kunt"
-" u een concatenerend bestand van publieke ssh sleutels aanmaken. Upload dit "
-"bestand in de plaats van de individuele ssh publieke sleutel.</p>"
+msgstr "<p>Vele bronnen vereisen authenticatie met een publieke sleutel om te kunnen werken.  Door uw publieke sleutel naar ons te uploaden bent u instaat om op onze servers in te loggen.  Typ \"man ssh-keygen\" voor meer informatie over het aanmaken van uw sleutel (het moet een RSA sleutel zijn).  Eenmaal aangemaakt wilt u  ~/.ssh/id_rsa.pub. <br /><br /> uploaden. Indien u over verschillende hosts wilt inloggen, elk met haar eigen publieke sleutel, kunt u een concatenerend bestand van publieke ssh sleutels aanmaken. Upload dit bestand in de plaats van de individuele ssh publieke sleutel.</p>"
 
-#: fas/help.py:39 fas/templates/user/edit.html:121
+#: fas/help.py:40 fas/templates/user/edit.html:121
 msgid "Locale"
 msgstr "Lokale"
 
-#: fas/help.py:39
+#: fas/help.py:40
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr ""
-"<p>Voor niet-engels sprekenden stelt dit instaat de lokale taal in te "
-"stellen.</p>"
+msgstr "<p>Voor niet-engels sprekenden stelt dit instaat de lokale taal in te stellen.</p>"
 
-#: fas/help.py:40
+#: fas/help.py:41
 msgid "Country Code"
 msgstr "Landencode"
 
-#: fas/help.py:41
+#: fas/help.py:42
 msgid "Must be over 13 Years"
 msgstr "Moet boven de 13 zijn"
 
-#: fas/help.py:41
+#: fas/help.py:42
 msgid ""
 "<p>Out of special concern for children's privacy, we do not knowingly accept"
 " online personal information from children under the age of 13. We do not "
 "knowingly allow children under the age of 13 to become registered members of"
 " our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
-msgstr ""
-"<p>Vanwege onze zorg over privacy van kinderen accepteren wij niet "
-"doelbewust online persoonlijke informatie van kinderen onder de 13. Wij "
-"staan niet doelbewust toe dat kinderen onder de 13 geregistreerde leden van "
-"onze websites worden, of producten en diensten afnemen via onze sites. We "
-"verzamelen niet doelbewust  persoonlijke informatie over kinderen onder de "
-"13.</p>"
+msgstr "<p>Vanwege onze zorg over privacy van kinderen accepteren wij niet doelbewust online persoonlijke informatie van kinderen onder de 13. Wij staan niet doelbewust toe dat kinderen onder de 13 geregistreerde leden van onze websites worden, of producten en diensten afnemen via onze sites. We verzamelen niet doelbewust  persoonlijke informatie over kinderen onder de 13.</p>"
 
-#: fas/help.py:42
+#: fas/help.py:43
 msgid "Hide Information"
 msgstr "Verberg informatie"
 
-#: fas/help.py:42
+#: fas/help.py:43
 msgid ""
 "<p>In accordance with our privacy policy, you can choose to hide some of the"
 " information given on this page from other people.  Please see the privacy "
 "policy for complete details.</p>"
-msgstr ""
-"<p>In overeenstemming met uw privacy policy kunt u ervoor kiezen bepaalde "
-"informatie, die op deze pagina ingevuld staat, voor andere mensen te "
-"verbergen.  Lees alstublieft de privacy policy voor alle details.</p>"
+msgstr "<p>In overeenstemming met uw privacy policy kunt u ervoor kiezen bepaalde informatie, die op deze pagina ingevuld staat, voor andere mensen te verbergen.  Lees alstublieft de privacy policy voor alle details.</p>"
 
-#: fas/help.py:43 fas/templates/group/list.html:43
+#: fas/help.py:44 fas/templates/group/list.html:43
 msgid "Apply"
 msgstr "Aanvragen"
 
-#: fas/help.py:43
+#: fas/help.py:44
 #, python-format
 msgid ""
 "<p>Applying for a group is like applying for a job and it can certainly take"
 " a while to get in.  Many groups have their own rules about how to actually "
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
-msgstr ""
-"<p>Aanmelden bij een groep is als solliciteren voor een baan en kan even "
-"duren.  Vele groepen hebben hun eigen regels over hoe men opgenomen kan "
-"worden of kan worden gesponsord.  Voor meer informatie over hoe het "
-"accountsysteem werkt, zie de <a href=\"%s\">Over pagina</a>.</p>"
+msgstr "<p>Aanmelden bij een groep is als solliciteren voor een baan en kan even duren.  Vele groepen hebben hun eigen regels over hoe men opgenomen kan worden of kan worden gesponsord.  Voor meer informatie over hoe het accountsysteem werkt, zie de <a href=\"%s\">Over pagina</a>.</p>"
 
-#: fas/help.py:44 fas/templates/group/member-list.html:46
+#: fas/help.py:45 fas/templates/group/member-list.html:46
 msgid "Remove"
 msgstr "Verwijder"
 
-#: fas/help.py:44
+#: fas/help.py:45
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in "
 "the group.  They will need to re-apply to get in.  Admins can remove anyone,"
 " Sponsors can remove users, users can't remove anyone.</p>"
-msgstr ""
-"<p>Verwijderen van een persoon van een groep verwijdert die persoon uit de "
-"groep.  Er zal een nieuw verzoek tot toelaten moeten worden ingediend.  "
-"Admins kunnen iedereen verwijderen, Sponsors gebruikers, gebruikers "
-"niemand.</p>"
+msgstr "<p>Verwijderen van een persoon van een groep verwijdert die persoon uit de groep.  Er zal een nieuw verzoek tot toelaten moeten worden ingediend.  Admins kunnen iedereen verwijderen, Sponsors gebruikers, gebruikers niemand.</p>"
 
-#: fas/help.py:45 fas/templates/group/member-list.html:50
+#: fas/help.py:46 fas/templates/group/member-list.html:50
 msgid "Upgrade"
 msgstr "Opwaarderen"
 
-#: fas/help.py:45
+#: fas/help.py:46
 msgid ""
 "<p>Upgrade a persons status in this group.<ul><li>from user -> to "
 "sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot "
 "be upgraded beyond administrator</li></ul></p>"
-msgstr ""
-"<p>Waardeer de status van een persoon in deze groep op.<ul><li>van gebruiker"
-" -> naar sponsor</li><li>Van sponsor -> beheerder</li><li>beheerders kunnen "
-"niet verder opgewaardeerd worden</li></ul></p>"
+msgstr "<p>Waardeer de status van een persoon in deze groep op.<ul><li>van gebruiker -> naar sponsor</li><li>Van sponsor -> beheerder</li><li>beheerders kunnen niet verder opgewaardeerd worden</li></ul></p>"
 
-#: fas/help.py:46 fas/templates/group/member-list.html:54
+#: fas/help.py:47 fas/templates/group/member-list.html:54
 msgid "Downgrade"
 msgstr "Afwaarderen"
 
-#: fas/help.py:46
+#: fas/help.py:47
 msgid ""
 "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to "
 "sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded "
 "below user, you may want to remove them</li></ul></p>"
-msgstr ""
-"<p>Waardeer de status van een persoon in de groep af.<ul><li>van beheerder "
-"-> naar sponsor</li><li>Van sponsor -> gebruiker</li><li>gebruikers kunnen "
-"geen lagere status hebben, misschien is verwijderen dan beter.</li></ul></p>"
+msgstr "<p>Waardeer de status van een persoon in de groep af.<ul><li>van beheerder -> naar sponsor</li><li>Van sponsor -> gebruiker</li><li>gebruikers kunnen geen lagere status hebben, misschien is verwijderen dan beter.</li></ul></p>"
 
-#: fas/help.py:47 fas/templates/group/member-list.html:41
+#: fas/help.py:48 fas/templates/group/member-list.html:41
 msgid "Approve"
 msgstr "Goedkeuren"
 
-#: fas/help.py:47
+#: fas/help.py:48
 msgid ""
 "<p>A sponsor or administrator can approve users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "approve the user.</p>"
-msgstr ""
-"<p>Een sponsor of beheerder kan gebruikers toelaten in een groep.  Heeft een"
-" gebruikers zich eenmaal aangemeld bij een groep, ga dan naar de "
-"groepspagina en klik vervolgens op toelaten om de gebruiker toe te "
-"laten.</p>"
+msgstr "<p>Een sponsor of beheerder kan gebruikers toelaten in een groep.  Heeft een gebruikers zich eenmaal aangemeld bij een groep, ga dan naar de groepspagina en klik vervolgens op toelaten om de gebruiker toe te laten.</p>"
 
-#: fas/help.py:48 fas/templates/group/member-list.html:15
+#: fas/help.py:49 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
 msgstr "Sponsor"
 
-#: fas/help.py:48
+#: fas/help.py:49
 msgid ""
 "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
-msgstr ""
-"<p>Een sponsor of beheerder kan een gebruiker sponsoren om die gebruiker in "
-"een groep te laten komen.  Indien een gebruiker zich eenmaal bij de groep "
-"heeft aangemeld, ga dan naar de groepspagina en klik op 'toelaten' om te "
-"sponsoren.  Sponsorschap van een gebruiker houdt in dat u een gebruiker "
-"goedkeurt en zal begeleiden en antwoorden op zijn eventuele vragen.</p>"
+msgstr "<p>Een sponsor of beheerder kan een gebruiker sponsoren om die gebruiker in een groep te laten komen.  Indien een gebruiker zich eenmaal bij de groep heeft aangemeld, ga dan naar de groepspagina en klik op 'toelaten' om te sponsoren.  Sponsorschap van een gebruiker houdt in dat u een gebruiker goedkeurt en zal begeleiden en antwoorden op zijn eventuele vragen.</p>"
 
-#: fas/help.py:49
+#: fas/help.py:50
 msgid "Add User"
 msgstr "Voeg gebruikt toe"
 
-#: fas/help.py:49
+#: fas/help.py:50
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
-msgstr ""
-"<p>Handmatig gebruiker aan groep toevoegen.  Plaats hun gebruikersnaam in "
-"dit veld en klik 'Toevoegen'</p>"
+msgstr "<p>Handmatig gebruiker aan groep toevoegen.  Plaats hun gebruikersnaam in dit veld en klik 'Toevoegen'</p>"
 
-#: fas/help.py:50
+#: fas/help.py:51
 msgid "Group Name"
 msgstr "Groep Naam"
 
-#: fas/help.py:50
+#: fas/help.py:51
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
-msgstr ""
-"<p>De naam van de groep die u wilt creëren.  Het moet in kleine letters en "
-"alfanumeriek, hoewel '-' en '_' toegestaan zijn</p>"
+msgstr "<p>De naam van de groep die u wilt creëren.  Het moet in kleine letters en alfanumeriek, hoewel '-' en '_' toegestaan zijn</p>"
 
-#: fas/help.py:51
+#: fas/help.py:52
 msgid "Display Name"
 msgstr "Naam in Beeld"
 
-#: fas/help.py:51
+#: fas/help.py:52
 msgid "<p>More human readable name of the group</p>"
 msgstr "<p>Meer voor de mens leesbare naam van de groep</p>"
 
-#: fas/help.py:52
+#: fas/help.py:53
 msgid "Group Owner"
 msgstr "Eigenaar Groep"
 
-#: fas/help.py:52
+#: fas/help.py:53
 msgid "<p>The name of the owner who will run this group</p>"
 msgstr "<p>De naam van de eigenaar die de groep zal uitvoeren</p>"
 
-#: fas/help.py:53 fas/templates/group/list.html:28
+#: fas/help.py:54 fas/templates/group/list.html:28
 msgid "Group Type"
 msgstr "Groep Type"
 
-#: fas/help.py:53
+#: fas/help.py:54
 msgid ""
 "<p>Normally it is safe to leave this blank.  Though some values include "
 "'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only "
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
-msgstr ""
-"<p>Normaal gesproken kunt u dit leeg laten.  Hoewel sommige waarden inhouden"
-" 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', en 'mtn'.  Deze waarde is "
-"alleen van belang als de groep te maken zal krijgen met shell-toegang of "
-"toegang om bijdragen te leveren op bijvoorbeeld fedorahosted.</p>"
+msgstr "<p>Normaal gesproken kunt u dit leeg laten.  Hoewel sommige waarden inhouden 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', en 'mtn'.  Deze waarde is alleen van belang als de groep te maken zal krijgen met shell-toegang of toegang om bijdragen te leveren op bijvoorbeeld fedorahosted.</p>"
 
-#: fas/help.py:54
+#: fas/help.py:55
 msgid "Group URL (Optional)"
 msgstr "Groep URL (Optioneel)"
 
-#: fas/help.py:54
+#: fas/help.py:55
 msgid ""
 "<p>A URL or wiki page for the group (for example, <a "
 "href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
-msgstr ""
-"<p>Een URL of wiki pagina voor de groep (bijvoorbeeld, <a "
-"href=\"https://fedoraproject.org/wiki/Infrastructure/nl\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
+msgstr "<p>Een URL of wiki pagina voor de groep (bijvoorbeeld, <a href=\"https://fedoraproject.org/wiki/Infrastructure/nl\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
-#: fas/help.py:55
+#: fas/help.py:56
 msgid "Group Mailing List (Optional)"
 msgstr "Groep Mailing Lijst (Optioneel)"
 
-#: fas/help.py:55
+#: fas/help.py:56
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
-msgstr ""
-"<p>Een mailing lijst voor de groep (bijvoorbeeld, fedora-infrastructure-"
-"list@redhat.com).</p>"
+msgstr "<p>Een mailing lijst voor de groep (bijvoorbeeld, fedora-infrastructure-list@redhat.com).</p>"
 
-#: fas/help.py:56
+#: fas/help.py:57
 msgid "Group Mailing List URL (Optional)"
 msgstr "Groep Mailing Lijst URL (Optioneel)"
 
-#: fas/help.py:56
+#: fas/help.py:57
 msgid ""
 "<p>A URL for the group's mailing list (for example, <a "
 "href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list</a>).</p>"
-msgstr ""
-"<p>Een URL voor de groepsmailing lijst (bijvoorbeeld, <a "
-"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list</a>).</p>"
+msgstr "<p>Een URL voor de groepsmailing lijst (bijvoorbeeld, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
-#: fas/help.py:57
+#: fas/help.py:58
 msgid "Invite Only"
 msgstr "Alleen op Uitnodiging"
 
-#: fas/help.py:57
+#: fas/help.py:58
 msgid ""
 "<p>If users should not normally be able to apply to the group, setting this "
 "will hide the usual \"Apply!\" links and buttons.  Users can still be added "
 "to a group directly by an admin or sponsor.</p>"
-msgstr ""
-"<p>Indien het niet de bedoeling is, dat gebruikers kunnen aanmelden voor de "
-"groep, zal dit de gebruikelijke \"Vraag aan!\" links en buttons verbergen.  "
-"Gebruikers kunnen nog wel rechtstreeks toegevoegd worden aan de groep door "
-"admin of sponsor.</p>"
+msgstr "<p>Indien het niet de bedoeling is, dat gebruikers kunnen aanmelden voor de groep, zal dit de gebruikelijke \"Vraag aan!\" links en buttons verbergen.  Gebruikers kunnen nog wel rechtstreeks toegevoegd worden aan de groep door admin of sponsor.</p>"
 
-#: fas/help.py:58
+#: fas/help.py:59
 msgid "Group IRC Channel (Optional)"
 msgstr "Groep IRC Channel (Optioneel)"
 
-#: fas/help.py:58
+#: fas/help.py:59
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
 msgstr "<p>Een IRC channel voor de groep (bijvoorbeeld, #fedora-admin).</p>"
 
-#: fas/help.py:59
+#: fas/help.py:60
 msgid "Group IRC Network (Optional)"
 msgstr "Groep IRC Network (Optioneel)"
 
-#: fas/help.py:59
+#: fas/help.py:60
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
-"<p>Het IRC Netwerk voor het groep-IRC channel (bijvoorbeeld, Freenode).</p>"
+msgstr "<p>Het IRC Netwerk voor het groep-IRC channel (bijvoorbeeld, Freenode).</p>"
 
-#: fas/help.py:60
+#: fas/help.py:61
 msgid "Needs Sponsor"
 msgstr "Sponsor Nodig"
 
-#: fas/help.py:60
+#: fas/help.py:61
 msgid ""
 "<p>If your group requires sponsorship (recommended), this means that when a "
 "user is approved by a sponsor.  That relationship is recorded in the account"
@@ -920,117 +745,84 @@ msgid ""
 "group, people will know to contact user A about user N if something goes "
 "wrong.  If this box is unchecked, this means that only approval is needed "
 "and no relationship is recorded about who did the approving</p>"
-msgstr ""
-"<p>Indien uw groep sponsorschap vereist (aanbevolen), betekent dit dat een "
-"gebruiker is goedgekeurd door een sponsor.  Die relatie wordt vastgelegd in "
-"het accountsysteem.   Indien gebruiker A gebruiker N sponsort, zullen de "
-"leden van deze groep weten, dat zij A kunnen aanspreken over N indien iets "
-"mis gaat.  Indien dit hokje niet is aangevinkt, wil dat zeggen dat alleen "
-"goedkeuring nodig is en er geen relatie wordt vastgelegd over wie welke "
-"goedkeuring deed.</p>"
+msgstr "<p>Indien uw groep sponsorschap vereist (aanbevolen), betekent dit dat een gebruiker is goedgekeurd door een sponsor.  Die relatie wordt vastgelegd in het accountsysteem.   Indien gebruiker A gebruiker N sponsort, zullen de leden van deze groep weten, dat zij A kunnen aanspreken over N indien iets mis gaat.  Indien dit hokje niet is aangevinkt, wil dat zeggen dat alleen goedkeuring nodig is en er geen relatie wordt vastgelegd over wie welke goedkeuring deed.</p>"
 
-#: fas/help.py:61
+#: fas/help.py:62
 msgid "Self Removal"
 msgstr "Zelf Afmelden"
 
-#: fas/help.py:61
+#: fas/help.py:62
 msgid ""
 "<p>Should users be able to remove themselves from this group without sponsor"
 " / admin intervention?  (recommended yes)</p>"
-msgstr ""
-"<p>Zouden gebruikers zichzelf kunnen verwijderen van de groep zonder sponsor"
-" / admin tussenkomst?  (aanbevolen yes)</p>"
+msgstr "<p>Zouden gebruikers zichzelf kunnen verwijderen van de groep zonder sponsor / admin tussenkomst?  (aanbevolen yes)</p>"
 
-#: fas/help.py:62
+#: fas/help.py:63
 msgid "Must Belong To"
 msgstr "Moet Horen Bij"
 
-#: fas/help.py:62
+#: fas/help.py:63
 #, python-format
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
-msgstr ""
-"<p>Voordat een gebruiker zich bij deze groep kan aansluiten, moet hij "
-"behoren tot een groep in deze box genoemd.  Aanbevolen waarden zijn voor de "
-"'%s' groep.</p>"
+msgstr "<p>Voordat een gebruiker zich bij deze groep kan aansluiten, moet hij behoren tot een groep in deze box genoemd.  Aanbevolen waarden zijn voor de '%s' groep.</p>"
 
-#: fas/help.py:63
+#: fas/help.py:64
 msgid "Join Message"
 msgstr "Welkomstbericht"
 
-#: fas/help.py:63
+#: fas/help.py:64
 msgid ""
 "<p>This message will go out to users when they apply to the group.  It "
 "should be informative and offer tips about what to do next.  A description "
 "of the group would also be valuable here</p>"
-msgstr ""
-"<p>Dit bericht wordt verstuurd naar gebruikers die zich hebben aangemeld bij"
-" de groep.  Het moet informatief zijn en tips bevatten over wat de gebruiker"
-" vervolgens moet doen.  Een beschrijving van de groep zou ook niet "
-"onverstandig zijn hier.</p>"
+msgstr "<p>Dit bericht wordt verstuurd naar gebruikers die zich hebben aangemeld bij de groep.  Het moet informatief zijn en tips bevatten over wat de gebruiker vervolgens moet doen.  Een beschrijving van de groep zou ook niet onverstandig zijn hier.</p>"
 
-#: fas/help.py:64
+#: fas/help.py:65
 msgid "Client Side Cert"
 msgstr "Client Side Cert"
 
-#: fas/help.py:64
+#: fas/help.py:65
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages"
 " to Fedora or for other authentication purposes like with koji.  You should "
 "save this certificate to ~/.fedora.cert.  If you are not a package "
 "maintainer there is no need to worry about the client side cert.  Please "
 "note that whenever a new cert is generated, all old ones are revoked.</p>"
-msgstr ""
-"<p>Het client side cert wordt over het algemeen gebruikt om toestemming te "
-"krijgen bij uploaden van pakketten naar Fedora of voor andere authenticatie "
-"doeleinden, zoals bij koji.  U moet dit certificaat opslaan in "
-"~/.fedora.cert.  Indien u geen package maintainer bent hoeft u zich over een"
-" client side cert niet druk te maken.  Bedenk goed dat elke keer als een "
-"nieuw certificaat is gegenereerd, alle oude komen te vervalen.</p>"
+msgstr "<p>Het client side cert wordt over het algemeen gebruikt om toestemming te krijgen bij uploaden van pakketten naar Fedora of voor andere authenticatie doeleinden, zoals bij koji.  U moet dit certificaat opslaan in ~/.fedora.cert.  Indien u geen package maintainer bent hoeft u zich over een client side cert niet druk te maken.  Bedenk goed dat elke keer als een nieuw certificaat is gegenereerd, alle oude komen te vervalen.</p>"
 
-#: fas/help.py:65
+#: fas/help.py:66
 msgid "Longitude and Latitude"
 msgstr "Longitude en Latitude"
 
-#: fas/help.py:65
+#: fas/help.py:66
 msgid ""
 "<p>Your longitude and latitude.  This optional field should be entered as a "
 "floating point number.  For instance, 312.333 or -21.2.  This may be used "
 "for mapping purposes, but will not be used if you have privacy enabled for "
 "your account.</p>"
-msgstr ""
-"<p>Uw longitude en latitude.  Dit optionele veld moet worden ingevuld met "
-"een floating point number.  Bijvoorbeeld, 312.333 of -21.2.  Dit zou worden "
-"kunnen gebruikt voor kaartdoeleinden, maar zal dat niet indien u privacy aan"
-" hebt staan voor uw account.</p>"
+msgstr "<p>Uw longitude en latitude.  Dit optionele veld moet worden ingevuld met een floating point number.  Bijvoorbeeld, 312.333 of -21.2.  Dit zou worden kunnen gebruikt voor kaartdoeleinden, maar zal dat niet indien u privacy aan hebt staan voor uw account.</p>"
 
-#: fas/help.py:66
+#: fas/help.py:67
 msgid "Rules for Application"
 msgstr "Regels betreffende Aanmelding"
 
-#: fas/help.py:66
+#: fas/help.py:67
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
-msgstr ""
-"<p>Regels of stappen die gevolgd moeten worden, voordat zij zich gaan "
-"aanmelden bij uw groep.  Dit zal getoond worden voordat zij zich bij uw "
-"groep aanmelden.</p>"
+msgstr "<p>Regels of stappen die gevolgd moeten worden, voordat zij zich gaan aanmelden bij uw groep.  Dit zal getoond worden voordat zij zich bij uw groep aanmelden.</p>"
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
-"Deze OpenID zal niet actief worden voordat de gebruiker de CLA heeft "
-"getekend."
+msgstr "Deze OpenID zal niet actief worden voordat de gebruiker de CLA heeft getekend."
 
 #: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating to "
 "the OpenID consumer."
-msgstr ""
-"Uw laatste OpenID verzoek kon niet worden opgehaald.  Probeer opnieuw "
-"authenticatie bij de OpenID gebruiker."
+msgstr "Uw laatste OpenID verzoek kon niet worden opgehaald.  Probeer opnieuw authenticatie bij de OpenID gebruiker."
 
 #: fas/safasprovider.py:304
 #, python-format
@@ -1053,42 +845,40 @@ msgstr "Groepenlijst"
 msgid "Join a Group"
 msgstr "Groepslid worden"
 
-#: fas/user.py:80
+#: fas/user.py:86
 msgid "Solve the math problem"
 msgstr "Los de som op"
 
-#: fas/user.py:249
+#: fas/user.py:292
 #, python-format
 msgid "You cannot edit %s"
 msgstr "U kunt %s niet bewerken"
 
-#: fas/user.py:312
+#: fas/user.py:334
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "U hebt geen permissie om '%s' te bewerken"
 
-#: fas/user.py:321
+#: fas/user.py:343
 msgid "Only admin can enable or disable an account."
 msgstr "Alleen admin kan een account in- of uitschakelen."
 
-#: fas/user.py:346
+#: fas/user.py:368
 msgid "Somebody is already using that email address."
 msgstr "Email-adres al in gebruik."
 
-#: fas/user.py:351
+#: fas/user.py:373
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
-msgstr ""
-"Voordat uw email-instelling wordt veranderd, dient u dit eerst te "
-"bevestigen.  U krijgt zeer spoedig een email met instructies daartoe."
+msgstr "Voordat uw email-instelling wordt veranderd, dient u dit eerst te bevestigen.  U krijgt zeer spoedig een email met instructies daartoe."
 
-#: fas/user.py:358
+#: fas/user.py:380
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Email-verandering verzocht voor %s"
 
-#: fas/user.py:360
+#: fas/user.py:382
 #, python-format
 msgid ""
 "\n"
@@ -1098,28 +888,19 @@ msgid ""
 "login with your Fedora account first):\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
-msgstr ""
-"\n"
-"U hebt recent verzocht uw Fedora Account System email te\n"
-"veranderen naar dit adres.  Om de verandering van emailadres\n"
-"af te maken, moet u bevestigen dat u eigenaar bent van dit\n"
-"emailadres door de volgende URL aan te klikken \n"
-"(U dient reeds in uw browser ingelogd te staan op uw Fedora\n"
-" account):\n"
-"\n"
-"%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
+msgstr "\nU hebt recent verzocht uw Fedora Account System email te\nveranderen naar dit adres.  Om de verandering van emailadres\naf te maken, moet u bevestigen dat u eigenaar bent van dit\nemailadres door de volgende URL aan te klikken \n(U dient reeds in uw browser ingelogd te staan op uw Fedora\n account):\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
-#: fas/user.py:385
+#: fas/user.py:409
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Uw accountdetails konden niet worden opgeslagen: %s"
 
-#: fas/user.py:390
+#: fas/user.py:414
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Fedora Account Data Update %s"
 
-#: fas/user.py:392
+#: fas/user.py:416
 #, python-format
 msgid ""
 "\n"
@@ -1143,69 +924,46 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
-"\n"
-"U hebt net informatie over uw account bijgewerkt.  Indien u deze veranderingen \n"
-"niet hebt aangebracht, neem dan contact op met  admin@fedoraproject.org en vertel hun dat.  Uw\n"
-"bijgewerkte informatie is:\n"
-"\n"
-"  username:       %(username)s\n"
-"  ircnick:        %(ircnick)s\n"
-"  telefoon:      %(telephone)s\n"
-"  locale:         %(locale)s\n"
-"  postadres: %(postal_address)s\n"
-"  tijdzone:       %(timezone)s\n"
-"  landencode:   %(country_code)s\n"
-"  latitude:       %(latitude)s\n"
-"  longitude:      %(longitude)s\n"
-"  privacy flag:   %(privacy)s\n"
-"  ssh_key:        %(ssh_key)s\n"
-"  gpg_keyid:      %(gpg_keyid)s\n"
-"\n"
-"Indien bovenstaande informatie niet correct is, log dan alstublieft in en herstel het:\n"
-"\n"
-"   %(editurl)s/accounts/user/edit/%(username)s\n"
+msgstr "\nU hebt net informatie over uw account bijgewerkt.  Indien u deze veranderingen \nniet hebt aangebracht, neem dan contact op met  admin@fedoraproject.org en vertel hun dat.  Uw\nbijgewerkte informatie is:\n\n  username:       %(username)s\n  ircnick:        %(ircnick)s\n  telefoon:      %(telephone)s\n  locale:         %(locale)s\n  postadres: %(postal_address)s\n  tijdzone:       %(timezone)s\n  landencode:   %(country_code)s\n  latitude:       %(latitude)s\n  longitude:      %(longitude)s\n  privacy flag:   %(privacy)s\n  ssh_key:        %(ssh_key)s\n  gpg_keyid:      %(gpg_keyid)s\n\nIndien bovenstaande informatie niet correct is, log dan alstublieft in en herstel het:\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
-#: fas/user.py:427
+#: fas/user.py:451
 msgid "Your account details have been saved."
 msgstr "Uw accountdetails zijn opgeslagen."
 
-#: fas/user.py:672
+#: fas/user.py:702
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Ongeldig veld gespecifieerd: %(error)s"
 
-#: fas/user.py:686
+#: fas/user.py:716
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Geen gebruikers gevonden die passen bij '%s'"
 
-#: fas/user.py:734
+#: fas/user.py:764
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
-msgstr ""
-"Uw hangende verzoek tot email-wijziging is afgebroken.   Het  verander-email"
-" token is ongeldig gemaakt."
+msgstr "Uw hangende verzoek tot email-wijziging is afgebroken.   Het  verander-email token is ongeldig gemaakt."
 
-#: fas/user.py:739 fas/user.py:761
+#: fas/user.py:769 fas/user.py:791
 msgid "You do not have any pending email changes."
 msgstr "U hebt geen hangende email-veranderingen."
 
-#: fas/user.py:743 fas/user.py:765
+#: fas/user.py:773 fas/user.py:795
 msgid "Invalid email change token."
 msgstr "Ongeldig verander-email token."
 
-#: fas/user.py:775
+#: fas/user.py:805
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "U hebt uw email succesvol veranderd in '%s'"
 
-#: fas/user.py:790
+#: fas/user.py:820
 msgid "No need to sign up, you have an account!"
 msgstr "Niet nodig een account aan te maken, u hebt al een account!"
 
-#: fas/user.py:819 fas/user.py:873
+#: fas/user.py:852 fas/user.py:908
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1213,46 +971,34 @@ msgid ""
 "registered members of our sites or buy products and services on our sites. "
 "We do not knowingly collect or solicit personal information about children "
 "under 13."
-msgstr ""
-"Het spijt ons, maar vanwege onze zorg over privacy van kinderen accepteren "
-"wij niet doelbewust online persoonlijke informatie van kinderen onder de 13."
-" Wij staan niet doelbewust toe dat kinderen onder de 13 geregistreerde leden"
-" van onze websites worden, of producten en diensten afnemen via onze sites. "
-"We verzamelen niet doelbewust  persoonlijke informatie over kinderen onder "
-"de 13"
+msgstr "Het spijt ons, maar vanwege onze zorg over privacy van kinderen accepteren wij niet doelbewust online persoonlijke informatie van kinderen onder de 13. Wij staan niet doelbewust toe dat kinderen onder de 13 geregistreerde leden van onze websites worden, of producten en diensten afnemen via onze sites. We verzamelen niet doelbewust  persoonlijke informatie over kinderen onder de 13"
 
-#: fas/user.py:831 fas/user.py:884
+#: fas/user.py:864 fas/user.py:919
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
-msgstr ""
-"Sorry.  Dat email-adres is al in gebruik. Misschien bent u uw wachtwoord "
-"vergeten?"
+msgstr "Sorry.  Dat email-adres is al in gebruik. Misschien bent u uw wachtwoord vergeten?"
 
-#: fas/user.py:837
+#: fas/user.py:870
 msgid "Sorry.  Email addresses do not match"
 msgstr "Sorry.  Email-adressen komen niet overeen"
 
-#: fas/user.py:844
+#: fas/user.py:877
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
-"Uw account kon niet worden aangemaakt.  Neem alstublieft contact op met %s "
-"voor assistentie."
+msgstr "Uw account kon niet worden aangemaakt.  Neem alstublieft contact op met %s voor assistentie."
 
-#: fas/user.py:851
+#: fas/user.py:884
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
-msgstr ""
-"Uw wachtwoord is naar u toe gemaild.  Log daarmee alstublieft gelijk in en "
-"verander uw wachtwoord direct"
+msgstr "Uw wachtwoord is naar u toe gemaild.  Log daarmee alstublieft gelijk in en verander uw wachtwoord direct"
 
-#: fas/user.py:899
+#: fas/user.py:936
 msgid "Welcome to the Fedora Project!"
 msgstr "Welkom bij het Fedora Project!"
 
-#: fas/user.py:899
+#: fas/user.py:936
 #, python-format
 msgid ""
 "\n"
@@ -1292,117 +1038,87 @@ msgid ""
 "to help. From here, existing members of the team will help you to find\n"
 "your feet as a Fedora contributor.\n"
 "\n"
+"Please remember that you are joining a community made of contributors\n"
+"from all around the world, as such please stop by the Community Code of \n"
+"Conduct. \n"
+"\n"
+"https://fedoraproject.org/code-of-conduct\n"
+"\n"
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
-"\n"
-"U hebt een nieuw Fedora account aangemaakt!\n"
-"Uw gebruikersnaam is: %(username)s\n"
-"Uw nieuwe wachtwoord is: %(password)s\n"
-"\n"
-"Ga alstublieft naar %(base_url)s%(webpath)s/user/changepass\n"
-"om het direct te veranderen.\n"
-"\n"
-"Welkom bij het Fedora Project. Nu u een account hebt, staat u\n"
-"waarschijnlijk te trappelen bijdragen te gaan leveren, en met dat\n"
-"voor ogen hopen we dat deze e-mail u op weg helpt om dit\n"
-"proces zo soepel mogelijk te laten verlopen.\n"
-"\n"
-"Fedora is een opwindend project waarin veel gebeurt, en u kan\n"
-"bijdragen op zeer veel manieren, gebruikmakend van alle\n"
-"mogelijke kwaliteiten. Wilt u meer weten over meewerken aan Fedora\n"
-"en de verschillende rollen die u kunt aannemen, bezoek dan\n"
-"\n"
-"http://join.fedoraproject.org/\n"
-"\n"
-"Als u al weet hoe u wilt bijdragen aan Fedora, en u hebt een groep\n"
-"gevonden die al in een gebied werkt waarin u geïnteresseerd bent, zijn\n"
-"er een paar stappen meer te nemen die u verder helpen.\n"
-"\n"
-"De belangrijkste stap is u aan te melden bij de team- of project mailinglijst\n"
-"waarin u geïnteresseerd bent - en indien u geïnteresseerd bent in werk van meer dan\n"
-"één groep, het staat u vrij u voor zoveel mailinglijsten op te geven als\n"
-"u nodig vindt! Via mailinglijsten wordt het merendeel van het werk\n"
-"georganiseerd en taken toebedeeld, dus houd de berichten in de\n"
-"gaten om betrokken te blijven.\n"
-"\n"
-"Als u dit gedaan hebt, is het verstandig een korte introductie naar de lijst\n"
-"te sturen, waarin staat welke ervaring u hebt en hoe u wilt helpen.\n"
-"Vanaf daar zullen bestaande leden van het team u helpen vaste grond\n"
-"onder de voeten te krijgen als bijdrager aan Fedora.\n"
-"\n"
-"En tenslotte, van allen hier van het Fedora Project, wij zien uit naar onze samenwerking!\n"
 
-#: fas/user.py:965
-msgid "passwords did not match"
-msgstr "wachtwoorden kwamen niet overeen"
-
-#: fas/user.py:972
+#: fas/user.py:1013 fas/user.py:1063
 msgid "Your current password did not match"
 msgstr "Uw huidig wachtwoord was niet goed"
 
-#: fas/user.py:976
+#: fas/user.py:1024
+msgid "Your security question could not be changed."
+msgstr ""
+
+#: fas/user.py:1027
+msgid "Your security question has been changed."
+msgstr ""
+
+#: fas/user.py:1056
+msgid "passwords did not match"
+msgstr "wachtwoorden kwamen niet overeen"
+
+#: fas/user.py:1067
 msgid "Your new password cannot be the same as your old one."
 msgstr "Uw nieuwe wachtwoord kan niet hetzelfde zijn als uw oude"
 
-#: fas/user.py:991
+#: fas/user.py:1082
 msgid "Your password could not be changed."
 msgstr "Uw wachtwoord kon niet veranderd worden"
 
-#: fas/user.py:994
+#: fas/user.py:1085
 msgid "Your password has been changed."
 msgstr "Uw wachtwoord is veranderd"
 
-#: fas/user.py:1005
+#: fas/user.py:1101
 msgid "You are already logged in!"
 msgstr "U bent al ingelogd!"
 
-#: fas/user.py:1019
+#: fas/user.py:1118
 msgid "You are already logged in."
 msgstr "U bent al ingelogd"
 
-#: fas/user.py:1025
+#: fas/user.py:1124
 msgid "Username email combo does not exist!"
 msgstr "Gebruikersnaam email combinatie bestaat niet!"
 
-#: fas/user.py:1029
+#: fas/user.py:1128
 msgid "username + email combo unknown."
 msgstr "gebruikersnaam + email combinatie onbekend."
 
-#: fas/user.py:1032 fas/user.py:1125 fas/user.py:1173
+#: fas/user.py:1131 fas/user.py:1224 fas/user.py:1272
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
-msgstr ""
-"Uw account heeft momenteel status %(status)s.  Voor meer informatie, neem "
-"alstublieft contact op met %(admin_email)s"
+msgstr "Uw account heeft momenteel status %(status)s.  Voor meer informatie, neem alstublieft contact op met %(admin_email)s"
 
-#: fas/user.py:1039
+#: fas/user.py:1138
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
-msgstr ""
-"Wachtwoorden van systeemaccounts kunnen niet online gerest worden. Neem "
-"alstublieft contact op met  %(admin_email)s om het te laten resetten"
+msgstr "Wachtwoorden van systeemaccounts kunnen niet online gerest worden. Neem alstublieft contact op met  %(admin_email)s om het te laten resetten"
 
-#: fas/user.py:1043
+#: fas/user.py:1142
 msgid "Warning: attempted reset of system account"
 msgstr "Waarschuwing: poging systeemaccount te resetten"
 
-#: fas/user.py:1044
+#: fas/user.py:1143
 #, python-format
 msgid ""
 "\n"
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
-msgstr ""
-"\n"
-"Waarschuwing: Iemand probeerde het wachtwoord voor systeemaccount\n"
-" %(account)s via de webinterface te resetten.\n"
+msgstr "\nWaarschuwing: Iemand probeerde het wachtwoord voor systeemaccount\n %(account)s via de webinterface te resetten.\n"
 
-#: fas/user.py:1053
+#: fas/user.py:1152
 #, python-format
 msgid ""
 "\n"
@@ -1410,87 +1126,76 @@ msgid ""
 "To change your password (or to cancel the request), please visit\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
-msgstr ""
-"\n"
-"Iemand (hopelijk u) heeft een wachtwoord reset voor uw account aangevraagd!\n"
-"Om uw wachtwoord te veranderen (of om het verzoek te cancellen), bezoek alstublieft\n"
-"\n"
-"%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
+msgstr "\nIemand (hopelijk u) heeft een wachtwoord reset voor uw account aangevraagd!\nOm uw wachtwoord te veranderen (of om het verzoek te cancellen), bezoek alstublieft\n\n%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:1067
+#: fas/user.py:1166
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
-msgstr ""
-"Deze gebruiker heeft geen GPG Sleutel ID ingesteld, dus een versleutelde "
-"email kon niet worden verzonden."
+msgstr "Deze gebruiker heeft geen GPG Sleutel ID ingesteld, dus een versleutelde email kon niet worden verzonden."
 
-#: fas/user.py:1073
+#: fas/user.py:1172
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Uw sleutel kon niet worden opgehaald bij "
 
-#: fas/user.py:1100
+#: fas/user.py:1199
 msgid "Your password reset email could not be encrypted."
 msgstr "Uw wachtwoord reset email kon niet worden versleuteld."
 
-#: fas/user.py:1103
+#: fas/user.py:1202
 msgid "Fedora Project Password Reset"
 msgstr "Fedora Project Wachtwoord Reset"
 
-#: fas/user.py:1107
+#: fas/user.py:1206
 msgid "A password reset URL has been emailed to you."
 msgstr "Een wachtwoord reset URL is naar u toe gemaild."
 
-#: fas/user.py:1131
+#: fas/user.py:1230
 msgid "You don't have any pending password changes."
 msgstr "U hebt geen wachtende wachtwoordveranderingen"
 
-#: fas/user.py:1135 fas/user.py:1187
+#: fas/user.py:1234 fas/user.py:1286
 msgid "Invalid password change token."
 msgstr "Ongeldig wachtwoord token"
 
-#: fas/user.py:1143
+#: fas/user.py:1242
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
-msgstr ""
-"Reset van uw wachtwoord is afgebroken.  Het verander-wachtwoord token is "
-"ongeldig gemaakt."
+msgstr "Reset van uw wachtwoord is afgebroken.  Het verander-wachtwoord token is ongeldig gemaakt."
 
-#: fas/user.py:1169
+#: fas/user.py:1268
 msgid "Both passwords must match"
 msgstr "Beide wachtwoorden dienen gelijk te zijn"
 
-#: fas/user.py:1181
+#: fas/user.py:1280
 msgid "You do not have any pending password changes."
 msgstr "U hebt geen hangende wachtwoordveranderingen"
 
-#: fas/user.py:1201
+#: fas/user.py:1300
 msgid "Your password can not be the same as your old password."
 msgstr "Uw wachtwoord mag niet hetzelfde zijn als uw oude wachtwoord"
 
-#: fas/user.py:1217
+#: fas/user.py:1316
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
-msgstr ""
-"U hebt succesvol uw wachtwoord gereset.  U zou nu hier onder succesvol "
-"moeten kunnen inloggen."
+msgstr "U hebt succesvol uw wachtwoord gereset.  U zou nu hier onder succesvol moeten kunnen inloggen."
 
-#: fas/user.py:1252
+#: fas/user.py:1351
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr "Alvorens een certificaat aan te maken, moet u de FPCA ondertekenen."
 
-#: fas/user.py:1322
+#: fas/user.py:1421
 msgid "Your certificate could not be generated."
 msgstr "Uw certificaat kon niet worden gegenereerd."
 
-#: fas/user.py:1328
+#: fas/user.py:1427
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr "Een nieuw certificaat is gegenereerd voor %s"
 
-#: fas/user.py:1330
+#: fas/user.py:1429
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1498,15 +1203,9 @@ msgid ""
 "\n"
 "Note that certificates generated prior to the current one have been\n"
 "automatically revoked, and should stop working within the hour.\n"
-msgstr ""
-"\n"
-"U hebt een nieuw SSL certificaat gegenereerd.  Indien u dit niet hebt verzocht,\n"
-" cc admin@fedoraproject.org en stel hun op de hoogte.\n"
-"\n"
-"Bedenk dat certificaten die eerder gegenereerd zijn\n"
-"automatisch vervallen, en binnen een uur niet meer zullen werken.\n"
+msgstr "\nU hebt een nieuw SSL certificaat gegenereerd.  Indien u dit niet hebt verzocht,\n cc admin@fedoraproject.org en stel hun op de hoogte.\n\nBedenk dat certificaten die eerder gegenereerd zijn\nautomatisch vervallen, en binnen een uur niet meer zullen werken.\n"
 
-#: fas/user.py:1379
+#: fas/user.py:1483
 msgid "Your key has been removed."
 msgstr "Uw key is verwijderd."
 
@@ -1547,8 +1246,7 @@ msgstr "'%(user)s' bestaat reeds"
 #: fas/validators.py:160
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
-"Om email-loops te vermijden kan uw email-adres niet zijn @fedoraproject.org"
+msgstr "Om email-loops te vermijden kan uw email-adres niet zijn @fedoraproject.org"
 
 #: fas/validators.py:174
 #, python-format
@@ -1560,18 +1258,13 @@ msgstr "Fout - Geen geldige RSA SSH sleutel: %(key)s"
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
-"'%(username)s' is een illegale gebruikersnaam.  Een geldige gebruikersnaam "
-"moet in ASCII zijn, alleen kleine letters en alfanumeriek, en moet beginnen "
-"met een letter."
+msgstr "'%(username)s' is een illegale gebruikersnaam.  Een geldige gebruikersnaam moet in ASCII zijn, alleen kleine letters en alfanumeriek, en moet beginnen met een letter."
 
 #: fas/validators.py:201
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
-"'%(username)s' is een blacklisted gebruikersnaam.  Kies alstublieft een "
-"andere naam."
+msgstr "'%(username)s' is een blacklisted gebruikersnaam.  Kies alstublieft een andere naam."
 
 #: fas/validators.py:219
 #, python-format
@@ -1586,62 +1279,37 @@ msgid ""
 "they must be at least 10 characters.  If they have lowercase letters and "
 "digits, they must be at least 12 characters.  Letters alone need to have at "
 "least 3 different characters and be 20 or more characters in length."
-msgstr ""
-"Wachtwoorden moeten van een bepaalde sterkte zijn.  Indien zij bestaan uit "
-"een mix van symbolen, hoofdletters, kleine letters en cijfers, moeten zij "
-"ten minste 9 karakters lang zijn.  Indien zij bestaan uit een mix van "
-"hoofdletters, kleine letters en cijfers, moeten zij ten minste 10 karakters "
-"lang zijn.   Indien zij bestaan uit een mix van kleine letters en cijfers, "
-"moeten zij ten minste 12 karakters lang zijn.  Alleen uit letters moeten zij"
-" ten minste 3 verschillende karakters bezitten en ten minste 20 karakters "
-"lang zijn."
+msgstr "Wachtwoorden moeten van een bepaalde sterkte zijn.  Indien zij bestaan uit een mix van symbolen, hoofdletters, kleine letters en cijfers, moeten zij ten minste 9 karakters lang zijn.  Indien zij bestaan uit een mix van hoofdletters, kleine letters en cijfers, moeten zij ten minste 10 karakters lang zijn.   Indien zij bestaan uit een mix van kleine letters en cijfers, moeten zij ten minste 12 karakters lang zijn.  Alleen uit letters moeten zij ten minste 3 verschillende karakters bezitten en ten minste 20 karakters lang zijn."
 
 #: fas/validators.py:235
 msgid "Malicious hackers read xkcd, you know"
 msgstr "Kwaadwillende hackers lezen xkcd, weet je"
 
-#: fas/validators.py:304
-msgid "You must enter your legal name"
-msgstr "U moet uw officiële naam opgeven"
-
-#: fas/validators.py:305
-msgid ""
-"You must include both your last name and first name.  If your name really "
-"only consists of a single letter, you may check the override checkbox to "
-"submit this name."
-msgstr ""
-"U moet zowel uw voor als achternaam invullen.  Indien uw naam werkelijk maar"
-" uit 1 letter bestaat, vink dan de override checkbox aan om deze naam in te "
-"dienen."
-
-#: fas/validators.py:306
+#: fas/validators.py:284
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
 " to submit this name."
-msgstr ""
-"U moet uw namen voluit schrijven, niet met initialen.  Indien uw volledige "
-"naam werkelijk maar uit 1 letterdelen bestaat, vink dan de override checkbox"
-" aan om deze naam in te dienen."
+msgstr "U moet uw namen voluit schrijven, niet met initialen.  Indien uw volledige naam werkelijk maar uit 1 letterdelen bestaat, vink dan de override checkbox aan om deze naam in te dienen."
 
-#: fas/model/fasmodel.py:186
+#: fas/model/fasmodel.py:190
 msgid "user is already in this group"
 msgstr "gebruiker is al opgenomen in deze groep"
 
-#: fas/model/fasmodel.py:199 fas/model/fasmodel.py:214
-#: fas/model/fasmodel.py:270
+#: fas/model/fasmodel.py:203 fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:274
 msgid "user is not a member"
 msgstr "gebruiker is geen lid"
 
-#: fas/model/fasmodel.py:203
+#: fas/model/fasmodel.py:207
 msgid "administrators cannot be upgraded any further"
 msgstr "beheerders kunnen niet meer verder stijgen in rang"
 
-#: fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:222
 msgid "users cannot be downgraded any further"
 msgstr "gebruikers kunnen niet lager in rang zijn"
 
-#: fas/model/fasmodel.py:227
+#: fas/model/fasmodel.py:231
 msgid "user is not an unapproved member"
 msgstr "gebruiker is geen niet-toegelaten lid"
 
@@ -1664,17 +1332,7 @@ msgid ""
 "as it allows anyone to find out who is in what groups and contact them.  "
 "This openness is brought over from the same philosophies that make Open "
 "Source popular."
-msgstr ""
-"FAS is ontworpen rond een open architectuur.  Anders dan de traditionele "
-"accountsystemen waarbij een enkele admin of een groep van admins beslissen "
-"wie in welke groep komt, is FAS geheel ontworpen om per team zelf te "
-"beslissen.  Elke groep krijgt tenminste één beheerder, die vervolgens "
-"anderen in de groep kan toelaten.  Bovendien, ook in tegenstelling tot  "
-"traditionele accountsystemen, staat FAS mensen toe verzoeken in te dienen "
-"voor groepen waar zij lid van willen zijn.  Dit paridigma is interessant "
-"omdat het iedereen in staat stelt te zien wie in welke groep zit, en met hen"
-" contact op te nemen.  Deze openheid vloeit voort uit dezelfde filosofieën "
-"die Open Source zo populair maakt."
+msgstr "FAS is ontworpen rond een open architectuur.  Anders dan de traditionele accountsystemen waarbij een enkele admin of een groep van admins beslissen wie in welke groep komt, is FAS geheel ontworpen om per team zelf te beslissen.  Elke groep krijgt tenminste één beheerder, die vervolgens anderen in de groep kan toelaten.  Bovendien, ook in tegenstelling tot  traditionele accountsystemen, staat FAS mensen toe verzoeken in te dienen voor groepen waar zij lid van willen zijn.  Dit paridigma is interessant omdat het iedereen in staat stelt te zien wie in welke groep zit, en met hen contact op te nemen.  Deze openheid vloeit voort uit dezelfde filosofieën die Open Source zo populair maakt."
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
@@ -1691,17 +1349,7 @@ msgid ""
 "participating on the mailing list.  Sometimes this process can take weeks "
 "depending on the group.  It's best to know you will get sponsored before you"
 " apply."
-msgstr ""
-"Mensen moeten er niet van uit gaan, dat aanmelden bij een groep ook gelijk "
-"betekent opgenomen zijn in die groep.  Zie het als solliciteren voor een "
-"baan.  Vaak duurt het even.  De beste kans op succes krijgt men door kennis "
-"op te doen over die groep en tegelijk ook kennis te maken met iemand van die"
-" groep.  Vind iemand met sponsor- of admintoegang en vraag of zij tijd "
-"hebben u te begeleiden.  Verdiep u op zijn minst een paar dagen in de groep,"
-" doe een mondaine taak en doe mee op de mailing lijst.  Soms kan dit proces "
-"weken duren, dat is afhankelijk van de groep.  Maar het is verre weg het "
-"beste te weten dat u al wordt gesponsord op het moment dat u een "
-"toelatingsverzoek bij een groep doet."
+msgstr "Mensen moeten er niet van uit gaan, dat aanmelden bij een groep ook gelijk betekent opgenomen zijn in die groep.  Zie het als solliciteren voor een baan.  Vaak duurt het even.  De beste kans op succes krijgt men door kennis op te doen over die groep en tegelijk ook kennis te maken met iemand van die groep.  Vind iemand met sponsor- of admintoegang en vraag of zij tijd hebben u te begeleiden.  Verdiep u op zijn minst een paar dagen in de groep, doe een mondaine taak en doe mee op de mailing lijst.  Soms kan dit proces weken duren, dat is afhankelijk van de groep.  Maar het is verre weg het beste te weten dat u al wordt gesponsord op het moment dat u een toelatingsverzoek bij een groep doet."
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
@@ -1717,16 +1365,7 @@ msgid ""
 "make people into sponsors.  They cannot, however, downgrade or remove other "
 "sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
-msgstr ""
-"Wanneer je eenmaal in een groep zit, zit je in een groep.  Sponsoren en "
-"Beheerders hebben uit hun aard speciale bevoegdheden in de betreffende "
-"groepen.  Sommige groepen beschouwen het sponsorschapsniveau als één van "
-"meer betrokkenheid, een gedeeltelijke eigenaarschap van een groep "
-"bijvoorbeeld.  Maar wat het accountsysteem betreft, is het onderscheid "
-"eenvoudig. Sponsoren kunnen nieuwe gebruikers toelaten en sponsoren "
-"benoemen.  Zij kunnen echter andere sponsors niet afwaarderen of "
-"verwijderen.  Ook kunnen zij op geen enkele manier beheerders veranderen.  "
-"Beheerders kunnen alles doen met iedereen in de groep."
+msgstr "Wanneer je eenmaal in een groep zit, zit je in een groep.  Sponsoren en Beheerders hebben uit hun aard speciale bevoegdheden in de betreffende groepen.  Sommige groepen beschouwen het sponsorschapsniveau als één van meer betrokkenheid, een gedeeltelijke eigenaarschap van een groep bijvoorbeeld.  Maar wat het accountsysteem betreft, is het onderscheid eenvoudig. Sponsoren kunnen nieuwe gebruikers toelaten en sponsoren benoemen.  Zij kunnen echter andere sponsors niet afwaarderen of verwijderen.  Ook kunnen zij op geen enkele manier beheerders veranderen.  Beheerders kunnen alles doen met iedereen in de groep."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/fpca/index.html:16
@@ -1750,28 +1389,21 @@ msgstr "Nog te doen:"
 msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
-msgstr ""
-"FPCA niet getekend.  Om een volwaardige Fedora Contributor te worden,  <a "
-"href=\"%s\">vul de  FPCA alstublieft geheel in</a>."
+msgstr "FPCA niet getekend.  Om een volwaardige Fedora Contributor te worden,  <a href=\"%s\">vul de  FPCA alstublieft geheel in</a>."
 
 #: fas/templates/home.html:16
 #, python-format
 msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH key."
 "  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
-"U hebt geen SSH sleutel ingediend, sommige Fedora bronnen vereisen een SSH "
-"sleutel.  Dien alstublieft uw sleutel in via <a href=\"%s\">Mijn Account</a>"
+msgstr "U hebt geen SSH sleutel ingediend, sommige Fedora bronnen vereisen een SSH sleutel.  Dien alstublieft uw sleutel in via <a href=\"%s\">Mijn Account</a>"
 
 #: fas/templates/home.html:22
 #, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
-"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> verzoekt "
-"toestemming om opgenomen te worden in <a "
-"href=\"%(groupview)s\">%(group)s</a>."
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> verzoekt toestemming om opgenomen te worden in <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
@@ -1813,65 +1445,64 @@ msgstr "Communicatie"
 msgid "Help/Documentation"
 msgstr "Hulp/Documentatie"
 
-#: fas/templates/master.html:48
+#: fas/templates/master.html:43
+msgid "Code of Conduct"
+msgstr ""
+
+#: fas/templates/master.html:49
 msgid "Logged in:"
 msgstr "Ingelogd:"
 
-#: fas/templates/master.html:61
+#: fas/templates/master.html:62
 msgid "Home"
 msgstr "Home"
 
-#: fas/templates/master.html:62
+#: fas/templates/master.html:63
 msgid "My Account"
 msgstr "Mijn Account"
 
-#: fas/templates/master.html:64
+#: fas/templates/master.html:65
 msgid "News"
 msgstr "Nieuws"
 
-#: fas/templates/master.html:69
+#: fas/templates/master.html:70
 msgid "Locale:"
 msgstr "Locale:"
 
-#: fas/templates/master.html:73
+#: fas/templates/master.html:74
 msgid "OK"
 msgstr "OK"
 
-#: fas/templates/master.html:85
+#: fas/templates/master.html:86
 msgid "About"
 msgstr "Over"
 
-#: fas/templates/master.html:86
+#: fas/templates/master.html:87
 msgid "Contact Us"
 msgstr "Neem contact met ons op"
 
-#: fas/templates/master.html:87
+#: fas/templates/master.html:88
 msgid "Legal & Privacy"
 msgstr "Legal & Privacy"
 
-#: fas/templates/master.html:91
+#: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
 msgstr "FAS versie %s"
 
-#: fas/templates/master.html:94
+#: fas/templates/master.html:95
 #, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
-msgstr ""
-"© 2011 Red Hat, Inc.  Opmerkingen en correcties alstublieft sturen naar het "
-"<a href=\"mailto:%(webmaster)s\">websites team</a>."
+msgstr "© 2011 Red Hat, Inc.  Opmerkingen en correcties alstublieft sturen naar het <a href=\"mailto:%(webmaster)s\">websites team</a>."
 
-#: fas/templates/master.html:97
+#: fas/templates/master.html:98
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
-msgstr ""
-"Het Fedora Project wordt onder houden en gedreven door haar gemeenschap en "
-"wordt gesponsord door Red Hat.  Dit is een door die gemeenschap onderhouden "
-"site.  Red Hat is niet verantwoordelijk voor de inhoud. "
+msgstr "Het Fedora Project wordt onder houden en gedreven door haar gemeenschap en wordt gesponsord door Red Hat.  Dit is een door die gemeenschap onderhouden site.  Red Hat is niet verantwoordelijk voor de inhoud. "
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"git*\")"
@@ -1903,10 +1534,7 @@ msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr ""
-"Welkom bij het Fedora Accounts Systeem.  Dien alstublieft bugs in bij <a "
-"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a>, of"
-" kom even langs bij #fedora-admin op irc.freenode.net."
+msgstr "Welkom bij het Fedora Accounts Systeem.  Dien alstublieft bugs in bij <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a>, of kom even langs bij #fedora-admin op irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1961,9 +1589,7 @@ msgstr "Als uw land er niet bij staat, selecteer \"Other\""
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
-msgstr ""
-"Ik verklaar dat bovenstaande informatie (mijn naam, land en telefoonnummer) "
-"naar mijn beste weten accuraat zijn."
+msgstr "Ik verklaar dat bovenstaande informatie (mijn naam, land en telefoonnummer) naar mijn beste weten accuraat zijn."
 
 #: fas/templates/fpca/index.html:68
 msgid "I agree"
@@ -2032,30 +1658,30 @@ msgstr "Groep Eigenaar:"
 msgid "Invite Only:"
 msgstr "Alleen op Uitnodiging:"
 
-#: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
+#: fas/templates/group/edit.html:63 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
 msgid "Needs Sponsor:"
 msgstr "Sponsor Nodig:"
 
-#: fas/templates/group/edit.html:65 fas/templates/group/new.html:43
+#: fas/templates/group/edit.html:73 fas/templates/group/new.html:43
 #: fas/templates/group/view.html:79
 msgid "Self Removal:"
 msgstr "Zelf Verwijderen:"
 
-#: fas/templates/group/edit.html:71
+#: fas/templates/group/edit.html:83
 msgid "Group Prerequisite:"
 msgstr "Groep Voorvereiste:"
 
-#: fas/templates/group/edit.html:77
+#: fas/templates/group/edit.html:89
 msgid "Group Join Message:"
 msgstr "Groep Welkomstbericht"
 
-#: fas/templates/group/edit.html:82 fas/templates/group/new.html:58
+#: fas/templates/group/edit.html:94 fas/templates/group/new.html:58
 #: fas/templates/group/view.html:49
 msgid "Rules for Application:"
 msgstr "Regels voor Aanmelden:"
 
-#: fas/templates/group/edit.html:87 fas/templates/user/edit.html:147
+#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:147
 msgid "Save!"
 msgstr "Opslaan!"
 
@@ -2126,12 +1752,12 @@ msgid "None"
 msgstr "Geen"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:141
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
 msgid "Approved"
 msgstr "Toegelaten"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:142
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
 msgid "Unapproved"
 msgstr "Niet Toegelaten"
 
@@ -2215,15 +1841,13 @@ msgstr "Welkomstbericht"
 msgid "Create!"
 msgstr "Creëer!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:148
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
 msgid "View Group"
 msgstr "Bekijk Groep"
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
-msgstr ""
-"Groep is uitsluitend op uitnodiging.  Neem contact op met groep sponsors "
-"voor meer informatie."
+msgstr "Groep is uitsluitend op uitnodiging.  Neem contact op met groep sponsors voor meer informatie."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
@@ -2319,12 +1943,7 @@ msgid ""
 "represented by the trust root below will be told that you control identity "
 "URL listed below. (If you are using a delegated identity, the site will take"
 " care of reversing the delegation on its own.)"
-msgstr ""
-"Een nieuwe site heeft gevraagd uw identiteit te bevestigen.  Indien u "
-"instemt zal de site die wordt vertegenwoordigd door de trust root eronder, "
-"worden verteld dat u de hieronder genoemde identity URL beheert (Indien u "
-"een gedelegeerde identiteit gebruikt zal de site zelf de reverse delegation "
-"verzorgen).  "
+msgstr "Een nieuwe site heeft gevraagd uw identiteit te bevestigen.  Indien u instemt zal de site die wordt vertegenwoordigd door de trust root eronder, worden verteld dat u de hieronder genoemde identity URL beheert (Indien u een gedelegeerde identiteit gebruikt zal de site zelf de reverse delegation verzorgen).  "
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
@@ -2374,9 +1993,7 @@ msgstr "Welkom bij de Fedora OpenID Provider"
 msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a "
 "href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
-msgstr ""
-"U bent ingelogd als %(username)s. Uw OpenID identity URL is <a "
-"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+msgstr "U bent ingelogd als %(username)s. Uw OpenID identity URL is <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -2398,54 +2015,40 @@ msgid ""
 "guessing it by having a computer try different combinations of characters in"
 " rapid succession.  To make such brute force attacks harder we enforce some "
 "minimum levels of strength:"
-msgstr ""
-"Wachtwoordzinnen hebben een bepaalde moeilijkheidsgraad nodig om "
-"geautomatiseerde aanvallen, gedaan met computers die verschillende "
-"combinaties van tekens in een snelle reeks proberen, te voorkomen.  Om zulke"
-" zgn brute-force aanvallen te pareren dwingen we een minimaal sterkteniveau "
-"af."
+msgstr "Wachtwoordzinnen hebben een bepaalde moeilijkheidsgraad nodig om geautomatiseerde aanvallen, gedaan met computers die verschillende combinaties van tekens in een snelle reeks proberen, te voorkomen.  Om zulke zgn brute-force aanvallen te pareren dwingen we een minimaal sterkteniveau af."
 
 #: fas/templates/user/changepass.html:14
 msgid ""
 "A passphrase with symbols, upper and lowercase letters, and digits must be "
 "at least 9 characters"
-msgstr ""
-"Een wachtwoordzin met symbolen, hoofd- en kleine letters en met cijfers moet"
-" tenminste 9 tekens lang zijn"
+msgstr "Een wachtwoordzin met symbolen, hoofd- en kleine letters en met cijfers moet tenminste 9 tekens lang zijn"
 
 #: fas/templates/user/changepass.html:15
 msgid ""
 "A passphrase with upper and lowercase letters and digits must be at least 10"
 " characters"
-msgstr ""
-"Een wachtwoordzin met hoofd- en kleine letters en met cijfers moet tenminste"
-" 10 tekens lang zijn"
+msgstr "Een wachtwoordzin met hoofd- en kleine letters en met cijfers moet tenminste 10 tekens lang zijn"
 
 #: fas/templates/user/changepass.html:16
 msgid ""
 "A passphrase with lowercase letters and digits must be at least 12 "
 "characters"
-msgstr ""
-"Een wachtwoordzin met kleine letters en met cijfers moet tenminste 12 tekens"
-" lang zijn"
+msgstr "Een wachtwoordzin met kleine letters en met cijfers moet tenminste 12 tekens lang zijn"
 
 #: fas/templates/user/changepass.html:17
 msgid ""
 "A passphrase with letters alone must be made of at least 3 different "
 "characters and be at least 20 characters long"
-msgstr ""
-"Een wachtwoordzin met alleen maar letters moet ten minste 3 verschillende "
-"karakters hebben en ten minste 20 karakters lang zijn"
+msgstr "Een wachtwoordzin met alleen maar letters moet ten minste 3 verschillende karakters hebben en ten minste 20 karakters lang zijn"
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
-msgstr ""
-"Bedenk dat dit slechts minimale lengtes zijn.  U wordt aangemoedigd om uw "
-"wachtwoordzinnen langer en complexer te maken dan de minimale vereisten."
+msgstr "Bedenk dat dit slechts minimale lengtes zijn.  U wordt aangemoedigd om uw wachtwoordzinnen langer en complexer te maken dan de minimale vereisten."
 
 #: fas/templates/user/changepass.html:21
+#: fas/templates/user/changequestion.html:15
 msgid "Current Password:"
 msgstr "Huidig wachtwoord:"
 
@@ -2457,6 +2060,32 @@ msgstr "Nieuw wachtwoord:"
 msgid "Confirm Password:"
 msgstr "Bevestig wachtwoord:"
 
+#: fas/templates/user/changequestion.html:7
+#: fas/templates/user/changequestion.html:10
+#: fas/templates/user/changequestion.html:18
+msgid "Change Security Question"
+msgstr ""
+
+#: fas/templates/user/changequestion.html:12
+msgid ""
+"Please enter your current password for confirmation, and then choose a new "
+"security question and answer."
+msgstr ""
+
+#: fas/templates/user/changequestion.html:13
+msgid ""
+"This question will be asked if you lose access to your email address and "
+"want to recover access to your account."
+msgstr ""
+
+#: fas/templates/user/changequestion.html:16
+msgid "New Question:"
+msgstr ""
+
+#: fas/templates/user/changequestion.html:17
+msgid "Answer:"
+msgstr ""
+
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"
 msgstr "Bewerk Account"
@@ -2466,11 +2095,12 @@ msgstr "Bewerk Account"
 msgid "Edit Account (%s)"
 msgstr "Bewerk Account (%s)"
 
-#: fas/templates/user/edit.html:22 fas/templates/user/view.html:77
+#: fas/templates/user/edit.html:22 fas/templates/user/view.html:81
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: fas/templates/user/edit.html:23 fas/templates/user/view.html:79
+#: fas/templates/user/edit.html:23 fas/templates/user/view.html:78
+#: fas/templates/user/view.html:83
 msgid "(change)"
 msgstr "(veranderen)"
 
@@ -2523,9 +2153,7 @@ msgid ""
 "certificate at any given time.  Once you generate a new certificate, any "
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
-msgstr ""
-"De link hieronder staat u toe een certificaat te genereren tbv  authenticatie op Fedora's buildsystemen.  Merk op dat u slechts één geldig certificaat kunt hebben op een gegeven moment.  \n"
-"Eenmaal een nieuw certificaat gegenereerd, verliezen alle oude certificaten hun geldigheid.  Momenteel is het zo, dat indien u niet werkt aan  Fedora packaging, u waarschijnlijk geen certificaat nodig hebt."
+msgstr "De link hieronder staat u toe een certificaat te genereren tbv  authenticatie op Fedora's buildsystemen.  Merk op dat u slechts één geldig certificaat kunt hebben op een gegeven moment.  \nEenmaal een nieuw certificaat gegenereerd, verliezen alle oude certificaten hun geldigheid.  Momenteel is het zo, dat indien u niet werkt aan  Fedora packaging, u waarschijnlijk geen certificaat nodig hebt."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
@@ -2542,11 +2170,7 @@ msgid ""
 "Generating SSL Certificates is disabled on this machine.  If you were "
 "brought here by clicking a link it usually means there is a misconfiguration"
 " on the server.  Please contact %(accts_email)s to fix things."
-msgstr ""
-"Genereren SSL Certificaten is uitgeschakeld op deze machine.  Indien u via "
-"een link hier bent gekomen betekent dat in de regel dat er een "
-"misconfiguratie op de server is.  Neem alstublieft contact op met "
-"%(accts_email)s om één en ander te herstellen."
+msgstr "Genereren SSL Certificaten is uitgeschakeld op deze machine.  Indien u via een link hier bent gekomen betekent dat in de regel dat er een misconfiguratie op de server is.  Neem alstublieft contact op met %(accts_email)s om één en ander te herstellen."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
@@ -2560,7 +2184,7 @@ msgstr "\"*\" is een wildcard (bv: \"ric*\")"
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:101
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
 msgid "CLA Done"
 msgstr "CLA Klaar"
 
@@ -2584,14 +2208,11 @@ msgstr "Gebruikersnaam is permanent"
 msgid ""
 "(i.e. it cannot be changed after registration and will never be deleted from"
 " the system)."
-msgstr ""
-"(dwz, kan na registratie niet meer worden veranderd en zal nooit meer van "
-"het systeem verwijderd worden)"
+msgstr "(dwz, kan na registratie niet meer worden veranderd en zal nooit meer van het systeem verwijderd worden)"
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
-msgstr ""
-"Persoonlijke Informatie kan te allen tijde bijgewerkt of verwijderd worden."
+msgstr "Persoonlijke Informatie kan te allen tijde bijgewerkt of verwijderd worden."
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2601,24 +2222,36 @@ msgstr "Gebruikersnaam:"
 msgid "Full Name:"
 msgstr "Volledige Naam:"
 
-#: fas/templates/user/new.html:23 fas/templates/user/resetpass.html:14
+#: fas/templates/user/new.html:23
+msgid "Name check override:"
+msgstr ""
+
+#: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
 msgstr "Email:"
 
-#: fas/templates/user/new.html:28
+#: fas/templates/user/new.html:32
 msgid "Verify Email:"
 msgstr "Verifieer Email:"
 
-#: fas/templates/user/new.html:49
+#: fas/templates/user/new.html:37
+msgid "Security Question:"
+msgstr ""
+
+#: fas/templates/user/new.html:42
+msgid "Security Answer:"
+msgstr ""
+
+#: fas/templates/user/new.html:62
 msgid "I am 13 years of age or older"
 msgstr "Ik ben 13 jaar of ouder"
 
-#: fas/templates/user/new.html:55
+#: fas/templates/user/new.html:68
 msgid "Answer this math equation"
 msgstr "Antwoord op deze som"
 
-#: fas/templates/user/new.html:58
+#: fas/templates/user/new.html:71
 msgid "Sign up!"
 msgstr "Aanmelden!"
 
@@ -2649,9 +2282,7 @@ msgstr "Bevestig"
 msgid ""
 "Pick a password or phrase that is long but memorable.  Use a mix of upper "
 "and lowercase letters as well as numbers and punctuation."
-msgstr ""
-"Kies een wachtwoord of zin, dat lang is maar ook te onthouden.  Gebruik een "
-"mix van hoofdletters en kleine letters samen met cijfers en leestekens."
+msgstr "Kies een wachtwoord of zin, dat lang is maar ook te onthouden.  Gebruik een mix van hoofdletters en kleine letters samen met cijfers en leestekens."
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
@@ -2710,122 +2341,110 @@ msgstr "Geen ssh sleutel opgegeven"
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:77
+msgid "Security question: "
+msgstr ""
+
+#: fas/templates/user/view.html:87
 msgid "Account Status:"
 msgstr "Account Status:"
 
-#: fas/templates/user/view.html:86
+#: fas/templates/user/view.html:90
 msgid "Active"
 msgstr "Actief"
 
-#: fas/templates/user/view.html:87
+#: fas/templates/user/view.html:91
 msgid "Inactive"
 msgstr "Inactief"
 
-#: fas/templates/user/view.html:88
+#: fas/templates/user/view.html:92
 msgid "Pinged"
 msgstr "Pinged"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:93
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:98
 msgid "Contributor Agreement:"
 msgstr "Contributor Agreement:"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:102
 msgid "CLA Signed"
 msgstr "CLA getekend"
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:105
 msgid "New CLA Not Signed"
 msgstr "Nieuwe CLA niet getekend"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:106
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr "Contributors moeten de nieuwe Contributor Agreement ook tekenen"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:106
 msgid "Complete it now!"
 msgstr "Teken het nu!"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:110
 msgid "Reject FPCA"
 msgstr "Wijs FPCA af"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:114
 msgid "Not Signed"
 msgstr "Niet getekend"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:114
 msgid "Complete it!"
 msgstr "Maak het af!"
 
-#: fas/templates/user/view.html:113
+#: fas/templates/user/view.html:117
 msgid "Privacy:"
 msgstr "Privacy:"
 
-#: fas/templates/user/view.html:115
+#: fas/templates/user/view.html:119
 msgid "Account Information Private"
 msgstr "Account Informatie Privé"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:120
 msgid "Account Information Public"
 msgstr "Account Informatie Publiekelijk"
 
-#: fas/templates/user/view.html:121
+#: fas/templates/user/view.html:125
 msgid "Your Roles"
 msgstr "Uw Rollen"
 
-#: fas/templates/user/view.html:122
+#: fas/templates/user/view.html:126
 #, python-format
 msgid "%s's Roles"
 msgstr "%s's rollen"
 
-#: fas/templates/user/view.html:139
+#: fas/templates/user/view.html:143
 msgid "Status:"
 msgstr "Status:"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:149
 msgid "Tools:"
 msgstr "Tools:"
 
-#: fas/templates/user/view.html:149
+#: fas/templates/user/view.html:153
 msgid "Invite a New Member..."
 msgstr "Nodig een nieuw lid uit..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:154
 msgid "Manage Group Membership..."
 msgstr "Manage Groepslidmaatschap..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:155
 msgid "Manage Group Details..."
 msgstr "Manage Groepsdetails..."
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:159
 msgid "Queue:"
 msgstr "Rij:"
 
-#: fas/templates/user/view.html:159
+#: fas/templates/user/view.html:163
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
-msgstr ""
-"<strong>%(user)s</strong> verzoekt goedkeuring om opgenomen te worden in  "
-"<strong>%(unapproved_role.group)s</strong>."
-
-#: fas/tgcaptcha2/validator.py:15
-msgid "Incorrect value."
-msgstr "Onjuiste waarde."
-
-#: fas/tgcaptcha2/validator.py:16
-msgid "Too much time elapsed. Please try again."
-msgstr "Het duurde te lang. Probeert u alstublieft opnieuw."
-
-#: fas/tgcaptcha2/widgets.py:49
-msgid "obfuscated letters"
-msgstr "onduidelijke letters"
-
-
+msgstr "<strong>%(user)s</strong> verzoekt goedkeuring om opgenomen te worden in  <strong>%(unapproved_role.group)s</strong>."

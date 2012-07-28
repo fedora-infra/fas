@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-01-30 10:23-0800\n"
-"PO-Revision-Date: 2012-01-30 18:44+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"POT-Creation-Date: 2012-07-28 15:47-0400\n"
+"PO-Revision-Date: 2012-07-28 19:53+0000\n"
+"Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
 "Language-Team: French <trans-fr@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,9 +25,7 @@ msgstr ""
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr ""
-"Une adhésion à %s est nécessaire avant d'obtenir l'autorisation de rejoindre"
-" ce groupe"
+msgstr "Une adhésion à %s est nécessaire avant d'obtenir l'autorisation de rejoindre ce groupe"
 
 #: fas/configs.py:126
 #, python-format
@@ -42,8 +40,7 @@ msgstr "Vous ne pouvez pas modifier la configuration de %s"
 #: fas/configs.py:191
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr ""
-"Impossible de sauvegarder la configuration dans la base de données : %s"
+msgstr "Impossible de sauvegarder la configuration dans la base de données : %s"
 
 #: fas/configs.py:195
 msgid "Config value successfully updated"
@@ -51,186 +48,162 @@ msgstr "Les données de la configuration ont été mises à jour avec succès"
 
 #: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
-msgstr ""
-"Votre ancien mot de passe a expiré.  Veuillez réinitialiser votre mot de "
-"passe ci-dessous."
+msgstr "Votre ancien mot de passe a expiré.  Veuillez réinitialiser votre mot de passe ci-dessous."
 
 #: fas/controllers.py:209
 #, python-format
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
-msgstr ""
-"Votre compte est actuellement désactivé.  Pour plus d'informations, veuillez"
-" contacter %(admin_email)sadmin_email"
+msgstr "Votre compte est actuellement désactivé.  Pour plus d'informations, veuillez contacter %(admin_email)sadmin_email"
 
 #: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "La langue « %s » n'est pas disponible."
 
-#: fas/fpca.py:76
+#: fas/fpca.py:78
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
-msgstr ""
-"Un numéro de téléphone est recquis pour compléter le FPCA. Veuillez remplir "
-"le champs ci-dessous."
+msgstr "Un numéro de téléphone est recquis pour compléter le FPCA. Veuillez remplir le champs ci-dessous."
 
-#: fas/fpca.py:80
+#: fas/fpca.py:82
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
-msgstr ""
-"Un nom pays valide et un numéro de téléphone ou une adresse postale sont "
-"requis pour compléter le FPCA. Veuillez remplir les champs ci-dessous."
+msgstr "Un nom pays valide et un numéro de téléphone ou une adresse postale sont requis pour compléter le FPCA. Veuillez remplir les champs ci-dessous."
 
-#: fas/fpca.py:86
+#: fas/fpca.py:88
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
-msgstr ""
-"Un nom de pays valide et un numéro de téléphone sont requis pour compléter "
-"le FPCA. Veuillez remplir les champs ci-dessous."
+msgstr "Un nom de pays valide et un numéro de téléphone sont requis pour compléter le FPCA. Veuillez remplir les champs ci-dessous."
 
-#: fas/fpca.py:163
+#: fas/fpca.py:165
 msgid "You are not allowed to reject FPCAs."
 msgstr "Vous n'êtes pas autorisé à rejeter le FPCA."
 
-#: fas/fpca.py:174
+#: fas/fpca.py:176
 #, python-format
 msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
-msgstr ""
-"Impossible de supprimer le cla et les groupes dépendants pour %(person)s\n"
-" L'erreur était : %(error)s"
+msgstr "Impossible de supprimer le cla et les groupes dépendants pour %(person)s\n L'erreur était : %(error)s"
 
-#: fas/fpca.py:215
+#: fas/fpca.py:217
 msgid "FPCA Successfully Removed."
 msgstr "Le FPCA a été supprimé avec succès."
 
-#: fas/fpca.py:239
+#: fas/fpca.py:241
 msgid "You have already completed the FPCA."
 msgstr "Vous avez déjà complété le FPCA."
 
-#: fas/fpca.py:243
+#: fas/fpca.py:245
 msgid "You have not completed the FPCA."
 msgstr "Vous n'avez pas complété le FPCA."
 
-#: fas/fpca.py:246
+#: fas/fpca.py:248
 msgid "You must confirm that your personal information is accurate."
 msgstr "Vous devez confirmer la validité de vos informations personnelles."
 
-#: fas/fpca.py:264
+#: fas/fpca.py:266
 msgid "Your updated information could not be saved."
 msgstr "La mise à jour de vos informations n'a pas pu être sauvegardée."
 
-#: fas/fpca.py:284
+#: fas/fpca.py:286
 msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
-msgstr ""
-"Pour compléter le FPCA, nous devons avoir votre nom, votre numéro de "
-"téléphone et votre pays. Veuillez vous assurez de les avoir communiqués."
+msgstr "Pour compléter le FPCA, nous devons avoir votre nom, votre numéro de téléphone et votre pays. Veuillez vous assurez de les avoir communiqués."
 
-#: fas/fpca.py:293
+#: fas/fpca.py:295
 msgid ""
 "To complete the FPCA, a valid country codemust be specified.  Please select "
 "one now."
-msgstr ""
-"Pour compléter le FPCA, un code de pays valide doit être spécifié. Veuillez "
-"en sélectionner un."
+msgstr "Pour compléter le FPCA, un code de pays valide doit être spécifié. Veuillez en sélectionner un."
 
-#: fas/fpca.py:297
+#: fas/fpca.py:299
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \".  Please reenter usingonly those characters."
-msgstr ""
-"Les numéros de téléphone ne peuvent uniquement contenir que des chiffres, « "
-"- », « + », « ( », « ) » ou « »."
+msgstr "Les numéros de téléphone ne peuvent uniquement contenir que des chiffres, « - », « + », « ( », « ) » ou « »."
 
-#: fas/fpca.py:312 fas/fpca.py:326
+#: fas/fpca.py:320 fas/fpca.py:334
 #, python-format
 msgid "You could not be added to the '%s' group."
 msgstr "Vous n'avez pas pu être ajouté au groupe « %s »."
 
-#: fas/fpca.py:322
+#: fas/fpca.py:330
 #, python-format
 msgid "You are already a part of the '%s' group."
 msgstr "Vous faites déjà partie du groupe « %s »."
 
-#: fas/fpca.py:358
+#: fas/fpca.py:372
 #, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr ""
-"Vous avez complété avec succès le FPCA. Vous êtes maintenant dans le groupe "
-"« %s »."
+msgstr "Vous avez complété avec succès le FPCA. Vous êtes maintenant dans le groupe « %s »."
 
-#: fas/group.py:163 fas/group.py:199
+#: fas/group.py:178 fas/group.py:214
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "Vous ne pouvez pas visualiser « %s »"
 
-#: fas/group.py:222 fas/group.py:240
+#: fas/group.py:237 fas/group.py:255
 msgid "Only FAS adminstrators can create groups."
 msgstr "Seuls les administrateurs du FAS peuvent créer des groupes."
 
-#: fas/group.py:265
+#: fas/group.py:280
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "Le groupe : « %s » n'a pas pu être créé."
 
-#: fas/group.py:275
+#: fas/group.py:290
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
-msgstr ""
-"Le groupe : « %(group)s » a été créé, mais « %(user)s » n'a pas pu être "
-"ajouté comme administrateur du groupe."
+msgstr "Le groupe : « %(group)s » a été créé, mais « %(user)s » n'a pas pu être ajouté comme administrateur du groupe."
 
-#: fas/group.py:277
+#: fas/group.py:296
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "Le groupe : « %s » a été créé."
 
-#: fas/group.py:292 fas/group.py:310
+#: fas/group.py:311 fas/group.py:330
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "Vous ne pouvez pas modifier « %s »."
 
-#: fas/group.py:339
+#: fas/group.py:349
 msgid "The group details could not be saved."
 msgstr "Les détails du groupe n'ont pas pu être sauvegardés."
 
-#: fas/group.py:343
+#: fas/group.py:358
 msgid "The group details have been saved."
 msgstr "Les détails du groupe ont été sauvegardés."
 
-#: fas/group.py:375
+#: fas/group.py:390
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Aucun groupe trouvé correspondant à « %s »"
 
-#: fas/group.py:400 fas/group.py:422
+#: fas/group.py:415 fas/group.py:437
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s ne peut pas rejoindre %(group)s."
 
-#: fas/group.py:430
+#: fas/group.py:445
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s n'a pa pu rejoindre %(group)s : %(error)s"
 
-#: fas/group.py:454
+#: fas/group.py:469
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
-msgstr ""
-"Le parrainage Fedora pour le groupe « %(group)s » est nécessaire pour "
-"%(user)s"
+msgstr "Le parrainage Fedora pour le groupe « %(group)s » est nécessaire pour %(user)s"
 
-#: fas/group.py:457
+#: fas/group.py:472
 #, python-format
 msgid ""
 "\n"
@@ -238,87 +211,72 @@ msgid ""
 "membership for %(applicant)s in the %(group)s group and needs a sponsor.\n"
 "\n"
 "Please go to %(url)s to take action.  \n"
-msgstr ""
-"\n"
-"L'utilisateur Fedora %(user)s <%(email)s> s'est proposé\n"
-"comme candidat pour %(applicant)s dans le groupe %(group)s et a besoin\n"
-"d'un parrain.\n"
-"\n"
-"Veuillez cliquer sur %(url)s pour que cela prenne effet.  \n"
+msgstr "\nL'utilisateur Fedora %(user)s <%(email)s> s'est proposé\ncomme candidat pour %(applicant)s dans le groupe %(group)s et a besoin\nd'un parrain.\n\nVeuillez cliquer sur %(url)s pour que cela prenne effet.  \n"
 
-#: fas/group.py:468
+#: fas/group.py:483
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Rejoindre le groupe « %(group)s »"
 
-#: fas/group.py:471
+#: fas/group.py:486
 #, python-format
 msgid ""
 "\n"
 "Thank you for applying for the %(group)s group.  \n"
 "\n"
 "%(joinmsg)s\n"
-msgstr ""
-"\n"
-"Merci d'avoir rejoint le groupe %(group)s.  \n"
-"\n"
-"%(joinmsg)s\n"
+msgstr "\nMerci d'avoir rejoint le groupe %(group)s.  \n\n%(joinmsg)s\n"
 
-#: fas/group.py:485
+#: fas/group.py:506
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s a rejoint %(group)s !"
 
-#: fas/group.py:502
+#: fas/group.py:523
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Vous ne pouvez pas parrainer « %s »"
 
-#: fas/group.py:509
+#: fas/group.py:530
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s n'a pas pu être parrainé pour %(group)s : %(error)s"
 
-#: fas/group.py:513
+#: fas/group.py:534
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "Votre adhésion Fedora « %s » a été parrainée."
 
-#: fas/group.py:514
+#: fas/group.py:535
 #, python-format
 msgid ""
 "\n"
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and git repository within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s>  vous a parrainé pour l'adhésion dans le groupe\n"
-"%(group)s du système de compte Fedora (FAS). Si applicable, ce changement\n"
-"devrait se répercuter dans les alias des courriels et les dépôts git\n"
-"d'ici une heure.\n"
+msgstr "\n%(user)s <%(email)s>  vous a parrainé pour l'adhésion dans le groupe\n%(group)s du système de compte Fedora (FAS). Si applicable, ce changement\ndevrait se répercuter dans les alias des courriels et les dépôts git\nd'ici une heure.\n"
 
-#: fas/group.py:525
+#: fas/group.py:551
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "« %s » a été parrainé !"
 
-#: fas/group.py:542
+#: fas/group.py:568
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Vous ne pouvez pas supprimer « %(user)s » de « %(group)s »."
 
-#: fas/group.py:550
+#: fas/group.py:576
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "%(user)s n'a pa pu être supprimé de %(group)s : %(error)s"
 
-#: fas/group.py:554
+#: fas/group.py:580
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "Votre adhésion « %s » Fedora a été supprimée."
 
-#: fas/group.py:555
+#: fas/group.py:581
 #, python-format
 msgid ""
 "\n"
@@ -326,34 +284,29 @@ msgid ""
 "group of the Fedora Accounts System This change is effective\n"
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> vous a supprimé du groupe\n"
-"%(group)s, du système de compte Fedora (FAS). Ce changement\n"
-"est effectif pour les nouvelles opérations et devrait se répercuter\n"
-"dans les alias des courriels et les dépôts git d'ici une heure.\n"
+msgstr "\n%(user)s <%(email)s> vous a supprimé du groupe\n%(group)s, du système de compte Fedora (FAS). Ce changement\nest effectif pour les nouvelles opérations et devrait se répercuter\ndans les alias des courriels et les dépôts git d'ici une heure.\n"
 
-#: fas/group.py:567
+#: fas/group.py:599
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s a été retiré de %(group)s"
 
-#: fas/group.py:584
+#: fas/group.py:616
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Vous ne pouvez pas faire monter en grade « %s »"
 
-#: fas/group.py:591
+#: fas/group.py:623
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s n'a pas pu monter en grade dans %(group)s : %(error)s"
 
-#: fas/group.py:595
+#: fas/group.py:627
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "Votre adhésion Fedora « %s » a été élargie"
 
-#: fas/group.py:601
+#: fas/group.py:633
 #, python-format
 msgid ""
 "\n"
@@ -361,35 +314,29 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> a élargi votre status %(status)s au sein\n"
-"du groupe « %(group)s » du sytème de compte Fedora (FAS). Ce\n"
-"changement est effectif pour les nouvelles opérations, et devrait\n"
-"se répercuter dans les alias des courriels et les dépôts git d'ici\n"
-"une heure.\n"
+msgstr "\n%(user)s <%(email)s> a élargi votre status %(status)s au sein\ndu groupe « %(group)s » du sytème de compte Fedora (FAS). Ce\nchangement est effectif pour les nouvelles opérations, et devrait\nse répercuter dans les alias des courriels et les dépôts git d'ici\nune heure.\n"
 
-#: fas/group.py:613
+#: fas/group.py:651
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s est monté en grade !"
 
-#: fas/group.py:629
+#: fas/group.py:667
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Vous ne pouvez pas rétrograder « %s »"
 
-#: fas/group.py:636
+#: fas/group.py:674
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s n'a pas pu être rétrogradé dans %(group)s : %(error)s"
 
-#: fas/group.py:640
+#: fas/group.py:678
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "Votre adhésion Fedora « %s » a été réduite"
 
-#: fas/group.py:645
+#: fas/group.py:683
 #, python-format
 msgid ""
 "\n"
@@ -397,77 +344,28 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> a dégradé votre status %(status)s au sein\n"
-"du groupe « %(group)s » du sytème de compte Fedora (FAS). Ce\n"
-"changement est effectif pour les nouvelles opérations et devrait\n"
-"se répercuter dans les alias des courriels et les dépôts git d'ici\n"
-"une heure.\n"
+msgstr "\n%(user)s <%(email)s> a dégradé votre status %(status)s au sein\ndu groupe « %(group)s » du sytème de compte Fedora (FAS). Ce\nchangement est effectif pour les nouvelles opérations et devrait\nse répercuter dans les alias des courriels et les dépôts git d'ici\nune heure.\n"
 
-#: fas/group.py:657
+#: fas/group.py:701
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s a été rétrogradé !"
 
-#: fas/group.py:732
-msgid "Come join The Fedora Project!"
-msgstr "Rejoignez le Projet Fedora !"
-
-#: fas/group.py:733
-#, python-format
-msgid ""
-"\n"
-"%(user)s <%(email)s> has invited you to join the Fedora\n"
-"Project!  We are a community of users and developers who produce a\n"
-"complete operating system from entirely free and open source software\n"
-"(FOSS).  %(user)s thinks that you have knowledge and skills\n"
-"that make you a great fit for the Fedora community, and that you might\n"
-"be interested in contributing.\n"
-"\n"
-"How could you team up with the Fedora community to use and develop your\n"
-"skills?  Check out http://fedoraproject.org/join-fedora for some ideas.\n"
-"Our community is more than just software developers -- we also have a\n"
-"place for you whether you're an artist, a web site builder, a writer, or\n"
-"a people person.  You'll grow and learn as you work on a team with other\n"
-"very smart and talented people.\n"
-"\n"
-"Fedora and FOSS are changing the world -- come be a part of it!"
-msgstr ""
-"\n"
-"%(user)s <%(email)s> vous a invité à rejoindre le Projet Fedora !\n"
-"Nous sommes une communauté d'utilisateurs et de développeurs qui\n"
-"produisent un système d'exploitation complet basé sur des logiciels libres\n"
-"et gratuits. %(user)s pense que vous disposez des connaissances nécessaires\n"
-"et des compétences pouvant faire de vous un atout pour le Projet Fedora,\n"
-"et que vous pouvez être intéressé à participer.\n"
-"\n"
-"Comment pourriez-vous faire équipe avec la communauté de Fedora\n"
-"pour utiliser et développer vos compétences ? Consultez la page\n"
-" http://fedoraproject.org/join-fedora pour avoir quelques idées.\n"
-"Notre communauté est plus qu'une simple communauté de développeurs\n"
-"de logiciels ; vous y trouverez votre place que vous soyez un artiste, un\n"
-"développeur web, un rédacteur ou une personne aimant aller vers les autres.\n"
-"Vous grandirez et apprendrez au fil de votre travail avec d'autres contributeurs\n"
-"pleins de talents.\n"
-"\n"
-"Fedora et les logiciels libres changent le monde, rejoignez le mouvement !"
-
-#: fas/group.py:753
+#: fas/group.py:802
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Message envoyé à : %s"
 
-#: fas/group.py:756
+#: fas/group.py:805
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Vous n'êtes pas dans le groupe « %s »."
 
-#: fas/help.py:26 fas/help.py:77
+#: fas/help.py:26 fas/help.py:78
 msgid "Error"
 msgstr "Erreur"
 
-#: fas/help.py:26 fas/help.py:77
+#: fas/help.py:26 fas/help.py:78
 msgid "<p>We could not find that help item</p>"
 msgstr "<p>Nous n'avons pas pu trouver cet élément d'aide</p>"
 
@@ -484,16 +382,7 @@ msgid ""
 "work and we have to tell them we have a right to use it because \"Mickey "
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
-msgstr ""
-"<p> Le FPCA est un document légal. Nous avons besoin que les informations "
-"rattachées à ce document soient précises dans le cas où nous aurions besoin "
-"de vous contacter à propos de votre contribution réalisée au sein du projet."
-" Imaginez si nous étions sujet à un appel d'un avocat, d'une certaine "
-"compagnie qui revendique les droits d'auteur sur votre travail et que nous "
-"devions leur dire que nous sommes dans notre droit parce ce que « Mickey "
-"Moose » y a contribué pour nous mais que malheureusement nous n'avons pas le"
-" numéro de téléphone pour le contacter. C'est une situation potentiellement "
-"risquée.</p> "
+msgstr "<p> Le FPCA est un document légal. Nous avons besoin que les informations rattachées à ce document soient précises dans le cas où nous aurions besoin de vous contacter à propos de votre contribution réalisée au sein du projet. Imaginez si nous étions sujet à un appel d'un avocat, d'une certaine compagnie qui revendique les droits d'auteur sur votre travail et que nous devions leur dire que nous sommes dans notre droit parce ce que « Mickey Moose » y a contribué pour nous mais que malheureusement nous n'avons pas le numéro de téléphone pour le contacter. C'est une situation potentiellement risquée.</p> "
 
 #: fas/help.py:28
 msgid "IRC Nick (Optional)"
@@ -504,11 +393,7 @@ msgid ""
 "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please "
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
-msgstr ""
-"<p>Un pseudonyme IRC est utilisé pour vous identifier sur irc.freenode.net. "
-"Veuillez d'abord enregistrer votre pseudonyme sur irc.freenode.net, puis "
-"remplir ce champ afin que l'on puisse vous trouver en ligne en cas de "
-"besoin</p>"
+msgstr "<p>Un pseudonyme IRC est utilisé pour vous identifier sur irc.freenode.net. Veuillez d'abord enregistrer votre pseudonyme sur irc.freenode.net, puis remplir ce champ afin que l'on puisse vous trouver en ligne en cas de besoin</p>"
 
 #: fas/help.py:29
 msgid "Email (Required)"
@@ -519,39 +404,44 @@ msgid ""
 "<p>This email address should be your prefered email contact and will be used"
 " to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
-msgstr ""
-"<p>Cette adresse de courriel devrait être votre adresse principale et sera "
-"utilisée pour vous envoyer divers messages officiels. C'est également vers "
-"celle-ci que seront dirigées vos messages @fedoraproject</p>"
+msgstr "<p>Cette adresse de courriel devrait être votre adresse principale et sera utilisée pour vous envoyer divers messages officiels. C'est également vers celle-ci que seront dirigées vos messages @fedoraproject</p>"
 
 #: fas/help.py:30
+msgid "Security question (Required)"
+msgstr ""
+
+#: fas/help.py:30
+msgid ""
+"<p>The security question is used when you have lost access to your email "
+"address. You can email the admins, and they will ask you this question, and "
+"confirm you give the correct answer, before resetting your password/email "
+"address</p>"
+msgstr ""
+
+#: fas/help.py:31
 msgid "Full Name (Required)"
 msgstr "Nom complet (requis)"
 
-#: fas/help.py:30
+#: fas/help.py:31
 msgid "<p>Your Human Name or \"real life\" name</p>"
 msgstr "<p>Votre nom d'humain ou votre nom dans la « vraie vie »</p>"
 
-#: fas/help.py:31 fas/templates/user/edit.html:100
+#: fas/help.py:32 fas/templates/user/edit.html:100
 msgid "GPG Key ID"
 msgstr "ID de la clé GPG"
 
-#: fas/help.py:31
+#: fas/help.py:32
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
 "you or to encrypt information so that only the recipients can read it.  This"
 " can be used when a password reset is sent to your email.</p>"
-msgstr ""
-"<p>Une clé GPG est généralement utilisée pour prouver que le message ou le "
-"courriel provient bien de vous ou pour chiffrer une information pour que "
-"seul le destinataire puisse la lire. Cela peut être utilisé lorsqu'une "
-"réinitialisation de votre mot de passe vous est envoyée par courriel.</p>"
+msgstr "<p>Une clé GPG est généralement utilisée pour prouver que le message ou le courriel provient bien de vous ou pour chiffrer une information pour que seul le destinataire puisse la lire. Cela peut être utilisé lorsqu'une réinitialisation de votre mot de passe vous est envoyée par courriel.</p>"
 
-#: fas/help.py:32
+#: fas/help.py:33
 msgid "Telephone"
 msgstr "Téléphone"
 
-#: fas/help.py:32 fas/help.py:40
+#: fas/help.py:33 fas/help.py:41
 msgid ""
 "<p>Required in order to complete the <a "
 "href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
@@ -559,64 +449,51 @@ msgid ""
 "need to contact you.  For more information see our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
-msgstr ""
-"<p> Requis dans le but de compléter le <a "
-"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>."
-" Dans certaines circonstances d'urgence, une personne du Projet Fedora peut "
-"avoir besoin de vous contacter. Pour plus d'informations veuillez vous "
-"réferrer à notre <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">politique sur la "
-"vie privée</a>.</p>"
+msgstr "<p> Requis dans le but de compléter le <a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>. Dans certaines circonstances d'urgence, une personne du Projet Fedora peut avoir besoin de vous contacter. Pour plus d'informations veuillez vous réferrer à notre <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">politique sur la vie privée</a>.</p>"
 
-#: fas/help.py:33 fas/templates/fpca/index.html:47
+#: fas/help.py:34 fas/templates/fpca/index.html:47
 #: fas/templates/user/edit.html:51
 msgid "Postal Address"
 msgstr "Adresse postale"
 
-#: fas/help.py:33
+#: fas/help.py:34
 msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
-msgstr ""
-"<p>Cela devrait être une adresse postale à laquelle vous pouvez être "
-"contacté.  Consultez notre <a "
-"href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Politique "
-"relative aux données personnelles</a>.</p>"
+msgstr "<p>Cela devrait être une adresse postale à laquelle vous pouvez être contacté.  Consultez notre <a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Politique relative aux données personnelles</a>.</p>"
 
-#: fas/help.py:34
+#: fas/help.py:35
 msgid "Timezone (Optional)"
 msgstr "Fuseau horaire (optionnel)"
 
-#: fas/help.py:34
+#: fas/help.py:35
 msgid "<p>Please specify the time zone you are in.</p>"
 msgstr "<p>Veuillez préciser le fuseau horaire où vous vous trouvez.</p>"
 
-#: fas/help.py:35
+#: fas/help.py:36
 msgid "Comments (Optional)"
 msgstr "Commentaires (optionnels)"
 
-#: fas/help.py:35
+#: fas/help.py:36
 msgid "<p>Misc comments about yourself.</p>"
 msgstr "<p>Commentaires divers à votre propos.</p>"
 
-#: fas/help.py:36 fas/templates/user/list.html:27
+#: fas/help.py:37 fas/templates/user/list.html:27
 msgid "Account Status"
 msgstr "Statut du compte"
 
-#: fas/help.py:36
+#: fas/help.py:37
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
-msgstr ""
-"<p>Montre le statut du compte, les valeurs possibles sont : "
-"<ul><li>actif</li><li>inactif</li></ul></p>"
+msgstr "<p>Montre le statut du compte, les valeurs possibles sont : <ul><li>actif</li><li>inactif</li></ul></p>"
 
-#: fas/help.py:37
+#: fas/help.py:38
 msgid "FPCA"
 msgstr "FPCA"
 
-#: fas/help.py:37
+#: fas/help.py:38
 msgid ""
 "<p>In order to become a full Fedora contributor you must complete the <a "
 "href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora"
@@ -624,19 +501,13 @@ msgid ""
 "between you and Red Hat.  Full status allows people to contribute content "
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
-msgstr ""
-"<p>Dans le but de devenir un contributeur Fedora, vous devez compléter l'<a "
-"href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">accord"
-" de contribution du projet Fedora (FPCA)</a>. Cette licence est un accord "
-"légal entre vous et Red Hat. Le statut complet permet de contribuer au "
-"contenu et au code, aussi il est recommander pour quiconque intéressé pour "
-"s'investir dans le Projet Fedora.</p> "
+msgstr "<p>Dans le but de devenir un contributeur Fedora, vous devez compléter l'<a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">accord de contribution du projet Fedora (FPCA)</a>. Cette licence est un accord légal entre vous et Red Hat. Le statut complet permet de contribuer au contenu et au code, aussi il est recommander pour quiconque intéressé pour s'investir dans le Projet Fedora.</p> "
 
-#: fas/help.py:38 fas/templates/user/edit.html:105
+#: fas/help.py:39 fas/templates/user/edit.html:105
 msgid "Public RSA SSH Key"
 msgstr "Clé publique SSH RSA"
 
-#: fas/help.py:38
+#: fas/help.py:39
 msgid ""
 "<p>Many resources require public key authentication to work.  By uploading "
 "your public key to us, you can then log in to our servers.  Type \"man ssh-"
@@ -645,299 +516,229 @@ msgid ""
 " wish to login through several hosts, each with their own public key, you "
 "can create a concatenated file of public ssh keys and upload it in lieu of "
 "the individual ssh public key.</p>"
-msgstr ""
-"<p>Pour fonctionner, de nombreuses ressources nécessitent une clé publique "
-"d'authentification. En nous envoyant votre clé publique, vous pourrez vous "
-"connecter à nos serveurs. Tapez « man ssh-keygen » pour obtenir plus "
-"d'informations sur la création de votre clé (elle doit être de type RSA). "
-"Une fois créée, envoyez le fichier ~/.ssh/id_rsa.pub. <br/><br/>Si vous "
-"souhaitez vous identifier aux travers de plusieurs hôtes, chacun d'eux "
-"doient avoir sa propre clé publique. Aussi vous pouvez crée un fichier "
-"concaténé des clés publiques ssh et l'envoyer comme une seul clé publique "
-"ssh.</p>"
+msgstr "<p>Pour fonctionner, de nombreuses ressources nécessitent une clé publique d'authentification. En nous envoyant votre clé publique, vous pourrez vous connecter à nos serveurs. Tapez « man ssh-keygen » pour obtenir plus d'informations sur la création de votre clé (elle doit être de type RSA). Une fois créée, envoyez le fichier ~/.ssh/id_rsa.pub. <br/><br/>Si vous souhaitez vous identifier aux travers de plusieurs hôtes, chacun d'eux doient avoir sa propre clé publique. Aussi vous pouvez crée un fichier concaténé des clés publiques ssh et l'envoyer comme une seul clé publique ssh.</p>"
 
-#: fas/help.py:39 fas/templates/user/edit.html:121
+#: fas/help.py:40 fas/templates/user/edit.html:121
 msgid "Locale"
 msgstr "Langue"
 
-#: fas/help.py:39
+#: fas/help.py:40
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr ""
-"<p>Cela permet aux personnes ne parlant pas anglais de choisir leur "
-"langue.</p>"
+msgstr "<p>Cela permet aux personnes ne parlant pas anglais de choisir leur langue.</p>"
 
-#: fas/help.py:40
+#: fas/help.py:41
 msgid "Country Code"
 msgstr "Code du pays"
 
-#: fas/help.py:41
+#: fas/help.py:42
 msgid "Must be over 13 Years"
 msgstr "Vous devez être âgé de plus de 13 ans."
 
-#: fas/help.py:41
+#: fas/help.py:42
 msgid ""
 "<p>Out of special concern for children's privacy, we do not knowingly accept"
 " online personal information from children under the age of 13. We do not "
 "knowingly allow children under the age of 13 to become registered members of"
 " our sites or buy products and services on our sites. We do not knowingly "
 "collect or solicit personal information about children under 13.</p>"
-msgstr ""
-"<p>En plus des restrictions sur la vie privée des enfants, nous n'acceptons "
-"pas les informations personnelles d'enfants de moins de 13 ans. Nous "
-"n'autorisons pas les enfants de moins de 13 ans à s'enregistrer sur nos "
-"sites ni à acheter nos produits et services. Nous ne collectons ni ne "
-"sollicitons de données personnelles sur les enfants de moins de 13 ans.</p>"
+msgstr "<p>En plus des restrictions sur la vie privée des enfants, nous n'acceptons pas les informations personnelles d'enfants de moins de 13 ans. Nous n'autorisons pas les enfants de moins de 13 ans à s'enregistrer sur nos sites ni à acheter nos produits et services. Nous ne collectons ni ne sollicitons de données personnelles sur les enfants de moins de 13 ans.</p>"
 
-#: fas/help.py:42
+#: fas/help.py:43
 msgid "Hide Information"
 msgstr "Masquer les informations"
 
-#: fas/help.py:42
+#: fas/help.py:43
 msgid ""
 "<p>In accordance with our privacy policy, you can choose to hide some of the"
 " information given on this page from other people.  Please see the privacy "
 "policy for complete details.</p>"
-msgstr ""
-"<p>En accord avec notre politique relative aux données personnelles, vous "
-"pouvez choisir de masquer certaines informations de cette page aux autres "
-"personnes. Veuillez consultez notre politique relative aux données privées "
-"pour de plus amples informations.</p>"
+msgstr "<p>En accord avec notre politique relative aux données personnelles, vous pouvez choisir de masquer certaines informations de cette page aux autres personnes. Veuillez consultez notre politique relative aux données privées pour de plus amples informations.</p>"
 
-#: fas/help.py:43 fas/templates/group/list.html:43
+#: fas/help.py:44 fas/templates/group/list.html:43
 msgid "Apply"
 msgstr "Rejoindre"
 
-#: fas/help.py:43
+#: fas/help.py:44
 #, python-format
 msgid ""
 "<p>Applying for a group is like applying for a job and it can certainly take"
 " a while to get in.  Many groups have their own rules about how to actually "
 "get approved or sponsored.  For more information on how the account system "
 "works see the <a href=\"%s\">about page</a>.</p>"
-msgstr ""
-"<p>Postuler pour un groupe est semblable à postuler pour un emploi et peut "
-"prendre quelques temps pour en devenir membre. De nombreux groupes disposent"
-" de leur propre procédure d'adhésion pour devenir membre ou être parrainé. "
-"Pour de plus amples informations sur le fonctionnement du système de "
-"comptes, consultez la page <a href=\"%s\">à propos</a>.</p>"
+msgstr "<p>Postuler pour un groupe est semblable à postuler pour un emploi et peut prendre quelques temps pour en devenir membre. De nombreux groupes disposent de leur propre procédure d'adhésion pour devenir membre ou être parrainé. Pour de plus amples informations sur le fonctionnement du système de comptes, consultez la page <a href=\"%s\">à propos</a>.</p>"
 
-#: fas/help.py:44 fas/templates/group/member-list.html:46
+#: fas/help.py:45 fas/templates/group/member-list.html:46
 msgid "Remove"
 msgstr "Supprimer"
 
-#: fas/help.py:44
+#: fas/help.py:45
 msgid ""
 "<p>Removing a person from a group will cause that user to no longer be in "
 "the group.  They will need to re-apply to get in.  Admins can remove anyone,"
 " Sponsors can remove users, users can't remove anyone.</p>"
-msgstr ""
-"<p>Supprimer une personne d'un groupe fera que cette personne ne sera plus "
-"membre du groupe. Ils devront postuler à nouveau pour devenir membre. Les "
-"administrateurs peuvent supprimer tout le monde. Les parrains peuvent "
-"supprimer les utilisateurs. Les utilisateurs ne peuvent supprimer "
-"personne.</p>"
+msgstr "<p>Supprimer une personne d'un groupe fera que cette personne ne sera plus membre du groupe. Ils devront postuler à nouveau pour devenir membre. Les administrateurs peuvent supprimer tout le monde. Les parrains peuvent supprimer les utilisateurs. Les utilisateurs ne peuvent supprimer personne.</p>"
 
-#: fas/help.py:45 fas/templates/group/member-list.html:50
+#: fas/help.py:46 fas/templates/group/member-list.html:50
 msgid "Upgrade"
 msgstr "Monter en grade"
 
-#: fas/help.py:45
+#: fas/help.py:46
 msgid ""
 "<p>Upgrade a persons status in this group.<ul><li>from user -> to "
 "sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot "
 "be upgraded beyond administrator</li></ul></p>"
-msgstr ""
-"<p>Élargir le statut d'une personne dans ce groupe.<ul><li>utilisateur -> "
-"parrainer</li><li>Parrain -> administrateur</li><li>Les administrateurs ne "
-"peuvent pas monter en grade au delà</li></ul></p>"
+msgstr "<p>Élargir le statut d'une personne dans ce groupe.<ul><li>utilisateur -> parrainer</li><li>Parrain -> administrateur</li><li>Les administrateurs ne peuvent pas monter en grade au delà</li></ul></p>"
 
-#: fas/help.py:46 fas/templates/group/member-list.html:54
+#: fas/help.py:47 fas/templates/group/member-list.html:54
 msgid "Downgrade"
 msgstr "Rétrograder"
 
-#: fas/help.py:46
+#: fas/help.py:47
 msgid ""
 "<p>Downgrade a persons status in the group.<ul><li>from administrator -> to "
 "sponsor</li><li>From sponsor -> user</li><li>users cannot be downgraded "
 "below user, you may want to remove them</li></ul></p>"
-msgstr ""
-"<p>Réduire le statut d'une personne dans le groupe.<ul><li>administrateur ->"
-"  parrain</li><li>parrain -> utilisateur</li><li>les utilisateurs ne peuvent"
-" pas être réduits en dessous du statut d'utilisateur, vous souhaitez peut-"
-"être les supprimer</li></ul></p>"
+msgstr "<p>Réduire le statut d'une personne dans le groupe.<ul><li>administrateur ->  parrain</li><li>parrain -> utilisateur</li><li>les utilisateurs ne peuvent pas être réduits en dessous du statut d'utilisateur, vous souhaitez peut-être les supprimer</li></ul></p>"
 
-#: fas/help.py:47 fas/templates/group/member-list.html:41
+#: fas/help.py:48 fas/templates/group/member-list.html:41
 msgid "Approve"
 msgstr "Approuver"
 
-#: fas/help.py:47
+#: fas/help.py:48
 msgid ""
 "<p>A sponsor or administrator can approve users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "approve the user.</p>"
-msgstr ""
-"<p>Un parrain ou un administrateur peut approuver des utilisateurs à "
-"intégrer un groupe. Une fois que l'utilisateur a postulé pour un groupe, "
-"rendez-vous sur la page du groupe et cliquez sur « Approuver » pour "
-"approuver l'utilisateur.</p>"
+msgstr "<p>Un parrain ou un administrateur peut approuver des utilisateurs à intégrer un groupe. Une fois que l'utilisateur a postulé pour un groupe, rendez-vous sur la page du groupe et cliquez sur « Approuver » pour approuver l'utilisateur.</p>"
 
-#: fas/help.py:48 fas/templates/group/member-list.html:15
+#: fas/help.py:49 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
 msgstr "Parrainer"
 
-#: fas/help.py:48
+#: fas/help.py:49
 msgid ""
 "<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
-msgstr ""
-"<p>Un parrain ou un administrateur peut parrainer des utilisateurs pour "
-"qu'ils intègrent un groupe. Une fois que l'utilisateur a postulé pour le "
-"groupe, rendez-vous sur la page du groupe et cliquez sur « Approuver » pour "
-"parrainer l'utilisateur.  Parrainer un utilisateur implique que vous "
-"approuviez l'utilisateur à faire partie du groupe, à devenir son mentor et à"
-" répondre à ses éventuelles questions.</p>"
+msgstr "<p>Un parrain ou un administrateur peut parrainer des utilisateurs pour qu'ils intègrent un groupe. Une fois que l'utilisateur a postulé pour le groupe, rendez-vous sur la page du groupe et cliquez sur « Approuver » pour parrainer l'utilisateur.  Parrainer un utilisateur implique que vous approuviez l'utilisateur à faire partie du groupe, à devenir son mentor et à répondre à ses éventuelles questions.</p>"
 
-#: fas/help.py:49
+#: fas/help.py:50
 msgid "Add User"
 msgstr "Ajouter un utilisateur"
 
-#: fas/help.py:49
+#: fas/help.py:50
 msgid ""
 "<p>Manually add a user to a group.  Place their username in this field and "
 "click 'Add'</p>"
-msgstr ""
-"<p>Ajouter manuellement un utilisateur à un groupe. Renseignez le nom "
-"d'utilisateur dans le champ et cliquez sur « Ajouter »</p>"
+msgstr "<p>Ajouter manuellement un utilisateur à un groupe. Renseignez le nom d'utilisateur dans le champ et cliquez sur « Ajouter »</p>"
 
-#: fas/help.py:50
+#: fas/help.py:51
 msgid "Group Name"
 msgstr "Nom du groupe"
 
-#: fas/help.py:50
+#: fas/help.py:51
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
-msgstr ""
-"<p>Le nom du groupe que vous souhaitez créer. Il doit être en minuscules et "
-"ne contenir que des chiffres et des lettres, bien que « - » et « _ » soient "
-"autorisés</p>"
+msgstr "<p>Le nom du groupe que vous souhaitez créer. Il doit être en minuscules et ne contenir que des chiffres et des lettres, bien que « - » et « _ » soient autorisés</p>"
 
-#: fas/help.py:51
+#: fas/help.py:52
 msgid "Display Name"
 msgstr "Afficher le nom"
 
-#: fas/help.py:51
+#: fas/help.py:52
 msgid "<p>More human readable name of the group</p>"
 msgstr "<p>Nom du groupe plus facilement compréhensible</p>"
 
-#: fas/help.py:52
+#: fas/help.py:53
 msgid "Group Owner"
 msgstr "Propriétaire du groupe"
 
-#: fas/help.py:52
+#: fas/help.py:53
 msgid "<p>The name of the owner who will run this group</p>"
 msgstr "<p>Le nom du propriétaire qui s'occupera de ce groupe</p>"
 
-#: fas/help.py:53 fas/templates/group/list.html:28
+#: fas/help.py:54 fas/templates/group/list.html:28
 msgid "Group Type"
 msgstr "Type de groupe"
 
-#: fas/help.py:53
+#: fas/help.py:54
 msgid ""
 "<p>Normally it is safe to leave this blank.  Though some values include "
 "'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only "
 "really matters if the group is to end up getting shell access or commit "
 "access somewhere like fedorahosted.</p>"
-msgstr ""
-"<p>Normalement, il convient de laisser ce champ vide, bien que certaines "
-"valeurs incluent « tracking », « shell », « cvs », « git », « hg », « svn » "
-"et « mtn ». Cette valeur a vraiment d'importance si le groupe a pour "
-"vocation de disposer des autorisations depuis un shell ou un droit de commit"
-" vers un endroit comme fedorahosted.</p>"
+msgstr "<p>Normalement, il convient de laisser ce champ vide, bien que certaines valeurs incluent « tracking », « shell », « cvs », « git », « hg », « svn » et « mtn ». Cette valeur a vraiment d'importance si le groupe a pour vocation de disposer des autorisations depuis un shell ou un droit de commit vers un endroit comme fedorahosted.</p>"
 
-#: fas/help.py:54
+#: fas/help.py:55
 msgid "Group URL (Optional)"
 msgstr "URL du groupe (optionnel)"
 
-#: fas/help.py:54
+#: fas/help.py:55
 msgid ""
 "<p>A URL or wiki page for the group (for example, <a "
 "href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
-msgstr ""
-"<p>Une URL ou une page wiki pour le groupe (par exemple, <a "
-"href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
+msgstr "<p>Une URL ou une page wiki pour le groupe (par exemple, <a href=\"https://fedoraproject.org/wiki/Infrastructure\">https://fedoraproject.org/wiki/Infrastructure</a>).</p>"
 
-#: fas/help.py:55
+#: fas/help.py:56
 msgid "Group Mailing List (Optional)"
 msgstr "Liste de diffusion du groupe (optionnel)"
 
-#: fas/help.py:55
+#: fas/help.py:56
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
-msgstr ""
-"<p>Une liste de diffusion pour le groupe (par exemple, fedora-"
-"infrastructure-list@redhat.com).</p>"
+msgstr "<p>Une liste de diffusion pour le groupe (par exemple, fedora-infrastructure-list@redhat.com).</p>"
 
-#: fas/help.py:56
+#: fas/help.py:57
 msgid "Group Mailing List URL (Optional)"
 msgstr "URL de la liste de diffusion du groupe (optionnel)"
 
-#: fas/help.py:56
+#: fas/help.py:57
 msgid ""
 "<p>A URL for the group's mailing list (for example, <a "
 "href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
 "list</a>).</p>"
-msgstr ""
-"<p>Une URL pour la liste de diffusion du groupe (par exemple, <a "
-"href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-"
-"list</a>).</p>"
+msgstr "<p>Une URL pour la liste de diffusion du groupe (par exemple, <a href=\"http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list\">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>"
 
-#: fas/help.py:57
+#: fas/help.py:58
 msgid "Invite Only"
 msgstr "Seulement sur invitation"
 
-#: fas/help.py:57
+#: fas/help.py:58
 msgid ""
 "<p>If users should not normally be able to apply to the group, setting this "
 "will hide the usual \"Apply!\" links and buttons.  Users can still be added "
 "to a group directly by an admin or sponsor.</p>"
-msgstr ""
-"<p>Si les utilisateurs ne devraient normallement pas avoir accès à ce "
-"groupe, régler ceci rendra invisible les liens et boutons usuels « Rejoindre"
-" ! ». Les utilisateurs pourront toujours être ajoutés au groupe directement "
-"par un administrateur ou un parrain.</p>"
+msgstr "<p>Si les utilisateurs ne devraient normallement pas avoir accès à ce groupe, régler ceci rendra invisible les liens et boutons usuels « Rejoindre ! ». Les utilisateurs pourront toujours être ajoutés au groupe directement par un administrateur ou un parrain.</p>"
 
-#: fas/help.py:58
+#: fas/help.py:59
 msgid "Group IRC Channel (Optional)"
 msgstr "Salon IRC du groupe (optionnel)"
 
-#: fas/help.py:58
+#: fas/help.py:59
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
 msgstr "<p>Un salon IRC pour le groupe (par exemple, #fedora-admin).</p>"
 
-#: fas/help.py:59
+#: fas/help.py:60
 msgid "Group IRC Network (Optional)"
 msgstr "Réseau IRC du groupe (optionnel)"
 
-#: fas/help.py:59
+#: fas/help.py:60
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
-"<p>Le réseau IRC pour le salon IRC du groupe (par exemple, Freenode).</p>"
+msgstr "<p>Le réseau IRC pour le salon IRC du groupe (par exemple, Freenode).</p>"
 
-#: fas/help.py:60
+#: fas/help.py:61
 msgid "Needs Sponsor"
 msgstr "Nécessite un parrain"
 
-#: fas/help.py:60
+#: fas/help.py:61
 msgid ""
 "<p>If your group requires sponsorship (recommended), this means that when a "
 "user is approved by a sponsor.  That relationship is recorded in the account"
@@ -945,118 +746,84 @@ msgid ""
 "group, people will know to contact user A about user N if something goes "
 "wrong.  If this box is unchecked, this means that only approval is needed "
 "and no relationship is recorded about who did the approving</p>"
-msgstr ""
-"<p>Si votre groupe requiert d'être parrainé (recommandé), cela signifie "
-"qu'un utilisateur a besoin d'être approuvé par un parrain. Cette relation "
-"est enregistrée dans le système de compte. Si un utilisateur A parraine un "
-"utilisateur N, les personnes sauront depuis le système de compte que l'on "
-"peut contacter l'utilisateur A au sujet de l'utilisateur N si un problème "
-"survient. Si cette case n'est pas cochée, cela signifie qu'une simple "
-"approbation sera nécessaire et qu'aucune relation ne sera enregistrée "
-"concernant la personne ayant approuvé l'utilisateur</p>"
+msgstr "<p>Si votre groupe requiert d'être parrainé (recommandé), cela signifie qu'un utilisateur a besoin d'être approuvé par un parrain. Cette relation est enregistrée dans le système de compte. Si un utilisateur A parraine un utilisateur N, les personnes sauront depuis le système de compte que l'on peut contacter l'utilisateur A au sujet de l'utilisateur N si un problème survient. Si cette case n'est pas cochée, cela signifie qu'une simple approbation sera nécessaire et qu'aucune relation ne sera enregistrée concernant la personne ayant approuvé l'utilisateur</p>"
 
-#: fas/help.py:61
+#: fas/help.py:62
 msgid "Self Removal"
 msgstr "Auto-suppression"
 
-#: fas/help.py:61
+#: fas/help.py:62
 msgid ""
 "<p>Should users be able to remove themselves from this group without sponsor"
 " / admin intervention?  (recommended yes)</p>"
-msgstr ""
-"<p>Les utilisateurs sont-ils autorisés à se supprimer eux-mêmes du groupe "
-"sans intervention d'un administrateur ou d'un parrain ? (« oui » "
-"recommandé)</p>"
+msgstr "<p>Les utilisateurs sont-ils autorisés à se supprimer eux-mêmes du groupe sans intervention d'un administrateur ou d'un parrain ? (« oui » recommandé)</p>"
 
-#: fas/help.py:62
+#: fas/help.py:63
 msgid "Must Belong To"
 msgstr "Doit appartenir à"
 
-#: fas/help.py:62
+#: fas/help.py:63
 #, python-format
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
-msgstr ""
-"<p>Avant qu'un utilisateur puisse joindre ce groupe, il devra appartenir aux"
-" groupes listés dans cette boîte. Les valeurs recommandées, le sont pour le "
-"groupe « %s ».</p>"
+msgstr "<p>Avant qu'un utilisateur puisse joindre ce groupe, il devra appartenir aux groupes listés dans cette boîte. Les valeurs recommandées, le sont pour le groupe « %s ».</p>"
 
-#: fas/help.py:63
+#: fas/help.py:64
 msgid "Join Message"
 msgstr "Message de bienvenue"
 
-#: fas/help.py:63
+#: fas/help.py:64
 msgid ""
 "<p>This message will go out to users when they apply to the group.  It "
 "should be informative and offer tips about what to do next.  A description "
 "of the group would also be valuable here</p>"
-msgstr ""
-"<p>Ce message sera envoyé aux utilisateurs lorsqu'ils rejoindront pour le "
-"groupe. Il doit être informatif et expliquer la marche à suivre pour la "
-"suite. Une description du groupe serait également appropriée ici.</p>"
+msgstr "<p>Ce message sera envoyé aux utilisateurs lorsqu'ils rejoindront pour le groupe. Il doit être informatif et expliquer la marche à suivre pour la suite. Une description du groupe serait également appropriée ici.</p>"
 
-#: fas/help.py:64
+#: fas/help.py:65
 msgid "Client Side Cert"
 msgstr "Certification coté client"
 
-#: fas/help.py:64
+#: fas/help.py:65
 msgid ""
 "<p>The client side cert is generally used to grant access to upload packages"
 " to Fedora or for other authentication purposes like with koji.  You should "
 "save this certificate to ~/.fedora.cert.  If you are not a package "
 "maintainer there is no need to worry about the client side cert.  Please "
 "note that whenever a new cert is generated, all old ones are revoked.</p>"
-msgstr ""
-"<p>Le certificat coté client est généralement utilisé pour vous autoriser à "
-"envoyer de paquets à Fedora ou pour d'autres besoins d'authentification, "
-"comme celui de koji. Vous devriez sauvegarder ce certificat dans "
-"~/.fedora.cert. Si vous n'êtes pas un mainteneur de paquets, vous n'êtes pas"
-" concerné par ce certificat. Notez que lorsqu'un certificat est généré, les "
-"anciens sont révoqués.</p>"
+msgstr "<p>Le certificat coté client est généralement utilisé pour vous autoriser à envoyer de paquets à Fedora ou pour d'autres besoins d'authentification, comme celui de koji. Vous devriez sauvegarder ce certificat dans ~/.fedora.cert. Si vous n'êtes pas un mainteneur de paquets, vous n'êtes pas concerné par ce certificat. Notez que lorsqu'un certificat est généré, les anciens sont révoqués.</p>"
 
-#: fas/help.py:65
+#: fas/help.py:66
 msgid "Longitude and Latitude"
 msgstr "Longitude et latitude"
 
-#: fas/help.py:65
+#: fas/help.py:66
 msgid ""
 "<p>Your longitude and latitude.  This optional field should be entered as a "
 "floating point number.  For instance, 312.333 or -21.2.  This may be used "
 "for mapping purposes, but will not be used if you have privacy enabled for "
 "your account.</p>"
-msgstr ""
-"<p>Vos longitude et latitude. Ce champ optionnel devrait être saisi comme un"
-" nombre en virgule flottante.  Par exemple, 312.333 ou -21.2. Cela peut être"
-" utilisé pour la cartographie, mais ne sera pas utilisé si vous avez choisi "
-"de masquer les informations de votre compte.</p>"
+msgstr "<p>Vos longitude et latitude. Ce champ optionnel devrait être saisi comme un nombre en virgule flottante.  Par exemple, 312.333 ou -21.2. Cela peut être utilisé pour la cartographie, mais ne sera pas utilisé si vous avez choisi de masquer les informations de votre compte.</p>"
 
-#: fas/help.py:66
+#: fas/help.py:67
 msgid "Rules for Application"
 msgstr "Règles d'adhésion"
 
-#: fas/help.py:66
+#: fas/help.py:67
 msgid ""
 "<p>Rules or steps that applicants should follow before appliying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
-msgstr ""
-"<p>Les règles ou les étapes que les postulants devraient suivre avant de "
-"rejoindre pour votre groupe. Elles seront montrées aux utilisateurs avant "
-"qu'ils ne postulent à votre groupe.</p>"
+msgstr "<p>Les règles ou les étapes que les postulants devraient suivre avant de rejoindre pour votre groupe. Elles seront montrées aux utilisateurs avant qu'ils ne postulent à votre groupe.</p>"
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
-"Cet identifiant OpenID ne sera pas activé avant que l'utilisateur ne signe "
-"le CLA."
+msgstr "Cet identifiant OpenID ne sera pas activé avant que l'utilisateur ne signe le CLA."
 
 #: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating to "
 "the OpenID consumer."
-msgstr ""
-"Vous dernière requête OpenID n'a pas pu être récupérée. Essayez de vous "
-"authentifier à nouveau auprès de votre fournisseur OpenID."
+msgstr "Vous dernière requête OpenID n'a pas pu être récupérée. Essayez de vous authentifier à nouveau auprès de votre fournisseur OpenID."
 
 #: fas/safasprovider.py:304
 #, python-format
@@ -1065,58 +832,54 @@ msgstr "Chargement : %(visitmod)s"
 
 #: fas/sidebar.py:23
 msgid "New Group"
-msgstr ""
+msgstr "Nouveau groupe"
 
 #: fas/sidebar.py:24
 msgid "User List"
-msgstr ""
+msgstr "Liste des utilisateurs"
 
 #: fas/sidebar.py:26
 msgid "Group List"
-msgstr ""
+msgstr "Liste des groupes"
 
 #: fas/sidebar.py:27
 msgid "Join a Group"
-msgstr ""
+msgstr "Rejoindre un groupe"
 
-#: fas/user.py:80
+#: fas/user.py:86
 msgid "Solve the math problem"
 msgstr "Résoudre le problème de mathématiques"
 
-#: fas/user.py:249
+#: fas/user.py:292
 #, python-format
 msgid "You cannot edit %s"
 msgstr "Vous ne pouvez pas modifier %s"
 
-#: fas/user.py:312
+#: fas/user.py:334
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "Vous n'avez pas les permissions pour modifier « %s »"
 
-#: fas/user.py:321
+#: fas/user.py:343
 msgid "Only admin can enable or disable an account."
-msgstr ""
-"Seulement les administrateurs peuvent activer ou désactiver un compte."
+msgstr "Seulement les administrateurs peuvent activer ou désactiver un compte."
 
-#: fas/user.py:346
+#: fas/user.py:368
 msgid "Somebody is already using that email address."
 msgstr "Quelqu'un utilise déjà cette adresse de courriel."
 
-#: fas/user.py:351
+#: fas/user.py:373
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
-msgstr ""
-"Vous devez confirmer votre nouvelle adresse de courriel avant que celle-ci "
-"ne soit prise en compte. Vous devriez recevoir un courriel avec les "
-"instructions à suivre sous peu."
+msgstr "Vous devez confirmer votre nouvelle adresse de courriel avant que celle-ci ne soit prise en compte. Vous devriez recevoir un courriel avec les instructions à suivre sous peu."
 
-#: fas/user.py:358
+#: fas/user.py:380
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Demande de changement de courriel pour %s"
 
-#: fas/user.py:360
+#: fas/user.py:382
 #, python-format
 msgid ""
 "\n"
@@ -1126,27 +889,19 @@ msgid ""
 "login with your Fedora account first):\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
-msgstr ""
-"\n"
-"Vous avez récemment réclamé une modification de votre adresse\n"
-"électronique de votre système de compte Fedora. Pour valider cette\n"
-"modification d'adresse, vous devez confirmer en être le détenteur en\n"
-"\" \"visitant l'adresse suivante (vous aurez besoin de vous identifier avec\n"
-"votre compte Fedora dans un premier temps) :\n"
-"\n"
-"%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
+msgstr "\nVous avez récemment réclamé une modification de votre adresse\nélectronique de votre système de compte Fedora. Pour valider cette\nmodification d'adresse, vous devez confirmer en être le détenteur en\n\" \"visitant l'adresse suivante (vous aurez besoin de vous identifier avec\nvotre compte Fedora dans un premier temps) :\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
-#: fas/user.py:385
+#: fas/user.py:409
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Les détails de votre compte ne peuvent pas être sauvegardés : %s"
 
-#: fas/user.py:390
+#: fas/user.py:414
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Mise à jour des données du compte Fedora %s"
 
-#: fas/user.py:392
+#: fas/user.py:416
 #, python-format
 msgid ""
 "\n"
@@ -1170,69 +925,46 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
-"\n"
-"Vous venez juste de modifier les informations à propos de votre compte. Si vous\n"
-"n'avez pas effectué ces changements veuillez contacter admin@fedoraproject.org.\n"
-"Vos informations mises à jour sont :\n"
-"\n"
-"  nom d'utilisateur : %(username)s\n"
-"  pseudo irc :        %(ircnick)s\n"
-"  téléphone :         %(telephone)s\n"
-"  langue :            %(locale)s\n"
-"  adresse postale :   %(postal_address)s\n"
-"  fuseau horaire :    %(timezone)s\n"
-"  pays :              %(country_code)s\n"
-"  latitude :          %(latitude)s\n"
-"  longitude :         %(longitude)s\n"
-"  vie privée :        %(privacy)s\n"
-"  clé ssh :           %(ssh_key)s\n"
-"  clé gpg :           %(gpg_keyid)s\n"
-"\n"
-"Si ces informations ci-dessus sont incorrects, veuillez vous identifiez et les corriger :\n"
-"\n"
-"  %(editurl)s/accounts/user/edit/%(username)s\n"
+msgstr "\nVous venez juste de modifier les informations à propos de votre compte. Si vous\nn'avez pas effectué ces changements veuillez contacter admin@fedoraproject.org.\nVos informations mises à jour sont :\n\n  nom d'utilisateur : %(username)s\n  pseudo irc :        %(ircnick)s\n  téléphone :         %(telephone)s\n  langue :            %(locale)s\n  adresse postale :   %(postal_address)s\n  fuseau horaire :    %(timezone)s\n  pays :              %(country_code)s\n  latitude :          %(latitude)s\n  longitude :         %(longitude)s\n  vie privée :        %(privacy)s\n  clé ssh :           %(ssh_key)s\n  clé gpg :           %(gpg_keyid)s\n\nSi ces informations ci-dessus sont incorrects, veuillez vous identifiez et les corriger :\n\n  %(editurl)s/accounts/user/edit/%(username)s\n"
 
-#: fas/user.py:427
+#: fas/user.py:451
 msgid "Your account details have been saved."
 msgstr "Les détails de votre compte ont été sauvegardés."
 
-#: fas/user.py:672
+#: fas/user.py:702
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Champ précisé invalide : %(error)s"
 
-#: fas/user.py:686
+#: fas/user.py:716
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Aucun utilisateur trouvé correspondant à « %s »"
 
-#: fas/user.py:734
+#: fas/user.py:764
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
-msgstr ""
-"Votre changement de courriel en attente a été annulé. Le jeton de "
-"modification de l'adresse n'est plus valide."
+msgstr "Votre changement de courriel en attente a été annulé. Le jeton de modification de l'adresse n'est plus valide."
 
-#: fas/user.py:739 fas/user.py:761
+#: fas/user.py:769 fas/user.py:791
 msgid "You do not have any pending email changes."
 msgstr "Vous n'avez aucune demande de changement de courriel en cours."
 
-#: fas/user.py:743 fas/user.py:765
+#: fas/user.py:773 fas/user.py:795
 msgid "Invalid email change token."
 msgstr "Jeton de changement de courriel invalide."
 
-#: fas/user.py:775
+#: fas/user.py:805
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Votre courriel a été modifié avec succès en « %s »"
 
-#: fas/user.py:790
+#: fas/user.py:820
 msgid "No need to sign up, you have an account!"
 msgstr "Pas besoin de vous enregistrer, vous avez déjà un compte !"
 
-#: fas/user.py:819 fas/user.py:873
+#: fas/user.py:852 fas/user.py:908
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1240,46 +972,34 @@ msgid ""
 "registered members of our sites or buy products and services on our sites. "
 "We do not knowingly collect or solicit personal information about children "
 "under 13."
-msgstr ""
-"Nous sommes désolé, mais en raison de notre préoccupation pour la protection"
-" sur la vie privée des enfants, nous n'acceptons pas d'informations "
-"personnelles sur les enfants de moins de 13 ans. Nous n'autorisons pas les "
-"enfants de moins de 13 ans à s'enregistrer sur nos sites ni à acheter nos "
-"produits et services. Nous de collectons ni ne sollicitons de données "
-"personnelles sur les enfants de moins de 13 ans."
+msgstr "Nous sommes désolé, mais en raison de notre préoccupation pour la protection sur la vie privée des enfants, nous n'acceptons pas d'informations personnelles sur les enfants de moins de 13 ans. Nous n'autorisons pas les enfants de moins de 13 ans à s'enregistrer sur nos sites ni à acheter nos produits et services. Nous de collectons ni ne sollicitons de données personnelles sur les enfants de moins de 13 ans."
 
-#: fas/user.py:831 fas/user.py:884
+#: fas/user.py:864 fas/user.py:919
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
-msgstr ""
-"Nous sommes désolé, mais cette adresse de courriel est déjà utilisée. Peut-"
-"être avez-vous oublié votre mot de passe ?"
+msgstr "Nous sommes désolé, mais cette adresse de courriel est déjà utilisée. Peut-être avez-vous oublié votre mot de passe ?"
 
-#: fas/user.py:837
+#: fas/user.py:870
 msgid "Sorry.  Email addresses do not match"
 msgstr "Désolé, les adresses électroniques ne correspondent pas"
 
-#: fas/user.py:844
+#: fas/user.py:877
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
-msgstr ""
-"Votre compte n'a pas pu être créé. Veuillez contacter %s pour obtenir de "
-"l'aide."
+msgstr "Votre compte n'a pas pu être créé. Veuillez contacter %s pour obtenir de l'aide."
 
-#: fas/user.py:851
+#: fas/user.py:884
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
-msgstr ""
-"Votre mot de passe vous a été envoyé par courriel. Veuillez vous identifier "
-"avec celui-ci puis changer votre mot de passe."
+msgstr "Votre mot de passe vous a été envoyé par courriel. Veuillez vous identifier avec celui-ci puis changer votre mot de passe."
 
-#: fas/user.py:899
+#: fas/user.py:936
 msgid "Welcome to the Fedora Project!"
 msgstr "Bienvenue dans le Projet Fedora !"
 
-#: fas/user.py:899
+#: fas/user.py:936
 #, python-format
 msgid ""
 "\n"
@@ -1319,122 +1039,87 @@ msgid ""
 "to help. From here, existing members of the team will help you to find\n"
 "your feet as a Fedora contributor.\n"
 "\n"
+"Please remember that you are joining a community made of contributors\n"
+"from all around the world, as such please stop by the Community Code of \n"
+"Conduct. \n"
+"\n"
+"https://fedoraproject.org/code-of-conduct\n"
+"\n"
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
 msgstr ""
-"\n"
-"Vous avez crée un nouveau compte Fedora !\n"
-"Votre nom d'utilisateur est : %(username)s\n"
-"Votre nouveau mot de passe est : %(password)s\n"
-"\n"
-"Veuillez cliquez sur %(base_url)s%(webpath)s/user/changepass\n"
-"pour modifier ces informations.\n"
-"\n"
-"Bienvenue dans le Projet Fedora. Maintenant que vous avez souscris à\n"
-"un compte, vous êtes probablement impatient de contribuer et avec\n"
-"cette idée en tête, nous espérons que ce courriel vous guidera\n"
-"pour que ce soit le plus simple possible.\n"
-"\n"
-"Fedora est un projet excitant qui intègre de nombreuses innovations\n"
-"et vous pouvez y contribuer aussi de nombreuses manières, en utilisant\n"
-"toutes sortes de compétences. Pour en savoir plus sur les façons de\n"
-"contribuer à Fedora, vous pouvez visiter notre page d'accueil qui\n"
-"fournit plus d'information à propos des different rôles que nous\n"
-"proposons.\n"
-"\n"
-"http://join.fedoraproject.org/\n"
-"\n"
-"Si vous savez déjà de quelle façon vous souhaitez contribuer à Fedora\n"
-"et que vous avez trouvé le groupe qui travaille dans une domaine qui\n"
-"vous intéresse, alors vous n'êtes plus qu'à deux pas de les rejoindre.\n"
-"\n"
-"Dans un premier temps, commencez par souscrire à la liste de diffusion\n"
-"de l'équipe du projet qui vous intéresse − et si vous êtes intéressé\n"
-"par plus d'un groupe, vous êtes libre de souscrire à autant de groupes\n"
-"que vous le souhaitez ! En effet, c'est sur ces listes que la majorité\n"
-"du travail s'organiser et que les tâches sont assignées, donc pour\n"
-"rester au mieux impliqué, vérifiez les messages.\n"
-"\n"
-"Une fois fait, il est coutume d'envoyer un court message d'introduction\n"
-"à la liste de diffusion et d'y décrire votre expérience, vos compétences,\n"
-"ce que vous aimez puis enfin de quelle manière vous souhaitez aider.\n"
-"À partir de là, les membres de l'équipe vous aideront à faire les\n"
-"premiers pas en tant que contributeur Fedora.\n"
-"\n"
-"Enfin, au sein du Projet Fedora, nous avons tous hâte de travailler\n"
-"avec vous !\n"
 
-#: fas/user.py:965
-msgid "passwords did not match"
-msgstr "les mots de passe ne correspondent pas"
-
-#: fas/user.py:972
+#: fas/user.py:1013 fas/user.py:1063
 msgid "Your current password did not match"
 msgstr "Votre mot de passe actuel ne correspond pas."
 
-#: fas/user.py:976
+#: fas/user.py:1024
+msgid "Your security question could not be changed."
+msgstr ""
+
+#: fas/user.py:1027
+msgid "Your security question has been changed."
+msgstr ""
+
+#: fas/user.py:1056
+msgid "passwords did not match"
+msgstr "les mots de passe ne correspondent pas"
+
+#: fas/user.py:1067
 msgid "Your new password cannot be the same as your old one."
 msgstr "Votre nouveau mot de passe ne peut être le même que l'ancien."
 
-#: fas/user.py:991
+#: fas/user.py:1082
 msgid "Your password could not be changed."
 msgstr "Votre mot de passe n'a pas pas être changé."
 
-#: fas/user.py:994
+#: fas/user.py:1085
 msgid "Your password has been changed."
 msgstr "Votre mot de passe a été changé."
 
-#: fas/user.py:1005
+#: fas/user.py:1101
 msgid "You are already logged in!"
 msgstr "Vous êtes déjà identifié !"
 
-#: fas/user.py:1019
+#: fas/user.py:1118
 msgid "You are already logged in."
 msgstr "Vous êtes déjà identifié."
 
-#: fas/user.py:1025
+#: fas/user.py:1124
 msgid "Username email combo does not exist!"
-msgstr ""
-"La combinaison nom d'utilisateur et adresse de courriel n'existe pas !"
+msgstr "La combinaison nom d'utilisateur et adresse de courriel n'existe pas !"
 
-#: fas/user.py:1029
+#: fas/user.py:1128
 msgid "username + email combo unknown."
 msgstr "combinaison nom d'utilisateur et adresse de courriel inconnue"
 
-#: fas/user.py:1032 fas/user.py:1125 fas/user.py:1173
+#: fas/user.py:1131 fas/user.py:1224 fas/user.py:1272
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
-msgstr ""
-"Le statut de votre compte est actuellement %(status)s. Veuillez contacter "
-"%(admin_email)s pour plus d'informations."
+msgstr "Le statut de votre compte est actuellement %(status)s. Veuillez contacter %(admin_email)s pour plus d'informations."
 
-#: fas/user.py:1039
+#: fas/user.py:1138
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
-msgstr ""
-"Les comptes systèmes ne peuvent pas voir leurs mots de passes réinitialisés "
-"en ligne. Veuillez contacter %(admin_email)s pour le réinitialiser."
+msgstr "Les comptes systèmes ne peuvent pas voir leurs mots de passes réinitialisés en ligne. Veuillez contacter %(admin_email)s pour le réinitialiser."
 
-#: fas/user.py:1043
+#: fas/user.py:1142
 msgid "Warning: attempted reset of system account"
 msgstr "Attention : tentative de réinitialisation du compte du système"
 
-#: fas/user.py:1044
+#: fas/user.py:1143
 #, python-format
 msgid ""
 "\n"
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
-msgstr ""
-"\n"
-"Attention : quelqu'un a tenté de réinitialiser le mot de passe du compte du système\n"
-"%(account)s via l'interface web.\n"
+msgstr "\nAttention : quelqu'un a tenté de réinitialiser le mot de passe du compte du système\n%(account)s via l'interface web.\n"
 
-#: fas/user.py:1053
+#: fas/user.py:1152
 #, python-format
 msgid ""
 "\n"
@@ -1442,89 +1127,76 @@ msgid ""
 "To change your password (or to cancel the request), please visit\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
-msgstr ""
-"\n"
-"Vous avez demandé une réinitialisation du mot de passe de votre compte.\n"
-"Pour changer de mot de passe (ou changer la requête), veuillez visiter\n"
-"\n"
-"%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
+msgstr "\nVous avez demandé une réinitialisation du mot de passe de votre compte.\nPour changer de mot de passe (ou changer la requête), veuillez visiter\n\n%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:1067
+#: fas/user.py:1166
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
-msgstr ""
-"Cet utilisateur n'a pas d'identifiant de clé GPG. Les courriels chiffrés ne "
-"peuvent pas être envoyés."
+msgstr "Cet utilisateur n'a pas d'identifiant de clé GPG. Les courriels chiffrés ne peuvent pas être envoyés."
 
-#: fas/user.py:1073
+#: fas/user.py:1172
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Votre clé n'a pas pu être récupérée depuis subkeys.pgp.net"
 
-#: fas/user.py:1100
+#: fas/user.py:1199
 msgid "Your password reset email could not be encrypted."
-msgstr ""
-"Votre courriel de réinitialisation de mot de passe n'a pas pu être chiffré."
+msgstr "Votre courriel de réinitialisation de mot de passe n'a pas pu être chiffré."
 
-#: fas/user.py:1103
+#: fas/user.py:1202
 msgid "Fedora Project Password Reset"
 msgstr "Réinitialisation du mot de passe du Projet Fedora."
 
-#: fas/user.py:1107
+#: fas/user.py:1206
 msgid "A password reset URL has been emailed to you."
 msgstr "Une adresse de réinitialisation vous a été envoyée par courriel."
 
-#: fas/user.py:1131
+#: fas/user.py:1230
 msgid "You don't have any pending password changes."
 msgstr "Vous n'avez pas de changement de mot de passe en cours."
 
-#: fas/user.py:1135 fas/user.py:1187
+#: fas/user.py:1234 fas/user.py:1286
 msgid "Invalid password change token."
 msgstr "Jeton de changement d'adresse de courriel invalide."
 
-#: fas/user.py:1143
+#: fas/user.py:1242
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
-msgstr ""
-"Votre demande de réinitialisation de mot de passe a été annulée. Le jeton de"
-" changement a été invalidé."
+msgstr "Votre demande de réinitialisation de mot de passe a été annulée. Le jeton de changement a été invalidé."
 
-#: fas/user.py:1169
+#: fas/user.py:1268
 msgid "Both passwords must match"
 msgstr "Les deux mots de passe doivent correspondre"
 
-#: fas/user.py:1181
+#: fas/user.py:1280
 msgid "You do not have any pending password changes."
 msgstr "Aucune de demande de changement de mot de passe en attente."
 
-#: fas/user.py:1201
+#: fas/user.py:1300
 msgid "Your password can not be the same as your old password."
 msgstr "Votre nouveau mot de passe ne peut pas être identique au précédent."
 
-#: fas/user.py:1217
+#: fas/user.py:1316
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
-msgstr ""
-"Vous avez réinitialisé votre mot de passe avec succès. Vous devriez être en "
-"mesure de vous connecter ci-dessous."
+msgstr "Vous avez réinitialisé votre mot de passe avec succès. Vous devriez être en mesure de vous connecter ci-dessous."
 
-#: fas/user.py:1252
+#: fas/user.py:1351
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
-"Avant de générer un certificat, vous devez avant tout compléter le FPCA."
+msgstr "Avant de générer un certificat, vous devez avant tout compléter le FPCA."
 
-#: fas/user.py:1322
+#: fas/user.py:1421
 msgid "Your certificate could not be generated."
 msgstr "Votre certificat n'a pas pu être généré."
 
-#: fas/user.py:1328
+#: fas/user.py:1427
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr "Un nouveau certificat a été généré pour %s"
 
-#: fas/user.py:1330
+#: fas/user.py:1429
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1532,16 +1204,9 @@ msgid ""
 "\n"
 "Note that certificates generated prior to the current one have been\n"
 "automatically revoked, and should stop working within the hour.\n"
-msgstr ""
-"\n"
-"Vous avez généré un nouveau certificat SSL. Si vous ne l'avez pas\n"
-"demandé, veuillez contacter admin@fedoraproject.org.\n"
-"\n"
-"Notez que les certificats précédemment générés ont été\n"
-"automatiquement révoqués et devraient cesser d'être utilisés\n"
-"d'ici une heure.\n"
+msgstr "\nVous avez généré un nouveau certificat SSL. Si vous ne l'avez pas\ndemandé, veuillez contacter admin@fedoraproject.org.\n\nNotez que les certificats précédemment générés ont été\nautomatiquement révoqués et devraient cesser d'être utilisés\nd'ici une heure.\n"
 
-#: fas/user.py:1379
+#: fas/user.py:1483
 msgid "Your key has been removed."
 msgstr "Votre clé a été supprimée."
 
@@ -1582,9 +1247,7 @@ msgstr "« %(user)s » existe déjà."
 #: fas/validators.py:160
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
-"Afin d'éviter les boucles de courriel, votre adresse de courriel ne peut pas"
-" se terminer par @fedoraproject.org."
+msgstr "Afin d'éviter les boucles de courriel, votre adresse de courriel ne peut pas se terminer par @fedoraproject.org."
 
 #: fas/validators.py:174
 #, python-format
@@ -1596,18 +1259,13 @@ msgstr "Erreur - clé SSH RSA invalide : %(key)s"
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
-"« %(username)s » est un nom d'utilisateur non conforme. Un nom d'utilisateur"
-" valide doit comporter uniquement des caractères ASCII, des miniscules ou "
-"des chiffres et commencer par une lettre."
+msgstr "« %(username)s » est un nom d'utilisateur non conforme. Un nom d'utilisateur valide doit comporter uniquement des caractères ASCII, des miniscules ou des chiffres et commencer par une lettre."
 
 #: fas/validators.py:201
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
-"« %(username)s » est un nom d'utilisateur présent sur la liste noire. "
-"Veuillez en choisir un différent."
+msgstr "« %(username)s » est un nom d'utilisateur présent sur la liste noire. Veuillez en choisir un différent."
 
 #: fas/validators.py:219
 #, python-format
@@ -1622,54 +1280,37 @@ msgid ""
 "they must be at least 10 characters.  If they have lowercase letters and "
 "digits, they must be at least 12 characters.  Letters alone need to have at "
 "least 3 different characters and be 20 or more characters in length."
-msgstr ""
+msgstr "les mots de passe doivent respecter certaines conditions. S'ils mélangent des symboles, des lettres minuscules et majuscules et des chiffres, ils doivent être composés d'au moins 9 caractères. S'ils n'ont que des lettres minuscules et majuscules et des chiffres, ils doivent être composés d'au moins 10 caractères. S'ils n'ont que des lettres minuscules et des chiffres, ils doivent être composés d'au moins 12 caractères. Un mot de passe constitué de lettres uniquement doit être composé d'au moins 3 caractères différents et être de longueur de 20 caractères ou plus."
 
 #: fas/validators.py:235
 msgid "Malicious hackers read xkcd, you know"
 msgstr "Les hackers malveillants lisent xkcd, vous savez"
 
-#: fas/validators.py:304
-msgid "You must enter your legal name"
-msgstr "Vous devez saisir un nom conforme"
-
-#: fas/validators.py:305
-msgid ""
-"You must include both your last name and first name.  If your name really "
-"only consists of a single letter, you may check the override checkbox to "
-"submit this name."
-msgstr ""
-"Vous devez renseigner à la fois votre nom de famille et votre prénom. Si "
-"votre nom est réellement composé d'une seule lettre, cochez la case afin de "
-"soumettre votre nom."
-
-#: fas/validators.py:306
+#: fas/validators.py:284
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
 " to submit this name."
-msgstr ""
-"Vous devez renseigner votre nom complet et non juste les initiales. Si votre"
-" nom est vraiment une suite de lettres séparé par des espaces, cochez la "
-"case afin de soumettre votre nom."
+msgstr "Vous devez renseigner votre nom complet et non juste les initiales. Si votre nom est vraiment une suite de lettres séparé par des espaces, cochez la case afin de soumettre votre nom."
 
-#: fas/model/fasmodel.py:186
+#: fas/model/fasmodel.py:190
 msgid "user is already in this group"
 msgstr "utilisateur déjà dans ce groupe"
 
-#: fas/model/fasmodel.py:199 fas/model/fasmodel.py:214
-#: fas/model/fasmodel.py:270
+#: fas/model/fasmodel.py:203 fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:274
 msgid "user is not a member"
 msgstr "l'utilisateur n'est pas un membre"
 
-#: fas/model/fasmodel.py:203
+#: fas/model/fasmodel.py:207
 msgid "administrators cannot be upgraded any further"
 msgstr "les administrateurs ne peuvent pas monter davantage en grade"
 
-#: fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:222
 msgid "users cannot be downgraded any further"
 msgstr "les utilisateurs ne peuvent pas être rétrogradés davantage"
 
-#: fas/model/fasmodel.py:227
+#: fas/model/fasmodel.py:231
 msgid "user is not an unapproved member"
 msgstr "l'utilisateur n'est pas un membre non approuvé"
 
@@ -1692,17 +1333,7 @@ msgid ""
 "as it allows anyone to find out who is in what groups and contact them.  "
 "This openness is brought over from the same philosophies that make Open "
 "Source popular."
-msgstr ""
-"Le FAS est conçu autour d'une architecture ouverte. À la différence des "
-"systèmes de comptes traditionnels où un administrateur ou un groupe "
-"d'administrateurs décident des personnes qui composent les groupes, FAS est "
-"complétement différent car les équipes gèrent leur propre fonctionnement. "
-"Chaque groupe est dirigé par au moins un administrateur qui peut ensuite "
-"accepter d'autres personnes dans le groupe. FAS autorise les personnes à "
-"rejoindre un groupe qui les intéresse. Ce paradigme est intéressant car il "
-"permet à chacun de voir les membres des groupes et de les contacter. Cette "
-"ouverture est basée sur les mêmes principes philosophiques qui ont rendu le "
-"logiciel libre populaire."
+msgstr "Le FAS est conçu autour d'une architecture ouverte. À la différence des systèmes de comptes traditionnels où un administrateur ou un groupe d'administrateurs décident des personnes qui composent les groupes, FAS est complétement différent car les équipes gèrent leur propre fonctionnement. Chaque groupe est dirigé par au moins un administrateur qui peut ensuite accepter d'autres personnes dans le groupe. FAS autorise les personnes à rejoindre un groupe qui les intéresse. Ce paradigme est intéressant car il permet à chacun de voir les membres des groupes et de les contacter. Cette ouverture est basée sur les mêmes principes philosophiques qui ont rendu le logiciel libre populaire."
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
@@ -1719,18 +1350,7 @@ msgid ""
 "participating on the mailing list.  Sometimes this process can take weeks "
 "depending on the group.  It's best to know you will get sponsored before you"
 " apply."
-msgstr ""
-"Les personnes ne devraient pas prendre pour acquis leur adhésion à un groupe"
-" une fois qu'elles y ont postulé. La procédure ressemble plutôt à un "
-"entretien d'embauche. Cela prend parfois du temps. Pour augmenter vos "
-"chances, consultez les informations relatives au groupe auquel vous postulez"
-" et essayez de contacter quelqu'un déjà membre de ce groupe. Trouvez une "
-"personne avec les droits de parrain ou d'administrateur et demandez-lui s'il"
-" est disponible pour devenir votre mentor. Prévoyez du temps pendant "
-"quelques jours pour découvrir le groupe, vous présenter et connaître les "
-"autres, participer à la liste de diffusion. Cette procédure peut parfois "
-"prendre plusieurs semaines en fonction du groupe pour lequel vous postulez. "
-"Il est bon de savoir que vous serez sponsorisé avant même de postuler."
+msgstr "Les personnes ne devraient pas prendre pour acquis leur adhésion à un groupe une fois qu'elles y ont postulé. La procédure ressemble plutôt à un entretien d'embauche. Cela prend parfois du temps. Pour augmenter vos chances, consultez les informations relatives au groupe auquel vous postulez et essayez de contacter quelqu'un déjà membre de ce groupe. Trouvez une personne avec les droits de parrain ou d'administrateur et demandez-lui s'il est disponible pour devenir votre mentor. Prévoyez du temps pendant quelques jours pour découvrir le groupe, vous présenter et connaître les autres, participer à la liste de diffusion. Cette procédure peut parfois prendre plusieurs semaines en fonction du groupe pour lequel vous postulez. Il est bon de savoir que vous serez sponsorisé avant même de postuler."
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
@@ -1746,17 +1366,7 @@ msgid ""
 "make people into sponsors.  They cannot, however, downgrade or remove other "
 "sponsors.  They also cannot change administrators in any way.  "
 "Administrators can do anything to anyone in the group."
-msgstr ""
-"Une fois que vous êtes accepte dans le groupe, vous faîtes partie du groupe."
-" Les parrains et les administrateurs ont généralement des droits spécifiques"
-" dans le groupe en question. Certains groupes considèrent que le statut de "
-"parrain demande une plus grande implication, telle qu'une responsabilité "
-"partielle au sein du groupe par exemple. Néanmoins le système de compte fait"
-" une distinction simple. Les parrains peuvent approuver de nouveaux "
-"utilisateurs et transformer un utilisateur en parrain. Ils ne peuvent "
-"cependant pas supprimer ou rétrograder d'autres parrains. Il ne peuvent pas "
-"non plus toucher aux administrateurs de quelque façon que ce soit. Les "
-"administrateurs ont tout pouvoir sur n'importe qui du groupe."
+msgstr "Une fois que vous êtes accepte dans le groupe, vous faîtes partie du groupe. Les parrains et les administrateurs ont généralement des droits spécifiques dans le groupe en question. Certains groupes considèrent que le statut de parrain demande une plus grande implication, telle qu'une responsabilité partielle au sein du groupe par exemple. Néanmoins le système de compte fait une distinction simple. Les parrains peuvent approuver de nouveaux utilisateurs et transformer un utilisateur en parrain. Ils ne peuvent cependant pas supprimer ou rétrograder d'autres parrains. Il ne peuvent pas non plus toucher aux administrateurs de quelque façon que ce soit. Les administrateurs ont tout pouvoir sur n'importe qui du groupe."
 
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/fpca/index.html:16
@@ -1769,8 +1379,7 @@ msgstr "Erreur !"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
-msgstr ""
-"L(es) erreur(s) suivante(s) s'est (sont) produite(s) avec votre demande : "
+msgstr "L(es) erreur(s) suivante(s) s'est (sont) produite(s) avec votre demande : "
 
 #: fas/templates/home.html:13
 msgid "To do queue:"
@@ -1781,29 +1390,21 @@ msgstr "Liste de choses à faire :"
 msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
-msgstr ""
-"Le FCPA n'est pas completé. Pour devenir un contributeur du Projet Fedora à "
-"part entière, veuillez <a href=\"%s\">compléter le FPCA</a>."
+msgstr "Le FCPA n'est pas completé. Pour devenir un contributeur du Projet Fedora à part entière, veuillez <a href=\"%s\">compléter le FPCA</a>."
 
 #: fas/templates/home.html:16
 #, python-format
 msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH key."
 "  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
-"Vous n'avez pas fourni de clé SSH, certaines ressources Fedora nécessitent "
-"une clé SSH.  Veuillez fournir la vôtre en éditant <a href=\"%s\">Mon "
-"compte</a>"
+msgstr "Vous n'avez pas fourni de clé SSH, certaines ressources Fedora nécessitent une clé SSH.  Veuillez fournir la vôtre en éditant <a href=\"%s\">Mon compte</a>"
 
 #: fas/templates/home.html:22
 #, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
-"<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> demande "
-"une approbation pour faire partie de <a "
-"href=\"%(groupview)s\">%(group)s</a>."
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> demande une approbation pour faire partie de <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
@@ -1845,65 +1446,64 @@ msgstr "Communiquer"
 msgid "Help/Documentation"
 msgstr "Aide/Documentation"
 
-#: fas/templates/master.html:48
+#: fas/templates/master.html:43
+msgid "Code of Conduct"
+msgstr ""
+
+#: fas/templates/master.html:49
 msgid "Logged in:"
 msgstr "Connecté en tant que :"
 
-#: fas/templates/master.html:61
+#: fas/templates/master.html:62
 msgid "Home"
 msgstr "Accueil"
 
-#: fas/templates/master.html:62
+#: fas/templates/master.html:63
 msgid "My Account"
 msgstr "Mon compte"
 
-#: fas/templates/master.html:64
+#: fas/templates/master.html:65
 msgid "News"
 msgstr "Page FWN"
 
-#: fas/templates/master.html:69
+#: fas/templates/master.html:70
 msgid "Locale:"
 msgstr "Locale :"
 
-#: fas/templates/master.html:73
+#: fas/templates/master.html:74
 msgid "OK"
 msgstr "Valider"
 
-#: fas/templates/master.html:85
+#: fas/templates/master.html:86
 msgid "About"
 msgstr "À propos"
 
-#: fas/templates/master.html:86
+#: fas/templates/master.html:87
 msgid "Contact Us"
 msgstr "Nous contacter"
 
-#: fas/templates/master.html:87
+#: fas/templates/master.html:88
 msgid "Legal & Privacy"
 msgstr "Légal & vie privée"
 
-#: fas/templates/master.html:91
+#: fas/templates/master.html:92
 #, python-format
 msgid "FAS version %s"
 msgstr "FAS version %s"
 
-#: fas/templates/master.html:94
+#: fas/templates/master.html:95
 #, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
-msgstr ""
-"© 2011 Red Hat, Inc. Veuillez envoyer vos commentaires et corrections à <a "
-"href=\"mailto:%(webmaster)s\">l'équipe des sites internet</a>."
+msgstr "© 2011 Red Hat, Inc. Veuillez envoyer vos commentaires et corrections à <a href=\"mailto:%(webmaster)s\">l'équipe des sites internet</a>."
 
-#: fas/templates/master.html:97
+#: fas/templates/master.html:98
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
-msgstr ""
-" Le Projet Fedora est maintenu et dirigé par la communauté et sponsorisé par"
-" Red Hat.  Ce site est également maintenu par la communauté.  Red Hat n'est "
-"pas responsable de son contenu."
+msgstr " Le Projet Fedora est maintenu et dirigé par la communauté et sponsorisé par Red Hat.  Ce site est également maintenu par la communauté.  Red Hat n'est pas responsable de son contenu."
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"git*\")"
@@ -1935,11 +1535,7 @@ msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr ""
-"Bienvenue sur le système de compte Fedora. Veuillez soumettre les anomalies "
-"sur <a "
-"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> ou "
-"sur le canal #fedora-admin de irc.freenode.net. "
+msgstr "Bienvenue sur le système de compte Fedora. Veuillez soumettre les anomalies sur <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> ou sur le canal #fedora-admin de irc.freenode.net. "
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1994,9 +1590,7 @@ msgstr "Si vous pays n'est pas listé, sélectionnez \"Autres"
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
-msgstr ""
-"Je certifie que les données ci-dessus (mon nom, pays et numéro de téléphone)"
-" sont les plus proches possibles de ma connaissance."
+msgstr "Je certifie que les données ci-dessus (mon nom, pays et numéro de téléphone) sont les plus proches possibles de ma connaissance."
 
 #: fas/templates/fpca/index.html:68
 msgid "I agree"
@@ -2017,7 +1611,7 @@ msgstr "Règles du groupe"
 #: fas/templates/group/apply.html:24 fas/templates/group/members.html:31
 #: fas/templates/group/view.html:33
 msgid "Apply!"
-msgstr ""
+msgstr "Appliquer !"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
@@ -2065,30 +1659,30 @@ msgstr "Responsable du groupe :"
 msgid "Invite Only:"
 msgstr "Seulement sur invitation :"
 
-#: fas/templates/group/edit.html:59 fas/templates/group/new.html:38
+#: fas/templates/group/edit.html:63 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
 msgid "Needs Sponsor:"
 msgstr "Nécessite un parrain :"
 
-#: fas/templates/group/edit.html:65 fas/templates/group/new.html:43
+#: fas/templates/group/edit.html:73 fas/templates/group/new.html:43
 #: fas/templates/group/view.html:79
 msgid "Self Removal:"
 msgstr "Auto suppression :"
 
-#: fas/templates/group/edit.html:71
+#: fas/templates/group/edit.html:83
 msgid "Group Prerequisite:"
 msgstr "Pré-requis du groupe :"
 
-#: fas/templates/group/edit.html:77
+#: fas/templates/group/edit.html:89
 msgid "Group Join Message:"
 msgstr "Message de bienvenue du groupe :"
 
-#: fas/templates/group/edit.html:82 fas/templates/group/new.html:58
+#: fas/templates/group/edit.html:94 fas/templates/group/new.html:58
 #: fas/templates/group/view.html:49
 msgid "Rules for Application:"
 msgstr "Règles pour rejoindre :"
 
-#: fas/templates/group/edit.html:87 fas/templates/user/edit.html:147
+#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:147
 msgid "Save!"
 msgstr "Sauvegarder"
 
@@ -2122,11 +1716,11 @@ msgstr "Liste des groupes"
 
 #: fas/templates/group/list.html:17
 msgid "Create New Group"
-msgstr ""
+msgstr "Créer un nouveau groupe"
 
 #: fas/templates/group/list.html:18
 msgid "Create Group"
-msgstr ""
+msgstr "Créer un groupe"
 
 #: fas/templates/group/list.html:21 fas/templates/user/list.html:10
 #, python-format
@@ -2159,12 +1753,12 @@ msgid "None"
 msgstr "Aucun"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:141
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
 msgid "Approved"
 msgstr "Approuvé"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:142
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
 msgid "Unapproved"
 msgstr "Non approuvé"
 
@@ -2214,15 +1808,15 @@ msgstr "Détails du groupe"
 
 #: fas/templates/group/members.html:42
 msgid "administrator"
-msgstr ""
+msgstr "administrateur"
 
 #: fas/templates/group/members.html:42
 msgid "sponsor"
-msgstr ""
+msgstr "parrain"
 
 #: fas/templates/group/members.html:42
 msgid "user"
-msgstr ""
+msgstr "utilisateur"
 
 #: fas/templates/group/members.html:44
 msgid "Members"
@@ -2248,15 +1842,13 @@ msgstr "Message de bienvenue :"
 msgid "Create!"
 msgstr "Créer"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:148
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
 msgid "View Group"
 msgstr "Afficher le groupe"
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
-msgstr ""
-"Le groupe est réservé aux invités parrainés. Veuillez contacter les "
-"responsables du groupe pour plus d'informations."
+msgstr "Le groupe est réservé aux invités parrainés. Veuillez contacter les responsables du groupe pour plus d'informations."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
@@ -2310,7 +1902,7 @@ msgstr "Ajoute un utilisateur :"
 
 #: fas/templates/group/view.html:94
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: fas/templates/group/view.html:107 fas/templates/group/view.html:108
 msgid "View Member List"
@@ -2352,12 +1944,7 @@ msgid ""
 "represented by the trust root below will be told that you control identity "
 "URL listed below. (If you are using a delegated identity, the site will take"
 " care of reversing the delegation on its own.)"
-msgstr ""
-"Un nouveau site a demandé de confirmer votre identité. Si vous acceptez, le "
-"site représenté par la racine de confiance ci-dessous sera informé que vous "
-"êtes le propriétaire de l'URL d'identité listée ci-dessous. (Si vous êtes en"
-" train d'utiliser une identité déléguée, le site prendra soin de renverser "
-"la délégation à part.)"
+msgstr "Un nouveau site a demandé de confirmer votre identité. Si vous acceptez, le site représenté par la racine de confiance ci-dessous sera informé que vous êtes le propriétaire de l'URL d'identité listée ci-dessous. (Si vous êtes en train d'utiliser une identité déléguée, le site prendra soin de renverser la délégation à part.)"
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
@@ -2407,10 +1994,7 @@ msgstr "Bienveneu sur le fournisseur OpenID de Fedora"
 msgid ""
 "You are logged in as %(username)s. Your OpenID identity URL is <a "
 "href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
-msgstr ""
-"Vous êtes connecté en tant que %(username)s. L'URL de votre identité OpenID "
-"est <a "
-"href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
+msgstr "Vous êtes connecté en tant que %(username)s. L'URL de votre identité OpenID est <a href=\"%(id_base_url)s/%(username)s\">%(id_base_url)s/%(username)s</a>"
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
@@ -2432,53 +2016,40 @@ msgid ""
 "guessing it by having a computer try different combinations of characters in"
 " rapid succession.  To make such brute force attacks harder we enforce some "
 "minimum levels of strength:"
-msgstr ""
-"Le mot de passe nécessite d'être d'une certaine complexité pour prévenir les"
-" attaques des ordinateurs devinant les mots de passe en essayant plusieurs "
-"combinaisons rapides successives de caractères. Pour faire en sorte que les "
-"attaques par force brute soient plus difficiles, nous imposons un certain "
-"niveau de complexité."
+msgstr "Le mot de passe nécessite d'être d'une certaine complexité pour prévenir les attaques des ordinateurs devinant les mots de passe en essayant plusieurs combinaisons rapides successives de caractères. Pour faire en sorte que les attaques par force brute soient plus difficiles, nous imposons un certain niveau de complexité."
 
 #: fas/templates/user/changepass.html:14
 msgid ""
 "A passphrase with symbols, upper and lowercase letters, and digits must be "
 "at least 9 characters"
-msgstr ""
-"Le mot de passe avec des symboles, des lettres majuscules, minuscules et des"
-" chiffres doit compter au moins 9 caractères minimum."
+msgstr "Le mot de passe avec des symboles, des lettres majuscules, minuscules et des chiffres doit compter au moins 9 caractères minimum."
 
 #: fas/templates/user/changepass.html:15
 msgid ""
 "A passphrase with upper and lowercase letters and digits must be at least 10"
 " characters"
-msgstr ""
-"Le mot de passe avec des lettres majuscules, minuscules et des chiffres doit"
-" compter au moins 10 caractères minimum."
+msgstr "Le mot de passe avec des lettres majuscules, minuscules et des chiffres doit compter au moins 10 caractères minimum."
 
 #: fas/templates/user/changepass.html:16
 msgid ""
 "A passphrase with lowercase letters and digits must be at least 12 "
 "characters"
-msgstr ""
-"Le mot de passe avec des lettres minuscules et des chiffres doit compter au "
-"moins 12 caractères minimum."
+msgstr "Le mot de passe avec des lettres minuscules et des chiffres doit compter au moins 12 caractères minimum."
 
 #: fas/templates/user/changepass.html:17
 msgid ""
 "A passphrase with letters alone must be made of at least 3 different "
 "characters and be at least 20 characters long"
-msgstr ""
+msgstr "Un mot de passe avec des lettres de même catégorie (minuscule ou majuscule) doit être constitué d'au moins 3 caractères différents et être de longueur d'au moins 20 caractères."
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
-msgstr ""
-"Souvenez que ce sont les recommandations minimums. Vous êtes encouragé à "
-"choisir des mots de passe plus longs et plus complexes que le minimum "
-"obligatoire."
+msgstr "Souvenez que ce sont les recommandations minimums. Vous êtes encouragé à choisir des mots de passe plus longs et plus complexes que le minimum obligatoire."
 
 #: fas/templates/user/changepass.html:21
+#: fas/templates/user/changequestion.html:15
 msgid "Current Password:"
 msgstr "Mot de passe actuel :"
 
@@ -2490,6 +2061,32 @@ msgstr "Nouveau mot de passe :"
 msgid "Confirm Password:"
 msgstr "Confirmer le mot de passe :"
 
+#: fas/templates/user/changequestion.html:7
+#: fas/templates/user/changequestion.html:10
+#: fas/templates/user/changequestion.html:18
+msgid "Change Security Question"
+msgstr ""
+
+#: fas/templates/user/changequestion.html:12
+msgid ""
+"Please enter your current password for confirmation, and then choose a new "
+"security question and answer."
+msgstr ""
+
+#: fas/templates/user/changequestion.html:13
+msgid ""
+"This question will be asked if you lose access to your email address and "
+"want to recover access to your account."
+msgstr ""
+
+#: fas/templates/user/changequestion.html:16
+msgid "New Question:"
+msgstr ""
+
+#: fas/templates/user/changequestion.html:17
+msgid "Answer:"
+msgstr ""
+
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"
 msgstr "Éditer le compte"
@@ -2499,13 +2096,14 @@ msgstr "Éditer le compte"
 msgid "Edit Account (%s)"
 msgstr "Éditer le compte (%s)"
 
-#: fas/templates/user/edit.html:22 fas/templates/user/view.html:77
+#: fas/templates/user/edit.html:22 fas/templates/user/view.html:81
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: fas/templates/user/edit.html:23 fas/templates/user/view.html:79
+#: fas/templates/user/edit.html:23 fas/templates/user/view.html:78
+#: fas/templates/user/view.html:83
 msgid "(change)"
-msgstr ""
+msgstr "(modifier)"
 
 #: fas/templates/user/edit.html:33
 msgid "Email"
@@ -2556,13 +2154,7 @@ msgid ""
 "certificate at any given time.  Once you generate a new certificate, any "
 "previous ones are revoked.  Currently, if you are not working on Fedora "
 "packaging, you will probably not need to have a certificate."
-msgstr ""
-"Le lien ci-dessous vous permet de générer un certificat pour vous "
-"authentifier sur les systèmes de constructions de Fedora.  Veuillez noter "
-"que vous ne pouvez avoir qu'un certificat valide à un moment donné. Une fois"
-" que vous générez une nouveau certificat, les précédents sont révoqués.  "
-"Actuellement, si vous ne faîtes pas de paquets pour Fedora, vous ne devriez "
-"pas avoir besoin d'avoir un certificat."
+msgstr "Le lien ci-dessous vous permet de générer un certificat pour vous authentifier sur les systèmes de constructions de Fedora.  Veuillez noter que vous ne pouvez avoir qu'un certificat valide à un moment donné. Une fois que vous générez une nouveau certificat, les précédents sont révoqués.  Actuellement, si vous ne faîtes pas de paquets pour Fedora, vous ne devriez pas avoir besoin d'avoir un certificat."
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
@@ -2579,11 +2171,7 @@ msgid ""
 "Generating SSL Certificates is disabled on this machine.  If you were "
 "brought here by clicking a link it usually means there is a misconfiguration"
 " on the server.  Please contact %(accts_email)s to fix things."
-msgstr ""
-"La générations de certificat SSL est désactivé sur cette machine. Si vous "
-"êtes arrivé ici en cliquant sur un lien, cela indique généralement une "
-"mauvaise configuration du serveur. Veuillez contacter %(accts_email)s pour "
-"corriger le problème."
+msgstr "La générations de certificat SSL est désactivé sur cette machine. Si vous êtes arrivé ici en cliquant sur un lien, cela indique généralement une mauvaise configuration du serveur. Veuillez contacter %(accts_email)s pour corriger le problème."
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
@@ -2597,7 +2185,7 @@ msgstr "« * » est un méta-caractère (ex : « ric* »)."
 msgid "Username"
 msgstr "Nom d'utilisateur "
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:101
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
 msgid "CLA Done"
 msgstr "CLA fait"
 
@@ -2621,15 +2209,11 @@ msgstr "Le nom d'utilisateur est permanent"
 msgid ""
 "(i.e. it cannot be changed after registration and will never be deleted from"
 " the system)."
-msgstr ""
-"( autrement dit ne peut être changé après enregistrement et ne sera jamais "
-"supprimé du système)."
+msgstr "( autrement dit ne peut être changé après enregistrement et ne sera jamais supprimé du système)."
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
-msgstr ""
-"Les informations personnelles peuvent être mises à jour ou supprimées à tout"
-" moment."
+msgstr "Les informations personnelles peuvent être mises à jour ou supprimées à tout moment."
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2639,24 +2223,36 @@ msgstr "Nom d'utilisateur :"
 msgid "Full Name:"
 msgstr "Nom complet :"
 
-#: fas/templates/user/new.html:23 fas/templates/user/resetpass.html:14
+#: fas/templates/user/new.html:23
+msgid "Name check override:"
+msgstr ""
+
+#: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
 msgstr "Courriel :"
 
-#: fas/templates/user/new.html:28
+#: fas/templates/user/new.html:32
 msgid "Verify Email:"
 msgstr "Vérifier l'email :"
 
-#: fas/templates/user/new.html:49
+#: fas/templates/user/new.html:37
+msgid "Security Question:"
+msgstr ""
+
+#: fas/templates/user/new.html:42
+msgid "Security Answer:"
+msgstr ""
+
+#: fas/templates/user/new.html:62
 msgid "I am 13 years of age or older"
 msgstr "J'ai 13 ans ou plus "
 
-#: fas/templates/user/new.html:55
+#: fas/templates/user/new.html:68
 msgid "Answer this math equation"
 msgstr "Répondre à cette équation mathématique"
 
-#: fas/templates/user/new.html:58
+#: fas/templates/user/new.html:71
 msgid "Sign up!"
 msgstr "S'inscrire"
 
@@ -2687,10 +2283,7 @@ msgstr "Confirmer"
 msgid ""
 "Pick a password or phrase that is long but memorable.  Use a mix of upper "
 "and lowercase letters as well as numbers and punctuation."
-msgstr ""
-"Choisissez un mot de passe (ou une phrase) assez long mais mémorisable. "
-"Utilisez des lettres minuscules et majuscules aussi bien que des chiffres ou"
-" de la ponctuation."
+msgstr "Choisissez un mot de passe (ou une phrase) assez long mais mémorisable. Utilisez des lettres minuscules et majuscules aussi bien que des chiffres ou de la ponctuation."
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
@@ -2743,130 +2336,116 @@ msgstr "(supprimer la clé ssh)"
 
 #: fas/templates/user/view.html:68
 msgid "No ssh key provided"
-msgstr ""
+msgstr "Pas de clé ssh fournie"
 
 #: fas/templates/user/view.html:71
 msgid "Comments:"
 msgstr "Commentaires :"
 
-#: fas/templates/user/view.html:83
+#: fas/templates/user/view.html:77
+msgid "Security question: "
+msgstr ""
+
+#: fas/templates/user/view.html:87
 msgid "Account Status:"
 msgstr "Statut du compte :"
 
-#: fas/templates/user/view.html:86
+#: fas/templates/user/view.html:90
 msgid "Active"
 msgstr "Actif"
 
-#: fas/templates/user/view.html:87
+#: fas/templates/user/view.html:91
 msgid "Inactive"
 msgstr "Inactif"
 
-#: fas/templates/user/view.html:88
+#: fas/templates/user/view.html:92
 msgid "Pinged"
 msgstr "A été relancé"
 
-#: fas/templates/user/view.html:89
+#: fas/templates/user/view.html:93
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: fas/templates/user/view.html:94
+#: fas/templates/user/view.html:98
 msgid "Contributor Agreement:"
 msgstr "Accord du contributeur"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:102
 msgid "CLA Signed"
 msgstr "CLA signé"
 
-#: fas/templates/user/view.html:101
+#: fas/templates/user/view.html:105
 msgid "New CLA Not Signed"
 msgstr "Nouveau CLA non signé"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:106
 msgid "We need contributors to sign the new Contributor Agreement"
-msgstr ""
-"Nous avons besoin de contributeur pour signer le nouvel accord du "
-"contributeur."
+msgstr "Nous avons besoin de contributeur pour signer le nouvel accord du contributeur."
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:106
 msgid "Complete it now!"
 msgstr "Complétez le maintenant !"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:110
 msgid "Reject FPCA"
 msgstr "Rejeter le FPCA"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:114
 msgid "Not Signed"
 msgstr "Non signé"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:114
 msgid "Complete it!"
 msgstr "L'accepter !"
 
-#: fas/templates/user/view.html:113
+#: fas/templates/user/view.html:117
 msgid "Privacy:"
 msgstr "Vie privée :"
 
-#: fas/templates/user/view.html:115
+#: fas/templates/user/view.html:119
 msgid "Account Information Private"
-msgstr ""
+msgstr "Les informations du compte sont privées"
 
-#: fas/templates/user/view.html:116
+#: fas/templates/user/view.html:120
 msgid "Account Information Public"
-msgstr ""
+msgstr "Les informations du compte sont publiques"
 
-#: fas/templates/user/view.html:121
+#: fas/templates/user/view.html:125
 msgid "Your Roles"
 msgstr "Vos rôles"
 
-#: fas/templates/user/view.html:122
+#: fas/templates/user/view.html:126
 #, python-format
 msgid "%s's Roles"
 msgstr "Les rôles de %s"
 
-#: fas/templates/user/view.html:139
+#: fas/templates/user/view.html:143
 msgid "Status:"
 msgstr "Statut :"
 
-#: fas/templates/user/view.html:145
+#: fas/templates/user/view.html:149
 msgid "Tools:"
 msgstr "Outils :"
 
-#: fas/templates/user/view.html:149
+#: fas/templates/user/view.html:153
 msgid "Invite a New Member..."
 msgstr "Inviter un nouveau membre..."
 
-#: fas/templates/user/view.html:150
+#: fas/templates/user/view.html:154
 msgid "Manage Group Membership..."
 msgstr "Gérer les appartenances au groupe..."
 
-#: fas/templates/user/view.html:151
+#: fas/templates/user/view.html:155
 msgid "Manage Group Details..."
 msgstr "Gérer les détails du groupe..."
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:159
 msgid "Queue:"
 msgstr "File :"
 
-#: fas/templates/user/view.html:159
+#: fas/templates/user/view.html:163
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
-msgstr ""
-"<strong>%(user)s</strong> demande une approbation pour faire partie de "
-"<strong>%(unapproved_role.group)s</strong>."
-
-#: fas/tgcaptcha2/validator.py:15
-msgid "Incorrect value."
-msgstr "Valeur incorrect"
-
-#: fas/tgcaptcha2/validator.py:16
-msgid "Too much time elapsed. Please try again."
-msgstr "Trop de temps écoulé. Veuillez réessayer."
-
-#: fas/tgcaptcha2/widgets.py:49
-msgid "obfuscated letters"
-msgstr "Lettres masquées."
-
-
+msgstr "<strong>%(user)s</strong> demande une approbation pour faire partie de <strong>%(unapproved_role.group)s</strong>."
