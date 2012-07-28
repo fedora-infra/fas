@@ -268,8 +268,7 @@ MAKING A RELEASE
       git tag [RELEASE VERSION NUMBER]
       git push --tags
 12. Install in staging and test.
-13. If time allows, read and do the :id:`Getting Translated` section below.
-14. Finally, upgrade the production fas servers.
+13. Finally, upgrade the production fas servers.
 
 
 Getting Translated
