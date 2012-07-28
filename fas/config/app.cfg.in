@@ -59,7 +59,7 @@ genshi.encoding="utf-8"
 
 # Captcha widget
 # Note that there's also some configuration to do in fas.cfg
-tgcaptcha.text_generator = 'random_equation'
+tgcaptcha2.text_generator = 'random_equation'
 
 # Sessions
 session_filter.on = True
