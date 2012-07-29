@@ -163,6 +163,7 @@ Once the sample file is copied to your local configuration file adjust the follo
   server.socket_port # change if you want to run on a different port
   base_url_filter.base_url # adjust the port and host as needed
   fas.url # adjust the port and host as needed
+  key_securityquestion # adjust the key used to encrypt the security answers
 
 You may also need to change some of the directories and settings in fas/config/app.cfg.
 

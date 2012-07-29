@@ -36,6 +36,9 @@ security answer. Apply the schema update like this:
 
 sudo -u postgres psql fas2 < updates/fas2-0.8.13_to_0.8.14.sql
 
+Also, the new key_securityquestion configuration parameter should be set
+to the id of the key used to encrypt the answer to the security question.
+
 0.8.7 => 0.8.8
 ==============
 We still haven't worked out using migrate scripts on our database servers so

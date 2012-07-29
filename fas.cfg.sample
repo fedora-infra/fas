@@ -11,8 +11,10 @@ samadhi.baseurl = 'http://alpha.rzhou.org/'
 openidstore = "/var/tmp/fas/openid"
 
 ###
-### GPG Keys
+### GPG Keys for specific operations
 ###
+# This is the GPG Key ID used to encrypt the answer to the user's security question.
+# The private key should be known to the admins to verify that the user supplied the correct answer.
 key_securityquestion = '00000000'
 
 ###
@@ -173,10 +175,11 @@ openssl_l = "Raleigh"
 openssl_o = "Fedora Project"
 openssl_ou = "Fedora User Cert"
 
-# Note: gpg is for encrypting password reset mail if the user has
-# a gpg key registered.  It's currently broken
+# These determine where FAS will read the public keyring from used in all GPG operations
 gpgexec = "/usr/bin/gpg"
 gpghome = "/home/ricky/work/fedora/fas/gnupg"
+# Note: gpg_fingerprint and gpg_passphrase are for encrypting password reset mail if the user has
+# a gpg key registered.  It's currently broken
 gpg_fingerprint = "C199 1E25 D00A D200 2D2E  54D1 BF7F 1647 C54E 8410"
 # If you were wondering, this isn't a real passphrase :)
 gpg_passphrase = "m00!s@ysth3c0w"
