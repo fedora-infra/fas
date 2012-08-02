@@ -13,7 +13,11 @@
       <p>${_('This question will be asked if you lose access to your email address and want to recover access to your account.')}</p>
       <ul>
         <div class="field"><label for="currentpassword">${_('Current Password:')}</label> <input type="password" id="currentpassword" name="currentpassword" /></div>
-        <div class="field"><label for="newquestion">${_('New Question:')}</label> <input type="text" id="newquestion" name="newquestion" /></div>
+        <div class="field">
+          <label for="newquestion">${_('New Question:')}</label>
+          <input type="text" id="newquestion" name="newquestion" />
+          <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_security_question')}'});</script>
+        </div>
         <div class="field"><label for="newanswer">${_('Answer:')}</label> <input type="text" id="newanswer" name="newanswer" /></div>
         <div class="field"><input class="sub-button" type="submit" value="${_('Change Security Question')}" /></div>
       </ul>
