@@ -132,6 +132,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %changelog
 * Sat Jul 28 2012 Patrick Uiterwijk <puiterwijk@gmail.com> - 0.8.14-1
 - Added security question system, with encrypted security answer
+- Added differing colors of headers for differing types of deployment
 
 * Fri Jul 06 2012 Ralph Bean <rbean@redhat.com> - 0.8.13-2
 - Typo fix.  python-fedmsg should just be 'fedmsg'.

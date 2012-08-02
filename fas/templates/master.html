@@ -20,7 +20,7 @@
   </head>
   <body py:match="body" py:attrs="select('@*')">
     <div id="wrapper">
-      <div id="head">
+      <div id="head" class="head-${config.get('deployment_type', 'dev')}">
         <h1><a href="http://fedoraproject.org/">${_('Fedora')}</a></h1>
         <!-- TODO: Make this do something useful, talk about interface :)
         <div id="searchbox">

@@ -26,8 +26,23 @@ a
   margin-top: 35px;
   height: 70px;
   line-height: 70px;
+}
+
+.head-dev
+{
+  background: url(../images/head-dev.png) 0 0 repeat-x;
+}
+
+.head-stg
+{
+  background: url(../images/head-stg.png) 0 0 repeat-x;
+}
+
+.head-prod
+{
   background: url(../images/head.png) 0 0 repeat-x;
 }
+  
 
 #head h1
 {

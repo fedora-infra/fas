@@ -39,6 +39,9 @@ sudo -u postgres psql fas2 < updates/fas2-0.8.13_to_0.8.14.sql
 Also, the new key_securityquestion configuration parameter should be set
 to the id of the key used to encrypt the answer to the security question.
 
+Also, you should not forget to set deployment_type to the type of deployment
+of this installation.
+
 0.8.7 => 0.8.8
 ==============
 We still haven't worked out using migrate scripts on our database servers so

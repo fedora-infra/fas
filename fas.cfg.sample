@@ -1,5 +1,15 @@
 [global]
 
+#
+# Deployment type
+# Determines which color of the header is being used
+# Valid options:
+# - "dev": Development
+# - "stg": Staging
+# - "prod": Production
+#
+deployment_type = "dev"
+
 # TODO: better namespacing (maybe a [fas] section)
 # admingroup is for humans that can see and do anything
 

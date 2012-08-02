@@ -10,6 +10,7 @@ NEWS
 0.8.14
 ------
 * Added Security questions, with encrypted answers (Patrick Uiterwijk).
+* Added differing colors of headers for differing types of deployment (Patrick Uiterwijk)
 
 ------
 0.8.13
