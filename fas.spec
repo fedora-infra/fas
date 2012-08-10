@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.14
+Version:        0.8.14.90
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -130,9 +130,14 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Sat Aug 10 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.90-1
+- Differing colors of headers for differing types of deployment.
+- Add a place where users are able to add their blog to the planet
+- Show the content of the group if there are less than 10 people in it
+- Pull in latest translations to prepare for 0.8.15.
+
 * Sat Jul 28 2012 Patrick Uiterwijk <puiterwijk@gmail.com> - 0.8.14-1
 - Added security question system, with encrypted security answer
-- Added differing colors of headers for differing types of deployment
 
 * Fri Jul 06 2012 Ralph Bean <rbean@redhat.com> - 0.8.13-2
 - Typo fix.  python-fedmsg should just be 'fedmsg'.

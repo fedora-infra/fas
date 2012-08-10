@@ -4,13 +4,22 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk
 :Date: 28 Jul 2012
-:Version: 0.8.14
+:Version: 0.8.14.90
+
+---------
+0.8.14.90
+---------
+* Show the content of the group if there are less than 10 people in
+  it. (Pierre-Yves Chibon)
+* Add a place where the user is able to add their blog to the
+  planet. (Pierre-Yves Chibon)
+* Added differing colors of headers for differing types of deployment.
+  (Patrick Uiterwijk)
 
 ------
 0.8.14
 ------
 * Added Security questions, with encrypted answers (Patrick Uiterwijk).
-* Added differing colors of headers for differing types of deployment (Patrick Uiterwijk)
 
 ------
 0.8.13

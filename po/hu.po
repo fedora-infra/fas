@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-07-28 15:47-0400\n"
-"PO-Revision-Date: 2012-07-28 19:53+0000\n"
+"POT-Creation-Date: 2012-08-10 16:27-0400\n"
+"PO-Revision-Date: 2012-08-10 20:28+0000\n"
 "Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
 "Language-Team: Hungarian <trans-hu@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgid ""
 "%(admin_email)sadmin_email"
 msgstr "Az ön azonosítóját letiltották.  További tájékoztatásért kérem üzenjen ide: %(admin_email)s"
 
-#: fas/controllers.py:222
+#: fas/controllers.py:235
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "„%s” nyelv nem elérhető."
@@ -144,66 +144,66 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr "Önnek sikerült befejeznie az FPCA-t. Most már a „%s” csoportban van."
 
-#: fas/group.py:178 fas/group.py:214
+#: fas/group.py:178 fas/group.py:221
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "„%s” nem nézhető meg"
 
-#: fas/group.py:237 fas/group.py:255
+#: fas/group.py:244 fas/group.py:262
 msgid "Only FAS adminstrators can create groups."
 msgstr "Csak FAS adminisztrátorok hozhatnak létre csoportokat."
 
-#: fas/group.py:280
+#: fas/group.py:287
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "„%s” csoportot nem lehet létrehozni."
 
-#: fas/group.py:290
+#: fas/group.py:297
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
 msgstr "„%(group)s” csoport létrehozva, de „%(user)s” felhasználót nem sikerült hozzáadni csoport adminisztrátorként."
 
-#: fas/group.py:296
+#: fas/group.py:303
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "„%s” csoport létrehozva."
 
-#: fas/group.py:311 fas/group.py:330
+#: fas/group.py:318 fas/group.py:337
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "„%s” nem szerkeszthető."
 
-#: fas/group.py:349
+#: fas/group.py:356
 msgid "The group details could not be saved."
 msgstr "A csoport részleteit nem lehetett elmenteni."
 
-#: fas/group.py:358
+#: fas/group.py:365
 msgid "The group details have been saved."
 msgstr "A csoport részletei elmentve."
 
-#: fas/group.py:390
+#: fas/group.py:397
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Nem található olyan csoport mint „%s”"
 
-#: fas/group.py:415 fas/group.py:437
+#: fas/group.py:422 fas/group.py:444
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s felhasználó %(group)s csoportba nem jelentkezhet."
 
-#: fas/group.py:445
+#: fas/group.py:452
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s felhasználó %(group)s csoportba nem tudott jelentkezni: %(error)s"
 
-#: fas/group.py:469
+#: fas/group.py:476
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "Fedora '%(group)s' támogató szükséges %(user)s felhasználónak"
 
-#: fas/group.py:472
+#: fas/group.py:479
 #, python-format
 msgid ""
 "\n"
@@ -213,12 +213,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr "\nFedora felhasználó %(user)s <%(email)s> kért\negy tagságot %(applicant)s jelöltnek a %(group)s csoportban és szükséges egy szponzor.\n\nMenjen a %(url)s hogy lépéseket tegyen.  \n"
 
-#: fas/group.py:483
+#: fas/group.py:490
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Jelentkezés „%(group)s” csoportba"
 
-#: fas/group.py:486
+#: fas/group.py:493
 #, python-format
 msgid ""
 "\n"
@@ -227,27 +227,27 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr "\nKöszönjük, hogy jelentkezett %(group)s csoportba.  \n\n%(joinmsg)s\n"
 
-#: fas/group.py:506
+#: fas/group.py:513
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s jelentkezett %(group)s csoportba!"
 
-#: fas/group.py:523
+#: fas/group.py:530
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Nem támogathatja „%s” személyt"
 
-#: fas/group.py:530
+#: fas/group.py:537
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s nem támogatható %(group)s csoportban: %(error)s"
 
-#: fas/group.py:534
+#: fas/group.py:541
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "Fedora '%s' tagsága támogatva"
 
-#: fas/group.py:535
+#: fas/group.py:542
 #, python-format
 msgid ""
 "\n"
@@ -256,27 +256,27 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr "\n%(user)s <%(email)s> támogatta a tagságot %(group)s\nFedora Account System csoportjában. Ha megfelelő, ez a változás\ntovábbítják az email álnevekre és git tárolóra egy órán belül.\n"
 
-#: fas/group.py:551
+#: fas/group.py:558
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "„%s” támogatva!"
 
-#: fas/group.py:568
+#: fas/group.py:575
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Nem távolíthatja el '%(user)s' felhasználót '%(group)s' csoportból."
 
-#: fas/group.py:576
+#: fas/group.py:583
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "%(user)s felhasználót nem sikerült eltávolítani %(group)s csoportból: %(error)s"
 
-#: fas/group.py:580
+#: fas/group.py:587
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "Fedora '%s' tagsága eltávolítva"
 
-#: fas/group.py:581
+#: fas/group.py:588
 #, python-format
 msgid ""
 "\n"
@@ -286,27 +286,27 @@ msgid ""
 "aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> eltávolítva a Fedora Accounts System \n'%(group)s' csoportjából. Ez a változás azonnal életbe lép új\nműveletek esetében, és továbbítják az email álnevekre\negy órán belül.\n"
 
-#: fas/group.py:599
+#: fas/group.py:606
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s felhasználó eltávolítva %(group)s csoportból"
 
-#: fas/group.py:616
+#: fas/group.py:623
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Nem fejlesztheti „%s” személyt"
 
-#: fas/group.py:623
+#: fas/group.py:630
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s felhasználót nem sikerült felfejleszteni %(group)s csoportban: %(error)s"
 
-#: fas/group.py:627
+#: fas/group.py:634
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "'%s' Fedora tagság feljavítva"
 
-#: fas/group.py:633
+#: fas/group.py:640
 #, python-format
 msgid ""
 "\n"
@@ -316,27 +316,27 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> felfejlesztette önt %(status)s állapotba a Fedora Felhasználói Rendszer '%(group)s' csoportjában. E változás azonnal\néletbe lép új műveletekre, és továbbítják az email álnevekre egy órán belül.\n"
 
-#: fas/group.py:651
+#: fas/group.py:658
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s felfejlesztve!"
 
-#: fas/group.py:667
+#: fas/group.py:674
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Nem fokozhatja le „%s” személyt"
 
-#: fas/group.py:674
+#: fas/group.py:681
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s felhasználót nem sikerült lefokozni %(group)s csoportban: %(error)s"
 
-#: fas/group.py:678
+#: fas/group.py:685
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "Fedora '%s' tagsága lefokozva"
 
-#: fas/group.py:683
+#: fas/group.py:690
 #, python-format
 msgid ""
 "\n"
@@ -346,26 +346,26 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> lefokozta önt %(status)s állapotba a Fedora Felhasználói Rendszer '%(group)s' csoportjában. E változás azonnal életbe lép új műveletekre, és továbbítják az email álnevekre\negy órán belül.\n"
 
-#: fas/group.py:701
+#: fas/group.py:708
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s lefokozva!"
 
-#: fas/group.py:802
+#: fas/group.py:809
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Üzenet elküldve ide: %s."
 
-#: fas/group.py:805
+#: fas/group.py:812
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Ön nincs „%s” csoportban."
 
-#: fas/help.py:26 fas/help.py:78
+#: fas/help.py:26 fas/help.py:80
 msgid "Error"
 msgstr "Hiba"
 
-#: fas/help.py:26 fas/help.py:78
+#: fas/help.py:26 fas/help.py:80
 msgid "<p>We could not find that help item</p>"
 msgstr "<p>Ez a súgó elem nincs meg</p>"
 
@@ -815,6 +815,23 @@ msgid ""
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr "<p>Szabályok vagy lépések, amiket a jelentkezőknek követniük kell, mielőtt jelentkeznének a csoportba.  Ez jelenik meg a használók előtt, mielőtt a csoportba jelentkeznek.</p>"
 
+#: fas/help.py:68 fas/templates/user/edit.html:128
+msgid "RSS blog"
+msgstr ""
+
+#: fas/help.py:68
+msgid "<p>Link to the RSS feed of your blog</p>"
+msgstr ""
+
+#: fas/help.py:69 fas/templates/user/edit.html:133
+msgid "Avatar blog"
+msgstr ""
+
+#: fas/help.py:69
+msgid ""
+"<p>Link to the avatar/hackergotchi you would like to use on your blog</p>"
+msgstr ""
+
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
 msgstr "Ez az OpenID tétlen lesz, amíg a használó nem írja alá a CLA-t."
@@ -846,40 +863,40 @@ msgstr "Csoportlista"
 msgid "Join a Group"
 msgstr "Csatlakozzon a csoporthoz"
 
-#: fas/user.py:86
+#: fas/user.py:92
 msgid "Solve the math problem"
 msgstr "Oldja meg a matematikai problémát"
 
-#: fas/user.py:292
+#: fas/user.py:298
 #, python-format
 msgid "You cannot edit %s"
 msgstr "%s nem szerkeszthető"
 
-#: fas/user.py:334
+#: fas/user.py:349
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "Nincs jogosultsága „%s” szerkesztésére"
 
-#: fas/user.py:343
+#: fas/user.py:358
 msgid "Only admin can enable or disable an account."
 msgstr "Csak adminisztrátor engedélyezhet vagy tilthat felhasználói azonosítót."
 
-#: fas/user.py:368
+#: fas/user.py:383
 msgid "Somebody is already using that email address."
 msgstr "Valaki már használja azt az email címet."
 
-#: fas/user.py:373
+#: fas/user.py:388
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
 msgstr "Mielőtt az új email életbe lép, meg kell erősítenie.  Hamarosan kapnia kell erről egy emailt az utasításokkal."
 
-#: fas/user.py:380
+#: fas/user.py:395
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Email változás igényelve %s használónak"
 
-#: fas/user.py:382
+#: fas/user.py:397
 #, python-format
 msgid ""
 "\n"
@@ -891,17 +908,26 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr "\nNem régen kérte a Fedora Account System email megváltoztatását erre a címre.  Az email változás befejezéséhez, meg kell erősítenie,\nhogy birtokolja ezt az emailt a következő URL meglátogatásával(először\nbe kell majd jelentkeznia a Fedora azonosítójával):\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
-#: fas/user.py:409
+#: fas/user.py:427
+msgid "The provided RSS feed for your blog does not seem to be a valid url"
+msgstr ""
+
+#: fas/user.py:433
+msgid ""
+"The provided hatergochi for your avatar does not seem to be a valid url"
+msgstr ""
+
+#: fas/user.py:436
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "Az ön felhasználói azonosító részleteit nem sikerült elmenteni: %s"
 
-#: fas/user.py:414
+#: fas/user.py:442
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Fedora felhasznáói azonosító adat frissítés %s"
 
-#: fas/user.py:416
+#: fas/user.py:444
 #, python-format
 msgid ""
 "\n"
@@ -921,50 +947,52 @@ msgid ""
 "  privacy flag:   %(privacy)s\n"
 "  ssh_key:        %(ssh_key)s\n"
 "  gpg_keyid:      %(gpg_keyid)s\n"
+"  blog_rss:       %(blog_rss)s\n"
+"  blog_avatar:    %(blog_avatar)s\n"
 "\n"
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr "\nÉppen most frissítette az adatait.  Ha nem kérte\nezeket a változtatásokat akkor lépjen kapcsolatba admin@fedoraproject.org és tudassa velük.  A\nfrissített adatok:\n\n  username:       %(username)s\n  ircnick:        %(ircnick)s\n  telephone:      %(telephone)s\n  locale:         %(locale)s\n  postal_address: %(postal_address)s\n  timezone:       %(timezone)s\n  country code:   %(country_code)s\n  latitude:       %(latitude)s\n  longitude:      %(longitude)s\n  privacy flag:   %(privacy)s\n  ssh_key:        %(ssh_key)s\n  gpg_keyid:      %(gpg_keyid)s\n\nHa a fenti adatok hibásak, jelentkezzen be és javítsa:\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
+msgstr ""
 
-#: fas/user.py:451
+#: fas/user.py:483
 msgid "Your account details have been saved."
 msgstr "A felhasználói azonosító részletei elmentve."
 
-#: fas/user.py:702
+#: fas/user.py:735
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Érvénytelen a megadott mező: %(error)s"
 
-#: fas/user.py:716
+#: fas/user.py:749
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Nem található felhasználó mint „%s”"
 
-#: fas/user.py:764
+#: fas/user.py:797
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr "A függőben lévő email változása törölve. Az email változás jelzés érvénytelenítve."
 
-#: fas/user.py:769 fas/user.py:791
+#: fas/user.py:802 fas/user.py:824
 msgid "You do not have any pending email changes."
 msgstr "Önnek nincs függő email változása."
 
-#: fas/user.py:773 fas/user.py:795
+#: fas/user.py:806 fas/user.py:828
 msgid "Invalid email change token."
 msgstr "Érvénytelen email változtatás jel."
 
-#: fas/user.py:805
+#: fas/user.py:838
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Önnek sikerült megváltoztatnia az emailjét „%s” címre."
 
-#: fas/user.py:820
+#: fas/user.py:853
 msgid "No need to sign up, you have an account!"
 msgstr "Nem kell feliratkoznia, van felhasználói azonosítója!"
 
-#: fas/user.py:852 fas/user.py:908
+#: fas/user.py:885 fas/user.py:941
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -974,32 +1002,32 @@ msgid ""
 "under 13."
 msgstr "Sajnáljuk, de külön a gyermekek személyes adataira való tekintettel, nem fogadunk el személyes adatokat 13 éven aluli gyermekektől. Tudatosan nem engedünk 13 éven aluli gyermekeket regisztrálni a weboldalainkra, vagy termékeket és szolgáltatásokat vásárolni a weboldalainkon. Tudatosan nem gyűjtünk vagy kérünk személyes adatokat 13 éven aluli gyermekekről."
 
-#: fas/user.py:864 fas/user.py:919
+#: fas/user.py:897 fas/user.py:952
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr "Sajnálom.  Az email címet már használják. Talán elfelejtette a jelszavát?"
 
-#: fas/user.py:870
+#: fas/user.py:903
 msgid "Sorry.  Email addresses do not match"
 msgstr "Bocsánat. Az email címek nem egyeznek"
 
-#: fas/user.py:877
+#: fas/user.py:910
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr "Nem sikerült felhasználói azonosítót létrehozni.  Kérem forduljon %s-hez segítségért."
 
-#: fas/user.py:884
+#: fas/user.py:917
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr "A jelszavát elküldték önnek emailben. Kérem jelentkezzen be vele, és változtassa meg a jelszavát!"
 
-#: fas/user.py:936
+#: fas/user.py:969
 msgid "Welcome to the Fedora Project!"
 msgstr "Üdvözli a Fedora Projekt!"
 
-#: fas/user.py:936
+#: fas/user.py:969
 #, python-format
 msgid ""
 "\n"
@@ -1049,69 +1077,69 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:1013 fas/user.py:1063
+#: fas/user.py:1046 fas/user.py:1096
 msgid "Your current password did not match"
 msgstr "Az aktuális jelszava nem egyezik"
 
-#: fas/user.py:1024
+#: fas/user.py:1057
 msgid "Your security question could not be changed."
 msgstr ""
 
-#: fas/user.py:1027
+#: fas/user.py:1060
 msgid "Your security question has been changed."
 msgstr ""
 
-#: fas/user.py:1056
+#: fas/user.py:1089
 msgid "passwords did not match"
 msgstr "jelszavak nem egyeznek"
 
-#: fas/user.py:1067
+#: fas/user.py:1100
 msgid "Your new password cannot be the same as your old one."
 msgstr "Az új jelszava nem egyezhet meg a régivel."
 
-#: fas/user.py:1082
+#: fas/user.py:1115
 msgid "Your password could not be changed."
 msgstr "A jelszavát nem sikerült megváltoztatni."
 
-#: fas/user.py:1085
+#: fas/user.py:1118
 msgid "Your password has been changed."
 msgstr "A jelszava megváltoztatva."
 
-#: fas/user.py:1101
+#: fas/user.py:1134
 msgid "You are already logged in!"
 msgstr "Ön már bejelentkezett!"
 
-#: fas/user.py:1118
+#: fas/user.py:1151
 msgid "You are already logged in."
 msgstr "Ön már bejelentkezett."
 
-#: fas/user.py:1124
+#: fas/user.py:1157
 msgid "Username email combo does not exist!"
 msgstr "Név, email kombináció nem létezik!"
 
-#: fas/user.py:1128
+#: fas/user.py:1161
 msgid "username + email combo unknown."
 msgstr "név + email kombináció ismeretlen."
 
-#: fas/user.py:1131 fas/user.py:1224 fas/user.py:1272
+#: fas/user.py:1164 fas/user.py:1257 fas/user.py:1305
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
 msgstr "A felhasználói azonosító jelenleg %(status)s állapotban van.  További tájékoztatásért kérem üzenjen ide: %(admin_email)s"
 
-#: fas/user.py:1138
+#: fas/user.py:1171
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
 msgstr "Rendszer azonosítók jelszavait nem lehet weben beállítani.  Kérem üzenjen %(admin_email)s címre, hogy beállítsák."
 
-#: fas/user.py:1142
+#: fas/user.py:1175
 msgid "Warning: attempted reset of system account"
 msgstr "Figyelmeztetés: redszerazonosító nullázási próbálkozás"
 
-#: fas/user.py:1143
+#: fas/user.py:1176
 #, python-format
 msgid ""
 "\n"
@@ -1119,7 +1147,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr "\nFigyelmeztetés: Valaki megpróbálkozott a a jelszó alaphelyzetbe\nvaló állításával a %(account)s a webes felületen keresztül.\n"
 
-#: fas/user.py:1152
+#: fas/user.py:1185
 #, python-format
 msgid ""
 "\n"
@@ -1129,74 +1157,74 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr "\nValaki (remélhetőleg ön) jelszó visszaállítást kért az ön felhasználói azonosítójára!\nA jelszó megváltoztatásához (vagy a kérelem törléséhez), látogassa meg a\n\n%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:1166
+#: fas/user.py:1199
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
 msgstr "E felhasználónak nincs GPG kulcsa beállítva, így nem lehet titkosított üzenetet küldeni."
 
-#: fas/user.py:1172
+#: fas/user.py:1205
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Az ön kulcsát nem sikerült lekérni subkeys.pgp.net helyről."
 
-#: fas/user.py:1199
+#: fas/user.py:1232
 msgid "Your password reset email could not be encrypted."
 msgstr "Az ön jelszó visszaállító üzenetét nem lehetett titkosítani."
 
-#: fas/user.py:1202
+#: fas/user.py:1235
 msgid "Fedora Project Password Reset"
 msgstr "Fedora Projekt jelszó visszaállítás"
 
-#: fas/user.py:1206
+#: fas/user.py:1239
 msgid "A password reset URL has been emailed to you."
 msgstr "Jelszó visszaállító URL elküldve önnek."
 
-#: fas/user.py:1230
+#: fas/user.py:1263
 msgid "You don't have any pending password changes."
 msgstr "Nincs függő jelszóváltoztatása."
 
-#: fas/user.py:1234 fas/user.py:1286
+#: fas/user.py:1267 fas/user.py:1319
 msgid "Invalid password change token."
 msgstr "Érvénytelen jelszó változtatás jel."
 
-#: fas/user.py:1242
+#: fas/user.py:1275
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr "Az ön jelszó visszaállítását törölték. A jelszóváltoztató jelzést érvénytelenítették."
 
-#: fas/user.py:1268
+#: fas/user.py:1301
 msgid "Both passwords must match"
 msgstr "Mindkét jelszónak egyeznie kell"
 
-#: fas/user.py:1280
+#: fas/user.py:1313
 msgid "You do not have any pending password changes."
 msgstr "Önnek nincs függő jelszóváltoztatása."
 
-#: fas/user.py:1300
+#: fas/user.py:1333
 msgid "Your password can not be the same as your old password."
 msgstr "A jelszó nem lehet ugyanaz, mint a régi."
 
-#: fas/user.py:1316
+#: fas/user.py:1349
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "Önnek sikerült visszaállítani a jelszavát. Most be kell tudnia jelentkezni alább."
 
-#: fas/user.py:1351
+#: fas/user.py:1384
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr "Tanusítvány készítése előtt, be kell fejeznie az FPCA-t."
 
-#: fas/user.py:1421
+#: fas/user.py:1454
 msgid "Your certificate could not be generated."
 msgstr "Nem sikerült tanusítvány készíteni."
 
-#: fas/user.py:1427
+#: fas/user.py:1460
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr "%s részére az új tanusítvány elkészült"
 
-#: fas/user.py:1429
+#: fas/user.py:1462
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1206,7 +1234,7 @@ msgid ""
 "automatically revoked, and should stop working within the hour.\n"
 msgstr "\nSikeresen előállított egy új SSL bizonyítványt.  Ha a folyamatot nem Ön indította el,\nkérem másolatban küldje el és tudassa az admin csoporttal - admin@fedoraproject.org címen.\n\nVegye figyelembe hogy az újonnan készített bizonyítvány a jelenlegivel szemben\nautomatikusan készül, és egy órán belül nem működik többé.\n"
 
-#: fas/user.py:1483
+#: fas/user.py:1516
 msgid "Your key has been removed."
 msgstr "A kulcsa eltávolításra került."
 
@@ -1293,24 +1321,24 @@ msgid ""
 " to submit this name."
 msgstr "Meg kell adnia a teljes nevét, nem csak a kezdőbetűket.  Ha a teljes neve bizonyos része egyetlen betűből áll, akkor be kellene jelölnie, hogy nevét beküldhesse."
 
-#: fas/model/fasmodel.py:190
+#: fas/model/fasmodel.py:194
 msgid "user is already in this group"
 msgstr "felhasználó már e csoportban van"
 
-#: fas/model/fasmodel.py:203 fas/model/fasmodel.py:218
-#: fas/model/fasmodel.py:274
+#: fas/model/fasmodel.py:207 fas/model/fasmodel.py:222
+#: fas/model/fasmodel.py:278
 msgid "user is not a member"
 msgstr "felhasználó nem tag"
 
-#: fas/model/fasmodel.py:207
+#: fas/model/fasmodel.py:211
 msgid "administrators cannot be upgraded any further"
 msgstr "adminisztrátorokat nem lehet tovább fejleszteni"
 
-#: fas/model/fasmodel.py:222
+#: fas/model/fasmodel.py:226
 msgid "users cannot be downgraded any further"
 msgstr "felhasználókat nem lehet lefokozni"
 
-#: fas/model/fasmodel.py:231
+#: fas/model/fasmodel.py:235
 msgid "user is not an unapproved member"
 msgstr "felhasználó nem jóváhagyandó tag"
 
@@ -1422,83 +1450,83 @@ msgstr "Belépés a Fedora Felhasználói Rendszerbe"
 msgid "Fedora"
 msgstr "Fedora"
 
-#: fas/templates/master.html:37
+#: fas/templates/master.html:43
 msgid "Learn about Fedora"
 msgstr "Ismerkedés Fedorával"
 
-#: fas/templates/master.html:38
+#: fas/templates/master.html:44
 msgid "Download Fedora"
 msgstr "Fedora letöltése"
 
-#: fas/templates/master.html:39
+#: fas/templates/master.html:45
 msgid "Projects"
 msgstr "Projektek"
 
-#: fas/templates/master.html:40
+#: fas/templates/master.html:46
 msgid "Join Fedora"
 msgstr "Csatlakozás a Fedorához"
 
-#: fas/templates/master.html:41
+#: fas/templates/master.html:47
 msgid "Communicate"
 msgstr "Kapcsolat"
 
-#: fas/templates/master.html:42
+#: fas/templates/master.html:48
 msgid "Help/Documentation"
 msgstr "Súgó/Dokumentáció"
 
-#: fas/templates/master.html:43
+#: fas/templates/master.html:49
 msgid "Code of Conduct"
 msgstr ""
 
-#: fas/templates/master.html:49
+#: fas/templates/master.html:55
 msgid "Logged in:"
 msgstr "Bejelentkezve:"
 
-#: fas/templates/master.html:62
+#: fas/templates/master.html:68
 msgid "Home"
 msgstr "Főoldal"
 
-#: fas/templates/master.html:63
+#: fas/templates/master.html:69
 msgid "My Account"
 msgstr "Felhasználói azonosító"
 
-#: fas/templates/master.html:65
+#: fas/templates/master.html:71
 msgid "News"
 msgstr "Hírek"
 
-#: fas/templates/master.html:70
+#: fas/templates/master.html:76
 msgid "Locale:"
 msgstr "Hely:"
 
-#: fas/templates/master.html:74
+#: fas/templates/master.html:80
 msgid "OK"
 msgstr "OK"
 
-#: fas/templates/master.html:86
+#: fas/templates/master.html:92
 msgid "About"
 msgstr "Névjegy"
 
-#: fas/templates/master.html:87
+#: fas/templates/master.html:93
 msgid "Contact Us"
 msgstr "Lépjen velünk kapcsolatba"
 
-#: fas/templates/master.html:88
+#: fas/templates/master.html:94
 msgid "Legal & Privacy"
 msgstr "Jogi & Személyes"
 
-#: fas/templates/master.html:92
+#: fas/templates/master.html:98
 #, python-format
 msgid "FAS version %s"
 msgstr "FAS változat %s"
 
-#: fas/templates/master.html:95
+#: fas/templates/master.html:101
 #, python-format
 msgid ""
 "© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
 msgstr "© 2011 Red Hat, Inc.  Kérem küldje észrevételeit és javításait a <a href=\"mailto:%(webmaster)s\">weboldalak karbantartó csapatának</a>."
 
-#: fas/templates/master.html:98
+#: fas/templates/master.html:104
 msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
@@ -1682,7 +1710,7 @@ msgstr "Csoport kísérőszöveg:"
 msgid "Rules for Application:"
 msgstr "Jelentkezés szabályai:"
 
-#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:147
+#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:157
 msgid "Save!"
 msgstr "Mentés!"
 
@@ -1743,7 +1771,7 @@ msgstr "Leírás"
 msgid "Prerequisite"
 msgstr "Előfeltétel"
 
-#: fas/templates/group/list.html:29 fas/templates/user/edit.html:128
+#: fas/templates/group/list.html:29 fas/templates/user/edit.html:138
 msgid "Status"
 msgstr "Állapot"
 
@@ -1753,12 +1781,12 @@ msgid "None"
 msgstr "Semmi"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:157
 msgid "Approved"
 msgstr "Jóváhagyva"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:158
 msgid "Unapproved"
 msgstr "Jóváhagyandó"
 
@@ -1818,7 +1846,7 @@ msgstr "szponzor"
 msgid "user"
 msgstr "felhasználó"
 
-#: fas/templates/group/members.html:44
+#: fas/templates/group/members.html:44 fas/templates/group/view.html:114
 msgid "Members"
 msgstr "Tagok"
 
@@ -1842,7 +1870,7 @@ msgstr "Kísérő szöveg:"
 msgid "Create!"
 msgstr "Létrehozás!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:164
 msgid "View Group"
 msgstr "Csoport megtekintése"
 
@@ -2063,7 +2091,7 @@ msgstr "Jelszó megerősítése:"
 
 #: fas/templates/user/changequestion.html:7
 #: fas/templates/user/changequestion.html:10
-#: fas/templates/user/changequestion.html:18
+#: fas/templates/user/changequestion.html:22
 msgid "Change Security Question"
 msgstr ""
 
@@ -2079,11 +2107,11 @@ msgid ""
 "want to recover access to your account."
 msgstr ""
 
-#: fas/templates/user/changequestion.html:16
+#: fas/templates/user/changequestion.html:17
 msgid "New Question:"
 msgstr ""
 
-#: fas/templates/user/changequestion.html:17
+#: fas/templates/user/changequestion.html:21
 msgid "Answer:"
 msgstr ""
 
@@ -2130,15 +2158,15 @@ msgstr "IRC becenév"
 msgid "Time Zone"
 msgstr "Időzóna"
 
-#: fas/templates/user/edit.html:136
+#: fas/templates/user/edit.html:146
 msgid "Comments"
 msgstr "Megjegyzések"
 
-#: fas/templates/user/edit.html:142
+#: fas/templates/user/edit.html:152
 msgid "Privacy"
 msgstr "Személyes"
 
-#: fas/templates/user/edit.html:148 fas/templates/user/verifyemail.html:17
+#: fas/templates/user/edit.html:158 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:18
 msgid "Cancel"
 msgstr "Mégsem"
@@ -2185,7 +2213,7 @@ msgstr "„*” helyettesítő jel (Pl: „ric*”)"
 msgid "Username"
 msgstr "Név"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:117
 msgid "CLA Done"
 msgstr "CLA kész"
 
@@ -2347,103 +2375,111 @@ msgid "Security question: "
 msgstr ""
 
 #: fas/templates/user/view.html:87
+msgid "RSS blog:"
+msgstr ""
+
+#: fas/templates/user/view.html:93
+msgid "Avatar blog:"
+msgstr ""
+
+#: fas/templates/user/view.html:99
 msgid "Account Status:"
 msgstr "Felhasználói azonosító állapot:"
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:102
 msgid "Active"
 msgstr "Aktív"
 
-#: fas/templates/user/view.html:91
+#: fas/templates/user/view.html:103
 msgid "Inactive"
 msgstr "Inaktív"
 
-#: fas/templates/user/view.html:92
+#: fas/templates/user/view.html:104
 msgid "Pinged"
 msgstr "Megpingetve"
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:105
 msgid "Disabled"
 msgstr "Letiltva"
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:110
 msgid "Contributor Agreement:"
 msgstr "Hozzájárulói Egyezmény:"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:114
 msgid "CLA Signed"
 msgstr "CLA kész"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:117
 msgid "New CLA Not Signed"
 msgstr "Az új CLA nincs aláírva"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:118
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr "Szükségünk van hozzájárulókra hogy aláírják az új Hozzájárulói Egyezményt"
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:118
 msgid "Complete it now!"
 msgstr "Töltse ki most!"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:122
 msgid "Reject FPCA"
 msgstr "FPCA elutasítása"
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:126
 msgid "Not Signed"
 msgstr "Nincs aláírva"
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:126
 msgid "Complete it!"
 msgstr "Befejezés!"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:129
 msgid "Privacy:"
 msgstr "Személyes:"
 
-#: fas/templates/user/view.html:119
+#: fas/templates/user/view.html:131
 msgid "Account Information Private"
 msgstr "Azonosító információk nem publikusak"
 
-#: fas/templates/user/view.html:120
+#: fas/templates/user/view.html:132
 msgid "Account Information Public"
 msgstr "Azonosító információk publikusak"
 
-#: fas/templates/user/view.html:125
+#: fas/templates/user/view.html:137
 msgid "Your Roles"
 msgstr "Szerepkörei"
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:138
 #, python-format
 msgid "%s's Roles"
 msgstr "%s szerepkörei"
 
-#: fas/templates/user/view.html:143
+#: fas/templates/user/view.html:155
 msgid "Status:"
 msgstr "Állapot:"
 
-#: fas/templates/user/view.html:149
+#: fas/templates/user/view.html:161
 msgid "Tools:"
 msgstr "Eszközök:"
 
-#: fas/templates/user/view.html:153
+#: fas/templates/user/view.html:165
 msgid "Invite a New Member..."
 msgstr "Új tag meghívása…"
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:166
 msgid "Manage Group Membership..."
 msgstr "Csoport tagság igazgatása…"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:167
 msgid "Manage Group Details..."
 msgstr "Csoport részletek igazgatása…"
 
-#: fas/templates/user/view.html:159
+#: fas/templates/user/view.html:171
 msgid "Queue:"
 msgstr "Sor:"
 
-#: fas/templates/user/view.html:163
+#: fas/templates/user/view.html:175
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
