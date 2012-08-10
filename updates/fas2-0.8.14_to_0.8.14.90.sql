@@ -14,7 +14,10 @@
 -- permission of Red Hat, Inc.
 --
 -- Author(s): Patrick Uiterwijk
+--            Pierre-Yves Chibon
 
 -- Add columns for the security question and answer
 ALTER TABLE people ADD COLUMN security_question TEXT NOT NULL DEFAULT '-';
 ALTER TABLE people ADD COLUMN security_answer TEXT NOT NULL DEFAULT '-';
+ALTER TABLE people ADD COLUMN blog_rss TEXT;
+ALTER TABLE people ADD COLUMN blog_avatar TEXT;
