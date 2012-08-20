@@ -408,7 +408,7 @@ msgstr "<p>Esta dirección de correo electrónico debe ser su contacto de correo
 
 #: fas/help.py:30
 msgid "Security question (Required)"
-msgstr ""
+msgstr "Pregunta de Seguridad (Obligatorio)"
 
 #: fas/help.py:30
 msgid ""
