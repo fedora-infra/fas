@@ -41,6 +41,12 @@ from fas.util import available_languages
 
 from fas.model import People, Groups
 
+from sys import modules
+try:
+    import pwquality
+except ImportError:
+    pass
+
 ### HACK: TurboGears/FormEncode requires that we use a dummy _ function for
 # error messages.
 # http://docs.turbogears.org/1.0/Internationalization#id13
@@ -232,13 +238,22 @@ class PasswordStrength(validators.UnicodeString):
     '''Make sure that a password meets our strength requirements'''
 
     messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, upper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone need to have at least 3 different characters and be 20 or more characters in length.'),
-            'xkcd': _('Malicious hackers read xkcd, you know')}
+            'xkcd': _('Malicious hackers read xkcd, you know'),
+            'pwquality': _(r'libpwquality reports this is a weak password: %(pwq_msg)s'),}
 
     def validate_python(self, value, state):
         # http://xkcd.com/936/
         if value.lower() in (u'correct horse battery staple',
                 u'correcthorsebatterystaple', u'tr0ub4dor&3'):
             raise validators.Invalid(self.message('xkcd', state), value, state)
+
+        if "pwquality" in modules:
+            try:
+                pw_quality = pwquality.PWQSettings()
+                pw_quality.read_config()
+                pw_quality.check(value, None, None)
+            except pwquality.PWQError as (e, msg):
+                raise validators.Invalid(self.message('pwquality', state) % {'pwq_msg': msg}, value, state)
 
         diversity = set(value)
         if len(diversity) < 2:

@@ -2,9 +2,16 @@
 NEWS
 ====
 
-:Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk
-:Date: 28 Jul 2012
-:Version: 0.8.14.90
+:Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
+          Ricky Elrod
+:Date: 22 August 2012
+:Version: 0.8.14.91
+
+---------
+0.8.14.91
+---------
+* Add a patch from ctria (see infra #3027) for checking passwords against
+  libpwquality. (Ricky Elrod)
 
 ---------
 0.8.14.90
