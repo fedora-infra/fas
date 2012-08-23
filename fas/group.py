@@ -190,7 +190,6 @@ class Group(controllers.Controller):
             ).outerjoin('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
-        print len(list(members))
         return dict(group=group, sponsor_queue=unsponsored,
             members=list(members))
 
