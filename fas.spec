@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.14.90
+Version:        0.8.14.91
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -130,6 +130,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Aug 30 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.91-1
+- Add a patch from ctria (see infra #3027) for checking passwords against
+  libpwquality. (Ricky Elrod)
+
 * Sat Aug 10 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.90-1
 - Differing colors of headers for differing types of deployment.
 - Add a place where users are able to add their blog to the planet
