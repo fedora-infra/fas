@@ -5,21 +5,21 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 # Hajime Taira <htaira@redhat.com>, 2011, 2012.
-# Tomoyuki KATO <tomo@dream.daynight.jp>, 2011, 2012.
+# Tomoyuki KATO <tomo@dream.daynight.jp>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-08-10 16:27-0400\n"
-"PO-Revision-Date: 2012-08-10 20:28+0000\n"
-"Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
+"POT-Creation-Date: 2012-08-30 21:27-0400\n"
+"PO-Revision-Date: 2012-08-31 06:17+0000\n"
+"Last-Translator: Tomoyuki KATO <tomo@dream.daynight.jp>\n"
 "Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: ja\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: fas/auth.py:360
 #, python-format
@@ -143,66 +143,66 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr "正常にFPCAを完了しました。  これで '%s' グループに参加しました。"
 
-#: fas/group.py:178 fas/group.py:221
+#: fas/group.py:178 fas/group.py:220
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "あなたは '%s' を表示できません。"
 
-#: fas/group.py:244 fas/group.py:262
+#: fas/group.py:243 fas/group.py:261
 msgid "Only FAS adminstrators can create groups."
 msgstr "FAS管理者のみがグループを作成できます。"
 
-#: fas/group.py:287
+#: fas/group.py:286
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "グループ: '%s' は作成できませんでした。"
 
-#: fas/group.py:297
+#: fas/group.py:296
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
 msgstr "グループ: '%(group)s' は作成されましたが、 '%(user)s' は管理者としてグループに追加されませんでした。"
 
-#: fas/group.py:303
+#: fas/group.py:302
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "グループ: '%s' が作成されました。"
 
-#: fas/group.py:318 fas/group.py:337
+#: fas/group.py:317 fas/group.py:336
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "あなたは '%s' を編集できません。"
 
-#: fas/group.py:356
+#: fas/group.py:355
 msgid "The group details could not be saved."
 msgstr "グループの詳細は保存できませんでした。"
 
-#: fas/group.py:365
+#: fas/group.py:364
 msgid "The group details have been saved."
 msgstr "グループの詳細は保存されました。"
 
-#: fas/group.py:397
+#: fas/group.py:396
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "'%s' に一致するグループがありません"
 
-#: fas/group.py:422 fas/group.py:444
+#: fas/group.py:421 fas/group.py:443
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s は %(group)s に参加できません。"
 
-#: fas/group.py:452
+#: fas/group.py:451
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s は %(group)s に参加できませんでした: %(error)s "
 
-#: fas/group.py:476
+#: fas/group.py:475
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "Fedora '%(group)s' スポンサーが %(user)s のために必要です"
 
-#: fas/group.py:479
+#: fas/group.py:478
 #, python-format
 msgid ""
 "\n"
@@ -212,12 +212,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr "\nFedora ユーザー %(user)s <%(email)s> が %(group)s グループの %(applicant)s に\nメンバーシップをリクエストしました。スポンサーを必要としています。\n\nアクションをとるには %(url)s を参照してください。 \n"
 
-#: fas/group.py:490
+#: fas/group.py:489
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "'%(group)s' グループに参加する"
 
-#: fas/group.py:493
+#: fas/group.py:492
 #, python-format
 msgid ""
 "\n"
@@ -226,27 +226,27 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr "\n%(group)s グループを選んでいただき、ありがとうございます．  \n\n%(joinmsg)s\n"
 
-#: fas/group.py:513
+#: fas/group.py:512
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s が %(group)s を申請しました！"
 
-#: fas/group.py:530
+#: fas/group.py:529
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "あなたは '%s' のスポンサーになれません。"
 
-#: fas/group.py:537
+#: fas/group.py:536
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s は %(group)s のスポンサーになれません: %(error)s"
 
-#: fas/group.py:541
+#: fas/group.py:540
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "あなたの Fedora '%s' メンバーシップはスポンサーされました"
 
-#: fas/group.py:542
+#: fas/group.py:541
 #, python-format
 msgid ""
 "\n"
@@ -255,27 +255,27 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr "\n%(user)s <%(email)s> が Fedora account system の %(group)s\nグループにおけるあなたのメンバーシップをスポンサーしました。\n適用できれば、1時間以内に電子メールのエイリアスと git リポジトリーに\n反映されます。\n"
 
-#: fas/group.py:558
+#: fas/group.py:557
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "'%s' はスポンサーになりました！"
 
-#: fas/group.py:575
+#: fas/group.py:574
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "あなたは '%(user)s' を '%(group)s' から削除することはできません。"
 
-#: fas/group.py:583
+#: fas/group.py:582
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "%(user)s は %(group)s から削除されませんでした: %(error)s"
 
-#: fas/group.py:587
+#: fas/group.py:586
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "あなたの Fedora '%s' メンバーシップは削除されました"
 
-#: fas/group.py:588
+#: fas/group.py:587
 #, python-format
 msgid ""
 "\n"
@@ -285,27 +285,27 @@ msgid ""
 "aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> があなたをFedoraアカウントシステムのグループ\n'%(group)s' から除名しました。この変更は新しい操作に対して\n直ちに反映され、1時間以内に電子メールアドレスに反映されます。\n"
 
-#: fas/group.py:606
+#: fas/group.py:605
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s は %(group)s から削除されています。"
 
-#: fas/group.py:623
+#: fas/group.py:622
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "あなたは '%s' を格上げできません"
 
-#: fas/group.py:630
+#: fas/group.py:629
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s は %(group)s において格上げされませんでした: %(error)s"
 
-#: fas/group.py:634
+#: fas/group.py:633
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "あなたの Fedora '%s' メンバーシップは格上げされました"
 
-#: fas/group.py:640
+#: fas/group.py:639
 #, python-format
 msgid ""
 "\n"
@@ -315,27 +315,27 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> が Fedoraアカウントシステムのグループ\n'%(group)s' において、あなたを %(status)s 状態に格上げされました。\nこの変更は新しい操作に対して直ちに反映され、\n1時間以内に電子メールアドレスに反映されます。\n"
 
-#: fas/group.py:658
+#: fas/group.py:657
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s は格上げされました！"
 
-#: fas/group.py:674
+#: fas/group.py:673
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "あなたは '%s' を格下げできません"
 
-#: fas/group.py:681
+#: fas/group.py:680
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s は %(group)s において格下げされませんでした: %(error)s"
 
-#: fas/group.py:685
+#: fas/group.py:684
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "あなたの Fedora '%s' メンバーシップは格下げされました"
 
-#: fas/group.py:690
+#: fas/group.py:689
 #, python-format
 msgid ""
 "\n"
@@ -345,17 +345,17 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> が Fedoraアカウントシステムのグループ\n'%(group)s' において、あなたを %(status)s 状態に格下げしました。\nこの変更は新しい操作に対して直ちに反映され、\n1時間以内に電子メールアドレスに反映されます。\n"
 
-#: fas/group.py:708
+#: fas/group.py:707
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s は格下げされました！"
 
-#: fas/group.py:809
+#: fas/group.py:808
 #, python-format
 msgid "Message sent to: %s"
 msgstr "メッセージが送信されました: %s"
 
-#: fas/group.py:812
+#: fas/group.py:811
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "あなたは '%s' グループに参加していません。"
@@ -816,20 +816,20 @@ msgstr "<p>参加希望者があなたのグループに参加する為に従う
 
 #: fas/help.py:68 fas/templates/user/edit.html:128
 msgid "RSS blog"
-msgstr ""
+msgstr "RSS ブログ"
 
 #: fas/help.py:68
 msgid "<p>Link to the RSS feed of your blog</p>"
-msgstr ""
+msgstr "<p>ブログの RSS フィードへのリンク</p>"
 
 #: fas/help.py:69 fas/templates/user/edit.html:133
 msgid "Avatar blog"
-msgstr ""
+msgstr "アバターブログ"
 
 #: fas/help.py:69
 msgid ""
 "<p>Link to the avatar/hackergotchi you would like to use on your blog</p>"
-msgstr ""
+msgstr "<p>ブログにおいて使用したいアバター/ハッカーゴッチへのリンク</p>"
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
@@ -909,12 +909,12 @@ msgstr "\nあなたのFedoraアカウントシステムの電子メールをこ�
 
 #: fas/user.py:427
 msgid "The provided RSS feed for your blog does not seem to be a valid url"
-msgstr ""
+msgstr "ブログに指定された RSS フィードが有効な URL ではないようです"
 
 #: fas/user.py:433
 msgid ""
 "The provided hatergochi for your avatar does not seem to be a valid url"
-msgstr ""
+msgstr "アバターに指定されたハッカーゴッチが有効な URL ではないようです"
 
 #: fas/user.py:436
 #, python-format
@@ -952,7 +952,7 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
+msgstr "\nアカウント情報を更新しました。変更に心当たりがなければ、 admin@fedoraproject.org に問い合わせ、お知らせください。更新された情報は次のとおりです:\n\n  username:       %(username)s\n  ircnick:        %(ircnick)s\n  telephone:      %(telephone)s\n  locale:         %(locale)s\n  postal_address: %(postal_address)s\n  timezone:       %(timezone)s\n  country code:   %(country_code)s\n  latitude:       %(latitude)s\n  longitude:      %(longitude)s\n  privacy flag:   %(privacy)s\n  ssh_key:        %(ssh_key)s\n  gpg_keyid:      %(gpg_keyid)s\n  blog_rss:       %(blog_rss)s\n  blog_avatar:    %(blog_avatar)s\n\n上の情報が正しくなければ、ログインして修正してください:\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
 #: fas/user.py:483
 msgid "Your account details have been saved."
@@ -1237,69 +1237,69 @@ msgstr "\n新しい SSL 証明書を作成しました。  これをリクエス
 msgid "Your key has been removed."
 msgstr "あなたのキーが削除されました。"
 
-#: fas/validators.py:52
+#: fas/validators.py:58
 #, python-format
 msgid "The group '%(group)s' does not exist."
 msgstr "グループ '%(group)s' は存在しません。"
 
-#: fas/validators.py:70
+#: fas/validators.py:76
 #, python-format
 msgid "The group '%(group)s' already exists."
 msgstr "グループ '%(group)s' はすでに存在します。"
 
-#: fas/validators.py:90
+#: fas/validators.py:96
 #, python-format
 msgid "Invalid group type: %(type)s."
 msgstr "不正なグループ種別: %(type)s."
 
-#: fas/validators.py:113
+#: fas/validators.py:119
 msgid "Invalid sort key."
 msgstr "不正な並び替えキーです。"
 
-#: fas/validators.py:118
+#: fas/validators.py:124
 #, python-format
 msgid "'%(user)s' does not exist."
 msgstr "'%(user)s' は存在しません。"
 
-#: fas/validators.py:136
+#: fas/validators.py:142
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
 msgstr "エラー: 作成できませんでした - '%(user)s'"
 
-#: fas/validators.py:137
+#: fas/validators.py:143
 #, python-format
 msgid "'%(user)s' already exists."
 msgstr "'%(user)s' はすでに存在します。"
 
-#: fas/validators.py:160
+#: fas/validators.py:166
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr "電子メールのループを避けるため、電子メールアドレスに @fedoraproject.org は使えません。"
 
-#: fas/validators.py:174
+#: fas/validators.py:180
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
 msgstr "エラー -  無効な RSA SSH キー: %(key)s"
 
-#: fas/validators.py:198
+#: fas/validators.py:204
 #, python-format
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr "'%(username)s' は無効なユーザー名です。  有効なユーザー名は小文字の英数字のみを含み、文字で始まらなければいけません。"
 
-#: fas/validators.py:201
+#: fas/validators.py:207
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
 msgstr "'%(username)s' はブラックリスト登録されたユーザー名です。他を選択してください。"
 
-#: fas/validators.py:219
+#: fas/validators.py:225
 #, python-format
 msgid "The language '%(lang)s' is not available."
 msgstr "言語 '%(lang)s' は取得できません。"
 
-#: fas/validators.py:234
+#: fas/validators.py:240
 msgid ""
 "Passwords must meet certain strength requirements.  If they have a mix of "
 "symbols, upper and lowercase letters, and digits they must be at least 9 "
@@ -1309,11 +1309,16 @@ msgid ""
 "least 3 different characters and be 20 or more characters in length."
 msgstr "パスワードは特定の長さに関する要件に従わなければいけません。  記号、大文字、小文字および数字が混在しているならば、最低9文字でなければいけません。  大文字、小文字および数字が混在しているならば、最低10文字でなければいけません。  小文字と数字が混在しているならば、最低12文字でなければいけません。  文字だけならば、最低3種の文字かつ20文字以上にする必要があります。 "
 
-#: fas/validators.py:235
+#: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
 msgstr "ご存知のとおり、悪意のあるハッカーは xkcd を読んでいます"
 
-#: fas/validators.py:284
+#: fas/validators.py:242
+#, python-format
+msgid "libpwquality reports this is a weak password: %(pwq_msg)s"
+msgstr "libpwquality によると、このパスワードは弱いです: %(pwq_msg)s"
+
+#: fas/validators.py:299
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
@@ -2375,11 +2380,11 @@ msgstr "セキュリティの質問: "
 
 #: fas/templates/user/view.html:87
 msgid "RSS blog:"
-msgstr ""
+msgstr "RSS ブログ:"
 
 #: fas/templates/user/view.html:93
 msgid "Avatar blog:"
-msgstr ""
+msgstr "アバターブログ:"
 
 #: fas/templates/user/view.html:99
 msgid "Account Status:"

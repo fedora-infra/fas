@@ -8,12 +8,13 @@
 # Mike Ma <zhtx10@gmail.com>, 2011.
 # TianShixiong <tiansworld@gmail.com>, 2008, 2009, 2010.
 #   <tiansworld@fedoraproject.org>, 2011, 2012.
+# Tiansworld  <tiansworld@fedoraproject.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-08-10 16:27-0400\n"
-"PO-Revision-Date: 2012-08-10 20:28+0000\n"
+"POT-Creation-Date: 2012-08-30 21:27-0400\n"
+"PO-Revision-Date: 2012-08-31 01:28+0000\n"
 "Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
 "Language-Team: Chinese (China) <trans-zh_cn@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -145,66 +146,66 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr "您已成功完成 FPCA。  您目前属于 \"%s\" 组。"
 
-#: fas/group.py:178 fas/group.py:221
+#: fas/group.py:178 fas/group.py:220
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "您不能浏览 '%s'。"
 
-#: fas/group.py:244 fas/group.py:262
+#: fas/group.py:243 fas/group.py:261
 msgid "Only FAS adminstrators can create groups."
 msgstr "只有 FAS 管理员才可以创建组。"
 
-#: fas/group.py:287
+#: fas/group.py:286
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "'%s' 组无法创建。"
 
-#: fas/group.py:297
+#: fas/group.py:296
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
 msgstr "'%(group)s' 组已创建，但做为组管理员无法添加 '%(user)s'。"
 
-#: fas/group.py:303
+#: fas/group.py:302
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "已创建 '%s' 组。"
 
-#: fas/group.py:318 fas/group.py:337
+#: fas/group.py:317 fas/group.py:336
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "您不能编辑 '%s'。"
 
-#: fas/group.py:356
+#: fas/group.py:355
 msgid "The group details could not be saved."
 msgstr "组详情无法保存。"
 
-#: fas/group.py:365
+#: fas/group.py:364
 msgid "The group details have been saved."
 msgstr "组详情已保存。"
 
-#: fas/group.py:397
+#: fas/group.py:396
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "没有找到符合 '%s' 的组"
 
-#: fas/group.py:422 fas/group.py:444
+#: fas/group.py:421 fas/group.py:443
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s 不适用于 %(group)s。"
 
-#: fas/group.py:452
+#: fas/group.py:451
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s 不适用于 %(group)s： %(error)s."
 
-#: fas/group.py:476
+#: fas/group.py:475
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "%(user)s 需要 Fedora '%(group)s' 保荐人。"
 
-#: fas/group.py:479
+#: fas/group.py:478
 #, python-format
 msgid ""
 "\n"
@@ -214,12 +215,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr "\nFedora用户%(user)s <%(email)s>请求加入%(group)s组中的%(applicant)s，\n该用户需要一个推荐人。\n请到%(url)s完成下一步。  \n"
 
-#: fas/group.py:490
+#: fas/group.py:489
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "申请加入 '%(group)s' 组"
 
-#: fas/group.py:493
+#: fas/group.py:492
 #, python-format
 msgid ""
 "\n"
@@ -228,27 +229,27 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr "\n感谢您申请加入 '%(group)s' 组。 \n\n%(joinmsg)s\n"
 
-#: fas/group.py:513
+#: fas/group.py:512
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s 已加入到 %(group)s 组中！"
 
-#: fas/group.py:530
+#: fas/group.py:529
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "您不能保荐 '%s'"
 
-#: fas/group.py:537
+#: fas/group.py:536
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s 不能在 %(group)s 中保荐：%(error)s"
 
-#: fas/group.py:541
+#: fas/group.py:540
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "您的 Fedora '%s' 已获得保荐。"
 
-#: fas/group.py:542
+#: fas/group.py:541
 #, python-format
 msgid ""
 "\n"
@@ -257,27 +258,27 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr "\n%(user)s <%(email)s> 已获准您加入 Fedora 账户系统的 %(group)s 组。如果正常的话，该变动将在一小时之内传到电子邮件别名及 git 仓库中。\n"
 
-#: fas/group.py:558
+#: fas/group.py:557
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "已保荐 '%s' !"
 
-#: fas/group.py:575
+#: fas/group.py:574
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "您不能从'%(group)s' 中删除 '%(user)s'。"
 
-#: fas/group.py:583
+#: fas/group.py:582
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "无法从 %(group)s 中删除 %(user)s： %(error)s"
 
-#: fas/group.py:587
+#: fas/group.py:586
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "您的 Fedora '%s' 身份已被删除。"
 
-#: fas/group.py:588
+#: fas/group.py:587
 #, python-format
 msgid ""
 "\n"
@@ -287,27 +288,27 @@ msgid ""
 "aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> 已将您从Fedora账户系统的 '%(group)s'\n组中删除. 此变更在有新操作时将立即生效, 并在一小时内发送到关\n联的电子邮件地址.\n"
 
-#: fas/group.py:606
+#: fas/group.py:605
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s 已从 %(group)s 组中删除"
 
-#: fas/group.py:623
+#: fas/group.py:622
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "您无法升级 '%s'"
 
-#: fas/group.py:630
+#: fas/group.py:629
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在 %(group)s 中升级： %(error)s"
 
-#: fas/group.py:634
+#: fas/group.py:633
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "您的 Fedora '%s' 身份已升级。"
 
-#: fas/group.py:640
+#: fas/group.py:639
 #, python-format
 msgid ""
 "\n"
@@ -317,27 +318,27 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> 将您升级到Fedora账户系统 '%(group)s' 组中的\n%(status)s 状态.此变更将在有新操作时立即生效, 并将在一小时内发送到\n关联的电子邮件地址.\n"
 
-#: fas/group.py:658
+#: fas/group.py:657
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s 已升级！"
 
-#: fas/group.py:674
+#: fas/group.py:673
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "您无法降级 '%s'"
 
-#: fas/group.py:681
+#: fas/group.py:680
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s 不能在 %(group)s 中降级： %(error)s"
 
-#: fas/group.py:685
+#: fas/group.py:684
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "您的 Fedora '%s' 身份已降级。"
 
-#: fas/group.py:690
+#: fas/group.py:689
 #, python-format
 msgid ""
 "\n"
@@ -347,17 +348,17 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s>已将您在Fedora账户系统 '%(group)s'组中的状态降为\n %(status)s. 此更改将在有新的操作时立刻生效, 并会在一小时内发送至关联的电子邮件地址.\n"
 
-#: fas/group.py:708
+#: fas/group.py:707
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s 已被降级！"
 
-#: fas/group.py:809
+#: fas/group.py:808
 #, python-format
 msgid "Message sent to: %s"
 msgstr "消息发送至：%s"
 
-#: fas/group.py:812
+#: fas/group.py:811
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "您没有加入 '%s' 组。"
@@ -409,7 +410,7 @@ msgstr "<p>此电子邮件地址应是您的常用电子邮件并会被用来发
 
 #: fas/help.py:30
 msgid "Security question (Required)"
-msgstr ""
+msgstr "安全问题 (必填项)"
 
 #: fas/help.py:30
 msgid ""
@@ -818,15 +819,15 @@ msgstr "<p>在申请加入您的组之前申请者应遵守的规则及步骤。
 
 #: fas/help.py:68 fas/templates/user/edit.html:128
 msgid "RSS blog"
-msgstr ""
+msgstr "RSS 博客"
 
 #: fas/help.py:68
 msgid "<p>Link to the RSS feed of your blog</p>"
-msgstr ""
+msgstr "<p>到您博客 RSS 源的链接</p>"
 
 #: fas/help.py:69 fas/templates/user/edit.html:133
 msgid "Avatar blog"
-msgstr ""
+msgstr "Avatar 博客"
 
 #: fas/help.py:69
 msgid ""
@@ -954,7 +955,7 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
+msgstr "\n您更新了您的用户信息。如果您并没有修改这些信息，请联系 admin@fedoraproject.org 并告知他们。您的信息更新如下：\n\n  用户名：       %(username)s\n  irc 昵称：        %(ircnick)s\n  电话：      %(telephone)s\n  地区：         %(locale)s\n  邮政地址： %(postal_address)s\n  时区：      %(timezone)s\n  国家/地区编码：   %(country_code)s\n  纬度：       %(latitude)s\n  经度：      %(longitude)s\n  隐私标记：   %(privacy)s\n  ssh_key：       %(ssh_key)s\n  gpg_keyid：      %(gpg_keyid)s\n  博客 RSS：       %(blog_rss)s\n  博客头像：         %(blog_avatar)s\n\n如果以上信息有误，请登录并修改：\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
 #: fas/user.py:483
 msgid "Your account details have been saved."
@@ -1084,11 +1085,11 @@ msgstr "您当前的密码不一致"
 
 #: fas/user.py:1057
 msgid "Your security question could not be changed."
-msgstr ""
+msgstr "您的安全问题不能修改。"
 
 #: fas/user.py:1060
 msgid "Your security question has been changed."
-msgstr ""
+msgstr "您的安全问题已经修改。"
 
 #: fas/user.py:1089
 msgid "passwords did not match"
@@ -1239,69 +1240,69 @@ msgstr "\n您已生成了新 SSL 证书。  如果您并没有这么做，\n请�
 msgid "Your key has been removed."
 msgstr "您的密钥已删除。"
 
-#: fas/validators.py:52
+#: fas/validators.py:58
 #, python-format
 msgid "The group '%(group)s' does not exist."
 msgstr "'%(group)s' 组不存在。"
 
-#: fas/validators.py:70
+#: fas/validators.py:76
 #, python-format
 msgid "The group '%(group)s' already exists."
 msgstr "'%(group)s' 组已经存在。"
 
-#: fas/validators.py:90
+#: fas/validators.py:96
 #, python-format
 msgid "Invalid group type: %(type)s."
 msgstr "无效的组类型：%(type)s。"
 
-#: fas/validators.py:113
+#: fas/validators.py:119
 msgid "Invalid sort key."
 msgstr "无效分类字。"
 
-#: fas/validators.py:118
+#: fas/validators.py:124
 #, python-format
 msgid "'%(user)s' does not exist."
 msgstr "'%(user)s' 不存在。"
 
-#: fas/validators.py:136
+#: fas/validators.py:142
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
 msgstr "错误：无法创建 - '%(user)s'"
 
-#: fas/validators.py:137
+#: fas/validators.py:143
 #, python-format
 msgid "'%(user)s' already exists."
 msgstr "'%(user)s' 已存在。"
 
-#: fas/validators.py:160
+#: fas/validators.py:166
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr "为防止邮件循环，您的电子邮件地址不能是 @fedoraproject.org。"
 
-#: fas/validators.py:174
+#: fas/validators.py:180
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
 msgstr "错误 - 不是一个有效的 RSA SSH 密匙：%(key)s"
 
-#: fas/validators.py:198
+#: fas/validators.py:204
 #, python-format
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr "'%(username)s' 不合法。  有效用户名必须是 ASCII 码格式，仅包含小写字母数字，并且以字母开头。"
 
-#: fas/validators.py:201
+#: fas/validators.py:207
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
 msgstr "'%(username)s' 已被列入黑名单。请选择其它名称。"
 
-#: fas/validators.py:219
+#: fas/validators.py:225
 #, python-format
 msgid "The language '%(lang)s' is not available."
 msgstr "目前不提供 '%(lang)s' 语支持。"
 
-#: fas/validators.py:234
+#: fas/validators.py:240
 msgid ""
 "Passwords must meet certain strength requirements.  If they have a mix of "
 "symbols, upper and lowercase letters, and digits they must be at least 9 "
@@ -1311,11 +1312,16 @@ msgid ""
 "least 3 different characters and be 20 or more characters in length."
 msgstr "密码必须符合特定的强度要求。 如果密码由符号，大小写字母及数字组成，密码长度必须在 9 位以上。 如果密码由大小写字母和数字组成，密码长度必须在 10 位以上。 如果密码由小写字母和数字组成，密码长度必须在 12 位以上。 如果密码仅由字母组成，那么至少要有 3 个不同字符，且密码长度必须在 20 位以上。"
 
-#: fas/validators.py:235
+#: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
 msgstr "如果你知道黑客已获得xkcd"
 
-#: fas/validators.py:284
+#: fas/validators.py:242
+#, python-format
+msgid "libpwquality reports this is a weak password: %(pwq_msg)s"
+msgstr ""
+
+#: fas/validators.py:299
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
@@ -2094,27 +2100,27 @@ msgstr "确认密码："
 #: fas/templates/user/changequestion.html:10
 #: fas/templates/user/changequestion.html:22
 msgid "Change Security Question"
-msgstr ""
+msgstr "修改安全问题"
 
 #: fas/templates/user/changequestion.html:12
 msgid ""
 "Please enter your current password for confirmation, and then choose a new "
 "security question and answer."
-msgstr ""
+msgstr "为了确认，请先输入您当前的密码，然后选择新的安全问题及答案。"
 
 #: fas/templates/user/changequestion.html:13
 msgid ""
 "This question will be asked if you lose access to your email address and "
 "want to recover access to your account."
-msgstr ""
+msgstr "在您不能访问您的电子邮件而且想找回您的帐户时，此安全问题将会出现。"
 
 #: fas/templates/user/changequestion.html:17
 msgid "New Question:"
-msgstr ""
+msgstr "新安全问题："
 
 #: fas/templates/user/changequestion.html:21
 msgid "Answer:"
-msgstr ""
+msgstr "答案："
 
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"
@@ -2267,11 +2273,11 @@ msgstr "验证邮件："
 
 #: fas/templates/user/new.html:37
 msgid "Security Question:"
-msgstr ""
+msgstr "安全问题："
 
 #: fas/templates/user/new.html:42
 msgid "Security Answer:"
-msgstr ""
+msgstr "安全问题答案："
 
 #: fas/templates/user/new.html:62
 msgid "I am 13 years of age or older"
@@ -2373,15 +2379,15 @@ msgstr "注释："
 
 #: fas/templates/user/view.html:77
 msgid "Security question: "
-msgstr ""
+msgstr "安全问题："
 
 #: fas/templates/user/view.html:87
 msgid "RSS blog:"
-msgstr ""
+msgstr "RSS 博客："
 
 #: fas/templates/user/view.html:93
 msgid "Avatar blog:"
-msgstr ""
+msgstr "Avatar 博客："
 
 #: fas/templates/user/view.html:99
 msgid "Account Status:"

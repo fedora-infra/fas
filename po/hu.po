@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-08-10 16:27-0400\n"
-"PO-Revision-Date: 2012-08-10 20:28+0000\n"
+"POT-Creation-Date: 2012-08-30 21:27-0400\n"
+"PO-Revision-Date: 2012-08-31 01:28+0000\n"
 "Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
 "Language-Team: Hungarian <trans-hu@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -144,66 +144,66 @@ msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
 msgstr "Önnek sikerült befejeznie az FPCA-t. Most már a „%s” csoportban van."
 
-#: fas/group.py:178 fas/group.py:221
+#: fas/group.py:178 fas/group.py:220
 #, python-format
 msgid "You cannot view '%s'"
 msgstr "„%s” nem nézhető meg"
 
-#: fas/group.py:244 fas/group.py:262
+#: fas/group.py:243 fas/group.py:261
 msgid "Only FAS adminstrators can create groups."
 msgstr "Csak FAS adminisztrátorok hozhatnak létre csoportokat."
 
-#: fas/group.py:287
+#: fas/group.py:286
 #, python-format
 msgid "The group: '%s' could not be created."
 msgstr "„%s” csoportot nem lehet létrehozni."
 
-#: fas/group.py:297
+#: fas/group.py:296
 #, python-format
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
 msgstr "„%(group)s” csoport létrehozva, de „%(user)s” felhasználót nem sikerült hozzáadni csoport adminisztrátorként."
 
-#: fas/group.py:303
+#: fas/group.py:302
 #, python-format
 msgid "The group: '%s' has been created."
 msgstr "„%s” csoport létrehozva."
 
-#: fas/group.py:318 fas/group.py:337
+#: fas/group.py:317 fas/group.py:336
 #, python-format
 msgid "You cannot edit '%s'."
 msgstr "„%s” nem szerkeszthető."
 
-#: fas/group.py:356
+#: fas/group.py:355
 msgid "The group details could not be saved."
 msgstr "A csoport részleteit nem lehetett elmenteni."
 
-#: fas/group.py:365
+#: fas/group.py:364
 msgid "The group details have been saved."
 msgstr "A csoport részletei elmentve."
 
-#: fas/group.py:397
+#: fas/group.py:396
 #, python-format
 msgid "No Groups found matching '%s'"
 msgstr "Nem található olyan csoport mint „%s”"
 
-#: fas/group.py:422 fas/group.py:444
+#: fas/group.py:421 fas/group.py:443
 #, python-format
 msgid "%(user)s can not apply to %(group)s."
 msgstr "%(user)s felhasználó %(group)s csoportba nem jelentkezhet."
 
-#: fas/group.py:452
+#: fas/group.py:451
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
 msgstr "%(user)s felhasználó %(group)s csoportba nem tudott jelentkezni: %(error)s"
 
-#: fas/group.py:476
+#: fas/group.py:475
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
 msgstr "Fedora '%(group)s' támogató szükséges %(user)s felhasználónak"
 
-#: fas/group.py:479
+#: fas/group.py:478
 #, python-format
 msgid ""
 "\n"
@@ -213,12 +213,12 @@ msgid ""
 "Please go to %(url)s to take action.  \n"
 msgstr "\nFedora felhasználó %(user)s <%(email)s> kért\negy tagságot %(applicant)s jelöltnek a %(group)s csoportban és szükséges egy szponzor.\n\nMenjen a %(url)s hogy lépéseket tegyen.  \n"
 
-#: fas/group.py:490
+#: fas/group.py:489
 #, python-format
 msgid "Application to the '%(group)s' group"
 msgstr "Jelentkezés „%(group)s” csoportba"
 
-#: fas/group.py:493
+#: fas/group.py:492
 #, python-format
 msgid ""
 "\n"
@@ -227,27 +227,27 @@ msgid ""
 "%(joinmsg)s\n"
 msgstr "\nKöszönjük, hogy jelentkezett %(group)s csoportba.  \n\n%(joinmsg)s\n"
 
-#: fas/group.py:513
+#: fas/group.py:512
 #, python-format
 msgid "%(user)s has applied to %(group)s!"
 msgstr "%(user)s jelentkezett %(group)s csoportba!"
 
-#: fas/group.py:530
+#: fas/group.py:529
 #, python-format
 msgid "You cannot sponsor '%s'"
 msgstr "Nem támogathatja „%s” személyt"
 
-#: fas/group.py:537
+#: fas/group.py:536
 #, python-format
 msgid "%(user)s could not be sponsored in %(group)s: %(error)s"
 msgstr "%(user)s nem támogatható %(group)s csoportban: %(error)s"
 
-#: fas/group.py:541
+#: fas/group.py:540
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
 msgstr "Fedora '%s' tagsága támogatva"
 
-#: fas/group.py:542
+#: fas/group.py:541
 #, python-format
 msgid ""
 "\n"
@@ -256,27 +256,27 @@ msgid ""
 "propagate into the e-mail aliases and git repository within an hour.\n"
 msgstr "\n%(user)s <%(email)s> támogatta a tagságot %(group)s\nFedora Account System csoportjában. Ha megfelelő, ez a változás\ntovábbítják az email álnevekre és git tárolóra egy órán belül.\n"
 
-#: fas/group.py:558
+#: fas/group.py:557
 #, python-format
 msgid "'%s' has been sponsored!"
 msgstr "„%s” támogatva!"
 
-#: fas/group.py:575
+#: fas/group.py:574
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
 msgstr "Nem távolíthatja el '%(user)s' felhasználót '%(group)s' csoportból."
 
-#: fas/group.py:583
+#: fas/group.py:582
 #, python-format
 msgid "%(user)s could not be removed from %(group)s: %(error)s"
 msgstr "%(user)s felhasználót nem sikerült eltávolítani %(group)s csoportból: %(error)s"
 
-#: fas/group.py:587
+#: fas/group.py:586
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
 msgstr "Fedora '%s' tagsága eltávolítva"
 
-#: fas/group.py:588
+#: fas/group.py:587
 #, python-format
 msgid ""
 "\n"
@@ -286,27 +286,27 @@ msgid ""
 "aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> eltávolítva a Fedora Accounts System \n'%(group)s' csoportjából. Ez a változás azonnal életbe lép új\nműveletek esetében, és továbbítják az email álnevekre\negy órán belül.\n"
 
-#: fas/group.py:606
+#: fas/group.py:605
 #, python-format
 msgid "%(name)s has been removed from %(group)s"
 msgstr "%(name)s felhasználó eltávolítva %(group)s csoportból"
 
-#: fas/group.py:623
+#: fas/group.py:622
 #, python-format
 msgid "You cannot upgrade '%s'"
 msgstr "Nem fejlesztheti „%s” személyt"
 
-#: fas/group.py:630
+#: fas/group.py:629
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
 msgstr "%(name)s felhasználót nem sikerült felfejleszteni %(group)s csoportban: %(error)s"
 
-#: fas/group.py:634
+#: fas/group.py:633
 #, python-format
 msgid "Your Fedora '%s' membership has been upgraded"
 msgstr "'%s' Fedora tagság feljavítva"
 
-#: fas/group.py:640
+#: fas/group.py:639
 #, python-format
 msgid ""
 "\n"
@@ -316,27 +316,27 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> felfejlesztette önt %(status)s állapotba a Fedora Felhasználói Rendszer '%(group)s' csoportjában. E változás azonnal\néletbe lép új műveletekre, és továbbítják az email álnevekre egy órán belül.\n"
 
-#: fas/group.py:658
+#: fas/group.py:657
 #, python-format
 msgid "%s has been upgraded!"
 msgstr "%s felfejlesztve!"
 
-#: fas/group.py:674
+#: fas/group.py:673
 #, python-format
 msgid "You cannot downgrade '%s'"
 msgstr "Nem fokozhatja le „%s” személyt"
 
-#: fas/group.py:681
+#: fas/group.py:680
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
 msgstr "%(name)s felhasználót nem sikerült lefokozni %(group)s csoportban: %(error)s"
 
-#: fas/group.py:685
+#: fas/group.py:684
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
 msgstr "Fedora '%s' tagsága lefokozva"
 
-#: fas/group.py:690
+#: fas/group.py:689
 #, python-format
 msgid ""
 "\n"
@@ -346,17 +346,17 @@ msgid ""
 "into the e-mail aliases within an hour.\n"
 msgstr "\n%(user)s <%(email)s> lefokozta önt %(status)s állapotba a Fedora Felhasználói Rendszer '%(group)s' csoportjában. E változás azonnal életbe lép új műveletekre, és továbbítják az email álnevekre\negy órán belül.\n"
 
-#: fas/group.py:708
+#: fas/group.py:707
 #, python-format
 msgid "%s has been downgraded!"
 msgstr "%s lefokozva!"
 
-#: fas/group.py:809
+#: fas/group.py:808
 #, python-format
 msgid "Message sent to: %s"
 msgstr "Üzenet elküldve ide: %s."
 
-#: fas/group.py:812
+#: fas/group.py:811
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr "Ön nincs „%s” csoportban."
@@ -1238,69 +1238,69 @@ msgstr "\nSikeresen előállított egy új SSL bizonyítványt.  Ha a folyamatot
 msgid "Your key has been removed."
 msgstr "A kulcsa eltávolításra került."
 
-#: fas/validators.py:52
+#: fas/validators.py:58
 #, python-format
 msgid "The group '%(group)s' does not exist."
 msgstr "Nincs „%(group)s” csoport."
 
-#: fas/validators.py:70
+#: fas/validators.py:76
 #, python-format
 msgid "The group '%(group)s' already exists."
 msgstr "Már van „%(group)s” csoport."
 
-#: fas/validators.py:90
+#: fas/validators.py:96
 #, python-format
 msgid "Invalid group type: %(type)s."
 msgstr "Érvénytelen csoport típus: %(type)s."
 
-#: fas/validators.py:113
+#: fas/validators.py:119
 msgid "Invalid sort key."
 msgstr "Érvénytelen rendező kulcs."
 
-#: fas/validators.py:118
+#: fas/validators.py:124
 #, python-format
 msgid "'%(user)s' does not exist."
 msgstr "Nincs „%(user)s”."
 
-#: fas/validators.py:136
+#: fas/validators.py:142
 #, python-format
 msgid "Error: Could not create - '%(user)s'"
 msgstr "Hiba: Nem sikerült létrehozni – „%(user)s”"
 
-#: fas/validators.py:137
+#: fas/validators.py:143
 #, python-format
 msgid "'%(user)s' already exists."
 msgstr "„%(user)s” már van."
 
-#: fas/validators.py:160
+#: fas/validators.py:166
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
 msgstr "Az email hurkok elkerülése végett az email cím nem lehet @fedoraproject.org."
 
-#: fas/validators.py:174
+#: fas/validators.py:180
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
 msgstr "Hiba – Érvénytelen RSA SSH kulcs: %(key)s"
 
-#: fas/validators.py:198
+#: fas/validators.py:204
 #, python-format
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
 msgstr "'%(username)s' egy érvénytelen felhasználói név. Az érvényes felhasználónév ASCII formátumú, és csak kisbetűs alfanumerikus karaktert tartalmaz, valamint betűvel kell kezdődnie."
 
-#: fas/validators.py:201
+#: fas/validators.py:207
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
 msgstr "„%(username)s” feketelistás név.  Kérem válasszon másikat."
 
-#: fas/validators.py:219
+#: fas/validators.py:225
 #, python-format
 msgid "The language '%(lang)s' is not available."
 msgstr "„%(lang)s” nyelv nem elérhető."
 
-#: fas/validators.py:234
+#: fas/validators.py:240
 msgid ""
 "Passwords must meet certain strength requirements.  If they have a mix of "
 "symbols, upper and lowercase letters, and digits they must be at least 9 "
@@ -1310,11 +1310,16 @@ msgid ""
 "least 3 different characters and be 20 or more characters in length."
 msgstr ""
 
-#: fas/validators.py:235
+#: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
 msgstr "Rosszindulatú hackerek olvassatok inkább xkcd-t, tudjátok meg"
 
-#: fas/validators.py:284
+#: fas/validators.py:242
+#, python-format
+msgid "libpwquality reports this is a weak password: %(pwq_msg)s"
+msgstr ""
+
+#: fas/validators.py:299
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"

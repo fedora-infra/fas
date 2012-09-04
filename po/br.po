@@ -3,8 +3,6 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Bernabé Borrero <bernabeborrero@gmail.com>, 2012.
-# Robert Antoni Buj Gelonch <robert.buj@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
@@ -12,13 +10,13 @@ msgstr ""
 "POT-Creation-Date: 2012-08-30 21:27-0400\n"
 "PO-Revision-Date: 2012-08-31 01:28+0000\n"
 "Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
-"Language-Team: Catalan <fedora@llistes.softcatala.org>\n"
+"Language-Team: Breton (http://www.transifex.com/projects/p/fedora/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: br\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: fas/auth.py:360
 #, python-format
@@ -38,7 +36,7 @@ msgstr ""
 #: fas/configs.py:191
 #, python-format
 msgid "Error saving the config to the database: %s"
-msgstr "Error guardant la configuració a la base de dades: %s"
+msgstr ""
 
 #: fas/configs.py:195
 msgid "Config value successfully updated"
@@ -46,7 +44,7 @@ msgstr ""
 
 #: fas/controllers.py:202
 msgid "Your old password has expired.  Please reset your password below."
-msgstr "La teva constrasenya antiga ha expirat.  Reinicialitza la teva contrasenya a sota."
+msgstr ""
 
 #: fas/controllers.py:209
 #, python-format
@@ -102,11 +100,11 @@ msgstr ""
 
 #: fas/fpca.py:248
 msgid "You must confirm that your personal information is accurate."
-msgstr "Has de confirmar que la teva informació personal és acurada."
+msgstr ""
 
 #: fas/fpca.py:266
 msgid "Your updated information could not be saved."
-msgstr "La teva informació actualitzada no s'ha pogut guardar."
+msgstr ""
 
 #: fas/fpca.py:286
 msgid ""
@@ -129,12 +127,12 @@ msgstr ""
 #: fas/fpca.py:320 fas/fpca.py:334
 #, python-format
 msgid "You could not be added to the '%s' group."
-msgstr "No se t'ha pogut afegir al grup '%s'."
+msgstr ""
 
 #: fas/fpca.py:330
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr "Ja formes part del grup '%s'."
+msgstr ""
 
 #: fas/fpca.py:372
 #, python-format
@@ -361,7 +359,7 @@ msgstr ""
 
 #: fas/help.py:26 fas/help.py:80
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #: fas/help.py:26 fas/help.py:80
 msgid "<p>We could not find that help item</p>"
@@ -395,7 +393,7 @@ msgstr ""
 
 #: fas/help.py:29
 msgid "Email (Required)"
-msgstr "Adreça de correu electrònic (obligatori)"
+msgstr ""
 
 #: fas/help.py:29
 msgid ""
@@ -418,7 +416,7 @@ msgstr ""
 
 #: fas/help.py:31
 msgid "Full Name (Required)"
-msgstr "Nom real (obligatori)"
+msgstr ""
 
 #: fas/help.py:31
 msgid "<p>Your Human Name or \"real life\" name</p>"
@@ -437,7 +435,7 @@ msgstr ""
 
 #: fas/help.py:33
 msgid "Telephone"
-msgstr "Telèfon"
+msgstr ""
 
 #: fas/help.py:33 fas/help.py:41
 msgid ""
@@ -452,7 +450,7 @@ msgstr ""
 #: fas/help.py:34 fas/templates/fpca/index.html:47
 #: fas/templates/user/edit.html:51
 msgid "Postal Address"
-msgstr "Adreça postal"
+msgstr ""
 
 #: fas/help.py:34
 msgid ""
@@ -518,7 +516,7 @@ msgstr ""
 
 #: fas/help.py:40 fas/templates/user/edit.html:121
 msgid "Locale"
-msgstr "Idioma"
+msgstr ""
 
 #: fas/help.py:40
 msgid ""
@@ -528,11 +526,11 @@ msgstr ""
 
 #: fas/help.py:41
 msgid "Country Code"
-msgstr "Codi del país"
+msgstr ""
 
 #: fas/help.py:42
 msgid "Must be over 13 Years"
-msgstr "He de tenir més de 13 anys"
+msgstr ""
 
 #: fas/help.py:42
 msgid ""
@@ -545,7 +543,7 @@ msgstr ""
 
 #: fas/help.py:43
 msgid "Hide Information"
-msgstr "Oculta la informació"
+msgstr ""
 
 #: fas/help.py:43
 msgid ""
@@ -556,7 +554,7 @@ msgstr ""
 
 #: fas/help.py:44 fas/templates/group/list.html:43
 msgid "Apply"
-msgstr "Aplica"
+msgstr ""
 
 #: fas/help.py:44
 #, python-format
@@ -569,7 +567,7 @@ msgstr ""
 
 #: fas/help.py:45 fas/templates/group/member-list.html:46
 msgid "Remove"
-msgstr "Treu"
+msgstr ""
 
 #: fas/help.py:45
 msgid ""
@@ -580,7 +578,7 @@ msgstr ""
 
 #: fas/help.py:46 fas/templates/group/member-list.html:50
 msgid "Upgrade"
-msgstr "Actualitza"
+msgstr ""
 
 #: fas/help.py:46
 msgid ""
@@ -591,7 +589,7 @@ msgstr ""
 
 #: fas/help.py:47 fas/templates/group/member-list.html:54
 msgid "Downgrade"
-msgstr "Desactualitza"
+msgstr ""
 
 #: fas/help.py:47
 msgid ""
@@ -602,7 +600,7 @@ msgstr ""
 
 #: fas/help.py:48 fas/templates/group/member-list.html:41
 msgid "Approve"
-msgstr "Aprova"
+msgstr ""
 
 #: fas/help.py:48
 msgid ""
@@ -614,7 +612,7 @@ msgstr ""
 #: fas/help.py:49 fas/templates/group/member-list.html:15
 #: fas/templates/group/member-list.html:37
 msgid "Sponsor"
-msgstr "Patrocinador"
+msgstr ""
 
 #: fas/help.py:49
 msgid ""
@@ -626,7 +624,7 @@ msgstr ""
 
 #: fas/help.py:50
 msgid "Add User"
-msgstr "Afegeix un usuari"
+msgstr ""
 
 #: fas/help.py:50
 msgid ""
@@ -636,7 +634,7 @@ msgstr ""
 
 #: fas/help.py:51
 msgid "Group Name"
-msgstr "Nom del grup"
+msgstr ""
 
 #: fas/help.py:51
 msgid ""
@@ -646,7 +644,7 @@ msgstr ""
 
 #: fas/help.py:52
 msgid "Display Name"
-msgstr "Nom a mostrar"
+msgstr ""
 
 #: fas/help.py:52
 msgid "<p>More human readable name of the group</p>"
@@ -654,7 +652,7 @@ msgstr ""
 
 #: fas/help.py:53
 msgid "Group Owner"
-msgstr "Propietari del grup"
+msgstr ""
 
 #: fas/help.py:53
 msgid "<p>The name of the owner who will run this group</p>"
@@ -662,7 +660,7 @@ msgstr ""
 
 #: fas/help.py:54 fas/templates/group/list.html:28
 msgid "Group Type"
-msgstr "Tipus de grup"
+msgstr ""
 
 #: fas/help.py:54
 msgid ""
@@ -674,7 +672,7 @@ msgstr ""
 
 #: fas/help.py:55
 msgid "Group URL (Optional)"
-msgstr "URL del grup (opcional)"
+msgstr ""
 
 #: fas/help.py:55
 msgid ""
@@ -684,7 +682,7 @@ msgstr ""
 
 #: fas/help.py:56
 msgid "Group Mailing List (Optional)"
-msgstr "Llista de correu del grup (opcional)"
+msgstr ""
 
 #: fas/help.py:56
 msgid ""
@@ -694,7 +692,7 @@ msgstr ""
 
 #: fas/help.py:57
 msgid "Group Mailing List URL (Optional)"
-msgstr "URL de la llista de correu del grup (opcional)"
+msgstr ""
 
 #: fas/help.py:57
 msgid ""
@@ -717,7 +715,7 @@ msgstr ""
 
 #: fas/help.py:59
 msgid "Group IRC Channel (Optional)"
-msgstr "Canal IRC del grup (opcional)"
+msgstr ""
 
 #: fas/help.py:59
 msgid "<p>An IRC channel for the group (for example, #fedora-admin).</p>"
@@ -725,7 +723,7 @@ msgstr ""
 
 #: fas/help.py:60
 msgid "Group IRC Network (Optional)"
-msgstr "Xarxa IRC del grup (opcional)"
+msgstr ""
 
 #: fas/help.py:60
 msgid ""
@@ -734,7 +732,7 @@ msgstr ""
 
 #: fas/help.py:61
 msgid "Needs Sponsor"
-msgstr "Cal patrocinador"
+msgstr ""
 
 #: fas/help.py:61
 msgid ""
@@ -748,7 +746,7 @@ msgstr ""
 
 #: fas/help.py:62
 msgid "Self Removal"
-msgstr "Eliminació d'un mateix"
+msgstr ""
 
 #: fas/help.py:62
 msgid ""
@@ -758,7 +756,7 @@ msgstr ""
 
 #: fas/help.py:63
 msgid "Must Belong To"
-msgstr "Ha de pertànyer a"
+msgstr ""
 
 #: fas/help.py:63
 #, python-format
@@ -1023,7 +1021,7 @@ msgstr ""
 
 #: fas/user.py:969
 msgid "Welcome to the Fedora Project!"
-msgstr "Benvinguts al projecte Fedora!"
+msgstr ""
 
 #: fas/user.py:969
 #, python-format
@@ -1268,7 +1266,7 @@ msgstr ""
 #: fas/validators.py:143
 #, python-format
 msgid "'%(user)s' already exists."
-msgstr "'%(user)s' ja existeix."
+msgstr ""
 
 #: fas/validators.py:166
 msgid ""
@@ -1347,7 +1345,7 @@ msgstr ""
 
 #: fas/templates/about.html:7
 msgid "About FAS"
-msgstr "Quant a FAS"
+msgstr ""
 
 #: fas/templates/about.html:10
 msgid "FAS - The Open Account System"
@@ -1402,11 +1400,11 @@ msgstr ""
 #: fas/templates/error.html:7 fas/templates/home.html:7
 #: fas/templates/fpca/index.html:16
 msgid "Fedora Accounts System"
-msgstr "FAS (Fedora Accounts System)"
+msgstr ""
 
 #: fas/templates/error.html:17
 msgid "Error!"
-msgstr "Error!"
+msgstr ""
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occured with your request:"
@@ -1414,7 +1412,7 @@ msgstr ""
 
 #: fas/templates/home.html:13
 msgid "To do queue:"
-msgstr "Coses a fer:"
+msgstr ""
 
 #: fas/templates/home.html:15
 #, python-format
@@ -1435,47 +1433,47 @@ msgstr ""
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> sol·licita l'aprovació per a unir-se a <a href=\"%(groupview)s\">%(group)s</a>."
+msgstr ""
 
 #: fas/templates/home.html:32
 msgid "Miscellaneous Tasks"
-msgstr "Tasques miscel·lànies"
+msgstr ""
 
 #: fas/templates/home.html:35
 msgid "Download a client-side certificate"
-msgstr "Baixa el certificat del cantó del client"
+msgstr ""
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr "Inicia la sessió a FAS (Fedora Accounts System)"
+msgstr ""
 
 #: fas/templates/master.html:24
 msgid "Fedora"
-msgstr "Fedora"
+msgstr ""
 
 #: fas/templates/master.html:43
 msgid "Learn about Fedora"
-msgstr "Conegueu més detalls quant a Fedora"
+msgstr ""
 
 #: fas/templates/master.html:44
 msgid "Download Fedora"
-msgstr "Baixeu-vos Fedora"
+msgstr ""
 
 #: fas/templates/master.html:45
 msgid "Projects"
-msgstr "Projectes"
+msgstr ""
 
 #: fas/templates/master.html:46
 msgid "Join Fedora"
-msgstr "Uniu-vos a Fedora"
+msgstr ""
 
 #: fas/templates/master.html:47
 msgid "Communicate"
-msgstr "Fiqueu-vos en contacte"
+msgstr ""
 
 #: fas/templates/master.html:48
 msgid "Help/Documentation"
-msgstr "Ajuda/Documentació"
+msgstr ""
 
 #: fas/templates/master.html:49
 msgid "Code of Conduct"
@@ -1483,44 +1481,44 @@ msgstr ""
 
 #: fas/templates/master.html:55
 msgid "Logged in:"
-msgstr "Sessió inicida en:"
+msgstr ""
 
 #: fas/templates/master.html:68
 msgid "Home"
-msgstr "Inici"
+msgstr ""
 
 #: fas/templates/master.html:69
 msgid "My Account"
-msgstr "El meu compte"
+msgstr ""
 
 #: fas/templates/master.html:71
 msgid "News"
-msgstr "Noticies"
+msgstr ""
 
 #: fas/templates/master.html:76
 msgid "Locale:"
-msgstr "Idioma:"
+msgstr ""
 
 #: fas/templates/master.html:80
 msgid "OK"
-msgstr "D'acord"
+msgstr ""
 
 #: fas/templates/master.html:92
 msgid "About"
-msgstr "Quant a"
+msgstr ""
 
 #: fas/templates/master.html:93
 msgid "Contact Us"
-msgstr "Fique-vos en contacte amb nosaltres"
+msgstr ""
 
 #: fas/templates/master.html:94
 msgid "Legal & Privacy"
-msgstr "Legalitat i privacitat"
+msgstr ""
 
 #: fas/templates/master.html:98
 #, python-format
 msgid "FAS version %s"
-msgstr "FAS versió %s"
+msgstr ""
 
 #: fas/templates/master.html:101
 #, python-format
@@ -1534,7 +1532,7 @@ msgid ""
 "The Fedora Project is maintained and driven by the community and sponsored "
 "by Red Hat.  This is a community maintained site.  Red Hat is not "
 "responsible for content."
-msgstr "El projecte Fedora és mantingut i conduït per la comunitat i patrocinat per Red Hat. Aquest és un lloc mantingut per la comunitat. Red Hat no se'n fa responsable del contingut."
+msgstr ""
 
 #: fas/templates/search-box.html:8
 msgid "\"*\" is a wildcard (Ex: \"git*\")"
@@ -1542,24 +1540,24 @@ msgstr ""
 
 #: fas/templates/search-box.html:11
 msgid "Search"
-msgstr "Cerca"
+msgstr ""
 
 #: fas/templates/search-box.html:14 fas/templates/user/list.html:18
 msgid "Results"
-msgstr "Resultats"
+msgstr ""
 
 #: fas/templates/search-box.html:17 fas/templates/search-box.html:24
 #: fas/templates/user/list.html:21
 msgid "All"
-msgstr "Tot"
+msgstr ""
 
 #: fas/templates/search-box.html:21
 msgid "Types"
-msgstr "Tipus"
+msgstr ""
 
 #: fas/templates/welcome.html:7
 msgid "Welcome to FAS2"
-msgstr "Benvinguts a FAS2"
+msgstr ""
 
 #: fas/templates/welcome.html:18
 msgid ""
@@ -1570,7 +1568,7 @@ msgstr ""
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
-msgstr "Inici de sessió"
+msgstr ""
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
@@ -1578,11 +1576,11 @@ msgstr ""
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
-msgstr "Nou compte"
+msgstr ""
 
 #: fas/templates/welcome.html:24
 msgid "Why Join?"
-msgstr "Per què unir-se?"
+msgstr ""
 
 #: fas/templates/fpca/index.html:19
 msgid "Fedora Project Contributor Agreement"
@@ -1591,7 +1589,7 @@ msgstr ""
 #: fas/templates/fpca/index.html:20 fas/templates/fpca/index.html:23
 #, python-format
 msgid "<a href=\"%(url)s\">Text Version</a>"
-msgstr "<a href=\"%(url)s\">Versió de text</a>"
+msgstr ""
 
 #: fas/templates/fpca/index.html:27
 msgid "You have already successfully completed the FPCA."
@@ -1599,19 +1597,19 @@ msgstr ""
 
 #: fas/templates/fpca/index.html:37 fas/templates/user/edit.html:27
 msgid "Full Name"
-msgstr "Nom real"
+msgstr ""
 
 #: fas/templates/fpca/index.html:42 fas/templates/user/edit.html:46
 msgid "Telephone Number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: fas/templates/fpca/index.html:52 fas/templates/user/edit.html:56
 msgid "Country"
-msgstr "País"
+msgstr ""
 
 #: fas/templates/fpca/index.html:54 fas/templates/user/edit.html:58
 msgid "Select Country"
-msgstr "Seleccioneu el país"
+msgstr ""
 
 #: fas/templates/fpca/index.html:62 fas/templates/user/edit.html:66
 msgid "If your country is not listed, select \"Other\""
@@ -1625,19 +1623,19 @@ msgstr ""
 
 #: fas/templates/fpca/index.html:68
 msgid "I agree"
-msgstr "Hi estic d'acord"
+msgstr ""
 
 #: fas/templates/fpca/index.html:69
 msgid "I do not agree"
-msgstr "No hi estic d'acord"
+msgstr ""
 
 #: fas/templates/group/apply.html:8
 msgid "Apply to Group"
-msgstr "Aplica al grup"
+msgstr ""
 
 #: fas/templates/group/apply.html:18
 msgid "Group Rules"
-msgstr "Rols del grup"
+msgstr ""
 
 #: fas/templates/group/apply.html:24 fas/templates/group/members.html:31
 #: fas/templates/group/view.html:33
@@ -1646,44 +1644,44 @@ msgstr ""
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
-msgstr "Edita el grup"
+msgstr ""
 
 #: fas/templates/group/edit.html:10
 #, python-format
 msgid "Edit Group: %s"
-msgstr "Edita el grup: %s"
+msgstr ""
 
 #: fas/templates/group/edit.html:13 fas/templates/group/new.html:18
 msgid "Display Name:"
-msgstr "Nom a mostrar:"
+msgstr ""
 
 #: fas/templates/group/edit.html:18 fas/templates/group/new.html:28
 msgid "Group Type:"
-msgstr "Tipus de grup:"
+msgstr ""
 
 #: fas/templates/group/edit.html:23 fas/templates/group/view.html:54
 msgid "URL:"
-msgstr "URL:"
+msgstr ""
 
 #: fas/templates/group/edit.html:28 fas/templates/group/view.html:58
 msgid "Mailing List:"
-msgstr "Llista de correu:"
+msgstr ""
 
 #: fas/templates/group/edit.html:33
 msgid "Mailing List URL:"
-msgstr "URL de la llista de correu:"
+msgstr ""
 
 #: fas/templates/group/edit.html:38
 msgid "IRC Channel:"
-msgstr "Canal IRC:"
+msgstr ""
 
 #: fas/templates/group/edit.html:43
 msgid "IRC Network:"
-msgstr "Xarxa IRC:"
+msgstr ""
 
 #: fas/templates/group/edit.html:48 fas/templates/group/new.html:23
 msgid "Group Owner:"
-msgstr "Propietari del grup:"
+msgstr ""
 
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:71
@@ -1693,7 +1691,7 @@ msgstr ""
 #: fas/templates/group/edit.html:63 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
 msgid "Needs Sponsor:"
-msgstr "Necessita patrocinador:"
+msgstr ""
 
 #: fas/templates/group/edit.html:73 fas/templates/group/new.html:43
 #: fas/templates/group/view.html:79
@@ -1702,24 +1700,24 @@ msgstr ""
 
 #: fas/templates/group/edit.html:83
 msgid "Group Prerequisite:"
-msgstr "Prerequisits del grup:"
+msgstr ""
 
 #: fas/templates/group/edit.html:89
 msgid "Group Join Message:"
-msgstr "Missatge per a unir-se al grup:"
+msgstr ""
 
 #: fas/templates/group/edit.html:94 fas/templates/group/new.html:58
 #: fas/templates/group/view.html:49
 msgid "Rules for Application:"
-msgstr "Rols per aplicacions:"
+msgstr ""
 
 #: fas/templates/group/edit.html:99 fas/templates/user/edit.html:157
 msgid "Save!"
-msgstr "Desa!"
+msgstr ""
 
 #: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
 msgid "Invite a new community member!"
-msgstr "Inviteu a un nou membre de la comunitat!"
+msgstr ""
 
 #: fas/templates/group/invite.html:14
 msgid "To email:"
@@ -1735,15 +1733,15 @@ msgstr ""
 
 #: fas/templates/group/invite.html:17
 msgid "Message:"
-msgstr "Missatge:"
+msgstr ""
 
 #: fas/templates/group/invite.html:39
 msgid "Send!"
-msgstr "Envia!"
+msgstr ""
 
 #: fas/templates/group/list.html:9
 msgid "Groups List"
-msgstr "Llistat de grups"
+msgstr ""
 
 #: fas/templates/group/list.html:17
 msgid "Create New Group"
@@ -1760,82 +1758,82 @@ msgstr ""
 
 #: fas/templates/group/list.html:22
 msgid "Search Groups"
-msgstr "Cerca de grups"
+msgstr ""
 
 #: fas/templates/group/list.html:27
 msgid "Group"
-msgstr "Grup"
+msgstr ""
 
 #: fas/templates/group/list.html:27
 msgid "Description"
-msgstr "Descripció"
+msgstr ""
 
 #: fas/templates/group/list.html:28
 msgid "Prerequisite"
-msgstr "Prerequisit"
+msgstr ""
 
 #: fas/templates/group/list.html:29 fas/templates/user/edit.html:138
 msgid "Status"
-msgstr "Estat"
+msgstr ""
 
 #: fas/templates/group/list.html:37 fas/templates/group/member-list.html:26
 #: fas/templates/group/member-list.html:29
 msgid "None"
-msgstr "Sense"
+msgstr ""
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
 #: fas/templates/group/view.html:22 fas/templates/user/view.html:157
 msgid "Approved"
-msgstr "Aprovat"
+msgstr ""
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
 #: fas/templates/group/view.html:23 fas/templates/user/view.html:158
 msgid "Unapproved"
-msgstr "No aprovat"
+msgstr ""
 
 #: fas/templates/group/member-list.html:14
 msgid "User"
-msgstr "Usuari"
+msgstr ""
 
 #: fas/templates/group/member-list.html:16
 msgid "Date Added"
-msgstr "Data d'afegiment"
+msgstr ""
 
 #: fas/templates/group/member-list.html:17
 msgid "Date Approved"
-msgstr "Data d'aprovació"
+msgstr ""
 
 #: fas/templates/group/member-list.html:18
 msgid "Approval"
-msgstr "Aprovació"
+msgstr ""
 
 #: fas/templates/group/member-list.html:19
 msgid "Role Type"
-msgstr "Tipus de rol"
+msgstr ""
 
 #: fas/templates/group/member-list.html:20
 msgid "Action"
-msgstr "Acció"
+msgstr ""
 
 #: fas/templates/group/members.html:10
 msgid "View Group Members"
-msgstr "Visualitza els membres del grup"
+msgstr ""
 
 #: fas/templates/group/members.html:23 fas/templates/group/view.html:21
 msgid "My Status:"
-msgstr "El meu estat"
+msgstr ""
 
 #: fas/templates/group/members.html:26 fas/templates/group/view.html:24
 msgid "Not a Member"
-msgstr "No n'és membre"
+msgstr ""
 
 #: fas/templates/group/members.html:34 fas/templates/group/view.html:39
 msgid "Remove me"
-msgstr "Treu-me"
+msgstr ""
 
 #: fas/templates/group/members.html:41
 msgid "Group Details"
-msgstr "Detalls del grup"
+msgstr ""
 
 #: fas/templates/group/members.html:42
 msgid "administrator"
@@ -1851,31 +1849,31 @@ msgstr ""
 
 #: fas/templates/group/members.html:44 fas/templates/group/view.html:114
 msgid "Members"
-msgstr "Membres"
+msgstr ""
 
 #: fas/templates/group/new.html:7 fas/templates/group/new.html:10
 msgid "Create a new FAS Group"
-msgstr "Crea un nou grup FAS"
+msgstr ""
 
 #: fas/templates/group/new.html:13
 msgid "Group Name:"
-msgstr "Nom del grup:"
+msgstr ""
 
 #: fas/templates/group/new.html:48
 msgid "Must Belong To:"
-msgstr "Ha de pertanyer a:"
+msgstr ""
 
 #: fas/templates/group/new.html:53 fas/templates/group/view.html:83
 msgid "Join Message:"
-msgstr "Missatge per a unir-se:"
+msgstr ""
 
 #: fas/templates/group/new.html:63
 msgid "Create!"
-msgstr "Crea!"
+msgstr ""
 
 #: fas/templates/group/view.html:8 fas/templates/user/view.html:164
 msgid "View Group"
-msgstr "Visualitza el grup"
+msgstr ""
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
@@ -1883,53 +1881,53 @@ msgstr ""
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:18
 msgid "(edit)"
-msgstr "(edita)"
+msgstr ""
 
 #: fas/templates/group/view.html:44
 msgid "Name:"
-msgstr "Nom:"
+msgstr ""
 
 #: fas/templates/group/view.html:45
 msgid "Description:"
-msgstr "Descripció:"
+msgstr ""
 
 #: fas/templates/group/view.html:46
 msgid "Owner:"
-msgstr "Propietari:"
+msgstr ""
 
 #: fas/templates/group/view.html:47
 msgid "Type:"
-msgstr "Tipus:"
+msgstr ""
 
 #: fas/templates/group/view.html:51
 msgid "Approved Members:"
-msgstr "Membres aprovats:"
+msgstr ""
 
 #: fas/templates/group/view.html:65
 msgid "IRC:"
-msgstr "IRC:"
+msgstr ""
 
 #: fas/templates/group/view.html:72 fas/templates/group/view.html:76
 #: fas/templates/group/view.html:80
 msgid "Yes"
-msgstr "Si"
+msgstr ""
 
 #: fas/templates/group/view.html:73 fas/templates/group/view.html:77
 #: fas/templates/group/view.html:81
 msgid "No"
-msgstr "No"
+msgstr ""
 
 #: fas/templates/group/view.html:84
 msgid "Prerequisite:"
-msgstr "Prerequisit:"
+msgstr ""
 
 #: fas/templates/group/view.html:87
 msgid "Created:"
-msgstr "Creat:"
+msgstr ""
 
 #: fas/templates/group/view.html:89
 msgid "Add User:"
-msgstr "Afegeix l'usuari:"
+msgstr ""
 
 #: fas/templates/group/view.html:94
 msgid "Add"
@@ -1937,7 +1935,7 @@ msgstr ""
 
 #: fas/templates/group/view.html:107 fas/templates/group/view.html:108
 msgid "View Member List"
-msgstr "Visualitza el llistat de membres"
+msgstr ""
 
 #: fas/templates/group/view.html:110
 msgid "Sponsorship Queue"
@@ -1979,11 +1977,11 @@ msgstr ""
 
 #: fas/templates/openid/authorizesite.html:17
 msgid "Identity:"
-msgstr "Identitat:"
+msgstr ""
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr "Arrel de confiança:"
+msgstr ""
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
@@ -1991,11 +1989,11 @@ msgstr ""
 
 #: fas/templates/openid/authorizesite.html:38
 msgid "yes"
-msgstr "si"
+msgstr ""
 
 #: fas/templates/openid/authorizesite.html:39
 msgid "no"
-msgstr "no"
+msgstr ""
 
 #: fas/templates/openid/id.html:10
 msgid "OpenID Identity Page"
@@ -2018,7 +2016,7 @@ msgstr ""
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr "Benvinguts al proveïdor d'OpenID de Fedora"
+msgstr ""
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -2029,17 +2027,17 @@ msgstr ""
 
 #: fas/templates/openid/welcome.html:19
 msgid "Logout"
-msgstr "Tanca la sessió"
+msgstr ""
 
 #: fas/templates/openid/welcome.html:24
 #, python-format
 msgid "You are not <a href=\"%(url)s\">logged in</a>."
-msgstr "No heu <a href=\"%(url)s\">iniciat cap sessió</a>."
+msgstr ""
 
 #: fas/templates/user/changepass.html:7 fas/templates/user/changepass.html:10
 #: fas/templates/user/changepass.html:24 fas/templates/user/verifypass.html:17
 msgid "Change Password"
-msgstr "Canvia la contrasenya"
+msgstr ""
 
 #: fas/templates/user/changepass.html:12
 msgid ""
@@ -2082,15 +2080,15 @@ msgstr ""
 #: fas/templates/user/changepass.html:21
 #: fas/templates/user/changequestion.html:15
 msgid "Current Password:"
-msgstr "Contrasenya actual:"
+msgstr ""
 
 #: fas/templates/user/changepass.html:22 fas/templates/user/verifypass.html:14
 msgid "New Password:"
-msgstr "Nova contrasenya:"
+msgstr ""
 
 #: fas/templates/user/changepass.html:23 fas/templates/user/verifypass.html:15
 msgid "Confirm Password:"
-msgstr "Confirmació de la contrasenya:"
+msgstr ""
 
 #: fas/templates/user/changequestion.html:7
 #: fas/templates/user/changequestion.html:10
@@ -2120,7 +2118,7 @@ msgstr ""
 
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"
-msgstr "Edita el compte"
+msgstr ""
 
 #: fas/templates/user/edit.html:20
 #, python-format
@@ -2129,7 +2127,7 @@ msgstr ""
 
 #: fas/templates/user/edit.html:22 fas/templates/user/view.html:81
 msgid "Password:"
-msgstr "Contrasenya:"
+msgstr ""
 
 #: fas/templates/user/edit.html:23 fas/templates/user/view.html:78
 #: fas/templates/user/view.html:83
@@ -2147,11 +2145,11 @@ msgstr ""
 
 #: fas/templates/user/edit.html:77
 msgid "Latitude"
-msgstr "Latitud"
+msgstr ""
 
 #: fas/templates/user/edit.html:82
 msgid "Longitude"
-msgstr "Longitud"
+msgstr ""
 
 #: fas/templates/user/edit.html:95
 msgid "IRC Nick"
@@ -2159,24 +2157,24 @@ msgstr ""
 
 #: fas/templates/user/edit.html:111
 msgid "Time Zone"
-msgstr "Franja horària"
+msgstr ""
 
 #: fas/templates/user/edit.html:146
 msgid "Comments"
-msgstr "Comentaris"
+msgstr ""
 
 #: fas/templates/user/edit.html:152
 msgid "Privacy"
-msgstr "Privacitat"
+msgstr ""
 
 #: fas/templates/user/edit.html:158 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:18
 msgid "Cancel"
-msgstr "Cancel·la"
+msgstr ""
 
 #: fas/templates/user/gencert.html:10 fas/templates/user/gencert.html:13
 msgid "Certificate Generation"
-msgstr "Generació del certificat"
+msgstr ""
 
 #: fas/templates/user/gencert.html:15
 msgid ""
@@ -2189,12 +2187,12 @@ msgstr ""
 
 #: fas/templates/user/gencert.html:18
 msgid "Generate a certificate"
-msgstr "Genera un certificat"
+msgstr ""
 
 #: fas/templates/user/gencertdisabled.html:10
 #: fas/templates/user/gencertdisabled.html:13
 msgid "Certificate Generation Disabled"
-msgstr "Inhabilita la generació de certificats"
+msgstr ""
 
 #: fas/templates/user/gencertdisabled.html:15
 #, python-format
@@ -2206,7 +2204,7 @@ msgstr ""
 
 #: fas/templates/user/list.html:7
 msgid "Users List"
-msgstr "Llista d'usuaris"
+msgstr ""
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
@@ -2214,7 +2212,7 @@ msgstr ""
 
 #: fas/templates/user/list.html:26
 msgid "Username"
-msgstr "Nom d'usuari"
+msgstr ""
 
 #: fas/templates/user/list.html:34 fas/templates/user/view.html:117
 msgid "CLA Done"
@@ -2248,11 +2246,11 @@ msgstr ""
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
-msgstr "Nom d'usuari:"
+msgstr ""
 
 #: fas/templates/user/new.html:18 fas/templates/user/view.html:24
 msgid "Full Name:"
-msgstr "Nom real:"
+msgstr ""
 
 #: fas/templates/user/new.html:23
 msgid "Name check override:"
@@ -2261,7 +2259,7 @@ msgstr ""
 #: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
 msgid "Email:"
-msgstr "Correu:"
+msgstr ""
 
 #: fas/templates/user/new.html:32
 msgid "Verify Email:"
@@ -2277,7 +2275,7 @@ msgstr ""
 
 #: fas/templates/user/new.html:62
 msgid "I am 13 years of age or older"
-msgstr "Tinc 13 anys o més"
+msgstr ""
 
 #: fas/templates/user/new.html:68
 msgid "Answer this math equation"
@@ -2285,12 +2283,12 @@ msgstr ""
 
 #: fas/templates/user/new.html:71
 msgid "Sign up!"
-msgstr "Doneu-vos d'alta!"
+msgstr ""
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
 #: fas/templates/user/verifypass.html:7 fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr "Restableix la contrasenya"
+msgstr ""
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
@@ -2308,7 +2306,7 @@ msgstr ""
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
-msgstr "Confirmació"
+msgstr ""
 
 #: fas/templates/user/verifypass.html:11
 msgid ""
@@ -2318,11 +2316,11 @@ msgstr ""
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr "Veure el comptes"
+msgstr ""
 
 #: fas/templates/user/view.html:16
 msgid "Your Fedora Account"
-msgstr "El vostre compte a Fedora"
+msgstr ""
 
 #: fas/templates/user/view.html:17
 #, python-format
@@ -2331,35 +2329,35 @@ msgstr ""
 
 #: fas/templates/user/view.html:18
 msgid "Account Details"
-msgstr "Detalls del compte"
+msgstr ""
 
 #: fas/templates/user/view.html:21
 msgid "Account Name:"
-msgstr "Nom del compte:"
+msgstr ""
 
 #: fas/templates/user/view.html:36
 msgid "Telephone Number:"
-msgstr "Número de telèfon:"
+msgstr ""
 
 #: fas/templates/user/view.html:40
 msgid "Postal Address:"
-msgstr "Adreça postal:"
+msgstr ""
 
 #: fas/templates/user/view.html:44
 msgid "Country:"
-msgstr "País:"
+msgstr ""
 
 #: fas/templates/user/view.html:53
 msgid "IRC Nick:"
-msgstr "Sobrenom en IRC:"
+msgstr ""
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr "Clau PGP:"
+msgstr ""
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
-msgstr "Clau SSH pública:"
+msgstr ""
 
 #: fas/templates/user/view.html:66
 msgid "(remove ssh key)"
@@ -2371,7 +2369,7 @@ msgstr ""
 
 #: fas/templates/user/view.html:71
 msgid "Comments:"
-msgstr "Comentaris:"
+msgstr ""
 
 #: fas/templates/user/view.html:77
 msgid "Security question: "
@@ -2387,23 +2385,23 @@ msgstr ""
 
 #: fas/templates/user/view.html:99
 msgid "Account Status:"
-msgstr "Estat del compte:"
+msgstr ""
 
 #: fas/templates/user/view.html:102
 msgid "Active"
-msgstr "Actiu"
+msgstr ""
 
 #: fas/templates/user/view.html:103
 msgid "Inactive"
-msgstr "Inactiu"
+msgstr ""
 
 #: fas/templates/user/view.html:104
 msgid "Pinged"
-msgstr "Amonestat"
+msgstr ""
 
 #: fas/templates/user/view.html:105
 msgid "Disabled"
-msgstr "Deshabilitat"
+msgstr ""
 
 #: fas/templates/user/view.html:110
 msgid "Contributor Agreement:"
@@ -2439,7 +2437,7 @@ msgstr ""
 
 #: fas/templates/user/view.html:129
 msgid "Privacy:"
-msgstr "Privacitat:"
+msgstr ""
 
 #: fas/templates/user/view.html:131
 msgid "Account Information Private"
@@ -2451,36 +2449,36 @@ msgstr ""
 
 #: fas/templates/user/view.html:137
 msgid "Your Roles"
-msgstr "Els vostres rols"
+msgstr ""
 
 #: fas/templates/user/view.html:138
 #, python-format
 msgid "%s's Roles"
-msgstr "Rols d'en/na %s"
+msgstr ""
 
 #: fas/templates/user/view.html:155
 msgid "Status:"
-msgstr "Estat:"
+msgstr ""
 
 #: fas/templates/user/view.html:161
 msgid "Tools:"
-msgstr "Eines:"
+msgstr ""
 
 #: fas/templates/user/view.html:165
 msgid "Invite a New Member..."
-msgstr "Convideu a un nou membre..."
+msgstr ""
 
 #: fas/templates/user/view.html:166
 msgid "Manage Group Membership..."
-msgstr "Gestioneu l'afiliació al grup..."
+msgstr ""
 
 #: fas/templates/user/view.html:167
 msgid "Manage Group Details..."
-msgstr "Gestioneu els detalls del grup..."
+msgstr ""
 
 #: fas/templates/user/view.html:171
 msgid "Queue:"
-msgstr "Qua:"
+msgstr ""
 
 #: fas/templates/user/view.html:175
 #, python-format
