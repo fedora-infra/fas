@@ -212,19 +212,6 @@ class Root(plugin.RootController):
 
         return login_dict
 
-    @expose(content_type="text/plain")
-    def planet(self):
-        output = ""
-        for people in People.get_planet():
-            if len(people.roles) > 1:
-                if people.blog_avatar:
-                    output = output + "[%s]\nname = %s\nface = %s \n\n" % (
-                        people.blog_rss, people.username, people.blog_avatar)
-                else:
-                    output = output + "[%s]\nname = %s\n\n" % (
-                        people.blog_rss, people.username)
-        return output
-
     @expose(allow_json=True)
     def logout(self):
         return f_ctrlers.logout()

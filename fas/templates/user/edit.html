@@ -124,16 +124,6 @@ Unfortunately, checked can't be used as a boolean, only as a flag.  Silly HTML4 
         </select>
         <script type="text/javascript">var hb10 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_locale')}'});</script>
       </div>
-      <div py:if="allow_blog" class="field">
-        <label for="blog_rss">${_('RSS blog')}:</label>
-        <input type="text" id="blog_rss" name="blog_rss" value="${target.blog_rss}" />
-        <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/blog_rss')}'});</script>
-      </div>
-      <div py:if="allow_blog" class="field">
-        <label for="blog_avatar">${_('Avatar blog')}:</label>
-        <input type="text" id="blog_avatar" name="blog_avatar" value="${target.blog_avatar}" />
-        <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/blog_avatar')}'});</script>
-      </div>
       <div class="field">
         <label for="status">${_('Status')}:</label>
         <select id="status" name="status">

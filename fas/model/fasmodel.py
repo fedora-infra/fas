@@ -117,8 +117,7 @@ class People(SABase):
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
             'country_code', 'privacy', 'old_password', 'alias_enabled',
-            'security_question', 'security_answer',
-            'blog_rss', 'blog_avatar'),
+            'security_question', 'security_answer'),
         # Full disclosure to admins
         'admin': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
             'password', 'passwordtoken', 'password_changed', 'email',
@@ -127,8 +126,7 @@ class People(SABase):
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
             'country_code', 'privacy', 'old_password', 'alias_enabled',
-            'security_question', 'security_answer',
-            'blog_rss', 'blog_avatar'),
+            'security_question', 'security_answer'),
         # Full disclosure to systems group
         'systems': ('id', 'username', 'human_name',
             'gpg_keyid', 'ssh_key', 'password', 'passwordtoken',
@@ -138,8 +136,7 @@ class People(SABase):
             'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude',
             'longitude', 'country_code', 'privacy', 'old_password',
-            'alias_enabled', 'security_question', 'security_answer',
-            'blog_rss', 'blog_avatar'),
+            'alias_enabled', 'security_question', 'security_answer'),
         # thirdparty gets the results of privacy and ssh_key in addition
         'thirdparty': ('ssh_key',),
         'self': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
@@ -148,13 +145,12 @@ class People(SABase):
             'affiliation', 'certificate_serial', 'creation', 'ircnick',
             'last_seen', 'status', 'status_change', 'locale', 'timezone',
             'latitude', 'longitude', 'country_code', 'privacy',
-            'old_password', 'security_question',
-            'blog_rss', 'blog_avatar'),
+            'old_password', 'security_question'),
         'public': ('id', 'username', 'human_name', 'gpg_keyid', 'email',
             'comments', 'affiliation', 'certificate_serial', 'creation',
             'last_seen', 'status', 'status_change', 'locale', 'ircnick',
             'timezone', 'latitude', 'longitude', 'country_code',
-            'privacy', 'blog_rss', 'blog_avatar'),
+            'privacy'),
         'privacy': ('id', 'username', 'email', 'comments',
             'certificate_serial', 'creation', 'last_seen', 'status',
             'status_change', 'privacy'),
@@ -385,10 +381,6 @@ class People(SABase):
 
 
         return person_data
-
-    @classmethod
-    def get_planet(cls):
-        return cls.query.filter(People.blog_rss != None).all()
 
     def __repr__(cls):
         return "User(%s,%s)" % (cls.username, cls.human_name)
