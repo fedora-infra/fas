@@ -24,7 +24,7 @@
 Release information about the Fedora Accounts System
 '''
 
-VERSION = '0.8.14.91'
+VERSION = '0.8.14.92'
 NAME = 'fas'
 DESCRIPTION = 'The Fedora Account System'
 LONG_DESCRIPTION = '''
