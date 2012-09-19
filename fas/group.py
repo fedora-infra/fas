@@ -240,7 +240,7 @@ class Group(controllers.Controller):
         person = People.by_username(username)
 
         if not can_create_group(person):
-            turbogears.flash(_('Only FAS adminstrators can create groups.'))
+            turbogears.flash(_('Only FAS administrators can create groups.'))
             turbogears.redirect('/')
         return dict()
 
@@ -258,7 +258,7 @@ class Group(controllers.Controller):
         person_owner = People.by_username(owner)
 
         if not can_create_group(person):
-            turbogears.flash(_('Only FAS adminstrators can create groups.'))
+            turbogears.flash(_('Only FAS administrators can create groups.'))
             turbogears.redirect('/')
         try:
             owner = People.by_username(owner)
