@@ -293,11 +293,11 @@ Thanks!
 
         if person.country_code not in country_codes:
             turbogears.flash(_('To complete the FPCA, a valid country code' + \
-            'must be specified.  Please select one now.'))
+            'must be specified. Please select one now.'))
             turbogears.redirect('/fpca/')
         if [True for char in person.telephone if char not in self.PHONEDIGITS]:
             turbogears.flash(_('Telephone numbers can only consist of ' + \
-                'numbers, "-", "+", "(", ")", or " ".  Please reenter using' +\
+                'numbers, "-", "+", "(", ")", or " ". Please reenter using' +\
                 'only those characters.'))
             turbogears.redirect('/fpca/')
 
