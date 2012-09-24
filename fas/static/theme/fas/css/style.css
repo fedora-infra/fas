@@ -448,6 +448,11 @@ a
   margin: 1ex 0;
 }
 
+.submit
+{
+  margin-right: 5px;
+}
+
 .letters
 {
   list-style: none;
