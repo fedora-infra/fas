@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-08-30 21:27-0400\n"
-"PO-Revision-Date: 2012-08-31 05:04+0000\n"
+"POT-Creation-Date: 2012-09-19 07:35-0700\n"
+"PO-Revision-Date: 2012-09-19 14:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid ""
 "%(admin_email)sadmin_email"
 msgstr "Зараз ваш обліковий запис вимкнено. Щоб дізнатися більше, зверніться за адресою %(admin_email)sadmin_email"
 
-#: fas/controllers.py:235
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "Мова «%s» недоступна."
@@ -111,18 +111,18 @@ msgstr "Оновлені вами дані не вдалося зберегти.
 msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
-msgstr ""
+msgstr "Укладання FPCA не може бути завершено без визначення вашого імені, номера телефону та країни. Будь ласка, вкажіть ці дані."
 
 #: fas/fpca.py:295
 msgid ""
-"To complete the FPCA, a valid country codemust be specified.  Please select "
+"To complete the FPCA, a valid country code must be specified. Please select "
 "one now."
 msgstr ""
 
 #: fas/fpca.py:299
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
-"or \" \".  Please reenter usingonly those characters."
+"or \" \". Please reenter using only those characters."
 msgstr ""
 
 #: fas/fpca.py:320 fas/fpca.py:334
@@ -147,8 +147,8 @@ msgid "You cannot view '%s'"
 msgstr "Ви не можете переглядати «%s»"
 
 #: fas/group.py:243 fas/group.py:261
-msgid "Only FAS adminstrators can create groups."
-msgstr ""
+msgid "Only FAS administrators can create groups."
+msgstr "Груми можуть створювати лише адміністратори FAS."
 
 #: fas/group.py:286
 #, python-format
@@ -160,7 +160,7 @@ msgstr "Не вдалося створити групу «%s»."
 msgid ""
 "The group: '%(group)s' has been created, but '%(user)s' could not be added "
 "as a group administrator."
-msgstr ""
+msgstr "Група: було створено групу «%(group)s», але не вдалося зробити користувача «%(user)s» адміністратором цієї групи."
 
 #: fas/group.py:302
 #, python-format
@@ -291,7 +291,7 @@ msgstr "%(name)s було вилучено зі списку групи %(group)
 #: fas/group.py:622
 #, python-format
 msgid "You cannot upgrade '%s'"
-msgstr ""
+msgstr "Ви не можете розширювати «%s»"
 
 #: fas/group.py:629
 #, python-format
@@ -321,17 +321,17 @@ msgstr "Участь %s було розширено!"
 #: fas/group.py:673
 #, python-format
 msgid "You cannot downgrade '%s'"
-msgstr ""
+msgstr "Ви не можете звузити «%s»"
 
 #: fas/group.py:680
 #, python-format
 msgid "%(name)s could not be downgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "Не вдалося звузити права %(name)s у %(group)s: %(error)s"
 
 #: fas/group.py:684
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr ""
+msgstr "Ваші права участі у групі «%s» Fedora було звужено"
 
 #: fas/group.py:689
 #, python-format
@@ -346,7 +346,7 @@ msgstr ""
 #: fas/group.py:707
 #, python-format
 msgid "%s has been downgraded!"
-msgstr ""
+msgstr "Права %s було звужено!"
 
 #: fas/group.py:808
 #, python-format
@@ -358,11 +358,11 @@ msgstr "Надіслано повідомлення %s"
 msgid "You are not in the '%s' group."
 msgstr "Ви не є учасником або учасницею групи «%s»."
 
-#: fas/help.py:26 fas/help.py:80
+#: fas/help.py:26 fas/help.py:78
 msgid "Error"
 msgstr "Помилка"
 
-#: fas/help.py:26 fas/help.py:80
+#: fas/help.py:26 fas/help.py:78
 msgid "<p>We could not find that help item</p>"
 msgstr "<p>Не вдалося знайти цей пункт у довідці</p>"
 
@@ -398,8 +398,8 @@ msgstr "Адреса ел. пошти (обов’язкова)"
 
 #: fas/help.py:29
 msgid ""
-"<p>This email address should be your prefered email contact and will be used"
-" to send various official emails to.  This is also where your "
+"<p>This email address should be your preferred email contact and will be "
+"used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
 msgstr ""
 
@@ -617,7 +617,7 @@ msgstr "Спонсор"
 
 #: fas/help.py:49
 msgid ""
-"<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
+"<p>A sponsor or administrator can sponsor users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
@@ -779,7 +779,7 @@ msgstr ""
 
 #: fas/help.py:65
 msgid "Client Side Cert"
-msgstr ""
+msgstr "Сертифікат клієнта"
 
 #: fas/help.py:65
 msgid ""
@@ -808,30 +808,13 @@ msgstr "Правила запрошення"
 
 #: fas/help.py:67
 msgid ""
-"<p>Rules or steps that applicants should follow before appliying to your "
+"<p>Rules or steps that applicants should follow before applying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
-msgstr ""
-
-#: fas/help.py:68 fas/templates/user/edit.html:128
-msgid "RSS blog"
-msgstr "RSS блогу"
-
-#: fas/help.py:68
-msgid "<p>Link to the RSS feed of your blog</p>"
-msgstr "<p>Посилання на подачу RSS з вашого блогу</p>"
-
-#: fas/help.py:69 fas/templates/user/edit.html:133
-msgid "Avatar blog"
-msgstr "Аватар блогу"
-
-#: fas/help.py:69
-msgid ""
-"<p>Link to the avatar/hackergotchi you would like to use on your blog</p>"
 msgstr ""
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
-msgstr ""
+msgstr "Цей OpenID не буде задіяно, аж доки користувачем не буде укладено CLA."
 
 #: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
 msgid ""
@@ -860,40 +843,40 @@ msgstr "Список груп"
 msgid "Join a Group"
 msgstr "Приєднатися до групи"
 
-#: fas/user.py:92
+#: fas/user.py:86
 msgid "Solve the math problem"
 msgstr "Розв’яжіть задачу"
 
-#: fas/user.py:298
+#: fas/user.py:292
 #, python-format
 msgid "You cannot edit %s"
 msgstr "Ви не можете редагувати %s"
 
-#: fas/user.py:349
+#: fas/user.py:334
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "У вас немає прав доступу до редагування «%s»"
 
-#: fas/user.py:358
+#: fas/user.py:343
 msgid "Only admin can enable or disable an account."
 msgstr "Лише адміністратори можуть вмикати або вимикати облікові записи."
 
-#: fas/user.py:383
+#: fas/user.py:368
 msgid "Somebody is already using that email address."
 msgstr "Хтось вже користується цією адресою електронної пошти."
 
-#: fas/user.py:388
+#: fas/user.py:373
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
 msgstr ""
 
-#: fas/user.py:395
+#: fas/user.py:380
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "Надіслано запит щодо зміни адреси електронної пошти для %s"
 
-#: fas/user.py:397
+#: fas/user.py:382
 #, python-format
 msgid ""
 "\n"
@@ -905,26 +888,17 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:427
-msgid "The provided RSS feed for your blog does not seem to be a valid url"
-msgstr ""
-
-#: fas/user.py:433
-msgid ""
-"The provided hatergochi for your avatar does not seem to be a valid url"
-msgstr ""
-
-#: fas/user.py:436
+#: fas/user.py:409
 #, python-format
 msgid "Your account details could not be saved: %s"
-msgstr ""
+msgstr "Не вдалося зберегти параметри вашого облікового запису: %s"
 
-#: fas/user.py:442
+#: fas/user.py:414
 #, python-format
 msgid "Fedora Account Data Update %s"
-msgstr ""
+msgstr "Оновлення даних облікового запису Fedora %s"
 
-#: fas/user.py:444
+#: fas/user.py:416
 #, python-format
 msgid ""
 "\n"
@@ -944,52 +918,50 @@ msgid ""
 "  privacy flag:   %(privacy)s\n"
 "  ssh_key:        %(ssh_key)s\n"
 "  gpg_keyid:      %(gpg_keyid)s\n"
-"  blog_rss:       %(blog_rss)s\n"
-"  blog_avatar:    %(blog_avatar)s\n"
 "\n"
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
 msgstr ""
 
-#: fas/user.py:483
+#: fas/user.py:451
 msgid "Your account details have been saved."
 msgstr "Параметри вашого облікового запису було збережено."
 
-#: fas/user.py:735
+#: fas/user.py:702
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "Вказане некоректне значення поля: %(error)s"
 
-#: fas/user.py:749
+#: fas/user.py:716
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "Користувачів, що відповідають запиту «%s», не знайдено"
 
-#: fas/user.py:797
+#: fas/user.py:764
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr ""
 
-#: fas/user.py:802 fas/user.py:824
+#: fas/user.py:769 fas/user.py:791
 msgid "You do not have any pending email changes."
-msgstr ""
+msgstr "У вашій черзі обробки немає запитів щодо зміни адреси електронної пошти."
 
-#: fas/user.py:806 fas/user.py:828
+#: fas/user.py:773 fas/user.py:795
 msgid "Invalid email change token."
-msgstr ""
+msgstr "Некоректний ключ зміни адреси електронної пошти."
 
-#: fas/user.py:838
+#: fas/user.py:805
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "Вами успішно змінено адресу електронної пошти на «%s»"
 
-#: fas/user.py:853
+#: fas/user.py:820
 msgid "No need to sign up, you have an account!"
 msgstr "Реєструватися непотрібно, у вас вже є обліковий запис!"
 
-#: fas/user.py:885 fas/user.py:941
+#: fas/user.py:852 fas/user.py:908
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -999,32 +971,32 @@ msgid ""
 "under 13."
 msgstr ""
 
-#: fas/user.py:897 fas/user.py:952
+#: fas/user.py:864 fas/user.py:919
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
-msgstr ""
+msgstr "Вибачте, цю адресу електронної пошти вже кимось використано. Можливо, ви просто забули пароль?"
 
-#: fas/user.py:903
+#: fas/user.py:870
 msgid "Sorry.  Email addresses do not match"
 msgstr "Вибачте. Адреси електронної пошти не збігаються."
 
-#: fas/user.py:910
+#: fas/user.py:877
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr "Не вдалося створити ваш обліковий запис. Будь ласка, зверніться за адресою %s, щоб вам допомогли."
 
-#: fas/user.py:917
+#: fas/user.py:884
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
-msgstr ""
+msgstr "Ми надіслали вам ваш пароль. Будь ласка, увійдіть до системи за допомогою надісланого пароля, а потім змініть його на свій."
 
-#: fas/user.py:969
+#: fas/user.py:936
 msgid "Welcome to the Fedora Project!"
 msgstr "Вітаємо у Проекті Fedora!"
 
-#: fas/user.py:969
+#: fas/user.py:936
 #, python-format
 msgid ""
 "\n"
@@ -1074,69 +1046,69 @@ msgid ""
 "forward to working with you!\n"
 msgstr ""
 
-#: fas/user.py:1046 fas/user.py:1096
+#: fas/user.py:1013 fas/user.py:1063
 msgid "Your current password did not match"
-msgstr ""
+msgstr "Вами вказано неправильний поточний пароль"
 
-#: fas/user.py:1057
+#: fas/user.py:1024
 msgid "Your security question could not be changed."
 msgstr "Не вдалося змінити ваше секретне питання."
 
-#: fas/user.py:1060
+#: fas/user.py:1027
 msgid "Your security question has been changed."
 msgstr "Ваше секретне питання було змінено."
 
-#: fas/user.py:1089
+#: fas/user.py:1056
 msgid "passwords did not match"
 msgstr "паролі не збігаються"
 
-#: fas/user.py:1100
+#: fas/user.py:1067
 msgid "Your new password cannot be the same as your old one."
 msgstr "Новий пароль не може збігатися з попереднім."
 
-#: fas/user.py:1115
+#: fas/user.py:1082
 msgid "Your password could not be changed."
 msgstr "Змінити ваш пароль не вдалося."
 
-#: fas/user.py:1118
+#: fas/user.py:1085
 msgid "Your password has been changed."
 msgstr "Ваш пароль змінено."
 
-#: fas/user.py:1134
+#: fas/user.py:1101
 msgid "You are already logged in!"
 msgstr "Ви вже увійшли до облікового запису."
 
-#: fas/user.py:1151
+#: fas/user.py:1118
 msgid "You are already logged in."
 msgstr "Ви вже увійшли до облікового запису."
 
-#: fas/user.py:1157
+#: fas/user.py:1124
 msgid "Username email combo does not exist!"
-msgstr ""
+msgstr "Такої комбінації імені користувача і адреси електронної пошти не знайдено!"
 
-#: fas/user.py:1161
+#: fas/user.py:1128
 msgid "username + email combo unknown."
 msgstr "Невідоме системі поєднання імені користувача і адреси електронної пошти."
 
-#: fas/user.py:1164 fas/user.py:1257 fas/user.py:1305
+#: fas/user.py:1131 fas/user.py:1224 fas/user.py:1272
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
 msgstr ""
 
-#: fas/user.py:1171
+#: fas/user.py:1138
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
 msgstr ""
 
-#: fas/user.py:1175
+#: fas/user.py:1142
 msgid "Warning: attempted reset of system account"
-msgstr ""
+msgstr "Попередження: спроба скидання системного облікового запису"
 
-#: fas/user.py:1176
+#: fas/user.py:1143
 #, python-format
 msgid ""
 "\n"
@@ -1144,7 +1116,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr ""
 
-#: fas/user.py:1185
+#: fas/user.py:1152
 #, python-format
 msgid ""
 "\n"
@@ -1154,74 +1126,74 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr ""
 
-#: fas/user.py:1199
+#: fas/user.py:1166
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
 msgstr ""
 
-#: fas/user.py:1205
+#: fas/user.py:1172
 msgid "Your key could not be retrieved from subkeys.pgp.net"
 msgstr "Не вдалося отримати ваш ключ з subkeys.pgp.net"
 
-#: fas/user.py:1232
+#: fas/user.py:1199
 msgid "Your password reset email could not be encrypted."
-msgstr ""
+msgstr "Не вдалося зашифрувати ваше повідомлення щодо скидання пароля."
 
-#: fas/user.py:1235
+#: fas/user.py:1202
 msgid "Fedora Project Password Reset"
 msgstr "Скидання пароля до проекту Fedora"
 
-#: fas/user.py:1239
+#: fas/user.py:1206
 msgid "A password reset URL has been emailed to you."
 msgstr "Вам надіслано адресу сторінки скидання пароля."
 
-#: fas/user.py:1263
+#: fas/user.py:1230
 msgid "You don't have any pending password changes."
-msgstr ""
+msgstr "У черзі обробки немає жодних запитів щодо зміни пароля."
 
-#: fas/user.py:1267 fas/user.py:1319
+#: fas/user.py:1234 fas/user.py:1286
 msgid "Invalid password change token."
 msgstr "Некоректний ключ для зміни пароля."
 
-#: fas/user.py:1275
+#: fas/user.py:1242
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr ""
 
-#: fas/user.py:1301
+#: fas/user.py:1268
 msgid "Both passwords must match"
 msgstr "Паролі мають збігатися"
 
-#: fas/user.py:1313
+#: fas/user.py:1280
 msgid "You do not have any pending password changes."
 msgstr "У черзі обробки немає жодних запитів щодо зміни пароля."
 
-#: fas/user.py:1333
+#: fas/user.py:1300
 msgid "Your password can not be the same as your old password."
 msgstr "Ваш новий пароль має відрізнятися від старого пароля."
 
-#: fas/user.py:1349
+#: fas/user.py:1316
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr ""
 
-#: fas/user.py:1384
+#: fas/user.py:1351
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr ""
 
-#: fas/user.py:1454
+#: fas/user.py:1421
 msgid "Your certificate could not be generated."
 msgstr "Не вдалося створити ваш сертифікат."
 
-#: fas/user.py:1460
+#: fas/user.py:1427
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr "Створено новий сертифікат для %s"
 
-#: fas/user.py:1462
+#: fas/user.py:1429
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1231,7 +1203,7 @@ msgid ""
 "automatically revoked, and should stop working within the hour.\n"
 msgstr ""
 
-#: fas/user.py:1516
+#: fas/user.py:1483
 msgid "Your key has been removed."
 msgstr "Ваш ключ було вилучено."
 
@@ -1277,7 +1249,7 @@ msgstr ""
 #: fas/validators.py:180
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr ""
+msgstr "Помилка! Некоректний ключ SSH RSA: %(key)s"
 
 #: fas/validators.py:204
 #, python-format
@@ -1309,12 +1281,12 @@ msgstr ""
 
 #: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
-msgstr ""
+msgstr "Як вам відомо, злі хакери читають xkcd"
 
 #: fas/validators.py:242
 #, python-format
 msgid "libpwquality reports this is a weak password: %(pwq_msg)s"
-msgstr ""
+msgstr "libpwquality повідомлено про слабкість цього пароля: %(pwq_msg)s"
 
 #: fas/validators.py:299
 msgid ""
@@ -1323,24 +1295,24 @@ msgid ""
 " to submit this name."
 msgstr ""
 
-#: fas/model/fasmodel.py:194
+#: fas/model/fasmodel.py:190
 msgid "user is already in this group"
 msgstr "користувач вже є учасником цієї групи"
 
-#: fas/model/fasmodel.py:207 fas/model/fasmodel.py:222
-#: fas/model/fasmodel.py:278
+#: fas/model/fasmodel.py:203 fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:274
 msgid "user is not a member"
 msgstr "користувач не є учасником"
 
-#: fas/model/fasmodel.py:211
+#: fas/model/fasmodel.py:207
 msgid "administrators cannot be upgraded any further"
-msgstr ""
+msgstr "права адміністраторів нікуди розширювати"
 
-#: fas/model/fasmodel.py:226
+#: fas/model/fasmodel.py:222
 msgid "users cannot be downgraded any further"
-msgstr ""
+msgstr "подальше звуження прав просто неможливе"
 
-#: fas/model/fasmodel.py:235
+#: fas/model/fasmodel.py:231
 msgid "user is not an unapproved member"
 msgstr "користувач не є затвердженим учасником"
 
@@ -1350,7 +1322,7 @@ msgstr "Про FAS"
 
 #: fas/templates/about.html:10
 msgid "FAS - The Open Account System"
-msgstr ""
+msgstr "FAS — Відкрита система облікових записів"
 
 #: fas/templates/about.html:11
 msgid ""
@@ -1359,7 +1331,7 @@ msgid ""
 "what group, FAS is completely designed to be self operating per team.  Every"
 " group is given at least one administrator who can then approve other people"
 " in the group.  Also, unlike traditional account systems.  FAS allows people"
-" to apply for the groups they want to be in.  This paridigm is interesting "
+" to apply for the groups they want to be in.  This paradigm is interesting "
 "as it allows anyone to find out who is in what groups and contact them.  "
 "This openness is brought over from the same philosophies that make Open "
 "Source popular."
@@ -1408,12 +1380,12 @@ msgid "Error!"
 msgstr "Помилка!"
 
 #: fas/templates/error.html:18
-msgid "The following error(s) have occured with your request:"
-msgstr ""
+msgid "The following error(s) have occurred with your request:"
+msgstr "Під час обробки вашого запиту сталися такі помилки:"
 
 #: fas/templates/home.html:13
 msgid "To do queue:"
-msgstr ""
+msgstr "Черга завдань:"
 
 #: fas/templates/home.html:15
 #, python-format
@@ -1524,9 +1496,9 @@ msgstr "Версія FAS %s"
 #: fas/templates/master.html:101
 #, python-format
 msgid ""
-"© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
+"© 2012 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
-msgstr "© Red Hat, Inc., 2011. Будь ласка, надсилайте всі коментарі та прохання про виправлення <a href=\"mailto:%(webmaster)s\">команді розробників сайтів</a>."
+msgstr "© Red Hat, Inc., 2012. Будь ласка, надсилайте всі коментарі та прохання про виправлення <a href=\"mailto:%(webmaster)s\">команді розробників сайтів</a>."
 
 #: fas/templates/master.html:104
 msgid ""
@@ -1614,7 +1586,7 @@ msgstr "Вибір країни"
 
 #: fas/templates/fpca/index.html:62 fas/templates/user/edit.html:66
 msgid "If your country is not listed, select \"Other\""
-msgstr ""
+msgstr "Якщо вашої країни немає у списку, виберіть «Other» («Інша»)."
 
 #: fas/templates/fpca/index.html:65
 msgid ""
@@ -1712,7 +1684,7 @@ msgstr "Повідомлення приєднання:"
 msgid "Rules for Application:"
 msgstr "Правила запрошення:"
 
-#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:157
+#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:147
 msgid "Save!"
 msgstr "Зберегти!"
 
@@ -1773,7 +1745,7 @@ msgstr "Опис"
 msgid "Prerequisite"
 msgstr "Попередня вимога"
 
-#: fas/templates/group/list.html:29 fas/templates/user/edit.html:138
+#: fas/templates/group/list.html:29 fas/templates/user/edit.html:128
 msgid "Status"
 msgstr "Стан"
 
@@ -1783,12 +1755,12 @@ msgid "None"
 msgstr "Немає"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:157
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
 msgid "Approved"
 msgstr "Затверджено"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:158
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
 msgid "Unapproved"
 msgstr "Не затверджено"
 
@@ -1872,7 +1844,7 @@ msgstr "Повідомлення приєднання:"
 msgid "Create!"
 msgstr "Створити!"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:164
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
 msgid "View Group"
 msgstr "Переглянути групу"
 
@@ -1960,7 +1932,7 @@ msgstr ""
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
-msgstr ""
+msgstr "Офіційний сайт OpenID."
 
 #: fas/templates/openid/authorizesite.html:7
 #: fas/templates/openid/authorizesite.html:11
@@ -2160,15 +2132,15 @@ msgstr "Псевдонім у IRC"
 msgid "Time Zone"
 msgstr "Часовий пояс"
 
-#: fas/templates/user/edit.html:146
+#: fas/templates/user/edit.html:136
 msgid "Comments"
 msgstr "Коментарі"
 
-#: fas/templates/user/edit.html:152
+#: fas/templates/user/edit.html:142
 msgid "Privacy"
 msgstr "Конфіденційність"
 
-#: fas/templates/user/edit.html:158 fas/templates/user/verifyemail.html:17
+#: fas/templates/user/edit.html:148 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:18
 msgid "Cancel"
 msgstr "Скасувати"
@@ -2215,7 +2187,7 @@ msgstr ""
 msgid "Username"
 msgstr "Користувач"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:117
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
 msgid "CLA Done"
 msgstr "CLA завершено"
 
@@ -2264,7 +2236,7 @@ msgstr "Ел. пошта:"
 
 #: fas/templates/user/new.html:32
 msgid "Verify Email:"
-msgstr ""
+msgstr "Ел. пошта для перевірки:"
 
 #: fas/templates/user/new.html:37
 msgid "Security Question:"
@@ -2298,12 +2270,12 @@ msgstr "Скинути"
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
 msgid "Confirm Email Change Request"
-msgstr ""
+msgstr "Підтвердження запиту щодо зміни адреси електронної пошти"
 
 #: fas/templates/user/verifyemail.html:14
 #, python-format
 msgid "Do you really want to change your email to: %s?"
-msgstr ""
+msgstr "Ви справді хочете змінити адресу вашої електронної пошти на %s?"
 
 #: fas/templates/user/verifyemail.html:16
 msgid "Confirm"
@@ -2377,113 +2349,105 @@ msgid "Security question: "
 msgstr "Питання захисту: "
 
 #: fas/templates/user/view.html:87
-msgid "RSS blog:"
-msgstr ""
-
-#: fas/templates/user/view.html:93
-msgid "Avatar blog:"
-msgstr ""
-
-#: fas/templates/user/view.html:99
 msgid "Account Status:"
 msgstr "Стан облікового запису:"
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:90
 msgid "Active"
 msgstr "Активні"
 
-#: fas/templates/user/view.html:103
+#: fas/templates/user/view.html:91
 msgid "Inactive"
 msgstr "Неактивний"
 
-#: fas/templates/user/view.html:104
+#: fas/templates/user/view.html:92
 msgid "Pinged"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:93
 msgid "Disabled"
 msgstr "Вимкнено"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:98
 msgid "Contributor Agreement:"
 msgstr "Угода учасника:"
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:102
 msgid "CLA Signed"
 msgstr "CLA підписано"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:105
 msgid "New CLA Not Signed"
 msgstr "Нову CLA не підписано"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:106
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:106
 msgid "Complete it now!"
 msgstr "Завершіть зараз!"
 
-#: fas/templates/user/view.html:122
+#: fas/templates/user/view.html:110
 msgid "Reject FPCA"
 msgstr "Відкинути FPCA"
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:114
 msgid "Not Signed"
 msgstr "Не погоджено"
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:114
 msgid "Complete it!"
 msgstr ""
 
-#: fas/templates/user/view.html:129
+#: fas/templates/user/view.html:117
 msgid "Privacy:"
 msgstr "Конфіденційність:"
 
-#: fas/templates/user/view.html:131
+#: fas/templates/user/view.html:119
 msgid "Account Information Private"
 msgstr ""
 
-#: fas/templates/user/view.html:132
+#: fas/templates/user/view.html:120
 msgid "Account Information Public"
 msgstr ""
 
-#: fas/templates/user/view.html:137
+#: fas/templates/user/view.html:125
 msgid "Your Roles"
 msgstr "Ваші ролі"
 
-#: fas/templates/user/view.html:138
+#: fas/templates/user/view.html:126
 #, python-format
 msgid "%s's Roles"
 msgstr "Ролі %s"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:143
 msgid "Status:"
 msgstr "Стан:"
 
-#: fas/templates/user/view.html:161
+#: fas/templates/user/view.html:149
 msgid "Tools:"
 msgstr "Інструменти:"
 
-#: fas/templates/user/view.html:165
+#: fas/templates/user/view.html:153
 msgid "Invite a New Member..."
 msgstr "Запросити нового учасника…"
 
-#: fas/templates/user/view.html:166
+#: fas/templates/user/view.html:154
 msgid "Manage Group Membership..."
 msgstr "Керувати участю у групі…"
 
-#: fas/templates/user/view.html:167
+#: fas/templates/user/view.html:155
 msgid "Manage Group Details..."
 msgstr "Керування параметрами групи…"
 
-#: fas/templates/user/view.html:171
+#: fas/templates/user/view.html:159
 msgid "Queue:"
 msgstr "Черга:"
 
-#: fas/templates/user/view.html:175
+#: fas/templates/user/view.html:163
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
 "<strong>%(unapproved_role.group)s</strong>."
-msgstr ""
+msgstr "<strong>%(user)s</strong> надіслано запит щодо підтвердження участі у <strong>%(unapproved_role.group)s</strong>."

@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alick Zhao <alick9188@gmail.com>, 2012.
+# Christopher Meng <cickumqt@gmail.com>, 2012.
 #   <fanwuming163@163.com>, 2011.
 # Mike Ma <zhtx10@gmail.com>, 2011.
 # TianShixiong <tiansworld@gmail.com>, 2008, 2009, 2010.
@@ -13,21 +14,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
-"POT-Creation-Date: 2012-08-30 21:27-0400\n"
-"PO-Revision-Date: 2012-08-31 01:28+0000\n"
-"Last-Translator: Ricky Elrod <ricky@elrod.me>\n"
+"POT-Creation-Date: 2012-09-19 07:35-0700\n"
+"PO-Revision-Date: 2012-09-24 13:16+0000\n"
+"Last-Translator: Christopher Meng <cickumqt@gmail.com>\n"
 "Language-Team: Chinese (China) <trans-zh_cn@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: fas/auth.py:360
 #, python-format
 msgid "%s membership required before application to this group is allowed"
-msgstr "在申请加入此组之前您要成为 %s 成员"
+msgstr "在申请加入此组之前您要成为 %s 的成员"
 
 #: fas/configs.py:126
 #, python-format
@@ -59,7 +60,7 @@ msgid ""
 "%(admin_email)sadmin_email"
 msgstr "您的账户已停用。要了解更多信息，请联系 %(admin_email)sadmin_email"
 
-#: fas/controllers.py:235
+#: fas/controllers.py:222
 #, python-format
 msgid "The language '%s' is not available."
 msgstr "语言 '%s' 不存在。"
@@ -83,7 +84,7 @@ msgstr "完成 FPCA 需要有效的国家/地区代码和电话号码。请在�
 
 #: fas/fpca.py:165
 msgid "You are not allowed to reject FPCAs."
-msgstr "您不能拒绝 FPCAs。"
+msgstr "您不能拒绝 FPCA。"
 
 #: fas/fpca.py:176
 #, python-format
@@ -120,15 +121,15 @@ msgstr "要完成 FPCA，您必须提供您的电话号码和所在国家或地�
 
 #: fas/fpca.py:295
 msgid ""
-"To complete the FPCA, a valid country codemust be specified.  Please select "
+"To complete the FPCA, a valid country code must be specified. Please select "
 "one now."
 msgstr "要完成 FPCA，需要指定有效的国家或地区代码。请选择。"
 
 #: fas/fpca.py:299
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
-"or \" \".  Please reenter usingonly those characters."
-msgstr "电话号码只允许包括数字、“-”、“+”、“(\"、”)“、或“ ”。  请仅使用这些字符输入。"
+"or \" \". Please reenter using only those characters."
+msgstr "电话号码只允许包括数字、“-”、“+”、“(\"、”)“、或“ ”。请仅使用这些字符重新输入。"
 
 #: fas/fpca.py:320 fas/fpca.py:334
 #, python-format
@@ -138,7 +139,7 @@ msgstr "您不能加入到 '%s' 组。"
 #: fas/fpca.py:330
 #, python-format
 msgid "You are already a part of the '%s' group."
-msgstr "您已成为 '%s' 组的成员。"
+msgstr "您已经是 '%s' 组的成员。"
 
 #: fas/fpca.py:372
 #, python-format
@@ -152,8 +153,8 @@ msgid "You cannot view '%s'"
 msgstr "您不能浏览 '%s'。"
 
 #: fas/group.py:243 fas/group.py:261
-msgid "Only FAS adminstrators can create groups."
-msgstr "只有 FAS 管理员才可以创建组。"
+msgid "Only FAS administrators can create groups."
+msgstr "只有 FAS 管理员可以创建组。"
 
 #: fas/group.py:286
 #, python-format
@@ -213,7 +214,7 @@ msgid ""
 "membership for %(applicant)s in the %(group)s group and needs a sponsor.\n"
 "\n"
 "Please go to %(url)s to take action.  \n"
-msgstr "\nFedora用户%(user)s <%(email)s>请求加入%(group)s组中的%(applicant)s，\n该用户需要一个推荐人。\n请到%(url)s完成下一步。  \n"
+msgstr "\nFedora 用户 %(user)s <%(email)s> 请求加入 %(group)s 组中的 %(applicant)s，\n该用户需要一个推荐人。\n\n\n请到 %(url)s 完成下一步。  \n"
 
 #: fas/group.py:489
 #, python-format
@@ -266,7 +267,7 @@ msgstr "已保荐 '%s' !"
 #: fas/group.py:574
 #, python-format
 msgid "You cannot remove '%(user)s' from '%(group)s'."
-msgstr "您不能从'%(group)s' 中删除 '%(user)s'。"
+msgstr "您不能从 '%(group)s' 中删除 '%(user)s'。"
 
 #: fas/group.py:582
 #, python-format
@@ -286,7 +287,7 @@ msgid ""
 "group of the Fedora Accounts System This change is effective\n"
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
-msgstr "\n%(user)s <%(email)s> 已将您从Fedora账户系统的 '%(group)s'\n组中删除. 此变更在有新操作时将立即生效, 并在一小时内发送到关\n联的电子邮件地址.\n"
+msgstr "\n%(user)s <%(email)s> 已将您从 Fedora 账户系统的 '%(group)s'\n组中删除。 此变更在有新操作时将立即生效， 并在一小时内发送到关\n联的电子邮件地址。\n"
 
 #: fas/group.py:605
 #, python-format
@@ -363,17 +364,17 @@ msgstr "消息发送至：%s"
 msgid "You are not in the '%s' group."
 msgstr "您没有加入 '%s' 组。"
 
-#: fas/help.py:26 fas/help.py:80
+#: fas/help.py:26 fas/help.py:78
 msgid "Error"
 msgstr "错误"
 
-#: fas/help.py:26 fas/help.py:80
+#: fas/help.py:26 fas/help.py:78
 msgid "<p>We could not find that help item</p>"
 msgstr "<p>我们无法找到该帮助项</p>"
 
 #: fas/help.py:27
 msgid "Accuracy of FPCA Information"
-msgstr "准确的FPCA信息"
+msgstr "准确的 FPCA 信息"
 
 #: fas/help.py:27
 msgid ""
@@ -403,10 +404,10 @@ msgstr "电子邮件（必填）"
 
 #: fas/help.py:29
 msgid ""
-"<p>This email address should be your prefered email contact and will be used"
-" to send various official emails to.  This is also where your "
+"<p>This email address should be your preferred email contact and will be "
+"used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
-msgstr "<p>此电子邮件地址应是您的常用电子邮件并会被用来发送大量官方邮件。这也是您 @fedoraproject.org 的邮件转发地址</p>"
+msgstr "<p>此电子邮件地址应是您的常用电子邮件，它会被用来发送各种官方邮件。这也是您 @fedoraproject.org 的邮件转发目的地址</p>"
 
 #: fas/help.py:30
 msgid "Security question (Required)"
@@ -418,7 +419,7 @@ msgid ""
 "address. You can email the admins, and they will ask you this question, and "
 "confirm you give the correct answer, before resetting your password/email "
 "address</p>"
-msgstr ""
+msgstr "<p>安全问题被用于无法登陆您的邮箱时的验证。当您无法登陆时，您可以发送邮件给管理员请求重设密码，然后他们会询问您的安全问题，在确认您的答案是正确的之后，将会重设您的密码/登陆邮箱。</p>"
 
 #: fas/help.py:31
 msgid "Full Name (Required)"
@@ -430,14 +431,14 @@ msgstr "<p>您的真实姓名</p>"
 
 #: fas/help.py:32 fas/templates/user/edit.html:100
 msgid "GPG Key ID"
-msgstr "GPG 密匙 ID"
+msgstr "GPG 密钥 ID"
 
 #: fas/help.py:32
 msgid ""
 "<p>A GPG key is generally used to prove that a message or email came from "
 "you or to encrypt information so that only the recipients can read it.  This"
 " can be used when a password reset is sent to your email.</p>"
-msgstr "<p>GPG 密匙一般用来验证来自您的消息或邮件或者用来加密信息以使得只对接收者可见。当您的密码重设信息发到您的电子邮箱时就会用到。</p>"
+msgstr "<p>GPG 密钥一般用来验证来自您的消息或邮件或者用来加密信息以使得只对接收者可见。当您的密码重设信息发到您的电子邮箱时就会用到。</p>"
 
 #: fas/help.py:33
 msgid "Telephone"
@@ -489,7 +490,7 @@ msgstr "账户状态"
 msgid ""
 "<p>Shows account status, possible values "
 "include<ul><li>active</li><li>inactive</li></ul></p>"
-msgstr "<p>显示账户装态，可能的值为<ul><li>活动</li><li>非活动</li></ul></p>"
+msgstr "<p>显示账户装态，可能的值为<ul><li>活跃</li><li>不活跃</li></ul></p>"
 
 #: fas/help.py:38
 msgid "FPCA"
@@ -503,7 +504,7 @@ msgid ""
 "between you and Red Hat.  Full status allows people to contribute content "
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
-msgstr "<p>如果你想成为一个真正的Fedora贡献者，必须在<a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora计划贡献者协议</a>。  此许可是你和Red Hat（红帽子）法律协议。  完整的状态允许人们贡献内容和代码，并且推荐给任何有兴趣参与到Fedora计划中的人们。</p>"
+msgstr "<p>如果您想成为一个真正的 Fedora 贡献人员，您必须签署<a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora 项目贡献人员协议</a>。  此许可是您和 Red Hat (红帽) 之间的法律协议。  拥有良好的状态的人们会贡献内容和代码，我们希望任何这样的人能够加入。</p>"
 
 #: fas/help.py:39 fas/templates/user/edit.html:105
 msgid "Public RSA SSH Key"
@@ -518,7 +519,7 @@ msgid ""
 " wish to login through several hosts, each with their own public key, you "
 "can create a concatenated file of public ssh keys and upload it in lieu of "
 "the individual ssh public key.</p>"
-msgstr "<p>许多资源需要公开密钥授权才能工作。  上传你的公开密钥，便可登录到我们的服务器当中。    输入\"man ssh-keygen\"了解更多关于如何创建你的密钥（必须是RSA密钥）。  一旦创建成功，你便可进行上传~/.ssh/id_rsa.pub。 <br /><br />如果你想通过不同的主机进行登录，每一个主机使用自己的公开密钥， 你可以创建一个公开的ssh密钥连锁文件，并将其上传到个人ssh公开密钥库中。</p>"
+msgstr "<p>许多资源需要公钥验证才能工作。通过上传公钥，您就可以登录我们的服务器。输入“man ssh-keygen”可以了解更多关于如何创建密钥 (必须是 RSA 密钥) 的信息。  一旦创建成功，您就可以将 ~/.ssh/id_rsa.pub 文件上传。 <br /><br />如果您想通过不同的主机登录，而每个都有独立的公钥，那么您可以创建一个拥有多个 ssh 公钥的集合文件，并将该文件上传以代替单个的 ssh 公钥文件。</p>"
 
 #: fas/help.py:40 fas/templates/user/edit.html:121
 msgid "Locale"
@@ -622,11 +623,11 @@ msgstr "保荐"
 
 #: fas/help.py:49
 msgid ""
-"<p>A sponsor or administrator can sponsor users to be in a gruop.  Once the "
+"<p>A sponsor or administrator can sponsor users to be in a group.  Once the "
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
-msgstr "<p>保荐人或管理员可保荐用户加入到组中。一旦用户申请加入到组中，请到组页面并点批准来担保该用户。保荐用户意味着您在批准一个用户并要指导和回答他们的问题。</p>"
+msgstr "<p>保荐人或管理员可将用户保荐到某个组中。一旦用户申请加入某个组，请到组页面并点批准来保荐该用户。保荐用户意味着您在批准一个用户并会针对他们遇到的问题进行指导和回答。</p>"
 
 #: fas/help.py:50
 msgid "Add User"
@@ -813,26 +814,9 @@ msgstr "申请规则"
 
 #: fas/help.py:67
 msgid ""
-"<p>Rules or steps that applicants should follow before appliying to your "
+"<p>Rules or steps that applicants should follow before applying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
 msgstr "<p>在申请加入您的组之前申请者应遵守的规则及步骤。这会在用户申请加入您的组之前显示。</p>"
-
-#: fas/help.py:68 fas/templates/user/edit.html:128
-msgid "RSS blog"
-msgstr "RSS 博客"
-
-#: fas/help.py:68
-msgid "<p>Link to the RSS feed of your blog</p>"
-msgstr "<p>到您博客 RSS 源的链接</p>"
-
-#: fas/help.py:69 fas/templates/user/edit.html:133
-msgid "Avatar blog"
-msgstr "Avatar 博客"
-
-#: fas/help.py:69
-msgid ""
-"<p>Link to the avatar/hackergotchi you would like to use on your blog</p>"
-msgstr ""
 
 #: fas/openid_samadhi.py:80
 msgid "This OpenID will not be active until the user has signed the CLA."
@@ -865,40 +849,40 @@ msgstr "组列表"
 msgid "Join a Group"
 msgstr "加入组"
 
-#: fas/user.py:92
+#: fas/user.py:86
 msgid "Solve the math problem"
 msgstr "解答该此数学题目"
 
-#: fas/user.py:298
+#: fas/user.py:292
 #, python-format
 msgid "You cannot edit %s"
 msgstr "您不能编辑 %s"
 
-#: fas/user.py:349
+#: fas/user.py:334
 #, python-format
 msgid "You do not have permission to edit '%s'"
 msgstr "您没有权限编辑 '%s'"
 
-#: fas/user.py:358
+#: fas/user.py:343
 msgid "Only admin can enable or disable an account."
 msgstr "只有管理员才可以启用或停用账户。"
 
-#: fas/user.py:383
+#: fas/user.py:368
 msgid "Somebody is already using that email address."
 msgstr "已有用户使用那个邮件地址。"
 
-#: fas/user.py:388
+#: fas/user.py:373
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
 msgstr "在您的新邮件地址生效之前，您必须进行确认。您将会收到一封有简短介绍的邮件。"
 
-#: fas/user.py:395
+#: fas/user.py:380
 #, python-format
 msgid "Email Change Requested for %s"
 msgstr "%s 的更换电子邮件请求"
 
-#: fas/user.py:397
+#: fas/user.py:382
 #, python-format
 msgid ""
 "\n"
@@ -910,26 +894,17 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 msgstr "\n您最近申请将 Fedora 用户系统的邮件地址变更为此地址。  要完成该变更，您必须通过访问以下 URL（您首先要登录您的 Fedora 用户。）确认您对该电子邮件地址的所有权：\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
-#: fas/user.py:427
-msgid "The provided RSS feed for your blog does not seem to be a valid url"
-msgstr ""
-
-#: fas/user.py:433
-msgid ""
-"The provided hatergochi for your avatar does not seem to be a valid url"
-msgstr ""
-
-#: fas/user.py:436
+#: fas/user.py:409
 #, python-format
 msgid "Your account details could not be saved: %s"
 msgstr "您的账户信息无法保存：%s"
 
-#: fas/user.py:442
+#: fas/user.py:414
 #, python-format
 msgid "Fedora Account Data Update %s"
 msgstr "Fedora 账户数据更新 %s"
 
-#: fas/user.py:444
+#: fas/user.py:416
 #, python-format
 msgid ""
 "\n"
@@ -949,52 +924,50 @@ msgid ""
 "  privacy flag:   %(privacy)s\n"
 "  ssh_key:        %(ssh_key)s\n"
 "  gpg_keyid:      %(gpg_keyid)s\n"
-"  blog_rss:       %(blog_rss)s\n"
-"  blog_avatar:    %(blog_avatar)s\n"
 "\n"
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr "\n您更新了您的用户信息。如果您并没有修改这些信息，请联系 admin@fedoraproject.org 并告知他们。您的信息更新如下：\n\n  用户名：       %(username)s\n  irc 昵称：        %(ircnick)s\n  电话：      %(telephone)s\n  地区：         %(locale)s\n  邮政地址： %(postal_address)s\n  时区：      %(timezone)s\n  国家/地区编码：   %(country_code)s\n  纬度：       %(latitude)s\n  经度：      %(longitude)s\n  隐私标记：   %(privacy)s\n  ssh_key：       %(ssh_key)s\n  gpg_keyid：      %(gpg_keyid)s\n  博客 RSS：       %(blog_rss)s\n  博客头像：         %(blog_avatar)s\n\n如果以上信息有误，请登录并修改：\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
+msgstr "\n您更新了您的用户信息。如果您并没有修改这些信息，请联系 admin@fedoraproject.org 并告知他们。您的信息更新如下：\n\n\n  用户名：       %(username)s\n  irc 昵称：        %(ircnick)s\n  电话：      %(telephone)s\n  地区：         %(locale)s\n  邮政地址： %(postal_address)s\n  时区：      %(timezone)s\n  国家/地区编码：   %(country_code)s\n  纬度：       %(latitude)s\n  经度：      %(longitude)s\n  隐私标记：   %(privacy)s\n  ssh 密钥：       %(ssh_key)s\n  gpg_keyid：      %(gpg_keyid)s\n\n\n如果以上信息有误，请登录并修改：\n\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
-#: fas/user.py:483
+#: fas/user.py:451
 msgid "Your account details have been saved."
 msgstr "您的账户信息已被保存。"
 
-#: fas/user.py:735
+#: fas/user.py:702
 #, python-format
 msgid "Invalid field specified: %(error)s"
 msgstr "指定字段无效：%(error)s"
 
-#: fas/user.py:749
+#: fas/user.py:716
 #, python-format
 msgid "No users found matching '%s'"
 msgstr "没有符合 '%s' 的用户"
 
-#: fas/user.py:797
+#: fas/user.py:764
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
 msgstr "已取消待完成的电子邮件变更。   邮件变更无效。"
 
-#: fas/user.py:802 fas/user.py:824
+#: fas/user.py:769 fas/user.py:791
 msgid "You do not have any pending email changes."
 msgstr "您没有待保存的邮件更改。"
 
-#: fas/user.py:806 fas/user.py:828
+#: fas/user.py:773 fas/user.py:795
 msgid "Invalid email change token."
 msgstr "无效的电子邮件变更。"
 
-#: fas/user.py:838
+#: fas/user.py:805
 #, python-format
 msgid "You have successfully changed your email to '%s'"
 msgstr "您已成功修改邮件地址为 '%s'"
 
-#: fas/user.py:853
+#: fas/user.py:820
 msgid "No need to sign up, you have an account!"
 msgstr "无需注册，您已有账户！"
 
-#: fas/user.py:885 fas/user.py:941
+#: fas/user.py:852 fas/user.py:908
 msgid ""
 "We're sorry but out of special concern for children's privacy, we do not "
 "knowingly accept online personal information from children under the age of "
@@ -1004,32 +977,32 @@ msgid ""
 "under 13."
 msgstr "我们表示歉意但出于对儿童隐私的考虑，我们并非有意接受 13 岁以下儿童的个人信息。并非有意允许 13 岁以下儿童注册成为本站点成员或购买本站点的服务及产品。并非有意搜集或诱惑未满 13 岁儿童的个人信息。"
 
-#: fas/user.py:897 fas/user.py:952
+#: fas/user.py:864 fas/user.py:919
 msgid ""
 "Sorry.  That email address is already in use. Perhaps you forgot your "
 "password?"
 msgstr "很抱歉。该邮件地址已经使用。或许您忘记了密码？"
 
-#: fas/user.py:903
+#: fas/user.py:870
 msgid "Sorry.  Email addresses do not match"
 msgstr "对不起。  电子邮件地址不匹配"
 
-#: fas/user.py:910
+#: fas/user.py:877
 #, python-format
 msgid "Your account could not be created.  Please contact %s for assistance."
 msgstr "您的帐户无法创建。请联系 %s 获取帮助。"
 
-#: fas/user.py:917
+#: fas/user.py:884
 msgid ""
 "Your password has been emailed to you.  Please log in with it and change "
 "your password"
 msgstr "您的密码已以电子邮件形式发送给您。请用该密码登录后再修改您的密码。"
 
-#: fas/user.py:969
+#: fas/user.py:936
 msgid "Welcome to the Fedora Project!"
 msgstr "欢迎来到 Fedora 项目！"
 
-#: fas/user.py:969
+#: fas/user.py:936
 #, python-format
 msgid ""
 "\n"
@@ -1077,71 +1050,71 @@ msgid ""
 "\n"
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
-msgstr ""
+msgstr "\n您已创建一个新的 Fedora 账户！\n您的帐户名是：%(username)s\n您的新密码是：%(password)s\n\n\n请到 %(base_url)s%(webpath)s/user/changepass 修改。\n\n\n欢迎来到 Fedora 项目。现在您已注册了一个账户，想必您已迫不及待的要开始做些贡献了，也是由于这一点，我们希望通过这封邮件正确地引导您，使得贡献的的过程变得尽可能的简单。\n\n\nFedora 是一个令人兴奋的项目，它包括了诸多事项。您可通过多种多样的方式，使用各种技能来贡献。要查找众多您可以为 Fedora 贡献的方式，您可以访问我们的加入页面，此页面介绍了现有不同贡献角色的更多信息。\n\n\nhttp://join.fedoraproject.org/\n\n\n如果您已了解如何贡献 Fedora，并找到了与您兴趣相关的小组，那么还需要另外几个步骤。\n\n\n这些步骤之中最重要的是要订阅您所感兴趣的小组或项目的邮件列表。\n\n如果您对多个小组的工作有兴趣，则可尽您所愿的加入到更多的邮件列表中！这是因为邮件列表是组织多数工作和任务的地方，所以可确保信息的时效性。\n\n\n在这一步完成之后，比较好的做法是向邮件列表发一个简短的自我介绍以便其他人了解您的经历以及您要如何帮助。从这里开始，现有成员便可以帮您找到做为一位 Fedora 贡献人员所应有的位置。\n\n\n请记住，您所加入的社区由来自世界各地的爱好者组成，因此请您留步阅读一下社区行为准则。\n\n\nhttps://fedoraproject.org/code-of-conduct\n\n\n最后，Fedora 项目的所有成员期待与您一起工作！\n"
 
-#: fas/user.py:1046 fas/user.py:1096
+#: fas/user.py:1013 fas/user.py:1063
 msgid "Your current password did not match"
 msgstr "您当前的密码不一致"
 
-#: fas/user.py:1057
+#: fas/user.py:1024
 msgid "Your security question could not be changed."
-msgstr "您的安全问题不能修改。"
+msgstr "无法修改您的安全问题。"
 
-#: fas/user.py:1060
+#: fas/user.py:1027
 msgid "Your security question has been changed."
-msgstr "您的安全问题已经修改。"
+msgstr "成功修改您的安全问题。"
 
-#: fas/user.py:1089
+#: fas/user.py:1056
 msgid "passwords did not match"
 msgstr "密码不一致"
 
-#: fas/user.py:1100
+#: fas/user.py:1067
 msgid "Your new password cannot be the same as your old one."
 msgstr "新密码不能和旧密码相同。"
 
-#: fas/user.py:1115
+#: fas/user.py:1082
 msgid "Your password could not be changed."
 msgstr "您的密码无法更改。"
 
-#: fas/user.py:1118
+#: fas/user.py:1085
 msgid "Your password has been changed."
 msgstr "您的密码已更改。"
 
-#: fas/user.py:1134
+#: fas/user.py:1101
 msgid "You are already logged in!"
 msgstr "您已登录！"
 
-#: fas/user.py:1151
+#: fas/user.py:1118
 msgid "You are already logged in."
 msgstr "您已经登录。"
 
-#: fas/user.py:1157
+#: fas/user.py:1124
 msgid "Username email combo does not exist!"
 msgstr "该用户名邮件组合不存在！"
 
-#: fas/user.py:1161
+#: fas/user.py:1128
 msgid "username + email combo unknown."
 msgstr "未知用户名+电子邮件组合。"
 
-#: fas/user.py:1164 fas/user.py:1257 fas/user.py:1305
+#: fas/user.py:1131 fas/user.py:1224 fas/user.py:1272
 #, python-format
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
 msgstr "您的账户当前状态是 %(status)s。要了解更多信息，请联系 %(admin_email)s"
 
-#: fas/user.py:1171
+#: fas/user.py:1138
 #, python-format
 msgid ""
 "System accounts cannot have their passwords reset online.  Please contact "
 "%(admin_email)s to have it reset"
 msgstr "系统帐户无法在线重设密码。请联系 %(admin_email)s 重新设置"
 
-#: fas/user.py:1175
+#: fas/user.py:1142
 msgid "Warning: attempted reset of system account"
 msgstr "警告：企图重设系统账户"
 
-#: fas/user.py:1176
+#: fas/user.py:1143
 #, python-format
 msgid ""
 "\n"
@@ -1149,7 +1122,7 @@ msgid ""
 "%(account)s via the web interface.\n"
 msgstr "\n警告：有人通过网络企图重设系统账户 %(account)s 的密码。\n"
 
-#: fas/user.py:1185
+#: fas/user.py:1152
 #, python-format
 msgid ""
 "\n"
@@ -1159,74 +1132,74 @@ msgid ""
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 msgstr "\n有人（希望是您）请求重设您的账户密码！\n要修改密码（或取消该请求），请访问\n\n%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
-#: fas/user.py:1199
+#: fas/user.py:1166
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
-msgstr "此用户没有 GPG 密匙 ID，因此无法发送加密邮件。"
+msgstr "此用户没有 GPG 密钥 ID，因此无法发送加密邮件。"
 
-#: fas/user.py:1205
+#: fas/user.py:1172
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr "您的密匙无法从 subeys.pgp.net 恢复"
+msgstr "您的密钥无法从 subeys.pgp.net 恢复"
 
-#: fas/user.py:1232
+#: fas/user.py:1199
 msgid "Your password reset email could not be encrypted."
 msgstr "您的密码重设邮件不能加密。"
 
-#: fas/user.py:1235
+#: fas/user.py:1202
 msgid "Fedora Project Password Reset"
 msgstr "Fedora 项目密码重设"
 
-#: fas/user.py:1239
+#: fas/user.py:1206
 msgid "A password reset URL has been emailed to you."
 msgstr "密码重设链接已通过电子邮件发送给您。"
 
-#: fas/user.py:1263
+#: fas/user.py:1230
 msgid "You don't have any pending password changes."
 msgstr "您没有待完成的密码变更。"
 
-#: fas/user.py:1267 fas/user.py:1319
+#: fas/user.py:1234 fas/user.py:1286
 msgid "Invalid password change token."
 msgstr "无效的密码更改。"
 
-#: fas/user.py:1275
+#: fas/user.py:1242
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
 msgstr "您已取消密码重设。密码更改无效。"
 
-#: fas/user.py:1301
+#: fas/user.py:1268
 msgid "Both passwords must match"
 msgstr "两个密码要一致"
 
-#: fas/user.py:1313
+#: fas/user.py:1280
 msgid "You do not have any pending password changes."
 msgstr "您没有待保存的密码更改。"
 
-#: fas/user.py:1333
+#: fas/user.py:1300
 msgid "Your password can not be the same as your old password."
 msgstr "您的密码不能跟旧密码相同。"
 
-#: fas/user.py:1349
+#: fas/user.py:1316
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
 msgstr "您已成功重设密码。现在您可以在下面登录。"
 
-#: fas/user.py:1384
+#: fas/user.py:1351
 msgid "Before generating a certificate, you must first complete the FPCA."
 msgstr "在生成证书前，您必须先完成 FPCA。"
 
-#: fas/user.py:1454
+#: fas/user.py:1421
 msgid "Your certificate could not be generated."
 msgstr "您的证书无法生成。"
 
-#: fas/user.py:1460
+#: fas/user.py:1427
 #, python-format
 msgid "A new certificate has been generated for %s"
 msgstr "已经为 %s 生成新证书"
 
-#: fas/user.py:1462
+#: fas/user.py:1429
 msgid ""
 "\n"
 "You have generated a new SSL certificate.  If you did not request this,\n"
@@ -1236,7 +1209,7 @@ msgid ""
 "automatically revoked, and should stop working within the hour.\n"
 msgstr "\n您已生成了新 SSL 证书。  如果您并没有这么做，\n请通过 admin@fedoraproject.org 告知他们。\n\n请注意此证书之前的证书已经自动吊销，\n并会在一小时内停止作用。\n"
 
-#: fas/user.py:1516
+#: fas/user.py:1483
 msgid "Your key has been removed."
 msgstr "您的密钥已删除。"
 
@@ -1282,7 +1255,7 @@ msgstr "为防止邮件循环，您的电子邮件地址不能是 @fedoraproject
 #: fas/validators.py:180
 #, python-format
 msgid "Error - Not a valid RSA SSH key: %(key)s"
-msgstr "错误 - 不是一个有效的 RSA SSH 密匙：%(key)s"
+msgstr "错误 - 不是一个有效的 RSA SSH 密钥：%(key)s"
 
 #: fas/validators.py:204
 #, python-format
@@ -1314,38 +1287,38 @@ msgstr "密码必须符合特定的强度要求。 如果密码由符号，大�
 
 #: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
-msgstr "如果你知道黑客已获得xkcd"
+msgstr "如果您知道黑客已获得 xkcd"
 
 #: fas/validators.py:242
 #, python-format
 msgid "libpwquality reports this is a weak password: %(pwq_msg)s"
-msgstr ""
+msgstr "libpwquality 报告这是一个弱强度的密码: %(pwq_msg)s"
 
 #: fas/validators.py:299
 msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
 " to submit this name."
-msgstr "需要使用完整的姓名，而不仅仅是首字母。  如果你的全名只有一个字母，你可能需要检查复选框用以上传此姓名。"
+msgstr "需要使用完整的姓名，而不仅仅是首字母。  如果您的全名只有一个字母，您可能需要勾上复选框以提交此姓名。"
 
-#: fas/model/fasmodel.py:194
+#: fas/model/fasmodel.py:190
 msgid "user is already in this group"
 msgstr "此用户已在此组中"
 
-#: fas/model/fasmodel.py:207 fas/model/fasmodel.py:222
-#: fas/model/fasmodel.py:278
+#: fas/model/fasmodel.py:203 fas/model/fasmodel.py:218
+#: fas/model/fasmodel.py:274
 msgid "user is not a member"
 msgstr "此用户不是成员"
 
-#: fas/model/fasmodel.py:211
+#: fas/model/fasmodel.py:207
 msgid "administrators cannot be upgraded any further"
 msgstr "管理员无法再升级"
 
-#: fas/model/fasmodel.py:226
+#: fas/model/fasmodel.py:222
 msgid "users cannot be downgraded any further"
 msgstr "用户无法再降级"
 
-#: fas/model/fasmodel.py:235
+#: fas/model/fasmodel.py:231
 msgid "user is not an unapproved member"
 msgstr "用户不是未批准成员"
 
@@ -1364,11 +1337,11 @@ msgid ""
 "what group, FAS is completely designed to be self operating per team.  Every"
 " group is given at least one administrator who can then approve other people"
 " in the group.  Also, unlike traditional account systems.  FAS allows people"
-" to apply for the groups they want to be in.  This paridigm is interesting "
+" to apply for the groups they want to be in.  This paradigm is interesting "
 "as it allows anyone to find out who is in what groups and contact them.  "
 "This openness is brought over from the same philosophies that make Open "
 "Source popular."
-msgstr "FAS 是以开放构架创建的。与传统账户系统那样通过单个管理员或管理组来决定谁该加入某个组不同，FAS 是完全建立在各组自主操作上的。每个组中均至少有一个管理员来批准此组中其他成员的加入。同时与传统账户系统不同的是。FAS 允许成员加入到他们想要加入的组。这也是此方式有趣的原因所在即它允许任何人来寻找某个人在什么组中并与他联系。这种开放也是通过使得开源变的如此流行的宗旨而得来的。"
+msgstr "FAS 是以开放构架创建的。它与传统账户系统那样通过单个管理员或管理组成员来决定谁该加入某个组不同，FAS 是完全建立在各组自主操作上的。每个组中均至少有一个管理员来批准此组中其他成员的加入。此外与传统账户系统不同的还有，FAS 允许成员加入到他们想要加入的组。这也是此方式有趣的原因所在，即它允许任何人来寻找某个人在什么组中并与他联系。这种开放性同样是由让开源变得如此流行的理念带来的。"
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
@@ -1385,7 +1358,7 @@ msgid ""
 "participating on the mailing list.  Sometimes this process can take weeks "
 "depending on the group.  It's best to know you will get sponsored before you"
 " apply."
-msgstr "各位不能假设通过申请加入某个组就会进入那个组。想想它像是在应聘另一份工作一样。通常要有段时间。为了提高成功的可能性，不妨先了解一下您要申请加入的组并能结识组内的某个成员。找找具有担保或管理权限的成员询问一下他们是否有时间指导您。准备好至少几天的时间了解组的情况，做一些简单的工作，加入到邮件列表中。根据各组情况的不同，这个过程可能会持续几周。最好是在您申请之前能够获知您已被保荐。"
+msgstr "各位不能假设通过申请加入某个组就会进入那个组。想想它像是在应聘另一份工作一样。通常要有段时间。为了提高成功的可能性，不妨先了解一下您要申请加入的组并能结识组内的某个成员。找找具有担保或管理权限的成员询问一下他们是否有时间指导您。准备好至少几天的时间了解组的情况，做一些简单的工作，加入到邮件列表中。根据各组情况的不同，这个过程可能会持续几周。最好是在您申请之前就能够知道您会被保荐。"
 
 #: fas/templates/about.html:14
 msgid "Users, Sponsors, Administrators"
@@ -1413,7 +1386,7 @@ msgid "Error!"
 msgstr "错误！"
 
 #: fas/templates/error.html:18
-msgid "The following error(s) have occured with your request:"
+msgid "The following error(s) have occurred with your request:"
 msgstr "您的请求发生如下错误："
 
 #: fas/templates/home.html:13
@@ -1432,7 +1405,7 @@ msgstr "未完成 FPCA。  要拥有完整的 Fedora 贡献人员资格，请<a 
 msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH key."
 "  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr "您还未提交 SSH 密匙，某些 Fedora 资源需要它。请修改<a href=\"%s\">我的账户</a>提交"
+msgstr "您还未提交 SSH 密钥，某些 Fedora 资源需要它。请修改<a href=\"%s\">我的账户</a>提交"
 
 #: fas/templates/home.html:22
 #, python-format
@@ -1467,7 +1440,7 @@ msgstr "下载 Fedora"
 
 #: fas/templates/master.html:45
 msgid "Projects"
-msgstr "项目"
+msgstr "项目维基"
 
 #: fas/templates/master.html:46
 msgid "Join Fedora"
@@ -1483,7 +1456,7 @@ msgstr "帮助/文档"
 
 #: fas/templates/master.html:49
 msgid "Code of Conduct"
-msgstr ""
+msgstr "行为准则"
 
 #: fas/templates/master.html:55
 msgid "Logged in:"
@@ -1529,9 +1502,9 @@ msgstr "FAS 版本 %s"
 #: fas/templates/master.html:101
 #, python-format
 msgid ""
-"© 2011 Red Hat, Inc.  Please send any comments or corrections to the <a "
+"© 2012 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
-msgstr "© 2011 Red Hat, Inc.  任何评论或更正可发送至<a href=\"mailto:%(webmaster)s\">网站小组</a>。"
+msgstr "© 2012 Red Hat, Inc.  任何评论或更正可发送至<a href=\"mailto:%(webmaster)s\">网站项目组</a>。"
 
 #: fas/templates/master.html:104
 msgid ""
@@ -1717,7 +1690,7 @@ msgstr "组加入消息："
 msgid "Rules for Application:"
 msgstr "申请规则："
 
-#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:157
+#: fas/templates/group/edit.html:99 fas/templates/user/edit.html:147
 msgid "Save!"
 msgstr "保存！"
 
@@ -1778,7 +1751,7 @@ msgstr "描述"
 msgid "Prerequisite"
 msgstr "前提"
 
-#: fas/templates/group/list.html:29 fas/templates/user/edit.html:138
+#: fas/templates/group/list.html:29 fas/templates/user/edit.html:128
 msgid "Status"
 msgstr "状态"
 
@@ -1788,12 +1761,12 @@ msgid "None"
 msgstr "无"
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:157
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
 msgid "Approved"
 msgstr "已验证"
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:158
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
 msgid "Unapproved"
 msgstr "未验证"
 
@@ -1877,7 +1850,7 @@ msgstr "加入信息："
 msgid "Create!"
 msgstr "创建！"
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:164
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
 msgid "View Group"
 msgstr "浏览组"
 
@@ -2112,7 +2085,7 @@ msgstr "为了确认，请先输入您当前的密码，然后选择新的安全
 msgid ""
 "This question will be asked if you lose access to your email address and "
 "want to recover access to your account."
-msgstr "在您不能访问您的电子邮件而且想找回您的帐户时，此安全问题将会出现。"
+msgstr "在您不能访问您的邮箱且想找回您的帐户时，此安全问题将会出现。"
 
 #: fas/templates/user/changequestion.html:17
 msgid "New Question:"
@@ -2165,15 +2138,15 @@ msgstr "IRC  昵称"
 msgid "Time Zone"
 msgstr "时区"
 
-#: fas/templates/user/edit.html:146
+#: fas/templates/user/edit.html:136
 msgid "Comments"
 msgstr "注释"
 
-#: fas/templates/user/edit.html:152
+#: fas/templates/user/edit.html:142
 msgid "Privacy"
 msgstr "隐私"
 
-#: fas/templates/user/edit.html:158 fas/templates/user/verifyemail.html:17
+#: fas/templates/user/edit.html:148 fas/templates/user/verifyemail.html:17
 #: fas/templates/user/verifypass.html:18
 msgid "Cancel"
 msgstr "取消"
@@ -2220,7 +2193,7 @@ msgstr "\"*\"为通配符 (例如: \"ric*\")"
 msgid "Username"
 msgstr "用户名"
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:117
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
 msgid "CLA Done"
 msgstr "CLA 已完成"
 
@@ -2260,7 +2233,7 @@ msgstr "全名："
 
 #: fas/templates/user/new.html:23
 msgid "Name check override:"
-msgstr ""
+msgstr "不做姓名检查："
 
 #: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:28
@@ -2359,7 +2332,7 @@ msgstr "IRC 昵称："
 
 #: fas/templates/user/view.html:56
 msgid "PGP Key:"
-msgstr "PGP 密匙："
+msgstr "PGP 密钥："
 
 #: fas/templates/user/view.html:63
 msgid "Public SSH Key:"
@@ -2382,111 +2355,103 @@ msgid "Security question: "
 msgstr "安全问题："
 
 #: fas/templates/user/view.html:87
-msgid "RSS blog:"
-msgstr "RSS 博客："
-
-#: fas/templates/user/view.html:93
-msgid "Avatar blog:"
-msgstr "Avatar 博客："
-
-#: fas/templates/user/view.html:99
 msgid "Account Status:"
 msgstr "账户状态："
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:90
 msgid "Active"
-msgstr "激活"
+msgstr "活跃"
 
-#: fas/templates/user/view.html:103
+#: fas/templates/user/view.html:91
 msgid "Inactive"
-msgstr "非激活"
+msgstr "不活跃"
 
-#: fas/templates/user/view.html:104
+#: fas/templates/user/view.html:92
 msgid "Pinged"
-msgstr "已查看状态"
+msgstr "已通知"
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:93
 msgid "Disabled"
 msgstr "停用"
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:98
 msgid "Contributor Agreement:"
 msgstr "贡献人员协议："
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:102
 msgid "CLA Signed"
 msgstr "已签署 CLA"
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:105
 msgid "New CLA Not Signed"
 msgstr "还未签署新版 CLA"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:106
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr "贡献人员需要签署新版贡献人员协议"
 
-#: fas/templates/user/view.html:118
+#: fas/templates/user/view.html:106
 msgid "Complete it now!"
 msgstr "现在就完成！"
 
-#: fas/templates/user/view.html:122
+#: fas/templates/user/view.html:110
 msgid "Reject FPCA"
 msgstr "拒绝 FPCA"
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:114
 msgid "Not Signed"
 msgstr "未签署"
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:114
 msgid "Complete it!"
 msgstr "完成！"
 
-#: fas/templates/user/view.html:129
+#: fas/templates/user/view.html:117
 msgid "Privacy:"
 msgstr "隐私："
 
-#: fas/templates/user/view.html:131
+#: fas/templates/user/view.html:119
 msgid "Account Information Private"
 msgstr "私密账户信息"
 
-#: fas/templates/user/view.html:132
+#: fas/templates/user/view.html:120
 msgid "Account Information Public"
 msgstr "公开账户信息"
 
-#: fas/templates/user/view.html:137
+#: fas/templates/user/view.html:125
 msgid "Your Roles"
 msgstr "您的角色"
 
-#: fas/templates/user/view.html:138
+#: fas/templates/user/view.html:126
 #, python-format
 msgid "%s's Roles"
 msgstr "%s 的角色"
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:143
 msgid "Status:"
 msgstr "状态："
 
-#: fas/templates/user/view.html:161
+#: fas/templates/user/view.html:149
 msgid "Tools:"
 msgstr "工具："
 
-#: fas/templates/user/view.html:165
+#: fas/templates/user/view.html:153
 msgid "Invite a New Member..."
 msgstr "邀请新成员..."
 
-#: fas/templates/user/view.html:166
+#: fas/templates/user/view.html:154
 msgid "Manage Group Membership..."
 msgstr "管理组成员..."
 
-#: fas/templates/user/view.html:167
+#: fas/templates/user/view.html:155
 msgid "Manage Group Details..."
 msgstr "管理组信息..."
 
-#: fas/templates/user/view.html:171
+#: fas/templates/user/view.html:159
 msgid "Queue:"
 msgstr "队列："
 
-#: fas/templates/user/view.html:175
+#: fas/templates/user/view.html:163
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "
