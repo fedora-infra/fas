@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.8.14.92
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -130,6 +130,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Mon Sep 24 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.92-2
+- Update translations
+
 * Fri Sep 14 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.92-1
 - Remove blog feed commit, because it was dependant on fancyflash.
 
