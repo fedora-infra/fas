@@ -54,7 +54,9 @@ Summary: Clients for the Fedora Account System
 Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
 Requires: authconfig
+%if 0%{?rhel}
 Requires: nss_db
+%endif
 Requires: libselinux-python
 
 %description clients
