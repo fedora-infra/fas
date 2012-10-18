@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Peter Borsa <peter.borsa@gmail.com>, 2011, 2012.
+# Peter Borsa <peter.borsa@gmail.com>, 2011-2012.
 #   <ptr@ulx.hu>, 2012.
 # Sulyok Péter <peti@fedoraproject.org>, 2009.
 # Zoltan Hoppár <hopparz@gmail.com>, 2012.
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2012-09-19 07:35-0700\n"
-"PO-Revision-Date: 2012-09-19 14:38+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2012-10-15 11:22+0000\n"
+"Last-Translator: Peter Borsa <peter.borsa@gmail.com>\n"
 "Language-Team: Hungarian <trans-hu@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -254,7 +254,7 @@ msgid ""
 "%(user)s <%(email)s> has sponsored you for membership in the %(group)s\n"
 "group of the Fedora account system. If applicable, this change should\n"
 "propagate into the e-mail aliases and git repository within an hour.\n"
-msgstr "\n%(user)s <%(email)s> támogatta a tagságot %(group)s\nFedora Account System csoportjában. Ha megfelelő, ez a változás\ntovábbítják az email álnevekre és git tárolóra egy órán belül.\n"
+msgstr "\n%(user)s <%(email)s> támogatta a tagságot a Fedora Felhasználói Rendszer %(group)s csoportjában. Ha megfelelő, ez a változás\ntovábbítják az email álnevekre és git tárolóra egy órán belül.\n"
 
 #: fas/group.py:557
 #, python-format
@@ -284,7 +284,7 @@ msgid ""
 "group of the Fedora Accounts System This change is effective\n"
 "immediately for new operations, and should propagate into the e-mail\n"
 "aliases within an hour.\n"
-msgstr "\n%(user)s <%(email)s> eltávolítva a Fedora Accounts System \n'%(group)s' csoportjából. Ez a változás azonnal életbe lép új\nműveletek esetében, és továbbítják az email álnevekre\negy órán belül.\n"
+msgstr "\n%(user)s <%(email)s> eltávolítva a Fedora Felhasználói Rendszer \n'%(group)s' csoportjából. Ez a változás azonnal életbe lép új\nműveletek esetében, és továbbítják az email álnevekre\negy órán belül.\n"
 
 #: fas/group.py:605
 #, python-format
@@ -889,7 +889,7 @@ msgid ""
 "login with your Fedora account first):\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
-msgstr "\nNem régen kérte a Fedora Account System email megváltoztatását erre a címre.  Az email változás befejezéséhez, meg kell erősítenie,\nhogy birtokolja ezt az emailt a következő URL meglátogatásával(először\nbe kell majd jelentkeznia a Fedora azonosítójával):\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
+msgstr "\nNem régen kérte a Fedora Felhasználói Rendszer email megváltoztatását erre a címre.  Az email változás befejezéséhez, meg kell erősítenie,\nhogy birtokolja ezt az emailt a következő URL meglátogatásával(először\nbe kell majd jelentkeznia a Fedora azonosítójával):\n\n%(verifyurl)s/accounts/user/verifyemail/%(token)s\n"
 
 #: fas/user.py:409
 #, python-format
@@ -962,7 +962,7 @@ msgstr "Önnek sikerült megváltoztatnia az emailjét „%s” címre."
 
 #: fas/user.py:820
 msgid "No need to sign up, you have an account!"
-msgstr "Nem kell feliratkoznia, van felhasználói azonosítója!"
+msgstr "Nem szükséges regisztrálni, már van felhasználói azonosítója!"
 
 #: fas/user.py:852 fas/user.py:908
 msgid ""
@@ -1109,7 +1109,7 @@ msgstr "Rendszer azonosítók jelszavait nem lehet weben beállítani.  Kérem �
 
 #: fas/user.py:1142
 msgid "Warning: attempted reset of system account"
-msgstr "Figyelmeztetés: redszerazonosító nullázási próbálkozás"
+msgstr "Figyelmeztetés: rendszerazonosító nullázási próbálkozás"
 
 #: fas/user.py:1143
 #, python-format
@@ -1141,7 +1141,7 @@ msgstr "Az ön kulcsát nem sikerült lekérni subkeys.pgp.net helyről."
 
 #: fas/user.py:1199
 msgid "Your password reset email could not be encrypted."
-msgstr "Az ön jelszó visszaállító üzenetét nem lehetett titkosítani."
+msgstr "A jelszó visszaállító üzenetet nem lehetett titkosítani."
 
 #: fas/user.py:1202
 msgid "Fedora Project Password Reset"
@@ -1149,11 +1149,11 @@ msgstr "Fedora Projekt jelszó visszaállítás"
 
 #: fas/user.py:1206
 msgid "A password reset URL has been emailed to you."
-msgstr "Jelszó visszaállító URL elküldve önnek."
+msgstr "Jelszó visszaállító URL elküldve."
 
 #: fas/user.py:1230
 msgid "You don't have any pending password changes."
-msgstr "Nincs függő jelszóváltoztatása."
+msgstr "Nincs függő jelszóváltoztatás."
 
 #: fas/user.py:1234 fas/user.py:1286
 msgid "Invalid password change token."
@@ -1232,7 +1232,7 @@ msgstr "Érvénytelen rendező kulcs."
 #: fas/validators.py:124
 #, python-format
 msgid "'%(user)s' does not exist."
-msgstr "Nincs „%(user)s”."
+msgstr "„%(user)s” nem létezik."
 
 #: fas/validators.py:142
 #, python-format
@@ -1540,7 +1540,7 @@ msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr "Üdvözli a Fedora Azonosító rendszere.  Kérem küldje a hibákat a <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> vagy jelezze a #fedora-admin on irc.freenode.net csatornán."
+msgstr "Üdvözlet a Fedora Felhasználói Rendszerben.  Hibák jelenthetők a <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> címen vagy jelezhetők a #fedora-admin on irc.freenode.net csatornán."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1548,7 +1548,7 @@ msgstr "Bejelentkezés"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr "Elfelejtette jelszavát?"
+msgstr "Új jelszó igénylése?"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -2200,7 +2200,7 @@ msgstr "Nem kész"
 
 #: fas/templates/user/new.html:7 fas/templates/user/new.html:10
 msgid "Sign up for a Fedora account"
-msgstr "Feliratkozás egy Fedora felhasználói azonosítóhoz"
+msgstr "Fedora felhasználói azonosító létrehozása"
 
 #: fas/templates/user/new.html:11
 msgid "NOTE:"
@@ -2259,16 +2259,16 @@ msgstr "Válasz erre a matematikai egyenletre"
 
 #: fas/templates/user/new.html:71
 msgid "Sign up!"
-msgstr "Feliratkozás!"
+msgstr "Regisztráció!"
 
 #: fas/templates/user/resetpass.html:7 fas/templates/user/resetpass.html:10
 #: fas/templates/user/verifypass.html:7 fas/templates/user/verifypass.html:10
 msgid "Reset Password"
-msgstr "Jelszó visszaállátás"
+msgstr "Jelszó visszaállítás"
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
-msgstr "Reset"
+msgstr "Visszaállítás"
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
