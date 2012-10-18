@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.14.92
-Release:        2%{?dist}
+Version:        0.8.15
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -132,6 +132,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Oct 18 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.15-1
+- Update translations.  Final release
+
 * Mon Sep 24 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.8.14.92-2
 - Update translations
 
