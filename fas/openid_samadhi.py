@@ -88,14 +88,11 @@ class OpenID(controllers.Controller):
         return results
 
     @expose(template="fas.templates.openid.yadis", format="xml", content_type="application/xrds+xml")
-    def yadis(self, username=None):
+    def yadis(self, username=''):
         results = dict(discover = discover,
                        endpoint_url = endpoint_url,
                        yadis_url = build_url(yadis_base_url + '/' + username),
-                       user_url = None)
-
-        if username:
-            results['user_url'] = build_url(id_base_url + '/' + username)
+                       user_url = build_url(id_base_url + '/' + username))
 
         return results
 
@@ -123,9 +120,6 @@ class OpenID(controllers.Controller):
         username = identity.current.user.username
         person = People.by_username(username)
         if not cla_done(person):
-            return False
-
-        if build_url(id_base_url + '/' + identity.current.user_name) != openid_identity:
             return False
 
         key = (openid_identity, openid_trust_root)
