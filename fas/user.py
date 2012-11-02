@@ -422,7 +422,6 @@ updated information is:
   ircnick:        %(ircnick)s
   telephone:      %(telephone)s
   locale:         %(locale)s
-  postal_address: %(postal_address)s
   timezone:       %(timezone)s
   country code:   %(country_code)s
   latitude:       %(latitude)s
@@ -438,7 +437,6 @@ If the above information is incorrect, please log in and fix it:
          'ircnick'        : target.ircnick,
          'telephone'      : target.telephone,
          'locale'         : target.locale,
-         'postal_address' : target.postal_address,
          'timezone'       : target.timezone,
          'country_code'   : target.country_code,
          'latitude'       : target.latitude,
