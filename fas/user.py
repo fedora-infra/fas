@@ -419,6 +419,7 @@ these changes please contact admin@fedoraproject.org and let them know.  Your
 updated information is:
 
   username:       %(username)s
+  full name:      %(fullname)s
   ircnick:        %(ircnick)s
   telephone:      %(telephone)s
   locale:         %(locale)s
@@ -434,6 +435,7 @@ If the above information is incorrect, please log in and fix it:
 
    %(editurl)s/accounts/user/edit/%(username)s
 ''') % { 'username'       : target.username,
+         'fullname'       : target.human_name,
          'ircnick'        : target.ircnick,
          'telephone'      : target.telephone,
          'locale'         : target.locale,
