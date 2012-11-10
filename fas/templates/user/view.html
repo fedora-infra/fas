@@ -8,10 +8,13 @@
   </head>
   <body>
     <?python
-    from fas import auth
-    from fas.model import People
-    viewer = People.by_username(tg.identity.user.username)
-    viewer = viewer.filter_private()
+      import turbogears
+      from fas import auth
+      from fas.model import People
+      from fas import controllers
+      viewer = People.by_username(tg.identity.user.username)
+      viewer = viewer.filter_private()
+      locale = controllers.get_locale()
     ?>
     <h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
     <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.username}</h2>
@@ -150,7 +153,7 @@
         <dd>
         <ul class="tools">
           <li><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('View Group')}</a></li>
-          <li><a href="${tg.url('/group/invite/%s' % role.group.name)}">${_('Invite a New Member...')}</a></li>
+          <li><a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}">${_('Invite a New Member...')}</a></li>
           <li py:if="auth.can_sponsor_group(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('Manage Group Membership...')}</a></li>
           <li py:if="auth.can_edit_group(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/edit/%s' % role.group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>

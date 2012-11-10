@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-09-19 07:35-0700\n"
+"POT-Creation-Date: 2012-11-10 03:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -346,12 +346,37 @@ msgstr ""
 msgid "%s has been downgraded!"
 msgstr ""
 
-#: fas/group.py:808
+#: fas/group.py:770 fas/group.py:803
+msgid "Invitation to join the Fedora Team!"
+msgstr ""
+
+#: fas/group.py:771 fas/group.py:804
+#, python-format
+msgid ""
+"\n"
+"%(user)s <%(email)s> has invited you to join the Fedora\n"
+"Project!  We are a community of users and developers who produce a\n"
+"complete operating system from entirely free and open source software\n"
+"(FOSS).  %(user)s thinks that you have knowledge and skills\n"
+"that make you a great fit for the Fedora community, and that you might\n"
+"be interested in contributing.\n"
+"\n"
+"How could you team up with the Fedora community to use and develop your\n"
+"skills?  Check out http://fedoraproject.org/join-fedora for some ideas.\n"
+"Our community is more than just software developers -- we also have a\n"
+"place for you whether you're an artist, a web site builder, a writer, or\n"
+"a people person.  You'll grow and learn as you work on a team with other\n"
+"very smart and talented people.\n"
+"\n"
+"Fedora and FOSS are changing the world -- come be a part of it!user"
+msgstr ""
+
+#: fas/group.py:824
 #, python-format
 msgid "Message sent to: %s"
 msgstr ""
 
-#: fas/group.py:811
+#: fas/group.py:827
 #, python-format
 msgid "You are not in the '%s' group."
 msgstr ""
@@ -820,7 +845,7 @@ msgstr ""
 msgid "This OpenID will not be active until the user has signed the CLA."
 msgstr ""
 
-#: fas/openid_samadhi.py:190 fas/openid_samadhi.py:236
+#: fas/openid_samadhi.py:184 fas/openid_samadhi.py:230
 msgid ""
 "Your last OpenID request could not be retrieved.  Try re-authenticating "
 "to the OpenID consumer."
@@ -913,10 +938,10 @@ msgid ""
 "updated information is:\n"
 "\n"
 "  username:       %(username)s\n"
+"  full name:      %(fullname)s\n"
 "  ircnick:        %(ircnick)s\n"
 "  telephone:      %(telephone)s\n"
 "  locale:         %(locale)s\n"
-"  postal_address: %(postal_address)s\n"
 "  timezone:       %(timezone)s\n"
 "  country code:   %(country_code)s\n"
 "  latitude:       %(latitude)s\n"
@@ -1695,27 +1720,31 @@ msgstr ""
 msgid "Save!"
 msgstr ""
 
-#: fas/templates/group/invite.html:7 fas/templates/group/invite.html:10
+#: fas/templates/group/invite.html:7 fas/templates/group/invite.html:18
 msgid "Invite a new community member!"
 msgstr ""
 
-#: fas/templates/group/invite.html:14
+#: fas/templates/group/invite.html:21
+msgid "Language:"
+msgstr ""
+
+#: fas/templates/group/invite.html:29
 msgid "To email:"
 msgstr ""
 
-#: fas/templates/group/invite.html:15
+#: fas/templates/group/invite.html:31
 msgid "From:"
 msgstr ""
 
-#: fas/templates/group/invite.html:16
+#: fas/templates/group/invite.html:32
 msgid "Subject:"
 msgstr ""
 
-#: fas/templates/group/invite.html:17
+#: fas/templates/group/invite.html:33
 msgid "Message:"
 msgstr ""
 
-#: fas/templates/group/invite.html:39
+#: fas/templates/group/invite.html:35
 msgid "Send!"
 msgstr ""
 
@@ -1762,12 +1791,12 @@ msgid "None"
 msgstr ""
 
 #: fas/templates/group/list.html:40 fas/templates/group/members.html:24
-#: fas/templates/group/view.html:22 fas/templates/user/view.html:145
+#: fas/templates/group/view.html:22 fas/templates/user/view.html:148
 msgid "Approved"
 msgstr ""
 
 #: fas/templates/group/list.html:41 fas/templates/group/members.html:25
-#: fas/templates/group/view.html:23 fas/templates/user/view.html:146
+#: fas/templates/group/view.html:23 fas/templates/user/view.html:149
 msgid "Unapproved"
 msgstr ""
 
@@ -1851,7 +1880,7 @@ msgstr ""
 msgid "Create!"
 msgstr ""
 
-#: fas/templates/group/view.html:8 fas/templates/user/view.html:152
+#: fas/templates/group/view.html:8 fas/templates/user/view.html:155
 msgid "View Group"
 msgstr ""
 
@@ -1859,7 +1888,7 @@ msgstr ""
 msgid "Group is invite only.  Contact group sponsors for more information."
 msgstr ""
 
-#: fas/templates/group/view.html:41 fas/templates/user/view.html:18
+#: fas/templates/group/view.html:41 fas/templates/user/view.html:21
 msgid "(edit)"
 msgstr ""
 
@@ -1968,11 +1997,11 @@ msgid "Allow this authentication to proceed?"
 msgstr ""
 
 #: fas/templates/openid/authorizesite.html:38
-msgid "yes"
+msgid "no"
 msgstr ""
 
 #: fas/templates/openid/authorizesite.html:39
-msgid "no"
+msgid "yes"
 msgstr ""
 
 #: fas/templates/openid/id.html:10
@@ -2105,12 +2134,12 @@ msgstr ""
 msgid "Edit Account (%s)"
 msgstr ""
 
-#: fas/templates/user/edit.html:22 fas/templates/user/view.html:81
+#: fas/templates/user/edit.html:22 fas/templates/user/view.html:84
 msgid "Password:"
 msgstr ""
 
-#: fas/templates/user/edit.html:23 fas/templates/user/view.html:78
-#: fas/templates/user/view.html:83
+#: fas/templates/user/edit.html:23 fas/templates/user/view.html:81
+#: fas/templates/user/view.html:86
 msgid "(change)"
 msgstr ""
 
@@ -2118,7 +2147,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: fas/templates/user/edit.html:36 fas/templates/user/view.html:31
+#: fas/templates/user/edit.html:36 fas/templates/user/view.html:34
 #, python-format
 msgid "(pending change to %(email)s - <a href=\"%(url)s\">cancel</a>)"
 msgstr ""
@@ -2195,7 +2224,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: fas/templates/user/list.html:34 fas/templates/user/view.html:105
+#: fas/templates/user/list.html:34 fas/templates/user/view.html:108
 msgid "CLA Done"
 msgstr ""
 
@@ -2229,7 +2258,7 @@ msgstr ""
 msgid "Username:"
 msgstr ""
 
-#: fas/templates/user/new.html:18 fas/templates/user/view.html:24
+#: fas/templates/user/new.html:18 fas/templates/user/view.html:27
 msgid "Full Name:"
 msgstr ""
 
@@ -2238,7 +2267,7 @@ msgid "Name check override:"
 msgstr ""
 
 #: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
-#: fas/templates/user/view.html:28
+#: fas/templates/user/view.html:31
 msgid "Email:"
 msgstr ""
 
@@ -2298,161 +2327,161 @@ msgstr ""
 msgid "View Account"
 msgstr ""
 
-#: fas/templates/user/view.html:16
+#: fas/templates/user/view.html:19
 msgid "Your Fedora Account"
 msgstr ""
 
-#: fas/templates/user/view.html:17
+#: fas/templates/user/view.html:20
 #, python-format
 msgid "%s's Fedora Account"
 msgstr ""
 
-#: fas/templates/user/view.html:18
+#: fas/templates/user/view.html:21
 msgid "Account Details"
 msgstr ""
 
-#: fas/templates/user/view.html:21
+#: fas/templates/user/view.html:24
 msgid "Account Name:"
 msgstr ""
 
-#: fas/templates/user/view.html:36
+#: fas/templates/user/view.html:39
 msgid "Telephone Number:"
 msgstr ""
 
-#: fas/templates/user/view.html:40
+#: fas/templates/user/view.html:43
 msgid "Postal Address:"
 msgstr ""
 
-#: fas/templates/user/view.html:44
+#: fas/templates/user/view.html:47
 msgid "Country:"
 msgstr ""
 
-#: fas/templates/user/view.html:53
+#: fas/templates/user/view.html:56
 msgid "IRC Nick:"
 msgstr ""
 
-#: fas/templates/user/view.html:56
+#: fas/templates/user/view.html:59
 msgid "PGP Key:"
 msgstr ""
 
-#: fas/templates/user/view.html:63
+#: fas/templates/user/view.html:66
 msgid "Public SSH Key:"
 msgstr ""
 
-#: fas/templates/user/view.html:66
+#: fas/templates/user/view.html:69
 msgid "(remove ssh key)"
 msgstr ""
 
-#: fas/templates/user/view.html:68
+#: fas/templates/user/view.html:71
 msgid "No ssh key provided"
 msgstr ""
 
-#: fas/templates/user/view.html:71
+#: fas/templates/user/view.html:74
 msgid "Comments:"
 msgstr ""
 
-#: fas/templates/user/view.html:77
+#: fas/templates/user/view.html:80
 msgid "Security question: "
 msgstr ""
 
-#: fas/templates/user/view.html:87
+#: fas/templates/user/view.html:90
 msgid "Account Status:"
 msgstr ""
 
-#: fas/templates/user/view.html:90
+#: fas/templates/user/view.html:93
 msgid "Active"
 msgstr ""
 
-#: fas/templates/user/view.html:91
+#: fas/templates/user/view.html:94
 msgid "Inactive"
 msgstr ""
 
-#: fas/templates/user/view.html:92
+#: fas/templates/user/view.html:95
 msgid "Pinged"
 msgstr ""
 
-#: fas/templates/user/view.html:93
+#: fas/templates/user/view.html:96
 msgid "Disabled"
 msgstr ""
 
-#: fas/templates/user/view.html:98
+#: fas/templates/user/view.html:101
 msgid "Contributor Agreement:"
 msgstr ""
 
-#: fas/templates/user/view.html:102
+#: fas/templates/user/view.html:105
 msgid "CLA Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:105
+#: fas/templates/user/view.html:108
 msgid "New CLA Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:109
 msgid "We need contributors to sign the new Contributor Agreement"
 msgstr ""
 
-#: fas/templates/user/view.html:106
+#: fas/templates/user/view.html:109
 msgid "Complete it now!"
 msgstr ""
 
-#: fas/templates/user/view.html:110
+#: fas/templates/user/view.html:113
 msgid "Reject FPCA"
 msgstr ""
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:117
 msgid "Not Signed"
 msgstr ""
 
-#: fas/templates/user/view.html:114
+#: fas/templates/user/view.html:117
 msgid "Complete it!"
 msgstr ""
 
-#: fas/templates/user/view.html:117
+#: fas/templates/user/view.html:120
 msgid "Privacy:"
 msgstr ""
 
-#: fas/templates/user/view.html:119
+#: fas/templates/user/view.html:122
 msgid "Account Information Private"
 msgstr ""
 
-#: fas/templates/user/view.html:120
+#: fas/templates/user/view.html:123
 msgid "Account Information Public"
 msgstr ""
 
-#: fas/templates/user/view.html:125
+#: fas/templates/user/view.html:128
 msgid "Your Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:126
+#: fas/templates/user/view.html:129
 #, python-format
 msgid "%s's Roles"
 msgstr ""
 
-#: fas/templates/user/view.html:143
+#: fas/templates/user/view.html:146
 msgid "Status:"
 msgstr ""
 
-#: fas/templates/user/view.html:149
+#: fas/templates/user/view.html:152
 msgid "Tools:"
 msgstr ""
 
-#: fas/templates/user/view.html:153
+#: fas/templates/user/view.html:156
 msgid "Invite a New Member..."
 msgstr ""
 
-#: fas/templates/user/view.html:154
+#: fas/templates/user/view.html:157
 msgid "Manage Group Membership..."
 msgstr ""
 
-#: fas/templates/user/view.html:155
+#: fas/templates/user/view.html:158
 msgid "Manage Group Details..."
 msgstr ""
 
-#: fas/templates/user/view.html:159
+#: fas/templates/user/view.html:162
 msgid "Queue:"
 msgstr ""
 
-#: fas/templates/user/view.html:163
+#: fas/templates/user/view.html:166
 #, python-format
 msgid ""
 "<strong>%(user)s</strong> requests approval to join "

@@ -761,31 +761,14 @@ into the e-mail aliases within an hour.
     @validate(validators=GroupInvite())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.group.invite')
-    def invite(self, groupname):
+    def invite(self, groupname, language):
         username = turbogears.identity.current.user_name
         person = People.by_username(username)
         group = Groups.by_name(groupname)
-
         person = person.filter_private()
-        return dict(person=person, group=group)
 
-    @identity.require(identity.not_anonymous())
-    @validate(validators=GroupSendInvite())
-    @error_handler(error) # pylint: disable-msg=E0602
-    @expose(template='fas.templates.group.invite')
-    def sendinvite(self, groupname, target):
-        username = turbogears.identity.current.user_name
-        person = People.by_username(username)
-        group = Groups.by_name(groupname)
-
-        if is_approved(person, group):
-            ### TODO: Make these translatable.  This will require taking
-            # a parameter to determine which language to send in.  Allow the
-            # user who is sending the invite to select a language since we
-            # figure that they know what the proper language will be.for the
-            # person they are sending to.
-            invite_subject = ('Come join The Fedora Project!')
-            invite_text = ('''
+        subject = _('Invitation to join the Fedora Team!', language)
+        text = _('''
 %(user)s <%(email)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
@@ -800,8 +783,41 @@ place for you whether you're an artist, a web site builder, a writer, or
 a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
-Fedora and FOSS are changing the world -- come be a part of it!''') % \
-    {'user': person.username, 'email': person.email}
+Fedora and FOSS are changing the world -- come be a part of it!'''
+        % {'user': person.username, 'email': person.email}, language)
+
+        return dict(person=person, group=group, invite_subject=subject,
+                    invite_text=text, selected_language=language)
+
+    @identity.require(identity.not_anonymous())
+    @validate(validators=GroupSendInvite())
+    @error_handler(error) # pylint: disable-msg=E0602
+    @expose(template='fas.templates.group.invite')
+    def sendinvite(self, groupname, target, language):
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
+        group = Groups.by_name(groupname)
+
+        if is_approved(person, group):
+            
+            invite_subject = _('Invitation to join the Fedora Team!', language)
+            invite_text = _('''
+%(user)s <%(email)s> has invited you to join the Fedora
+Project!  We are a community of users and developers who produce a
+complete operating system from entirely free and open source software
+(FOSS).  %(user)s thinks that you have knowledge and skills
+that make you a great fit for the Fedora community, and that you might
+be interested in contributing.
+
+How could you team up with the Fedora community to use and develop your
+skills?  Check out http://fedoraproject.org/join-fedora for some ideas.
+Our community is more than just software developers -- we also have a
+place for you whether you're an artist, a web site builder, a writer, or
+a people person.  You'll grow and learn as you work on a team with other
+very smart and talented people.
+
+Fedora and FOSS are changing the world -- come be a part of it!'''
+            % {'user': person.username, 'email': person.email}, language)
 
             send_mail(target, invite_subject, invite_text)
 
