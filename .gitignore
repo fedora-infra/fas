@@ -18,3 +18,7 @@ manage.py
 .project
 .pydevproject
 fas.cfg
+fas.anjuta
+.anjuta
+.anjuta_*
+.ropeproject
