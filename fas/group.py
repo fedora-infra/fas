@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2010 Red Hat, Inc.
+# Copyright © 2008-2012 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -19,6 +19,7 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #            Toshio Kuratomi <toshio@redhat.com>
+#            Xavier Lamien <laxathom@lxtnow.net>
 #
 
 # Does this need to come before the import turbogears or does it not matter?
@@ -769,10 +770,10 @@ into the e-mail aliases within an hour.
 
         subject = _('Invitation to join the Fedora Team!', language)
         text = _('''
-%(user)s <%(email)s> has invited you to join the Fedora
+%(fullname)s <%(user)s@%(hostname)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
-(FOSS).  %(user)s thinks that you have knowledge and skills
+(FOSS).  %(fullname)s thinks that you have knowledge and skills
 that make you a great fit for the Fedora community, and that you might
 be interested in contributing.
 
@@ -784,7 +785,9 @@ a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
 Fedora and FOSS are changing the world -- come be a part of it!'''
-        % {'user': person.username, 'email': person.email}, language)
+        % {'fullname': person.human_name, 
+               'user': person.username,
+           'hostname': config.get('email_host')}, language)
 
         return dict(person=person, group=group, invite_subject=subject,
                     invite_text=text, selected_language=language)
@@ -802,10 +805,10 @@ Fedora and FOSS are changing the world -- come be a part of it!'''
             
             invite_subject = _('Invitation to join the Fedora Team!', language)
             invite_text = _('''
-%(user)s <%(email)s> has invited you to join the Fedora
+%(fullname)s <%(user)s@%(hostname)s> has invited you to join the Fedora
 Project!  We are a community of users and developers who produce a
 complete operating system from entirely free and open source software
-(FOSS).  %(user)s thinks that you have knowledge and skills
+(FOSS).  %(fullname)s thinks that you have knowledge and skills
 that make you a great fit for the Fedora community, and that you might
 be interested in contributing.
 
@@ -817,7 +820,9 @@ a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
 Fedora and FOSS are changing the world -- come be a part of it!'''
-            % {'user': person.username, 'email': person.email}, language)
+            % {'fullname': person.human_name, 
+                   'user': person.username,
+               'hostname': config.get('email_host')}, language)
 
             send_mail(target, invite_subject, invite_text)
 
