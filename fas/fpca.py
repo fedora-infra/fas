@@ -42,7 +42,6 @@ from fas.auth import is_admin, standard_cla_done, undeprecated_cla_done
 from fas.util import send_mail
 import fas
 
-from fas import _
 
 class FPCA(controllers.Controller):
     ''' Processes FPCA workflow '''
@@ -183,8 +182,39 @@ class FPCA(controllers.Controller):
             date_time = datetime.utcnow()
             Log(author_id=user.id, description='Revoked %s FPCA' %
                 person.username, changetime=date_time)
-            revoke_subject = 'Fedora ICLA Revoked'
-            revoke_text = '''
+            revoke_subject = _('Fedora ICLA Revoked', person.locale)
+            i18n_revoke_text = _('''
+Hello %(human_name)s,
+
+We're sorry to bother you but we had to reject your FPCA for now because
+information you provided has been deemed incorrect.  The most common cause
+of this is people abbreviating their name like "B L Couper" instead of
+providing their actual full name "Bill Lay Couper".  Other causes of this
+include are using a country, or phone number that isn't accurate [1]_.
+If you could edit your account [2]_ to fix any of these problems and resubmit
+the FPCA we would appreciate it.
+
+.. [1]: Why does it matter that we have your real name and phone
+        number?   It's because the FPCA is a legal document and should we ever
+        need to contact you about one of your contributions (as an example,
+        because someone contacts *us* claiming that it was really they who
+        own the copyright to the contribution) we might need to contact you
+        for more information about what's going on.
+
+.. [2]: Edit your account by logging in at this URL:
+        https://admin.fedoraproject.org/accounts/user/edit/%(username)s
+
+If you have questions about what specifically might be the problem with your
+account, please contact us at accounts@fedoraproject.org.
+
+Thanks!
+
+    ''' % {'username': person.username, 'human_name': person.human_name}, person.locale)
+            #TODO: Look at a better way to handle one text for mutiple usage.
+            #      while dealing with pot files.
+            std_revoke_text = '''
+
+English version:
 Hello %(human_name)s,
 
 We're sorry to bother you but we had to reject your FPCA for now because
@@ -211,6 +241,7 @@ account, please contact us at accounts@fedoraproject.org.
 Thanks!
     ''' % {'username': person.username, 'human_name': person.human_name}
 
+            revoke_text = i18n_revoke_text + std_revoke_text
             send_mail(person.email, revoke_subject, revoke_text)
 
             # Yay, sweet success!
