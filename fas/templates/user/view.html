@@ -153,7 +153,11 @@
         <dd>
         <ul class="tools">
           <li><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('View Group')}</a></li>
-          <li><a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}">${_('Invite a New Member...')}</a></li>
+          <li py:if="role.role_status == 'approved'">
+            <a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}">
+              ${_('Invite a New Member...')}
+            </a>
+          </li>
           <li py:if="auth.can_sponsor_group(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/view/%s' % role.group.name)}">${_('Manage Group Membership...')}</a></li>
           <li py:if="auth.can_edit_group(People.by_username(person['username']), role.group)"><a href="${tg.url('/group/edit/%s' % role.group.name)}">${_('Manage Group Details...')}</a></li>
         </ul>
