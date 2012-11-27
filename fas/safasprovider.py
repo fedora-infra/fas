@@ -31,7 +31,7 @@ except ImportError:
     from sha import new as hash_constructor
 
 from sqlalchemy.orm import class_mapper
-from turbogears import config, identity
+from turbogears import config, identity, flash
 from turbogears.database import session
 from turbogears.util import load_class
 from turbogears.identity import set_login_attempted
@@ -414,7 +414,10 @@ class SaFasIdentityProvider(object):
 
         # Check if yubi-authentication is being used
         if len(password) == 44 and password.startswith('ccccc') and config.get('yubi_server_prefix', False):
-            return otp_validate(user_name, password)
+            if config.get('yubi_enabled', False):
+                return otp_validate(user_name, password)
+            flash(_("Yubikey single-factor authentication has been disabled."))
+            return False
 
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
