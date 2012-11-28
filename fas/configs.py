@@ -137,7 +137,7 @@ class Config(controllers.Controller):
         # pylint: disable-msg=E1101
         cfgs = Configs.query.filter_by(application=application).filter(
                 and_(Configs.attribute.like(pattern),
-                    People.username==username))
+                    Configs.person_id==target.id))
         # pylint: enable-msg=E1101
         results = dict((cfg.attribute, cfg.value) for cfg in cfgs.all())
 
@@ -174,7 +174,7 @@ class Config(controllers.Controller):
         try:
             # pylint: disable-msg=E1101
             config = Configs.query.filter_by(application=application,
-                    attribute=attribute).filter(People.username==username).one()
+                    attribute=attribute).filter(Configs.person_id==target.id).one()
             config.value = value
         except InvalidRequestError:
             # There was no Config, create a new one
