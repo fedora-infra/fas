@@ -40,7 +40,6 @@ from urllib import unquote
 
 from fas.user import KnownUser
 from fas.model import People
-from fas.auth import cla_done
 
 def build_url(newpath):
     base_url = config.get('samadhi.baseurl')
@@ -75,13 +74,11 @@ class OpenID(controllers.Controller):
     @error_handler(error)
     @expose(template="fas.templates.openid.id")
     def id(self, username=None):
-        
+
         if not username:
             redirect('/openid/index')
 
         person = People.by_username(username)
-        if not cla_done(person):
-            flash(_('This OpenID will not be active until the user has signed the CLA.'))
 
         person = person.filter_private()
         results = dict(endpoint_url = endpoint_url,
@@ -123,8 +120,6 @@ class OpenID(controllers.Controller):
 
         username = identity.current.user.username
         person = People.by_username(username)
-        if not cla_done(person):
-            return False
 
         key = (openid_identity, openid_trust_root)
 
