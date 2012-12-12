@@ -121,6 +121,9 @@ class OpenID(controllers.Controller):
         username = identity.current.user.username
         person = People.by_username(username)
 
+        if not build_url(id_base_url + '/' + username) == openid_identity:
+            return False
+
         key = (openid_identity, openid_trust_root)
 
         return session.get(key)
