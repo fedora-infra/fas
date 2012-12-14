@@ -35,6 +35,7 @@ from openid.extensions import sreg
 from openid.server import server
 from openid.consumer import discover
 
+import syslog
 from urlparse import urljoin
 from urllib import unquote
 
@@ -130,6 +131,8 @@ class OpenID(controllers.Controller):
 
         key = (real_identity, openid_trust_root)
 
+        syslog.syslog('%s attempted to claim ownership for %s (given %s)' % (
+            username, openid_identity, real_identity))
         return session.get(key)
 
     def checkidrequest(self, openid_request):
