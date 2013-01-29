@@ -20,6 +20,8 @@
 #            Mike McGrath <mmcgrath@redhat.com>
 #            Toshio Kuratomi <toshio@redhat.com>
 #
+from bunch import Bunch
+
 from turbogears import expose, config, identity, redirect
 from turbogears.database import session
 from cherrypy import request
@@ -125,7 +127,7 @@ config.update({'i18n.get_locale': get_locale})
 
 def add_custom_stdvars(variables):
     return variables.update({'gettext': _, "lang": get_locale(),
-    'available_languages': available_languages(), 
+    'available_languages': available_languages(),
     'fas_version': release.VERSION,
     'webmaster_email': config.get('webmaster_email')})
 turbogears.view.variable_providers.append(add_custom_stdvars)
@@ -190,7 +192,37 @@ class Root(plugin.RootController):
 
         :kwarg forward_url: The url to send to once authentication succeeds
         '''
-        login_dict = f_ctrlers.login(forward_url=forward_url, *args, **kwargs)
+        actual_login_dict = f_ctrlers.login(forward_url=forward_url, *args, **kwargs)
+
+        try:
+            login_dict = Bunch()
+            login_dict['user'] = Bunch()
+            for field in People.allow_fields['complete']:
+                login_dict['user'][field] = None
+            for field in People.allow_fields['self']:
+                login_dict['user'][field] = getattr(actual_login_dict['user'], field)
+            # Strip out things that the user shouldn't see about their own
+            # login
+            login_dict['user']['internal_comments'] = None
+            login_dict['user']['emailtoken'] = None
+            login_dict['user']['security_answer'] = None
+            login_dict['user']['alias_enabled'] = None
+            login_dict['user']['passwordtoken'] = None
+
+            # Add things that are needed by some other apps
+            login_dict['user'].approved_memberships = list(
+                    actual_login_dict['user'].approved_memberships)
+            login_dict['user'].memberships = list(actual_login_dict['user'].memberships)
+            login_dict['user'].unapproved_memberships = list(
+                    actual_login_dict['user'].unapproved_memberships)
+            login_dict['user'].group_roles = list(actual_login_dict['user'].group_roles)
+            login_dict['user'].roles = list(actual_login_dict['user'].roles)
+            login_dict['user'].groups = [g.name for g in actual_login_dict['user'].approved_memberships]
+            return login_dict
+        except KeyError, e:
+            # No problem, this usually means that we failed to login and
+            # therefore we don't have a user field.
+            login_dict = actual_login_dict
 
         if not identity.current.anonymous and identity.was_login_attempted() \
                 and not identity.get_identity_errors():
