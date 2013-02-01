@@ -452,8 +452,8 @@ If the above information is incorrect, please log in and fix it:
                 '  ' + emailflash)
 
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': target.username, },
+                'agent': person.username,
+                'user': target.username,
                 'fields': changed,
             })
             turbogears.redirect("/user/view/%s" % target.username)
@@ -984,8 +984,8 @@ forward to working with you!
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
         fas.fedmsgshim.send_message(topic="user.create", msg={
-            'agent': { 'username': person.username, },
-            'user': { 'username': person.username, },
+            'agent': person.username,
+            'user': person.username,
         })
         return person
 
@@ -1026,8 +1026,8 @@ forward to working with you!
         else:
             turbogears.flash(_("Your security question has been changed."))
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': person.username, },
+                'agent': person.username,
+                'user': person.username,
                 'fields': ['security_question', 'security_answer'],
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -1081,11 +1081,11 @@ forward to working with you!
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
             return dict()
-        else:   
+        else:
             turbogears.flash(_("Your password has been changed."))
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': person.username, },
+                'agent': person.username,
+                'user': person.username,
                 'fields': ['password'],
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -1476,8 +1476,8 @@ automatically revoked, and should stop working within the hour.
         person  = People.by_username(username)
         person.ssh_key = ''
         fas.fedmsgshim.send_message(topic="user.update", msg={
-            'agent': { 'username': person.username, },
-            'user': { 'username': person.username, },
+            'agent': person.username,
+            'user': person.username,
             'fields': ['ssh_key'],
         })
         turbogears.flash(_('Your key has been removed.'))

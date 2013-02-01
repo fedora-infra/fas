@@ -339,9 +339,9 @@ Thanks!
             session.flush()
 
             fas.fas.fedmsgshimshim.send_message(topic="group.member.apply", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': person.username, },
-                'group': { 'name': group.name, },
+                'agent': person.username,
+                'user': person.username,
+                'group': group.name,
             })
         except fas.ApplyError:
             # This just means the user already is a member (probably
@@ -395,9 +395,9 @@ If you need to revoke it, please visit this link:
         send_mail(config.get('legal_cla_email'), cla_subject, cla_text)
 
         fas.fedmsgshim.send_message(topic="group.member.sponsor", msg={
-            'agent': { 'username': person.username, },
-            'user': { 'username': person.username, },
-            'group': { 'name': group.name },
+            'agent': person.username,
+            'user': person.username,
+            'group': group.name,
         })
 
         turbogears.flash(_("You have successfully completed the FPCA.  You " + \
