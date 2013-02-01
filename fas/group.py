@@ -297,8 +297,8 @@ class Group(controllers.Controller):
                 turbogears.flash(_("The group: '%(group)s' has been created, but '%(user)s' could not be added as a group administrator.") % {'group': group.name, 'user': owner.username})
             else:
                 fas.fedmsgshim.send_message(topic="group.create", msg={
-                    'agent': { 'username': person.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'group': group.name,
                 })
                 turbogears.flash(_("The group: '%s' has been created.") % group.name)
             turbogears.redirect('/group/view/%s' % group.name)
@@ -358,8 +358,8 @@ class Group(controllers.Controller):
                 Log(author_id=person.id, description='%s edited group %s' %
                     (person.username, group.name))
                 fas.fedmsgshim.send_message(topic="group.update", msg={
-                    'agent': { 'username': person.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'group': group.name,
                     'fields': changed,
                 })
                 turbogears.flash(_('The group details have been saved.'))
@@ -505,9 +505,9 @@ Thank you for applying for the %(group)s group.
                     (person.username, target.username, group.name))
 
                 fas.fedmsgshim.send_message(topic="group.member.apply", msg={
-                    'agent': { 'username': person.username, },
-                    'user': { 'username': target.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'user': target.username,
+                    'group': group.name,
                 })
 
                 turbogears.flash(_('%(user)s has applied to %(group)s!') % \
@@ -551,9 +551,9 @@ propagate into the e-mail aliases and git repository within an hour.
                     (person.username, target.username, group.name))
 
                 fas.fedmsgshim.send_message(topic="group.member.sponsor", msg={
-                    'agent': { 'username': person.username, },
-                    'user': { 'username': target.username, },
-                    'group': { 'name': group.name },
+                    'agent': person.username,
+                    'user': target.username,
+                    'group': group.name,
                 })
                 turbogears.flash(_("'%s' has been sponsored!") % target.username)
                 turbogears.redirect('/group/view/%s' % group.name)
@@ -598,9 +598,9 @@ aliases within an hour.
                     (person.username, target.username, group.name))
 
                 fas.fedmsgshim.send_message(topic="group.member.remove", msg={
-                    'agent': { 'username': person.username, },
-                    'user': { 'username': target.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'user': target.username,
+                    'group': group.name,
                 })
 
                 turbogears.flash(_('%(name)s has been removed from %(group)s') % \
@@ -650,9 +650,9 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 fas.fedmsgshim.send_message(topic="role.update", msg={
-                    'agent': { 'username': person.username, },
-                    'user': { 'username': target.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'user': target.username,
+                    'group': group.name,
                 })
 
                 turbogears.flash(_('%s has been upgraded!') % target.username)
@@ -700,9 +700,9 @@ into the e-mail aliases within an hour.
                     (person.username, target.username, status, group.name))
 
                 fas.fedmsgshim.send_message(topic="role.update", msg={
-                    'agent': { 'username': person.username, },
-                    'user': { 'username': target.username, },
-                    'group': { 'name': group.name, },
+                    'agent': person.username,
+                    'user': target.username,
+                    'group': group.name,
                 })
 
                 turbogears.flash(_('%s has been downgraded!') % target.username)
