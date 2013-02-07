@@ -541,7 +541,7 @@ class MakeShellAccounts(AccountSystem):
             if have_selinux:
                 selinux.restorecon(home_dir_base)
         for uid in users:
-            username = self.users[uid]['username']
+            username = to_bytes(self.users[uid]['username'])
             home_dir = os.path.join(home_dir_base, username)
             if not os.path.exists(home_dir):
                 syslog.syslog('Creating homedir for %s' % username)
