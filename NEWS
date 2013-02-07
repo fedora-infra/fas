@@ -8,6 +8,12 @@ NEWS
 :Version: 0.8.15
 
 ------
+0.8.16 (unreleased)
+------
+
+* Fix traceback in selinux when creating homedirs in fasClient
+
+------
 0.8.15
 ------
 * Update translations
