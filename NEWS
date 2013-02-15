@@ -12,6 +12,10 @@ NEWS
 ------
 
 * Fix traceback in selinux when creating homedirs in fasClient
+* Revert some changes to openid to make some urls work.  It had a security
+  issue and we're going to be pushing the openid functionality into an external
+  app soon.
+* 
 
 ------
 0.8.15
