@@ -35,12 +35,12 @@ from openid.extensions import sreg
 from openid.server import server
 from openid.consumer import discover
 
-import syslog
 from urlparse import urljoin
 from urllib import unquote
 
 from fas.user import KnownUser
 from fas.model import People
+from fas.auth import cla_done
 
 def build_url(newpath):
     base_url = config.get('samadhi.baseurl')
@@ -74,12 +74,10 @@ class OpenID(controllers.Controller):
     @validate(validators=UserID())
     @error_handler(error)
     @expose(template="fas.templates.openid.id")
-    def id(self, username=None):
-
-        if not username:
-            redirect('/openid/index')
-
+    def id(self, username):
         person = People.by_username(username)
+        if not cla_done(person):
+            flash(_('This OpenID will not be active until the user has signed the CLA.'))
 
         person = person.filter_private()
         results = dict(endpoint_url = endpoint_url,
@@ -121,18 +119,14 @@ class OpenID(controllers.Controller):
 
         username = identity.current.user.username
         person = People.by_username(username)
+#        if not cla_done(person):
+#            return False
 
-        if person.status != 'active':
+        if build_url(id_base_url + '/' + identity.current.user_name) != openid_identity:
             return False
 
-        #if not build_url(id_base_url + '/' + username) == openid_identity:
-        #    return False
-        real_identity = build_url(id_base_url + '/' + username)
+        key = (openid_identity, openid_trust_root)
 
-        key = (real_identity, openid_trust_root)
-
-        syslog.syslog('%s attempted to claim ownership for %s (given %s)' % (
-            username, openid_identity, real_identity))
         return session.get(key)
 
     def checkidrequest(self, openid_request):
