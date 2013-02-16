@@ -499,7 +499,7 @@ If the above information is incorrect, please log in and fix it:
                     'id'        : strip_p.id,
                     'ssh_key'   : strip_p.ssh_key,
                     'human_name': strip_p.human_name,
-                    'password'  : strip_p.password 
+                    'password'  : strip_p.password
                     })
 
         return dict(people=people_dict, unapproved_people=[], search=search)
@@ -804,6 +804,11 @@ If the above information is incorrect, please log in and fix it:
         session.flush()
         turbogears.flash(_('You have successfully changed your email to \'%s\''
             ) % person.email)
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': ('email',),
+        })
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
@@ -857,7 +862,7 @@ If the above information is incorrect, please log in and fix it:
             "on our sites. We do not knowingly collect or solicit personal " +\
             "information about children under 13."))
             turbogears.redirect('/')
-        email_test = select([PeopleTable.c.username], 
+        email_test = select([PeopleTable.c.username],
                       func.lower(PeopleTable.c.email)==email.lower())\
                     .execute().fetchall()
         if email_test:
@@ -871,7 +876,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/")
             return dict()
         try:
-            person = self.create_user(username, human_name, email, security_question, security_answer, 
+            person = self.create_user(username, human_name, email, security_question, security_answer,
                     telephone, postal_address, age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please " + \
@@ -886,7 +891,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect('/user/changepass')
             return dict()
 
-    def create_user(self, username, human_name, email, security_question, security_answer, 
+    def create_user(self, username, human_name, email, security_question, security_answer,
         telephone=None, postal_address=None, age_check=False, redirect_location='/'):
         ''' create_user: saves user information to the database and sends a
             welcome email.
@@ -971,8 +976,8 @@ to help. From here, existing members of the team will help you to find
 your feet as a Fedora contributor.
 
 Please remember that you are joining a community made of contributors
-from all around the world, as such please stop by the Community Code of 
-Conduct. 
+from all around the world, as such please stop by the Community Code of
+Conduct.
 
 https://fedoraproject.org/code-of-conduct
 
@@ -1012,7 +1017,7 @@ forward to working with you!
                 person.password):
             turbogears.flash(_('Your current password did not match'))
             return dict()
-        
+
         try:
             person.security_question = newquestion
             person.security_answer = encrypt_text(config.get('key_securityquestion'), newanswer)
@@ -1157,7 +1162,7 @@ To change your password (or to cancel the request), please visit
 ''') % {'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'),
         'user': username, 'token': token}
         if encrypted:
-            # TODO: Move this out to mail function 
+            # TODO: Move this out to mail function
             # think of how to make sure this doesn't get
             # full of random keys (keep a clean Fedora keyring)
             # TODO: MIME stuff?
@@ -1204,7 +1209,7 @@ To change your password (or to cancel the request), please visit
         Log(author_id=person.id,
             description='Password reset sent for %s' % person.username)
         turbogears.flash(_('A password reset URL has been emailed to you.'))
-        turbogears.redirect('/login')  
+        turbogears.redirect('/login')
         return dict()
 
     @error_handler(error) # pylint: disable-msg=E0602
@@ -1260,6 +1265,7 @@ To change your password (or to cancel the request), please visit
         :returns: empty dict or error
         '''
         person = People.by_username(username)
+        changed = []  # Field names updated to emit via fedmsg
 
         # Note: the following check should be done by the validator.  It's
         # here because of a bug in older formencode that caused chained
@@ -1303,6 +1309,7 @@ To change your password (or to cancel the request), please visit
 
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
+            changed.append('status')
 
         # Log the change
         newpass = generate_password(password)
@@ -1310,11 +1317,17 @@ To change your password (or to cancel the request), please visit
         person.password = newpass['hash']
         person.password_changed = datetime.now(pytz.utc)
         person.passwordtoken = ''
+        changed.append('password')
         Log(author_id=person.id, description='Password changed')
         session.flush()
 
         turbogears.flash(_('You have successfully reset your password.  ' + \
             'You should now be able to login below.'))
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': changed,
+        })
         turbogears.redirect('/login')
         return dict()
 
@@ -1436,6 +1449,11 @@ automatically revoked, and should stop working within the hour.
         send_mail(person.email, gencert_subject, gencert_text)
         Log(author_id=person.id, description='Certificate generated for %s' %
             person.username)
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': 'certificate',
+        })
         return dict(tg_template="genshi-text:fas.templates.user.cert",
                 cla=True, cert=certdump, key=keydump)
 
