@@ -18,6 +18,7 @@
 #
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
+#            Xavier Lamien <xlamien@fedoraproject.org>
 #
 import turbogears
 from turbogears import config, controllers, expose
@@ -51,7 +52,7 @@ class Help(controllers.Controller):
             'group_name':           [_('Group Name'), _('''<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>''')],
             'group_display_name':   [_('Display Name'), _('''<p>More human readable name of the group</p>''')],
             'group_owner':          [_('Group Owner'), _('''<p>The name of the owner who will run this group</p>''')],
-            'group_type':           [_('Group Type'), _('''<p>Normally it is safe to leave this blank.  Though some values include 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'.  This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
+            'group_type':           [_('Group Type'), _('''<p>Mandatory field. Available values are 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'. This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
             'group_url':            [_('Group URL (Optional)'), _('''<p>A URL or wiki page for the group (for example, <a href="https://fedoraproject.org/wiki/Infrastructure">https://fedoraproject.org/wiki/Infrastructure</a>).</p>''')],
             'group_mailing_list':     [_('Group Mailing List (Optional)'), _('''<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>''')],
             'group_mailing_list_url': [_('Group Mailing List URL (Optional)'), _('''<p>A URL for the group's mailing list (for example, <a href="http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>''')],

@@ -333,6 +333,11 @@ class Group(controllers.Controller):
         group = Groups.by_name(groupname)
 
         changed = []
+        #TODO: check any mandatory fields
+        if not group_type:
+            turbogears.flash(_("Group type cannot by empty!"))
+            turbogears.redirect('/group/edit/%s' % group.name)
+
         if not can_edit_group(person, group):
             turbogears.flash(_("You cannot edit '%s'.") % group.name)
             turbogears.redirect('/group/view/%s' % group.name)

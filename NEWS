@@ -11,7 +11,8 @@ NEWS
 0.8.16 (unreleased)
 ------
 
-* Fix traceback in selinux when creating homedirs in fasClient
+* Fix traceback in selinux when creating homedirs in fasClient.
+* Fix 500's error from group edit if no group_type has been set.
 
 ------
 0.8.15
