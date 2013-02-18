@@ -24,6 +24,8 @@ NEWS
   openid functionality in a second application so this is a stop gap until that
   is deployed https://github.com/fedora-infra/fas-openid
 * Add a new Authentication option: OTP.
+* Fix traceback in selinux when creating homedirs in fasClient.
+* Fix 500's error from group edit if no group_type has been set.
 
 ------
 0.8.15
