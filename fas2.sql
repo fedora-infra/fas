@@ -16,6 +16,7 @@
 -- Author(s): Toshio Kuratomi <tkuratom@redhat.com>
 --            Ricky Zhou <ricky@fedoraproject.org>
 --            Mike McGrath <mmcgrath@redhat.com>
+--            Xavier Lamien <laxathom@fedoraproject.org>
 --
 create database fas2 encoding = 'UTF8';
 \c fas2
@@ -112,7 +113,7 @@ CREATE TABLE groups (
     irc_channel TEXT,
     irc_network TEXT,
     owner_id INTEGER NOT NULL REFERENCES people(id),
-    group_type VARCHAR(16),
+    group_type VARCHAR(16) NOT NULL,
     needs_sponsor BOOLEAN DEFAULT FALSE,
     user_can_remove BOOLEAN DEFAULT TRUE,
     invite_only BOOLEAN DEFAULT FALSE,

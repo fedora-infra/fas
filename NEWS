@@ -15,6 +15,7 @@ NEWS
 * Fix fedmsg messages using nested dicts -- use the toplevel if there's only a
   single value to be more compatible with the data returned from other services.
 * Fix traceback in selinux when creating homedirs in fasClient
+* Fix 500's error from group edit if no group_type has been set.
 * Fix changing a user's email address before the address is verified
 * Remove a case where openid login can result in being logged in as someone
   else.  This unfortunately breaks yadis but we're going to move to having
