@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.15
+Version:        0.8.15.90
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -132,6 +132,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Mon Feb 18 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.15.90-1
+- First beta of the 0.8.6 release
+
 * Thu Oct 18 2012 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.15-1
 - Update translations.  Final release
 
