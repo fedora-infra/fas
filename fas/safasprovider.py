@@ -75,7 +75,23 @@ def get_configs(configs_list):
         configs['prefix'] = 'Not Defined'
     return configs
 
+def otp_check(key):
+    '''Check otp key string'''
+    if config.get('yubi_enabled', False) and config.get('yubi_server_prefix', False):
+        if len(key) == 44 and key.startswith('ccccc'):
+            return True
+
+    flash(_("Yubikey single-factor authentication has been disabled."))
+    return False
+
 def otp_validate(user_name, otp):
+    '''
+    Check supplied otp key and username against existing credentials
+
+    :arg user_name: User login
+    :arg otp: Given OTP key
+    :returns: True if given args match from OTP provider
+    '''
     client_id = '1'
 
     target = People.by_username(user_name)
@@ -92,12 +108,12 @@ def otp_validate(user_name, otp):
     fh = urllib2.urlopen(server_url)
 
     for line in fh:
-      match = auth_regex.search(line.strip('\n'))
-      if match:
-        if match.group('rc') == 'OK':
-          return True
+        match = auth_regex.search(line.strip('\n'))
+        if match:
+            if match.group('rc') == 'OK':
+                return True
         else:
-          return False
+            return False
         break
 
     return False
@@ -312,7 +328,7 @@ class SaFasIdentityProvider(object):
         class_mapper(user_class).local_table.create(checkfirst=True)
         class_mapper(visit_class).local_table.create(checkfirst=True)
 
-    def validate_identity(self, user_name, password, visit_key):
+    def validate_identity(self, user_name, password, visit_key, otp=None):
         '''
         Look up the identity represented by user_name and determine whether the
         password is correct.
@@ -341,6 +357,7 @@ class SaFasIdentityProvider(object):
             to lookup a username from SSL variables
         :arg password: password to authenticate user_name with
         :arg visit_key: visit_key from the user's session
+        :arg otp: One Time Password key to authenticate within the password
         '''
         # Save the user provided username so we can do other checks on it in
         # outside of this method.
@@ -369,14 +386,13 @@ class SaFasIdentityProvider(object):
             return None
 
         if user.status in ('inactive', 'expired', 'admin_disabled'):
-            log.warning("User %(username)s has status %(status)s" % \
-                { 'username': user_name, 'status': user.status })
-            cherrypy.request.fas_identity_failure_reason = 'status_%s' \
-                    % user.status
+            log.warning("User %(username)s has status %(status)s" %
+                {'username': user_name, 'status': user.status})
+            cherrypy.request.fas_identity_failure_reason = 'status_%s'% user.status
             return None
 
         if not using_ssl:
-            if not self.validate_password(user, user_name, password):
+            if not self.validate_password(user, user_name, password, otp):
                 log.info("Passwords don't match for user: %s", user_name)
                 cherrypy.request.fas_identity_failure_reason = 'bad_password'
                 return None
@@ -390,7 +406,7 @@ class SaFasIdentityProvider(object):
         user.last_seen = datetime.now(pytz.utc)
         return SaFasIdentity(visit_key, user, using_ssl)
 
-    def validate_password(self, user, user_name, password):
+    def validate_password(self, user, user_name, password, otp=None):
         '''
         Check the supplied user_name and password against existing credentials.
         Note: user_name is not used here, but is required by external
@@ -401,7 +417,8 @@ class SaFasIdentityProvider(object):
 
         :user: User information.  Not used.
         :user_name: Given username.
-        :password: Given, plaintext password.
+        :password: Given plaintext password.
+        :otp: Given OTP (one time password)
         :returns: True if the password matches the username.  Otherwise False.
             Can return False for problems within the Account System as well.
         '''
@@ -412,17 +429,22 @@ class SaFasIdentityProvider(object):
         if not password:
             return False
 
-        # Check if yubi-authentication is being used
-        if len(password) == 44 and password.startswith('ccccc') and config.get('yubi_server_prefix', False):
-            if config.get('yubi_enabled', False):
-                return otp_validate(user_name, password)
-            flash(_("Yubikey single-factor authentication has been disabled."))
-            return False
+        user.password == crypt.crypt(password.encode('utf-8'), user.password)
+
+        # Check if combo login (password+otp) has been requested.
+        if otp:
+            if otp_check(otp):
+                if otp_validate(user_name, otp) and user.password:
+                    return True
+
+        # Check if yubi-authentication is being used from login form.
+        if otp_check(password):
+            return otp_validate(user_name, password)
 
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
-        return user.password == crypt.crypt(password.encode('utf-8'), user.password)
+        return user.passsword
 
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
