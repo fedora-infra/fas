@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2012 Red Hat, Inc.
+# Copyright © 2013 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -24,7 +24,7 @@
 Release information about the Fedora Accounts System
 '''
 
-VERSION = '0.8.15.90'
+VERSION = '0.8.16'
 NAME = 'fas'
 DESCRIPTION = 'The Fedora Account System'
 LONG_DESCRIPTION = '''
