@@ -6,6 +6,7 @@
 # Francesco D'Aluisio <fdaluisio@fedoraproject.org>, 2011.
 # Francesco Tombolini <tombo@adamantio.net>, 2008, 2009, 2012.
 # Franco Godone <francog@fedoraproject.org>, 2008.
+# Gianluca Sforna <giallu@gmail.com>, 2013.
 # Guido Grazioli <guido.grazioli@gmail.com>, 2009.
 # mario_santagiuliana <mario at marionline.it>, 2009.
 # Silvio Pierro <perplesso82@gmail.com>, 2008.
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-20 09:11+0000\n"
+"Last-Translator: Gianluca Sforna <giallu@gmail.com>\n"
 "Language-Team: Italian <trans-it@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -475,7 +476,7 @@ msgstr ""
 
 #: fas/help.py:31
 msgid "Security question (Required)"
-msgstr ""
+msgstr "Domanda di sicurezza (obbligatoria)"
 
 #: fas/help.py:31
 msgid ""
@@ -483,7 +484,7 @@ msgid ""
 "address. You can email the admins, and they will ask you this question, and "
 "confirm you give the correct answer, before resetting your password/email "
 "address</p>"
-msgstr ""
+msgstr "<p>La domanda di sicurezza è utilizzata quando si perde l'accesso al proprio indirizzo email.  Sarà possibile inviare una email agli admin,  loro porranno questa domanda e verificheranno che la risposta sia giusta, prima di ripristinare la password/indirizzo email.</p>"
 
 #: fas/help.py:32
 msgid "Full Name (Required)"
@@ -1122,11 +1123,11 @@ msgstr "La password corrente non corrisponde"
 
 #: fas/user.py:1051
 msgid "Your security question could not be changed."
-msgstr ""
+msgstr "La domanda di sicurezza non è stata modificata."
 
 #: fas/user.py:1054
 msgid "Your security question has been changed."
-msgstr ""
+msgstr "La domanda di sicurezza è stata modificata."
 
 #: fas/user.py:1083
 msgid "passwords did not match"
@@ -1512,7 +1513,7 @@ msgstr "Aiuto/Documentazione"
 
 #: fas/templates/master.html:49
 msgid "Code of Conduct"
-msgstr ""
+msgstr "Codice di condotta"
 
 #: fas/templates/master.html:55
 msgid "Logged in:"
@@ -1560,7 +1561,7 @@ msgstr "FAS versione %s"
 msgid ""
 "© 2012 Red Hat, Inc.  Please send any comments or corrections to the <a "
 "href=\"mailto:%(webmaster)s\">websites team</a>."
-msgstr ""
+msgstr "© 2012 Red Hat, Inc.  Inviare commenti o correzioni al <a href=\"mailto:%(webmaster)s\">team websites</a>."
 
 #: fas/templates/master.html:104
 msgid ""
@@ -1756,7 +1757,7 @@ msgstr "Invita un nuovo membro della comunità!"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "Lingua:"
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"
@@ -2133,7 +2134,7 @@ msgstr "Conferma password:"
 #: fas/templates/user/changequestion.html:10
 #: fas/templates/user/changequestion.html:22
 msgid "Change Security Question"
-msgstr ""
+msgstr "Cambia domanda di sicurezza"
 
 #: fas/templates/user/changequestion.html:12
 msgid ""
@@ -2149,11 +2150,11 @@ msgstr ""
 
 #: fas/templates/user/changequestion.html:17
 msgid "New Question:"
-msgstr ""
+msgstr "Nuova domanda:"
 
 #: fas/templates/user/changequestion.html:21
 msgid "Answer:"
-msgstr ""
+msgstr "Risposta:"
 
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"

@@ -6,16 +6,18 @@
 #   <aeperezt@fedoraproject.org>, 2012.
 # Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>, 2011-2012.
 # Daniel Cabrera <logan@fedoraproject.org>, 2011.
+#  <domingobecker@gmail.com>, 2013.
 #   <domingobecker@gmail.com>, 2011.
 # Héctor Daniel Cabrera <logan@fedoraproject.org>, 2011.
+# Juan Orti Alcaine <j.orti.alcaine@gmail.com>, 2013.
 # Luis Bazán <lbazan@bakertillypanama.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-21 10:45+0000\n"
+"Last-Translator: jorti <j.orti.alcaine@gmail.com>\n"
 "Language-Team: Spanish <trans-es@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +96,7 @@ msgstr "Error al borrar cla y otros grupos dependientes para %(person)s\n El err
 
 #: fas/fpca.py:185
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "ICLA de Fedora Revocado"
 
 #: fas/fpca.py:186
 #, python-format
@@ -126,7 +128,7 @@ msgid ""
 "Thanks!\n"
 "\n"
 "    username"
-msgstr ""
+msgstr "\nHola %(human_name)s,\n\nLamentamos molestarlo pero debemos rechazar su CLA por \nahora porque la información que nos dió se ha considerado\nincorrecta. La causa más común es gente que abrevian sus nombres como \"B L Couper\" en vez de proveer el nombre\ncompleto \"Bill Lay Couper\".  Otras causas son usar un país, o un \nnúmero de teléfono que no es preciso [1]_.\nSi pudiera editar su cuenta  [2]_ para corregir cualquiera de estos problemas y volver a subirlo, se lo agradeceríamos.\n\n.. [1]: Por qué es importante que tengamos su nombre real y \n        número de teléfono?  Es porque el CLA es un documento \n        legal y si necesitáramos contactarlo acerca de alguna de \n        sus contribuciones (por ejemplo, porque alguien nos \n        contacte diciendo que son ellos los que tienen los derechos \n        de autor de la contribución) podríamos necesitar \n        contactarlo para que nos dé información adicional acerca \n        de lo que está sucediendo.\n\n.. [2]: Edite su cuenta ingresando en:\n        https://admin.fedoraproject.org/accounts/user/edit/%(username)s\n\nSi tiene preguntas acerca de cuál podría ser específicamente el \nproblema con su cuenta, por favor contáctenos en  \naccounts@fedoraproject.org.\n\n¡Gracias!\n    "
 
 #: fas/fpca.py:248
 msgid "FPCA Successfully Removed."
@@ -215,7 +217,7 @@ msgstr "No puede editar '%s'."
 
 #: fas/group.py:338
 msgid "Group type cannot by empty!"
-msgstr ""
+msgstr "¡El tipo de grupo no puede quedar vacío!"
 
 #: fas/group.py:361
 msgid "The group details could not be saved."
@@ -395,7 +397,7 @@ msgstr "¡%s ha sido bajado de nivel!"
 
 #: fas/group.py:776 fas/group.py:811
 msgid "Invitation to join the Fedora Team!"
-msgstr ""
+msgstr "¡Invitación para unirse al Equipo de Fedora!"
 
 #: fas/group.py:795 fas/group.py:830
 #, python-format
@@ -416,7 +418,7 @@ msgid ""
 "very smart and talented people.\n"
 "\n"
 "Fedora and FOSS are changing the world -- come be a part of it!fullname"
-msgstr ""
+msgstr "\n¡%(fullname)s <%(user)s@%(hostname)s> lo ha invitado a unirse al Proyecto\nFedora! Somos una comunidad de usuarios y desarrolladores que producimos\nun sistema operativo completo a partir de software completamente libre y\nde código abierto (FOSS). %(fullname)s cree que Ud. tiene los conocimientos\ny las habilidades que lo hacen un buen candidato para la comunidad de\nFedora, y que le podría interesar contribuir.\n\n¿Cómo podría hacer equipo con la comunidad de Fedora para usar y desarrollar\nsus habilidades? Revise en http://fedoraproject.org/join-fedora para ver algunas\nideas. Nuestra comunidad es más que sólo desarrolladores de software -- también\nhay lugar para Ud. si es un artista, un constructor de sitio web, un escritor o \nsimplemente alguien. Crecerá y aprenderá a medida que trabaje con el equipo\ncon gente muy inteligente y con talento.\n\nFedora y el FOSS están cambiando el mundo -- ¡venga y forme parte de é! fullname"
 
 #: fas/group.py:834
 #, python-format
@@ -739,7 +741,7 @@ msgid ""
 "'hg', 'svn', and 'mtn'. This value only really matters if the group is to "
 "end up getting shell access or commit access somewhere like "
 "fedorahosted.</p>"
-msgstr ""
+msgstr "<p>Campo obligatorio. Los valores disponibles son 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn' y 'mtn'. Este valor sólo importa si el grupo es para poder acceder a shell o acceso de escritura en algún lugar como fedorahosted.</p>"
 
 #: fas/help.py:56
 msgid "Group URL (Optional)"
@@ -895,7 +897,7 @@ msgstr "Cargando: %(visitmod)s"
 
 #: fas/safasprovider.py:419
 msgid "Yubikey single-factor authentication has been disabled."
-msgstr ""
+msgstr "La autenticación Yubikey de factor único ha sido deshabilitado."
 
 #: fas/sidebar.py:23
 msgid "New Group"
@@ -992,7 +994,7 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
+msgstr "\nAcaba de actualizar la información sobre su cuenta. Si no pidió estos cambios,\npor favor contacte a admin@fedoraproject.org y avíseles. Su información \nactualizada es:\n\n  usuario:         %(username)s\n  nombre completo: %(fullname)s\n  nick irc:        %(ircnick)s\n  teléfono:        %(telephone)s\n  idioma:          %(locale)s\n  huso horario:    %(timezone)s\n  código de país:  %(country_code)s\n  latitud:         %(latitude)s\n  longitud:        %(longitude)s\n  privacidad:      %(privacy)s\n  ssh_key:         %(ssh_key)s\n  gpg_keyid:       %(gpg_keyid)s\n\nSi la información de arriba es incorrecta, por favor ingrese y corríjala:\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
 #: fas/user.py:473
 msgid "Your account details have been saved."
@@ -1756,7 +1758,7 @@ msgstr "¡Invite a un nuevo miembro de la comunidad!"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "Idioma:"
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"

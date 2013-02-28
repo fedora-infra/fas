@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Alick Zhao <alick9188@gmail.com>, 2012.
-# Christopher Meng <cickumqt@gmail.com>, 2012.
+# Christopher Meng <cickumqt@gmail.com>, 2012-2013.
 #   <fanwuming163@163.com>, 2011.
 # Mike Ma <zhtx10@gmail.com>, 2011.
 # TianShixiong <tiansworld@gmail.com>, 2008, 2009, 2010.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-19 07:01+0000\n"
+"Last-Translator: Christopher Meng <cickumqt@gmail.com>\n"
 "Language-Team: Chinese (China) <trans-zh_cn@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,12 +59,12 @@ msgstr "您的旧密码已过期。请在下面重新设置密码。"
 msgid ""
 "Your account is currently disabled.  For more information, please contact "
 "%(admin_email)sadmin_email"
-msgstr "您的账户已停用。要了解更多信息，请联系 %(admin_email)sadmin_email"
+msgstr "您的账户已停用。欲了解更多信息，请联系 %(admin_email)sadmin_email"
 
 #: fas/controllers.py:254
 #, python-format
 msgid "The language '%s' is not available."
-msgstr "语言 '%s' 不存在。"
+msgstr "语言 '%s' 不可用。"
 
 #: fas/fpca.py:77
 msgid ""
@@ -96,7 +96,7 @@ msgstr "删除 cla 及 %(person)s 依赖的组时出错\n 错误为 %(error)s"
 
 #: fas/fpca.py:185
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "Fedora ICLA 已废除"
 
 #: fas/fpca.py:186
 #, python-format
@@ -171,7 +171,7 @@ msgstr "电话号码只允许包括数字、“-”、“+”、“(\"、”)“
 #: fas/fpca.py:351 fas/fpca.py:365
 #, python-format
 msgid "You could not be added to the '%s' group."
-msgstr "您不能加入到 '%s' 组。"
+msgstr "您不能加入 '%s' 组。"
 
 #: fas/fpca.py:361
 #, python-format
@@ -217,7 +217,7 @@ msgstr "您不能编辑 '%s'。"
 
 #: fas/group.py:338
 msgid "Group type cannot by empty!"
-msgstr ""
+msgstr "组类别不能为空！"
 
 #: fas/group.py:361
 msgid "The group details could not be saved."
@@ -240,7 +240,7 @@ msgstr "%(user)s 不适用于 %(group)s。"
 #: fas/group.py:457
 #, python-format
 msgid "%(user)s could not apply to %(group)s: %(error)s"
-msgstr "%(user)s 不适用于 %(group)s： %(error)s."
+msgstr "%(user)s 不适用于 %(group)s： %(error)s"
 
 #: fas/group.py:481
 #, python-format
@@ -358,7 +358,7 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr "\n%(user)s <%(email)s> 将您升级到Fedora账户系统 '%(group)s' 组中的\n%(status)s 状态.此变更将在有新操作时立即生效, 并将在一小时内发送到\n关联的电子邮件地址.\n"
+msgstr "\n%(user)s <%(email)s> 已将您升级至 Fedora 账户系统 '%(group)s' 组中的\n%(status)s 状态。此变更将在有新操作时立即生效，并将在一小时内发送到\n关联的电子邮件地址。\n"
 
 #: fas/group.py:663
 #, python-format
@@ -388,7 +388,7 @@ msgid ""
 "'%(group)s' group of the Fedora Accounts System This change is\n"
 "effective immediately for new operations, and should propagate\n"
 "into the e-mail aliases within an hour.\n"
-msgstr "\n%(user)s <%(email)s>已将您在Fedora账户系统 '%(group)s'组中的状态降为\n %(status)s. 此更改将在有新的操作时立刻生效, 并会在一小时内发送至关联的电子邮件地址.\n"
+msgstr "\n%(user)s <%(email)s> 已将您在 Fedora 账户系统 '%(group)s'组中的状态降为\n %(status)s。此更改将在有新的操作时立刻生效，并会在一小时内发送至关联的电子邮件地址。\n"
 
 #: fas/group.py:713
 #, python-format
@@ -397,7 +397,7 @@ msgstr "%s 已被降级！"
 
 #: fas/group.py:776 fas/group.py:811
 msgid "Invitation to join the Fedora Team!"
-msgstr ""
+msgstr "加入 Fedora 团队的邀请！"
 
 #: fas/group.py:795 fas/group.py:830
 #, python-format
@@ -462,7 +462,7 @@ msgid ""
 "<p>IRC Nick is used to identify yourself on irc.freenode.net.  Please "
 "register your nick on irc.freenode.net first, then fill this in so people "
 "can find you online when they need to</p>"
-msgstr "<p>通过 IRC 昵称，可在 irc.freenode.net 上找到您。请先在 irc.freenode.net 上注册您的昵称，然后在这里填写以方便其他用户需要时联系您</p>"
+msgstr "<p>通过 IRC 昵称，可在 irc.freenode.net 上找到您。请先在 irc.freenode.net 上注册您的昵称，然后在这里填写以便其他用户需要时联系您</p>"
 
 #: fas/help.py:30
 msgid "Email (Required)"
@@ -518,7 +518,7 @@ msgid ""
 "need to contact you.  For more information see our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a></p>"
-msgstr "<p>需要完成以下内容 <a href=\"http://fedoraproject.org/wiki/Legal/Licenses/CLA\">CLA</a>. 有时候在某些紧急的时候Fedora计划中的成员可能需要联系您. 更多信息请查看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">隐私政策</a></p>"
+msgstr "<p>需要完成以下内容  <a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">FPCA</a>。某些紧急的时候 Fedora 项目中的成员可能需要联系您。更多信息请查看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">隐私政策</a></p>"
 
 #: fas/help.py:35 fas/templates/fpca/index.html:47
 #: fas/templates/user/edit.html:51
@@ -530,7 +530,7 @@ msgid ""
 "<p>This should be a mailing address where you can be contacted.  See our <a "
 "href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">Privacy "
 "Policy</a> about any concerns.</p>"
-msgstr "<p>这应当是能够联系您的一个邮件地址.  若有任何疑问请看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">隐私策略</a></p>"
+msgstr "<p>这应当是能够联系您的一个邮件地址。如有任何疑问请查看<a href=\"http://fedoraproject.org/wiki/Legal/PrivacyPolicy\">隐私策略</a></p>"
 
 #: fas/help.py:36
 msgid "Timezone (Optional)"
@@ -570,7 +570,7 @@ msgid ""
 "between you and Red Hat.  Full status allows people to contribute content "
 "and code and is recommended for anyone interested in getting involved in the"
 " Fedora Project.</p>"
-msgstr "<p>如果您想成为一个真正的 Fedora 贡献人员，您必须签署<a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora 项目贡献人员协议</a>。  此许可是您和 Red Hat (红帽) 之间的法律协议。  拥有良好的状态的人们会贡献内容和代码，我们希望任何这样的人能够加入。</p>"
+msgstr "<p>如果您想成为一个真正的 Fedora 贡献人员，您必须签署<a href=\"http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement\">Fedora 项目贡献人员协议</a>。此许可是您和 Red Hat (红帽) 之间的法律协议。拥有良好的状态的人们会贡献内容和代码，我们希望任何这样的人能够加入。</p>"
 
 #: fas/help.py:40 fas/templates/user/edit.html:105
 msgid "Public RSA SSH Key"
@@ -585,7 +585,7 @@ msgid ""
 " wish to login through several hosts, each with their own public key, you "
 "can create a concatenated file of public ssh keys and upload it in lieu of "
 "the individual ssh public key.</p>"
-msgstr "<p>许多资源需要公钥验证才能工作。通过上传公钥，您就可以登录我们的服务器。输入“man ssh-keygen”可以了解更多关于如何创建密钥 (必须是 RSA 密钥) 的信息。  一旦创建成功，您就可以将 ~/.ssh/id_rsa.pub 文件上传。 <br /><br />如果您想通过不同的主机登录，而每个都有独立的公钥，那么您可以创建一个拥有多个 ssh 公钥的集合文件，并将该文件上传以代替单个的 ssh 公钥文件。</p>"
+msgstr "<p>许多资源需要公钥验证才能工作。通过上传公钥，您就可以登录我们的服务器。输入“man ssh-keygen”可以了解更多关于如何创建密钥 (必须是 RSA 密钥) 的信息。一旦创建成功，您就可以将 ~/.ssh/id_rsa.pub 文件上传。<br /><br />如果您想通过不同的主机登录，而每个都有独立的公钥，那么您可以创建一个拥有多个 ssh 公钥的集合文件，并将该文件上传以代替单个的 ssh 公钥文件。</p>"
 
 #: fas/help.py:41 fas/templates/user/edit.html:121
 msgid "Locale"
@@ -761,7 +761,7 @@ msgstr "组邮件列表 (可选)"
 msgid ""
 "<p>A mailing list for the group (for example, fedora-infrastructure-"
 "list@redhat.com).</p>"
-msgstr "<p>针对该组的邮件列表 (比如, edora-infrastructure-list@redhat.com)</p>"
+msgstr "<p>该组的邮件列表 (比如，fedora-infrastructure-list@redhat.com)。</p>"
 
 #: fas/help.py:58
 msgid "Group Mailing List URL (Optional)"
@@ -897,7 +897,7 @@ msgstr "正在载入：%(visitmod)s"
 
 #: fas/safasprovider.py:419
 msgid "Yubikey single-factor authentication has been disabled."
-msgstr ""
+msgstr "Yubikey 单方面验证已禁用。"
 
 #: fas/sidebar.py:23
 msgid "New Group"
@@ -994,7 +994,7 @@ msgid ""
 "If the above information is incorrect, please log in and fix it:\n"
 "\n"
 "   %(editurl)s/accounts/user/edit/%(username)s\n"
-msgstr ""
+msgstr "\n您刚刚更新了您的个人信息。如果您没有，\n请立即通过 admin@fedoraproject.org 联系管理员。\n您更新后的个人信息如下：\n\n  用户名：:       %(username)s\n  全名：      %(fullname)s\n  irc 昵称：        %(ircnick)s\n  联系电话：      %(telephone)s\n  区域：         %(locale)s\n  时区：       %(timezone)s\n  国家代码：   %(country_code)s\n  纬度：       %(latitude)s\n  经度：      %(longitude)s\n  隐私标记：   %(privacy)s\n  ssh 密钥：        %(ssh_key)s\n  gpg 密钥代码：      %(gpg_keyid)s\n\n如果以上信息有误，请通过下面链接登录修改：\n\n   %(editurl)s/accounts/user/edit/%(username)s\n"
 
 #: fas/user.py:473
 msgid "Your account details have been saved."
@@ -1206,7 +1206,7 @@ msgstr "此用户没有 GPG 密钥 ID，因此无法发送加密邮件。"
 
 #: fas/user.py:1199
 msgid "Your key could not be retrieved from subkeys.pgp.net"
-msgstr "您的密钥无法从 subeys.pgp.net 恢复"
+msgstr "无法从 subeys.pgp.net 获取您的密钥"
 
 #: fas/user.py:1226
 msgid "Your password reset email could not be encrypted."
@@ -1601,7 +1601,7 @@ msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr "欢迎来到 Fedora 账户系统。  请将 bug 上传到<a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> 或者访问 #fedora-admin on irc.freenode.net。"
+msgstr "欢迎来到 Fedora 账户系统。  请将 bug 上传到<a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> 或者访问 irc.freenode.net  的 #fedora-admin 频道。"
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1758,7 +1758,7 @@ msgstr "邀请新成员！"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "语言："
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"

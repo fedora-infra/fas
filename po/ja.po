@@ -5,15 +5,15 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 # Hajime Taira <htaira@redhat.com>, 2011, 2012.
-# Tomoyuki KATO <tomo@dream.daynight.jp>, 2011-2012.
+# Tomoyuki KATO <tomo@dream.daynight.jp>, 2011-2013.
 #   <www.carrotsoft@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-23 02:27+0000\n"
+"Last-Translator: Tomoyuki KATO <tomo@dream.daynight.jp>\n"
 "Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +92,7 @@ msgstr "CLAおよび、%(person)s に依存するグループの削除中にエ�
 
 #: fas/fpca.py:185
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "Fedora ICLA が失効しました"
 
 #: fas/fpca.py:186
 #, python-format
@@ -213,7 +213,7 @@ msgstr "あなたは '%s' を編集できません。"
 
 #: fas/group.py:338
 msgid "Group type cannot by empty!"
-msgstr ""
+msgstr "グループ種別を空白にできません。"
 
 #: fas/group.py:361
 msgid "The group details could not be saved."
@@ -393,7 +393,7 @@ msgstr "%s は格下げされました！"
 
 #: fas/group.py:776 fas/group.py:811
 msgid "Invitation to join the Fedora Team!"
-msgstr ""
+msgstr "Fedora チームへの招待状です!"
 
 #: fas/group.py:795 fas/group.py:830
 #, python-format
@@ -737,7 +737,7 @@ msgid ""
 "'hg', 'svn', and 'mtn'. This value only really matters if the group is to "
 "end up getting shell access or commit access somewhere like "
 "fedorahosted.</p>"
-msgstr ""
+msgstr "<p>必須項目です。利用可能な値は 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', および 'mtn' です。グループが fedorahosted のようなところに、シェルのアクセス権またはコミット操作の権限を取得しているときのみ、この値が効果を持ちます。</p>"
 
 #: fas/help.py:56
 msgid "Group URL (Optional)"
@@ -893,7 +893,7 @@ msgstr "ロード中: %(visitmod)s"
 
 #: fas/safasprovider.py:419
 msgid "Yubikey single-factor authentication has been disabled."
-msgstr ""
+msgstr "Yubikey 一要素認証は無効化されています。"
 
 #: fas/sidebar.py:23
 msgid "New Group"
@@ -1754,7 +1754,7 @@ msgstr "新しいコミュニティメンバーを招待する！"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "言語:"
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"
