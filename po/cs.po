@@ -4,13 +4,14 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Josef Hruska <josef.hruska@upcmail.cz>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-19 18:01+0000\n"
+"Last-Translator: Josef Hruska <josef.hruska@upcmail.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/fedora/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr "'%s' jazyk není dostupný."
 #: fas/fpca.py:77
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
-msgstr ""
+msgstr "K dokončení procesu uzavření dohody FPCA se vyžaduje, abyste uvedli své telefonní číslo. Prosíme, zadejte číslo do pole níže:"
 
 #: fas/fpca.py:81
 msgid ""
