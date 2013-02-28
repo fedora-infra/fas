@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Yuri Chornoivan <yurchor@ukr.net>, 2011-2012.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011-2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-02-19 05:55+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +90,7 @@ msgstr "Помилка під час спроби вилучити cla та за
 
 #: fas/fpca.py:185
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "Fedora ICLA відкликано"
 
 #: fas/fpca.py:186
 #, python-format
@@ -153,13 +154,13 @@ msgstr "Укладання FPCA не може бути завершено без
 msgid ""
 "To complete the FPCA, a valid country code must be specified. Please select "
 "one now."
-msgstr ""
+msgstr "Для завершення реєстрації FPCA слід вказати коректний код країни. Будь ласка, вкажіть цей код зараз."
 
 #: fas/fpca.py:330
 msgid ""
 "Telephone numbers can only consist of numbers, \"-\", \"+\", \"(\", \")\", "
 "or \" \". Please reenter using only those characters."
-msgstr ""
+msgstr "Номери телефонів мають складатися лише з цифр та символів «-», «+», «(», «)», « ». Будь ласка, повторіть введення номеру телефону, використовуючи лише ці символи."
 
 #: fas/fpca.py:351 fas/fpca.py:365
 #, python-format
@@ -210,7 +211,7 @@ msgstr "Ви не можете редагувати «%s»."
 
 #: fas/group.py:338
 msgid "Group type cannot by empty!"
-msgstr ""
+msgstr "Тип групи не може бути порожнім!"
 
 #: fas/group.py:361
 msgid "The group details could not be saved."
@@ -238,7 +239,7 @@ msgstr "%(user)s не зміг попросити про участь у %(group
 #: fas/group.py:481
 #, python-format
 msgid "Fedora '%(group)s' sponsor needed for %(user)s"
-msgstr ""
+msgstr "%(user)s потрібен спонсор групи «%(group)s» Fedora"
 
 #: fas/group.py:484
 #, python-format
@@ -336,7 +337,7 @@ msgstr "Ви не можете розширювати «%s»"
 #: fas/group.py:635
 #, python-format
 msgid "%(name)s could not be upgraded in %(group)s: %(error)s"
-msgstr ""
+msgstr "Права доступу %(name)s не може бути розширено у %(group)s: %(error)s"
 
 #: fas/group.py:639
 #, python-format
@@ -390,7 +391,7 @@ msgstr "Права %s було звужено!"
 
 #: fas/group.py:776 fas/group.py:811
 msgid "Invitation to join the Fedora Team!"
-msgstr ""
+msgstr "Запрошуємо долучитися до команди Fedora!"
 
 #: fas/group.py:795 fas/group.py:830
 #, python-format
@@ -588,7 +589,7 @@ msgstr "Локаль"
 msgid ""
 "<p>For non-english speaking peoples this allows individuals to select which "
 "locale they are in.</p>"
-msgstr ""
+msgstr "<p>За допомогою цього пункту ті, хто не розмовляє англійською, можуть вибрати локаль (мову), яке є для них рідною.</p>"
 
 #: fas/help.py:42
 msgid "Country Code"
@@ -706,7 +707,7 @@ msgstr "Назва групи"
 msgid ""
 "<p>The name of the group you'd like to create.  It should be lowercase "
 "alphanumeric though '-' and '_' are allowed</p>"
-msgstr ""
+msgstr "<p>Назва групи, яку ви хочете створити. У назві можна використовувати малі літери, цифри та символи «-» і «_».</p>"
 
 #: fas/help.py:53
 msgid "Display Name"
@@ -794,7 +795,7 @@ msgstr "Мережа IRC групи (необов’язкова)"
 #: fas/help.py:61
 msgid ""
 "<p>The IRC Network for the group's IRC channel (for example, Freenode).</p>"
-msgstr ""
+msgstr "<p>Мережа IRC, у якій зареєстровано канал IRC групи (наприклад Freenode).</p>"
 
 #: fas/help.py:62
 msgid "Needs Sponsor"
@@ -818,7 +819,7 @@ msgstr "Самовилучення"
 msgid ""
 "<p>Should users be able to remove themselves from this group without sponsor"
 " / admin intervention?  (recommended yes)</p>"
-msgstr ""
+msgstr "<p>Чи слід дозволяти користувачам вилучати свій запис зі списку групи без втручання спонсорів та адміністраторів? (рекомендуємо дозволити таке вилучення)</p>"
 
 #: fas/help.py:64
 msgid "Must Belong To"
@@ -890,7 +891,7 @@ msgstr "Завантаження: %(visitmod)s"
 
 #: fas/safasprovider.py:419
 msgid "Yubikey single-factor authentication has been disabled."
-msgstr ""
+msgstr "Однофакторне розпізнавання за Yubikey було вимкнено."
 
 #: fas/sidebar.py:23
 msgid "New Group"
@@ -934,7 +935,7 @@ msgstr "Хтось вже користується цією адресою ел�
 msgid ""
 "Before your new email takes effect, you must confirm it.  You should receive"
 " an email with instructions shortly."
-msgstr ""
+msgstr "Перш ніж буде змінено адресу вашої електронної пошти, вам слід підтвердити цю зміну. Відповідні настанови невдовзі буде надіслано до вашої електронної поштової скриньки."
 
 #: fas/user.py:388
 #, python-format
@@ -1007,7 +1008,7 @@ msgstr "Користувачів, що відповідають запиту «%
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
-msgstr ""
+msgstr "Заплановану зміну адреси електронної пошти скасовано. Ключ зміни адреси електронної пошти втратив чинність."
 
 #: fas/user.py:791 fas/user.py:813
 msgid "You do not have any pending email changes."
@@ -1160,7 +1161,7 @@ msgstr "Невідоме системі поєднання імені корис
 msgid ""
 "Your account currently has status %(status)s.  For more information, please "
 "contact %(admin_email)s"
-msgstr ""
+msgstr "Системою визначено такий стан вашого облікового запису: %(status)s. Щоб дізнатися більше, будь ласка, надішліть запит на адресу %(admin_email)s"
 
 #: fas/user.py:1165
 #, python-format
@@ -1179,7 +1180,7 @@ msgid ""
 "\n"
 "Warning: Someone attempted to reset the password for system account\n"
 "%(account)s via the web interface.\n"
-msgstr ""
+msgstr "\nПопередження: кимось виконано спробу скинути пароль до системного облікового\nзапису %(account)s за допомогою інтернет-інтерфейсу.\n"
 
 #: fas/user.py:1179
 #, python-format
@@ -1189,13 +1190,13 @@ msgid ""
 "To change your password (or to cancel the request), please visit\n"
 "\n"
 "%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
-msgstr ""
+msgstr "\nКимось (сподіваємося, вами) надіслано запит щодо скидання пароля до\nвашого облікового запису. Щоб змінити пароль (або скасувати запит),\nбудь ласка, відвідайте сторінку з такою адресою:\n\n%(verifyurl)s/accounts/user/verifypass/%(user)s/%(token)s\n"
 
 #: fas/user.py:1193
 msgid ""
 "This user does not have a GPG Key ID set, so an encrypted email cannot be "
 "sent."
-msgstr ""
+msgstr "Для цього запису користувача не встановлено ідентифікатора ключа GPG, отже надсилання зашифрованих повідомлень електронної пошти неможливе."
 
 #: fas/user.py:1199
 msgid "Your key could not be retrieved from subkeys.pgp.net"
@@ -1225,7 +1226,7 @@ msgstr "Некоректний ключ для зміни пароля."
 msgid ""
 "Your password reset has been canceled.  The password change token has been "
 "invalidated."
-msgstr ""
+msgstr "Скидання пароля скасовано. Ключ для зміни пароля втратив чинність."
 
 #: fas/user.py:1296
 msgid "Both passwords must match"
@@ -1243,11 +1244,11 @@ msgstr "Ваш новий пароль має відрізнятися від с
 msgid ""
 "You have successfully reset your password.  You should now be able to login "
 "below."
-msgstr ""
+msgstr "Вами успішно виконано скидання пароля. Тепер ви можете увійти до системи за допомогою наведених нижче полів."
 
 #: fas/user.py:1386
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
+msgstr "Перш ніж створювати сертифікат, вам слід завершити реєстрацію FPCA."
 
 #: fas/user.py:1456
 msgid "Your certificate could not be generated."
@@ -1309,7 +1310,7 @@ msgstr "Запис «%(user)s» вже існує."
 #: fas/validators.py:166
 msgid ""
 "To prevent email loops, your email address cannot be @fedoraproject.org."
-msgstr ""
+msgstr "Щоб запобігти циклічному використанню адрес електронної пошти, слід вказувати адресу, відмінну від адреси на @fedoraproject.org."
 
 #: fas/validators.py:180
 #, python-format
@@ -1327,7 +1328,7 @@ msgstr ""
 #, python-format
 msgid ""
 "'%(username)s' is an blacklisted username.  Please choose a different one."
-msgstr ""
+msgstr "«%(username)s» міститься у «чорному» списку. Будь ласка, виберіть інше ім’я."
 
 #: fas/validators.py:225
 #, python-format
@@ -1358,7 +1359,7 @@ msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
 " to submit this name."
-msgstr ""
+msgstr "Вам слід вказати ваше ім’я повністю, не лише ініціали. Якщо у вашому повному імені справді є однолітерні частини, ви можете позначити пункт ігнорування перевірки і надіслати відповідні дані без перевірки."
 
 #: fas/model/fasmodel.py:190
 msgid "user is already in this group"
@@ -1457,25 +1458,25 @@ msgstr "Черга завдань:"
 msgid ""
 "FPCA not completed.  To become a full Fedora Contributor please <a "
 "href=\"%s\">complete the FPCA</a>."
-msgstr ""
+msgstr "Реєстрацію FPCA не завершено. Щоб набути всіх прав учасника розробки Fedora, будь ласка, <a href=\"%s\">завершіть реєстрацію FPCA</a>."
 
 #: fas/templates/home.html:16
 #, python-format
 msgid ""
 "You have not submitted an SSH key, some Fedora resources require an SSH key."
 "  Please submit yours by editing <a href=\"%s\">My Account</a>"
-msgstr ""
+msgstr "Вам слід надати ключ SSH, оскільки для доступу до деяких ресурсів Fedora потрібен ключ SSH. Надати дані вашого ключа можна за допомогою <a href=\"%s\">редагування вашого облікового запису</a>."
 
 #: fas/templates/home.html:22
 #, python-format
 msgid ""
 "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> requests "
 "approval to join <a href=\"%(groupview)s\">%(group)s</a>."
-msgstr ""
+msgstr "<strong><a href=\"%(userview)s\">%(user)s (%(email)s)</a></strong> надіслано запит щодо підтвердження долучення до <a href=\"%(groupview)s\">%(group)s</a>."
 
 #: fas/templates/login.html:9
 msgid "Login to the Fedora Accounts System"
-msgstr ""
+msgstr "Вхід до системи облікових записів Fedora"
 
 #: fas/templates/master.html:24
 msgid "Fedora"
@@ -1594,7 +1595,7 @@ msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
 "href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr ""
+msgstr "Ласкаво просимо до системи облікових записів Fedora. Звіти про вади можна реєструвати на <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> або повідомляти про них на каналі #fedora-admin сервера irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
@@ -1649,7 +1650,7 @@ msgstr "Якщо вашої країни немає у списку, вибер�
 msgid ""
 "I certify that the above information (my name, country, and phone number) "
 "are accurate to the best of my knowledge."
-msgstr ""
+msgstr "Підтверджую, що наведені вище дані (ім’я, країна та номер телефону) є точними."
 
 #: fas/templates/fpca/index.html:68
 msgid "I agree"
@@ -1751,7 +1752,7 @@ msgstr "Запросити нового учасника!"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "Мова:"
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"
@@ -1911,7 +1912,7 @@ msgstr "Переглянути групу"
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
-msgstr ""
+msgstr "Членство у групі можливе лише за запрошенням. Щоб дізнатися більше, зверніться до спонсорів групи."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:21
 msgid "(edit)"
@@ -1973,23 +1974,23 @@ msgstr "Переглянути список учасників"
 
 #: fas/templates/group/view.html:110
 msgid "Sponsorship Queue"
-msgstr ""
+msgstr "Черга підтвердження спонсорами"
 
 #: fas/templates/openid/about.html:7
 msgid "This is an OpenID server"
-msgstr ""
+msgstr "Це сервер OpenID"
 
 #: fas/templates/openid/about.html:13
 msgid "<a href=\"$endpoint_url\">This</a> is an OpenID server endpoint."
-msgstr ""
+msgstr "<a href=\"$endpoint_url\">Це</a> кінцевий пункт сервера OpenID."
 
 #: fas/templates/openid/about.html:16
 msgid "For more information about OpenID, see:"
-msgstr ""
+msgstr "Щоб дізнатися більше про OpenID, зверніться до цих сторінок:"
 
 #: fas/templates/openid/about.html:20
 msgid "An OpenID community web site, home of this library."
-msgstr ""
+msgstr "Сайт спільноти OpenID, домівка цієї бібліотеки."
 
 #: fas/templates/openid/about.html:22
 msgid "The official OpenID web site."
@@ -2015,7 +2016,7 @@ msgstr "Профіль:"
 
 #: fas/templates/openid/authorizesite.html:21
 msgid "Trust Root:"
-msgstr ""
+msgstr "Кореневий сертифікат довіри:"
 
 #: fas/templates/openid/authorizesite.html:26
 msgid "Allow this authentication to proceed?"
@@ -2036,7 +2037,7 @@ msgstr "Строріна профілю OpenID"
 #: fas/templates/openid/id.html:21
 #, python-format
 msgid "This is an OpenID identity for %(human_name)s (%(username)s)"
-msgstr ""
+msgstr "Це профіль OpenID %(human_name)s (%(username)s)"
 
 #: fas/templates/openid/id.html:24
 #, python-format
@@ -2050,7 +2051,7 @@ msgstr "Частина <a href=\"%(url)s\">системи облікових з�
 
 #: fas/templates/openid/welcome.html:9
 msgid "Welcome to the Fedora OpenID Provider"
-msgstr ""
+msgstr "Вітаємо у системі надання OpenID Fedora"
 
 #: fas/templates/openid/welcome.html:16
 #, python-format
@@ -2134,13 +2135,13 @@ msgstr "Зміна питання захисту"
 msgid ""
 "Please enter your current password for confirmation, and then choose a new "
 "security question and answer."
-msgstr ""
+msgstr "Будь ласка, вкажіть ваш поточний пароль для підтвердження, а потім виберіть нове захисне питання та відповідь."
 
 #: fas/templates/user/changequestion.html:13
 msgid ""
 "This question will be asked if you lose access to your email address and "
 "want to recover access to your account."
-msgstr ""
+msgstr "Це запитання буде задано, якщо ви втратите доступ до вашої адреси електронної пошти і захочете відновити доступ до вашого облікового запису."
 
 #: fas/templates/user/changequestion.html:17
 msgid "New Question:"
@@ -2157,7 +2158,7 @@ msgstr "Змінити обліковий запис"
 #: fas/templates/user/edit.html:20
 #, python-format
 msgid "Edit Account (%s)"
-msgstr ""
+msgstr "Змінити обліковий запис (%s)"
 
 #: fas/templates/user/edit.html:22 fas/templates/user/view.html:84
 msgid "Password:"
@@ -2242,7 +2243,7 @@ msgstr "Список користувачів"
 
 #: fas/templates/user/list.html:12
 msgid "\"*\" is a wildcard (Ex: \"ric*\")"
-msgstr ""
+msgstr "«*» є замінником (Приклад: «ric*»)"
 
 #: fas/templates/user/list.html:26
 msgid "Username"
@@ -2276,7 +2277,7 @@ msgstr ""
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
-msgstr ""
+msgstr "Особисті дані може бути будь-коли оновлено або вилучено."
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2288,7 +2289,7 @@ msgstr "Ім’я повністю:"
 
 #: fas/templates/user/new.html:23
 msgid "Name check override:"
-msgstr ""
+msgstr "Ігнорувати перевірку імені:"
 
 #: fas/templates/user/new.html:27 fas/templates/user/resetpass.html:14
 #: fas/templates/user/view.html:31
@@ -2350,7 +2351,7 @@ msgstr ""
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr ""
+msgstr "Перегляд облікового запису"
 
 #: fas/templates/user/view.html:19
 msgid "Your Fedora Account"
@@ -2423,7 +2424,7 @@ msgstr "Неактивний"
 
 #: fas/templates/user/view.html:95
 msgid "Pinged"
-msgstr ""
+msgstr "Повідомлено"
 
 #: fas/templates/user/view.html:96
 msgid "Disabled"
@@ -2443,7 +2444,7 @@ msgstr "Нову CLA не підписано"
 
 #: fas/templates/user/view.html:109
 msgid "We need contributors to sign the new Contributor Agreement"
-msgstr ""
+msgstr "Учасники розробки мають зареєструвати нову угоду з учасником розробки"
 
 #: fas/templates/user/view.html:109
 msgid "Complete it now!"
@@ -2459,7 +2460,7 @@ msgstr "Не погоджено"
 
 #: fas/templates/user/view.html:117
 msgid "Complete it!"
-msgstr ""
+msgstr "Зареєструйте його!"
 
 #: fas/templates/user/view.html:120
 msgid "Privacy:"
@@ -2467,11 +2468,11 @@ msgstr "Конфіденційність:"
 
 #: fas/templates/user/view.html:122
 msgid "Account Information Private"
-msgstr ""
+msgstr "Конфіденційні дані облікового запису"
 
 #: fas/templates/user/view.html:123
 msgid "Account Information Public"
-msgstr ""
+msgstr "Відкриті дані облікового запису"
 
 #: fas/templates/user/view.html:128
 msgid "Your Roles"
