@@ -325,16 +325,22 @@ class User(controllers.Controller):
         :returns: empty dict
         '''
 
+        # person making changes
         username = identity.current.user_name
         person = People.by_username(username)
+
+        # Account being changed
         target = People.by_username(targetname)
+
         emailflash = ''
+        changed = [] # record field names that changed for fedmsg
 
         if not can_edit_user(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % \
                 target.username)
             turbogears.redirect('/user/view/%s', target.username)
             return dict()
+
         try:
             if target.status != status:
                 if (status in ('expired', 'admin_disabled') or target.status \
@@ -359,17 +365,19 @@ class User(controllers.Controller):
                      'new': status})
                 target.status = status
                 target.status_change = datetime.now(pytz.utc)
-            target.human_name = human_name
+                changed.append('status')
+
             if target.email != email:
                 test = select([PeopleTable.c.username],
-                func.lower(PeopleTable.c.email) \
-                == email.lower()).execute().fetchall()
+                        func.lower(PeopleTable.c.email) \
+                        == email.lower()).execute().fetchall()
                 if test:
                     turbogears.flash(_(
                         'Somebody is already using that email address.'
                     ))
                     turbogears.redirect("/user/edit/%s" % target.username)
                     return dict()
+
                 emailflash = _('Before your new email takes effect, you ' + \
                     'must confirm it.  You should receive an email with ' + \
                     'instructions shortly.')
@@ -388,20 +396,34 @@ login with your Fedora account first):
 %(verifyurl)s/accounts/user/verifyemail/%(token)s
 ''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
                 send_mail(email, change_subject, change_text)
+                # Note: email is purposefully not added to the changed[] list
+                # here because we don't change it until the new email is
+                # verified (in a separate method)
 
-            changed = []
-            for field, _validator in UserSave().fields.items():
-                if field in ['targetname']:
-                    continue
+            # note, ssh_key is often None or empty string at this point
+            # (file upload).  Testing ssh_key first prevents removing the
+            # ssh_key in this case.  The clearkey() method is used for removing
+            # an ssh_key.
+            if ssh_key and target.ssh_key != ssh_key:
+                target.ssh_key = ssh_key
+                changed.append('ssh_key')
 
-                _mod = _validator.to_python
+            # latitude and longitude are tricky.  They may be floats or ints
+            # coming from the web app.  They're floats coming from the db
+            if target.latitude != float(latitude):
+                target.lattitude = latitude
+                changed.append('latitude')
 
-                # Allow adding or changing of ssh_key but not removing.
-                if field in ['ssh_key']:
-                    if not ssh_key:
-                        _mod = lambda s: ''
+            if target.longitude != float(longitude):
+                target.lattitude = longitude
+                changed.append('longitude')
 
-                if _mod(getattr(target, field)) != locals()[field]:
+            # Other fields don't need any special handling
+            fields = ('human_name', 'telephone', 'postal_address', 'ircnick',
+                      'gpg_keyid', 'comments', 'locale', 'timezone',
+                      'country_code', 'privacy')
+            for field in fields:
+                if getattr(target, field) != locals()[field]:
                     setattr(target, field, locals()[field])
                     changed.append(field)
 
@@ -452,8 +474,8 @@ If the above information is incorrect, please log in and fix it:
                 '  ' + emailflash)
 
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': target.username, },
+                'agent': person.username,
+                'user': target.username,
                 'fields': changed,
             })
             turbogears.redirect("/user/view/%s" % target.username)
@@ -499,7 +521,7 @@ If the above information is incorrect, please log in and fix it:
                     'id'        : strip_p.id,
                     'ssh_key'   : strip_p.ssh_key,
                     'human_name': strip_p.human_name,
-                    'password'  : strip_p.password 
+                    'password'  : strip_p.password
                     })
 
         return dict(people=people_dict, unapproved_people=[], search=search)
@@ -804,6 +826,11 @@ If the above information is incorrect, please log in and fix it:
         session.flush()
         turbogears.flash(_('You have successfully changed your email to \'%s\''
             ) % person.email)
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': ('email',),
+        })
         turbogears.redirect('/user/view/%s' % username)
         return dict()
 
@@ -857,7 +884,7 @@ If the above information is incorrect, please log in and fix it:
             "on our sites. We do not knowingly collect or solicit personal " +\
             "information about children under 13."))
             turbogears.redirect('/')
-        email_test = select([PeopleTable.c.username], 
+        email_test = select([PeopleTable.c.username],
                       func.lower(PeopleTable.c.email)==email.lower())\
                     .execute().fetchall()
         if email_test:
@@ -871,7 +898,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/")
             return dict()
         try:
-            person = self.create_user(username, human_name, email, security_question, security_answer, 
+            person = self.create_user(username, human_name, email, security_question, security_answer,
                     telephone, postal_address, age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please " + \
@@ -886,7 +913,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect('/user/changepass')
             return dict()
 
-    def create_user(self, username, human_name, email, security_question, security_answer, 
+    def create_user(self, username, human_name, email, security_question, security_answer,
         telephone=None, postal_address=None, age_check=False, redirect_location='/'):
         ''' create_user: saves user information to the database and sends a
             welcome email.
@@ -971,8 +998,8 @@ to help. From here, existing members of the team will help you to find
 your feet as a Fedora contributor.
 
 Please remember that you are joining a community made of contributors
-from all around the world, as such please stop by the Community Code of 
-Conduct. 
+from all around the world, as such please stop by the Community Code of
+Conduct.
 
 https://fedoraproject.org/code-of-conduct
 
@@ -984,8 +1011,8 @@ forward to working with you!
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
         fas.fedmsgshim.send_message(topic="user.create", msg={
-            'agent': { 'username': person.username, },
-            'user': { 'username': person.username, },
+            'agent': person.username,
+            'user': person.username,
         })
         return person
 
@@ -1012,7 +1039,7 @@ forward to working with you!
                 person.password):
             turbogears.flash(_('Your current password did not match'))
             return dict()
-        
+
         try:
             person.security_question = newquestion
             person.security_answer = encrypt_text(config.get('key_securityquestion'), newanswer)
@@ -1026,8 +1053,8 @@ forward to working with you!
         else:
             turbogears.flash(_("Your security question has been changed."))
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': person.username, },
+                'agent': person.username,
+                'user': person.username,
                 'fields': ['security_question', 'security_answer'],
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -1081,11 +1108,11 @@ forward to working with you!
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
             return dict()
-        else:   
+        else:
             turbogears.flash(_("Your password has been changed."))
             fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': { 'username': person.username, },
-                'user': { 'username': person.username, },
+                'agent': person.username,
+                'user': person.username,
                 'fields': ['password'],
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
@@ -1157,7 +1184,7 @@ To change your password (or to cancel the request), please visit
 ''') % {'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'),
         'user': username, 'token': token}
         if encrypted:
-            # TODO: Move this out to mail function 
+            # TODO: Move this out to mail function
             # think of how to make sure this doesn't get
             # full of random keys (keep a clean Fedora keyring)
             # TODO: MIME stuff?
@@ -1204,7 +1231,7 @@ To change your password (or to cancel the request), please visit
         Log(author_id=person.id,
             description='Password reset sent for %s' % person.username)
         turbogears.flash(_('A password reset URL has been emailed to you.'))
-        turbogears.redirect('/login')  
+        turbogears.redirect('/login')
         return dict()
 
     @error_handler(error) # pylint: disable-msg=E0602
@@ -1260,6 +1287,7 @@ To change your password (or to cancel the request), please visit
         :returns: empty dict or error
         '''
         person = People.by_username(username)
+        changed = []  # Field names updated to emit via fedmsg
 
         # Note: the following check should be done by the validator.  It's
         # here because of a bug in older formencode that caused chained
@@ -1303,6 +1331,7 @@ To change your password (or to cancel the request), please visit
 
             person.status = 'active'
             person.status_change = datetime.now(pytz.utc)
+            changed.append('status')
 
         # Log the change
         newpass = generate_password(password)
@@ -1310,11 +1339,17 @@ To change your password (or to cancel the request), please visit
         person.password = newpass['hash']
         person.password_changed = datetime.now(pytz.utc)
         person.passwordtoken = ''
+        changed.append('password')
         Log(author_id=person.id, description='Password changed')
         session.flush()
 
         turbogears.flash(_('You have successfully reset your password.  ' + \
             'You should now be able to login below.'))
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': changed,
+        })
         turbogears.redirect('/login')
         return dict()
 
@@ -1436,6 +1471,11 @@ automatically revoked, and should stop working within the hour.
         send_mail(person.email, gencert_subject, gencert_text)
         Log(author_id=person.id, description='Certificate generated for %s' %
             person.username)
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+            'agent': person.username,
+            'user': person.username,
+            'fields': 'certificate',
+        })
         return dict(tg_template="genshi-text:fas.templates.user.cert",
                 cla=True, cert=certdump, key=keydump)
 
@@ -1476,8 +1516,8 @@ automatically revoked, and should stop working within the hour.
         person  = People.by_username(username)
         person.ssh_key = ''
         fas.fedmsgshim.send_message(topic="user.update", msg={
-            'agent': { 'username': person.username, },
-            'user': { 'username': person.username, },
+            'agent': person.username,
+            'user': person.username,
             'fields': ['ssh_key'],
         })
         turbogears.flash(_('Your key has been removed.'))

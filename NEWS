@@ -4,18 +4,23 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod
-:Date: 18 Oct 2012
-:Version: 0.8.15
+:Date: 28 Feb 2013
+:Version: 0.8.16
 
 ------
-0.8.16 (unreleased)
+0.8.16
 ------
 
+* Emit some more fedmsg events when changes occur to a user's account
+* Fix fedmsg messages using nested dicts -- use the toplevel if there's only a
+  single value to be more compatible with the data returned from other services.
 * Fix traceback in selinux when creating homedirs in fasClient
-* Revert some changes to openid to make some urls work.  It had a security
-  issue and we're going to be pushing the openid functionality into an external
-  app soon.
-* 
+* Fix 500's error from group edit if no group_type has been set.
+* Fix changing a user's email address before the address is verified
+* Remove a case where openid login can result in being logged in as someone
+  else.  This unfortunately breaks yadis but we're going to move to having
+  openid functionality in a second application so this is a stop gap until that
+  is deployed https://github.com/fedora-infra/fas-openid
 
 ------
 0.8.15

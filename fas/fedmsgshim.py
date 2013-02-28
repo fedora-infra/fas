@@ -12,6 +12,6 @@ import warnings
 def send_message(*args, **kwargs):
     try:
         import fedmsg
-        fedmsg.send_message(*args, **kwargs)
+        fedmsg.publish(*args, **kwargs)
     except Exception, e:
         warnings.warn(str(e))
