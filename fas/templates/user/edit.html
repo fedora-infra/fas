@@ -54,7 +54,7 @@
       </div>
       <div class="field">
         <label for="country_code">${_('Country')}:</label>
-        <select name="country_code">
+        <select id="country_code" name="country_code">
             <option value=''>${_('Select Country')}</option>
             <option py:for="code, country in sorted(countries.items(), lambda x, y: cmp(x[1], y[1]))"
               py:attrs="dict(selected=(code==target.country_code and 'True' or None ))"
