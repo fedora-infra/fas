@@ -296,16 +296,12 @@ class User(controllers.Controller):
         target = target.filter_private()
         return dict(target=target, languages=languages, admin=admin, show=show)
 
-    def _partial_coord_uneq(self, coord1, coord2):
-        if coord1 is None:
-            if coord2 is not None:
-                return True
+    # A float(n) function, that can safely be called with a None-argument
+    def _safe_float(self, f):
+        if f:
+            return float(f)
         else:
-            if coord2 is None:
-                return True
-            elif float(coord1) != float(coord2):
-                return True
-        return False
+            return None
 
     @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
@@ -421,12 +417,12 @@ login with your Fedora account first):
 
             # latitude and longitude are tricky.  They may be floats or ints
             # coming from the web app.  They're floats coming from the db
-            if self._partial_coord_uneq(latitude, target.latitude):
-                target.latitude = latitude
+            if target.latitude != self._safe_float(latitude):
+                target.latitude = self._safe_float(latitude)
                 changed.append('latitude')
-
-            if self._partial_coord_uneq(longitude, target.longitude):
-                target.longitude = longitude
+            
+            if target.longitude != self._safe_float(longitude):
+                target.longitude = self._safe_float(longitude)
                 changed.append('longitude')
 
             # Other fields don't need any special handling
