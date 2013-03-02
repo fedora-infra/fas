@@ -79,8 +79,10 @@ def otp_check(key):
     '''Check otp key string'''
     if config.get('yubi_enabled', False) and config.get('yubi_server_prefix', False):
         if len(key) == 44 and key.startswith('ccccc'):
+            log.debug('OTP key matches criteria.')
             return True
 
+    log.debug('OTP key check failed!')
     flash(_("Yubikey single-factor authentication has been disabled."))
     return False
 
@@ -392,6 +394,9 @@ class SaFasIdentityProvider(object):
             return None
 
         if not using_ssl:
+            if 'otp' in cherrypy.request.params:
+                otp = cherrypy.request.params.pop('otp')
+
             if not self.validate_password(user, user_name, password, otp):
                 log.info("Passwords don't match for user: %s", user_name)
                 cherrypy.request.fas_identity_failure_reason = 'bad_password'
@@ -436,15 +441,19 @@ class SaFasIdentityProvider(object):
             if otp_check(otp):
                 if otp_validate(user_name, otp) and user.password:
                     return True
+                else:
+                    log.debug('Invalid OTP or password!')
 
         # Check if yubi-authentication is being used from login form.
         if otp_check(password):
             return otp_validate(user_name, password)
+        else:
+            log.debug('No OTP key found while web authenticating.')
 
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
-        return user.passsword
+        return user.password
 
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
