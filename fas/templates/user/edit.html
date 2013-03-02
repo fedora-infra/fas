@@ -30,7 +30,7 @@
       </div>
       <!--Need to figure out what the interface should be for emails. -->
       <div class="field">
-        <label for="mail">${_('Email')}:</label>
+        <label for="email">${_('Email')}:</label>
         <input type="text" id="email" name="email" value="${target.email}" />
         <span py:if="target.unverified_email and target.emailtoken">
           ${Markup(_('(pending change to %(email)s - &lt;a href="%(url)s"&gt;cancel&lt;/a&gt;)') % {'email': target.unverified_email, 'url': tg.url('/user/verifyemail/1/cancel')})}
