@@ -296,13 +296,6 @@ class User(controllers.Controller):
         target = target.filter_private()
         return dict(target=target, languages=languages, admin=admin, show=show)
 
-    # A float(n) function, that can safely be called with a None-argument
-    def _safe_float(self, f):
-        if f:
-            return float(f)
-        else:
-            return None
-
     @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
     @error_handler(error) # pylint: disable-msg=E0602
