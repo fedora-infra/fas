@@ -76,7 +76,7 @@ from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
         NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-        ValidHumanWithOverride
+        ValidHumanWithOverride, MaybeFloat
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -154,8 +154,8 @@ class UserSave(validators.Schema):
     timezone = validators.UnicodeString   # TODO - could use better validation
     country_code = validators.UnicodeString(max=2, strip=True)
     privacy = validators.Bool
-    latitude = validators.Number
-    longitude = validators.Number
+    latitude = MaybeFloat
+    longitude = MaybeFloat
     comments = validators.UnicodeString   # TODO - could use better validation
 
 def generate_password(password=None, length=16):
@@ -415,20 +415,10 @@ login with your Fedora account first):
                 target.ssh_key = ssh_key
                 changed.append('ssh_key')
 
-            # latitude and longitude are tricky.  They may be floats or ints
-            # coming from the web app.  They're floats coming from the db
-            if target.latitude != self._safe_float(latitude):
-                target.latitude = self._safe_float(latitude)
-                changed.append('latitude')
-            
-            if target.longitude != self._safe_float(longitude):
-                target.longitude = self._safe_float(longitude)
-                changed.append('longitude')
-
             # Other fields don't need any special handling
             fields = ('human_name', 'telephone', 'postal_address', 'ircnick',
                       'gpg_keyid', 'comments', 'locale', 'timezone',
-                      'country_code', 'privacy')
+                      'country_code', 'privacy', 'latitude', 'longitude')
             for field in fields:
                 if getattr(target, field) != locals()[field]:
                     setattr(target, field, locals()[field])
