@@ -3,8 +3,8 @@ NEWS
 ====
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
-          Ricky Elrod
-:Date: 28 Feb 2013
+          Ricky Elrod, Xavier Lamien
+:Date: 07 Mar 2013
 :Version: 0.8.16
 
 ------
@@ -21,6 +21,7 @@ NEWS
   else.  This unfortunately breaks yadis but we're going to move to having
   openid functionality in a second application so this is a stop gap until that
   is deployed https://github.com/fedora-infra/fas-openid
+* Show security question's status from user/view's page.
 
 ------
 0.8.15
