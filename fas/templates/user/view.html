@@ -65,10 +65,10 @@
         <py:if test="personal or admin">
           <dt>${_('Public SSH Key:')}</dt>
           <dd py:if="person.ssh_key" title="${person.ssh_key}">
-	  <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
-          <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
-	  </dd>
-    <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
+            <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
+            <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
+          </dd>
+          <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
         </py:if>
         <py:if test="person.comments">
           <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
@@ -76,9 +76,17 @@
         <!-- Note: password is changable so we don't hide it if it's
         - unavailable
         - -->
+        <dt>${_('Security question: ')}</dt>
         <py:if test="personal">
-          <dt>${_('Security question: ')}</dt>
           <dd>${person.security_question}&nbsp;  <a href="${tg.url('/user/changequestion')}">${_('(change)')}</a></dd>
+        </py:if>
+        <py:if test="not personal and admin">
+          <dd>
+            <div>
+              <span py:if="person.security_question" class="approved">${_('Active')}</span>
+              <span py:if="not person.security_question" class="unapproved">${_('Inactive')}</span>
+            </div>
+          </dd>
         </py:if>
         <py:if test="personal or admin">
           <dt>${_('Password:')}</dt>
