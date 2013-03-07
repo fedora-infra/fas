@@ -86,6 +86,7 @@ def otp_check(key):
     flash(_("Yubikey single-factor authentication has been disabled."))
     return False
 
+#TODO: We should grab this from plugin, not duplicate.
 def otp_validate(user_name, otp):
     '''
     Check supplied otp key and username against existing credentials
@@ -443,12 +444,6 @@ class SaFasIdentityProvider(object):
                     return True
                 else:
                     log.debug('Invalid OTP or password!')
-
-        # Check if yubi-authentication is being used from login form.
-        if otp_check(password):
-            return otp_validate(user_name, password)
-        else:
-            log.debug('No OTP key found while web authenticating.')
 
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
