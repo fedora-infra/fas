@@ -175,6 +175,25 @@ class NonFedoraEmail(validators.FancyValidator):
         if value.endswith('@fedoraproject.org'):
             raise validators.Invalid(self.message('no_loop', state), value, state)
 
+class MaybeFloat(validators.FancyValidator):
+    ''' Make sure the float value is a valid float value (or None) '''
+    messages = {'no_float': _('Error - Not a valid float value: %(value)s')}
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        if value is None:
+            return None
+        else:
+            return float(value)
+
+    def validate_python(self, value, state):
+        if value is None:
+            return
+        try:
+            float(value)
+        except:
+            raise validators.Invalid(self.message('no_float', state,
+                        value=value), value, state)
+
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
