@@ -359,6 +359,8 @@ class SaFasIdentityProvider(object):
         :arg password: password to authenticate user_name with
         :arg visit_key: visit_key from the user's session
         :arg otp: One Time Password key to authenticate within the password
+                 This is an extras argument we add to request parameters
+                 in order to add 2nd factor authentication to TG1.
         '''
         # Save the user provided username so we can do other checks on it in
         # outside of this method.
@@ -393,6 +395,8 @@ class SaFasIdentityProvider(object):
             return None
 
         if not using_ssl:
+            # Get extras args from request params to increase auth check
+            # then pop it out if found to don't mess with other object's method
             if 'otp' in cherrypy.request.params:
                 otp = cherrypy.request.params.pop('otp')
 
@@ -433,20 +437,27 @@ class SaFasIdentityProvider(object):
         if not password:
             return False
 
-        user.password == crypt.crypt(password.encode('utf-8'), user.password)
+        # Check if given password matches existing one
+        check_pw = (user.password == crypt.crypt(password.encode('utf-8'), user.password))
 
         # Check if combo login (password+otp) has been requested.
         if otp:
+            # If so, make sure we got a correct otp key value before go ahead
             if otp_check(otp):
-                if otp_validate(user_name, otp) and user.password:
+                if otp_validate(user_name, otp) and check_pw:
                     return True
                 else:
                     log.debug('Invalid OTP or password!')
+                    return False
+           else:
+                # Do not validate if otp check failed,
+                # as both password and otp are required to get through.
+                return False
 
         # TG identity providers take user_name in case an external provider
         # needs it so we can't get rid of it. (W0613)
         # pylint: disable-msg=W0613
-        return user.password
+        return check_pw
 
     def load_identity(self, visit_key):
         '''Lookup the principal represented by visit_key.
