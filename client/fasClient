@@ -41,8 +41,12 @@ try:
     from selinux import copytree, install as move
     have_selinux = (selinux.is_selinux_enabled() == 1)
 except ImportError:
-    from shutil import move, rmtree, copytree
     have_selinux = False
+
+if not have_selinux:
+    # have_selinux could be False if we fail to import selinux or if selinux is
+    # disabled.  Need the shutil version of these in either of those cases.
+    from shutil import move, rmtree, copytree
 
 try:
     import cPickle as pickle
