@@ -338,7 +338,7 @@ Thanks!
             person.apply(group, person) # Apply for the new group
             session.flush()
 
-            fas.fas.fedmsgshimshim.send_message(topic="group.member.apply", msg={
+            fas.fedmsgshim.send_message(topic="group.member.apply", msg={
                 'agent': person.username,
                 'user': person.username,
                 'group': group.name,
