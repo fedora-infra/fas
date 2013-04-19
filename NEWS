@@ -8,6 +8,12 @@ NEWS
 :Version: 0.8.16
 
 ------
+0.8.17 (not yet released)
+------
+
+* Fix a fpca signing bug
+
+------
 0.8.16
 ------
 
