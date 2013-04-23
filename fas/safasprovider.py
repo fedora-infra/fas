@@ -449,7 +449,7 @@ class SaFasIdentityProvider(object):
                 else:
                     log.debug('Invalid OTP or password!')
                     return False
-           else:
+            else:
                 # Do not validate if otp check failed,
                 # as both password and otp are required to get through.
                 return False
