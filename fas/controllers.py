@@ -159,15 +159,14 @@ class Root(plugin.RootController):
     def getpluginident(self):
         return 'fas'
 
-    @expose(template="fas.templates.welcome", allow_json=True)
+    @expose(allow_json=True)
     def index(self):
         if turbogears.identity.not_anonymous():
             if request_format() == 'json':
                 # redirects don't work with JSON calls.  This is a bit of a
                 # hack until we can figure out something better.
                 return dict()
-            turbogears.redirect('/home')
-        return dict(now=time.ctime())
+        turbogears.redirect('/home')
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.home", allow_json=True)
