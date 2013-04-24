@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    py:strip="">
+  <div py:def="user_hovercard(user, link_text)" class="hovercard">
+    <a href="${tg.url('/user/view/' + user.username)}" class="trigger" data-trigger="hover" data-delay="500">${link_text}</a>
+    <?python
+    try:
+        from hashlib import md5
+    except ImportError:
+        from md5 import new as md5
+
+    from fas import auth
+    import pytz
+    timezone = pytz.timezone(user.timezone)
+    ?>
+    <div class="head hide">
+      <strong>${user.human_name}</strong>
+    </div>
+    <div class="content hide">
+      <div class="pull-left">
+        <img src="http://www.gravatar.com/avatar/${md5(user.email).hexdigest()}?s=60&amp;d=http://fedoraproject.org/static/images/fedora_infinity_60x60.png" class="img-thumbnail fas-hovercardpic" />
+      </div>
+      <div class="pull-right">
+        <py:if test="user.email">
+          <strong>${_('E-mail')}:</strong> ${user.email}
+        </py:if>
+
+        <div>
+          <py:if test="user.ircnick">
+            <strong>${_('IRC Nickname')}:</strong> ${user.ircnick}
+          </py:if>
+        </div>
+
+        <div>
+          <py:if test="user.country_code">
+            <strong>${_('Country')}:</strong> ${user.country_code}
+          </py:if>
+        </div>
+
+        <div>
+          <py:if test="user.gpg_keyid">
+            <strong>${_('GPG ID')}:</strong> ${user.gpg_keyid[0:8]}
+          </py:if>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</html>

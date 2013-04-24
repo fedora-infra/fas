@@ -3,6 +3,9 @@
     xmlns:py="http://genshi.edgewall.org/"
     xmlns:xi="http://www.w3.org/2001/XInclude"
     py:strip="">
+
+  <xi:include href="../user/hovercard.html" />
+
   <table py:def="member_table(members, group, person)">
     <?python
     from fas import auth
@@ -21,7 +24,9 @@
       </tr>
     </thead>
     <tr py:for="role in members">
-      <td><a href="${tg.url('/user/view/%s' % role.member.username)}">${role.member.username}<br />${role.member.email}</a></td>
+      <td>
+        ${user_hovercard(role.member, role.member.username)}
+      </td>
       <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
       <td py:if='not role.sponsor'>${_('None')}</td>
       <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
@@ -58,4 +63,4 @@
       </td>
     </tr>
   </table>
-</html> 
+</html>

@@ -9,47 +9,57 @@
   _ = tg.gettext
   ?>
   <head py:match="head" py:attrs="select('@*')">
-    <link href="${tg.url('/static/theme/%s/css/style.css') % config.get('theme')}" rel="stylesheet" type="text/css" />
+    <link href="${tg.url('/static/bootstrap/css/bootstrap.min.css')}" rel="stylesheet" />
+    <link href="${tg.url('/static/chosen/chosen.css')}" rel="stylesheet" />
+    <link href="${tg.url('/static/theme/fas/css/style.css')}" rel="stylesheet" />
     <link rel="shortcut icon" href="${tg.url('/static/theme/%s/images/favicon.ico' % config.get('theme'))}" type="image/vnd.microsoft.icon" />
     <meta py:replace="select('*|text()')" />
-    <jsglobals />
-    <script type="text/javascript" src="${tg.url('/static/js/prototype.js')}"></script>
-    <script type="text/javascript" src="${tg.url('/static/js/prototype.improvements.js')}"></script>
-    <script type="text/javascript" src="${tg.url('/static/js/scriptaculous.js?load=effects')}"></script>
-    <script type="text/javascript" src="${tg.url('/static/js/HelpBalloon.js')}"></script>
   </head>
   <body py:match="body" py:attrs="select('@*')">
-    <div id="wrapper">
-      <div id="head" class="head-${config.get('deployment_type', 'dev')}">
-        <h1><a href="http://fedoraproject.org/">${_('Fedora')}</a></h1>
-        <!-- TODO: Make this do something useful, talk about interface :)
-        <div id="searchbox">
-          <form action="" method="post">
-            <label for="q">${_('Search:')}</label>
-            <input type="text" name="q" id="q" />
-            <input type="submit" value="${_('Search')}" />
+
+    <div class="navbar navbar-fixed-top">
+      <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="${tg.url('/home')}">${_('Fedora Account System')}</a>
+
+        <div class="nav-collapse collapse navbar-responsive-collapse pull-right">
+          <ul class="nav">
+            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
+	          <li py:if="not tg.identity.anonymous" py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-span-12">
+          <div py:if="config.get('deployment_type', 'dev')=='dev'" class="alert">
+            <strong>Note:</strong> You're on a <strong>development</strong> instance.
+          </div>
+          <div py:if="config.get('deployment_type', 'dev')=='stg'" class="alert">
+            <strong>Note:</strong> You're on a <strong>staging</strong> instance.
+          </div>
+        </div>
+      </div>
+
+      <!-- TODO: Probably move this to footer. -->
+      <div class="row">
+        <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" class="col-span-6">
+          <form action="${tg.url('/language')}" method="post">
+            <select data-placeholder="${_('Change Locale')}" name="locale" id="locale" class="chzn-select" style="width: 150px;">
+              <option value=""></option>
+              <option py:for="language in tg.available_languages" value="${language}">${language}</option>
+            </select>
           </form>
         </div>
-        -->
-        <h2 py:if="config.get('deployment_type', 'dev')=='dev'">
-          DEVELOPMENT INSTANCE
-        </h2>
-        <h2 py:if="config.get('deployment_type', 'dev')=='stg'">
-          STAGING INSTANCE
-        </h2>
       </div>
-      <div id="topnav">
-        <ul>
-          <li class="first"><a href="http://fedoraproject.org/">${_('Learn about Fedora')}</a></li>
-          <li><a href="http://get.fedoraproject.org/">${_('Download Fedora')}</a></li>
-          <li><a href="http://fedoraproject.org/wiki/">${_('Projects')}</a></li>
-          <li><a href="http://join.fedoraproject.org/">${_('Join Fedora')}</a></li>
-          <li><a href="http://fedoraproject.org/wiki/Communicate">${_('Communicate')}</a></li>
-          <li><a href="http://docs.fedoraproject.org/">${_('Help/Documentation')}</a></li>
-          <li><a href="https://fedoraproject.org/code-of-conduct">${_('Code of Conduct')}</a></li>
-        </ul>
-      </div>
-      <div id="infobar">
+
+      <!--<div id="infobar">
         <div id="authstatus">
           <span py:if="not tg.identity.anonymous">
             <strong>${_('Logged in:')}</strong> ${tg.identity.user.username}
@@ -61,32 +71,21 @@
             <logintoolitem href="${tg.url('/user/view/')}" />
           </ul>
         </div>
-      </div>
+      </div>-->
+
       <div id="main">
         <div id="sidebar">
-          <ul>
-            <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
-	    <li py:if="not tg.identity.anonymous" py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
-            <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
-          </ul>
-          <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" id="language">
-            <!-- TODO: Should this be available to logged in users to (and actually change their DB entry?) -->
-            <form action="${tg.url('/language')}" method="post">
-              <label for="locale">${_('Locale:')}</label>
-              <select name="locale" id="locale">
-                <option py:for="language in tg.available_languages" value="${language}" py:attrs="{'selected': tg.lang == language and 'selected' or None}">${language}</option>
-              </select>
-              <input type="submit" value="${_('OK')}" />
-            </form>
-          </div>
+
+
+
         </div>
         <div id="content">
-          <div py:if="tg_flash" class="flash">
+          <div py:if="tg_flash" class="alert">
             ${tg_flash}
           </div>
           <div py:replace="select('*|text()')" />
         </div>
+        <!--
         <div id="footer">
           <ul id="footlinks">
             <li class="first"><a href="${tg.url('/about')}">${_('About')}</a></li>
@@ -104,11 +103,18 @@
             ${_('The Fedora Project is maintained and driven by the community and sponsored by Red Hat.  This is a community maintained site.  Red Hat is not responsible for content.')}
           </p>
         </div>
+        -->
       </div>
     </div> <!-- End wrapper -->
   </body>
 
   <xi:include href="${tg.fedora_template('login.html')}" />
+
+  <jsglobals />
+  <script type="text/javascript" src="${tg.url('/static/js/jquery.min.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/bootstrap/js/bootstrap.min.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/chosen/chosen.jquery.min.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/js/custom.js')}"></script>
   <xi:include href="${tg.fedora_template('jsglobals.html')}" />
 
 </html>

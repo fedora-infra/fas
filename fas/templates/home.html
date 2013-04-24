@@ -3,6 +3,9 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="master.html" />
+  <xi:include href="user/hovercard.html" />
+  <xi:include href="group/hovercard.html" />
+
   <head>
     <title>${_('Fedora Accounts System')}</title>
   </head>
@@ -19,12 +22,9 @@
     <py:if test="auth.can_sponsor_group(People.by_username(person['username']), group) and group.unapproved_roles">
     <ul class="queue">
       <li py:for="role in group.unapproved_roles[:5]">
-      ${Markup(_('&lt;strong&gt;&lt;a href="%(userview)s"&gt;%(user)s (%(email)s)&lt;/a&gt;&lt;/strong&gt; requests approval to join &lt;a href="%(groupview)s"&gt;%(group)s&lt;/a&gt;.') %
-      {'userview': tg.url('/user/view/%s') % role.member.username,
-      'groupview': tg.url('/group/view/%s') % group.name,
-      'user': role.member.username,
-      'email': role.member.email,
-      'group': group.name})}
+        ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
+        ${_('requests approval to join')}
+        ${group_hovercard(group, group.name)}
       </li>
     </ul>
     </py:if>
