@@ -1,0 +1,6 @@
+High-level overview of changes that have taken place in the bootstrap branch:
+
+- **hovercards** - You can now hover over a username or group name to get a
+  quick overview of the subject, such as full name, and number of people in
+  the group.
+
