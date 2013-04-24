@@ -30,6 +30,7 @@
           <ul class="nav">
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
 	          <li py:if="not tg.identity.anonymous" py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
+            <li py:if="tg.identity.anonymous"><a href="${tg.url('https://fedoraproject.org/join-fedora')}">${_('Want to Join Fedora?')}</a></li>
           </ul>
         </div>
       </div>
@@ -44,18 +45,6 @@
           <div py:if="config.get('deployment_type', 'dev')=='stg'" class="alert">
             <strong>Note:</strong> You're on a <strong>staging</strong> instance.
           </div>
-        </div>
-      </div>
-
-      <!-- TODO: Probably move this to footer. -->
-      <div class="row">
-        <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" class="col-span-6">
-          <form action="${tg.url('/language')}" method="post">
-            <select data-placeholder="${_('Change Locale')}" name="locale" id="locale" class="chzn-select" style="width: 150px;">
-              <option value=""></option>
-              <option py:for="language in tg.available_languages" value="${language}">${language}</option>
-            </select>
-          </form>
         </div>
       </div>
 
@@ -105,7 +94,19 @@
         </div>
         -->
       </div>
-    </div> <!-- End wrapper -->
+
+      <!-- TODO: Do something with this. -->
+      <div class="row">
+        <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" class="col-span-6">
+          <form action="${tg.url('/language')}" method="post">
+            <select data-placeholder="${_('Change Locale')}" name="locale" id="locale" class="chzn-select" style="width: 150px;">
+              <option value=""></option>
+              <option py:for="language in tg.available_languages" value="${language}">${language}</option>
+            </select>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 
   <xi:include href="${tg.fedora_template('login.html')}" />
