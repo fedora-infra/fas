@@ -20,4 +20,6 @@ $(function() {
     ul.children().each(function(i,li) {
         ul.prepend(li);
     });
+
+    $('input[name=user_name]').focus();
 });
