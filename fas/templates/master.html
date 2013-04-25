@@ -20,6 +20,7 @@
     <link href="${tg.url('/static/theme/fas/css/style.css')}" rel="stylesheet" />
     <link rel="shortcut icon" href="${tg.url('/static/theme/%s/images/favicon.ico' % config.get('theme'))}" type="image/vnd.microsoft.icon" />
     <meta py:replace="select('*|text()')" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body py:match="body" py:attrs="select('@*')">
 
@@ -33,7 +34,7 @@
         </button>
         <a class="navbar-brand" href="${tg.url('/home')}">${_('Fedora Account System')}</a>
 
-        <div class="nav-collapse collapse navbar-responsive-collapse pull-right">
+        <div class="nav-collapse collapse navbar-responsive-collapse">
           <ul class="nav">
             <li py:if="not tg.identity.anonymous">
                 <a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">

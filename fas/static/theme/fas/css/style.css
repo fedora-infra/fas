@@ -1,7 +1,11 @@
 @import url('http://fonts.googleapis.com/css?family=Lato');
 
-html, body {
-    padding-top: 30px; /* Header */
+@media (min-width: 768px) {
+  body {
+    padding-top: 60px; /* Header */
+  }
+
+  ul.nav { float: right !important; }
 }
 
 h1, h2, h3, h4, h5 {
