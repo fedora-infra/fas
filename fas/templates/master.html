@@ -11,6 +11,12 @@
   <head py:match="head" py:attrs="select('@*')">
     <link href="${tg.url('/static/bootstrap/css/bootstrap.min.css')}" rel="stylesheet" />
     <link href="${tg.url('/static/chosen/chosen.css')}" rel="stylesheet" />
+
+    <link href="${tg.url('/static/font-awesome/css/font-awesome.css')}" rel="stylesheet" />
+    <!--[if IE 7]>
+    <link href="${tg.url('/static/font-awesome/css/font-awesome-ie7.min.css')}" rel="stylesheet" />
+    <![endif]-->
+
     <link href="${tg.url('/static/theme/fas/css/style.css')}" rel="stylesheet" />
     <link rel="shortcut icon" href="${tg.url('/static/theme/%s/images/favicon.ico' % config.get('theme'))}" type="image/vnd.microsoft.icon" />
     <meta py:replace="select('*|text()')" />
@@ -29,8 +35,19 @@
 
         <div class="nav-collapse collapse navbar-responsive-collapse pull-right">
           <ul class="nav">
-            <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
-	          <li py:if="not tg.identity.anonymous" py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
+            <li py:if="not tg.identity.anonymous">
+                <a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">
+                  <i class="icon-user"></i> ${_('My Account')}
+                </a>
+            </li>
+	          <py:if test="not tg.identity.anonymous">
+              <py:for each="entry in sidebar.getEntries()">
+                <li>
+                  <a href="${tg.url(entry[1])}"><i py:if="len(entry) > 2" class="${entry[2]}" /> ${_(entry[0])}</a>
+                </li>
+              </py:for>
+            </py:if>
+
             <li py:if="tg.identity.anonymous"><a href="${tg.url('https://fedoraproject.org/join-fedora')}">${_('Want to Join Fedora?')}</a></li>
           </ul>
         </div>

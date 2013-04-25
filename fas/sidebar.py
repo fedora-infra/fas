@@ -20,11 +20,11 @@ def stockentries():
             'sysadmin' in identity.current.groups
             or 'accounts' in identity.current.groups
         ):
-        entries.append((_('Groups'), '/group/new'))
-        entries.append((_('Users'), '/user/list'))
+        entries.append((_('New Group'), '/group/new', 'icon-plus-sign'))
+        entries.append((_('Users'), '/user/list', 'icon-group'))
     if not identity.current.anonymous:
-        entries.append((_('Group List'), '/group/list/A*'))
-        entries.append((_('Log Out'), '/logout'))
+        entries.append((_('Groups'), '/group/list/A*', 'icon-comments-alt'))
+        entries.append((_('Log Out'), '/logout', 'icon-signout'))
     return entries
 
 entryfuncs.append(stockentries)
