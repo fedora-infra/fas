@@ -27,6 +27,20 @@ h1, h2, h3, h4, h5 {
     margin-right: 20px;
 }
 
+.fas-sidebar div {
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis !important;
+}
+
+.fas-sidebar .glyphicon {
+    color: #999999;
+}
+
+.fas-tabs {
+    margin-bottom: 10px;
+}
+
 img.fas-hovercardpic {
     margin-right: 10px;
 }
@@ -37,4 +51,8 @@ img.fas-hovercardpic {
 
 .popover {
     max-width: 500px !important;
+}
+
+#account .row {
+    margin-bottom: 10px;
 }

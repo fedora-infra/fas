@@ -21,13 +21,12 @@
       except ImportError:
           from md5 import new as md5
     ?>
-    <!--<h2 class="account" py:if="personal">${_('Your Fedora Account')}</h2>
-    <h2 class="account" py:if="not personal">${_('%s\'s Fedora Account') % person.username}</h2>-->
-    <!--<h3>${_('Account Details')} <a href="${tg.url('/user/edit/%s' % person.username)}" py:if="personal or admin">${_('(edit)')}</a></h3>-->
 
     <div class="row">
-      <div class="col-span-2">
+      <div class="col-span-2 fas-sidebar">
         <img src="http://www.gravatar.com/avatar/${md5(person.email).hexdigest()}?s=140&amp;d=http://fedoraproject.org/static/images/fedora_infinity_140x140.png" class="img-thumbnail" />
+
+        <hr />
 
         <py:if test="person.human_name">
           <h3>${person.human_name}</h3>
@@ -37,10 +36,8 @@
 
         <hr />
 
-        <div>
-          <py:if test="person.email">
+        <div py:if="person.email">
             <span class="glyphicon glyphicon-envelope"></span> <a href="mailto:${person.email}">${person.email}</a>
-          </py:if>
 
           <!-- TODO: Hovercard this on email hover -->
           <span py:if="(personal or admin) and person.unverified_email and person.emailtoken">
@@ -48,182 +45,195 @@
           </span>
         </div>
 
-        <div>
-          <py:if test="person.telephone and (personal or admin)">
-            <span class="glyphicon glyphicon-signal"></span> ${person.telephone}
-          </py:if>
+        <div py:if="person.telephone and (personal or admin)">
+          <span class="glyphicon glyphicon-signal"></span> ${person.telephone}
         </div>
 
-        <div>
-          <py:if test="person.ircnick">
-            <span class="glyphicon glyphicon-comment"></span> ${person.ircnick}
-          </py:if>
+        <div py:if="person.ircnick">
+          <span class="glyphicon glyphicon-comment"></span> ${person.ircnick}
         </div>
 
-        <div>
-          <py:if test="person.country_code">
-            <span class="glyphicon glyphicon-globe"></span> ${person.country_code}
-          </py:if>
+        <div py:if="person.country_code">
+          <span class="glyphicon glyphicon-globe"></span> ${person.country_code}
         </div>
 
-        <div>
-          <py:if test="person.gpg_keyid">
-            <span class="glyphicon glyphicon-file"></span> ${person.gpg_keyid}
-          </py:if>
+        <div py:if="person.gpg_keyid">
+          <span class="glyphicon glyphicon-file"></span> ${person.gpg_keyid}
         </div>
       </div>
+
       <div class="col-span-10">
-            <h3 py:if="personal">${_('Your Roles')}</h3>
-    <h3 py:if="not personal">${_('%s\'s Roles') % person.username}</h3>
+        <ul id="profiletabs" class="nav nav-tabs fas-tabs">
+          <li class="active"><a href="#roles" data-toggle="tab">${_('Roles')}</a></li>
+          <li><a href="#account" data-toggle="tab">${_('Account Overview')}</a></li>
 
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>${_('Group')}</th>
-          <th>${_('Status')}</th>
-          <th>${_('Call to action')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <py:for each="role in sorted(person['roles'], lambda x,y: cmp(x.group.name, y.group.name))">
-          <tr py:if="auth.can_view_group(viewer, role.group)">
-            <td><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></td>
-            <td py:if="role.role_status == 'approved'">
-              <span class="label label-success">${_('approved')}</span>
-              <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
-              <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
-              <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
-            </td>
+          <py:choose test="person.status">
+            <span py:when="'active'" class="label label-success pull-right">${_('Active')}</span>
+            <span py:when="'inactive'" class="label label-danger pull-right">${_('Inactive')}</span>
+            <span py:when="'pinged'" class="label label-warning pull-right">${_('Pinged')}</span>
+            <span py:when="'admin_disabled'" class="label pull-right">${_('Disabled')}</span>
+          </py:choose>
 
-            <td py:if="role.role_status == 'unapproved'">
-              <span class="label label-important">${_('unapproved')}</span> ${role.role_type}
-              <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
-              <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
-              <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
-            </td>
+        </ul>
 
-            <py:if test="personal">
-              <td>
-                <py:if test="role.role_status == 'approved'">
-                  <a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}" class="btn">
-                    ${_('Invite Member')}
-                  </a>
+        <div class="tab-content">
+          <div class="tab-pane active" id="roles">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>${_('Group')}</th>
+                  <th>${_('Status')}</th>
+                  <th py:if="personal">${_('Call to action')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <py:for each="role in sorted(person['roles'], lambda x,y: cmp(x.group.name, y.group.name))">
+                  <tr py:if="auth.can_view_group(viewer, role.group)">
+                    <td><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></td>
+                    <td py:if="role.role_status == 'approved'">
+                      <span class="label label-success">${_('approved')}</span>
+                      <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
+                      <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
+                      <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
+                    </td>
+
+                    <td py:if="role.role_status == 'unapproved'">
+                      <span class="label label-important">${_('unapproved')}</span> ${role.role_type}
+                      <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
+                      <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
+                      <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
+                    </td>
+
+                    <py:if test="personal">
+                      <td>
+                        <py:if test="role.role_status == 'approved'">
+                          <a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}" class="btn">
+                            ${_('Invite Member')}
+                          </a>
+                        </py:if>
+                      </td>
+
+                      <td>
+                        <py:if test="auth.can_sponsor_group(People.by_username(person['username']), role.group)">
+                          <a href="${tg.url('/group/view/%s' % role.group.name)}" class="btn">
+                            ${_('Manage Membership')}
+                          </a>
+                        </py:if>
+                      </td>
+
+                      <td>
+                        <py:if test="auth.can_edit_group(People.by_username(person['username']), role.group)">
+                          <a href="${tg.url('/group/edit/%s' % role.group.name)}" class="btn">
+                            ${_('Manage Details')}
+                          </a>
+                        </py:if>
+                      </td>
+                    </py:if>
+                  </tr>
+                </py:for>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tab-pane" id="account">
+            <div class="row" py:if="person.postal_address and (personal or admin) and show['show_postal_address']">
+              <div class="col-span-3">
+                <strong>${_('Postal Address')}</strong>
+              </div>
+              <div class="col-span-9">
+                ${person.postal_address}
+              </div>
+            </div>
+
+            <div class="row" py:if="personal or admin">
+              <div class="col-span-3">
+                <strong>${_('Public SSH Key')}</strong>
+                <a href="${tg.url('/user/clearkey')}">${_('(remove)')}</a>
+              </div>
+              <div class="col-span-9">
+                <py:if test="person.ssh_key">
+                  <div style="overflow: auto; white-space: nowrap;">
+                    ${person.ssh_key}
+                  </div>
                 </py:if>
-              </td>
+                <div py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</div>
+              </div>
+            </div>
 
-              <td>
-                <py:if test="auth.can_sponsor_group(People.by_username(person['username']), role.group)">
-                  <a href="${tg.url('/group/view/%s' % role.group.name)}" class="btn">
-                    ${_('Manage Membership')}
-                  </a>
-                </py:if>
-              </td>
+            <div class="row" py:if="person.comments">
+              <div class="col-span-3">
+                <strong>${_('Comments')}</strong>
+              </div>
+              <div class="col-span-9">
+                ${person.comments}
+              </div>
+            </div>
 
-              <td>
-                <py:if test="auth.can_edit_group(People.by_username(person['username']), role.group)">
-                  <a href="${tg.url('/group/edit/%s' % role.group.name)}" class="btn">
-                    ${_('Manage Details')}
-                  </a>
+            <div class="row" py:if="personal or admin">
+              <div class="col-span-3">
+                <strong>${_('Security question')}</strong>
+                <a href="${tg.url('/user/changequestion')}">${_('(change)')}</a>
+              </div>
+              <div class="col-span-9">
+                <py:if test="personal">
+                  ${person.security_question}
                 </py:if>
-              </td>
-            </py:if>
-          </tr>
-        </py:for>
-      </tbody>
-    </table>
-    </div>
+                <py:if test="not personal and admin">
+                  <div>
+                    <span py:if="person.security_question" class="label label-success">${_('Active')}</span>
+                    <span py:if="not person.security_question" class="label label-danger">${_('Inactive')}</span>
+                  </div>
+                </py:if>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-span-3">
+                <strong>${_('Contributor Agreement')}</strong>
+                <py:if test="admin and cla">
+                  (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('reject')}</a>)
+                </py:if>
+              </div>
+              <div class="col-span-9">
+                <py:choose test="cla">
+                  <py:when test="True">
+                    <span py:if="undeprecated" class="label label-success">${_('CLA Signed')}</span>
+                    <span py:if="not undeprecated" class="label label-warning">${_('New CLA Not Signed')}</span>
+                    <!-- TODO -->
+                    <!--<py:if test="personal">- ${_('We need contributors to sign the new Contributor Agreement')}(<a href="${tg.url('/fpca/')}">${_('Complete it now!')}</a>)</py:if>-->
+                    <span py:otherwise="" class="label label-danger">
+                      ${_('Not Signed')}
+                      <py:if test="personal">
+                        (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)
+                      </py:if>
+                    </span>
+                  </py:when>
+                </py:choose>
+              </div>
+            </div>
+
+            <div class="row" py:if="personal or admin">
+              <div class="col-span-3">
+                <strong>${_('Password')}</strong>
+              </div>
+              <div class="col-span-9">
+                <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-span-3">
+                <strong>${_('Privacy')}</strong>
+              </div>
+              <div class="col-span-9">
+                <py:if test="person.privacy">${_('Account Information Private')}</py:if>
+                <py:if test="not person.privacy">${_('Account Information Public')}</py:if>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <table>
-        <tr>
-          <td>${person.username}</td>
-        </tr>
-
-
-
-        <py:if test="person.postal_address and (personal or admin) and show['show_postal_address']">
-          <dt>${_('Postal Address:')}</dt>
-          <dd>${person.postal_address}&nbsp;</dd>
-        </py:if>
-
-        <!--
-        <py:if test="person.bugzilla_email">
-          <dt>${_('Bugzilla Email:')}</dt><dd>${person.username}</dd>
-          </py:if>
-          -->
-        <!-- We should correct this.  Everything else is filtered in the
-        - model:People*Select classes.
-        - -->
-        <py:if test="personal or admin">
-          <dt>${_('Public SSH Key:')}</dt>
-          <dd py:if="person.ssh_key" title="${person.ssh_key}">
-            <span py:for="key in person.ssh_key.split('\n')" py:strip="True">${key}<br /></span>
-            <a href="${tg.url('/user/clearkey')}">${_('(remove ssh key)')}</a>
-          </dd>
-          <dd py:if="not person.ssh_key">${_('No ssh key provided')}&nbsp;</dd>
-        </py:if>
-        <py:if test="person.comments">
-          <dt>${_('Comments:')}</dt><dd>${person.comments}&nbsp;</dd>
-        </py:if>
-        <!-- Note: password is changable so we don't hide it if it's
-        - unavailable
-        - -->
-        <dt>${_('Security question: ')}</dt>
-        <py:if test="personal">
-          <dd>${person.security_question}&nbsp;  <a href="${tg.url('/user/changequestion')}">${_('(change)')}</a></dd>
-        </py:if>
-        <py:if test="not personal and admin">
-          <dd>
-            <div>
-              <span py:if="person.security_question" class="approved">${_('Active')}</span>
-              <span py:if="not person.security_question" class="unapproved">${_('Inactive')}</span>
-            </div>
-          </dd>
-        </py:if>
-        <py:if test="personal or admin">
-          <dt>${_('Password:')}</dt>
-          <dd>
-          <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
-          </dd>
-        </py:if>
-        <py:if test="person.status">
-          <dt>${_('Account Status:')}</dt>
-          <dd>
-            <div py:choose="person.status" py:strip="True">
-              <span py:when="'active'" class="approved">${_('Active')}</span>
-              <span py:when="'inactive'" class="unapproved">${_('Inactive')}</span>
-              <span py:when="'pinged'" class="approved">${_('Pinged')}</span>
-              <span py:when="'admin_disabled'" class="unapproved">${_('Disabled')}</span>
-            </div>
-            <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script>
-          </dd>
-        </py:if>
-        <dt>${_('Contributor Agreement:')}</dt>
-        <dd py:choose="cla">
-        <span py:when="True" class="approved">
-          <py:if test="undeprecated">
-            ${_('CLA Signed')}
-          </py:if>
-          <py:if test="not undeprecated">
-          ${_('CLA Done')} - <span class="unapproved">${_('New CLA Not Signed')}
-            <py:if test="personal">- ${_('We need contributors to sign the new Contributor Agreement')}(<a href="${tg.url('/fpca/')}">${_('Complete it now!')}</a>)</py:if>
-            </span>
-          </py:if>
-          <py:if test="admin">
-            (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('Reject FPCA')}</a>)
-          </py:if>
-          </span>
-
-          <span py:otherwise="" class="unapproved">${_('Not Signed')}<py:if test="personal"> (<a href="${tg.url('/fpca/')}">${_('Complete it!')}</a>)</py:if></span>
-          <script type="text/javascript">var hb2 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_cla')}'});</script>
-        </dd>
-        <dt>${_('Privacy:')}</dt>
-        <dd>
-        <span py:if="person.privacy">${_('Account Information Private')}</span>
-        <span py:if="not person.privacy">${_('Account Information Public')}</span>
-          <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
-        </dd>
-    </table>
-
-
+    </div>
   </body>
 </html>
