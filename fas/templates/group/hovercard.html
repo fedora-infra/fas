@@ -4,7 +4,7 @@
     xmlns:xi="http://www.w3.org/2001/XInclude"
     py:strip="">
   <div py:def="group_hovercard(group, link_text)" class="hovercard">
-    <a href="${group.name}" class="trigger" data-trigger="hover" data-container=".hovercard" data-delay="500">${link_text}</a>
+    <a href="${tg.url('/group/view/%s' % group.name)}" class="trigger" data-trigger="hover" data-container=".hovercard" data-delay="500">${link_text}</a>
     <?python
     try:
         from hashlib import md5
