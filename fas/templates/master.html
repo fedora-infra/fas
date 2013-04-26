@@ -49,7 +49,11 @@
               </py:for>
             </py:if>
 
-            <li py:if="tg.identity.anonymous"><a href="${tg.url('https://fedoraproject.org/join-fedora')}">${_('Want to Join Fedora?')}</a></li>
+            <py:if test="tg.identity.anonymous">
+              <li><a href="https://fedoraproject.org/join-fedora"><i class="icon-group"></i> ${_('Join the Fedora Project')}</a></li>
+              <li><a href="${tg.url('/user/resetpass')}"><i class="icon-key"></i> ${_('Reset Password')}</a></li>
+              <li><a href="${tg.url('/user/new')}"><i class="icon-plus-sign"></i> ${_('Sign Up')}</a></li>
+            </py:if>
           </ul>
         </div>
       </div>
