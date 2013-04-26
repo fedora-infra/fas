@@ -108,7 +108,7 @@
                     <py:if test="personal">
                       <td>
                         <py:if test="role.role_status == 'approved'">
-                          <a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}" class="btn">
+                          <a href="${tg.url('/group/invite/%s/%s/' % (role.group.name, locale))}" class="btn btn-small">
                             ${_('Invite Member')}
                           </a>
                         </py:if>
@@ -116,7 +116,7 @@
 
                       <td>
                         <py:if test="auth.can_sponsor_group(People.by_username(person['username']), role.group)">
-                          <a href="${tg.url('/group/view/%s' % role.group.name)}" class="btn">
+                          <a href="${tg.url('/group/view/%s' % role.group.name)}" class="btn btn-small">
                             ${_('Manage Membership')}
                           </a>
                         </py:if>
@@ -124,7 +124,7 @@
 
                       <td>
                         <py:if test="auth.can_edit_group(People.by_username(person['username']), role.group)">
-                          <a href="${tg.url('/group/edit/%s' % role.group.name)}" class="btn">
+                          <a href="${tg.url('/group/edit/%s' % role.group.name)}" class="btn btn-small">
                             ${_('Manage Details')}
                           </a>
                         </py:if>
