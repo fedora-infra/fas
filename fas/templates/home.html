@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:py="http://genshi.edgewall.org/"
-  xmlns:xi="http://www.w3.org/2001/XInclude">
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="master.html" />
   <xi:include href="user/hovercard.html" />
   <xi:include href="group/hovercard.html" />
@@ -11,23 +11,39 @@
   </head>
   <body>
     <?python
-        from fas import auth
-        from fas.model import People?>
+       from fas import auth
+       from fas.model import People?>
     <h2>${_('To do queue:')}</h2>
     <ul class="queue">
       <li py:if="not cla" class="unapproved">${Markup(_('FPCA not completed.  To become a full Fedora Contributor please &lt;a href="%s"&gt;complete the FPCA&lt;/a&gt;.') % tg.url('/fpca/'))}</li>
       <li py:if="not person.ssh_key">${Markup(_('You have not submitted an SSH key, some Fedora resources require an SSH key.  Please submit yours by editing &lt;a href="%s"&gt;My Account&lt;/a&gt;') % tg.url('/user/edit'))}</li>
     </ul>
     <py:for each="group in sorted(memberships)">
-    <py:if test="auth.can_sponsor_group(People.by_username(person['username']), group) and group.unapproved_roles">
-    <ul class="queue">
-      <li py:for="role in group.unapproved_roles[:5]">
-        ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
-        ${_('requests approval to join')}
-        ${group_hovercard(group, group.name)}
-      </li>
-    </ul>
-    </py:if>
+      <py:if test="auth.can_sponsor_group(People.by_username(person['username']), group) and group.unapproved_roles">
+        <py:for each="role in group.unapproved_roles[:5]">
+          <div class="row">
+            <div class="col-span-8 col-offset-2 newsfeed">
+              <div class="row">
+                <div class="col-span-12 timestamp">
+                  <i class="icon-group"></i>
+                  ${_('At')} ${role.creation}...
+                  <span class="pull-right">
+                    <button class="btn btn-danger btn-mini">${_('Reject')}</button>
+                    <button class="btn btn-success btn-mini">${_('Approve')}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-span-12 content">
+                  ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
+                  ${_('requests approval to join')}
+                  ${group_hovercard(group, group.name)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </py:for>
+      </py:if>
     </py:for>
   </body>
 </html>

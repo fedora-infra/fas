@@ -60,3 +60,21 @@ img.fas-hovercardpic {
 #account .row {
     margin-bottom: 10px;
 }
+
+.newsfeed {
+    border: 1px solid #cccccc;
+    box-shadow: 2px 2px 2px #ccc;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.newsfeed .timestamp {
+    background-color: #eeeeee;
+    padding: 5px;
+    font-size: small;
+    color: #777777;
+}
+
+.newsfeed .content {
+    padding: 10px 0 10px 10px;
+}
