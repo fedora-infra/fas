@@ -15,14 +15,7 @@
       <strong>${group.display_name}</strong>
     </div>
     <div class="content hide">
-      <div class="pull-left">
-        <div>
-          <i class="icon-font"></i> <a href="${tg.url('/group/view/%s') % group.name}">${group.name}</a>
-        </div>
-        <div>
-          <i class="icon-user"></i> <a href="${tg.url('/group/members/%s/members') % group.name}">${len(group.roles)} ${_('members')}</a>
-        </div>
-      </div>
+      <strong>${_('Owner')}:</strong> ${group.owner.username}
     </div>
   </div>
 </html>

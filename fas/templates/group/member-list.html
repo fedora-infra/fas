@@ -27,7 +27,9 @@
       <td>
         ${user_hovercard(role.member, role.member.username)}
       </td>
-      <td py:if='role.sponsor'><a href="${tg.url('/user/view/%s' % role.sponsor.username)}">${role.sponsor.username}</a></td>
+      <td py:if='role.sponsor'>
+        ${user_hovercard(role.sponsor, role.sponsor.username)}
+      </td>
       <td py:if='not role.sponsor'>${_('None')}</td>
       <td>${role.creation.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>
       <td py:if='role.approval'>${role.approval.astimezone(timezone).strftime('%Y-%m-%d %H:%M:%S %Z')}</td>

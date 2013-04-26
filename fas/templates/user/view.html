@@ -3,6 +3,7 @@
   xmlns:py="http://genshi.edgewall.org/"
   xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="../master.html" />
+  <xi:include href="../group/hovercard.html" />
   <head>
     <title>${_('View Account')}</title>
   </head>
@@ -89,7 +90,7 @@
               <tbody>
                 <py:for each="role in sorted(person['roles'], lambda x,y: cmp(x.group.name, y.group.name))">
                   <tr py:if="auth.can_view_group(viewer, role.group)">
-                    <td><a href="${tg.url('/group/view/%s') % role.group.name}">${role.group.display_name}</a></td>
+                    <td>${group_hovercard(role.group, role.group.display_name)}</td>
                     <td py:if="role.role_status == 'approved'">
                       <span class="label label-success">${_('approved')}</span>
                       <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
