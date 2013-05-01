@@ -1,11 +1,22 @@
-@import url('http://fonts.googleapis.com/css?family=Lato');
+@import url('http://fonts.googleapis.com/css?family=Oswald');
 
 @media (min-width: 768px) {
   body {
-    padding-top: 60px; /* Header */
+    padding-top: 65px; /* Header */
   }
 
   .navbar ul.nav { float: right !important; }
+}
+
+.navbar {
+    border-top: 5px solid #00BBFF;
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar a:hover {
+    color: #0084C8 !important;
+    transition: all 150ms ease-in-out 0s;
 }
 
 h1, h2, h3, h4, h5 {
@@ -13,12 +24,9 @@ h1, h2, h3, h4, h5 {
     padding: 0;
 }
 
-.navbar-brand, .lato {
-    font-family: 'Lato';
-}
-
 .navbar-brand {
     max-width: 500px;
+    font-family: 'Oswald';
 }
 
 .fas-login ul {
