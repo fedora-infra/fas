@@ -84,6 +84,7 @@
                 <tr>
                   <th>${_('Group')}</th>
                   <th>${_('Status')}</th>
+                  <th>${_('Role')}</th>
                   <th py:if="personal">${_('Call to action')}</th>
                 </tr>
               </thead>
@@ -91,19 +92,30 @@
                 <py:for each="role in sorted(person['roles'], lambda x,y: cmp(x.group.name, y.group.name))">
                   <tr py:if="auth.can_view_group(viewer, role.group)">
                     <td>${group_hovercard(role.group, role.group.display_name)}</td>
-                    <td py:if="role.role_status == 'approved'">
-                      <span class="label label-success">${_('approved')}</span>
-                      <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
-                      <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
-                      <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
-                    </td>
 
-                    <td py:if="role.role_status == 'unapproved'">
-                      <span class="label label-important">${_('unapproved')}</span> ${role.role_type}
-                      <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
-                      <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
-                      <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
-                    </td>
+                    <py:if test="role.role_status == 'approved'">
+                      <td>
+                        <span class="label label-success">${_('approved')}</span>
+                      </td>
+
+                      <td>
+                        <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
+                        <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
+                        <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
+                      </td>
+                    </py:if>
+
+                    <py:if test="role.role_status == 'unapproved'">
+                      <td>
+                        <span class="label label-important">${_('unapproved')}</span>
+                      </td>
+
+                      <td>
+                        <py:if test="role.role_type == 'user'"><span class="label label-success">${role.role_type}</span></py:if>
+                        <py:if test="role.role_type == 'sponsor'"><span class="label label-warning">${role.role_type}</span></py:if>
+                        <py:if test="role.role_type == 'administrator'"><span class="label label-danger">${role.role_type}</span></py:if>
+                      </td>
+                    </py:if>
 
                     <py:if test="personal">
                       <td>
