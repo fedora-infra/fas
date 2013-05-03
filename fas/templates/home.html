@@ -22,24 +22,22 @@
     <py:for each="group in sorted(memberships)">
       <py:if test="auth.can_sponsor_group(People.by_username(person['username']), group) and group.unapproved_roles">
         <py:for each="role in group.unapproved_roles[:5]">
-          <div class="row">
-            <div class="col col-lg-12 newsfeed">
-              <div class="row">
-                <div class="col col-lg-12 timestamp">
-                  <i class="icon-group"></i>
-                  ${_('At')} ${role.creation}...
-                  <span class="pull-right">
-                    <button class="btn btn-danger btn-mini">${_('Reject')}</button>
-                    <button class="btn btn-success btn-mini">${_('Approve')}</button>
-                  </span>
-                </div>
+          <div class="col col-lg-12 newsfeed">
+            <div class="row">
+              <div class="col col-lg-12 timestamp">
+                <i class="icon-group"></i>
+                ${_('At')} ${role.creation}...
+                <span class="pull-right">
+                  <button class="btn btn-danger btn-mini">${_('Reject')}</button>
+                  <button class="btn btn-success btn-mini">${_('Approve')}</button>
+                </span>
               </div>
-              <div class="row">
-                <div class="col col-lg-12 content">
-                  ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
-                  ${_('requests approval to join')}
-                  ${group_hovercard(group, group.name)}
-                </div>
+            </div>
+            <div class="row">
+              <div class="col col-lg-12 content">
+                ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
+                ${_('requests approval to join')}
+                ${group_hovercard(group, group.name)}
               </div>
             </div>
           </div>
