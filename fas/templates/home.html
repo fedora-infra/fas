@@ -23,9 +23,9 @@
       <py:if test="auth.can_sponsor_group(People.by_username(person['username']), group) and group.unapproved_roles">
         <py:for each="role in group.unapproved_roles[:5]">
           <div class="row">
-            <div class="col-span-12 newsfeed">
+            <div class="col col-lg-12 newsfeed">
               <div class="row">
-                <div class="col-span-12 timestamp">
+                <div class="col col-lg-12 timestamp">
                   <i class="icon-group"></i>
                   ${_('At')} ${role.creation}...
                   <span class="pull-right">
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-span-12 content">
+                <div class="col col-lg-12 content">
                   ${user_hovercard(role.member, '%s (%s)' % (role.member.username, role.member.email))}
                   ${_('requests approval to join')}
                   ${group_hovercard(group, group.name)}

@@ -35,7 +35,7 @@
         <a class="navbar-brand" href="${tg.url('/home')}">${_('Fedora Account System')}</a>
 
         <div class="nav-collapse collapse navbar-responsive-collapse">
-          <ul class="nav">
+          <ul class="nav navbar-nav">
             <li py:if="not tg.identity.anonymous">
                 <a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">
                   <i class="icon-user"></i> ${_('My Account')}
@@ -108,7 +108,7 @@
 
       <!-- TODO: Do something with this. -->
       <div class="row">
-        <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" class="col-span-6">
+        <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" class="col col-lg-6">
           <form action="${tg.url('/language')}" method="post">
             <select data-placeholder="${_('Change Locale')}" name="locale" id="locale" class="chzn-select" style="width: 150px;">
               <option value=""></option>

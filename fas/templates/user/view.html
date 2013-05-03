@@ -24,7 +24,7 @@
     ?>
 
     <div class="row">
-      <div class="col-span-2 fas-sidebar">
+      <div class="col col-lg-2 fas-sidebar">
         <img src="http://www.gravatar.com/avatar/${md5(person.email).hexdigest()}?s=140&amp;d=http://fedoraproject.org/static/images/fedora_infinity_140x140.png" class="img-thumbnail" />
 
         <hr />
@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="col-span-10">
+      <div class="col col-lg-10">
         <ul id="profiletabs" class="nav nav-tabs fas-tabs">
           <li class="active"><a href="#roles" data-toggle="tab">${_('Roles')}</a></li>
           <li><a href="#account" data-toggle="tab">${_('Account Overview')}</a></li>
@@ -150,20 +150,20 @@
 
           <div class="tab-pane" id="account">
             <div class="row" py:if="person.postal_address and (personal or admin) and show['show_postal_address']">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Postal Address')}</strong>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 ${person.postal_address}
               </div>
             </div>
 
             <div class="row" py:if="personal or admin">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Public SSH Key')}</strong>
                 <a href="${tg.url('/user/clearkey')}">${_('(remove)')}</a>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 <py:if test="person.ssh_key">
                   <div style="overflow: auto; white-space: nowrap;">
                     ${person.ssh_key}
@@ -174,20 +174,20 @@
             </div>
 
             <div class="row" py:if="person.comments">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Comments')}</strong>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 ${person.comments}
               </div>
             </div>
 
             <div class="row" py:if="personal or admin">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Security question')}</strong>
                 <a href="${tg.url('/user/changequestion')}">${_('(change)')}</a>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 <py:if test="personal">
                   ${person.security_question}
                 </py:if>
@@ -201,13 +201,13 @@
             </div>
 
             <div class="row">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Contributor Agreement')}</strong>
                 <py:if test="admin and cla">
                   (<a href="${tg.url('/fpca/reject/%s' % person.username)}">${_('reject')}</a>)
                 </py:if>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 <py:choose test="cla">
                   <py:when test="True">
                     <span py:if="undeprecated" class="label label-success">${_('CLA Signed')}</span>
@@ -226,19 +226,19 @@
             </div>
 
             <div class="row" py:if="personal or admin">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Password')}</strong>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 <a href="${tg.url('/user/changepass')}">${_('(change)')}</a>
               </div>
             </div>
 
             <div class="row">
-              <div class="col-span-3">
+              <div class="col col-lg-3">
                 <strong>${_('Privacy')}</strong>
               </div>
-              <div class="col-span-9">
+              <div class="col col-lg-9">
                 <py:if test="person.privacy">${_('Account Information Private')}</py:if>
                 <py:if test="not person.privacy">${_('Account Information Public')}</py:if>
               </div>
