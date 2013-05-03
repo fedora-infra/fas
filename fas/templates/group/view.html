@@ -16,23 +16,26 @@
     can_admin = auth.can_admin_group(person, group)
     can_sponsor = auth.can_sponsor_group(person, group)
     ?>
-    <h2>${group.display_name} (${group.name})</h2>
-    <h3>
-      ${_('My Status:')}
-      <span py:if="group in person.memberships and group in person.approved_memberships" class="approved">${_('Approved')}</span>
-      <span py:if="group in person.memberships and not group in person.approved_memberships" class="unapproved">${_('Unapproved')}</span>
-      <span py:if="not group in person.memberships">${_('Not a Member')}</span>
-    </h3>
-    <!--
-        TODO: Turning the below form into an anchor ref fixes the CSRF request
-              I'm nto sure if that's intended though>
-    <a py:if="not group.invite_only and not group in person.memberships" href="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}"><h3>Apply</h3></a> -->
-    <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}" method="POST">
-      <div>
-        <!--<input type="text" name="requestField" value="${_('Please let me join...')}" />-->
-        <input type="submit" value="${_('Apply!')}" />
+
+    <div class="row">
+      <div class="col-span-9">
+        <h2>${group.display_name}</h2>
+        <p>${group.name}</p>
       </div>
-    </form>
+      <div class="col-span-3">
+        <span py:if="group in person.memberships and group in person.approved_memberships" class="btn btn-success pull-right">${_('You are approved')}</span>
+        <span py:if="group in person.memberships and not group in person.approved_memberships" class="btn btn-warning pull-right">${_('You are not approved')}</span>
+
+        <span py:if="not group in person.memberships and group.invite_only" class="btn pull-right">${_('You are not a member')}</span>
+
+        <form py:if="not group.invite_only and not group in person.memberships" action="${tg.url('/group/application_screen/%s/%s' % (group.name, person.username))}" method="POST">
+          <input type="submit" value="${_('Apply to join')}" class="btn btn-primary pull-right" />
+        </form>
+      </div>
+    </div>
+
+    <hr />
+
     <div py:if="group.invite_only and not group in person.memberships">
         <p>${_('Group is invite only.  Contact group sponsors for more information.')}</p>
     </div>
