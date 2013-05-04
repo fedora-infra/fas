@@ -188,13 +188,21 @@ class Group(controllers.Controller):
                 PersonRoles.role_status=='unapproved')).options(
                     eagerload('member')).order_by(sort_map[order_by])
         unsponsored.json_props = {'PersonRoles': ['member']}
+
+        # This is a really, really slow query in some cases, and we only
+        # render it in this view if there are < 10 members. This is a rare case
+        # where it makes sense to perform a count query first.
+        # However, for consistency, we should probably count in the template.
+        # So instead of sending list(members) back to the template, let's
+        # send the members query object, then in the template, we can check
+        # if we need to convert it to a list or not.
         members = PersonRoles.query.join('group').join('member', aliased=True).filter(
             People.username.like('%')
             ).outerjoin('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
-        return dict(group=group, sponsor_queue=unsponsored,
-            members=list(members))
+
+        return dict(group=group, sponsor_queue=unsponsored, members=members)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupMembers())
