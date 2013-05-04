@@ -10,11 +10,8 @@
         from hashlib import md5
     except ImportError:
         from md5 import new as md5
-
-    from fas import auth
-    import pytz
-    timezone = pytz.timezone(user.timezone)
     ?>
+    <!--
     <div class="head hide">
       <strong>${user.human_name}</strong>
     </div>
@@ -46,7 +43,7 @@
         </div>
 
       </div>
-
     </div>
+    -->
   </div>
 </html>
