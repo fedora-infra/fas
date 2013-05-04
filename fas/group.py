@@ -37,6 +37,7 @@ import cherrypy
 import sqlalchemy
 from sqlalchemy import select, func
 from sqlalchemy.sql import and_
+from sqlalchemy.orm import eagerload
 
 import re
 
@@ -184,7 +185,8 @@ class Group(controllers.Controller):
         unsponsored = PersonRoles.query.join('group').join('member',
             aliased=True).outerjoin('sponsor', aliased=True).filter(
             and_(Groups.name==groupname,
-                PersonRoles.role_status=='unapproved')).order_by(sort_map[order_by])
+                PersonRoles.role_status=='unapproved')).options(
+                    eagerload('member')).order_by(sort_map[order_by])
         unsponsored.json_props = {'PersonRoles': ['member']}
         members = PersonRoles.query.join('group').join('member', aliased=True).filter(
             People.username.like('%')
