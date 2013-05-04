@@ -110,9 +110,9 @@
       <h3>${_('Sponsorship Queue')}</h3>
       ${member_table(sponsor_queue, group, person)}
     </div>
-    <div py:if="10 >= len(members)" >
+    <div py:if="10 >= members.count()" >
         <h3>${_('Members')}</h3>
-        ${member_table(members, group, person)}
+        ${member_table(list(members), group, person)}
     </div>
   </body>
 </html>
