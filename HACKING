@@ -92,7 +92,7 @@ If you're developing on Fedora (good idea) you will need to use yum to install t
 
   yum install git-core postgresql-plpython postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
+  python-psycopg2 pytz python-babel babel python-GeoIP \
   python-fedora python-migrate python-memcached python-tgcaptcha2 pyOpenSSL gettext
 
 Please read the ''Caveats'' section for important caveats about particular releases.
@@ -104,7 +104,7 @@ If you're developing on RedHat Enterprise Linux (RHEL) you will need to use yum 
 
   yum install git-core postgresql-pl postgresql-server postgresql-python \
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
-  python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
+  python-psycopg2 pytz python-babel babel python-GeoIP \
   python-fedora python-migrate python-memcached python-tgcaptcha2 pyOpenSSL gettext
 
 For RHEL5 (and above) please note the naming difference in the postgresql-plpython package. On RHEL5 (and above) this package is referred to as postgresql-pl instead of postgresql-plpython.
