@@ -29,7 +29,6 @@ Requires: python-babel
 Requires: python-genshi
 Requires: python-kitchen
 Requires: pytz
-Requires: python-openid
 Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
