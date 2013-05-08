@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Piotr Drąg <piotrdrag@gmail.com>, 2008,2011-2013.
+# Piotr Drąg <piotrdrag@gmail.com>, 2008,2011-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

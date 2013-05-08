@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.16
+Version:        0.8.17
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -132,6 +132,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Wed May  8 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.17-1
+- **Security update** Fix information leak on group/view.
+
 * Thu Feb 28 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.16-1
 - 0.8.6 final
 

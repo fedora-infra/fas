@@ -3,10 +3,10 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Peter Borsa <peter.borsa@gmail.com>, 2011-2012.
-#   <ptr@ulx.hu>, 2012.
-# Sulyok Péter <peti@fedoraproject.org>, 2009.
-# Zoltan Hoppár <hopparz@gmail.com>, 2012.
+# Peter Borsa <peter.borsa@gmail.com>, 2011-2012
+# ptr <ptr@ulx.hu>, 2012
+# Sulyok Péter <peti@fedoraproject.org>, 2009
+# Zoltan Hoppár <hopparz@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Besnik Bleta <besnik@programeshqip.org>, 2009.
+# Besnik <besnik@programeshqip.org>, 2009
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
-# Josef Hruska <josef.hruska@upcmail.cz>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009
+# Josef Hruska <josef.hruska@upcmail.cz>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

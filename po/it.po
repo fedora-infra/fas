@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Francesco D'Aluisio <fdaluisio@fedoraproject.org>, 2011.
-# Francesco Tombolini <tombo@adamantio.net>, 2008, 2009, 2012.
-# Franco Godone <francog@fedoraproject.org>, 2008.
-# Gianluca Sforna <giallu@gmail.com>, 2013.
-# Guido Grazioli <guido.grazioli@gmail.com>, 2009.
-# mario_santagiuliana <mario at marionline.it>, 2009.
-# Silvio Pierro <perplesso82@gmail.com>, 2008.
+# Francesco D'Aluisio <fdaluisio@fedoraproject.org>, 2011
+# Francesco Tombolini <tombo@adamantio.net>, 2008, 2009, 2012
+# Franco Godone <francog@fedoraproject.org>, 2008
+# Gianluca Sforna <giallu@gmail.com>, 2013
+# Guido Grazioli <guido.grazioli@gmail.com>, 2009
+# mario_santagiuliana <mario at marionline.it>, 2009
+# Silvio Pierro <perplesso82@gmail.com>, 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
