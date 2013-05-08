@@ -221,7 +221,7 @@ Then upload this pot file to transifex::
 
 To pull messages from transifex prior to making a release, do::
 
-  tx pull -a
+  tx pull -a -f
 
 Transifex will perform merging of strings for you.
 
@@ -238,8 +238,8 @@ MAKING A RELEASE
 
 1. Make sure that any feature branches you want have been merged.
 2. If time allows, read and do the :id:`Getting Translated` section below.
-3. Pull in new translations using tx pull -a.  Add any new translations to the
-   fas.cfg.sample file.  Commit the changes.
+3. Pull in new translations using tx pull -a -f.  Add any new translations to
+   the fas.cfg.sample file.  Commit the changes.
 4. Update the version in fas.spec and fas/release.py.  Commit the changes to
    the master branch.
 5. Make sure the NEWS file is up to date
