@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Pierros Papadeas <pierros@papadeas.gr>, 2009.
-# Thalia Papoutsaki <saliyath@gmail.com>, 2009.
+# Pierros Papadeas <pierros@papadeas.gr>, 2009
+# thalia <saliyath@gmail.com>, 2009
+# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-04-28 19:59+0000\n"
+"Last-Translator: KAT.RAT12 <spanish.katerina@gmail.com>\n"
 "Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,19 +64,19 @@ msgstr "Η γλώσσα '%s' δεν είναι διαθέσιμη."
 #: fas/fpca.py:77
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
-msgstr ""
+msgstr "Χρειάζεται τηλεφωνικός αριθμός για την ολοκλήρωση του FPCA. Παρακαλώ συμπληρώστε κάτωθι. "
 
 #: fas/fpca.py:81
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
-msgstr ""
+msgstr "Μια έγκυρη χώρα και τηλεφωνικός αριθμός ή ταχυδρομικ΄΄η διεύθυνση χρειάζονται για την συμπλήρωση του FPCA. Παρακαλώ συμπληρώστε κάτωθι. "
 
 #: fas/fpca.py:87
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
-msgstr ""
+msgstr "Μια έγκυρη χώρα και τηλεφωνικός αριθμός απαιτούνται για την ολοκλήρωση του FPCA. Παρακαλώ συμπληρώστε τα κάτω. "
 
 #: fas/fpca.py:164
 msgid "You are not allowed to reject FPCAs."

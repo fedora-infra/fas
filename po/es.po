@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-#   <aeperezt@fedoraproject.org>, 2012.
-# Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>, 2011-2012.
-# Daniel Cabrera <logan@fedoraproject.org>, 2011.
-#  <domingobecker@gmail.com>, 2013.
-#   <domingobecker@gmail.com>, 2011.
-# Héctor Daniel Cabrera <logan@fedoraproject.org>, 2011.
-# Juan Orti Alcaine <j.orti.alcaine@gmail.com>, 2013.
-# Luis Bazán <lbazan@bakertillypanama.com>, 2012.
+# alex_pe <aeperezt@fedoraproject.org>, 2012
+# Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>, 2011-2012
+# Daniel Cabrera <logan@fedoraproject.org>, 2011
+# Domingo Becker <domingobecker@gmail.com>, 2013
+# Domingo Becker <domingobecker@gmail.com>, 2011
+# vareli <ehespinosa@ya.com>, 2013
+# Daniel Cabrera <logan@fedoraproject.org>, 2011
+# jorti <juan.orti@miceliux.com>, 2013
+# Luis Bazán <lbazan@bakertillypanama.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-21 10:45+0000\n"
-"Last-Translator: jorti <j.orti.alcaine@gmail.com>\n"
+"PO-Revision-Date: 2013-03-04 09:24+0000\n"
+"Last-Translator: vareli <ehespinosa@ya.com>\n"
 "Language-Team: Spanish <trans-es@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1116,7 +1117,7 @@ msgid ""
 "\n"
 "And finally, from all of us here at the Fedora Project, we're looking\n"
 "forward to working with you!\n"
-msgstr ""
+msgstr "\n⏎ Usted ha creado una nueva cuenta Fedora! ⏎ Su nombre de usuario es: %(username)s⏎ Su nueva contraseña es: %(password)s⏎ ⏎ Por favor vaya a %(base_url)s%(webpath)s/user/changepass⏎ para cambiarla.⏎ ⏎ Bienvenido al Proyecto Fedora. Ahora que usted ha firmado una ⏎ usted está probablemente desesperado por empezar a contribuir y con esto ⏎ en mente esperamos que este correo eléctronico le guíe en la dirección correcta para ⏎ hacer este proceso lo más fácil posible.⏎ ⏎ Fedora es un proyecto excitante con mucho por hacer, y usted puede ⏎ contribuir en un número enorme de maneras, usando todos los tipos de diferentes⏎ conjuntos de habilitades. Para averiguar sobre las diferentes maneras en las que puede contribuir a⏎ Fedora, usted puede visitar nuestra página de adhesión que le suministra más información⏎ sobre los diferentes papeles que están disponibles.⏎ ⏎ http://join.fedoraproject.org/⏎ ⏎ Si usted ya sabe cómo quiere contribuir a Fedora, y ha⏎ encontrado el grupo que ya está trabajando en el área en la que está interesado, entonces⏎ hay uno pocos pasos más que debe tomar.⏎ ⏎ El principal de ellos es unirse al equipo o la lista de correo⏎ del proyecto en el que está interesado – y si usted está interesado en más de⏎ un grupo de trabajo, siéntase libre de firmar por tantas listas de correo como ⏎ desee! Esto es porque las listas de correo en donde la mayoría del trabajo⏎ se organiza y se asignan las tareas, así que para mantenerse en el bucle asegúrese de⏎ estar atento a los mensajes.⏎ ⏎ Una vez que haya hecho esto, es probablemente acertado enviar una corta presentación a⏎ la lista dejándonos conocer que experiencia tiene y como le gustaría⏎ ayudar. Desde aquí, los miembros existentes del grupo le ayudarán a encontrar⏎ su camino como contribuyente Fedora.⏎ ⏎ Por favor recuerde que usted se está uniendo a una comunidad hecha de contribuyentes⏎ de todo el mundo, como tal por favor pase por el Código de Conducta de la⏎ Comunidad.⏎ ⏎ https://fedoraproject.org/code-of-conduct⏎ ⏎ Y finalmente, desde todos los que estamos aquí en el Proyecto Fedora, estamos buscando⏎ con interés trabajar con usted!⏎\n"
 
 #: fas/user.py:1040 fas/user.py:1090
 msgid "Your current password did not match"

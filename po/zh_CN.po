@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Alick Zhao <alick9188@gmail.com>, 2012.
-# Christopher Meng <cickumqt@gmail.com>, 2012-2013.
-#   <fanwuming163@163.com>, 2011.
-# Mike Ma <zhtx10@gmail.com>, 2011.
-# TianShixiong <tiansworld@gmail.com>, 2008, 2009, 2010.
-#   <tiansworld@fedoraproject.org>, 2011, 2012.
-# Tiansworld <tiansworld@fedoraproject.org>, 2013.
-# Tiansworld  <tiansworld@fedoraproject.org>, 2012.
+# Alick Zhao <alick9188@gmail.com>, 2012
+# Christopher Meng <cickumqt@gmail.com>, 2012-2013
+# Ubuntuchen <fanwuming163@163.com>, 2011
+# Mike Manilone <zhtx10@gmail.com>, 2011
+# TianShixiong <tiansworld@gmail.com>, 2008, 2009, 2010
+# Tiansworld <tiansworld@fedoraproject.org>, 2011, 2012
+# Tiansworld <tiansworld@fedoraproject.org>, 2013
+# Tiansworld <tiansworld@fedoraproject.org>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

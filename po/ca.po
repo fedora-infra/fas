@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Bernabé Borrero <bernabeborrero@gmail.com>, 2012.
-# Robert Antoni Buj Gelonch <robert.buj@gmail.com>, 2010.
+# Bernabé Borrero <bernabeborrero@gmail.com>, 2012
+# Robert Antoni Buj i Gelonch <robert.buj@gmail.com>, 2010
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Adriano Laranjeira <adriano@argl.eng.br>, 2012.
-# André Gondim <andregondim@ubuntu.com>, 2009.
-# Arthur Rodrigues Araruna <araruna@gmail.com>, 2012.
-#   <ataliba@ataliba.eti.br>, 2012.
-# Diego Búrigo Zacarão <diegobz@projetofedora.org>, 2008.
-# Rafael Gomes <rafaelgomes@projetofedora.org>, 2009.
-#   <ufa@technotroll.org>, 2011.
-# ufa  <ufa@technotroll.org>, 2011.
+# Adriano Laranjeira <adriano@argl.eng.br>, 2012
+# André Gondim <andregondim@ubuntu.com>, 2009
+# Arthur Rodrigues Araruna <araruna@gmail.com>, 2012
+# ataliba <ataliba@ataliba.eti.br>, 2012
+# Diego Búrigo Zacarão <diegobz@projetofedora.org>, 2008
+# Rafael Gomes <rafaelgomes@projetofedora.org>, 2009
+# ufa <ufa@technotroll.org>, 2011
+# ufa <ufa@technotroll.org>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
