@@ -14,13 +14,6 @@ deployment_type = "dev"
 # admingroup is for humans that can see and do anything
 
 ###
-### OpenID Support
-###
-samadhi.baseurl = 'http://alpha.rzhou.org/'
-# Ask ricky if we can get rid of this:
-openidstore = "/var/tmp/fas/openid"
-
-###
 ### GPG Keys for specific operations
 ###
 # This is the GPG Key ID used to encrypt the answer to the user's security question.
