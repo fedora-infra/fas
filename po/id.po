@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Teguh DC <dheche@songolimo.net>, 2010.
+# pusing85 <pusing85@gmail.com>, 2013
+# Teguh Dwicaksana <dheche@songolimo.net>, 2010
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
-"PO-Revision-Date: 2013-02-19 00:39+0000\n"
-"Last-Translator: Toshio Kuratomi <a.badger@gmail.com>\n"
+"PO-Revision-Date: 2013-03-22 09:32+0000\n"
+"Last-Translator: pusing85 <pusing85@gmail.com>\n"
 "Language-Team: Indonesian <trans-id@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,34 +63,34 @@ msgstr "Bahasa '%s' tidak tersedia."
 #: fas/fpca.py:77
 msgid ""
 "A telephone number is required to complete the FPCA.  Please fill out below."
-msgstr ""
+msgstr "Nomor telepon dibutuhkan untuk melengkapi FPCA. Silahkan isi di bawah."
 
 #: fas/fpca.py:81
 msgid ""
 "A valid country and telephone number or postal address is required to "
 "complete the FPCA.  Please fill them out below."
-msgstr ""
+msgstr "Nama negara yang terdaftar dan nomor telepon atau alamat dibutuhkan untuk melengkapi FPCA. Silahkan isi di bawah ini."
 
 #: fas/fpca.py:87
 msgid ""
 "A valid country and telephone number are required to complete the FPCA.  "
 "Please fill them out below."
-msgstr ""
+msgstr "Sebuah negara yang terdaftar dan nomor telepon diperlukan untuk melengkapi FPCA tersebut. Silahkan isi di bawah ini."
 
 #: fas/fpca.py:164
 msgid "You are not allowed to reject FPCAs."
-msgstr ""
+msgstr "Anda tidak diperbolehkan untuk menolak FPCAs."
 
 #: fas/fpca.py:175
 #, python-format
 msgid ""
 "Error removing cla and dependent groups for %(person)s\n"
 " Error was: %(error)s"
-msgstr "Terjadi galat saat menghapus cla dan ketergantungan grup untuk %(person)s\n Galatnya adalah: %(error)s"
+msgstr "Terjadi kesalahan saat menghapus cla dan ketergantungan grup untuk %(person)s\nKesalahannya adalah: %(error)s"
 
 #: fas/fpca.py:185
 msgid "Fedora ICLA Revoked"
-msgstr ""
+msgstr "Fedora ICLA Dicabut"
 
 #: fas/fpca.py:186
 #, python-format
@@ -125,15 +126,15 @@ msgstr ""
 
 #: fas/fpca.py:248
 msgid "FPCA Successfully Removed."
-msgstr ""
+msgstr "FPCA Berhasil Dihapus."
 
 #: fas/fpca.py:272
 msgid "You have already completed the FPCA."
-msgstr ""
+msgstr "Anda telah menyelesaikan FPCA tersebut."
 
 #: fas/fpca.py:276
 msgid "You have not completed the FPCA."
-msgstr ""
+msgstr "Anda belum menyelesaikan FPCA tersebut."
 
 #: fas/fpca.py:279
 msgid "You must confirm that your personal information is accurate."
@@ -147,13 +148,13 @@ msgstr "Informasi Anda yang telah diperbaharui tidak dapat disimpan."
 msgid ""
 "To complete the FPCA, we must have your name telephone number, and country."
 "  Please ensure they have been filled out."
-msgstr ""
+msgstr "Untuk melengkapi FPCA, kami harus memiliki nama telepon nomor, dan negara anda. Pastikan semuanya telah terisi."
 
 #: fas/fpca.py:326
 msgid ""
 "To complete the FPCA, a valid country code must be specified. Please select "
 "one now."
-msgstr ""
+msgstr "Untuk melengkapi FPCA, sebuah kode negara yang valid harus ditentukan. Silakan pilih satu sekarang."
 
 #: fas/fpca.py:330
 msgid ""
@@ -175,7 +176,7 @@ msgstr "Anda sudah menjadi bagian dari grup '%s'."
 #, python-format
 msgid ""
 "You have successfully completed the FPCA.  You are now in the '%s' group."
-msgstr ""
+msgstr "Anda telah berhasil menyelesaikan FPCA tersebut. Anda sekarang berada di grup '% s'."
 
 #: fas/group.py:179 fas/group.py:221
 #, python-format
@@ -184,7 +185,7 @@ msgstr "Anda tidak dapat melihat '%s'"
 
 #: fas/group.py:244 fas/group.py:262
 msgid "Only FAS administrators can create groups."
-msgstr ""
+msgstr "Hanya FAS administrator yang dapat membuat grup."
 
 #: fas/group.py:287
 #, python-format
@@ -210,7 +211,7 @@ msgstr "Anda tidak dapat menyunting '%s'."
 
 #: fas/group.py:338
 msgid "Group type cannot by empty!"
-msgstr ""
+msgstr "Tipe grup tidak boleh kosong!"
 
 #: fas/group.py:361
 msgid "The group details could not be saved."
@@ -282,7 +283,7 @@ msgstr "%(user)s tidak dapat disponsori di %(group)s: %(error)s"
 #: fas/group.py:546
 #, python-format
 msgid "Your Fedora '%s' membership has been sponsored"
-msgstr ""
+msgstr "Keanggotaan Fedora '% s'  Anda telah disponsori"
 
 #: fas/group.py:547
 #, python-format
@@ -311,7 +312,7 @@ msgstr "%(user)s tidak dapat dihapus dari %(group)s: %(error)s"
 #: fas/group.py:592
 #, python-format
 msgid "Your Fedora '%s' membership has been removed"
-msgstr ""
+msgstr "Keanggotaan Fedora '%s'  Anda telah dihapus"
 
 #: fas/group.py:593
 #, python-format
@@ -371,7 +372,7 @@ msgstr "%(name)s tidak dapat diturunkan di %(group)s: %(error)s"
 #: fas/group.py:690
 #, python-format
 msgid "Your Fedora '%s' membership has been downgraded"
-msgstr ""
+msgstr "Keanggotaan '% s' Fedora Anda telah diturunkan"
 
 #: fas/group.py:695
 #, python-format
@@ -390,7 +391,7 @@ msgstr "%s telah diturunkan!"
 
 #: fas/group.py:776 fas/group.py:811
 msgid "Invitation to join the Fedora Team!"
-msgstr ""
+msgstr "Undangan untuk bergabung dengan Tim Fedora!"
 
 #: fas/group.py:795 fas/group.py:830
 #, python-format
@@ -433,7 +434,7 @@ msgstr "<p>Kami tidak dapat menemukan lema bantuan tersebut</p>"
 
 #: fas/help.py:28
 msgid "Accuracy of FPCA Information"
-msgstr ""
+msgstr "Akurasi Informasi FPCA"
 
 #: fas/help.py:28
 msgid ""
@@ -444,7 +445,7 @@ msgid ""
 "work and we have to tell them we have a right to use it because \"Mickey "
 "Moose\" contributed it to us and we have no telephone number to contact "
 "them!  Potentially a very sticky situation.</p>"
-msgstr ""
+msgstr "<p> FPCA adalah sebuah dokumen hukum. Kita perlu memiliki informasi yang akurat yang melekat pada dokumen hanya untuk berjaga-jaga saat kami perlu untuk menghubungi Anda mengenai kontribusi yang Anda buat pada proyek. Bayangkan jika kita mendapat telepon dari pengacara dari beberapa perusahaan lain yang mengklaim bahwa mereka memiliki hak cipta untuk pekerjaan Anda dan kami harus memberitahu mereka bahwa kita memiliki hak untuk menggunakannya karena \"Mickey Moose\" berkontribusi kepada kami dan kami tidak punya nomor telepon untuk menghubungi mereka! Berpotensi situasi yang sangat berbahaya </ p>."
 
 #: fas/help.py:29
 msgid "IRC Nick (Optional)"
@@ -466,11 +467,11 @@ msgid ""
 "<p>This email address should be your preferred email contact and will be "
 "used to send various official emails to.  This is also where your "
 "@fedoraproject.org email will get forwarded</p>"
-msgstr ""
+msgstr "<p> alamat email ini  harus email utama pilihan Anda dan akan digunakan untuk mengirim berbagai email resmi. Email ini juga di mana email@fedoraproject.org anda akan diteruskan </ p>"
 
 #: fas/help.py:31
 msgid "Security question (Required)"
-msgstr ""
+msgstr "Pertanyaan keamanan (Diperlukan)"
 
 #: fas/help.py:31
 msgid ""
@@ -478,7 +479,7 @@ msgid ""
 "address. You can email the admins, and they will ask you this question, and "
 "confirm you give the correct answer, before resetting your password/email "
 "address</p>"
-msgstr ""
+msgstr "<p> Pertanyaan keamanan digunakan ketika Anda kehilangan akses ke alamat email Anda. Anda dapat mengirimkan email ke admin, dan mereka akan menanyakan pertanyaan ini, dan meng-konfirmasi bahwa Anda memberikan jawaban yang benar, sebelum atur ulang password/email anda </ p>"
 
 #: fas/help.py:32
 msgid "Full Name (Required)"
@@ -553,7 +554,7 @@ msgstr ""
 
 #: fas/help.py:39
 msgid "FPCA"
-msgstr ""
+msgstr "FPCA"
 
 #: fas/help.py:39
 msgid ""
@@ -578,7 +579,7 @@ msgid ""
 " wish to login through several hosts, each with their own public key, you "
 "can create a concatenated file of public ssh keys and upload it in lieu of "
 "the individual ssh public key.</p>"
-msgstr ""
+msgstr "<p> Banyak sumber daya yang membutuhkan otentikasi kunci publik untuk bekerja. Dengan meng-upload kunci publik Anda kepada kami, Anda kemudian dapat masuk ke server kami. Ketik \"man ssh-keygen\" untuk informasi lebih lanjut tentang cara membuat kunci (harus menjadi kunci RSA). Begitu dibuat, Anda akan ingin meng-upload ~ / .ssh / id_rsa.pub. <br /> <br /> Jika Anda ingin login melalui beberapa host, masing-masing dengan kunci publik mereka sendiri, Anda dapat membuat file concatenated dari kunci ssh publik dan meng-upload sebagai pengganti kunci ssh individu publik. </ p>"
 
 #: fas/help.py:41 fas/templates/user/edit.html:121
 msgid "Locale"
@@ -686,7 +687,7 @@ msgid ""
 "user has applied for the group, go to the group's page and click approve to "
 "sponsor the user.  Sponsorship of a user implies that you are approving a "
 "user and may mentor and answer their questions as they come up.</p>"
-msgstr ""
+msgstr "<p> sponsor atau administrator dapat mensponsori pengguna untuk berada dalam grup. Setelah pengguna mendaftar ke grup, pergi ke halaman grup dan klik setujui untuk mensponsori pengguna. Sponsorship dari pengguna menyiratkan bahwa Anda menyetujui pengguna dan sekiranya me-mentor serta menjawab pertanyaan mereka ketika mereka datang. </ P>"
 
 #: fas/help.py:51
 msgid "Add User"
@@ -770,14 +771,14 @@ msgstr "<p>URL untuk milis grup (misalnya, <a href=\"http://www.redhat.com/mailm
 
 #: fas/help.py:59
 msgid "Invite Only"
-msgstr ""
+msgstr "Hanya undangan"
 
 #: fas/help.py:59
 msgid ""
 "<p>If users should not normally be able to apply to the group, setting this "
 "will hide the usual \"Apply!\" links and buttons.  Users can still be added "
 "to a group directly by an admin or sponsor.</p>"
-msgstr ""
+msgstr "<p> Jika pengguna biasa seharusnya tidak bisa untuk melamar kelompok, pengaturan ini akan menyembunyikan tombol \"Terapkan!\" biasa dan tombol-tombol. Pengguna masih dapat ditambahkan langsung ke dalam grup oleh admin atau sponsor. </ P>"
 
 #: fas/help.py:60
 msgid "Group IRC Channel (Optional)"
@@ -829,7 +830,7 @@ msgstr "Harus Tergabung Dalam"
 msgid ""
 "<p>Before a user can join this group, they must belong to the group listed "
 "in this box.  Recommended values are for the '%s' group.</p>"
-msgstr ""
+msgstr "<p> Sebelum pengguna dapat bergabung dengan grup ini, mereka harus jadi bagian kelompok yang tercantum dalam kotak ini. Nilai yang direkomendasikan adalah untuk '%s' grup</ P>"
 
 #: fas/help.py:65
 msgid "Join Message"
@@ -875,7 +876,7 @@ msgstr "Aturan untuk Aplikasi"
 msgid ""
 "<p>Rules or steps that applicants should follow before applying to your "
 "group.  This will be shown to users before they apply to your group.</p>"
-msgstr ""
+msgstr "<p> Aturan atau langkah-langkah yang pelamar harus ikuti sebelum mendaftar ke grup Anda. Ini akan ditampilkan kepada pengguna sebelum mereka mendaftar ke grup Anda. </ P>"
 
 #: fas/openid_samadhi.py:182 fas/openid_samadhi.py:228
 msgid ""
@@ -894,23 +895,23 @@ msgstr ""
 
 #: fas/sidebar.py:23
 msgid "New Group"
-msgstr ""
+msgstr "Grup Baru"
 
 #: fas/sidebar.py:24
 msgid "User List"
-msgstr ""
+msgstr "Daftar Pemakai"
 
 #: fas/sidebar.py:26
 msgid "Group List"
-msgstr ""
+msgstr "Daftar Grup"
 
 #: fas/sidebar.py:27
 msgid "Join a Group"
-msgstr ""
+msgstr "Gabung sebuah Grup"
 
 #: fas/user.py:86
 msgid "Solve the math problem"
-msgstr ""
+msgstr "Selesaikan pertanyaan matematika berikut"
 
 #: fas/user.py:292
 #, python-format
@@ -924,7 +925,7 @@ msgstr "Anda tidak memiliki izin untuk menyunting '%s'"
 
 #: fas/user.py:349
 msgid "Only admin can enable or disable an account."
-msgstr ""
+msgstr "Hanya admin yang bisa mengaktifkan atau menonaktifkan account."
 
 #: fas/user.py:375
 msgid "Somebody is already using that email address."
@@ -1007,7 +1008,7 @@ msgstr "Tidak ada pengguna yang cocok '%s'"
 msgid ""
 "Your pending email change has been canceled.   The email change token has "
 "been invalidated."
-msgstr ""
+msgstr "Perubahan email pending Anda telah dibatalkan. Token perubahan email telah dibatalkan."
 
 #: fas/user.py:791 fas/user.py:813
 msgid "You do not have any pending email changes."
@@ -1044,7 +1045,7 @@ msgstr "Maaf. Alamat surel tersebut sudah digunakan. Mungkin Anda lupa kata sand
 
 #: fas/user.py:897
 msgid "Sorry.  Email addresses do not match"
-msgstr ""
+msgstr "Maaf. Alamat Email tidak cocok"
 
 #: fas/user.py:904
 #, python-format
@@ -1113,23 +1114,23 @@ msgstr ""
 
 #: fas/user.py:1040 fas/user.py:1090
 msgid "Your current password did not match"
-msgstr ""
+msgstr "Password Anda saat ini tidak sesuai"
 
 #: fas/user.py:1051
 msgid "Your security question could not be changed."
-msgstr ""
+msgstr "Pertanyaan keamanan Anda tidak bisa diubah."
 
 #: fas/user.py:1054
 msgid "Your security question has been changed."
-msgstr ""
+msgstr "Pertanyaan keamanan Anda telah diubah."
 
 #: fas/user.py:1083
 msgid "passwords did not match"
-msgstr ""
+msgstr "password tidak cocok"
 
 #: fas/user.py:1094
 msgid "Your new password cannot be the same as your old one."
-msgstr ""
+msgstr "Password baru anda tidak boleh sama dengan password lama anda"
 
 #: fas/user.py:1109
 msgid "Your password could not be changed."
@@ -1171,7 +1172,7 @@ msgstr "Sistem akun tidak memiliki reset kata sandi daring. Silakan hubungi %(ad
 
 #: fas/user.py:1169
 msgid "Warning: attempted reset of system account"
-msgstr ""
+msgstr "Peringatan: percobaan reset dari sistem akun"
 
 #: fas/user.py:1170
 #, python-format
@@ -1215,7 +1216,7 @@ msgstr "Sebuah URL reset kata sandi telah dikirim melalui surel kepada Anda."
 
 #: fas/user.py:1257
 msgid "You don't have any pending password changes."
-msgstr ""
+msgstr "Anda tidak memiliki perubahan password yang tertunda."
 
 #: fas/user.py:1261 fas/user.py:1314
 msgid "Invalid password change token."
@@ -1229,7 +1230,7 @@ msgstr "Reset kata sandi Anda telah dibatalkan. Token perubahan kata sandi sudah
 
 #: fas/user.py:1296
 msgid "Both passwords must match"
-msgstr ""
+msgstr "Kedua password harus cocok"
 
 #: fas/user.py:1308
 msgid "You do not have any pending password changes."
@@ -1247,7 +1248,7 @@ msgstr "Anda telah berhasil mereset kata sandi Anda. Sekarang Anda seharusnya bi
 
 #: fas/user.py:1386
 msgid "Before generating a certificate, you must first complete the FPCA."
-msgstr ""
+msgstr "Sebelum menghasilkan sertifikat, Anda harus terlebih dahulu menyelesaikan FPCA."
 
 #: fas/user.py:1456
 msgid "Your certificate could not be generated."
@@ -1256,7 +1257,7 @@ msgstr "Sertifikat Anda tidak dapat dibuat."
 #: fas/user.py:1462
 #, python-format
 msgid "A new certificate has been generated for %s"
-msgstr ""
+msgstr "Sebuah sertifikat baru telah dikeluarkan untuk % s"
 
 #: fas/user.py:1464
 msgid ""
@@ -1270,7 +1271,7 @@ msgstr ""
 
 #: fas/user.py:1523
 msgid "Your key has been removed."
-msgstr ""
+msgstr "Kunci Anda telah dihapus."
 
 #: fas/validators.py:58
 #, python-format
@@ -1321,7 +1322,7 @@ msgstr "Galat - Bukan kunci SSH RSA yang valid: %(key)s"
 msgid ""
 "'%(username)s' is an illegal username.  A valid username must be ASCII, only"
 " contain lowercase alphanumeric characters, and must start with a letter."
-msgstr ""
+msgstr "'%(username)s' adalah nama pengguna ilegal. Sebuah nama pengguna yang valid harus ASCII, hanya berisi karakter alfanumerik huruf kecil, dan harus dimulai dengan huruf."
 
 #: fas/validators.py:207
 #, python-format
@@ -1342,11 +1343,11 @@ msgid ""
 "they must be at least 10 characters.  If they have lowercase letters and "
 "digits, they must be at least 12 characters.  Letters alone need to have at "
 "least 3 different characters and be 20 or more characters in length."
-msgstr ""
+msgstr "Password harus memenuhi persyaratan kekuatan tertentu. Jika password memiliki campuran simbol, huruf besar dan huruf kecil, dan angka password harus setidaknya 9 karakter. Jika password memiliki campuran huruf besar dan huruf kecil dan angka yang password harus setidaknya 10 karakter. Jika password memiliki huruf kecil dan angka, password harus setidaknya 12 karakter. Huruf saja perlu memiliki minimal 3 karakter yang berbeda dan mempunyai 20 atau lebih karakter."
 
 #: fas/validators.py:241
 msgid "Malicious hackers read xkcd, you know"
-msgstr ""
+msgstr "Hacker jahat membaca xkcd, Anda tahu"
 
 #: fas/validators.py:242
 #, python-format
@@ -1358,7 +1359,7 @@ msgid ""
 "You must include the full form of your names, not just initials.  If your "
 "fullname really has one letter portions, you may check the override checkbox"
 " to submit this name."
-msgstr ""
+msgstr "Anda harus menyertakan bentuk lengkap nama Anda, bukan hanya inisial. Jika nama lengkap Anda benar-benar memiliki satu bagian abjad, Anda dapat memeriksa kotak centang untuk menyerahkan nama ini."
 
 #: fas/model/fasmodel.py:190
 msgid "user is already in this group"
@@ -1400,7 +1401,7 @@ msgid ""
 "as it allows anyone to find out who is in what groups and contact them.  "
 "This openness is brought over from the same philosophies that make Open "
 "Source popular."
-msgstr ""
+msgstr "Fas dirancang sebagai sebuah arsitektur terbuka. Tidak seperti sistem akun tradisional dimana seorang admin tunggal atau sekelompok admin memutuskan siapa yang dapat bergabung di grup mana, FAS benar-benar dirancang agar masing-masing tim dapat beroperasi secara mandiri. Setiap grup diberikan setidaknya satu administrator yang nantinya dapat menyetujui orang lain di grup. Juga, tidak seperti sistem akun tradisional. FAS memungkinkan orang untuk melamar ke grup yang mereka inginkan. Paradigma ini menarik karena memungkinkan setiap orang untuk mencari tahu siapa yang berada di grup mana dan menghubunginya. Keterbukaan ini diadopsi dari filosofi yang sama yang membuat Sumber Terbuka populer."
 
 #: fas/templates/about.html:12
 msgid "Etiquette"
@@ -1446,7 +1447,7 @@ msgstr "Galat!"
 
 #: fas/templates/error.html:18
 msgid "The following error(s) have occurred with your request:"
-msgstr ""
+msgstr "Terjadi kesalahan sebagai berikut dengan permintaan Anda:"
 
 #: fas/templates/home.html:13
 msgid "To do queue:"
@@ -1507,7 +1508,7 @@ msgstr "Bantuan/Dokumentasi"
 
 #: fas/templates/master.html:49
 msgid "Code of Conduct"
-msgstr ""
+msgstr "Kode Etik"
 
 #: fas/templates/master.html:55
 msgid "Logged in:"
@@ -1602,7 +1603,7 @@ msgstr "Masuk"
 
 #: fas/templates/welcome.html:22
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Lupa password?"
 
 #: fas/templates/welcome.html:23
 msgid "New Account"
@@ -1614,7 +1615,7 @@ msgstr "Mengapa bergabung?"
 
 #: fas/templates/fpca/index.html:19
 msgid "Fedora Project Contributor Agreement"
-msgstr ""
+msgstr "Perjanjian Kontributor  Fedora Project"
 
 #: fas/templates/fpca/index.html:20 fas/templates/fpca/index.html:23
 #, python-format
@@ -1623,7 +1624,7 @@ msgstr "<a href=\"%(url)s\">Versi Teks</a>"
 
 #: fas/templates/fpca/index.html:27
 msgid "You have already successfully completed the FPCA."
-msgstr ""
+msgstr "Anda telah berhasil menyelesaikan FPCA."
 
 #: fas/templates/fpca/index.html:37 fas/templates/user/edit.html:27
 msgid "Full Name"
@@ -1670,7 +1671,7 @@ msgstr "Aturan Grup"
 #: fas/templates/group/apply.html:24 fas/templates/group/members.html:31
 #: fas/templates/group/view.html:33
 msgid "Apply!"
-msgstr ""
+msgstr "Terapkan!"
 
 #: fas/templates/group/edit.html:7
 msgid "Edit Group"
@@ -1716,7 +1717,7 @@ msgstr "Pemilik Grup:"
 #: fas/templates/group/edit.html:53 fas/templates/group/new.html:33
 #: fas/templates/group/view.html:71
 msgid "Invite Only:"
-msgstr ""
+msgstr "Hanya yang diundang:"
 
 #: fas/templates/group/edit.html:63 fas/templates/group/new.html:38
 #: fas/templates/group/view.html:75
@@ -1751,7 +1752,7 @@ msgstr "Ajak anggota komunitas baru!"
 
 #: fas/templates/group/invite.html:21
 msgid "Language:"
-msgstr ""
+msgstr "Bahasa : "
 
 #: fas/templates/group/invite.html:29
 msgid "To email:"
@@ -1779,11 +1780,11 @@ msgstr "Daftar Grup"
 
 #: fas/templates/group/list.html:17
 msgid "Create New Group"
-msgstr ""
+msgstr "Buat Grup Baru"
 
 #: fas/templates/group/list.html:18
 msgid "Create Group"
-msgstr ""
+msgstr "Buat Grup"
 
 #: fas/templates/group/list.html:21 fas/templates/user/list.html:10
 #, python-format
@@ -1871,15 +1872,15 @@ msgstr "Rincian Grup"
 
 #: fas/templates/group/members.html:42
 msgid "administrator"
-msgstr ""
+msgstr "administrator"
 
 #: fas/templates/group/members.html:42
 msgid "sponsor"
-msgstr ""
+msgstr "sponsor"
 
 #: fas/templates/group/members.html:42
 msgid "user"
-msgstr ""
+msgstr "pengguna"
 
 #: fas/templates/group/members.html:44 fas/templates/group/view.html:114
 msgid "Members"
@@ -1911,7 +1912,7 @@ msgstr "Lihat Grup"
 
 #: fas/templates/group/view.html:37
 msgid "Group is invite only.  Contact group sponsors for more information."
-msgstr ""
+msgstr "Grup hanya untuk yang diundang. Hubungi sponsor kelompok untuk informasi lebih lanjut."
 
 #: fas/templates/group/view.html:41 fas/templates/user/view.html:21
 msgid "(edit)"
@@ -1965,7 +1966,7 @@ msgstr "Tambah Pengguna:"
 
 #: fas/templates/group/view.html:94
 msgid "Add"
-msgstr ""
+msgstr "Tambah"
 
 #: fas/templates/group/view.html:107 fas/templates/group/view.html:108
 msgid "View Member List"
@@ -2079,7 +2080,7 @@ msgid ""
 "guessing it by having a computer try different combinations of characters in"
 " rapid succession.  To make such brute force attacks harder we enforce some "
 "minimum levels of strength:"
-msgstr ""
+msgstr "Passphrases perlu suatu kompleksitas tertentu untuk mencegah penyerang menebak dengan memiliki komputer mencoba berbagai kombinasi karakter dalam suksesi cepat. Untuk membuat kekerasan seperti serangan keras kita menegakkan beberapa tingkat minimum kekuatan:"
 
 #: fas/templates/user/changepass.html:14
 msgid ""
@@ -2103,13 +2104,13 @@ msgstr ""
 msgid ""
 "A passphrase with letters alone must be made of at least 3 different "
 "characters and be at least 20 characters long"
-msgstr ""
+msgstr "Sebuah passphrase dengan huruf saja harus dibuat dari minimal 3 karakter yang berbeda dan minimal 20 karakter panjangnya"
 
 #: fas/templates/user/changepass.html:19
 msgid ""
 "Remember that these are minimum levels.  You are encouraged to make your "
 "passphrases longer and more complex than the minimum values."
-msgstr ""
+msgstr "Ingatlah bahwa ini adalah tingkat minimum. Anda dianjurkan untuk membuat passphrase Anda lebih panjang dan lebih kompleks daripada nilai minimum."
 
 #: fas/templates/user/changepass.html:21
 #: fas/templates/user/changequestion.html:15
@@ -2128,27 +2129,27 @@ msgstr "Konfirmasi Sandi:"
 #: fas/templates/user/changequestion.html:10
 #: fas/templates/user/changequestion.html:22
 msgid "Change Security Question"
-msgstr ""
+msgstr "Ubah Pertanyaan Keamanan"
 
 #: fas/templates/user/changequestion.html:12
 msgid ""
 "Please enter your current password for confirmation, and then choose a new "
 "security question and answer."
-msgstr ""
+msgstr "Masukkan sandi Anda saat ini untuk konfirmasi, dan kemudian pilih pertanyaan keamanan yang baru dan jawabannya."
 
 #: fas/templates/user/changequestion.html:13
 msgid ""
 "This question will be asked if you lose access to your email address and "
 "want to recover access to your account."
-msgstr ""
+msgstr "Pertanyaan ini akan ditanyakan jika Anda kehilangan akses ke alamat email Anda dan ingin memulihkan akses ke akun Anda."
 
 #: fas/templates/user/changequestion.html:17
 msgid "New Question:"
-msgstr ""
+msgstr "Pertanyaan Baru:"
 
 #: fas/templates/user/changequestion.html:21
 msgid "Answer:"
-msgstr ""
+msgstr "Jawab:"
 
 #: fas/templates/user/edit.html:17
 msgid "Edit Account"
@@ -2166,7 +2167,7 @@ msgstr "Kata Sandi:"
 #: fas/templates/user/edit.html:23 fas/templates/user/view.html:81
 #: fas/templates/user/view.html:86
 msgid "(change)"
-msgstr ""
+msgstr "(ubah)"
 
 #: fas/templates/user/edit.html:33
 msgid "Email"
@@ -2262,11 +2263,11 @@ msgstr "Mendaftar untuk memperoleh akun Fedora"
 
 #: fas/templates/user/new.html:11
 msgid "NOTE:"
-msgstr ""
+msgstr "CATATAN:"
 
 #: fas/templates/user/new.html:11
 msgid "Username is permanent"
-msgstr ""
+msgstr "Username bersifat permanen"
 
 #: fas/templates/user/new.html:11
 msgid ""
@@ -2276,7 +2277,7 @@ msgstr ""
 
 #: fas/templates/user/new.html:11
 msgid "Personal information may be updated or removed at any time."
-msgstr ""
+msgstr "Informasi pribadi dapat diperbarui atau dihapus setiap saat."
 
 #: fas/templates/user/new.html:14 fas/templates/user/resetpass.html:13
 msgid "Username:"
@@ -2297,15 +2298,15 @@ msgstr "Surel:"
 
 #: fas/templates/user/new.html:32
 msgid "Verify Email:"
-msgstr ""
+msgstr "Verifikasi email:"
 
 #: fas/templates/user/new.html:37
 msgid "Security Question:"
-msgstr ""
+msgstr "Pertanyaan Keamanan:"
 
 #: fas/templates/user/new.html:42
 msgid "Security Answer:"
-msgstr ""
+msgstr "Jawaban Keamanan:"
 
 #: fas/templates/user/new.html:62
 msgid "I am 13 years of age or older"
@@ -2313,7 +2314,7 @@ msgstr "Saya berusia 13 tahun atau lebih tua"
 
 #: fas/templates/user/new.html:68
 msgid "Answer this math equation"
-msgstr ""
+msgstr "Jawab persamaan matematika berikut"
 
 #: fas/templates/user/new.html:71
 msgid "Sign up!"
@@ -2326,7 +2327,7 @@ msgstr "Reset Kata Sandi"
 
 #: fas/templates/user/resetpass.html:19
 msgid "Reset"
-msgstr ""
+msgstr "Atur Ulang"
 
 #: fas/templates/user/verifyemail.html:7
 #: fas/templates/user/verifyemail.html:10
@@ -2346,7 +2347,7 @@ msgstr "Konfirmasi"
 msgid ""
 "Pick a password or phrase that is long but memorable.  Use a mix of upper "
 "and lowercase letters as well as numbers and punctuation."
-msgstr ""
+msgstr "Pilih password atau frasa yang panjang tapi bisa diingat. Gunakan campuran huruf besar dan huruf kecil serta angka dan tanda baca."
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
@@ -2395,11 +2396,11 @@ msgstr "Kunci SSH Publik:"
 
 #: fas/templates/user/view.html:69
 msgid "(remove ssh key)"
-msgstr ""
+msgstr "(hapus kunci ssh)"
 
 #: fas/templates/user/view.html:71
 msgid "No ssh key provided"
-msgstr ""
+msgstr "Tidak ada kunci ssh yang disediakan"
 
 #: fas/templates/user/view.html:74
 msgid "Comments:"
@@ -2407,7 +2408,7 @@ msgstr "Komentar:"
 
 #: fas/templates/user/view.html:80
 msgid "Security question: "
-msgstr ""
+msgstr "Pertanyaan keamanan:"
 
 #: fas/templates/user/view.html:90
 msgid "Account Status:"
@@ -2431,31 +2432,31 @@ msgstr "Dimatikan"
 
 #: fas/templates/user/view.html:101
 msgid "Contributor Agreement:"
-msgstr ""
+msgstr "Kesepakatan Kontributor:"
 
 #: fas/templates/user/view.html:105
 msgid "CLA Signed"
-msgstr ""
+msgstr "Penandatanganan CLA"
 
 #: fas/templates/user/view.html:108
 msgid "New CLA Not Signed"
-msgstr ""
+msgstr "CLA baru belum ditanda-tangani"
 
 #: fas/templates/user/view.html:109
 msgid "We need contributors to sign the new Contributor Agreement"
-msgstr ""
+msgstr "Kami perlu kontributor untuk menandatangani Perjanjian Kontributor yang baru"
 
 #: fas/templates/user/view.html:109
 msgid "Complete it now!"
-msgstr ""
+msgstr "Selesaikan itu sekarang!"
 
 #: fas/templates/user/view.html:113
 msgid "Reject FPCA"
-msgstr ""
+msgstr "Tolak FPCA"
 
 #: fas/templates/user/view.html:117
 msgid "Not Signed"
-msgstr ""
+msgstr "Belum ditanda-tangani"
 
 #: fas/templates/user/view.html:117
 msgid "Complete it!"
@@ -2467,11 +2468,11 @@ msgstr "Privasi:"
 
 #: fas/templates/user/view.html:122
 msgid "Account Information Private"
-msgstr ""
+msgstr "Informasi Akun Pribadi"
 
 #: fas/templates/user/view.html:123
 msgid "Account Information Public"
-msgstr ""
+msgstr "Akun Informasi Publik"
 
 #: fas/templates/user/view.html:128
 msgid "Your Roles"

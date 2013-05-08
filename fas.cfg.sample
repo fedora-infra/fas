@@ -38,7 +38,7 @@ theme = 'fas'
 show_postal_address = 0
 
 # Language support
-available_languages = ['en', 'en_GB', 'ar', 'ast', 'bg', 'bn', 'bn_IN', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'es', 'eu', 'fa', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hu', 'id', 'is', 'it', 'ja', 'ko', 'lv', 'mai', 'ml', 'mr', 'nb', 'nl', 'pa', 'pl', 'pt_BR', 'pt', 'ru', 'si', 'sk', 'sq', 'sr', 'sv', 'ta', 'te', 'tg', 'tr', 'uk', 'vi', 'zh_CN', 'zh_HK', 'zh_TW']
+available_languages = ['en', 'en_GB', 'ar', 'as', 'ast', 'bg', 'bn', 'bn_IN', 'bo', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'es', 'eu', 'fa', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hu', 'id', 'is', 'it', 'ja', 'kn', 'ko', 'lv', 'mai', 'ml', 'mr', 'nb', 'nl', 'nn', 'pa', 'pl', 'pt_BR', 'pt', 'ru', 'si', 'sk', 'sl', 'sq', 'sr', 'sv', 'ta', 'te', 'tg', 'tr', 'uk', 'vi', 'zh_CN', 'zh_HK', 'zh_TW']
 
 default_language = 'en'
 

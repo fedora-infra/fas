@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Cheng-Chia Tseng <pswo10680@gmail.com>, 2011.
+# Cheng-Chia Tseng <pswo10680@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
