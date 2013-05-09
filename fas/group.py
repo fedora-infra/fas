@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2012 Red Hat, Inc.
+# Copyright © 2008-2013 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -131,12 +131,12 @@ class GroupSendInvite(validators.Schema):
     groupname = KnownGroup
     target = validators.Email(not_empty=True, strip=True),
 
-#class findUser(widgets.WidgetsList): 
-#    username = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='username', result_name='people')   
-#    action = widgets.HiddenField(default='apply', validator=validators.UnicodeString(not_empty=True)) 
-#    groupname = widgets.HiddenField(validator=validators.UnicodeString(not_empty=True)) 
+#class findUser(widgets.WidgetsList):
+#    username = widgets.AutoCompleteField(label=_('Username'), search_controller='search', search_param='username', result_name='people')
+#    action = widgets.HiddenField(default='apply', validator=validators.UnicodeString(not_empty=True))
+#    groupname = widgets.HiddenField(validator=validators.UnicodeString(not_empty=True))
 #
-#findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite')) 
+#findUserForm = widgets.ListForm(fields=findUser(), submit_text=_('Invite'))
 
 class Group(controllers.Controller):
 
@@ -187,12 +187,19 @@ class Group(controllers.Controller):
             and_(Groups.name==groupname,
                 PersonRoles.role_status=='unapproved')).options(
                     eagerload('member')).order_by(sort_map[order_by])
-        unsponsored.json_props = {'PersonRoles': ['member']}
+
+        # Filter out privacy sensitive information
+        unsponsored = list(unsponsored)
+        for person in unsponsored:
+            person.member.filter_private()
+
         members = PersonRoles.query.join('group').join('member', aliased=True).filter(
             People.username.like('%')
             ).outerjoin('sponsor', aliased=True).filter(
             Groups.name==groupname,
             ).order_by(sort_map[order_by])
+        # At the present time members is only PersonRoles info
+        # so we don't have to filter that.
         return dict(group=group, sponsor_queue=unsponsored,
             members=list(members))
 
@@ -252,7 +259,7 @@ class Group(controllers.Controller):
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.group.new", allow_json=True)
     def create(self, name, display_name, owner, group_type, invite_only=0,
-               needs_sponsor=0, user_can_remove=1, prerequisite='', 
+               needs_sponsor=0, user_can_remove=1, prerequisite='',
                joinmsg='', apply_rules='None'):
         '''Create a group'''
 
@@ -325,8 +332,8 @@ class Group(controllers.Controller):
     @validate(validators=GroupSave())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template="fas.templates.group.edit")
-    def save(self, groupname, display_name, owner, group_type, 
-             needs_sponsor=0, user_can_remove=1, prerequisite='', 
+    def save(self, groupname, display_name, owner, group_type,
+             needs_sponsor=0, user_can_remove=1, prerequisite='',
              url='', mailing_list='', mailing_list_url='', invite_only=0,
              irc_channel='', irc_network='', joinmsg='', apply_rules="None"):
         '''Edit a group'''
@@ -487,7 +494,7 @@ class Group(controllers.Controller):
 Fedora user %(user)s <%(email)s> has requested
 membership for %(applicant)s in the %(group)s group and needs a sponsor.
 
-Please go to %(url)s to take action.  
+Please go to %(url)s to take action.
 ''', locale=locale) % { 'user': person.username,
         'applicant': target.username,
         'email': person.email,
@@ -498,7 +505,7 @@ Please go to %(url)s to take action.
                         locale=locale) % {'user': target.username,
                                 'group': group.name}
                 join_text = _('''
-Thank you for applying for the %(group)s group.  
+Thank you for applying for the %(group)s group.
 
 %(joinmsg)s
 ''', locale=locale) % { 'user': person.username,
@@ -792,7 +799,7 @@ a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
 Fedora and FOSS are changing the world -- come be a part of it!'''
-        % {'fullname': person.human_name, 
+        % {'fullname': person.human_name,
                'user': person.username,
            'hostname': config.get('email_host')}, language)
 
@@ -809,7 +816,7 @@ Fedora and FOSS are changing the world -- come be a part of it!'''
         group = Groups.by_name(groupname)
 
         if is_approved(person, group):
-            
+
             invite_subject = _('Invitation to join the Fedora Team!', language)
             invite_text = _('''
 %(fullname)s <%(user)s@%(hostname)s> has invited you to join the Fedora
@@ -827,7 +834,7 @@ a people person.  You'll grow and learn as you work on a team with other
 very smart and talented people.
 
 Fedora and FOSS are changing the world -- come be a part of it!'''
-            % {'fullname': person.human_name, 
+            % {'fullname': person.human_name,
                    'user': person.username,
                'hostname': config.get('email_host')}, language)
 

@@ -18,8 +18,6 @@ include fas/templates/fpca/*.html
 include fas/templates/fpca/*.txt
 include fas/templates/group/*.html
 include fas/templates/group/*.txt
-include fas/templates/openid/*.html
-include fas/templates/openid/*.xml
 include fas/templates/user/*.html
 include fas/templates/user/*.txt
 include fas/templates/*.html

@@ -11,6 +11,25 @@ NEWS
 0.8.17 (not yet released)
 ------
 
+* **Security fix** Plugged an information leak in the /group/view method.
+  The /group/view url contains a list of users who have applied but are not yet
+  sponsored into a group.  If the information from this url was retrieved as
+  JSON data instead of HTML this list of unsponsored users could include
+  private data.  This includes hashed or encrypted authentication tokens (the
+  user's password and the user's security question respectively) as well as
+  information that FAS would normally hide if the user had set the privacy flag
+  on their account.
+
+  The security answer has always been gpg encrypted.  The user's password has
+  been hashed with sha512 since version 0.8.9.  Prior to that, it was hashed
+  with md5 (both using glibc's salted crypt function).  The other data shown is
+  in plain text.
+
+  Sites running fas are strongly encouraged to either upgrade
+  to this version or apply the patch to fas/group.py from:
+
+  https://github.com/fedora-infra/fas/issues/21
+
 * Fix a fpca signing bug
 
 ------

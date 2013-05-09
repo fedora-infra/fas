@@ -548,6 +548,8 @@ class MakeShellAccounts(AccountSystem):
             username = to_bytes(self.users[uid]['username'])
             home_dir = os.path.join(home_dir_base, username)
             if not os.path.exists(home_dir):
+                if opts.debug:
+                    print 'Creating homedir for %s' % username
                 syslog.syslog('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [int(uid), int(uid)])

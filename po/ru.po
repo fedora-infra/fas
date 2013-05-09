@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PROJECT project.
 # 
 # Translators:
-# Artyom Kunyov <artkun@guitarplayer.ru>, 2012.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
-# Inna Kabanova <ikabanova@russianfedora.ru>, 2012.
-# Sergey Raspopov <qwerty3456@mail.ru>, 2009.
-# Yulia Poyarkova <yulia.poyarkova@redhat.com>, 2009.
-# Yulia <ypoyarko@redhat.com>, 2009.
+# Artyom Kunyov <artkun@guitarplayer.ru>, 2012
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008
+# Inna Kabanova <ikabanova@russianfedora.ru>, 2012
+# Sergey Raspopov <qwerty3456@mail.ru>, 2009
+# Yulia <yulia.poyarkova@redhat.com>, 2009
+# Yulia <ypoyarko@redhat.com>, 2009
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
