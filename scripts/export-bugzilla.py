@@ -56,7 +56,7 @@ if __name__ == '__main__':
         if entry.action == 'r':
             # Remove the user's bugzilla group
             try:
-                server.updateperms(entry.email, 'rem', (bzGroup,))
+                server.updateperms(entry.email, 'rem', bzGroup)
             except xmlrpclib.Fault, e:
                 if e.faultCode == 504:
                     # It's okay, not having this user is equivalent to setting
@@ -78,7 +78,7 @@ if __name__ == '__main__':
                 else:
                     print 'Error:', e, entry.email, entry.person.human_name
                     raise
-            server.updateperms(entry.email, 'add', (bzGroup,))
+            server.updateperms(entry.email, 'add', bzGroup)
         else:
             print 'Unrecognized action code: %s %s %s %s %s' % (entry.action,
                     entry.email, entry.person.human_name, entry.person.username, entry.group.name)
