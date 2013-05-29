@@ -75,11 +75,16 @@ Alernatively, you can start hacking on FAS without commit access and submit patc
 
 You should use the mailing list and Internet Relay Chat (IRC) to ask questions about FAS. The IRC channel is #fedora-admin on the Freenode network (irc.freenode.net). You can access the FAS code base through git:
 
-    git clone git://git.fedorahosted.org/git/fas.git
+Anonymous checkout
 
-Once you have commit rights you can also push over ssh:
+    git clone git://github.com/fedora-infra/fas.git
 
-    git push ssh://git.fedorahosted.org/git/fas
+Committers checkout
+
+    git clone git@github.com:fedora-infra/fas.git
+
+A github account is reequired here. Although, commit access requires some approvals and membership to the Fedora Infrastructure team.
+Please stop by #fedora-apps (irc.freenode.net) if you have more question regarding this project. 
 
 You can view tickets, outstanding issues and more by visiting the Trac instance for FAS located at:
 
