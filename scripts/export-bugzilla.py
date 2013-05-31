@@ -58,7 +58,7 @@ if __name__ == '__main__':
             try:
                 server.updateperms(entry.email, 'rem', bzGroup)
             except xmlrpclib.Fault, e:
-                if e.faultCode == 504:
+                if e.faultCode == 51:
                     # It's okay, not having this user is equivalent to setting
                     # them to not have this group.
                     pass
