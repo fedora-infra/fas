@@ -399,7 +399,7 @@ def can_remove_user(person, group, target):
     if can_admin_group(target, group) and \
         not can_admin_group(person, group):
         return False
-    # A user can remove themselces from a group if user_can_remove is 1
+    # A user can remove themselves from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
     elif (((isinstance(person, basestring) and person == target.username) \
             or person == target) and (group.user_can_remove == True)) or \
