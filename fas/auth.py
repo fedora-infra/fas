@@ -2,7 +2,7 @@
 ''' Handles various authentication and authorization methods for FAS '''
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2009 Red Hat, Inc.
+# Copyright © 2008-2013 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -399,7 +399,7 @@ def can_remove_user(person, group, target):
     if can_admin_group(target, group) and \
         not can_admin_group(person, group):
         return False
-    # A user can remove themself from a group if user_can_remove is 1
+    # A user can remove themselces from a group if user_can_remove is 1
     # Otherwise, a sponsor can remove sponsors/users.
     elif (((isinstance(person, basestring) and person == target.username) \
             or person == target) and (group.user_can_remove == True)) or \
@@ -407,12 +407,15 @@ def can_remove_user(person, group, target):
         return True
     return False
 
-def can_upgrade_user(person, group):
+def can_upgrade_user(person, group, target=None):
     '''Check whether the person can upgrade the target in the group.
 
     :arg person: People object or username to check for permissions to upgrade
     :arg group: Group object to check whether `person` can upgrade in
-    :arg target: People object to check if `person` can upgrade
+    :arg target: People object to check if `person` can upgrade.  Currently
+        only group admins can upgrade so this is unneeded.  Only provided
+        since all the other ``can_*`` API checks this and we might in the
+        future.
     :returns: True if the user can upgrade target in the group otherwise False
     '''
     # Group admins can upgrade anybody.
@@ -420,12 +423,19 @@ def can_upgrade_user(person, group):
     # is already a group admin.
     return can_admin_group(person, group)
 
-def can_downgrade_user(person, group):
+def can_downgrade_user(person, group, target):
     '''Check whether the user can downgrade target in the group
 
     :arg person: People object or username to check for permissions to upgrade
     :arg group: Group object to check whether `person` can downgrade within
+    :kwarg target: Person to downgrade.
     :returns: True if the user can downgrade target in the group else False
     '''
-    # Group admins can downgrade anybody.
-    return can_admin_group(person, group)
+    # Group admins can downgrade anyone
+    if can_admin_group(person, group):
+        return True
+    # User can downgrade themselves
+    if target and (person == target or
+            (isinstance(person, basestring) and person == target.username)):
+        return True
+    return False
