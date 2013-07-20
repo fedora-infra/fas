@@ -411,6 +411,11 @@ class Group(controllers.Controller):
                         memberships[member[1]]=[{'person_id': member[0], 'role_type': member[2]}]
             else:
                 memberships = []
+
+                if len(results) == 1 and results[0].name == search and can_view_group(person, results[0]):
+                    turbogears.redirect('/group/view/%s' % (results[0].name))
+                    return dict()
+
         for group in results:
             if can_view_group(person, group):
                 groups.append(group)
