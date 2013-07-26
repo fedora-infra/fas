@@ -694,6 +694,10 @@ If the above information is incorrect, please log in and fix it:
                 person.group_roles[group.name] = role
                 person.roles.append(role)
 
+        if len(people_map) == 1 and people_map.get(search) and request_format != 'json':
+            turbogears.redirect('/user/view/%s' % search)
+            return dict()
+
         approved = []
         unapproved = []
         cla_done_group = config.get('cla_done_group', 'cla_done')
