@@ -98,7 +98,7 @@ client_id = '1'
 class YubikeySave(validators.Schema):
     targetname = KnownUser
     yubikey_enabled = validators.OneOf(['0', '1'], not_empty=True)
-    yubikey_prefix = validators.String(min=12, max=12, not_empty=True)
+    yubikey_prefix = validators.String(min=12, max=12, not_empty=False)
 
 def get_configs(configs_list):
     configs = {}
