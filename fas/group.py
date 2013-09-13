@@ -447,7 +447,7 @@ class Group(controllers.Controller):
                 groups.append(group)
         if not len(groups):
             turbogears.flash(_("No Groups found of type '%s'") % grptype)
-        return dict(groups=groups, grptype=grptype)
+        return dict(groups=groups, search=grptype)
 
     @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
