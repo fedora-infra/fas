@@ -432,7 +432,7 @@ class Groups(SABase):
         A class method that permits to search groups
         based on their name attribute.
         '''
-        return cls.query.filter_by(name=name).one()
+        return cls.query.filter_by(name=name).all()
 
     def delete(cls):
         for role in cls.roles:
