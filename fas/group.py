@@ -424,6 +424,30 @@ class Group(controllers.Controller):
         return dict(groups=groups, search=search, memberships=memberships)
 
     @identity.require(turbogears.identity.not_anonymous())
+    @expose(template="genshi-text:fas.templates.group.list",
+            as_format="plain", accept_format="text/plain",
+            format="text", content_type='text/plain; charset=utf-8')
+    @expose(template="fas.templates.group.list", allow_json=True)
+    def type_list(self, grptype='pkgdb'):
+        """ Return the list of all group of the given type.
+        """
+        groups = []
+        results = Groups.by_type(grptype)
+        if self.jsonRequest():
+            if len(results) == 1 \
+                    and results[0].name == search \
+                    and can_view_group(person, results[0]):
+                turbogears.redirect('/group/view/%s' % (results[0].name))
+                return dict()
+
+        for group in results:
+            if can_view_group(person, group):
+                groups.append(group)
+        if not len(groups):
+            turbogears.flash(_("No Groups found of type '%s'") % grptype)
+        return dict(groups=groups, grptype=grptype)
+
+    @identity.require(turbogears.identity.not_anonymous())
     @validate(validators=GroupApply())
     @error_handler(error) # pylint: disable-msg=E0602
     @expose(template='fas.templates.group.apply')
