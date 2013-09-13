@@ -123,7 +123,7 @@ CREATE TABLE groups (
     -- tg_group::created
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     check (group_type in ('cla', 'system', 'bugzilla','cvs', 'bzr', 'git', 'hg', 'mtn',
-        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user')) 
+        'svn', 'shell', 'torrent', 'tracker', 'tracking', 'user', 'pkgdb')) 
 );
 
 create index groups_group_type_idx on groups(group_type);
