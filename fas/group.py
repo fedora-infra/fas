@@ -437,7 +437,7 @@ class Group(controllers.Controller):
         results = Groups.by_type(grptype)
         if self.jsonRequest():
             if len(results) == 1 \
-                    and results[0].name == search \
+                    and results[0].name == grptype \
                     and can_view_group(person, results[0]):
                 turbogears.redirect('/group/view/%s' % (results[0].name))
                 return dict()
