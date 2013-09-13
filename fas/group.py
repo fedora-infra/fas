@@ -431,6 +431,8 @@ class Group(controllers.Controller):
     def type_list(self, grptype='pkgdb'):
         """ Return the list of all group of the given type.
         """
+        username = turbogears.identity.current.user_name
+        person = People.by_username(username)
         groups = []
         results = Groups.by_type(grptype)
         if self.jsonRequest():
