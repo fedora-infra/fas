@@ -4,11 +4,11 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod
-:Date: 28 Feb 2013
-:Version: 0.8.16
+:Date: 08 May 2013
+:Version: 0.8.17
 
 ------
-0.8.17 (not yet released)
+0.8.17
 ------
 
 * **Security fix** Plugged an information leak in the /group/view method.
