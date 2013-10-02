@@ -4,11 +4,17 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
-:Date: 07 Mar 2013
-:Version: 0.8.16
+:Date: 08 May 2013
+:Version: 0.8.18
 
 ------
-0.8.17 (not yet released)
+0.8.18 (not yet released)
+------
+
+* Fix the human name heuristic to work with non-ascii characters
+
+------
+0.8.17
 ------
 
 * **Security fix** Plugged an information leak in the /group/view method.
