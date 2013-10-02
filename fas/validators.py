@@ -312,7 +312,7 @@ class ValidHumanWithOverride(validators.FancyValidator):
 
         # Check for initials, only first or last name etc.
         name = values.get(self.name_field)
-        name_regex = re.compile ( '^([A-Z]|[a-z])+\s(([A-Z]|[a-z])\.\s)*([A-Z]|[a-z])+$' )
+        name_regex = re.compile(r'^\S{2}\S*\b.*\b\S{2}\S*$', flags=re.UNICODE)
         if not name_regex.match ( name ):
             errors[self.name_field] = self.message('initial', state)
 

@@ -5,7 +5,13 @@ NEWS
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod
 :Date: 08 May 2013
-:Version: 0.8.17
+:Version: 0.8.18
+
+------
+0.8.18 (not yet released)
+------
+
+* Fix the human name heuristic to work with non-ascii characters
 
 ------
 0.8.17
