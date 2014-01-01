@@ -57,7 +57,7 @@
         </py:if>
         <py:if test="person.gpg_keyid">
           <dt>${_('PGP Key:')}</dt>
-          <dd><a href="http://keys.fedoraproject.org/pks/lookup?search=0x${person.gpg_keyid}&fingerprint=on&hash=on&op=index">${person.gpg_keyid}</a>&nbsp;</dd>
+          <dd><a href="http://keys.fedoraproject.org/pks/lookup?search=0x${person.gpg_keyid}&amp;fingerprint=on&amp;hash=on&amp;op=index">${person.gpg_keyid}</a>&nbsp;</dd>
         </py:if>
         <!-- We should correct this.  Everything else is filtered in the
         - model:People*Select classes.
