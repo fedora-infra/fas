@@ -108,7 +108,7 @@ countryName = US
 stateOrProvinceName = North Carolina
 localityName = Raleigh
 0.organizationName = Fedora Project
-emailAddress = ricky@fedoraproject.org
+emailAddress = admin@fedoraproject.org
 
 [ usr_cert ]
 

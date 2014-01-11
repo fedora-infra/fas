@@ -7,7 +7,9 @@ fas.log
 *.pyc
 *.pyo
 *.swp
-*.mo 
+*.mo
+*.xhtml.py
+*.xhtml.pyc
 dist
 *.egg-info
 build
