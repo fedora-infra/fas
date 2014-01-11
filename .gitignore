@@ -12,6 +12,7 @@ fas.log
 *.xhtml.pyc
 dist
 *.egg-info
+*.sqlite
 build
 gnupg
 locale

@@ -15,9 +15,10 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
+    'mako',
 
     #i18n
-    'Babe',
+    'Babel',
     'lingua',
     ]
 
