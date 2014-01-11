@@ -16,7 +16,7 @@ import datetime
 class GroupType(Base):
     __tablename__ = 'group_type'
     id = Column(Integer, unique=True, primary_key=True)
-    name = Column(UnicodeText(), nullable=False)
+    name = Column(UnicodeText(), unique=True, nullable=False)
     comment = Column(UnicodeText(), nullable=True)
 
 Index('group_type_name_idx', GroupType.name)

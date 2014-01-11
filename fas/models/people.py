@@ -10,7 +10,8 @@ from sqlalchemy import (
     Boolean,
     Numeric,
     Enum,
-    Index
+    Index,
+    ForeignKey
     )
 
 import datetime
@@ -42,7 +43,7 @@ class People(Base):
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
     status = Column(Enum, default=1)
-    status_change = Column(DateTime, nullable=True)
+    status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     alias_enabled = Column(Boolean, default=True)
     blog_rss = Column(UnicodeText(), nullable=False)
@@ -51,3 +52,21 @@ class People(Base):
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
 
 Index('people_username_idx', People.username)
+
+class PeopleAccessLog(Base):
+    __tablename__ = 'people_access_log'
+    id = Column(Integer, primary_key=True)
+    people = Column(Integer, ForeignKey('people.id'), nullable=False)
+    access_from = Column(Numeric, nullable=False)
+    access_through = Column(UnicodeText(), nullable=False)
+    access_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
+
+Index('people_access_log_idx', PeopleAccessLog.access_from)
+
+class PeopleVirtualAccount(Base):
+    __tablename__ = 'virtual_user'
+    id = Column(Integer, unique, primary_key=True)
+    username = Column(UnicodeText(), unique=True, nullable=False)
+    parent = Column(Integer, ForeignKey('people.id'), nullable=False)
+    type = Column(Integer, default=1)
+    last_logged = Column(DateTime, default=datetime.datetime.utcnow)
