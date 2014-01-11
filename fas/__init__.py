@@ -5,7 +5,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from sqlalchemy import engine_from_config
 
-from models.models import (
+from models import (
     DBSession,
     Base,
     )
@@ -26,10 +26,13 @@ def main(global_config, **settings):
     my_session_factory = SignedCookieSessionFactory('secret')
 
     config = Configurator(session_factory = my_session_factory, settings=settings)
-    config.add_renderer('.xhtml', 'pyramid.mako_templating.renderer_factory')
+
+    config.include('pyramid_mako')
+
+    config.add_mako_renderer('.xhtml', settings_prefix='mako.')
     config.add_static_view('static', 'fas:static/theme/fedoraproject',
                             cache_max_age=3600)
-    
+
     config.add_translation_dirs('fas:locale/')
 
     config.add_route('home', '/')

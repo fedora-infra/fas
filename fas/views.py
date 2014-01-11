@@ -19,7 +19,7 @@ from pyramid.security import (
     authenticated_userid,
     )
 
-from models.models import DBSession
+from models import DBSession
 from models.people import (
     People,
     )
