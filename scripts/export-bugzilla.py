@@ -125,7 +125,7 @@ if __name__ == '__main__':
             smtp = smtplib.SMTP(MAILSERVER)
             smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
             smtp.quit()
-    recipients = ', '.join([e for e in NOTIFYEMAIL if e != '$USER'])
+    recipients = [e for e in NOTIFYEMAIL if e != '$USER']
     if recipients and no_bz_account:
         smtplib.SMTP(MAILSERVER)
         msg = Message()
@@ -143,9 +143,9 @@ that are valid in bugzilla:
 ''' % people
 
         msg.add_header('From', ADMINEMAIL)
-        msg.add_header('To', recipients)
+        msg.add_header('To', ', '.join(recipients))
         msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
         msg.set_payload(message)
         smtp = smtplib.SMTP(MAILSERVER)
-        smtp.sendmail(ADMINEMAIL, [person.email], msg.as_string())
+        smtp.sendmail(ADMINEMAIL, recipients, msg.as_string())
         smtp.quit()
