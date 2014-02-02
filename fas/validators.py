@@ -194,6 +194,24 @@ class MaybeFloat(validators.FancyValidator):
             raise validators.Invalid(self.message('no_float', state,
                         value=value), value, state)
 
+
+class ValidGPGKeyID(validators.UnicodeString):
+    ''' Ensure that the GPG key id is a hex number, maybe containing spaces.
+    '''
+
+    messages = {'invalid_characters':
+                _('Error - Invalid character in GPG key id: %(char)s')}
+
+    def validate_python(self, value, state):
+        VALID_CHARS = "0123456789abcdefABCDEF "
+
+        for char in value:
+            if char not in VALID_CHARS:
+                raise validators.Invalid(self.message('invalid_character',
+                                                      state, char=char),
+                                         value, state)
+
+
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
