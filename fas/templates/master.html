@@ -68,7 +68,7 @@
             <li class="first"><a href="${tg.url('/home')}">${_('Home')}</a></li>
             <li py:if="not tg.identity.anonymous"><a href="${tg.url('/user/view/%s' % tg.identity.user.username)}">${_('My Account')}</a></li>
 	    <li py:if="not tg.identity.anonymous" py:for="entry in sidebar.getEntries()"><a href="${tg.url(entry[1])}">${_(entry[0])}</a></li>
-            <li><a href="http://fedoraproject.org/wiki/FWN/LatestIssue">${_('News')}</a></li>
+            <li><a href="https://fedoraproject.org/wiki/FWN">${_('News')}</a></li>
           </ul>
           <div py:if="tg.identity.anonymous and tg.available_languages and len(tg.available_languages) > 1" id="language">
             <!-- TODO: Should this be available to logged in users to (and actually change their DB entry?) -->
