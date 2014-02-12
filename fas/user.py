@@ -74,9 +74,9 @@ from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
 from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
 from fas.util import available_languages
-from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
-        NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-        ValidHumanWithOverride, MaybeFloat
+from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
+    ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
+    ValidHumanWithOverride, MaybeFloat
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -141,7 +141,7 @@ class UserSave(validators.Schema):
     status = validators.OneOf([
         'active', 'inactive', 'expired', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
-    gpg_keyid = validators.UnicodeString  # TODO - could use better validation
+    gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
