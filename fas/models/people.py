@@ -35,6 +35,7 @@ class People(Base):
     gpg_id = Column(UnicodeText(), nullable=True)
     ssh_key = Column(UnicodeText(), nullable=True)
     email = Column(UnicodeText(), unique=True, nullable=False)
+    bugzilla_email = Column(UnicodeText(), unique=True, nullable=True)
     email_token = Column(UnicodeText(), unique=True, nullable=True)
     unverified_email = Column(UnicodeText(), nullable=True)
     security_question = Column(UnicodeText(), default=u'-')
