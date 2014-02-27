@@ -52,7 +52,10 @@ class People(Base):
     longitude = Column(Numeric, nullable=True)
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
 
-Index('people_username_idx', People.username)
+    __table_args__ = (
+        Index('people_username_idx', People.username)
+    )
+
 
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
@@ -62,7 +65,10 @@ class PeopleAccessLog(Base):
     access_through = Column(UnicodeText(), nullable=False)
     access_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
 
-Index('people_access_log_idx', PeopleAccessLog.access_from)
+    __table_args__ = (
+        Index('people_access_log_idx', PeopleAccessLog.access_from)
+    )
+
 
 class PeopleVirtualAccount(Base):
     __tablename__ = 'virtual_user'
