@@ -31,7 +31,7 @@ def api_home(request):
     return {}
 
 
-@view_config(route_name='api_user_name', renderer='string')
+@view_config(route_name='api_user_name', renderer='json')
 def api_user_name(request):
     username = request.matchdict.get('username')
     if not username:
@@ -47,7 +47,7 @@ def api_user_name(request):
     return user.to_json()
 
 
-@view_config(route_name='api_user_ircnick', renderer='string')
+@view_config(route_name='api_user_ircnick', renderer='json')
 def api_user_ircnick(request):
     ircnick = request.matchdict.get('ircnick')
     if not ircnick:
