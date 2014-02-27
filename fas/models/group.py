@@ -51,9 +51,9 @@ class Groups(Base):
     apply_rules = Column(UnicodeText(), nullable=True)
     created = Column(DateTime, default=datetime.datetime.utcnow())
 
-    owner = relation("people")
-    group_type = relation("group_type")
-    parent_group = relation("group")
+    owner = relation("People")
+    group_type = relation("GroupType")
+    parent_group = relation("Groups")
 
     __table_args__ = (
         Index('group_name_idx', name),
@@ -89,3 +89,4 @@ class Groups(Base):
             'invite_only': self.invite_only,
             'creation_date': self.created.strftime('%Y-%m-%d %H:%M'),
         }
+
