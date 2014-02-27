@@ -83,10 +83,11 @@ class Groups(Base):
             'irc_network': self.irc_network,
             'owner': self.owner.username,
             'group_type': self.group_type.name,
-            'parent_group': self.parent_group.name,
+            'parent_group': [grp.name for grp in self.parent_group],
             'self_removal': self.self_removal,
             'need_approval': self.need_approval,
             'invite_only': self.invite_only,
             'creation_date': self.created.strftime('%Y-%m-%d %H:%M'),
         }
+        return info
 
