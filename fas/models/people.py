@@ -68,6 +68,17 @@ class People(Base):
         query = session.query(cls).filter(username==username)
         return query.first()
 
+    @classmethod
+    def by_email(cls, session, email):
+        """ Retrieve a specific People by its email. """
+        query = session.query(cls).filter(email==email)
+        return query.first()
+
+    @classmethod
+    def by_ircnick(cls, session, ircnick):
+        """ Retrieve a specific People by its ircnick. """
+        query = session.query(cls).filter(ircnick==ircnick)
+        return query.first()
 
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
