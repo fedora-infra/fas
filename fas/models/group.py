@@ -49,7 +49,12 @@ class Groups(Base):
     invite_only = Column(Boolean, default=False)
     join_msg = Column(UnicodeText(), nullable=True)
     apply_rules = Column(UnicodeText(), nullable=True)
-    created = Column(DateTime, default=datetime.datetime.utcnow())
+
+    created = Column(DateTime, nullable=False,
+                     default=func.current_timestamp())
+    updated = Column(DateTime, nullable=False,
+                     default=func.current_timestamp(),
+                     onupdate=func.current_timestamp())
 
     owner = relation("People")
     group_type = relation("GroupType")
