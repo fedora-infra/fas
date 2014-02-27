@@ -19,7 +19,10 @@ class GroupType(Base):
     name = Column(UnicodeText(), unique=True, nullable=False)
     comment = Column(UnicodeText(), nullable=True)
 
-Index('group_type_name_idx', GroupType.name)
+    __table_args__ = (
+        Index('group_type_name_idx', GroupType.name),
+    )
+
 
 class Groups(Base):
     __tablename__ = 'group'
@@ -41,4 +44,7 @@ class Groups(Base):
     apply_rules = Column(UnicodeText(), nullable=True)
     created = Column(DateTime, default=datetime.datetime.utcnow())
 
-Index('group_name_idx', Groups.name)
+    __table_args__ = (
+        Index('group_name_idx', Groups.name)
+    )
+
