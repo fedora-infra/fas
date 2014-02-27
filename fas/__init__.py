@@ -40,6 +40,8 @@ def main(global_config, **settings):
     config.add_route('logout', '/logout')
 
     config.add_route('api_home', '/api')
+    config.add_route('api_user_name', '/api/user/name/{username}')
+    config.add_route('api_user_ircnick', '/api/user/ircnick/{ircnick}')
 
     config.scan()
     return config.make_wsgi_app()
