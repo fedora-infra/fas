@@ -11,7 +11,8 @@ from sqlalchemy import (
     Numeric,
     Enum,
     Index,
-    ForeignKey
+    ForeignKey,
+    func,
     )
 
 import datetime
@@ -51,6 +52,12 @@ class People(Base):
     latitude = Column(Numeric, nullable=True)
     longitude = Column(Numeric, nullable=True)
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
+
+    date_created = Column(DateTime, nullable=False,
+                          default=func.current_timestamp())
+    date_updated = Column(DateTime, nullable=False,
+                          default=func.current_timestamp(),
+                          onupdate=func.current_timestamp())
 
     __table_args__ = (
         Index('people_username_idx', username),
@@ -96,7 +103,8 @@ class People(Base):
                 'gpg_id': self.gpg_id,
                 'email': self.email,
                 'bugzilla_email': self.bugzilla_email or self.email,
-                'blog_rss': self.blog_rss
+                'blog_rss': self.blog_rss,
+                'creation_date': self.date_created,
             }
         return info
 
