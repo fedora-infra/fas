@@ -71,3 +71,21 @@ class Groups(Base):
         query = session.query(cls).filter(name==name)
         return query.first()
 
+    def to_json(self):
+        """ Return a JSON/dict representation of a Group object. """
+        info = {
+            'name': self.name,
+            'display_name': self.display_name,
+            'url': self.url,
+            'mailing_list': self.mailing_list,
+            'mailing_list_url': self.mailing_list_url,
+            'irc_channel': self.irc_channel,
+            'irc_network': self.irc_network,
+            'owner': self.owner.name,
+            'group_type': self.group_type.name,
+            'parent_group': self.parent_group.name,
+            'self_removal': self.self_removal,
+            'need_approval': self.need_approval,
+            'invite_only': self.invite_only,
+            'creation_date': self.created.strftime('%Y-%m-%d %H:%M'),
+        }
