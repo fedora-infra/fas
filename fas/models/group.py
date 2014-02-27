@@ -9,7 +9,8 @@ from sqlalchemy import (
     Sequence,
     Boolean,
     ForeignKey,
-    Index
+    Index,
+    func,
     )
 from sqlalchemy.orm import relation
 import datetime
@@ -23,12 +24,6 @@ class GroupType(Base):
     __table_args__ = (
         Index('group_type_name_idx', name),
     )
-
-    @classmethod
-    def by_id(cls, session, id):
-        """ Retrieve a specific GroupType by its id. """
-        query = session.query(cls).filter(id=id)
-        return query.first()
 
 
 class Groups(Base):
@@ -63,18 +58,6 @@ class Groups(Base):
     __table_args__ = (
         Index('group_name_idx', name),
     )
-
-    @classmethod
-    def by_id(cls, session, id):
-        """ Retrieve a specific Group by its id. """
-        query = session.query(cls).filter(id==id)
-        return query.first()
-
-    @classmethod
-    def by_name(cls, session, name):
-        """ Retrieve a specific Group by its id. """
-        query = session.query(cls).filter(name==name)
-        return query.first()
 
     def to_json(self):
         """ Return a JSON/dict representation of a Group object. """

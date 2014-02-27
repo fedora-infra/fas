@@ -63,30 +63,6 @@ class People(Base):
         Index('people_username_idx', username),
     )
 
-    @classmethod
-    def by_id(cls, session, id):
-        """ Retrieve the People by their id. """
-        query = session.query(cls).filter(id==id)
-        return query.first()
-
-    @classmethod
-    def by_username(cls, session, username):
-        """ Retrieve a specific People by its username. """
-        query = session.query(cls).filter(username==username)
-        return query.first()
-
-    @classmethod
-    def by_email(cls, session, email):
-        """ Retrieve a specific People by its email. """
-        query = session.query(cls).filter(email==email)
-        return query.first()
-
-    @classmethod
-    def by_ircnick(cls, session, ircnick):
-        """ Retrieve a specific People by its ircnick. """
-        query = session.query(cls).filter(ircnick==ircnick)
-        return query.first()
-
     def to_json(self, filter_private=True):
         """ Return a json/dict representation of this user.
 
