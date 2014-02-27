@@ -81,7 +81,7 @@ class Groups(Base):
             'mailing_list_url': self.mailing_list_url,
             'irc_channel': self.irc_channel,
             'irc_network': self.irc_network,
-            'owner': self.owner.name,
+            'owner': self.owner.username,
             'group_type': self.group_type.name,
             'parent_group': self.parent_group.name,
             'self_removal': self.self_removal,
