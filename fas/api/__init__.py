@@ -57,7 +57,7 @@ def api_user_ircnick(request):
     user = People.by_ircnick(DBSession, ircnick)
     if not user:
         raise HTTPNotFound(
-            {"error": "No such user %r" % username}
+            {"error": "No user found with the irnick %r" % ircnick}
         )
 
     return user.to_json()
