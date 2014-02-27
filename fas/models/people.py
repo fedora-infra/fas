@@ -56,6 +56,18 @@ class People(Base):
         Index('people_username_idx', People.username)
     )
 
+    @classmethod
+    def by_id(cls, session, id):
+        """ Retrieve the People by their id. """
+        query = session.query(cls).filter(id==id)
+        return query.first()
+
+    @classmethod
+    def by_username(cls, session, username):
+        """ Retrieve a specific People by its username. """
+        query = session.query(cls).filter(username==username)
+        return query.first()
+
 
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
