@@ -22,7 +22,7 @@ class People(Base):
     username = Column(Unicode(255), unique=True, nullable=False)
     password = Column(Unicode(255), nullable=False)
     fullname = Column(UnicodeText(), nullable=False)
-    ircnick = Column(UnicodeText(), nullable=True)
+    ircnick = Column(UnicodeText(), unique=True, nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
     postal_address = Column(UnicodeText(), nullable=False)
     country_code = Column(Unicode(2), nullable=True)
