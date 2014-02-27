@@ -22,8 +22,7 @@ from pyramid.security import (
 )
 
 from fas.models import DBSession
-from fas.models.people import People
-from fas.models.group import Groups
+import fas.models.provider as provider
 
 
 @view_config(route_name='api_home', renderer='/api_home.xhtml')
@@ -31,49 +30,37 @@ def api_home(request):
     return {}
 
 
-@view_config(route_name='api_user_name', renderer='json')
-def api_user_name(request):
-    username = request.matchdict.get('username')
-    if not username:
+@view_config(route_name='api_user_get', renderer='json')
+def api_user_get(request):
+    key = request.matchdict.get('key')
+    value = request.matchdict.get('value')
+    if key not in ['id', 'username', 'email', 'ircnick']:
         raise HTTPNotFound(
-            {"error": "Badly form request, no username provided"}
+            {"error": "Bad request, no '%s' allowed" % key}
         )
-    user = People.by_username(DBSession, username)
+    method = getattr(provider, 'get_people_by_%s' % key)
+    user = method(DBSession, value)
     if not user:
         raise HTTPNotFound(
-            {"error": "No such user %r" % username}
+            {"error": "No such user %r" % value}
         )
 
     return user.to_json()
 
 
-@view_config(route_name='api_user_ircnick', renderer='json')
-def api_user_ircnick(request):
-    ircnick = request.matchdict.get('ircnick')
-    if not ircnick:
+@view_config(route_name='api_group_get', renderer='json')
+def api_group_get(request):
+    key = request.matchdict.get('key')
+    value = request.matchdict.get('value')
+    if key not in ['id', 'name']:
         raise HTTPNotFound(
-            {"error": "Badly form request, no ircnick provided"}
+            {"error": "Bad request, no '%s' allowed" % key}
         )
-    user = People.by_ircnick(DBSession, ircnick)
-    if not user:
-        raise HTTPNotFound(
-            {"error": "No user found with the irnick %r" % ircnick}
-        )
-
-    return user.to_json()
-
-
-@view_config(route_name='api_group_name', renderer='json')
-def api_group_name(request):
-    groupname = request.matchdict.get('groupname')
-    if not groupname:
-        raise HTTPNotFound(
-            {"error": "Badly form request, no groupname provided"}
-        )
-    group = Groups.by_name(DBSession, groupname)
+    method = getattr(provider, 'get_group_by_%s' % key)
+    group = method(DBSession, value)
     if not group:
         raise HTTPNotFound(
-            {"error": "No such group %r" % groupname}
+            {"error": "No such group %r" % value}
         )
 
     return group.to_json()
