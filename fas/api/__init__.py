@@ -22,9 +22,9 @@ from pyramid.security import (
 )
 
 from fas.models import DBSession
-from fas.models.people import (
-    People,
-)
+from fas.models.people import People
+from fas.models.group import Groups
+
 
 @view_config(route_name='api_home', renderer='/api_home.xhtml')
 def api_home(request):
@@ -61,4 +61,20 @@ def api_user_ircnick(request):
         )
 
     return user.to_json()
+
+
+@view_config(route_name='api_group_name', renderer='json')
+def api_group_name(request):
+    groupname = request.matchdict.get('groupname')
+    if not groupname:
+        raise HTTPNotFound(
+            {"error": "Badly form request, no groupname provided"}
+        )
+    group = Groups.by_name(DBSession, groupname)
+    if not group:
+        raise HTTPNotFound(
+            {"error": "No such group %r" % groupname}
+        )
+
+    return group.to_json()
 

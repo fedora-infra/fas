@@ -43,5 +43,7 @@ def main(global_config, **settings):
     config.add_route('api_user_name', '/api/user/name/{username}')
     config.add_route('api_user_ircnick', '/api/user/ircnick/{ircnick}')
 
+    config.add_route('api_group_name', '/api/group/name/{groupname}')
+
     config.scan()
     return config.make_wsgi_app()
