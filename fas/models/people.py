@@ -104,7 +104,7 @@ class People(Base):
                 'email': self.email,
                 'bugzilla_email': self.bugzilla_email or self.email,
                 'blog_rss': self.blog_rss,
-                'creation_date': self.date_created,
+                'creation_date': self.date_created.strftime('%Y-%m-%d %H:%M'),
             }
         return info
 
