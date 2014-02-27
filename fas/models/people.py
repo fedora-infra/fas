@@ -80,6 +80,26 @@ class People(Base):
         query = session.query(cls).filter(ircnick==ircnick)
         return query.first()
 
+    def to_json(self, filter_private=True):
+        """ Return a json/dict representation of this user.
+
+        Use the `filter_private` argument to retrieve all the information about
+        the user or just the public information.
+        By default only the public information are returned.
+        """
+        if filter_private:
+            info = {
+                'username': self.username,
+                'fullname': self.fullname,
+                'ircnick': self.ircnick,
+                'avatar': self.avatar,
+                'gpg_id': self.gpg_id,
+                'email': self.email,
+                'bugzilla_email': self.bugzilla_email or self.email,
+                'blog_rss': self.blog_rss
+            }
+        return info
+
 
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
