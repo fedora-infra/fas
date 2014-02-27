@@ -23,6 +23,12 @@ class GroupType(Base):
         Index('group_type_name_idx', GroupType.name),
     )
 
+    @classmethod
+    def by_id(cls, session, id):
+        """ Retrieve a specific GroupType by its id. """
+        query = session.query(cls).filter(id=id)
+        return query.first()
+
 
 class Groups(Base):
     __tablename__ = 'group'
@@ -47,4 +53,16 @@ class Groups(Base):
     __table_args__ = (
         Index('group_name_idx', Groups.name)
     )
+
+    @classmethod
+    def by_id(cls, session, id):
+        """ Retrieve a specific Group by its id. """
+        query = session.query(cls).filter(id==id)
+        return query.first()
+
+    @classmethod
+    def by_name(cls, session, name):
+        """ Retrieve a specific Group by its id. """
+        query = session.query(cls).filter(name==name)
+        return query.first()
 
