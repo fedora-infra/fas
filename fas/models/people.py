@@ -53,7 +53,7 @@ class People(Base):
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
 
     __table_args__ = (
-        Index('people_username_idx', People.username)
+        Index('people_username_idx', username),
     )
 
     @classmethod
@@ -80,6 +80,7 @@ class People(Base):
         query = session.query(cls).filter(ircnick==ircnick)
         return query.first()
 
+
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
     id = Column(Integer, primary_key=True)
@@ -89,13 +90,13 @@ class PeopleAccessLog(Base):
     access_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
 
     __table_args__ = (
-        Index('people_access_log_idx', PeopleAccessLog.access_from)
+        Index('people_access_log_idx', access_from),
     )
 
 
 class PeopleVirtualAccount(Base):
     __tablename__ = 'virtual_user'
-    id = Column(Integer, unique, primary_key=True)
+    id = Column(Integer, unique=True, primary_key=True)
     username = Column(UnicodeText(), unique=True, nullable=False)
     parent = Column(Integer, ForeignKey('people.id'), nullable=False)
     type = Column(Integer, default=1)

@@ -20,7 +20,7 @@ class GroupType(Base):
     comment = Column(UnicodeText(), nullable=True)
 
     __table_args__ = (
-        Index('group_type_name_idx', GroupType.name),
+        Index('group_type_name_idx', name),
     )
 
     @classmethod
@@ -51,7 +51,7 @@ class Groups(Base):
     created = Column(DateTime, default=datetime.datetime.utcnow())
 
     __table_args__ = (
-        Index('group_name_idx', Groups.name)
+        Index('group_name_idx', name),
     )
 
     @classmethod
