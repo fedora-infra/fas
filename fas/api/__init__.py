@@ -3,12 +3,6 @@
 from pyramid.response import Response
 from pyramid.view import view_config
 
-from pyramid.httpexceptions import (
-    HTTPBadRequest,
-    HTTPFound,
-    HTTPNotFound,
-)
-
 from sqlalchemy.exc import DBAPIError
 
 from pyramid.view import (
@@ -22,8 +16,17 @@ from pyramid.security import (
     authenticated_userid,
 )
 
-from fas.models import DBSession
+import fas.forms as forms
+from fas.models import DBSession, AccountStatus
 import fas.models.provider as provider
+
+
+class BadRequest(Exception):
+    pass
+
+
+class NotFound(Exception):
+    pass
 
 
 @view_config(route_name='api_home', renderer='/api_home.xhtml')
@@ -33,13 +36,13 @@ def api_home(request):
 
 def __get_user(key, value):
     if key not in ['id', 'username', 'email', 'ircnick']:
-        raise HTTPBadRequest(
+        raise BadRequest(
             {"error": "Bad request, no '%s' allowed" % key}
         )
     method = getattr(provider, 'get_people_by_%s' % key)
     user = method(DBSession, value)
     if not user:
-        raise HTTPNotFound(
+        raise NotFound(
             {"error": "No such user %r" % value}
         )
 
@@ -48,13 +51,13 @@ def __get_user(key, value):
 
 def __get_group(key, value):
     if key not in ['id', 'name']:
-        raise HTTPBadRequest(
+        raise BadRequest(
             {"error": "Bad request, no '%s' allowed" % key}
         )
     method = getattr(provider, 'get_group_by_%s' % key)
     group = method(DBSession, value)
     if not group:
-        raise HTTPNotFound(
+        raise NotFound(
             {"error": "No such group %r" % value}
         )
 
@@ -65,7 +68,15 @@ def __get_group(key, value):
 def api_user_get(request):
     key = request.matchdict.get('key')
     value = request.matchdict.get('value')
-    user = __get_user(key, value)
+    try:
+        user = __get_user(key, value)
+    except BadRequest as err:
+        request.response.status = '400 bad request'
+        return err
+    except NotFound as err:
+        request.response.status = '404 page not found'
+        return err
+
     return user.to_json()
 
 
@@ -73,7 +84,14 @@ def api_user_get(request):
 def api_group_get(request):
     key = request.matchdict.get('key')
     value = request.matchdict.get('value')
-    group = __get_group(key, value)
+    try:
+        group = __get_group(key, value)
+    except BadRequest as err:
+        request.response.status = '400 bad request'
+        return err
+    except NotFound as err:
+        request.response.status = '404 page not found'
+        return err
 
     return group.to_json()
 
