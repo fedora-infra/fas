@@ -28,9 +28,8 @@ from .security import USERS
 
 @view_config(route_name='home', renderer='/home.xhtml')
 def my_view(request):
-    try:
-        one = DBSession.query(People).filter(People.username == 'admin').first()
-    except DBAPIError:
+    one = People.by_username(DBSession, 'admin')
+    if not one:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one, 'project': 'fas', 'project_name' : 'fedoraproject'}
 
@@ -39,7 +38,7 @@ Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
 
 1.  You may need to run the "initialize_fas_db" script
-    to initialize your database tables.  Check your virtual 
+    to initialize your database tables.  Check your virtual
     environment's "bin" directory for this script and try to run it.
 
 2.  Your database server may not be running.  Check that the

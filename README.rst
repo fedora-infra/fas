@@ -44,7 +44,7 @@ Migrating FAS from release 2.x
 
 Run the web app
 ---------------
-``pserve development.ini``
+``pserve development.ini --reload``
 
 
 

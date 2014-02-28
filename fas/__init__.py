@@ -39,5 +39,10 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
+    config.add_route('api_home', '/api')
+    config.add_route('api_user_get', '/api/user/{key}/{value}')
+
+    config.add_route('api_group_get', '/api/group/{key}/{value}')
+
     config.scan()
     return config.make_wsgi_app()
