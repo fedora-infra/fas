@@ -80,6 +80,41 @@ def api_user_get(request):
     return user.to_json()
 
 
+@view_config(route_name='api_user_get', renderer='json', request_method='POST')
+def api_user_edit(request):
+    key = request.matchdict.get('key')
+    value = request.matchdict.get('value')
+    try:
+        user = __get_user(key, value)
+    except BadRequest as err:
+        request.response.status = '400 bad request'
+        return err
+    except NotFound as err:
+        request.response.status = '404 page not found'
+        return err
+
+    form = forms.EditPeopleForm(request.POST)
+    if form.validate():
+        # Handle the latitude longitude that needs to be number or None
+        form.latitude.data = form.latitude.data or None
+        form.longitude.data = form.longitude.data or None
+
+        # Convert the status provided as string into an integer
+        status = provider.get_accountstatus_by_status(
+            DBSession, status=form.status.data)
+        if not status:
+            request.response.status = '400 bad request'
+            return {'error': 'Invalid status provided'}
+
+        form.status.data = status
+        form.populate_obj(user)
+        DBSession.add(user)
+        return {'message': 'User updated', 'user': user.to_json()}
+    else:
+        request.response.status = '400 bad request'
+        return {'error': 'Invalid request', 'messages': form.errors}
+
+
 @view_config(route_name='api_group_get', renderer='json', request_method='GET')
 def api_group_get(request):
     key = request.matchdict.get('key')
