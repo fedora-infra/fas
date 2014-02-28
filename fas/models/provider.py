@@ -1,7 +1,37 @@
 # -*- coding: utf-8 -*-
 
+import sqlalchemy as sa
+
+from fas.models import AccountStatus, RoleLevel
 from fas.models.group import Groups
 from fas.models.people import People
+
+
+## Method to get AccountStatus
+
+def get_accountstatus(session):
+    """ Retrieve all the status an account can have. """
+    query = session.query(AccountStatus)
+    return query.all()
+
+
+def get_accountstatus_by_status(session, status):
+    """ Retrieve the status an account can have for the specified status.
+    """
+    query = session.query(
+        AccountStatus
+    ).filter(
+        sa.func.lower(AccountStatus.status) == sa.func.lower(status)
+    )
+    return query.first()
+
+
+## Method to get RoleLevel
+
+def get_role_levels(session):
+    """ Retrieve all the roles someone can have in a group. """
+    query = session.query(RoleLevel)
+    return query.all()
 
 
 ## Method to interact with Groups
