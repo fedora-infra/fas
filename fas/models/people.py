@@ -1,4 +1,4 @@
-from . import Base
+from . import Base, AccountStatus
 
 from sqlalchemy import (
     Column,
@@ -14,8 +14,10 @@ from sqlalchemy import (
     ForeignKey,
     func,
     )
+from sqlalchemy.orm import relation
 
 import datetime
+
 
 class People(Base):
     __tablename__ = 'people'
@@ -44,7 +46,8 @@ class People(Base):
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
-    status = Column(Enum, default=1)
+    status_id = Column(Integer, ForeignKey('account_status.id'),
+                       nullable=False, default=1)
     status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     alias_enabled = Column(Boolean, default=True)
@@ -58,6 +61,8 @@ class People(Base):
     date_updated = Column(DateTime, nullable=False,
                           default=func.current_timestamp(),
                           onupdate=func.current_timestamp())
+
+    status = relation("AccountStatus")
 
     __table_args__ = (
         Index('people_username_idx', username),
@@ -81,6 +86,7 @@ class People(Base):
                 'bugzilla_email': self.bugzilla_email or self.email,
                 'blog_rss': self.blog_rss,
                 'creation_date': self.date_created.strftime('%Y-%m-%d %H:%M'),
+                'status': self.status.status
             }
         return info
 
