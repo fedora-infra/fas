@@ -1,4 +1,4 @@
-from . import Base
+from . import Base, AccountStatus
 
 from sqlalchemy import (
     Column,
@@ -11,10 +11,13 @@ from sqlalchemy import (
     Numeric,
     Enum,
     Index,
-    ForeignKey
+    ForeignKey,
+    func,
     )
+from sqlalchemy.orm import relation
 
 import datetime
+
 
 class People(Base):
     __tablename__ = 'people'
@@ -22,7 +25,7 @@ class People(Base):
     username = Column(Unicode(255), unique=True, nullable=False)
     password = Column(Unicode(255), nullable=False)
     fullname = Column(UnicodeText(), nullable=False)
-    ircnick = Column(UnicodeText(), nullable=True)
+    ircnick = Column(UnicodeText(), unique=True, nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
     postal_address = Column(UnicodeText(), nullable=False)
     country_code = Column(Unicode(2), nullable=True)
@@ -35,6 +38,7 @@ class People(Base):
     gpg_id = Column(UnicodeText(), nullable=True)
     ssh_key = Column(UnicodeText(), nullable=True)
     email = Column(UnicodeText(), unique=True, nullable=False)
+    bugzilla_email = Column(UnicodeText(), unique=True, nullable=True)
     email_token = Column(UnicodeText(), unique=True, nullable=True)
     unverified_email = Column(UnicodeText(), nullable=True)
     security_question = Column(UnicodeText(), default=u'-')
@@ -42,7 +46,8 @@ class People(Base):
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
-    status = Column(Enum, default=1)
+    status_id = Column(Integer, ForeignKey('account_status.id'),
+                       nullable=False, default=1)
     status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     alias_enabled = Column(Boolean, default=True)
@@ -51,7 +56,40 @@ class People(Base):
     longitude = Column(Numeric, nullable=True)
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
 
-Index('people_username_idx', People.username)
+    date_created = Column(DateTime, nullable=False,
+                          default=func.current_timestamp())
+    date_updated = Column(DateTime, nullable=False,
+                          default=func.current_timestamp(),
+                          onupdate=func.current_timestamp())
+
+    status = relation("AccountStatus")
+
+    __table_args__ = (
+        Index('people_username_idx', username),
+    )
+
+    def to_json(self, filter_private=True):
+        """ Return a json/dict representation of this user.
+
+        Use the `filter_private` argument to retrieve all the information about
+        the user or just the public information.
+        By default only the public information are returned.
+        """
+        if filter_private:
+            info = {
+                'username': self.username,
+                'fullname': self.fullname,
+                'ircnick': self.ircnick,
+                'avatar': self.avatar,
+                'gpg_id': self.gpg_id,
+                'email': self.email,
+                'bugzilla_email': self.bugzilla_email or self.email,
+                'blog_rss': self.blog_rss,
+                'creation_date': self.date_created.strftime('%Y-%m-%d %H:%M'),
+                'status': self.status.status
+            }
+        return info
+
 
 class PeopleAccessLog(Base):
     __tablename__ = 'people_access_log'
@@ -61,11 +99,14 @@ class PeopleAccessLog(Base):
     access_through = Column(UnicodeText(), nullable=False)
     access_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
 
-Index('people_access_log_idx', PeopleAccessLog.access_from)
+    __table_args__ = (
+        Index('people_access_log_idx', access_from),
+    )
+
 
 class PeopleVirtualAccount(Base):
     __tablename__ = 'virtual_user'
-    id = Column(Integer, unique, primary_key=True)
+    id = Column(Integer, unique=True, primary_key=True)
     username = Column(UnicodeText(), unique=True, nullable=False)
     parent = Column(Integer, ForeignKey('people.id'), nullable=False)
     type = Column(Integer, default=1)
