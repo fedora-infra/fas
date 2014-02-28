@@ -16,7 +16,7 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'mako',
-    'flufl.enum',
+    'wtforms',
 
     #i18n
     'Babel',
