@@ -1104,11 +1104,6 @@ forward to working with you!
             return dict()
         else:
             turbogears.flash(_("Your password has been changed."))
-            fas.fedmsgshim.send_message(topic="user.update", msg={
-                'agent': person.username,
-                'user': person.username,
-                'fields': ['password'],
-            })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
 
@@ -1333,7 +1328,6 @@ To change your password (or to cancel the request), please visit
         person.password = newpass['hash']
         person.password_changed = datetime.now(pytz.utc)
         person.passwordtoken = ''
-        changed.append('password')
         Log(author_id=person.id, description='Password changed')
         session.flush()
 
