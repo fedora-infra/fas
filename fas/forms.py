@@ -57,7 +57,8 @@ class EditPeopleForm(wtforms.Form):
     status = wtforms.SelectField(
         'Status',
         [wtforms.validators.Required()],
-        choices=[(stat.status.capitalize(), stat.status.capitalize())
+        choices=[(stat.account_status.status.capitalize(),
+                stat.account_status.status.capitalize())
                  for stat in provider.get_accountstatus(DBSession)])
     privacy = wtforms.BooleanField('Privacy')
     blog_rss = wtforms.TextField('Blog RSS')
