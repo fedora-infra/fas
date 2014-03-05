@@ -1,5 +1,4 @@
 from pyramid.response import Response
-from pyramid.view import view_config
 
 from pyramid.httpexceptions import (
     HTTPFound,
@@ -23,15 +22,18 @@ from models import DBSession
 from models.people import (
     People,
     )
+#import fas.models.provider as provider
 
 from .security import USERS
 
 @view_config(route_name='home', renderer='/home.xhtml')
 def my_view(request):
-    one = People.by_username(DBSession, 'admin')
-    if not one:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one': one, 'project': 'fas', 'project_name' : 'fedoraproject'}
+    # Comment this out for now. This has to move away anyway.
+    #one = provider.get_people_by_username(DBSession, 'admin')
+    #if not one:
+    #    return Response(conn_err_msg, content_type='text/plain', status_int=500)
+    #return {'one': one, 'project': 'fas', 'project_name' : 'fedoraproject'}
+    return {'one': 'admin', 'project': 'fas', 'project_name' : 'fedoraproject'}
 
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
@@ -48,6 +50,7 @@ might be caused by one of the following things:
 After you fix the problem, please restart the Pyramid application to
 try it again.
 """
+
 
 @view_config(route_name='login', renderer='/login.xhtml')
 @forbidden_view_config(renderer='/login.xhtml')
@@ -79,6 +82,7 @@ def login(request):
         login = login,
         password = password,
         )
+
 
 @view_config(route_name='logout')
 def logout(request):

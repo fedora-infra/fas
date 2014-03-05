@@ -25,12 +25,16 @@ def main(global_config, **settings):
     from pyramid.session import SignedCookieSessionFactory
     my_session_factory = SignedCookieSessionFactory('secret')
 
-    config = Configurator(session_factory = my_session_factory, settings=settings)
+    config = Configurator(
+        session_factory=my_session_factory,
+        settings=settings
+        )
 
     config.include('pyramid_mako')
 
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
-    config.add_static_view('static', 'fas:static/theme/fedoraproject',
+    config.add_static_view('static', 'fas:static/theme/%s'
+                            % config.registry.settings['project.name'],
                             cache_max_age=3600)
 
     config.add_translation_dirs('fas:locale/')
