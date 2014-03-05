@@ -17,12 +17,24 @@ from ..models import (
     )
 
 from ..models.people import (
-    People
+    People,
+    PeopleAccountActivitiesLog
 )
 
 from ..models.group import (
     GroupType,
-    Groups
+    Groups,
+    GroupMembership
+)
+
+from ..models.la import (
+    LicenseAgreement,
+    SignedLicenseAgreement
+)
+
+from ..models.configs import (
+    Plugins,
+    AccountPermissions
 )
 
 def usage(argv):
@@ -68,5 +80,60 @@ def main(argv=sys.argv):
     with transaction.manager:
         fill_account_status()
         fill_role_levels()
-#        admin = User(name=u'admin', password=u'admin')
-#        DBSession.add(admin)
+
+        # Default values for Dev (could be used for a quick test case as well)
+        admin = People(
+                    id=007,
+                    username=u'admin',
+                    password=u'admin',
+                    fullname=u'FAS Administrator',
+                    email=u'admin@fedoraproject.org'
+        )
+        user = People(
+                    id=999,
+                    username=u'foobar',
+                    password=u'foobar',
+                    fullname=u'FAS User',
+                    email=u'user@fedoraproject.org'
+        )
+        group_admin = Groups(
+                        id=2000,
+                        name=u'fas-admin',
+                        owner_id=admin.id
+        )
+        group_user = Groups(
+                        id=3000,
+                        name=u'fas-user',
+                        owner_id=user.id
+        )
+        admin_membership = GroupMembership(
+                            group_id=2000,
+                            people_id=admin.id,
+                            sponsor=admin.id
+        )
+        user_membership = GroupMembership(
+                            group_id=2000,
+                            people_id=user.id,
+                            sponsor=admin.id
+        )
+        admin_token = AccountPermissions(
+                        people=admin.id,
+                        token=u'498327sdfdj982374239874j34j',
+                        application=u'GNOME',
+                        permissions=1
+        )
+        user_token = AccountPermissions(
+                        people=user.id,
+                        token=u'2342309w8esad09803983i2039e',
+                        application=u'IRC Bot - zodbot',
+                        permissions=2
+        )
+
+        DBSession.add(admin)
+        DBSession.add(user)
+        DBSession.add(group_admin)
+        DBSession.add(group_user)
+        DBSession.add(admin_membership)
+        DBSession.add(user_membership)
+        DBSession.add(user_token)
+        DBSession.add(admin_token)
