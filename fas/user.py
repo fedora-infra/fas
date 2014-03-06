@@ -2,7 +2,7 @@
 ''' Provides user IO to FAS '''
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2011 Red Hat, Inc.
+# Copyright © 2008-2014 Red Hat, Inc.
 # Copyright © 2012  Patrick Uiterwijk
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
