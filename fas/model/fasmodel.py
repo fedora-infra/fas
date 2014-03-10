@@ -418,6 +418,13 @@ class Groups(SABase):
         '''
         return cls.query.filter_by(email=email).one()
 
+    @classmethod
+    def by_type(cls, grptype):
+        '''
+        A class method that permits to search groups
+        based on their type attribute.
+        '''
+        return cls.query.filter_by(group_type=grptype).all()
 
     @classmethod
     def by_name(cls, name):
@@ -554,7 +561,7 @@ mapper(UnApprovedRoles, UnApprovedRolesSelect, properties = {
 #
 
 mapper(People, PeopleTable, properties = {
-    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.  
+    # This name is kind of confusing.  It's to allow person.group_roles['groupname'] in order to make auth.py (hopefully) slightly faster.
     'group_roles': relation(PersonRoles,
         collection_class = attribute_mapped_collection('groupname'),
         primaryjoin = PeopleTable.c.id==PersonRolesTable.c.person_id),

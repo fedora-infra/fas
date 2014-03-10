@@ -24,7 +24,7 @@ As a privileged user on a Fedora system run the following:
   python-TurboMail TurboGears pygpgme python-sqlalchemy python-genshi \
   python-psycopg2 pytz python-babel babel python-GeoIP python-openid \
   python-fedora-turbogears python-migrate python-memcached python-tgcaptcha2 \
-  pyOpenSSL gettext python-imaging python-pwquality
+  pyOpenSSL gettext python-imaging python-pwquality tulrich-tuffy-fonts
 
 NOTE: Please see the HACKING file located in the same directory as this file for caveats specific to various Fedora and RedHat Enterprise Linux releases.
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2011 Red Hat, Inc.
+# Copyright © 2008-2014 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -43,7 +43,6 @@ from fas.help import Help
 from fas.model import Session, People
 from fas.model import SessionTable
 
-from fas.openid_samadhi import OpenID
 
 from fas.auth import undeprecated_cla_done
 from fas.util import available_languages
@@ -148,8 +147,6 @@ class Root(plugin.RootController):
     json = JsonRequest()
     config = Config()
     help = Help()
-
-    openid = OpenID()
 
     def __init__(self):
         # TODO: Find a better place for this.

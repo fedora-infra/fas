@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008 Red Hat, Inc.
+# Copyright © 2014 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -103,7 +103,7 @@ class ValidGroupType(validators.FancyValidator):
         # pylint: disable-msg=C0111
         if value not in ('system', 'bugzilla', 'cla', 'cvs', 'bzr', 'git', \
             'hg', 'mtn', 'svn', 'shell', 'torrent', 'tracker', \
-            'tracking', 'user'):
+            'tracking', 'user', 'pkgdb'):
             raise validators.Invalid(self.message('invalid_type', state, type=value),
                     value, state)
 
@@ -174,6 +174,43 @@ class NonFedoraEmail(validators.FancyValidator):
         # pylint: disable-msg=C0111
         if value.endswith('@fedoraproject.org'):
             raise validators.Invalid(self.message('no_loop', state), value, state)
+
+class MaybeFloat(validators.FancyValidator):
+    ''' Make sure the float value is a valid float value (or None) '''
+    messages = {'no_float': _('Error - Not a valid float value: %(value)s')}
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        if value is None:
+            return None
+        else:
+            return float(value)
+
+    def validate_python(self, value, state):
+        if value is None:
+            return
+        try:
+            float(value)
+        except:
+            raise validators.Invalid(self.message('no_float', state,
+                        value=value), value, state)
+
+
+class ValidGPGKeyID(validators.UnicodeString):
+    ''' Ensure that the GPG key id is a hex number, maybe containing spaces.
+    '''
+
+    messages = {'invalid_key':
+                _('Error - Invalid character in GPG key id: %(char)s')}
+
+    def validate_python(self, value, state):
+        VALID_CHARS = "0123456789abcdefABCDEF "
+
+        for char in value:
+            if char not in VALID_CHARS:
+                raise validators.Invalid(self.message('invalid_key',
+                                                      state, char=char),
+                                         		value, state)
+
 
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
@@ -312,7 +349,7 @@ class ValidHumanWithOverride(validators.FancyValidator):
 
         # Check for initials, only first or last name etc.
         name = values.get(self.name_field)
-        name_regex = re.compile ( '^([A-Z]|[a-z])+\s(([A-Z]|[a-z])\.\s)*([A-Z]|[a-z])+$' )
+        name_regex = re.compile(r'^\S{2}\S*\b.*\b\S{2}\S*$', flags=re.UNICODE)
         if not name_regex.match ( name ):
             errors[self.name_field] = self.message('initial', state)
 

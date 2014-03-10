@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2007-2011  Red Hat, Inc.
+# Copyright © 2007-2014  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -41,8 +41,12 @@ try:
     from selinux import copytree, install as move
     have_selinux = (selinux.is_selinux_enabled() == 1)
 except ImportError:
-    from shutil import move, rmtree, copytree
     have_selinux = False
+
+if not have_selinux:
+    # have_selinux could be False if we fail to import selinux or if selinux is
+    # disabled.  Need the shutil version of these in either of those cases.
+    from shutil import move, rmtree, copytree
 
 try:
     import cPickle as pickle
@@ -544,6 +548,8 @@ class MakeShellAccounts(AccountSystem):
             username = to_bytes(self.users[uid]['username'])
             home_dir = os.path.join(home_dir_base, username)
             if not os.path.exists(home_dir):
+                if opts.debug:
+                    print 'Creating homedir for %s' % username
                 syslog.syslog('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [int(uid), int(uid)])

@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.8.17
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -29,7 +29,6 @@ Requires: python-babel
 Requires: python-genshi
 Requires: python-kitchen
 Requires: pytz
-Requires: python-openid
 Requires: python-GeoIP
 Requires: pyOpenSSL
 Requires: python-memcached
@@ -132,6 +131,13 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu Mar 06 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.9.0
+- Add pkgdb2 support.
+- Link GPG's keys to key.fedoraproject.org.
+- Update helps infos.
+- Improve GPG key validation feature.
+- Notify addresses from export-bugzilla script.
+
 * Wed May  8 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 0.8.17-1
 - **Security update** Fix information leak on group/view.
 

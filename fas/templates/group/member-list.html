@@ -46,11 +46,11 @@
           <a href="${tg.url('/group/remove/%s/%s' % (group.name, role.member.username))}">${_('Remove')}</a>
           <script type="text/javascript">var hb3 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_remove')}'});</script>
           </li>
-          <li py:if="role.role_type != 'administrator' or auth.can_downgrade_user(person, group)">
+          <li py:if="role.role_type != 'administrator' and auth.can_upgrade_user(person, group, role.member)">
           <a href="${tg.url('/group/upgrade/%s/%s' % (group.name, role.member.username))}">${_('Upgrade')}</a>
           <script type="text/javascript">var hb4 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_upgrade')}'});</script>
           </li>
-          <li py:if="role.role_type != 'user' or auth.can_downgrade_user(person, group)">
+          <li py:if="role.role_type != 'user' and auth.can_downgrade_user(person, group, role.member)">
           <a href="${tg.url('/group/downgrade/%s/%s' % (group.name, role.member.username))}">${_('Downgrade')}</a>
           <script type="text/javascript">var hb5 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/group_downgrade')}'});</script>
           </li>

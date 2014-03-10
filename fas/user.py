@@ -2,7 +2,7 @@
 ''' Provides user IO to FAS '''
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008-2011 Red Hat, Inc.
+# Copyright © 2008-2014 Red Hat, Inc.
 # Copyright © 2012  Patrick Uiterwijk
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
@@ -74,9 +74,9 @@ from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
 from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
 from fas.util import available_languages
-from fas.validators import KnownUser, PasswordStrength, ValidSSHKey, \
-        NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-        ValidHumanWithOverride
+from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
+    ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
+    ValidHumanWithOverride, MaybeFloat
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -141,7 +141,7 @@ class UserSave(validators.Schema):
     status = validators.OneOf([
         'active', 'inactive', 'expired', 'admin_disabled'])
     ssh_key = ValidSSHKey(max=5000)
-    gpg_keyid = validators.UnicodeString  # TODO - could use better validation
+    gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
@@ -154,8 +154,8 @@ class UserSave(validators.Schema):
     timezone = validators.UnicodeString   # TODO - could use better validation
     country_code = validators.UnicodeString(max=2, strip=True)
     privacy = validators.Bool
-    latitude = validators.Number
-    longitude = validators.Number
+    latitude = MaybeFloat
+    longitude = MaybeFloat
     comments = validators.UnicodeString   # TODO - could use better validation
 
 def generate_password(password=None, length=16):
@@ -296,17 +296,6 @@ class User(controllers.Controller):
         target = target.filter_private()
         return dict(target=target, languages=languages, admin=admin, show=show)
 
-    def _partial_coord_uneq(self, coord1, coord2):
-        if coord1 is None:
-            if coord2 is not None:
-                return True
-        else:
-            if coord2 is None:
-                return True
-            elif float(coord1) != float(coord2):
-                return True
-        return False
-
     @identity.require(identity.not_anonymous())
     @validate(validators=UserSave())
     @error_handler(error) # pylint: disable-msg=E0602
@@ -419,20 +408,10 @@ login with your Fedora account first):
                 target.ssh_key = ssh_key
                 changed.append('ssh_key')
 
-            # latitude and longitude are tricky.  They may be floats or ints
-            # coming from the web app.  They're floats coming from the db
-            if self._partial_coord_uneq(latitude, target.latitude):
-                target.latitude = latitude
-                changed.append('latitude')
-
-            if self._partial_coord_uneq(longitude, target.longitude):
-                target.longitude = longitude
-                changed.append('longitude')
-
             # Other fields don't need any special handling
             fields = ('human_name', 'telephone', 'postal_address', 'ircnick',
                       'gpg_keyid', 'comments', 'locale', 'timezone',
-                      'country_code', 'privacy')
+                      'country_code', 'privacy', 'latitude', 'longitude')
             for field in fields:
                 if getattr(target, field) != locals()[field]:
                     setattr(target, field, locals()[field])
@@ -714,6 +693,10 @@ If the above information is incorrect, please log in and fix it:
                 role.role_type = record.person_roles_role_type
                 person.group_roles[group.name] = role
                 person.roles.append(role)
+
+        if len(people_map) == 1 and people_map.get(search) and request_format != 'json':
+            turbogears.redirect('/user/view/%s' % search)
+            return dict()
 
         approved = []
         unapproved = []
@@ -1485,7 +1468,7 @@ automatically revoked, and should stop working within the hour.
         fas.fedmsgshim.send_message(topic="user.update", msg={
             'agent': person.username,
             'user': person.username,
-            'fields': 'certificate',
+            'fields': ['certificate'],
         })
         return dict(tg_template="genshi-text:fas.templates.user.cert",
                 cla=True, cert=certdump, key=keydump)

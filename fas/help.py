@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2008  Ricky Zhou
-# Copyright © 2008 Red Hat, Inc.
+# Copyright © 2014 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
@@ -30,7 +30,7 @@ class Help(controllers.Controller):
             'user_email' :  [_('Email (Required)'), _('<p>This email address should be your preferred email contact and will be used to send various official emails to.  This is also where your @fedoraproject.org email will get forwarded</p>')],
             'user_security_question' : [_('Security question (Required)'), _('<p>The security question is used when you have lost access to your email address. You can email the admins, and they will ask you this question, and confirm you give the correct answer, before resetting your password/email address</p>')],
             'user_human_name' :     [_('Full Name (Required)'), _('<p>Your Human Name or "real life" name</p>')],
-            'user_gpg_keyid' :      [_('GPG Key ID'), _('<p>A GPG key is generally used to prove that a message or email came from you or to encrypt information so that only the recipients can read it.  This can be used when a password reset is sent to your email.</p>')],
+            'user_gpg_keyid' :      [_('GPG Key ID'), _('<p>A GPG key is generally used to prove that a message or email came from you or to encrypt information so that only the recipients can read it.  This can be used when a password reset is sent to your email.<br />Enter the keyid in hex format. <b>Without</b> leading "0x...".</p>')],
             'user_telephone' :      [_('Telephone'), _('<p>Required in order to complete the <a href="http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement">FPCA</a>.  Sometimes during a time of emergency someone from the Fedora Project may need to contact you.  For more information see our <a href="http://fedoraproject.org/wiki/Legal/PrivacyPolicy">Privacy Policy</a></p>')],
             'user_postal_address':  [_('Postal Address'), _('<p>This should be a mailing address where you can be contacted.  See our <a href="http://fedoraproject.org/wiki/Legal/PrivacyPolicy">Privacy Policy</a> about any concerns.</p>')],
             'user_timezone':        [_('Timezone (Optional)'), _('<p>Please specify the time zone you are in.</p>')],
@@ -41,7 +41,7 @@ class Help(controllers.Controller):
             'user_locale':          [_('Locale'), _('<p>For non-english speaking peoples this allows individuals to select which locale they are in.</p>')],
             'user_country_code' :   [_('Country Code'), _('<p>Required in order to complete the <a href="http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement">FPCA</a>.  Sometimes during a time of emergency someone from the Fedora Project may need to contact you.  For more information see our <a href="http://fedoraproject.org/wiki/Legal/PrivacyPolicy">Privacy Policy</a></p>')],
             'user_age_check':       [_('Must be over 13 Years'), _("<p>Out of special concern for children's privacy, we do not knowingly accept online personal information from children under the age of 13. We do not knowingly allow children under the age of 13 to become registered members of our sites or buy products and services on our sites. We do not knowingly collect or solicit personal information about children under 13.</p>")],
-            'user_privacy':         [_('Hide Information'), _("<p>In accordance with our privacy policy, you can choose to hide some of the information given on this page from other people.  Please see the privacy policy for complete details.</p>")],
+            'user_privacy':         [_('Hide Information'), _('<p>In accordance with our privacy policy, you can choose to hide some of the information given on this page from other people.  Please see the <a href="https://fedoraproject.org/wiki/Legal:PrivacyPolicy">privacy policy</a> for complete details.</p>')],
             'group_apply':          [_('Apply'), _('<p>Applying for a group is like applying for a job and it can certainly take a while to get in.  Many groups have their own rules about how to actually get approved or sponsored.  For more information on how the account system works see the <a href="%s">about page</a>.</p>') % turbogears.url('/about')],
             'group_remove':         [_('Remove'), _('''<p>Removing a person from a group will cause that user to no longer be in the group.  They will need to re-apply to get in.  Admins can remove anyone, Sponsors can remove users, users can't remove anyone.</p>''')],
             'group_upgrade':        [_('Upgrade'), _('''<p>Upgrade a persons status in this group.<ul><li>from user -> to sponsor</li><li>From sponsor -> administrator</li><li>administrators cannot be upgraded beyond administrator</li></ul></p>''')],
@@ -52,7 +52,7 @@ class Help(controllers.Controller):
             'group_name':           [_('Group Name'), _('''<p>The name of the group you'd like to create.  It should be lowercase alphanumeric though '-' and '_' are allowed</p>''')],
             'group_display_name':   [_('Display Name'), _('''<p>More human readable name of the group</p>''')],
             'group_owner':          [_('Group Owner'), _('''<p>The name of the owner who will run this group</p>''')],
-            'group_type':           [_('Group Type'), _('''<p>Mandatory field. Available values are 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', and 'mtn'. This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
+            'group_type':           [_('Group Type'), _('''<p>Mandatory field. Available values are 'tracking', 'shell', 'cvs', 'git', 'hg', 'svn', 'mtn', and 'pkgdb'. This value only really matters if the group is to end up getting shell access or commit access somewhere like fedorahosted.</p>''')],
             'group_url':            [_('Group URL (Optional)'), _('''<p>A URL or wiki page for the group (for example, <a href="https://fedoraproject.org/wiki/Infrastructure">https://fedoraproject.org/wiki/Infrastructure</a>).</p>''')],
             'group_mailing_list':     [_('Group Mailing List (Optional)'), _('''<p>A mailing list for the group (for example, fedora-infrastructure-list@redhat.com).</p>''')],
             'group_mailing_list_url': [_('Group Mailing List URL (Optional)'), _('''<p>A URL for the group's mailing list (for example, <a href="http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list">http://www.redhat.com/mailman/listinfo/fedora-infrastructure-list</a>).</p>''')],
