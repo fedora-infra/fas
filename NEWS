@@ -8,7 +8,17 @@ NEWS
 :Version: 0.8.18
 
 ------
-0.8.18 (not yet released)
+0.9.0
+-----
+* Add pkgdb2 support.
+* Link GPG's keys to key.fedoraproject.org.
+* Update helps infos balloon.
+* Improve GPG key validation.
+* Notify addresses from export-bugzilla script.
+* Add hyperlink to privacy policy.
+
+------
+0.8.18
 ------
 
 * Fix the human name heuristic to work with non-ascii characters
