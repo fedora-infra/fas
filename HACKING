@@ -241,26 +241,48 @@ not commit mo files.
 MAKING A RELEASE
 ----------------
 
-1. Make sure that any feature branches you want have been merged.
-2. If time allows, read and do the :id:`Getting Translated` section below.
-3. Pull in new translations using tx pull -a -f.  Add any new translations to
+0) Commit all features, hotfixes, etc that you want in the release into the
+   develop branch.
+   
+1) Make sure that any feature branches you want have been merged.
+     git clone git@github.com:fedora-infra/fas.git
+     cd fas
+     git flow init
+     
+2) Create a release branch for all of our work
+
+     git flow release start $VERSION
+
+3) If time allows, read and do the :id:`Getting Translated` section below.
+   
+4) Pull in new translations using tx pull -a -f.  Add any new translations to
    the fas.cfg.sample file.  Commit the changes.
-4. Update the version in fas.spec and fas/release.py.  Commit the changes to
+
+5) Update the version in fas.spec and fas/release.py.  Commit the changes to
    the master branch.
-5. Make sure the NEWS file is up to date
-6. Push the results to the server.
-7. Make a fresh clone of the repository::
+
+6) Make sure that the NEWS file is accurate (use git log if needed).
+   After that, push the develop branch to the server::
+     # Update files
+     git push
+
+7) Push the results to the server.
+
+8) Make a fresh clone of the repository::
       cd /var/tmp
-      git clone git://git.fedorahosted.org/git/fas
-8. Make the source tarball in that directory::
+      git clone git@github.com:fedora-infra/fas.git
+
+9) Make the source tarball in that directory::
       cd /var/tmp/fas
       python setup.py sdist
-9. Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
+
+10) Make rpms from the tarball.  You can use the koji dist-5E-epel-infra build
    target for that::
       mv dist/*.tar.gz .
       rpmbuild-md5 -bs --nodeps fas.spec
       koji build --scratch dist-5E-epel-infra fas*.src.rpm
-10. Upload the tarball to fedorahosted.  Copy the rpms from koji to the
+
+11) Upload the tarball to fedorahosted.  Copy the rpms from koji to the
    infrastructure repository::
       scp fas*tar.gz fedorahosted.org:/srv/web/releases/f/a/fas/
       ssh puppet1
@@ -268,12 +290,16 @@ MAKING A RELEASE
       rpm --addsign *.rpm
       # Move rpms to the epel infrastructure dir
       # createrepo the new repository
-11. tag the release::
-      cd [LOCAL GIT REPO]
-      git tag [RELEASE VERSION NUMBER]
-      git push --tags
-12. Install in staging and test.
-13. Finally, upgrade the production fas servers.
+
+12) mark the release as finished in git::
+     cd ../fas
+     git flow release finish [RELEASE VERSION NUMBER]
+     git push --all
+     git push --tags
+
+13) Install in staging and test.
+
+14) Finally, upgrade the production fas servers.
 
 
 Getting Translated
@@ -303,17 +329,19 @@ release.  Allow 8 to 10 days for this to happen.
 
    * The staging fas server can be looked at for the running code:
      https://admin.stg.fedoraproject.org/accounts/
-   * Code can be viewed at http://git.fedorahosted.org/git/?p=fas.git;a=tree
+   * Code can be viewed at https://github.com/fedora-infra/fas
    * The date that you're going to release (Remember, you want it to be 8-10
      days from this announcement)
    * If you have the time to make daily, weekly, etc updates to stg to pull in
      the new translations mention that so the translators know whether they can
      expect to see their changes in a live environment or not.
+
 4) When you make a new test release, be sure you remember the tx pull step from
    above or you won't be pulling in the new translations.  When you accept new
    commits, be sure that there are no new strings.  If new strings are
    unavoidable in he fixing of a bug, email trans@lists.fedoraproject.org to
    make people aware of it.
+
 5) When the release date arrives, spin the new release into an rpm as above
    (remembering to run tx pull -a :-) and make the release.
 
