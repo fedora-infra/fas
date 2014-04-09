@@ -271,9 +271,6 @@ https://fedoraproject.org/wiki/Infrastructure/AppBestPractices
 
 7) Push the results to the release branch. Otherwise, no need to.
 
-to the release branch. 
-Also, we should use "git flow publish" instead just to stay in the flow
-
 8) Make a fresh clone of the repository::
       cd /var/tmp
       git clone git@github.com:fedora-infra/fas.git
