@@ -256,7 +256,7 @@ MAKING A RELEASE
      git push --all
      git push --tags
 
-More information about please visit: 
+# More information about please visit: 
 https://fedoraproject.org/wiki/Infrastructure/AppBestPractices
 
 4) If time allows, read and do the :id:`Getting Translated` section below.
@@ -269,7 +269,10 @@ https://fedoraproject.org/wiki/Infrastructure/AppBestPractices
      # Update files
      git flow publish
 
-7) Push the results to the server. (Optional)
+7) Push the results to the release branch. Otherwise, no need to.
+
+to the release branch. 
+Also, we should use "git flow publish" instead just to stay in the flow
 
 8) Make a fresh clone of the repository::
       cd /var/tmp
