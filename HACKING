@@ -241,7 +241,7 @@ not commit mo files.
 MAKING A RELEASE
 ----------------
 
-1) Commit all features, hotfixes, etc go to branches before being merged
+1) Any features, hotfixes, etc go to branches before being merged
    to develop then master.
    
 2) Make sure that any feature branches you want have been merged.
