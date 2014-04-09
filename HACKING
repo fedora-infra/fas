@@ -241,32 +241,34 @@ not commit mo files.
 MAKING A RELEASE
 ----------------
 
-0) Commit all features, hotfixes, etc that you want in the release into the
-   develop branch.
+1) Commit all features, hotfixes, etc go to branches before being merged
+   to develop then master.
    
-1) Make sure that any feature branches you want have been merged.
+2) Make sure that any feature branches you want have been merged.
      git clone git@github.com:fedora-infra/fas.git
-     cd fas
-     git flow init
+     cd fas/
      
-2) Create a release branch for all of our work
+3) Create a release branch for all of our work
+   Releases end up on the master branch
+     git flow release start 0.8.17
+     make some edits, bump version numbers, commit, release to pypi.
+     git flow release finish 0.8.17
+     git push --all
+     git push --tags
 
-     git flow release start $VERSION
+More information please see <a href="https://fedoraproject.org/wiki/Infrastructure/AppBestPractices App Best Practices.">
 
-3) If time allows, read and do the :id:`Getting Translated` section below.
+4) If time allows, read and do the :id:`Getting Translated` section below.
    
-4) Pull in new translations using tx pull -a -f.  Add any new translations to
+5) Pull in new translations using tx pull -a -f.  Add any new translations to
    the fas.cfg.sample file.  Commit the changes.
-
-5) Update the version in fas.spec and fas/release.py.  Commit the changes to
-   the master branch.
 
 6) Make sure that the NEWS file is accurate (use git log if needed).
    After that, push the develop branch to the server::
      # Update files
-     git push
+     git flow publish
 
-7) Push the results to the server.
+7) Push the results to the server. (Optional)
 
 8) Make a fresh clone of the repository::
       cd /var/tmp
@@ -294,8 +296,7 @@ MAKING A RELEASE
 12) mark the release as finished in git::
      cd ../fas
      git flow release finish [RELEASE VERSION NUMBER]
-     git push --all
-     git push --tags
+     git push -F
 
 13) Install in staging and test.
 
