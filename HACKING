@@ -256,7 +256,7 @@ MAKING A RELEASE
      git push --all
      git push --tags
 
-More information please visit: 
+More information about please visit: 
 https://fedoraproject.org/wiki/Infrastructure/AppBestPractices
 
 4) If time allows, read and do the :id:`Getting Translated` section below.
