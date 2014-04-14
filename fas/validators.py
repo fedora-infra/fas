@@ -228,7 +228,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
+            validline = re.match('^(rsa|ssh-rsa|ecdsa) [ \t]*[^ \t]+.*$', keyline)
             if not validline:
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
