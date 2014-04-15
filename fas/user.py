@@ -413,8 +413,10 @@ login with your Fedora account first):
                       'gpg_keyid', 'comments', 'locale', 'timezone',
                       'country_code', 'privacy', 'latitude', 'longitude')
             for field in fields:
-                if getattr(target, field) != locals()[field]:
-                    setattr(target, field, locals()[field])
+                old = getattr(target, field)
+                new = locals()[field]
+                if (old or new) and old != new:
+                    setattr(target, field, new)
                     changed.append(field)
 
         except TypeError, error:
