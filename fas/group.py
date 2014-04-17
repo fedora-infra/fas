@@ -145,9 +145,10 @@ class Group(controllers.Controller):
 
     @identity.require(turbogears.identity.not_anonymous())
     def index(self):
-        turbogears.flash(_("FAS (Fedora Account System) groups are used to assign"))
-        turbogears.flash(_("roles and permissions in the Fedora Project."))
-        return dict()
+        turbogears.flash(_("FAS (Fedora Account System) groups are used to assign"+
+        " roles and permissions in the Fedora Project."))
+        
+        return redirect('/group/list')
 
     def jsonRequest(self):
         return 'tg_format' in cherrypy.request.params and \
