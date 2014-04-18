@@ -18,8 +18,10 @@
       <a href="${tg.url('/group/new')}">${_('Create Group')}</a>
     </span>
 
-    <h2>${_('List (%s)') % search}</h2>
+    <h2>${_('Group List (%s)') % search}</h2>
+    <p>Fedora Account System groups are used to assign roles and permissions in the Fedora Project.</p><br>
     <h3>${_('Search Groups')}</h3>
+    
     ${search_box('/group/list')}
 
     <table py:if="groups">
