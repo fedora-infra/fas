@@ -14,6 +14,7 @@ from sqlalchemy import (
     func,
     )
 from sqlalchemy.orm import relation
+from fas.models import AccountPermissionType as perm
 
 import datetime
 
@@ -71,7 +72,6 @@ class People(Base):
     account_status = relation(
                     'AccountStatus',
                     foreign_keys='People.status',
-                    order_by='AccountStatus.id',
                     uselist=False
     )
     group_membership = relation(
@@ -82,8 +82,7 @@ class People(Base):
     group_sponsors = relation(
                     'GroupMembership',
                     foreign_keys='GroupMembership.sponsor',
-                    uselist=False,
-                    order_by='GroupMembership.approval_timestamp'
+                    uselist=False
     )
     licenses = relation(
                     'SignedLicenseAgreement',
@@ -102,105 +101,93 @@ class People(Base):
         Index('people_username_idx', username),
     )
 
-    def to_json(self, timestamp=None):
+    def to_json(self, permissions):
         """ Return a json/dict representation of this user.
 
         Use the `filter_private` argument to retrieve all the information about
         the user or just the public information.
         By default only the public information are returned.
         """
-        error = {
-                'ErrorName': '',
-                'ErrorText': ''
-        }
 
-        # Standard public info
-        info = {
-            'PeopleId': self.id,
-            'Username': self.username,
-            'Fullname': self.fullname,
-            'Ircnick': self.ircnick,
-            'Avatar': self.avatar,
-            'GpgId': self.gpg_id,
-            'Email': self.email,
-            'CountryCode': self.country_code,
-            'Locale': self.locale,
-            'BugzillaEmail': self.bugzilla_email or self.email,
-            'BlogRss': self.blog_rss,
-            #'Bio': self.bio,
-            'CreationDate': self.date_created.strftime('%Y-%m-%d %H:%M'),
-            'Status': self.status
-        }
-
-        info['Membership'] = []
-        for groups in self.group_membership:
-            info['Membership'].append(
-                    {
-                        'GroupId': groups.group_id,
-                        'GroupName': groups.group.name,
-                        'GroupType': groups.group.group_type,
-                        'GroupSponsorId': self.group_sponsors.sponsor,
-                        'GroupRole': groups.role
-                    }
-            )
-
-        # Infos that people set as private
-        if not self.privacy:
-            info['EmailAlias'] = self.email_alias
-            info['PostalAddress'] = self.postal_address
-            info['Telephone'] = self.telephone
-            info['Fascimile'] = self.facsimile
-            info['Affiliation'] = self.affiliation
-            info['CertificateSerial'] = self.certificate_serial
-            info['SshKey'] = self.ssh_key
-            info['Latitude'] = self.latitude
-            info['Longitude'] = self.longitude
-            info['LastLogged'] = self.last_logged.strftime(
-                                                            '%Y-%m-%d %H:%M')
-
-            info['TokenApi'] = {
-                'fas': self.fas_token,
-                'github': self.github_token,
-                'twitter': self.twitter_token
+        if permissions >= perm.CAN_READ_PUBLIC_INFO:
+            # Standard public info
+            info = {
+                'PeopleId': self.id,
+                'Username': self.username,
+                'Fullname': self.fullname,
+                'Ircnick': self.ircnick,
+                'Avatar': self.avatar,
+                'GpgId': self.gpg_id,
+                'Email': self.email,
+                'BugzillaEmail': self.bugzilla_email or self.email,
+                'BlogRss': self.blog_rss,
+                #'Bio': self.bio,
+                'CreationDate': self.date_created.strftime('%Y-%m-%d %H:%M'),
+                'Status': self.status
             }
+        if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
+            info['CountryCode'] =  self.country_code
+            info['Locale'] = self.locale
 
-            #TODO: Check that people's request came from same user
-            #      Only print this out to owner
-            if self.account_permissions:
-                info['AccountPermissions'] = []
-                for perms in self.account_permissions:
-                    info['AccountPermissions'].append(
+            info['Membership'] = []
+            for groups in self.group_membership:
+                info['Membership'].append(
                         {
-                            'Application': perms.application,
-                            'Permissions': perms.permissions,
-                            'GrantedOn': perms.granted_timestamp.strftime(
-                                                    '%Y-%m-%d'
-                                                    )
+                            'GroupId': groups.group_id,
+                            'GroupName': groups.group.name,
+                            'GroupType': groups.group.group_type,
+                            'GroupSponsorId': self.group_sponsors.sponsor,
+                            'GroupRole': groups.role
                         }
-                    )
+                )
 
-            if self.activities_log:
-                info['AccountActivities'] = []
-                for log in self.activities_log:
-                    info['AccountActivities'].append(
-                        {
-                            'Location': log.location,
-                            'AccessFrom': log.access_from,
-                            'DateTime': log.timestamp.strftime('%Y-%m-%d %H:%M')
-                        }
-                    )
-        else:
-            info['Privacy'] = self.privacy
+            # Infos that people set as private
+            if not self.privacy:
+                info['EmailAlias'] = self.email_alias
+                info['PostalAddress'] = self.postal_address
+                info['Telephone'] = self.telephone
+                info['Fascimile'] = self.facsimile
+                info['Affiliation'] = self.affiliation
+                info['CertificateSerial'] = self.certificate_serial
+                info['SshKey'] = self.ssh_key
+                info['Latitude'] = self.latitude
+                info['Longitude'] = self.longitude
+                info['LastLogged'] = self.last_logged.strftime('%Y-%m-%d %H:%M')
 
-        result = {}
-        result['PeopleResult'] = {
-                'StartTimeStamp': timestamp,
-                'Error': error,
-                'EndTimeStamp':
-                    datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S%Z'),
-                'People': info
-        }
-        return result
+                info['TokenApi'] = {
+                    'fas': self.fas_token,
+                    'github': self.github_token,
+                    'twitter': self.twitter_token
+                }
+
+                if self.account_permissions:
+                    info['AccountPermissions'] = []
+                    for perms in self.account_permissions:
+                        info['AccountPermissions'].append(
+                            {
+                                'Application': perms.application,
+                                'Permissions': perms.permissions,
+                                'GrantedOn': perms.granted_timestamp.strftime(
+                                                        '%Y-%m-%d'
+                                                        )
+                            }
+                        )
+
+                if self.activities_log:
+                    info['AccountActivities'] = []
+                    for log in self.activities_log:
+                        info['AccountActivities'].append(
+                            {
+                                'Location': log.location,
+                                'AccessFrom': log.access_from,
+                                'DateTime': log.timestamp.strftime(
+                                                            '%Y-%m-%d %H:%M')
+                            }
+                        )
+            else:
+                info['Privacy'] = self.privacy
+
+        return info
 
 
 class PeopleAccountActivitiesLog(Base):

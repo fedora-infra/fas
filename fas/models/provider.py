@@ -75,7 +75,7 @@ def get_people(session, limit=None, offset=None):
     query = session.query(People)
 
     if limit and offset:
-        query.slice(offset, limit)
+        query.slice(int(offset), limit)
 
     return query.all()
 
@@ -123,3 +123,9 @@ def get_account_permissions_by_people_id(session, id):
                                             AccountPermissions.people == id
                                             )
     return query.all()
+
+def get_account_permissions_by_token(session, token):
+    """ Retrieve account permission based on given people's token. """
+    query = session.query(AccountPermissions).filter(
+                                            AccountPermissions.token == token)
+    return query.first()

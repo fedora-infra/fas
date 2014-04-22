@@ -17,6 +17,7 @@ requires = [
     'waitress',
     'mako',
     'wtforms',
+    'flufl.enum',
 
     #i18n
     'Babel',

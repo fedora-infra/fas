@@ -51,6 +51,8 @@ def fill_account_status():
     DBSession.add(status)
     status = AccountStatus(id=5, status='Blocked')
     DBSession.add(status)
+    status = AccountStatus(id=6, status='BlockedByAdmin')
+    DBSession.add(status)
     status = AccountStatus(id=8, status='Disabled')
     DBSession.add(status)
 

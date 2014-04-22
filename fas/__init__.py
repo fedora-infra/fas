@@ -44,8 +44,8 @@ def main(global_config, **settings):
     config.add_route('logout', '/logout')
 
     config.add_route('api_home', '/api')
-    config.add_route('api_user_get', '/api/user/{key}/{value}')
-
+    config.add_route('api_people_list', '/api/people')
+    config.add_route('api_people_get', '/api/people/{key}/{value}')
     config.add_route('api_group_get', '/api/group/{key}/{value}')
 
     config.scan()
