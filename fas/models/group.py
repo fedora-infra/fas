@@ -31,9 +31,10 @@ class GroupType(Base):
 
 class Groups(Base):
     __tablename__ = 'group'
-    id = Column(Integer,
-                Sequence('group_seq', start=20000),
-                primary_key=True)
+    id = Column(
+        Integer,
+        Sequence('group_seq', start=20000),
+        primary_key=True)
     name = Column(Unicode(40), unique=True, nullable=False)
     display_name = Column(UnicodeText(), nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
@@ -51,35 +52,38 @@ class Groups(Base):
     invite_only = Column(Boolean, default=False)
     join_msg = Column(UnicodeText(), nullable=True)
     apply_rules = Column(UnicodeText(), nullable=True)
-    license_sign_up = Column(Integer,
-                            ForeignKey('license_agreement.id'),
-                            default=-1)
-    created = Column(DateTime, nullable=False,
-                     default=func.current_timestamp())
-    updated = Column(DateTime, nullable=False,
-                     default=func.current_timestamp(),
-                     onupdate=func.current_timestamp())
+    license_sign_up = Column(
+        Integer,
+        ForeignKey('license_agreement.id'),
+        default=-1)
+    created = Column(
+        DateTime, nullable=False,
+        default=func.current_timestamp())
+    updated = Column(
+        DateTime, nullable=False,
+        default=func.current_timestamp(),
+        onupdate=func.current_timestamp())
 
     members = relation(
-                'GroupMembership',
-                foreign_keys='GroupMembership.group_id',
-                primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-                backref='group_membership'
+        'GroupMembership',
+        foreign_keys='GroupMembership.group_id',
+        primaryjoin='and_(GroupMembership.group_id==Groups.id)',
+        backref='group_membership'
     )
     owner = relation(
-                'People',
-                uselist=False,
-                order_by='People.username'
+        'People',
+        uselist=False,
+        order_by='People.username'
     )
     group_types = relation(
-                'GroupType',
-                order_by='GroupType.id',
-                uselist=False
+        'GroupType',
+        order_by='GroupType.id',
+        uselist=False
     )
     parent_group = relation(
-                'Groups',
-                order_by='Groups.name',
-                uselist=False
+        'Groups',
+        order_by='Groups.name',
+        uselist=False
     )
 
     __table_args__ = (
@@ -123,16 +127,16 @@ class Groups(Base):
                             'PeopleRole': people.role_level.role,
                             'GroupSponsor': people.sponsor
                         }
-                )
+                    )
 
         result = {}
         result['GroupResult'] = {
-                'StartTimeStamp': timestamp,
-                'Error': error,
-                'EndTimeStamp':
-                    datetime.datetime
-                    .utcnow().strftime('%Y-%m-%dT%H:%M:%S%Z'),
-                'Group': info
+            'StartTimeStamp': timestamp,
+            'Error': error,
+            'EndTimeStamp':
+                datetime.datetime
+                .utcnow().strftime('%Y-%m-%dT%H:%M:%S%Z'),
+            'Group': info
         }
 
         return result
@@ -151,35 +155,35 @@ class GroupMembership(Base):
     approval_timestamp = Column(DateTime, default=datetime.datetime.now())
 
     role_level = relation(
-                'RoleLevel',
-                foreign_keys='RoleLevel.id',
-                primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
-                uselist=False
+        'RoleLevel',
+        foreign_keys='RoleLevel.id',
+        primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
+        uselist=False
     )
 
     account_status = relation(
-                'AccountStatus',
-                foreign_keys='AccountStatus.id',
-                primaryjoin='and_(GroupMembership.status==AccountStatus.id)',
-                uselist=False
+        'AccountStatus',
+        foreign_keys='AccountStatus.id',
+        primaryjoin='and_(GroupMembership.status==AccountStatus.id)',
+        uselist=False
     )
 
     group = relation(
-                'Groups',
-                foreign_keys='Groups.id',
-                primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-                backref='group_membership',
-                uselist=False
+        'Groups',
+        foreign_keys='Groups.id',
+        primaryjoin='and_(GroupMembership.group_id==Groups.id)',
+        backref='group_membership',
+        uselist=False
     )
     people = relation(
-                'People',
-                foreign_keys='People.id',
-                primaryjoin='and_(GroupMembership.people_id==People.id)'
+        'People',
+        foreign_keys='People.id',
+        primaryjoin='and_(GroupMembership.people_id==People.id)'
     )
     sponsors = relation(
-                'People',
-                foreign_keys='People.id',
-                primaryjoin='and_(GroupMembership.sponsor==People.id)'
+        'People',
+        foreign_keys='People.id',
+        primaryjoin='and_(GroupMembership.sponsor==People.id)'
     )
 
     __table_args__ = (

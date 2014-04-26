@@ -20,26 +20,29 @@ class LicenseAgreement(Base):
     content = Column(UnicodeText(), nullable=False)
     comment = Column(UnicodeText(), nullable=True)
     creation_timestamp = Column(
-                        DateTime,
-                        nullable=False,
-                        default=func.current_timestamp())
+        DateTime,
+        nullable=False,
+        default=func.current_timestamp()
+    )
     update_timestamp = Column(
-                        DateTime,
-                        nullable=False,
-                        default=func.current_timestamp())
+        DateTime,
+        nullable=False,
+        default=func.current_timestamp()
+    )
 
     groups = relation(
-                'Groups',
-                foreign_keys='Groups.license_sign_up',
-                primaryjoin='and_(LicenseAgreement.id==Groups.license_sign_up)',
-                order_by='Groups.name'
+        'Groups',
+        foreign_keys='Groups.license_sign_up',
+        primaryjoin='and_(LicenseAgreement.id==Groups.license_sign_up)',
+        order_by='Groups.name'
     )
 
 
 class SignedLicenseAgreement(Base):
     __tablename__ = 'signed_license_agreement'
     id = Column(Integer, primary_key=True)
-    license = Column(Integer,
+    license = Column(
+        Integer,
         ForeignKey('license_agreement.id'),
         primary_key=True)
     people = Column(Integer, ForeignKey('people.id'), primary_key=True)
