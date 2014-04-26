@@ -21,9 +21,10 @@ import datetime
 
 class People(Base):
     __tablename__ = 'people'
-    id = Column(Integer,
-                Sequence('people_seq', start='10000'),
-                primary_key=True)
+    id = Column(
+        Integer,
+        Sequence('people_seq', start='10000'),
+        primary_key=True)
     username = Column(Unicode(255), unique=True, nullable=False)
     password = Column(UnicodeText(), nullable=False)
     fullname = Column(UnicodeText(), nullable=False)
@@ -49,9 +50,10 @@ class People(Base):
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
-    status = Column(Integer,
-            ForeignKey('account_status.id'),
-            nullable=False, default=1)
+    status = Column(
+        Integer,
+        ForeignKey('account_status.id'),
+        nullable=False, default=1)
     status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)
@@ -62,40 +64,46 @@ class People(Base):
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
-    date_created = Column(DateTime, nullable=False,
-                          default=func.current_timestamp())
-    date_updated = Column(DateTime, nullable=False,
-                          default=func.current_timestamp(),
-                          onupdate=func.current_timestamp())
+    date_created = Column(
+        DateTime, nullable=False,
+        default=func.current_timestamp())
+    date_updated = Column(
+        DateTime, nullable=False,
+        default=func.current_timestamp(),
+        onupdate=func.current_timestamp())
 
-    groups = relation('Groups', order_by='Groups.id')
+    groups = relation(
+        'Groups',
+        order_by='Groups.id'
+    )
     account_status = relation(
-                    'AccountStatus',
-                    foreign_keys='People.status',
-                    uselist=False
+        'AccountStatus',
+        foreign_keys='People.status',
+        uselist=False
     )
     group_membership = relation(
-                    'GroupMembership',
-                    foreign_keys='GroupMembership.people_id',
-                    order_by='GroupMembership.approval_timestamp'
+        'GroupMembership',
+        foreign_keys='GroupMembership.people_id',
+        order_by='GroupMembership.approval_timestamp'
     )
     group_sponsors = relation(
-                    'GroupMembership',
-                    foreign_keys='GroupMembership.sponsor',
-                    uselist=False
+        'GroupMembership',
+        foreign_keys='GroupMembership.sponsor',
+        uselist=False
     )
     licenses = relation(
-                    'SignedLicenseAgreement',
-                    order_by='SignedLicenseAgreement.id'
+        'SignedLicenseAgreement',
+        order_by='SignedLicenseAgreement.id'
     )
     activities_log = relation(
-                    'PeopleAccountActivitiesLog',
-                    order_by='PeopleAccountActivitiesLog.id'
+        'PeopleAccountActivitiesLog',
+        order_by='PeopleAccountActivitiesLog.id'
     )
     account_permissions = relation(
-                    'AccountPermissions',
-                    primaryjoin='and_(AccountPermissions.people==People.id)',
-                    order_by='AccountPermissions.id')
+        'AccountPermissions',
+        primaryjoin='and_(AccountPermissions.people==People.id)',
+        order_by='AccountPermissions.id'
+    )
 
     __table_args__ = (
         Index('people_username_idx', username),
@@ -126,19 +134,19 @@ class People(Base):
                 'Status': self.status
             }
         if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
-            info['CountryCode'] =  self.country_code
+            info['CountryCode'] = self.country_code
             info['Locale'] = self.locale
 
             info['Membership'] = []
             for groups in self.group_membership:
                 info['Membership'].append(
-                        {
-                            'GroupId': groups.group_id,
-                            'GroupName': groups.group.name,
-                            'GroupType': groups.group.group_type,
-                            'GroupSponsorId': self.group_sponsors.sponsor,
-                            'GroupRole': groups.role
-                        }
+                    {
+                        'GroupId': groups.group_id,
+                        'GroupName': groups.group.name,
+                        'GroupType': groups.group.group_type,
+                        'GroupSponsorId': self.group_sponsors.sponsor,
+                        'GroupRole': groups.role
+                    }
                 )
 
             # Infos that people set as private
@@ -152,7 +160,8 @@ class People(Base):
                 info['SshKey'] = self.ssh_key
                 info['Latitude'] = self.latitude
                 info['Longitude'] = self.longitude
-                info['LastLogged'] = self.last_logged.strftime('%Y-%m-%d %H:%M')
+                info['LastLogged'] = self.last_logged.strftime(
+                    '%Y-%m-%d %H:%M')
 
                 info['TokenApi'] = {
                     'fas': self.fas_token,
@@ -167,9 +176,9 @@ class People(Base):
                             {
                                 'Application': perms.application,
                                 'Permissions': perms.permissions,
-                                'GrantedOn': perms.granted_timestamp.strftime(
-                                                        '%Y-%m-%d'
-                                                        )
+                                'GrantedOn':
+                                    perms.granted_timestamp.strftime(
+                                        '%Y-%m-%d')
                             }
                         )
 
@@ -181,7 +190,7 @@ class People(Base):
                                 'Location': log.location,
                                 'AccessFrom': log.access_from,
                                 'DateTime': log.timestamp.strftime(
-                                                            '%Y-%m-%d %H:%M')
+                                    '%Y-%m-%d %H:%M')
                             }
                         )
             else:
