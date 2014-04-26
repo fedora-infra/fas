@@ -112,20 +112,29 @@ def get_licenses(session):
 
 def get_license_by_id(session, id):
     """ Retrieve license based on given id"""
-    query = session.query(LicenseAgreement).filter(
-                                            LicenseAgreement.id == id)
+    query = session.query(
+        LicenseAgreement
+    ).filter(
+        LicenseAgreement.id == id
+    )
     return query.first()
 
 
 def get_account_permissions_by_people_id(session, id):
     """ Retrieve account permissions based on given people's id. """
-    query = session.query(AccountPermissions).filter(
-                                            AccountPermissions.people == id
-                                            )
+    query = session.query(
+        AccountPermissions
+    ).filter(
+        AccountPermissions.people == id
+    )
     return query.all()
+
 
 def get_account_permissions_by_token(session, token):
     """ Retrieve account permission based on given people's token. """
-    query = session.query(AccountPermissions).filter(
-                                            AccountPermissions.token == token)
+    query = session.query(
+        AccountPermissions
+    ).filter(
+        AccountPermissions.token == token
+    )
     return query.first()
