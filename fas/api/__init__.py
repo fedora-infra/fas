@@ -19,6 +19,7 @@ class ParamsValidator:
         self.request = request
         self.params = [u'apikey']
         self.apikey = ''
+        self.pageoffset = 0
         self.optional_params = []
         self.msg = ()
 
@@ -55,9 +56,9 @@ class ParamsValidator:
                                     'Invalid parameter: %r' % str(key))
                     return False
                 else:
-                    if not value and key not in self.optional_params:
+                    if not value and (key not in self.optional_params):
                         if key == 'apikey':
-                            self.request.reponse.status = '503 access denied'
+                            self.request.reponse.status = '401 Unauthorized'
                             self.__set_msg__('Access denied.',
                                             "Required API key is missing.")
                         else:
@@ -65,6 +66,8 @@ class ParamsValidator:
                         return False
                     if key == 'apikey':
                         self.apikey = value
+                    elif key == 'pageoffset':
+                        self.pageoffset = int(value)
             return True
         else:
             self.request.reponse.status = '400 bad request'
@@ -77,6 +80,10 @@ class ParamsValidator:
     def get_apikey(self):
         """ Get API key value from request parameter. """
         return self.apikey
+
+    def get_pageoffset(self):
+        """ Get page index for pagination. """
+        return self.pageoffset
 
     def get_msg(self):
         """ Get error messages from a validation check.

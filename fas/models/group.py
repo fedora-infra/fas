@@ -13,6 +13,8 @@ from sqlalchemy import (
     func,
     )
 from sqlalchemy.orm import relation
+from fas.models import AccountPermissionType as perm
+
 import datetime
 
 
@@ -93,24 +95,26 @@ class Groups(Base):
         Index('group_name_idx', name),
     )
 
-    def to_json(self, timestamp=None, error=None):
+    def to_json(self, permissions):
         """ Return a JSON/dict representation of a Group object. """
-        info = {
-            'Name': self.name,
-            'DisplayName': self.display_name,
-            'Picture': self.avatar,
-            'Url': self.web_link,
-            'MailingList': self.mailing_list,
-            'MailingListUrl': self.mailing_list_url,
-            'IrcChannel': self.irc_channel,
-            'IrcNetwork': self.irc_network,
-            'Owner': self.owner.username,
-            'SelfRemoval': self.self_removal,
-            'NeedApproval': self.need_approval,
-            'IsInviteOnly': self.invite_only,
-            'IsPrivate': self.private,
-            'CreationDate': self.created.strftime('%Y-%m-%d %H:%M'),
-        }
+        info = {}
+        if permissions >= perm.CAN_READ_PUBLIC_INFO:
+            info = {
+                'Name': self.name,
+                'DisplayName': self.display_name,
+                'Picture': self.avatar,
+                'Url': self.web_link,
+                'MailingList': self.mailing_list,
+                'MailingListUrl': self.mailing_list_url,
+                'IrcChannel': self.irc_channel,
+                'IrcNetwork': self.irc_network,
+                'Owner': self.owner.username,
+                'SelfRemoval': self.self_removal,
+                'NeedApproval': self.need_approval,
+                'IsInviteOnly': self.invite_only,
+                'IsPrivate': self.private,
+                'CreationDate': self.created.strftime('%Y-%m-%d %H:%M'),
+            }
 
         if self.group_types:
             info['GroupType'] = self.group_types.name
@@ -118,31 +122,22 @@ class Groups(Base):
         if self.parent_group:
             info['ParentGroup'] = self.parent_group.name
 
-        if self.members:
-            info['Members'] = []
-            for people in self.members:
-                # This is not optimum - send query on every loop
-                for user in people.people:
-                    info['Members'].append(
-                        {
-                            'PeopleId': user.id,
-                            'PeopleName': user.username,
-                            'PeopleRole': people.role_level.role,
-                            'GroupSponsor': people.sponsor
-                        }
-                    )
+        if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
+            if self.members:
+                info['Members'] = []
+                for people in self.members:
+                    # This is not optimum - send query on every loop
+                    for user in people.people:
+                        info['Members'].append(
+                            {
+                                'PeopleId': user.id,
+                                'PeopleName': user.username,
+                                'PeopleRole': people.role_level.role,
+                                'GroupSponsor': people.sponsor
+                            }
+                        )
 
-        result = {}
-        result['GroupResult'] = {
-            'StartTimeStamp': timestamp,
-            'Error': error,
-            'EndTimeStamp':
-                datetime.datetime
-                .utcnow().strftime('%Y-%m-%dT%H:%M:%S%Z'),
-            'Group': info
-        }
-
-        return result
+        return info
 
 
 class GroupMembership(Base):

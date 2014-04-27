@@ -22,7 +22,7 @@ import fas.forms as forms
 import fas.models.provider as provider
 from fas.models import AccountPermissionType as perms
 
-from ..security import TokenValidator
+from fas.security import TokenValidator
 
 import datetime
 
@@ -57,7 +57,8 @@ def people_list(request):
             people = provider.get_people(
                         DBSession,
                         limit=25,
-                        offset=request.params.getone(u'pageoffset'))
+                        offset=param.get_pageoffset()
+            )
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
     else:
@@ -78,7 +79,7 @@ def api_user_get(request):
     param = ParamsValidator(request)
 
     if param.is_valid():
-        ak = TokenValidator(DBSession, request.params.getone(u'apikey'))
+        ak = TokenValidator(DBSession, param.get_apikey())
         if ak.is_valid():
             key = request.matchdict.get('key')
             value = request.matchdict.get('value')

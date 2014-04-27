@@ -118,7 +118,7 @@ class People(Base):
         the user or just the public information.
         By default only the public information are returned.
         """
-
+        info = {}
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
             # Standard public info
             info = {
@@ -135,6 +135,7 @@ class People(Base):
                 'CreationDate': self.date_created.strftime('%Y-%m-%d %H:%M'),
                 'Status': self.status
             }
+
         if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
             info['CountryCode'] = self.country_code
             info['Locale'] = self.locale
