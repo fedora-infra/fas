@@ -66,11 +66,13 @@ class People(Base):
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
     date_created = Column(
         DateTime, nullable=False,
-        default=func.current_timestamp())
+        default=func.current_timestamp()
+    )
     date_updated = Column(
         DateTime, nullable=False,
         default=func.current_timestamp(),
-        onupdate=func.current_timestamp())
+        onupdate=func.current_timestamp()
+    )
 
     groups = relation(
         'Groups',

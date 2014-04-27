@@ -17,8 +17,8 @@ class LicenseAgreement(Base):
     __tablename__ = 'license_agreement'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255), nullable=False)
-    content = Column(UnicodeText(), nullable=False)
-    comment = Column(UnicodeText(), nullable=True)
+    content = Column(UnicodeText, nullable=False)
+    comment = Column(UnicodeText, nullable=True)
     creation_timestamp = Column(
         DateTime,
         nullable=False,
@@ -48,4 +48,7 @@ class SignedLicenseAgreement(Base):
     people = Column(Integer, ForeignKey('people.id'), primary_key=True)
     signed = Column(Boolean, nullable=False)
 
-    licenses = relation('LicenseAgreement', order_by='LicenseAgreement.id')
+    licenses = relation(
+        'LicenseAgreement',
+        order_by='LicenseAgreement.id'
+    )

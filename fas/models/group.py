@@ -19,8 +19,8 @@ import datetime
 class GroupType(Base):
     __tablename__ = 'group_type'
     id = Column(Integer, unique=True, primary_key=True)
-    name = Column(UnicodeText(), unique=True, nullable=False)
-    comment = Column(UnicodeText(), nullable=True)
+    name = Column(UnicodeText, unique=True, nullable=False)
+    comment = Column(UnicodeText, nullable=True)
 
     groups = relation('Groups', order_by='Groups.name')
 
@@ -36,13 +36,13 @@ class Groups(Base):
         Sequence('group_seq', start=20000),
         primary_key=True)
     name = Column(Unicode(40), unique=True, nullable=False)
-    display_name = Column(UnicodeText(), nullable=True)
-    avatar = Column(UnicodeText(), nullable=True)
-    web_link = Column(UnicodeText(), nullable=True)
-    mailing_list = Column(UnicodeText(), nullable=True)
-    mailing_list_url = Column(UnicodeText(), nullable=True)
-    irc_channel = Column(UnicodeText(), nullable=True)
-    irc_network = Column(UnicodeText(), nullable=True)
+    display_name = Column(UnicodeText, nullable=True)
+    avatar = Column(UnicodeText, nullable=True)
+    web_link = Column(UnicodeText, nullable=True)
+    mailing_list = Column(UnicodeText, nullable=True)
+    mailing_list_url = Column(UnicodeText, nullable=True)
+    irc_channel = Column(UnicodeText, nullable=True)
+    irc_network = Column(UnicodeText, nullable=True)
     owner_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     group_type = Column(Integer, ForeignKey('group_type.id'), default=-1)
     parent_group_id = Column(Integer, ForeignKey('group.id'), default=-1)
@@ -50,19 +50,22 @@ class Groups(Base):
     self_removal = Column(Boolean, default=True)
     need_approval = Column(Boolean, default=False)
     invite_only = Column(Boolean, default=False)
-    join_msg = Column(UnicodeText(), nullable=True)
-    apply_rules = Column(UnicodeText(), nullable=True)
+    join_msg = Column(UnicodeText, nullable=True)
+    apply_rules = Column(UnicodeText, nullable=True)
     license_sign_up = Column(
         Integer,
         ForeignKey('license_agreement.id'),
-        default=-1)
+        default=-1
+    )
     created = Column(
         DateTime, nullable=False,
-        default=func.current_timestamp())
+        default=func.current_timestamp()
+    )
     updated = Column(
         DateTime, nullable=False,
         default=func.current_timestamp(),
-        onupdate=func.current_timestamp())
+        onupdate=func.current_timestamp()
+    )
 
     members = relation(
         'GroupMembership',
@@ -148,11 +151,11 @@ class GroupMembership(Base):
     group_id = Column(Integer, ForeignKey('group.id'))
     role = Column(Integer, ForeignKey('role_level.id'), default=1)
     status = Column(Integer, ForeignKey('account_status.id'), default=1)
-    comment = Column(UnicodeText(), nullable=True)
+    comment = Column(UnicodeText, nullable=True)
     people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor = Column(Integer, ForeignKey('people.id'), nullable=False)
-    creation_timestamp = Column(DateTime, default=datetime.datetime.now())
-    approval_timestamp = Column(DateTime, default=datetime.datetime.now())
+    creation_timestamp = Column(DateTime, default=datetime.datetime.now)
+    approval_timestamp = Column(DateTime, default=datetime.datetime.now)
 
     role_level = relation(
         'RoleLevel',
