@@ -22,6 +22,9 @@ requires = [
     #i18n
     'Babel',
     'lingua',
+
+    #Test
+    'fake-factory',
     ]
 
 setup(name='fas',
