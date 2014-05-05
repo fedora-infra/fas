@@ -70,6 +70,26 @@ def fill_role_levels():
     DBSession.add(role)
 
 
+def create_fake_user(session, upto=2000, user_index=1000):
+    from faker import Factory
+    fake = Factory.create()
+
+    users = []
+    for i in range(0,upto):
+        user = fake.profile()
+        if user['username'] not in users:
+            users.append(user['username'])
+            DBSession.add(
+                People(
+                    id=user_index,
+                    username=user['username'],
+                    password=user['username'],
+                    fullname=user['name'],
+                    email=user['mail']
+                )
+            )
+            user_index += 1
+
 def main(argv=sys.argv):
     if len(argv) != 2:
         usage(argv)
@@ -139,3 +159,5 @@ def main(argv=sys.argv):
         DBSession.add(user_membership)
         DBSession.add(user_token)
         DBSession.add(admin_token)
+
+        create_fake_user(DBSession, upto=900)
