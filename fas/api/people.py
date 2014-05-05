@@ -49,15 +49,21 @@ def people_list(request):
     data = MetaData('People')
 
     param = ParamsValidator(request)
-    param.add_optional('pageoffset')
+    param.add_optional('limit')
+    param.add_optional('page')
+
 
     if param.is_valid():
+
+        limit = param.get_limit()
+        page = param.get_pagenumber()
+
         ak = TokenValidator(DBSession, param.get_apikey())
         if ak.is_valid():
             people = provider.get_people(
                         DBSession,
-                        limit=25,
-                        offset=param.get_pageoffset()
+                        limit=limit,
+                        page=page
             )
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
@@ -68,6 +74,8 @@ def people_list(request):
         users = []
         for user in people:
             users.append(user.to_json(perms.CAN_READ_PUBLIC_INFO))
+
+        data.set_pages(page, limit, provider.get_people_count(DBSession)[0])
         data.set_data(users)
 
     return data.get_metadata()

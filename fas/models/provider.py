@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlalchemy as sa
+from sqlalchemy import func
 
 from fas.models import AccountStatus, RoleLevel
 from fas.models.group import Groups, GroupType
@@ -8,6 +9,17 @@ from fas.models.people import People
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 from fas.models.configs import AccountPermissions
 
+
+def __get_listoffset(page, limit):
+    """ Get offset based on requeted limit. """
+    offset = (page - 1) * limit
+
+    if offset < limit:
+        offset = -1
+    else:
+        offset += 1
+
+    return offset
 
 ## Method to get AccountStatus
 
@@ -38,12 +50,18 @@ def get_role_levels(session):
 
 ## Method to interact with Groups
 
-def get_groups(session, limit=None, offset=None):
-    """ Retrieve all registered groups from databse. """
-    query = session.query(Groups)
+def get_groups_count(session):
+    """ Return people count. """
+    return session.query(func.count(Groups.id)).first()
 
-    if limit and offset:
-        query.slice(offset, limit)
+def get_groups(session, limit=None, page=None):
+    """ Retrieve all registered groups from databse. """
+    if limit and page:
+        query = session.query(Groups) \
+            .limit(limit) \
+            .offset(__get_listoffset(page, limit))
+    else:
+        query = session.query(Groups)
 
     return query.all()
 
@@ -70,12 +88,18 @@ def get_grouptype_by_id(session, id):
 
 ## Method to interact with People
 
-def get_people(session, limit=None, offset=None):
-    """ Retrieve all registered people from database. """
-    query = session.query(People)
+def get_people_count(session):
+    """ Return people count. """
+    return session.query(func.count(People.id)).first()
 
-    if limit and offset:
-        query.slice(int(offset), limit)
+def get_people(session, limit=None, page=None):
+    """ Retrieve all registered people from database. """
+    if limit and page:
+        query = session.query(People) \
+            .limit(limit) \
+            .offset(__get_listoffset(page, limit))
+    else:
+        query = session.query(People)
 
     return query.all()
 

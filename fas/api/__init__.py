@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+from math import ceil
 
 import datetime
 
@@ -19,7 +20,9 @@ class ParamsValidator:
         self.request = request
         self.params = [u'apikey']
         self.apikey = ''
-        self.pageoffset = 0
+        # maybe we should let admin configure this limit?
+        self.limit = 200
+        self.pagenumber = 1
         self.optional_params = []
         self.msg = ()
 
@@ -66,8 +69,10 @@ class ParamsValidator:
                         return False
                     if key == 'apikey':
                         self.apikey = value
-                    elif key == 'pageoffset':
-                        self.pageoffset = int(value)
+                    elif key == 'limit':
+                        self.limit = value
+                    elif key == 'page':
+                        self.pagenumber = value
             return True
         else:
             self.request.reponse.status = '400 bad request'
@@ -81,9 +86,13 @@ class ParamsValidator:
         """ Get API key value from request parameter. """
         return self.apikey
 
-    def get_pageoffset(self):
+    def get_limit(self):
+        """ Get items limit per requests. """
+        return int(self.limit)
+
+    def get_pagenumber(self):
         """ Get page index for pagination. """
-        return self.pageoffset
+        return int(self.pagenumber)
 
     def get_msg(self):
         """ Get error messages from a validation check.
@@ -113,6 +122,18 @@ class MetaData():
         self.data['Error'] = {}
         self.data['Error']['Name'] = name
         self.data['Error']['Text'] = text
+
+    def set_pages(self, current=1, limit=0, count=0):
+        """ Set page items into metadata's ditc().
+
+        :arg current: int, current given page of request.
+        :arg total: int, total page grom request based on item's limit.
+        """
+        pages = ceil(float(count) / float(limit))
+
+        self.data['Pages'] = {}
+        self.data['Pages']['Current'] = current
+        self.data['Pages']['Total'] = pages
 
     def set_data(self, data):
         """ Add data info to metadata dict.

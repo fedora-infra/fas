@@ -43,17 +43,22 @@ def group_list(request):
     """ Returns a JSON's output of registered group's list. """
     group = None
     data = MetaData('Groups')
-    param = ParamsValidator(request)
 
-    param.add_optional('pageoffset')
+    param = ParamsValidator(request)
+    param.add_optional('limit')
+    param.add_optional('page')
 
     if param.is_valid():
+
+        limit = param.get_limit()
+        page = param.get_pagenumber()
+
         ak = TokenValidator(DBSession, param.get_apikey())
         if ak.is_valid():
             group = provider.get_groups(
                 DBSession,
-                limit=25,
-                offset=param.get_pageoffset()
+                limit=limit,
+                page=page
             )
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
@@ -64,6 +69,8 @@ def group_list(request):
         groups = []
         for g in group:
             groups.append(g.to_json(perms.CAN_READ_PUBLIC_INFO))
+
+        data.set_pages(page, limit, provider.get_groups_count(DBSession)[0])
         data.set_data(groups)
 
     return data.get_metadata()
