@@ -127,18 +127,18 @@ class People(Base):
                 'Fullname': self.fullname,
                 'Ircnick': self.ircnick,
                 'Avatar': self.avatar,
-                'GpgId': self.gpg_id,
                 'Email': self.email,
-                'BugzillaEmail': self.bugzilla_email or self.email,
-                'BlogRss': self.blog_rss,
                 #'Bio': self.bio,
                 'CreationDate': self.date_created.strftime('%Y-%m-%d %H:%M'),
                 'Status': self.status
             }
 
-        if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
+        if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
             info['CountryCode'] = self.country_code
             info['Locale'] = self.locale
+            info['BugzillaEmail'] = self.bugzilla_email or self.email
+            info['GpgId'] = self.gpg_id
+            info['BlogRss'] = self.blog_rss
 
             info['Membership'] = []
             for groups in self.group_membership:
