@@ -83,7 +83,8 @@ def create_fake_user(session, upto=2000, user_index=1000):
                     username=user['username'],
                     password=user['username'],
                     fullname=user['name'],
-                    email=user['mail']
+                    email=user['mail'],
+                    bio=fake.paragraph()
                     )
             perms = AccountPermissions(
                         people=people.id,

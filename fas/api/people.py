@@ -81,6 +81,7 @@ def people_list(request):
     print 'IP: ' + request.remote_addr
     return data.get_metadata()
 
+
 @view_config(route_name='api_people_get', renderer='json', request_method='GET')
 def api_user_get(request):
     user = None

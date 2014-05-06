@@ -32,6 +32,7 @@ class People(Base):
     fullname = Column(UnicodeText(), nullable=False)
     ircnick = Column(UnicodeText(), unique=True, nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
+    bio = Column(UnicodeText(), nullable=True)
     postal_address = Column(UnicodeText(), nullable=True)
     country_code = Column(Unicode(2), nullable=True)
     locale = Column(UnicodeText, default=u'C')
@@ -141,6 +142,7 @@ class People(Base):
             info['BugzillaEmail'] = self.bugzilla_email or self.email
             info['GpgId'] = self.gpg_id
             info['BlogRss'] = self.blog_rss
+            info['Bio'] = self.bio
 
             info['Membership'] = []
             for groups in self.group_membership:
