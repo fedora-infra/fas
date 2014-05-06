@@ -78,6 +78,7 @@ def people_list(request):
         data.set_pages(page, limit, provider.get_people_count(DBSession)[0])
         data.set_data(users)
 
+    print 'IP: ' + request.remote_addr
     return data.get_metadata()
 
 @view_config(route_name='api_people_get', renderer='json', request_method='GET')

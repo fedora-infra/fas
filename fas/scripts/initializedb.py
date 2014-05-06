@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import sys
 import transaction
@@ -16,26 +18,23 @@ from ..models import (
     RoleLevel,
     )
 
-from ..models.people import (
-    People,
-    PeopleAccountActivitiesLog
-)
+from fas.models.people import (
+    People
+    )
 
-from ..models.group import (
-    GroupType,
+from fas.models.group import (
     Groups,
     GroupMembership
-)
+    )
 
-from ..models.la import (
-    LicenseAgreement,
-    SignedLicenseAgreement
-)
-
-from ..models.configs import (
-    Plugins,
+from fas.models.configs import (
     AccountPermissions
-)
+    )
+
+from fas.security import generate_token
+
+from fas.models import AccountPermissionType as perm
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -75,20 +74,27 @@ def create_fake_user(session, upto=2000, user_index=1000):
     fake = Factory.create()
 
     users = []
-    for i in range(0,upto):
+    for i in range(0, upto):
         user = fake.profile()
         if user['username'] not in users:
             users.append(user['username'])
-            DBSession.add(
-                People(
+            people = People(
                     id=user_index,
                     username=user['username'],
                     password=user['username'],
                     fullname=user['name'],
                     email=user['mail']
-                )
-            )
+                    )
+            perms = AccountPermissions(
+                        people=people.id,
+                        token=generate_token(),
+                        application=u'Fedora Mobile v0.9',
+                        permissions=perm.CAN_READ_PUBLIC_INFO
+                        )
+            DBSession.add(people)
+            DBSession.add(perms)
             user_index += 1
+
 
 def main(argv=sys.argv):
     if len(argv) != 2:

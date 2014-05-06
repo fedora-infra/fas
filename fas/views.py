@@ -26,14 +26,16 @@ from models.people import (
 
 from .security import USERS
 
+
 @view_config(route_name='home', renderer='/home.xhtml')
 def my_view(request):
+    """ Main page. """
     # Comment this out for now. This has to move away anyway.
     #one = provider.get_people_by_username(DBSession, 'admin')
     #if not one:
-    #    return Response(conn_err_msg, content_type='text/plain', status_int=500)
+    #return Response(conn_err_msg, content_type='text/plain', status_int=500)
     #return {'one': one, 'project': 'fas', 'project_name' : 'fedoraproject'}
-    return {'one': 'admin', 'project': 'fas', 'project_name' : 'fedoraproject'}
+    return {'one': 'admin', 'project': 'fas', 'project_name': 'fedoraproject'}
 
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
@@ -58,7 +60,7 @@ def login(request):
     login_url = request.route_url('login')
     referrer = request.url
     if referrer == login_url:
-        referrer = '/' # never use the login form itself as came_from
+        referrer = '/'  # never use the login form itself as came_from
     came_from = request.params.get('came_from', referrer)
     message = ''
     login = ''
@@ -68,19 +70,18 @@ def login(request):
         password = request.params['password']
         if USERS.get(login) == password:
             headers = remember(request, login)
-            return HTTPFound(location = came_from,
-                             headers = headers)
+            return HTTPFound(location=came_from, headers=headers)
         message = 'Failed login'
         print request.session
         request.session.flash('info message')
         request.session.pop_flash()
 
     return dict(
-        message = message,
-        url = request.application_url + '/login',
-        came_from = came_from,
-        login = login,
-        password = password,
+        message=message,
+        url=request.application_url + '/login',
+        came_from=came_from,
+        login=login,
+        password=password,
         )
 
 
@@ -89,5 +90,5 @@ def logout(request):
     headers = forget(request)
     request.session.flash('info message')
     request.session.pop_flash()
-    return HTTPFound(location = request.route_url('view_wiki'),
-                     headers = headers)
+    return HTTPFound(location=request.route_url('view_wiki'),
+                     headers=headers)

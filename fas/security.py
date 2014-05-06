@@ -1,12 +1,22 @@
+
+import os
+import hashlib
+import fas.models.provider as provider
+
 USERS = {'admin':'admin',
           'viewer':'viewer'}
 GROUPS = {'admin':['group:admin']}
+
 
 def groupfinder(userid, request):
     if userid in USERS:
         return GROUPS.get(userid, [])
 
-import fas.models.provider as provider
+
+def generate_token():
+    """ Generate an API token. """
+    return hashlib.sha1(os.urandom(256)).hexdigest()
+
 
 class Base:
 
@@ -21,6 +31,7 @@ class Base:
 
     def get_msg(self):
         return self.msg
+
 
 class PasswordValidator(Base):
     pass
@@ -45,7 +56,9 @@ class TokenValidator(Base):
     def is_valid(self):
         """ Check that api's key is valid. """
         self.msg = {'', ''}
-        key = provider.get_account_permissions_by_token(self.dbsession, self.token)
+        key = provider.get_account_permissions_by_token(
+            self.dbsession, self.token
+            )
         if key:
             print 'Found token in database'
             self.perms = key.permissions

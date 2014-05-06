@@ -61,7 +61,7 @@ class ParamsValidator:
                 else:
                     if not value and (key not in self.optional_params):
                         if key == 'apikey':
-                            self.request.reponse.status = '401 Unauthorized'
+                            self.request.response.status = '401 Unauthorized'
                             self.__set_msg__('Access denied.',
                                             "Required API key is missing.")
                         else:
@@ -75,7 +75,7 @@ class ParamsValidator:
                         self.pagenumber = value
             return True
         else:
-            self.request.reponse.status = '400 bad request'
+            self.request.response.status = '400 bad request'
             self.__set_msg__('Parameter error.', 'No parameter(s) found.')
         return False
 

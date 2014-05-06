@@ -21,7 +21,9 @@ def __get_listoffset(page, limit):
 
     return offset
 
+
 ## Method to get AccountStatus
+
 
 def get_accountstatus(session):
     """ Retrieve all the status an account can have. """
@@ -53,6 +55,7 @@ def get_role_levels(session):
 def get_groups_count(session):
     """ Return people count. """
     return session.query(func.count(Groups.id)).first()
+
 
 def get_groups(session, limit=None, page=None):
     """ Retrieve all registered groups from databse. """
@@ -91,6 +94,7 @@ def get_grouptype_by_id(session, id):
 def get_people_count(session):
     """ Return people count. """
     return session.query(func.count(People.id)).first()
+
 
 def get_people(session, limit=None, page=None):
     """ Retrieve all registered people from database. """
