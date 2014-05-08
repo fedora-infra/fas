@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import os
 import hashlib
@@ -50,7 +51,7 @@ class TokenValidator(Base):
     def __init__(self, dbsession, apikey):
         self.dbsession = dbsession
         self.token = apikey
-        self.perms = None
+        self.perms = 0
         self.msg = ''
 
     def is_valid(self):
@@ -60,7 +61,6 @@ class TokenValidator(Base):
             self.dbsession, self.token
             )
         if key:
-            print 'Found token in database'
             self.perms = key.permissions
             self.people = key.people
             return True
@@ -69,11 +69,12 @@ class TokenValidator(Base):
         return False
 
     def set_token(self, token):
+        """ Set token for validation. """
         self.token = token
 
     def get_perms(self):
         """ Get token related permissions. """
-        return self.perms
+        return int(self.perms)
 
     def get_people_id(self):
         """ Get People's ID from validated token. """

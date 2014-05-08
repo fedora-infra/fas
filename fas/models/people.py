@@ -131,7 +131,6 @@ class People(Base):
                 'Ircnick': self.ircnick,
                 'Avatar': self.avatar,
                 'Email': self.email,
-                #'Bio': self.bio,
                 'CreationDate': self.date_created.strftime('%Y-%m-%d %H:%M'),
                 'Status': self.status
             }

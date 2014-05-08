@@ -7,18 +7,12 @@ from . import (
     MetaData
     )
 
-from pyramid.response import Response
 from pyramid.view import view_config
-
-from pyramid.view import (
-    view_config,
-    forbidden_view_config,
-)
 
 import fas.forms as forms
 import fas.models.provider as provider
 
-from fas.models import DBSession, AccountStatus
+from fas.models import DBSession
 from fas.models import AccountPermissionType as perms
 from fas.security import TokenValidator
 

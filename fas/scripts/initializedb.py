@@ -74,16 +74,20 @@ def create_fake_user(session, upto=2000, user_index=1000):
     fake = Factory.create()
 
     users = []
+    email = []
     for i in range(0, upto):
         user = fake.profile()
-        if user['username'] not in users:
-            users.append(user['username'])
+        username = user['username']
+        mail = user['mail']
+        if (username not in users) and (mail not in email):
+            users.append(username)
+            email.append(mail)
             people = People(
                     id=user_index,
-                    username=user['username'],
-                    password=user['username'],
+                    username=username,
+                    password=username,
                     fullname=user['name'],
-                    email=user['mail'],
+                    email=mail,
                     bio=fake.paragraph()
                     )
             perms = AccountPermissions(
@@ -92,8 +96,8 @@ def create_fake_user(session, upto=2000, user_index=1000):
                         application=u'Fedora Mobile v0.9',
                         permissions=perm.CAN_READ_PUBLIC_INFO
                         )
-            DBSession.add(people)
-            DBSession.add(perms)
+            session.add(people)
+            session.add(perms)
             user_index += 1
 
 
@@ -167,4 +171,4 @@ def main(argv=sys.argv):
         DBSession.add(user_token)
         DBSession.add(admin_token)
 
-        create_fake_user(DBSession, upto=900)
+        create_fake_user(DBSession, upto=13811)

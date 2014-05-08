@@ -84,7 +84,7 @@ class ParamsValidator:
 
     def get_apikey(self):
         """ Get API key value from request parameter. """
-        return self.apikey
+        return str(self.apikey)
 
     def get_limit(self):
         """ Get items limit per requests. """

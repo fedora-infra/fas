@@ -52,7 +52,6 @@ def people_list(request):
     param.add_optional('limit')
     param.add_optional('page')
 
-
     if param.is_valid():
 
         limit = param.get_limit()
@@ -108,7 +107,7 @@ def api_user_get(request):
         data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
 
     if user:
-        data.set_data(user.to_json(ak.get_perms))
+        data.set_data(user.to_json(ak.get_perms()))
 
     return data.get_metadata()
 
