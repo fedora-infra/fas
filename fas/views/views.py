@@ -18,13 +18,13 @@ from pyramid.security import (
     authenticated_userid,
     )
 
-from models import DBSession
-from models.people import (
+from fas.models import DBSession
+from fas.models.people import (
     People,
     )
 #import fas.models.provider as provider
 
-from .security import USERS
+from fas.security import USERS
 
 
 @view_config(route_name='home', renderer='/home.xhtml')
