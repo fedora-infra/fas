@@ -1,0 +1,46 @@
+<%inherit file="/site.xhtml" />
+
+  <h1>People's List</h1>
+  <p>
+  %if page > 1: 
+    <span class="previous-page">
+      <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
+    </span>
+  %endif
+  page ${page} of ${pages} (${people_count} people)
+  %if page != pages:
+    <span class="next-page">
+      <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
+    </span> 
+  </p>
+  %endif
+  <div id="people-list">
+    <ul id="people">
+      % if people: 
+          % for user in people:
+      <li>
+        <a href="${request.route_url('people-profile', id=user.id)}">
+        <img src=http://cdn.libravatar.org/avatar/40f8d096a3777232204cb3f796c577b7?s=100/>
+        </a>
+        <span class="name">${user.username}</span>
+        <span class="fullname">(${user.fullname})</span>
+      </li>
+      % endfor
+    % else:
+      <li>Found no registered people</li>
+    % endif
+    </ul>
+  </div>
+  <p>
+  %if page > 1:
+    <span class="previous-page">
+      <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
+    </span>
+  %endif
+  page ${page} of ${pages} (${people_count} people)
+  %if page != pages:
+    <span class="next-page">
+      <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
+    </span>·
+  </p>
+  %endif

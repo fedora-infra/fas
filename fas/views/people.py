@@ -2,6 +2,7 @@
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPBadRequest
 
 from fas.models import DBSession
 
@@ -14,7 +15,7 @@ def index(request):
     return HTTPFound(location='/people/page/1')
 
 
-@view_config(route_name='people-paging', renderer='/people.xhtml')
+@view_config(route_name='people-paging', renderer='/people/list.xhtml')
 def paging(request):
     """ People list's view with paging. """
     try:
@@ -34,6 +35,14 @@ def paging(request):
         pages=pages
         )
 
-
+@view_config(route_name='people-profile', renderer='/people/profile.xhtml')
 def profile(request):
-    pass
+    """ People profile page. """
+    try:
+        id = request.matchdict['id']
+    except KeyError:
+        return HTTPBadRequest()
+
+    person = provider.get_people_by_id(DBSession, id)
+
+    return dict(person=person, membership=person.group_membership)

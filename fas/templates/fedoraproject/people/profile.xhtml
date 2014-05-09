@@ -1,0 +1,55 @@
+<%inherit file="/site.xhtml" />
+  <div id=profile-header>
+    <img src="http://cdn.libravatar.org/avatar/40f8d096a3777232204cb3f796c577b7?s=200&d=monsterid"/>
+    <h1>${person.fullname}</h1>
+    <p>${person.bio}</p>
+  </div>
+  <div id=profile-basic-info>
+    <h3>Basic Information</h3>
+    <ul class="profile-list">
+      <li>
+        <span>Account Name:</span> ${person.username}
+      </li>
+      <li>
+        <span>IRC Nick:</span> ${person.ircnick or 'Add your IRC nickname!'}
+      </li>
+      <li>
+        <span>Country:</span> ${person.country_code}
+      </li>
+      <li>
+        <span>
+    </ul>
+  </div>
+  <div id=profile-contact-info>
+    <h3>Contact Information</h3>
+    <ul class="profile-list">
+      <li>
+        <span>Email: ${person.email}</span>
+        <span>Telephone: ${person.telephone}</span>
+        <span>Postal Address: ${person.postal_address}</span>
+        <span>GPG ID: ${person.gpg_id}</span>
+      </li>
+    </ul>
+  <div id="profile-security">
+    <h3>Security</h3>
+      <dl class="profile-list">
+        <dt>Password</dt>
+        <dt>Security Question</dt>
+        <dt>SSH key</dt>
+        <dd>${person.ssh_key}</dd>
+        <dt>GPG Fingerprint</dt>
+        <dt>Account Activities</dt>
+      </dl>
+  </div>
+  <div id=profile-involment>
+    <h2>Involment</h2>
+    <ul class="profile-list">
+      %for g in membership:
+        <li>
+          <img src="/static/theme/fedoraproject/fas.png">
+          <span>${g.group.name}</span>
+          <span>${g.role_level.role}</span>
+        </li>
+      %endfor
+    </ul>
+  </div>
