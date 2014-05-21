@@ -1,0 +1,13 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="profile"/>
+<%block name="header">
+  <div id=profile-header>
+    %if person.avatar:
+        <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
+    %else:
+        <img src="http://cdn.libravatar.org/avatar?s=200"/>
+    %endif
+    <h1>${person.fullname}</h1>
+    <p>${person.bio}</p>
+  </div>
+</%block>

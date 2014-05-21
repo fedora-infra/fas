@@ -222,6 +222,22 @@ body h1, body h2, body h3, body h4, body h5, body h6
   margin-left: auto;
 }
 
+//img.profile
+//{
+//  display: block;
+//  margin-left: auto;
+//  margin-right: auto;
+//}
+
+div#profile-header
+{
+  text-align: center;
+  display: block;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .wrapper
 {
   width: 100%;

@@ -32,6 +32,7 @@ class People(Base):
     fullname = Column(UnicodeText(), nullable=False)
     ircnick = Column(UnicodeText(), unique=True, nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
+    avatar_id = Column(Unicode, nullable=True)
     bio = Column(UnicodeText(), nullable=True)
     postal_address = Column(UnicodeText(), nullable=True)
     country_code = Column(Unicode(2), nullable=True)

@@ -6,6 +6,8 @@ from pyramid.httpexceptions import HTTPBadRequest
 
 from fas.models import DBSession
 
+from math import ceil
+
 import fas.models.provider as provider
 
 
@@ -19,14 +21,14 @@ def index(request):
 def paging(request):
     """ People list's view with paging. """
     try:
-        page = int(request.matchdict['pagenb'])
-    except KeyError:
-        page = 1
+        page = int(request.matchdict.get('pagenb', 1))
+    except ValueError:
+        return HTTPBadRequest()
     count = provider.get_people_count(DBSession)[0]
     #TODO: get limit from config file
     people = provider.get_people(DBSession, 50, page)
-    pages = count / 50
-    print 'request page %i' % page
+    pages = ceil(float(count) / float(50))
+
     return dict(
         request=request,
         people=people,

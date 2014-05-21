@@ -1,9 +1,7 @@
-<%inherit file="/site.xhtml" />
-  <div id=profile-header>
-    <img src="http://cdn.libravatar.org/avatar/40f8d096a3777232204cb3f796c577b7?s=200&d=monsterid"/>
-    <h1>${person.fullname}</h1>
-    <p>${person.bio}</p>
-  </div>
+<%inherit file="/people/profile-header.xhtml" />
+<%namespace name="profile" file="/people/profile-header.xhtml"/>
+<%block name="details">
+  ${profile.header()}
   <div id=profile-basic-info>
     <h3>Basic Information</h3>
     <ul class="profile-list">
@@ -53,3 +51,4 @@
       %endfor
     </ul>
   </div>
+</%block>

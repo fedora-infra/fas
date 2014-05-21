@@ -71,6 +71,7 @@ def fill_role_levels():
 
 def create_fake_user(session, upto=2000, user_index=1000):
     from faker import Factory
+    from fas.utils.avatar import gen_libravatar
     fake = Factory.create()
 
     users = []
@@ -88,7 +89,9 @@ def create_fake_user(session, upto=2000, user_index=1000):
                     password=username,
                     fullname=user['name'],
                     email=mail,
-                    bio=fake.paragraph()
+                    bio=fake.paragraph(),
+                    avatar=gen_libravatar(mail),
+                    avatar_id=mail
                     )
             perms = AccountPermissions(
                         people=people.id,
