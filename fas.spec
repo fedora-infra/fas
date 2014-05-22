@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.9.0
+Version:        0.10.0
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -131,6 +131,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Thu May 22 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0
+- Add moderator group with restricted privileges.
+- Update FPCA, Red Hat mailing address.
+
 * Thu Mar 06 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.9.0
 - Add pkgdb2 support.
 - Link GPG's keys to key.fedoraproject.org.
