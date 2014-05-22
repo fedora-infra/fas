@@ -38,23 +38,41 @@ from sqlalchemy.exc import InvalidRequestError
 from fas.model import GroupsTable, PersonRoles
 
 def is_admin(person):
-    '''Checks if the user is a FAS admin
+    '''Checks if the user is a FAS admin.
+
+    :arg person: `identity.current`, `People` object, or username.
+    :returns: tuple of boolean if user is a FAS admin otherwise, fase
+    '''
+    return check_membership(person, 'admingroup')
+
+def is_modo(person):
+    ''' Checks if user is a FAS moderator.
+
+    :arg person: `identity.current`, `People` object, or username.
+    :returns: tuple of boolean if user is a FAS modo and allowed to update status,
+                otherwise, false.
+    '''
+    return (check_membership(person, 'modo.group'),
+            config.get('modo.allow.update_status'))
+
+def check_membership(person, group):
+    '''Checks if the user is an approved member from requested group.
 
     :arg person: `identity.current`, `People` object, or username to determine
         whether they are in the admin group
-    :returns: True if the user is a FAS admin (a member of the admingroup)
+    :returns: True if the user is an approved member of given group
         otherwise False
     '''
-    admingroup = config.get('admingroup')
+    group = config.get(group)
     if isinstance(person, IdentityWrapper):
         # Save a db lookup when using an identity
-        if admingroup in person.groups:
+        if group in person.groups:
             return True
     elif isinstance(person, basestring):
         # Username
         try:
             PersonRoles.query.filter_by(role_status='approved').join('group'
-                    ).filter_by(name=admingroup).join('member'
+                    ).filter_by(name=group).join('member'
                             ).filter_by(username=person).one()
             return True
         except InvalidRequestError:
@@ -62,7 +80,7 @@ def is_admin(person):
     else:
         # People object
         try:
-            if person.group_roles[admingroup].role_status == 'approved':
+            if person.group_roles[group].role_status == 'approved':
                 return True
         except KeyError:
             pass

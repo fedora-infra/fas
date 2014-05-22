@@ -104,6 +104,9 @@
               <span py:when="'inactive'" class="unapproved">${_('Inactive')}</span>
               <span py:when="'pinged'" class="approved">${_('Pinged')}</span>
               <span py:when="'admin_disabled'" class="unapproved">${_('Disabled')}</span>
+              <py:if test="admin or (modo and can_update) and (person.status == 'active')">
+                <a href="${tg.url('/user/updatestatus/%s/%s' % (person.username, 'inactive'))}">${_('(set as inactive)')}</a>
+              </py:if>
             </div>
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script>
           </dd>
