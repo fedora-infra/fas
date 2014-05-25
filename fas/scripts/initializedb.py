@@ -2,6 +2,7 @@
 
 import os
 import sys
+import random
 import transaction
 
 from sqlalchemy import engine_from_config
@@ -57,19 +58,19 @@ def fill_account_status():
 
 
 def fill_role_levels():
-    role = RoleLevel(id=0, role='Unknown')
+    role = RoleLevel(id=0, name='Unknown')
     DBSession.add(role)
-    role = RoleLevel(id=1, role='User')
+    role = RoleLevel(id=1, name='User')
     DBSession.add(role)
-    role = RoleLevel(id=2, role='Editor')
+    role = RoleLevel(id=2, name='Editor')
     DBSession.add(role)
-    role = RoleLevel(id=3, role='Sponsor')
+    role = RoleLevel(id=3, name='Sponsor')
     DBSession.add(role)
-    role = RoleLevel(id=5, role='Admin')
+    role = RoleLevel(id=5, name='Administrator')
     DBSession.add(role)
 
 
-def create_fake_user(session, upto=2000, user_index=1000):
+def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
     from faker import Factory
     from fas.utils.avatar import gen_libravatar
     fake = Factory.create()
@@ -99,8 +100,15 @@ def create_fake_user(session, upto=2000, user_index=1000):
                         application=u'Fedora Mobile v0.9',
                         permissions=perm.CAN_READ_PUBLIC_INFO
                         )
+            membership = GroupMembership(
+                            group_id=random.choice(group_list),
+                            people_id=people.id,
+                            sponsor=007,
+                            role=random.choice([1, 2, 3, 5])
+                            )
             session.add(people)
             session.add(perms)
+            session.add(membership)
             user_index += 1
 
 
@@ -144,6 +152,7 @@ def main(argv=sys.argv):
         )
         admin_membership = GroupMembership(
                             group_id=2000,
+                            role=5,
                             people_id=admin.id,
                             sponsor=admin.id
         )
@@ -174,4 +183,11 @@ def main(argv=sys.argv):
         DBSession.add(user_token)
         DBSession.add(admin_token)
 
-        create_fake_user(DBSession, upto=13811)
+        DBSession.add(Groups(id=300, name=u'avengers', owner_id=admin.id))
+        DBSession.add(Groups(id=301, name=u'justice_league', owner_id=user.id))
+        DBSession.add(Groups(id=302, name=u'fantastic_four', owner_id=admin.id))
+        DBSession.add(Groups(id=303, name=u'all-star', owner_id=user.id))
+        DBSession.add(Groups(id=304, name=u'x-men', owner_id=admin.id))
+
+        groups = [3000, 300, 301, 302, 303, 304]
+        create_fake_user(DBSession, upto=13811, group_list=groups)

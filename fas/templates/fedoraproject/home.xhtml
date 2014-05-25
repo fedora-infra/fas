@@ -8,15 +8,19 @@
                 <input type="submit" id="x" value="Go" />
             </form>
         </div>
-        <div id="right" class="align-right">
-          <h2>Fedora Groups</h2>
-        </div>
-        <div id="right" class="align-right">
-          <h2>Fedora People</h2>
-        </div>
       </div>
+    </div>
+        <div id="right" class="align-right">
+          <a href="${request.route_url('groups')}">
+            <h2>Fedora Groups</h2>
+          </a>
+        </div>
+        <div id="right" class="align-right">
+          <a href="${request.route_url('people')}">
+            <h2>Fedora People</h2>
+          </a>
+        </div>
       <div id="login-link" class="align-center">
         <button type="button">Sign-In</button>
       </div>
         <a id="login-link" class="align-center">Register</a>
-    </div>

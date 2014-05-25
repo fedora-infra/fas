@@ -35,7 +35,8 @@ def main(global_config, **settings):
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
     config.add_static_view('static', 'fas:static/theme/%s'
                             % config.registry.settings['project.name'],
-                            cache_max_age=3600)
+                            cache_max_age=3600
+                            )
 
     config.add_translation_dirs('fas:locale/')
 
@@ -43,9 +44,15 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
+    config.add_route('items-paging', '/{item}/list/{pagenb}')
+
     config.add_route('people', '/people')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
+
+    config.add_route('groups', '/groups')
+    config.add_route('groups-paging', '/groups/page/{pagenb}')
+    config.add_route('group-details', '/group/details/{id}')
 
     config.add_route('api_home', '/api')
     config.add_route('api_people_list', '/api/people')

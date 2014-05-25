@@ -4,7 +4,7 @@ import sqlalchemy as sa
 from sqlalchemy import func
 
 from fas.models import AccountStatus, RoleLevel
-from fas.models.group import Groups, GroupType
+from fas.models.group import Groups, GroupType, GroupMembership
 from fas.models.people import People
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 from fas.models.configs import AccountPermissions
@@ -81,6 +81,17 @@ def get_group_by_name(session, name):
     return query.first()
 
 
+def get_group_membership(session, id):
+    """ Retrieve group's membership by group's id"""
+    query = session.query(Groups, GroupMembership, People, RoleLevel)\
+    .join((GroupMembership, GroupMembership.group_id == Groups.id))\
+    .join(People, People.id == GroupMembership.people_id)\
+    .join(RoleLevel)\
+    .filter(Groups.id == id,)
+
+    return query.all()
+
+
 ## Method to interact with GroupType
 
 def get_grouptype_by_id(session, id):
@@ -100,10 +111,11 @@ def get_people(session, limit=None, page=None):
     """ Retrieve all registered people from database. """
     if limit and page:
         query = session.query(People) \
-            .limit(limit) \
-            .offset(__get_listoffset(page, limit))
+        .order_by(People.username)\
+        .limit(limit) \
+        .offset(__get_listoffset(page, limit))
     else:
-        query = session.query(People)
+        query = session.query(People).order_by(People.username)
 
     return query.all()
 

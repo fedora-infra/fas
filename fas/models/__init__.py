@@ -33,7 +33,7 @@ class AccountStatus(Base):
 class RoleLevel(Base):
     __tablename__ = 'role_level'
     id = sa.Column(sa.Integer, primary_key=True)
-    role = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+    name = sa.Column(sa.Unicode(50), unique=True, nullable=False)
 
 class AccountPermissionType(IntEnum):
     CAN_READ_PUBLIC_INFO = 0x01

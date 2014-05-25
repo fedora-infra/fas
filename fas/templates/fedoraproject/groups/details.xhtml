@@ -1,0 +1,35 @@
+<%inherit file="/site.xhtml" />
+  <div id="group-details-header">
+    <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
+    <h1>${group.name}</h1>
+    <p>${group.display_name}</p>
+  </div>
+
+  <div id=group-members-list>
+    <h3>Members</h3>
+  </div>
+  %if members > 0:
+      %for person in members:
+          <div id="people-list">
+            <ul id="people">
+              <li>
+                <span>
+                  <a href="${request.route_url('people-profile', id=person[0].id)}">
+                    %if person[0].avatar:
+                      <img class="profile" src="${person[0].avatar + '?s=100&d=monsterid'}"/>
+                    %else:
+                      <img src="http://cdn.libravatar.org/avatar/"/>
+                    %endif
+                  </a>
+                </span>
+                <span>${person[0].username}</span>
+                <span>(${person[1].name})</span>
+              </li>
+            </ul>
+          </div>
+      %endfor
+  %else:
+    <div id="no-items-found">
+      <p>No members found.</p>
+    </div>
+  %endif

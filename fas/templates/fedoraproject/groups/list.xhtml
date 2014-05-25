@@ -1,0 +1,52 @@
+<%inherit file="/site.xhtml" />
+
+  <h1>Groups' List</h1>
+  <p>
+  %if pages > 1:
+      %if page > 1: 
+        <span class="previous-page">
+          <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
+        </span>
+      %endif
+      page ${page} of ${pages} (${groups_count} groups)
+      %if page != pages:
+        <span class="next-page">
+          <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
+        </span> 
+      </p>
+      %endif
+  %endif
+  <div id="groups-list">
+    <ul id="groups">
+      % if groups: 
+          % for group in groups:
+      <li>
+        <a href="${request.route_url('group-details', id=group.id)}">
+        <img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}">
+        </a>
+        <span class="name">${group.name}</span>
+        <span class="fullname">(${group.display_name})</span>
+      </li>
+      % endfor
+    % else:
+      <div id="no-items-found">
+        <p>Found no groups</p>
+      </div>
+    % endif
+    </ul>
+  </div>
+  <p>
+  %if pages > 1:
+      %if page > 1:
+        <span class="previous-page">
+          <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
+        </span>
+      %endif
+      page ${page} of ${pages} (${groups_count} groups)
+      %if page != pages:
+        <span class="next-page">
+          <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
+        </span>·
+      </p>
+      %endif
+  %endif

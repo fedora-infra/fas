@@ -178,7 +178,8 @@ class GroupMembership(Base):
     people = relation(
         'People',
         foreign_keys='People.id',
-        primaryjoin='and_(GroupMembership.people_id==People.id)'
+        primaryjoin='and_(GroupMembership.people_id==People.id)',
+        uselist=False
     )
     sponsors = relation(
         'People',
