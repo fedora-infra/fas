@@ -12,7 +12,6 @@ from pyramid.view import view_config
 import fas.forms as forms
 import fas.models.provider as provider
 
-from fas.models import DBSession
 from fas.models import AccountPermissionType as perms
 from fas.security import TokenValidator
 
@@ -23,7 +22,7 @@ def __get_group(key, value):
             {"error": "Bad request, no '%s' allowed" % key}
         )
     method = getattr(provider, 'get_group_by_%s' % key)
-    group = method(DBSession, value)
+    group = method(value)
     if not group:
         raise NotFound(
             {"error": "No such group %r" % value}
@@ -47,13 +46,9 @@ def group_list(request):
         limit = param.get_limit()
         page = param.get_pagenumber()
 
-        ak = TokenValidator(DBSession, param.get_apikey())
+        ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
-            group = provider.get_groups(
-                DBSession,
-                limit=limit,
-                page=page
-            )
+            group = provider.get_groups(limit=limit, page=page)
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
     else:
@@ -64,7 +59,7 @@ def group_list(request):
         for g in group:
             groups.append(g.to_json(perms.CAN_READ_PUBLIC_INFO))
 
-        data.set_pages(page, limit, provider.get_groups_count(DBSession)[0])
+        data.set_pages(page, limit, provider.get_groups_count()[0])
         data.set_data(groups)
 
     return data.get_metadata()
@@ -76,7 +71,7 @@ def api_group_get(request):
     param = ParamsValidator(request)
 
     if param.is_valid():
-        ak = TokenValidator(DBSession, param.get_apikey())
+        ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
             key = request.matchdict.get('key')
             value = request.matchdict.get('value')

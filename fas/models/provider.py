@@ -3,6 +3,7 @@
 import sqlalchemy as sa
 from sqlalchemy import func
 
+from fas.models import DBSession as session
 from fas.models import AccountStatus, RoleLevel
 from fas.models.group import Groups, GroupType, GroupMembership
 from fas.models.people import People
@@ -25,13 +26,13 @@ def __get_listoffset(page, limit):
 ## Method to get AccountStatus
 
 
-def get_accountstatus(session):
+def get_accountstatus():
     """ Retrieve all the status an account can have. """
     query = session.query(People).filter(People.status)
     return query.all()
 
 
-def get_accountstatus_by_status(session, status):
+def get_accountstatus_by_status(status):
     """ Retrieve the status an account can have for the specified status.
     """
     query = session.query(
@@ -44,7 +45,7 @@ def get_accountstatus_by_status(session, status):
 
 ## Method to get RoleLevel
 
-def get_role_levels(session):
+def get_role_levels():
     """ Retrieve all the roles someone can have in a group. """
     query = session.query(RoleLevel)
     return query.all()
@@ -52,12 +53,12 @@ def get_role_levels(session):
 
 ## Method to interact with Groups
 
-def get_groups_count(session):
+def get_groups_count():
     """ Return people count. """
-    return session.query(func.count(Groups.id)).first()
+    return session.query(func.count(Groups.id)).first()[0]
 
 
-def get_groups(session, limit=None, page=None):
+def get_groups(limit=None, page=None):
     """ Retrieve all registered groups from databse. """
     if limit and page:
         query = session.query(Groups) \
@@ -69,19 +70,19 @@ def get_groups(session, limit=None, page=None):
     return query.all()
 
 
-def get_group_by_id(session, id):
+def get_group_by_id(id):
     """ Retrieve Groups by its id. """
     query = session.query(Groups).filter(Groups.id == id)
     return query.first()
 
 
-def get_group_by_name(session, name):
+def get_group_by_name(name):
     """ Retrieve Groups by its name. """
     query = session.query(Groups).filter(Groups.name == name)
     return query.first()
 
 
-def get_group_membership(session, id):
+def get_group_membership(id):
     """ Retrieve group's membership by group's id"""
     query = session.query(Groups, GroupMembership, People, RoleLevel)\
     .join((GroupMembership, GroupMembership.group_id == Groups.id))\
@@ -94,7 +95,7 @@ def get_group_membership(session, id):
 
 ## Method to interact with GroupType
 
-def get_grouptype_by_id(session, id):
+def get_grouptype_by_id(id):
     """ Retrive GroupType by its id. """
     query = session.query(GroupType).filter(GroupType.id == id)
     return query.first()
@@ -102,12 +103,12 @@ def get_grouptype_by_id(session, id):
 
 ## Method to interact with People
 
-def get_people_count(session):
+def get_people_count():
     """ Return people count. """
-    return session.query(func.count(People.id)).first()
+    return session.query(func.count(People.id)).first()[0]
 
 
-def get_people(session, limit=None, page=None):
+def get_people(limit=None, page=None):
     """ Retrieve all registered people from database. """
     if limit and page:
         query = session.query(People) \
@@ -120,37 +121,37 @@ def get_people(session, limit=None, page=None):
     return query.all()
 
 
-def get_people_by_id(session, id):
+def get_people_by_id(id):
     """ Retrieve People by its id. """
     query = session.query(People).filter(People.id == id)
     return query.first()
 
 
-def get_people_by_username(session, username):
+def get_people_by_username(username):
     """ Retrieve People by its username. """
     query = session.query(People).filter(People.username == username)
     return query.first()
 
 
-def get_people_by_email(session, email):
+def get_people_by_email(email):
     """ Retrieve People by its email. """
     query = session.query(People).filter(People.email == email)
     return query.first()
 
 
-def get_people_by_ircnick(session, ircnick):
+def get_people_by_ircnick(ircnick):
     """ Retrieve by its ircnick. """
     query = session.query(People).filter(People.ircnick == ircnick)
     return query.first()
 
 
-def get_licenses(session):
+def get_licenses():
     """ Retrieve all licenses from database. """
     query = session.query(LicenseAgreement)
     return query.all()
 
 
-def get_license_by_id(session, id):
+def get_license_by_id(id):
     """ Retrieve license based on given id"""
     query = session.query(
         LicenseAgreement
@@ -160,7 +161,7 @@ def get_license_by_id(session, id):
     return query.first()
 
 
-def get_account_permissions_by_people_id(session, id):
+def get_account_permissions_by_people_id(id):
     """ Retrieve account permissions based on given people's id. """
     query = session.query(
         AccountPermissions
@@ -170,7 +171,7 @@ def get_account_permissions_by_people_id(session, id):
     return query.all()
 
 
-def get_account_permissions_by_token(session, token):
+def get_account_permissions_by_token(token):
     """ Retrieve account permission based on given people's token. """
     query = session.query(
         AccountPermissions

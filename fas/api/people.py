@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import (
+from fas.api import (
     BadRequest,
     NotFound,
     ParamsValidator,
@@ -10,21 +10,13 @@ from . import (
 from pyramid.response import Response
 from pyramid.view import view_config
 
-from pyramid.view import (
-    view_config,
-    forbidden_view_config,
-)
-
-from fas.models import DBSession, AccountStatus
-from fas.models.people import People
-
 import fas.forms as forms
 import fas.models.provider as provider
+import fas.models.register as register
+
 from fas.models import AccountPermissionType as perms
 
 from fas.security import TokenValidator
-
-import datetime
 
 
 def __get_user(key, value):
@@ -33,7 +25,7 @@ def __get_user(key, value):
             {"error": "Bad request, no '%s' allowed" % key}
         )
     method = getattr(provider, 'get_people_by_%s' % key)
-    user = method(DBSession, value)
+    user = method(value)
     if not user:
         raise NotFound(
             {"error": "No such user %r" % value}
@@ -57,13 +49,9 @@ def people_list(request):
         limit = param.get_limit()
         page = param.get_pagenumber()
 
-        ak = TokenValidator(DBSession, param.get_apikey())
+        ak = TokenValidator( param.get_apikey())
         if ak.is_valid():
-            people = provider.get_people(
-                        DBSession,
-                        limit=limit,
-                        page=page
-            )
+            people = provider.get_people(limit=limit, page=page)
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
     else:
@@ -74,7 +62,7 @@ def people_list(request):
         for user in people:
             users.append(user.to_json(perms.CAN_READ_PUBLIC_INFO))
 
-        data.set_pages(page, limit, provider.get_people_count(DBSession)[0])
+        data.set_pages(page, limit, provider.get_people_count()[0])
         data.set_data(users)
 
     print 'IP: ' + request.remote_addr
@@ -88,7 +76,7 @@ def api_user_get(request):
     param = ParamsValidator(request)
 
     if param.is_valid():
-        ak = TokenValidator(DBSession, param.get_apikey())
+        ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
             key = request.matchdict.get('key')
             value = request.matchdict.get('value')
@@ -140,7 +128,7 @@ def api_user_edit(request):
 
         #form.status.data = status
         form.populate_obj(user)
-        DBSession.add(user)
+        register.add_people(user)
         return {'message': 'User updated', 'user': user.to_json()}
     else:
         request.response.status = '400 bad request'

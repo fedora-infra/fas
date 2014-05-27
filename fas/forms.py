@@ -59,7 +59,7 @@ class EditPeopleForm(wtforms.Form):
         [wtforms.validators.Required()],
         choices=[(stat.account_status.status.capitalize(),
                 stat.account_status.status.capitalize())
-                 for stat in provider.get_accountstatus(DBSession)])
+                 for stat in provider.get_accountstatus()])
     privacy = wtforms.BooleanField('Privacy')
     blog_rss = wtforms.TextField('Blog RSS')
     latitude = wtforms.TextField('Latitude', [is_number])
