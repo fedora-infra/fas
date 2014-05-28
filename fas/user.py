@@ -757,7 +757,7 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
                 person.group_roles[group.name] = role
                 person.roles.append(role)
 
-        if len(people_map) == 1 and people_map.get(search) and request_format != 'json':
+        if len(people_map) == 1 and people_map.get(search) and request_format() != 'json':
             turbogears.redirect('/user/view/%s' % search)
             return dict()
 
