@@ -3,7 +3,6 @@
 from . import (
     BadRequest,
     NotFound,
-    ParamsValidator,
     MetaData
     )
 
@@ -14,6 +13,7 @@ import fas.models.provider as provider
 
 from fas.models import AccountPermissionType as perms
 from fas.security import TokenValidator
+from fas.security import ParamsValidator
 
 
 def __get_group(key, value):
@@ -37,7 +37,7 @@ def group_list(request):
     group = None
     data = MetaData('Groups')
 
-    param = ParamsValidator(request)
+    param = ParamsValidator(request, True)
     param.add_optional('limit')
     param.add_optional('page')
 
@@ -59,7 +59,7 @@ def group_list(request):
         for g in group:
             groups.append(g.to_json(perms.CAN_READ_PUBLIC_INFO))
 
-        data.set_pages(page, limit, provider.get_groups_count()[0])
+        data.set_pages('groups', page, limit)
         data.set_data(groups)
 
     return data.get_metadata()
@@ -68,7 +68,7 @@ def group_list(request):
 def api_group_get(request):
     group = None
     data = MetaData('Group')
-    param = ParamsValidator(request)
+    param = ParamsValidator(request, True)
 
     if param.is_valid():
         ak = TokenValidator(param.get_apikey())

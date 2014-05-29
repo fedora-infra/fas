@@ -1,19 +1,7 @@
 <%inherit file="/site.xhtml" />
-
+<%namespace name="paging" file="/paging.xhtml"/>
   <h1>People's List</h1>
-  <p>
-  %if page > 1: 
-    <span class="previous-page">
-      <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
-    </span>
-  %endif
-  page ${page} of ${pages} (${people_count} people)
-  %if page != pages:
-    <span class="next-page">
-      <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
-    </span> 
-  </p>
-  %endif
+  ${paging.list(name='people', route='people-paging')}
   <div id="people-list">
     <ul id="people">
       %if people: 
@@ -35,16 +23,4 @@
     % endif
     </ul>
   </div>
-  <p>
-  %if page > 1:
-    <span class="previous-page">
-      <a href="${request.route_url('people-paging', pagenb=(page - 1))}">[previous]</a>
-    </span>
-  %endif
-  page ${page} of ${pages} (${people_count} people)
-  %if page != pages:
-    <span class="next-page">
-      <a href="${request.route_url('people-paging', pagenb=(page + 1))}">[next]</a>
-    </span>·
-  </p>
-  %endif
+  ${paging.list(name="people", route='people-paging')}

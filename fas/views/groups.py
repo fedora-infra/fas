@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPBadRequest
 
-from fas.models import DBSession
-from fas.models.people import People
-from fas.models.group import Groups
-from fas.models.group import GroupMembership
-from fas.models import RoleLevel
-
-from math import ceil
-
 import fas.models.provider as provider
+
+from fas.views import redirect_to
+
+from fas.utils import compute_list_pages_from
+
+from fas.security import ParamsValidator
 
 
 @view_config(route_name="groups")
 def index(request):
     """ Groups list landing page. """
-    return HTTPFound(location='/groups/page/1')
+    return redirect_to('/groups/page/1')
 
 
 @view_config(route_name='groups-paging', renderer='/groups/list.xhtml')
@@ -29,15 +26,19 @@ def paging(request):
     except ValueError:
         return HTTPBadRequest()
 
-    count = provider.get_groups_count(DBSession)[0]
-    #TODO: still, get limit from config file
-    groups = provider.get_groups(DBSession, 50, page)
-    pages = ceil(float(count) / float(50))
+    #TODO: still, get limit from config file or let user choose in between
+    #TODO: predifined one?
+    groups = provider.get_groups(50, page)
+
+    pages, count = compute_list_pages_from('groups', 50)
+
+    if page > pages:
+        return HTTPBadRequest()
 
     return dict(
         request=request,
         groups=groups,
-        groups_count=count,
+        count=count,
         page=page,
         pages=pages
         )
@@ -51,14 +52,39 @@ def details(request):
     except KeyError:
         return HTTPBadRequest()
 
-    membership = provider.get_group_membership(DBSession, id)
+    limit = 50
+
+    params = ParamsValidator(request)
+    params.add_optional('members')
+    params.add_optional('members_page')
+
+    membership = provider.get_group_membership(id)
 
     group = membership[0][0]
     members = []
     people = []
 
-    for obj in membership:
-        members.append(obj[1])
-        people.append((obj[2], obj[3]))
+    for group, member, person, roles in membership:
+        members.append(member)
+        people.append((person, roles))
 
-    return dict(group=group, members=people)
+    # Disable paging for now
+    #obj_start = 0
+    #obj_max = limit
+    page = 1
+    #if params.is_valid():
+        #page = int(params.get_optional('members_page')) or 1
+        #if page > 1:
+            #obj_max = (limit * page)
+            #obj_start = (obj_max - limit) + 1
+        #else:
+            #obj_max = limit
+            #obj_start = 0
+
+    return dict(
+        group=group,
+        members=people,
+        count=len(people),
+        page=page,
+        pages=int(len(people) / limit)
+        )

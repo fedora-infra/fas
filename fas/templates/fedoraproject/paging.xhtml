@@ -1,0 +1,18 @@
+<%namespace name="paging" />
+  <%def name="list(name, route, param=None)">
+  %if pages > 1:
+        <p align="center">
+        %if page > 1:
+            <span class="previous-page">
+              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page - 1))}">[previous]</a>
+            </span>
+        %endif
+        page ${page} of ${pages} (${count} ${name})
+        %if page != pages:
+            <span class="next-page">
+              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page + 1))}">[next]</a>
+            </span>
+        %endif
+        </p>
+  %endif
+  </%def>

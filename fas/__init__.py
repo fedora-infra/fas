@@ -44,7 +44,7 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
-    config.add_route('items-paging', '/{item}/list/{pagenb}')
+    config.add_route('items-paging', '/{item}/list/{page}')
 
     config.add_route('people', '/people')
     config.add_route('people-paging', '/people/page/{pagenb}')

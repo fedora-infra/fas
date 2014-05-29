@@ -90,5 +90,5 @@ def logout(request):
     headers = forget(request)
     request.session.flash('info message')
     request.session.pop_flash()
-    return HTTPFound(location=request.route_url('view_wiki'),
+    return HTTPFound(location=request.route_url('people'),
                      headers=headers)

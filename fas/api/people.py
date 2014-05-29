@@ -3,7 +3,6 @@
 from fas.api import (
     BadRequest,
     NotFound,
-    ParamsValidator,
     MetaData
     )
 
@@ -17,6 +16,7 @@ import fas.models.register as register
 from fas.models import AccountPermissionType as perms
 
 from fas.security import TokenValidator
+from fas.security import ParamsValidator
 
 
 def __get_user(key, value):
@@ -40,7 +40,7 @@ def people_list(request):
 
     data = MetaData('People')
 
-    param = ParamsValidator(request)
+    param = ParamsValidator(request, True)
     param.add_optional('limit')
     param.add_optional('page')
 
@@ -49,7 +49,7 @@ def people_list(request):
         limit = param.get_limit()
         page = param.get_pagenumber()
 
-        ak = TokenValidator( param.get_apikey())
+        ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
             people = provider.get_people(limit=limit, page=page)
         else:
@@ -62,7 +62,7 @@ def people_list(request):
         for user in people:
             users.append(user.to_json(perms.CAN_READ_PUBLIC_INFO))
 
-        data.set_pages(page, limit, provider.get_people_count()[0])
+        data.set_pages('people', page, limit)
         data.set_data(users)
 
     print 'IP: ' + request.remote_addr
@@ -73,7 +73,7 @@ def people_list(request):
 def api_user_get(request):
     user = None
     data = MetaData('People')
-    param = ParamsValidator(request)
+    param = ParamsValidator(request, True)
 
     if param.is_valid():
         ak = TokenValidator(param.get_apikey())
