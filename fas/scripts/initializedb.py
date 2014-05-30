@@ -55,6 +55,8 @@ def fill_account_status():
     DBSession.add(status)
     status = AccountStatus(id=8, status='Disabled')
     DBSession.add(status)
+    status = AccountStatus(id=10, status='OnVacation')
+    DBSession.add(status)
 
 
 def fill_role_levels():
