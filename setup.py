@@ -7,6 +7,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
+    #core
     'pyramid',
     'pyramid_mako',
     'SQLAlchemy',
@@ -18,6 +19,11 @@ requires = [
     'mako',
     'wtforms',
     'flufl.enum',
+
+    #lib
+    'pygeoip',
+    'ua-parser',
+    'pyyaml',
 
     #i18n
     'Babel',

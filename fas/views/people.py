@@ -24,7 +24,7 @@ def paging(request):
         return HTTPBadRequest()
 
     #TODO: get limit from config file or let user choose in between
-    #TODO: predefined one?
+    #      predefined one ?
     people = provider.get_people(50, page)
 
     pages, count = compute_list_pages_from('people', 50)
@@ -51,4 +51,25 @@ def profile(request):
 
     person = provider.get_people_by_id(id)
 
-    return dict(person=person, membership=person.group_membership)
+    return dict(
+        request=request,
+        person=person,
+        membership=person.group_membership
+        )
+
+
+@view_config(route_name='people-activities', renderer='/people/activities.xhtml')
+def activities(request):
+    """ People's activities page. """
+    try:
+        id = request.matchdict['id']
+    except KeyError:
+        return HTTPBadRequest()
+
+    activities = provider.get_account_activities_by_people_id(id)
+
+    # Prevent client/user from requesting direct url
+    if len(activities) == 0:
+        return redirect_to('/people/profile/%s' % id)
+
+    return dict(activities=activities, person=activities[0].person)

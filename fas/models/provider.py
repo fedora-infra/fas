@@ -7,6 +7,7 @@ from fas.models import DBSession as session
 from fas.models import AccountStatus, RoleLevel
 from fas.models.group import Groups, GroupType, GroupMembership
 from fas.models.people import People
+from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 from fas.models.configs import AccountPermissions
 
@@ -144,6 +145,12 @@ def get_people_by_ircnick(ircnick):
     query = session.query(People).filter(People.ircnick == ircnick)
     return query.first()
 
+def get_account_activities_by_people_id(id):
+    """ Retrieve account's avitivities by people's id. """
+    query = session.query(PeopleAccountActivitiesLog)\
+    .filter(PeopleAccountActivitiesLog.people == id)
+
+    return query.all()
 
 def get_licenses():
     """ Retrieve all licenses from database. """

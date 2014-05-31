@@ -103,7 +103,7 @@ class People(Base):
     )
     activities_log = relation(
         'PeopleAccountActivitiesLog',
-        order_by='PeopleAccountActivitiesLog.id'
+        order_by='PeopleAccountActivitiesLog.timestamp'
     )
     account_permissions = relation(
         'AccountPermissions',
@@ -210,9 +210,13 @@ class PeopleAccountActivitiesLog(Base):
     __tablename__ = 'people_activity_log'
     id = Column(Integer, primary_key=True)
     people = Column(Integer, ForeignKey('people.id'), nullable=False)
-    location = Column(Numeric, nullable=False)
+    location = Column(UnicodeText(), nullable=False)
+    remote_ip = Column(Unicode, nullable=False)
     access_from = Column(UnicodeText(), nullable=False)
+    event = Column(Integer, nullable=False)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow())
+
+    person = relation('People', uselist=False)
 
     __table_args__ = (
         Index('account_access_log_idx', location),

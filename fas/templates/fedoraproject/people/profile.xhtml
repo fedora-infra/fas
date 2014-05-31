@@ -36,7 +36,12 @@
         <dt>SSH key</dt>
         <dd>${person.ssh_key}</dd>
         <dt>GPG Fingerprint</dt>
-        <dt>Account Activities</dt>
+        <dt>
+          %if len(person.activities_log) > 0:
+              <a href="${request.route_url('people-activities', id=person.id)}"/>
+          %endif
+                Account Activities
+        </dt>
       </dl>
   </div>
   <div id=profile-involment>

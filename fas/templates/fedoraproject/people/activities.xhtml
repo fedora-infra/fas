@@ -1,0 +1,20 @@
+<%inherit file="/people/profile-header.xhtml" />
+<%namespace name="profile" file="/people/profile-header.xhtml"/>
+  ${profile.header()}
+  <div id="profile-account-activities">
+    <h3>Your account activities</h3>
+    <ul class="profile-list">
+      %for activity in activities:
+            <li>
+              <span>Date</span> ${activity.timestamp.strftime('%b, %d')}
+              <span>Event</span>
+              %if activity.event == 1:
+                Signed in from ${activity.access_from}
+              %elif activity.event == 2:
+                Connected App from 
+              %endif
+             <span>Location</span> ${activity.location} (${activity.remote_ip})
+            </li>
+      %endfor
+    </ul>
+  </div>

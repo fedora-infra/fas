@@ -41,3 +41,8 @@ class AccountPermissionType(IntEnum):
     CAN_READ_PEOPLE_FULL_INFO = 0x03
     CAN_READ_AND_EDIT_PEOPLE_INFO = 0x05
     CAN_EDIT_GROUP_INFO = 0x07
+
+class AccountLogType(IntEnum):
+    LOGGED_IN = 0x01
+    ACCOUNT_UPDATE = 0x03
+    APIKEY_REQUEST = 0x04
