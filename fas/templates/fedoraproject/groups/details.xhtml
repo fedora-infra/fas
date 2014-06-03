@@ -7,7 +7,7 @@
   </div>
 
   <div id=group-members-list>
-    <h3>Members</h3>
+    <h3>${_(u'Members')}</h3>
   </div>
   %if members > 0:
       <!--
@@ -34,6 +34,6 @@
       %endfor
   %else:
     <div id="no-items-found">
-      <p>No members found.</p>
+      <p>${_(u'No members found.')}</p>
     </div>
   %endif

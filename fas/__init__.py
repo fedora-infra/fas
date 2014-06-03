@@ -33,12 +33,18 @@ def main(global_config, **settings):
     config.include('pyramid_mako')
 
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
+
     config.add_static_view('static', 'fas:static/theme/%s'
                             % config.registry.settings['project.name'],
                             cache_max_age=3600
                             )
 
     config.add_translation_dirs('fas:locale/')
+
+    config.add_subscriber('fas.subscribers.add_renderer_globals',
+                          'pyramid.events.BeforeRender')
+    config.add_subscriber('fas.subscribers.i18n.add_localizer',
+                          'pyramid.events.NewRequest')
 
     config.add_route('home', '/')
     config.add_route('login', '/login')

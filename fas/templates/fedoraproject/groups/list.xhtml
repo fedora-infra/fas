@@ -1,6 +1,6 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
-  <h1>Groups' List</h1>
+  <h1>${_(u'Groups\' List')}</h1>
   ${paging.list(name='groups', route='groups-paging')}
   <div id="groups-list">
     <ul id="groups">
@@ -16,7 +16,7 @@
       % endfor
     % else:
       <div id="no-items-found">
-        <p>Found no groups</p>
+        <p>${_(u'Found no groups')}</p>
       </div>
     % endif
     </ul>

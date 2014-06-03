@@ -4,13 +4,13 @@
         <p align="center">
         %if page > 1:
             <span class="previous-page">
-              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page - 1))}">[previous]</a>
+              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page - 1))}">[${_(u'previous')}]</a>
             </span>
         %endif
-        page ${page} of ${pages} (${count} ${name})
+        ${_(u'page %i of %i (%i %s)') % (page, pages, count, name)}
         %if page != pages:
             <span class="next-page">
-              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page + 1))}">[next]</a>
+              <a href="${request.route_url(route, _query=param, id=300, pagenb=(page + 1))}">[${_(u'next')}]</a>
             </span>
         %endif
         </p>

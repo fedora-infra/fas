@@ -8,7 +8,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     #core
-    'pyramid',
+    'pyramid>=1.5.1',
     'pyramid_mako',
     'SQLAlchemy',
     'transaction',
@@ -33,30 +33,37 @@ requires = [
     'fake-factory',
     ]
 
-setup(name='fas',
-      version='3.0',
-      description='Fedora Account System',
-      long_description=README + '\n\n' + CHANGES,
-      classifiers=[
+setup(
+    name='fas',
+    version='3.0',
+    description='Fedora Account System',
+    long_description=README + '\n\n' + CHANGES,
+    classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
-      author='Xavier Lamien',
-      author_email='laxathom@fedoraproject.org',
-      url='',
-      keywords='fedora fedoraproject web wsgi pyramid',
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      test_suite='fas',
-      install_requires=requires,
-      entry_points="""\
+    author='Xavier Lamien',
+    author_email='laxathom@fedoraproject.org',
+    url='',
+    keywords='fedora,fedoraproject,web,wsgi,pyramid',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    test_suite='fas',
+    install_requires=requires,
+    entry_points="""\
       [paste.app_factory]
       main = fas:main
       [console_scripts]
       initialize_fas_db = fas.scripts.initializedb:main
       """,
-      paster_plugins=['pyramid'],
-      )
+    paster_plugins=['pyramid'],
+    # i18n
+    message_extractors = {'fas': [
+            ('**.py', 'python', None),
+            ('templates/**.xhtml', 'mako', None),
+            ('static/**', 'ignore', None),
+            ]},
+    )

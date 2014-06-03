@@ -2,18 +2,18 @@
 <%namespace name="profile" file="/people/profile-header.xhtml"/>
   ${profile.header()}
   <div id="profile-account-activities">
-    <h3>Your account activities</h3>
+    <h3>${_(u'Your account activities')}</h3>
     <ul class="profile-list">
       %for activity in activities:
             <li>
-              <span>Date</span> ${activity.timestamp.strftime('%b, %d')}
-              <span>Event</span>
+              <span>${_(u'Date')}</span> ${activity.timestamp.strftime('%b, %d')}
+              <span>${_(u'Event')}</span>
               %if activity.event == 1:
-                Signed in from ${activity.access_from}
+                _(u'Signed in from') ${activity.access_from}
               %elif activity.event == 2:
-                Connected App from 
+                _(u'Connected App from')
               %endif
-             <span>Location</span> ${activity.location} (${activity.remote_ip})
+             <span>${_(u'Location')}</span> ${activity.location} (${activity.remote_ip})
             </li>
       %endfor
     </ul>

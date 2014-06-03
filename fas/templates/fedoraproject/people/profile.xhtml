@@ -3,49 +3,52 @@
 <%block name="details">
   ${profile.header()}
   <div id=profile-basic-info>
-    <h3>Basic Information</h3>
+    <h3>${_(u'Basic Information')}</h3>
     <ul class="profile-list">
       <li>
-        <span>Account Name:</span> ${person.username}
+        <span>${_(u'Account Name')}:</span> ${person.username}
       </li>
       <li>
-        <span>IRC Nick:</span> ${person.ircnick or 'Add your IRC nickname!'}
+        <span>${_(u'IRC Nick')}:</span> ${person.ircnick or _(u'Add your IRC nickname!')}
       </li>
       <li>
-        <span>Country:</span> ${person.country_code}
+        <span>${_(u'Country')}:</span> ${person.country_code}
       </li>
       <li>
         <span>
     </ul>
   </div>
   <div id=profile-contact-info>
-    <h3>Contact Information</h3>
+    <h3>${_(u'Contact Information')}</h3>
     <ul class="profile-list">
       <li>
-        <span>Email: ${person.email}</span>
-        <span>Telephone: ${person.telephone}</span>
-        <span>Postal Address: ${person.postal_address}</span>
-        <span>GPG ID: ${person.gpg_id}</span>
+        <span>${_(u'Email')}: ${person.email}</span>
+        <span>${_(u'Telephone')}: ${person.telephone}</span>
+        <span>${_(u'Postal Address')}: ${person.postal_address}</span>
+        <span>${_(u'GPG ID')}: ${person.gpg_id}</span>
       </li>
     </ul>
   <div id="profile-security">
-    <h3>Security</h3>
+    <h3>${_(u'Security')}</h3>
       <dl class="profile-list">
-        <dt>Password</dt>
-        <dt>Security Question</dt>
-        <dt>SSH key</dt>
+        <dt>${_(u'Password')}</dt>
+        <dt>${_(u'Security Question')}</dt>
+        <dt>${_(u'SSH key')}</dt>
         <dd>${person.ssh_key}</dd>
-        <dt>GPG Fingerprint</dt>
+        <dt>${_(u'GPG Fingerprint')}</dt>
         <dt>
           %if len(person.activities_log) > 0:
-              <a href="${request.route_url('people-activities', id=person.id)}"/>
+              <a href="${request.route_url('people-activities', id=person.id)}">
+                ${_(u'Account activities')}
+              </a>
+          %else:
+                ${_(u'Account activities')}
           %endif
-                Account Activities
         </dt>
       </dl>
   </div>
   <div id=profile-involment>
-    <h2>Involment</h2>
+    <h2>${_(u'Involment')}</h2>
     <ul class="profile-list">
       %for g in membership:
         <li>
