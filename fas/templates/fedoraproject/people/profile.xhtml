@@ -28,8 +28,10 @@
         <span>${_(u'GPG ID')}: ${person.gpg_id}</span>
       </li>
     </ul>
+  %if person.username == request.authenticated_userid:
   <div id="profile-security">
     <h3>${_(u'Security')}</h3>
+        </form>
       <dl class="profile-list">
         <dt>${_(u'Password')}</dt>
         <dt>${_(u'Security Question')}</dt>
@@ -47,6 +49,7 @@
         </dt>
       </dl>
   </div>
+  %endif
   <div id=profile-involment>
     <h2>${_(u'Involment')}</h2>
     <ul class="profile-list">

@@ -6,36 +6,33 @@ import random
 import transaction
 
 from sqlalchemy import engine_from_config
+from pyramid.i18n import TranslationStringFactory
 
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
     )
 
-from ..models import (
+from fas.models import (
     DBSession,
     Base,
     AccountStatus,
     RoleLevel,
     )
 
-from fas.models.people import (
-    People
-    )
+from fas.models.people import People
 
 from fas.models.group import (
     Groups,
     GroupMembership
     )
 
-from fas.models.configs import (
-    AccountPermissions
-    )
+from fas.models.configs import AccountPermissions
+from fas.models import AccountPermissionType as perm
 
 from fas.security import generate_token
 
-from fas.models import AccountPermissionType as perm
-
+_ = TranslationStringFactory('fas')
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -45,31 +42,41 @@ def usage(argv):
 
 
 def fill_account_status():
-    status = AccountStatus(id=1, status='Active')
+    status = AccountStatus(id=1, status=_(u'Active'))
     DBSession.add(status)
-    status = AccountStatus(id=3, status='Inactive')
+    status = AccountStatus(id=3, status=_(u'Inactive'))
     DBSession.add(status)
-    status = AccountStatus(id=5, status='Blocked')
+    status = AccountStatus(id=5, status=_(u'Blocked'))
     DBSession.add(status)
-    status = AccountStatus(id=6, status='BlockedByAdmin')
+    status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
     DBSession.add(status)
-    status = AccountStatus(id=8, status='Disabled')
+    status = AccountStatus(id=8, status=_(u'Disabled'))
     DBSession.add(status)
-    status = AccountStatus(id=10, status='OnVacation')
+    status = AccountStatus(id=10, status=_(u'OnVacation'))
     DBSession.add(status)
 
 
 def fill_role_levels():
-    role = RoleLevel(id=0, name='Unknown')
+    role = RoleLevel(id=0, name=_(u'Unknown'))
     DBSession.add(role)
-    role = RoleLevel(id=1, name='User')
+    role = RoleLevel(id=1, name=_(u'User'))
     DBSession.add(role)
-    role = RoleLevel(id=2, name='Editor')
+    role = RoleLevel(id=2, name=_(u'Editor'))
     DBSession.add(role)
-    role = RoleLevel(id=3, name='Sponsor')
+    role = RoleLevel(id=3, name=_(u'Sponsor'))
     DBSession.add(role)
-    role = RoleLevel(id=5, name='Administrator')
+    role = RoleLevel(id=5, name=_(u'Administrator'))
     DBSession.add(role)
+
+
+def add_default_user(id, login, name, email, passwd=None, membership=None):
+    """ Add a default user into database. """
+    pass
+
+
+def add_default_group():
+    """ ADd default group into system."""
+    pass
 
 
 def create_fake_user(session, upto=2000, user_index=1000, group_list=None):

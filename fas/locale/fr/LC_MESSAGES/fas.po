@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fas 3.0\n"
 "Report-Msgid-Bugs-To: admins@fedoraproject.org\n"
-"POT-Creation-Date: 2014-06-03 21:45+0200\n"
+"POT-Creation-Date: 2014-06-04 00:46+0200\n"
 "PO-Revision-Date: 2014-06-03 00:57+0200\n"
 "Last-Translator: Xavier Lamien <laxathom@fedoraproject.org>\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -16,6 +16,19 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+
+#: fas/scripts/initializedb.py:50
+#, fuzzy
+msgid "Active"
+msgstr "Actif"
+
+#: fas/scripts/initializedb.py:52
+msgid "Inactive"
+msgstr "Inactif"
+
+#: fas/scripts/initializedb.py:71
+msgid "Sponsor"
+msgstr "Parrain"
 
 #: fas/templates/fedoraproject/api_home.xhtml:2
 msgid "Fedora Account System - API"
@@ -42,30 +55,37 @@ msgid "next"
 msgstr "suivant"
 
 #: fas/templates/fedoraproject/site.xhtml:23
+#: fas/templates/fedoraproject/site.xhtml.py:35
 msgid "Fedora Account System"
 msgstr ""
 
 #: fas/templates/fedoraproject/site.xhtml:24
+#: fas/templates/fedoraproject/site.xhtml.py:38
 msgid "Web application in development."
 msgstr ""
 
 #: fas/templates/fedoraproject/site.xhtml:31
+#: fas/templates/fedoraproject/site.xhtml.py:44
 msgid "Copyright"
 msgstr ""
 
 #: fas/templates/fedoraproject/groups/details.xhtml:10
+#: fas/templates/fedoraproject/groups/details.xhtml.py:53
 msgid "Members"
 msgstr "Membres"
 
 #: fas/templates/fedoraproject/groups/details.xhtml:37
+#: fas/templates/fedoraproject/groups/details.xhtml.py:92
 msgid "No members found."
 msgstr "Aucun membres trouvé"
 
 #: fas/templates/fedoraproject/groups/list.xhtml:3
+#: fas/templates/fedoraproject/groups/list.xhtml.py:43
 msgid "Groups' List"
 msgstr "Liste des groupes"
 
 #: fas/templates/fedoraproject/groups/list.xhtml:19
+#: fas/templates/fedoraproject/groups/list.xhtml.py:71
 msgid "Found no groups"
 msgstr "Aucun groupes trouvé"
 
@@ -183,5 +203,4 @@ msgstr "Activités du compte"
 #: fas/templates/fedoraproject/people/profile.xhtml.py:151
 msgid "Involment"
 msgstr "Implications"
-
 

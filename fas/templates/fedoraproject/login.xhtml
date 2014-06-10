@@ -3,7 +3,7 @@
       <div class="middle align-right">
         <div id="left" class="app-welcome align-left">
           <b>Login</b><br/>
-          <span tal:replace="message"/>
+          <span> ${message}</span>
         </div>
         <div id="right" class="app-welcome align-right"></div>
       </div>
@@ -13,8 +13,7 @@
         <form action="${url}" method="post">
           <input type="hidden" name="came_from" value="${came_from}"/>
           <input type="text" name="login" value="${login}"/><br/>
-          <input type="password" name="password"
-                 value="${password}"/><br/>
+          <input type="password" name="password" value="${password}"/><br/>
           <input type="submit" name="form.submitted" value="Log In"/>
         </form>
       </div>

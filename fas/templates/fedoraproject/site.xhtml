@@ -19,6 +19,18 @@
   <div id="wrap">
     <div id="middle">
       <div class="middle align-center">
+        %if request.authenticated_userid is None:
+            <form action="${request.application_url + '/login'}" method="post">
+              <input type="hidden" name="came_from" value="${request.url}"/>
+                <button href="${request.route_url('login')}">Log In</button>
+        </form>
+        %endif
+        %if request.authenticated_userid is not None:
+            <form action="${request.application_url + '/logout'}" method="post">
+              <input type="hidden" name="came_from" value="${request.url}"/>
+                <button href="${request.route_url('logout')}">Logout (${request.authenticated_userid})</button>
+            </form>
+        %endif
         <p class="app-welcome">
           <span class="app-name">${_(u'Fedora Account System')}</span><br/>
           ${_(u'Web application in development.')}

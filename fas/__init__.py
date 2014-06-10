@@ -23,7 +23,10 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
 
     from pyramid.session import SignedCookieSessionFactory
-    my_session_factory = SignedCookieSessionFactory('secret')
+    my_session_factory = SignedCookieSessionFactory(
+        settings['session.secret'],
+        timeout=settings['session.timeout']
+        )
 
     config = Configurator(
         session_factory=my_session_factory,
@@ -35,16 +38,26 @@ def main(global_config, **settings):
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
 
     config.add_static_view('static', 'fas:static/theme/%s'
-                            % config.registry.settings['project.name'],
-                            cache_max_age=3600
+                            % settings['project.name'],
+                            cache_max_age=int(settings['cache.max_age'])
                             )
+
+    authn_policy = AuthTktAuthenticationPolicy(
+        settings['authtkt.secret'],
+        hashalg='sha512'
+        )
+
+    authz_policy = ACLAuthorizationPolicy()
+
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
 
     config.add_translation_dirs('fas:locale/')
 
-    config.add_subscriber('fas.subscribers.add_renderer_globals',
-                          'pyramid.events.BeforeRender')
-    config.add_subscriber('fas.subscribers.i18n.add_localizer',
-                          'pyramid.events.NewRequest')
+    #config.add_subscriber('fas.subscribers.add_renderer_globals',
+    #                      'pyramid.events.BeforeRender')
+    #config.add_subscriber('fas.subscribers.i18n.add_localizer',
+    #                      'pyramid.events.NewRequest')
 
     config.add_route('home', '/')
     config.add_route('login', '/login')
