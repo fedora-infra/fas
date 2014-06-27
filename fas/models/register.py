@@ -3,6 +3,7 @@
 from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
 
+from fas.utils import _
 from fas.utils.geoip import get_record_from
 
 from ua_parser import user_agent_parser
@@ -11,8 +12,8 @@ from ua_parser import user_agent_parser
 def save_account_activity(request, people, event):
     """ Register account activity. """
     remote_ip = request.client_addr
-    #record = get_record_from(remote_ip)
-    record = get_record_from('86.70.6.26')
+    record = get_record_from(remote_ip)
+    #record = get_record_from('86.70.6.26') # test IP
 
     user_agent = user_agent_parser.Parse(request.headers['User-Agent'])
     client = user_agent['user_agent']['family']
@@ -34,7 +35,7 @@ def save_account_activity(request, people, event):
         else:
             location = country
     else:
-        location = 'Unknown'
+        location = _('Unknown')
 
     activity = PeopleAccountActivitiesLog(
         people=people,

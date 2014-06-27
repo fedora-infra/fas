@@ -5,6 +5,8 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from sqlalchemy import engine_from_config
 
+from .security import groupfinder
+
 from models import (
     DBSession,
     Base,
@@ -30,7 +32,8 @@ def main(global_config, **settings):
 
     config = Configurator(
         session_factory=my_session_factory,
-        settings=settings
+        settings=settings,
+        root_factory='fas.security.Root'
         )
 
     config.include('pyramid_mako')
@@ -44,7 +47,8 @@ def main(global_config, **settings):
 
     authn_policy = AuthTktAuthenticationPolicy(
         settings['authtkt.secret'],
-        hashalg='sha512'
+        hashalg='sha512',
+        callback=groupfinder
         )
 
     authz_policy = ACLAuthorizationPolicy()
@@ -53,11 +57,6 @@ def main(global_config, **settings):
     config.set_authorization_policy(authz_policy)
 
     config.add_translation_dirs('fas:locale/')
-
-    #config.add_subscriber('fas.subscribers.add_renderer_globals',
-    #                      'pyramid.events.BeforeRender')
-    #config.add_subscriber('fas.subscribers.i18n.add_localizer',
-    #                      'pyramid.events.NewRequest')
 
     config.add_route('home', '/')
     config.add_route('login', '/login')
@@ -79,6 +78,8 @@ def main(global_config, **settings):
     config.add_route('api_people_get', '/api/people/{key}/{value}')
     config.add_route('api_group_list', '/api/group')
     config.add_route('api_group_get', '/api/group/{key}/{value}')
+
+    config.add_route('admin', '/admin')
 
     config.scan()
     return config.make_wsgi_app()

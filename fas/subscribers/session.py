@@ -10,7 +10,7 @@ from pyramid.security import forget
 
 from pyramid.httpexceptions import HTTPUnauthorized
 
-
+# Disable for a short while testing sessions
 #@subscriber(NewRequest)
 #def login_validity(event):
     #""" Check login session validity on client's request. """

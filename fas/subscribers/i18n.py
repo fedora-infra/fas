@@ -5,9 +5,10 @@ from pyramid.events import (
     NewRequest
     )
 
-from pyramid.i18n import TranslationStringFactory
+from fas.utils import _
 
-ts = TranslationStringFactory('fas')
+# Prevent from being translated
+ts = _
 
 
 @subscriber(NewRequest)

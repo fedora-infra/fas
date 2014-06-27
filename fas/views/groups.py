@@ -2,6 +2,7 @@
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.security import NO_PERMISSION_REQUIRED
 
 import fas.models.provider as provider
 
@@ -21,7 +22,8 @@ class Groups(object):
         """ Groups list landing page. """
         return redirect_to('/groups/page/1')
 
-    @view_config(route_name='groups-paging', renderer='/groups/list.xhtml')
+    @view_config(route_name='groups-paging',
+        renderer='/groups/list.xhtml', permission=NO_PERMISSION_REQUIRED)
     def paging(self):
         """ Groups' list view with paging feature. """
         try:
@@ -45,7 +47,9 @@ class Groups(object):
             pages=pages
             )
 
-    @view_config(route_name='group-details', renderer='/groups/details.xhtml')
+    @view_config(
+        route_name='group-details',
+        renderer='/groups/details.xhtml', permission=NO_PERMISSION_REQUIRED)
     def details(self):
         """ Group's details page."""
         try:

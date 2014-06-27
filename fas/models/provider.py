@@ -94,6 +94,14 @@ def get_group_membership(id):
     return query.all()
 
 
+def get_group_by_people_membership(username):
+    """ Retrieve group's membership by people's username."""
+    query = session.query(Groups)\
+    .join((GroupMembership, GroupMembership.group_id == Groups.id))\
+    .join(People, People.username == username)
+
+    return query.all()
+
 ## Method to interact with GroupType
 
 def get_grouptype_by_id(id):

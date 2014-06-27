@@ -16,7 +16,7 @@ from pyramid.security import (
     forget,
     )
 
-from fas.utils import get_config
+from fas.utils import Config
 import fas.models.provider as provider
 
 
@@ -26,7 +26,7 @@ class Home:
     def __init__(self, request):
         self.request = request
         self.logged_in = self.request.authenticated_userid
-        self.config = get_config
+        self.config = Config.get
 
     @view_config(route_name='home')
     def index(self):

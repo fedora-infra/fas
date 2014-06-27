@@ -2,21 +2,39 @@
 
 import pyramid.threadlocal
 
+from pyramid.i18n import TranslationStringFactory
+
 from fas.models import provider as provider
 
 from math import ceil
 
 
-def get_config(configname):
-    """ Retrieve config from configuration file.
+_ = TranslationStringFactory('fas')
 
-    :arg configname: string, configuration key to look for
-    :return: value of requested configuration.
-    """
-    registry = pyramid.threadlocal.get_current_registry()
-    settings = registry.settings
 
-    return settings[configname]
+class Config():
+
+    @classmethod
+    def get(self, configname):
+        """ Retrieve config from configuration file.
+
+        :arg configname: string, configuration key to look for
+        :return: value of requested configuration.
+        """
+        registry = pyramid.threadlocal.get_current_registry()
+        settings = registry.settings
+
+        return settings[configname]
+
+    @classmethod
+    def get_admin_group(self):
+        """ Retrieve admin\'s group from configuration file."""
+        return self.get('project.group.admin')
+
+    @classmethod
+    def get_modo_group(self):
+        """ Retrieve moderator\' group from configuration file."""
+        return self.get('project.group.moderator')
 
 
 def compute_list_pages_from(str_obj, limit=50):

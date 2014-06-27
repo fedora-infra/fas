@@ -2,16 +2,34 @@
 
 import os
 import hashlib
+
+from pyramid.security import Allow, Everyone
+
+from fas.utils import Config
 import fas.models.provider as provider
 
-USERS = {'admin':'admin',
-          'viewer':'viewer'}
-GROUPS = {'admin':['group:admin']}
 
+class Root(object):
+    def __acl__(self):
+        return [
+            (Allow, Everyone, 'view'),
+            (Allow, self.admin, 'admin'),
+            (Allow, self.modo, 'modo')
+        ]
+
+    def __init__(self, request):
+        self.admin = Config.get_admin_group()
+        self.modo = Config.get_modo_group()
 
 def groupfinder(userid, request):
-    if userid in USERS:
-        return GROUPS.get(userid, [])
+    """ Retrieve group from authenticated user's membership."""
+    membership = provider.get_group_by_people_membership(userid)
+
+    groups = []
+    for group in membership:
+        groups.append(group.name)
+
+    return groups
 
 
 def generate_token():
