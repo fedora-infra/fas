@@ -29,12 +29,12 @@ class Config():
     @classmethod
     def get_admin_group(self):
         """ Retrieve admin\'s group from configuration file."""
-        return self.get('project.group.admin')
+        return self.get('project.admin')
 
     @classmethod
     def get_modo_group(self):
         """ Retrieve moderator\' group from configuration file."""
-        return self.get('project.group.moderator')
+        return self.get('project.moderator')
 
 
 def compute_list_pages_from(str_obj, limit=50):
