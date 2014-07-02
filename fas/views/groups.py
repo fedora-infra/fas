@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
@@ -93,3 +94,8 @@ class Groups(object):
             page=page,
             pages=int(len(people) / limit)
             )
+
+    @view_config(route_name='group-edit', permission='group_edit')
+    def edit(self):
+        """ group editor page."""
+        return Response("Group edit page here.")

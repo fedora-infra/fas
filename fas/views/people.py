@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
@@ -73,3 +74,8 @@ class People(object):
             return redirect_to('/people/profile/%s' % _id)
 
         return dict(activities=activities, person=activities[0].person)
+
+    @view_config(route_name='people-edit', permission='owner')
+    def edit(self):
+        """ Profile's edit page."""
+        return Response('This is an empty edit page.')

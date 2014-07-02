@@ -68,10 +68,12 @@ def main(global_config, **settings):
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
+    config.add_route('people-edit', '/people/profile/{id}/edit')
 
     config.add_route('groups', '/groups')
     config.add_route('groups-paging', '/groups/page/{pagenb}')
     config.add_route('group-details', '/group/details/{id}')
+    config.add_route('group-edit', '/group/details/{id}/edit')
 
     config.add_route('api_home', '/api')
     config.add_route('api_people_list', '/api/people')
