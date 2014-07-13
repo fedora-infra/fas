@@ -8,7 +8,7 @@ Summary:        Fedora Account System
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.gz
+Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -134,6 +134,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 * Thu May 22 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0
 - Add moderator group with restricted privileges.
 - Update FPCA, Red Hat mailing address.
+- Update groupdb format creation from fasClient.
 
 * Thu Mar 06 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.9.0
 - Add pkgdb2 support.

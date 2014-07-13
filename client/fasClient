@@ -26,7 +26,6 @@ import sys
 import codecs
 import tempfile
 import logging
-import syslog
 import datetime
 import subprocess
 import time
@@ -157,18 +156,32 @@ parser.add_option('--debug',
 
 log = logging.getLogger('fas')
 
+def __setup_logger__(level):
+    '''Setup a console handler for log'''
+    log.setLevel(level)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(level)
+
+    #TODO move this to config file
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    ch.setFormatter(formatter)
+
+    log.addHandler(ch)
+
 try:
     config = ConfigParser.ConfigParser()
     if os.path.exists(opts.CONFIG_FILE):
         config.read(opts.CONFIG_FILE)
     elif os.path.exists('fas.conf'):
         config.read('fas.conf')
-        print >> sys.stderr, 'Could not open %s, defaulting to ./fas.conf' % opts.CONFIG_FILE
+        log.error('Could not open %s, defaulting to ./fas.conf' % opts.CONFIG_FILE)
     else:
-        print >> sys.stderr, 'Could not open %s' % opts.CONFIG_FILE
+        log.error('Could not open %s' % opts.CONFIG_FILE)
         sys.exit(5)
 except ConfigParser.MissingSectionHeaderError, e:
-        print >> sys.stderr, 'Config file does not have proper formatting: %s' % e
+        log.error('Config file does not have proper formatting: %s' % e)
         sys.exit(6)
 
 FAS_URL = config.get('global', 'url').strip('"')
@@ -191,6 +204,14 @@ class MakeShellAccounts(AccountSystem):
     _good_users = None
     _group_types = None
     _temp = None
+
+    __groupfile__ = 'group.txt'
+    __pwfile__ = 'passwd.txt'
+    __shadwfile__ = 'shadow.txt'
+    __groupdb__ = 'group.db'
+    __pwdb__ = 'passwd.db'
+    __shadwdb__ = 'shadow.db'
+    __dbdir__ = 'var/db/'
 
     def __init__(self, *args, **kwargs):
         self._orig_euid = os.geteuid()
@@ -247,8 +268,8 @@ class MakeShellAccounts(AccountSystem):
 
         cla_group = config.get('global', 'cla_group').strip('"')
         if cla_group not in self.groups:
-            print >> sys.stderr, 'No such group: %s' % cla_group
-            print >> sys.stderr, 'Aborting.'
+            log.error('No such group: %s' % cla_group)
+            log.info('Aborting.')
             sys.exit(1)
 
         cla_uids = self.groups[cla_group]['users'] + \
@@ -297,6 +318,15 @@ class MakeShellAccounts(AccountSystem):
 
     group_types = property(_refresh_group_types)
 
+    def __initgroups__(self, users):
+        ''' Initialize group access list. '''
+        for uid, user in sorted(users.iteritems()):
+            if hasattr(os, 'initgroups'):
+                os.initgroups(self.users[uid]['username'], int(uid))
+            else:
+                pass
+                #TODO: user ctypes to init is python < 2.7
+
     def drop_privs(self, pw):
         # initgroups is only in python >= 2.7
         #os.initgroups(pw.pw_name, pw.pw_gid)
@@ -335,12 +365,12 @@ class MakeShellAccounts(AccountSystem):
                     uids.update(self.good_users)
                 else:
                     if group_type not in self.group_types:
-                        print >> sys.stderr, 'No such group type: %s' % group_type
+                        log.error('No such group type: %s' % group_type)
                         continue
                     uids.update(self.group_types[group_type])
             else:
                 if group not in self.groups:
-                    print >> sys.stderr, 'No such group: %s' % group
+                    log.error('No such group: %s' % group)
                     continue
                 uids.update(self.groups[group]['users'])
                 uids.update(self.groups[group]['sponsors'])
@@ -374,14 +404,19 @@ class MakeShellAccounts(AccountSystem):
         '''Create the text password file'''
         i = 0
         home_dir_base = os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/'))
+        log.debug('Setting up base home directory to: %s' % home_dir_base)
 
         # Touch shadow and secure the permissions
-        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
+        log.debug('Creating file %s' % self.__shadwfile__)
+        shadow_file = codecs.open(os.path.join(self.temp, self.__shadwfile__), mode='w', encoding='utf-8')
         shadow_file.close()
-        os.chmod(os.path.join(self.temp, 'shadow.txt'), 00600)
+        log.debug('Applying permission to file %s with mode 00600' % self.__shadwfile__)
+        os.chmod(os.path.join(self.temp, self.__shadwfile__), 00600)
 
-        passwd_file = codecs.open(os.path.join(self.temp, 'passwd.txt'), mode='w', encoding='utf-8')
-        shadow_file = codecs.open(os.path.join(self.temp, 'shadow.txt'), mode='w', encoding='utf-8')
+        log.debug('Opening file %s in WRITE mode.' % self.__pwfile__)
+        passwd_file = codecs.open(os.path.join(self.temp, self.__pwfile__), mode='w', encoding='utf-8')
+        log.debug('Opening file %s in WRITE mode.' % self.__shadwfile__)
+        shadow_file = codecs.open(os.path.join(self.temp, self.__shadwfile__), mode='w', encoding='utf-8')
 
         for uid, user in sorted(users.iteritems()):
             username = self.users[uid]['username']
@@ -390,27 +425,35 @@ class MakeShellAccounts(AccountSystem):
             home_dir = '%s/%s' % (home_dir_base, username)
             shell = user['shell']
 
+            log.debug('Writing user account info for %s(%i)' % (username, int(uid)))
             passwd_file.write('=%s %s:x:%s:%s:%s:%s:%s\n' % (uid, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write('0%i %s:x:%s:%s:%s:%s:%s\n' % (i, username, uid, uid, human_name, home_dir, shell))
             passwd_file.write('.%s %s:x:%s:%s:%s:%s:%s\n' % (username, username, uid, uid, human_name, home_dir, shell))
 
+            log.debug('Writing user password for %s(%i)' % (username, int(uid)))
             shadow_file.write('=%s %s:%s::::7:::\n' % (uid, username, password))
             shadow_file.write('0%i %s:%s::::7:::\n' % (i, username, password))
             shadow_file.write('.%s %s:%s::::7:::\n' % (username, username, password))
             i += 1
 
+        log.debug('Closing file %s' % self.__pwfile__)
         passwd_file.close()
+        log.debug('Closing file %s' % self.__shadwfile__)
         shadow_file.close()
 
     def groups_text(self, users):
         '''Create the text groups file'''
         i = 0
-        group_file = codecs.open(os.path.join(self.temp, 'group.txt'), 'w')
+        log.debug('Opening file %s in WRITE mode.' % self.__groupfile__)
+        group_file = codecs.open(os.path.join(self.temp, self.__groupfile__), 'w')
+        groups = []
 
         # First create all of our users/groups combo
         # Only create user groups for users that actually exist on the system
         for uid in sorted(users.iterkeys()):
             username = self.users[uid]['username']
+            groups.append({'username': username, 'groups': []})
+            log.debug('Writing user group info for %s(%i)' % (username, int(uid)))
             group_file.write('=%s %s:x:%s:\n' % (uid, username, uid))
             group_file.write('0%i %s:x:%s:\n' % (i, username, uid))
             group_file.write('.%s %s:x:%s:\n' % (username, username, uid))
@@ -424,49 +467,72 @@ class MakeShellAccounts(AccountSystem):
             for member_uid in group['administrators'] + \
                 group['sponsors'] + \
                 group['users']:
+                username = ''
                 try:
-                    members.append(self.users[member_uid]['username'])
+                    username = self.users[member_uid]['username']
+                    members.append(username)
                 except KeyError:
                     # This means that the user is most likely disabled.
                     pass
 
+                for group in groups:
+                    if group['username'] == username:
+                        group['groups'].append(str(gid))
+                        break
+
             members.sort()
             memberships = ','.join(members)
+            log.debug('Adding user %s to group %s' % (username, gid))
             group_file.write('=%i %s:x:%i:%s\n' % (gid, groupname, gid, memberships))
             group_file.write('0%i %s:x:%i:%s\n' % (i, groupname, gid, memberships))
             group_file.write('.%s %s:x:%i:%s\n' % (groupname, groupname, gid, memberships))
             i += 1
 
+        for group in groups:
+            username = group['username']
+            log.debug('Linking groups ID %s to user %s' % (group['groups'], username))
+            group_file.write(':%s %s %s\n' % (username, username, ','.join(group['groups'])))
+
+        log.debug('Closing file %s.' % self.__groupfile__)
         group_file.close()
 
     def make_group_db(self, users):
         '''Compile the groups file'''
         self.groups_text(users)
-        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'group.db'), os.path.join(self.temp, 'group.txt')])
+        self.__initgroups__(users)
+        log.debug('Building group database to file %s' % self.__groupdb__)
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, self.__groupdb__), os.path.join(self.temp, self.__groupfile__)])
 
     def make_passwd_db(self, users):
         '''Compile the password and shadow files'''
         self.passwd_text(users)
-        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'passwd.db'), os.path.join(self.temp, 'passwd.txt')])
-        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, 'shadow.db'), os.path.join(self.temp, 'shadow.txt')])
-        os.chmod(os.path.join(self.temp, 'shadow.db'), 0400)
-        os.chmod(os.path.join(self.temp, 'shadow.txt'), 0400)
+        log.debug('Building password database to file %s' % self.__pwdb__)
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, self.__pwdb__), os.path.join(self.temp, self.__pwfile__)])
+        log.debug('Building shadow database to file %s' % self.__shadwdb__)
+        subprocess.call(['/usr/bin/makedb', '-o', os.path.join(self.temp, self.__shadwdb__), os.path.join(self.temp, self.__shadwfile__)])
+        os.chmod(os.path.join(self.temp, self.__shadwdb__), 0400)
+        os.chmod(os.path.join(self.temp, self.__shadwfile__), 0400)
 
     def make_aliases_text(self):
         '''Create the aliases file'''
+        log.debug('Opening file aliases')
         email_file = codecs.open(os.path.join(self.temp, 'aliases'), mode='w', encoding='utf-8')
+        log.debug('Opening file relay_recipient_maps')
         recipient_file = codecs.open(os.path.join(self.temp, 'relay_recipient_maps'), mode='w', encoding='utf-8')
+        template_file = config.get('host', 'aliases_template').strip('"')
         try:
-            email_template = codecs.open(config.get('host', 'aliases_template').strip('"'))
+            log.debug('Opening file %s' % template_file)
+            email_template = codecs.open(template_file)
         except IOError, e:
-            print >> sys.stderr, 'Could not open aliases template %s: %s' % (config.get('host', 'aliases_template').strip('"'), e)
-            print >> sys.stderr, 'Aborting.'
+            log.error('Could not open aliases template %s: %s' % (config.get('host', 'aliases_template').strip('"'), e))
+            log.info('Aborting.')
             sys.exit(1)
 
         email_file.write('# Generated by fasClient\n')
         for line in email_template.readlines():
             email_file.write(line)
 
+        log.debug('Closing file %s' % template_file)
         email_template.close()
 
         username_email = []
@@ -480,6 +546,7 @@ class MakeShellAccounts(AccountSystem):
         username_email.sort()
 
         for username, email in username_email:
+            log.debug('Adding email aliase %s for user %s' % (username, email))
             email_file.write('%s: %s\n' % (username, email))
 
         for groupname, group in sorted(self.groups.iteritems()):
@@ -487,6 +554,7 @@ class MakeShellAccounts(AccountSystem):
             sponsors = []
             members = []
 
+            log.debug('Checking user from group %s' % groupname)
             for uid in group['users']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
@@ -497,6 +565,7 @@ class MakeShellAccounts(AccountSystem):
                     if uid in self.users:
                         members.append(self.users[uid]['email'])
 
+            log.debug('Checking sponsor user from group %s' % groupname)
             for uid in group['sponsors']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
@@ -509,6 +578,7 @@ class MakeShellAccounts(AccountSystem):
                         sponsors.append(self.users[uid]['email'])
                         members.append(self.users[uid]['email'])
 
+            log.debug('Checking administrator user from group %s' % groupname)
             for uid in group['administrators']:
                 if uid in self.good_users:
                     # The user has an @fedoraproject.org alias
@@ -525,12 +595,15 @@ class MakeShellAccounts(AccountSystem):
 
             if administrators:
                 administrators.sort()
+                log.debug('Adding list email for group\' administrators with: %s' % administrators)
                 email_file.write('%s-administrators: %s\n' % (groupname, ','.join(administrators)))
             if sponsors:
                 sponsors.sort()
+                log.debug('Adding list email for group\' sponsors with: %s' % sponsors)
                 email_file.write('%s-sponsors: %s\n' % (groupname, ','.join(sponsors)))
             if members:
                 members.sort()
+                log.debug('Adding list email for group\' members with: %s' % members)
                 email_file.write('%s-members: %s\n' % (groupname, ','.join(members)))
         email_file.close()
         recipient_file.close()
@@ -540,20 +613,22 @@ class MakeShellAccounts(AccountSystem):
         if modes is None:
             modes = {}
         home_dir_base = to_bytes(os.path.join(prefix, config.get('users', 'home').strip('"').lstrip('/')))
+        log.debug('Setup root home directory to: %s' % home_dir_base)
         if not os.path.exists(home_dir_base):
             os.makedirs(home_dir_base, mode=0755)
+            log.debug('Create root home directory %s' % home_dir_base)
             if have_selinux:
+                log.debug('Restoring SElinux context')
                 selinux.restorecon(home_dir_base)
         for uid in users:
             username = to_bytes(self.users[uid]['username'])
             home_dir = os.path.join(home_dir_base, username)
             if not os.path.exists(home_dir):
-                if opts.debug:
-                    print 'Creating homedir for %s' % username
-                syslog.syslog('Creating homedir for %s' % username)
+                log.debug('Creating homedir for %s' % username)
                 copytree('/etc/skel/', home_dir)
                 os.path.walk(home_dir, _chown, [int(uid), int(uid)])
             else:
+                log.debug('Found existing home directory %s, updating it.' % home_dir)
                 dir_stat = os.stat(home_dir)
                 if dir_stat.st_uid == 0:
                     if username in modes:
@@ -574,7 +649,7 @@ class MakeShellAccounts(AccountSystem):
                 dir_stat = os.stat(home_dir)
                 if dir_stat.st_uid != 0:
                     modes[user] = dir_stat.st_mode
-                    syslog.syslog('Locking permissions on %s' % home_dir)
+                    log.info('Locking permissions on %s' % home_dir)
                     os.chmod(home_dir, 0700)
                     os.chown(home_dir, 0, 0)
         return modes
@@ -589,25 +664,32 @@ class MakeShellAccounts(AccountSystem):
                key = []
                for key_tmp in self.users[uid]['ssh_key'].split("\n"):
                    if key_tmp:
+                       log.debug('Adding command to SSH entry')
                        key.append('command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], key_tmp))
                key = "\n".join(key)
             else:
                key = self.users[uid]['ssh_key']
             if not os.path.exists(ssh_dir):
+                log.debug('Create SSH dir %s' % ssh_dir)
                 os.makedirs(ssh_dir, mode=0700)
+            log.debug('Opening file authorized_keys')
             f = codecs.open(key_file, mode='a+', encoding='utf-8')
+            log.debug('Writing SSH key to file')
             if f.read() != key + '\n':
                f.truncate(0)
                f.write(key + '\n')
             f.close()
+            log.debug('Closing file')
             os.chmod(key_file, 0600)
             #os.path.walk(ssh_dir, _chown, [int(uid), int(uid)])
             if have_selinux:
+                log.debug('Restoring SElinux context on %s' % ssh_dir)
                 selinux.restorecon(ssh_dir, recursive=True)
         else:
             # If the user does not have an SSH key listed, ensure
             # that their authorized_key file does not exist.
             try:
+                log.debug('Removing file %s as user doesn\'t have an SSH key' % key_file)
                 os.remove(key_file)
             except OSError:
                 pass
@@ -619,15 +701,17 @@ class MakeShellAccounts(AccountSystem):
             pw = pwd.getpwuid(int(uid))
             lock_dir = False
 
+            log.debug('Dropping privileges for userid %i' % int(uid))
             self.drop_privs(pw)
 
             try:
                 self.create_ssh_key_user(uid)
             except IOError, e:
-                print >> sys.stderr, 'Error when creating SSH key for %s!' % uid
-                print >> sys.stderr, 'Locking their home directory, please investigate.'
+                log.error('Unable to create SSH key: %s' % e)
+                log.error('Locking their home directory, please investigate.')
                 lock_dir = True
 
+            log.debug('Restoring privileges for userid %i' % int(uid))
             self.restore_privs()
 
             if lock_dir:
@@ -636,27 +720,31 @@ class MakeShellAccounts(AccountSystem):
 
     def install_passwd_db(self):
         '''Install the password database'''
+        log.debug('Installing file %s to %s' % (self.__pwdb__, self.__dbdir__))
         try:
-            move(os.path.join(self.temp, 'passwd.db'), os.path.join(prefix, 'var/db/passwd.db'))
+            move(os.path.join(self.temp, self.__pwdb__), os.path.join(prefix, self.__dbdir__ + self.__pwdb__))
         except IOError, e:
-            print >> sys.stderr, 'ERROR: Could not install passwd db: %s' % e
+            log.error('Could not install file %s: %s' % (self.__pwdb__, e))
 
     def install_shadow_db(self):
         '''Install the shadow database'''
+        log.debug('Installing file %s to %s' % (self.__shadwdb__, self.__dbdir__))
         try:
-            move(os.path.join(self.temp, 'shadow.db'), os.path.join(prefix, 'var/db/shadow.db'))
+            move(os.path.join(self.temp, self.__shadwfile__), os.path.join(prefix, self.__dbdir__ + self.__shadwfile__))
         except IOError, e:
-            print >> sys.stderr, 'ERROR: Could not install shadow db: %s' % e
+            log.error('Could not install file %s: %s' % (self.__shadwfile__, e))
 
     def install_group_db(self):
         '''Install the group database'''
+        log.debug('Installing file %s to %s' % (self.__groupdb__, self.__dbdir__))
         try:
-            move(os.path.join(self.temp, 'group.db'), os.path.join(prefix, 'var/db/group.db'))
+            move(os.path.join(self.temp, self.__groupdb__), os.path.join(prefix, self.__dbdir__ + self.__groupdb__))
         except IOError, e:
-            print >> sys.stderr, 'ERROR: Could not install group db: %s' % e
+            log.error('Could not install file %s: %s' % (self.__groupdb__, e))
 
     def install_aliases(self):
         '''Install the aliases file'''
+        log.debug('Creating emails aliases')
         move(os.path.join(self.temp, 'aliases'), os.path.join(prefix, 'etc/aliases'))
         move(os.path.join(self.temp, 'relay_recipient_maps'), os.path.join(prefix, 'etc/postfix/relay_recipient_maps'))
         subprocess.call(['/usr/bin/newaliases'])
@@ -693,47 +781,65 @@ class MakeShellAccounts(AccountSystem):
     def cleanup(self):
         '''Perform any necessary cleanup tasks'''
         if self.temp:
+            log.debug('Cleaning up working directory.')
             rmtree(self.temp)
 
 def enable():
     '''Enable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
+    log.debug('Setup temp directory %s' % temp)
 
     old = open('/etc/sysconfig/authconfig', 'r')
+    log.debug('Opened %s in READ mode' % old.name)
     new = open(temp + '/authconfig', 'w')
+    log.debug('Opened %s in WRITE mode' % new.name)
     for line in old:
         if line.startswith('USEDB'):
+            log.debug('Setting USEDB to yes')
             new.write('USEDB=yes\n')
         else:
             new.write(line)
     new.close()
+    log.debug('Closing file %s' % new.name)
     old.close()
+    log.debug('Closing file %s' % old.name)
     try:
+        log.debug('Merging file /etc/sysconfig/authconfig')
         move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        log.error('Could not write to /etc/sysconfig/authconfig: %s' % e)
         sys.exit(5)
+    log.debug('Updating authconfig')
     subprocess.call(['/usr/sbin/authconfig', '--updateall'])
+    log.debug('Removing temp directory %s' % temp)
     rmtree(temp)
 
 def disable():
     '''Disable FAS authentication'''
     temp = tempfile.mkdtemp('-tmp', 'fas-', config.get('global', 'temp').strip('"'))
     old = open('/etc/sysconfig/authconfig', 'r')
+    log.debug('Opened %s in READ mode' % old.name)
     new = open(os.path.join(temp, 'authconfig'), 'w')
+    log.debug('Opened %s in WRITE mode' % new.name)
     for line in old:
         if line.startswith('USEDB'):
+            log.debug('Setting USEDB to no')
             new.write('USEDB=no\n')
         else:
             new.write(line)
     old.close()
+    log.debug('Closing file %s' % old.name)
     new.close()
+    log.debug('Closing file %s' % new.name)
     try:
+        log.debug('Merging file /etc/sysconfig/authconfig')
         move(os.path.join(temp, 'authconfig'), '/etc/sysconfig/authconfig')
     except IOError, e:
-        print >> sys.stderr, 'ERROR: Could not write /etc/sysconfig/authconfig: %s' % e
+        log.error('Could not write /etc/sysconfig/authconfig: %s' % e)
         sys.exit(5)
+    log.debug('Updating authconfig')
     subprocess.call(['/usr/sbin/authconfig', '--updateall'])
+    log.debug('Removing temp directory %s' % temp)
     rmtree(temp)
 
 if __name__ == '__main__':
@@ -741,6 +847,11 @@ if __name__ == '__main__':
     if not (opts.install or opts.enable or opts.disable or opts.aliases or opts.info_username):
         parser.print_help()
         sys.exit(0)
+
+    if opts.debug:
+        __setup_logger__(logging.DEBUG)
+    else:
+        __setup_logger__(logging.INFO)
 
     if opts.enable:
         enable()
@@ -754,10 +865,10 @@ if __name__ == '__main__':
                 force_refresh=opts.force_refresh,
                 debug=opts.debug)
     except AuthError, e:
-        print >> sys.stderr, str(e)
+        log.error('Unable to authenticate to FAS server: %s' % str(e))
         sys.exit(1)
     except URLError, e:
-        print >> sys.stderr, 'Could not connect to %s: %s\n' % (FAS_URL, e.reason[1])
+        log.error('Could not connect to %s: %s\n' % (FAS_URL, e.reason[1]))
         sys.exit(9)
 
     valid_groups = []
@@ -776,6 +887,7 @@ if __name__ == '__main__':
 
     if opts.install:
         users = fas.filter_users(valid_groups=valid_groups, restricted_groups=restricted_groups)
+        log.info('Installing fas users account into the system')
         fas.make_group_db(users)
         fas.make_passwd_db(users)
         if not opts.no_group:
