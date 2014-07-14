@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -131,7 +131,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
-* Thu May 22 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0
+* Mon Jul 14 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-2
+- Add an option to fasClient to reduce verbosity on std-output.
+
+* Thu May 22 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-1
 - Add moderator group with restricted privileges.
 - Update FPCA, Red Hat mailing address.
 - Update groupdb format creation from fasClient.

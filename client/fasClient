@@ -151,6 +151,11 @@ parser.add_option('--debug',
                      default = False,
                      action = 'store_true',
                      help = _('Enable debugging messages'))
+parser.add_option('-v', '--verbose',
+                    dest = 'verbose',
+                    default = False,
+                    action = 'store_true',
+                    help = _('Provides more detailed output'))
 
 (opts, args) = parser.parse_args()
 
@@ -848,10 +853,15 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(0)
 
-    if opts.debug:
+    if (opts.debug and opts.verbose) or opts.debug:
         __setup_logger__(logging.DEBUG)
     else:
+        __setup_logger__(logging.NOTSET)
+
+    if opts.verbose:
         __setup_logger__(logging.INFO)
+    else:
+        __setup_logger__(logging.NOTSET)
 
     if opts.enable:
         enable()
@@ -859,6 +869,7 @@ if __name__ == '__main__':
         disable()
 
     try:
+        log.info('Connecting to FAS server')
         fas = MakeShellAccounts(FAS_URL,
                 username=config.get('global', 'login').strip('"'),
                 password=config.get('global', 'password').strip('"'),
@@ -870,6 +881,8 @@ if __name__ == '__main__':
     except URLError, e:
         log.error('Could not connect to %s: %s\n' % (FAS_URL, e.reason[1]))
         sys.exit(9)
+
+    log.info('Authentication successful, we good to go.')
 
     valid_groups = []
     restricted_groups = []
