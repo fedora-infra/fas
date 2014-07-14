@@ -12,6 +12,10 @@ NEWS
 -------
 * Add support for group moderator.
 * Update FPCA license with new Red Hat mailing address.
+* fasClient:
+    * Add initgroups entries format while building group.db
+    * Improve logger system.
+    * Add option to manage verbosity.
 
 ------
 0.9.0
