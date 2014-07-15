@@ -735,9 +735,9 @@ class MakeShellAccounts(AccountSystem):
         '''Install the shadow database'''
         log.debug('Installing file %s to %s' % (self.__shadwdb__, self.__dbdir__))
         try:
-            move(os.path.join(self.temp, self.__shadwfile__), os.path.join(prefix, self.__dbdir__ + self.__shadwfile__))
+            move(os.path.join(self.temp, self.__shadwdb__), os.path.join(prefix, self.__dbdir__ + self.__shadwdb__))
         except IOError, e:
-            log.error('Could not install file %s: %s' % (self.__shadwfile__, e))
+            log.error('Could not install file %s: %s' % (self.__shadwdb__, e))
 
     def install_group_db(self):
         '''Install the group database'''

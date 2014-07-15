@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.10.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -152,6 +152,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Jul 15 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-5
+- Install right shadow database.
+
 * Mon Jul 14 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 0.10.0-4
 - Remove nss_db dep in rhel7
 
