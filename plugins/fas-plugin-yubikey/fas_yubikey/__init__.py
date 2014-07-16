@@ -20,6 +20,7 @@ from fas.model import Log
 from fas.auth import *
 from fas.user import KnownUser
 from fas.util import available_languages
+import fas.fedmsgshim
 
 from random import choice
 import time, string
@@ -285,6 +286,11 @@ You have changed your Yubikey on your Fedora account %s. If you did not make
 this change, please contact admin@fedoraproject.org''' % target)
         email='%s@fedoraproject.org' % target
         send_mail(email, mail_subject, mail_text)
+        fas.fedmsgshim.send_message(topic='user.update', msg={
+            'agent': person.username,
+            'user': target.username,
+            'fields': ['yubikey'],
+        })
         turbogears.flash(_("Changes saved.  Please allow up to 1 hour for changes to be realized."))
         turbogears.redirect('/yubikey/')
         return dict()
