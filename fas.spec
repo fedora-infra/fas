@@ -1,21 +1,23 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.9.0
-Release:        1%{?dist}
+Version:        0.10.0
+Release:        5%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.gz
+Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
-BuildRequires:  TurboGears
 BuildRequires:  gettext
+%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
+BuildRequires:  TurboGears
+%endif
 Requires: TurboGears >= 1.0.4
 Requires: python-sqlalchemy
 # Note: python-fedora-turbogears will get rid of this dep someday so let's be
@@ -53,7 +55,7 @@ Summary: Clients for the Fedora Account System
 Group: Applications/System
 Requires: python-fedora >= 0.3.12.1
 Requires: authconfig
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 7
 Requires: nss_db
 %endif
 Requires: libselinux-python
@@ -66,20 +68,29 @@ Additional scripts that work as clients to the accounts system.
 
 
 %build
+%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
+# Bit hacky.  On EPEL7 we only need the client (which doesn't get byte
+# compiled as everything's in a single script).  setup.py doesn't work
+# because it builds the server too (which needs TG1)
 %{__python} setup.py build --install-data='%{_datadir}'
-
+%endif
 
 %install
 %{__rm} -rf %{buildroot}
+
+%{__mkdir_p} %{buildroot}%{_sysconfdir}
+
+# fas-client stuff
+%{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
+%{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
+
+%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
 %{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
-%{__mkdir_p} %{buildroot}%{_sysconfdir}
 %{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
 %{__install} fas.wsgi %{buildroot}%{_sbindir}
 # Unreadable by others because it's going to contain a database password.
 %{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
-%{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
-%{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
 
 %{__mv} %{buildroot}%{_bindir}/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
 %{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
@@ -91,6 +102,15 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 
 %find_lang %{name}
 
+%else
+# Little hacky -- this is normally installed by setup.py but we can't run that
+# on epel7 due to not having TG which is only needed for the server portion
+%{__mkdir_p} %{buildroot}%{_bindir}
+%{__install} -m 0755 client/fasClient %{buildroot}%{_bindir}/fasClient
+%{__install} -m 0755 client/fasClient %{buildroot}%{_bindir}/restricted-shell
+%endif
+
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -99,7 +119,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 /usr/sbin/useradd -c 'Fedora Account System user' -s /sbin/nologin \
     -r -M -d %{_datadir}/fas fas &> /dev/null || :
 
-
+%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
 %files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
@@ -123,6 +143,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
 %attr(-,root,fas) %config(noreplace) %{_sysconfdir}/account-expiry.cfg
+%endif
 
 %files clients
 %defattr(-,root,root,-)
@@ -131,6 +152,23 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Jul 15 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-5
+- Install right shadow database.
+
+* Mon Jul 14 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 0.10.0-4
+- Remove nss_db dep in rhel7
+
+* Mon Jul 14 2014 Toshio Kuratomi <toshio@fedoraproject.org> - 0.10.0-3
+- Fix building of the clients subpackage on EPEL7
+
+* Mon Jul 14 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-2
+- Add an option to fasClient to reduce verbosity on std-output.
+
+* Thu May 22 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-1
+- Add moderator group with restricted privileges.
+- Update FPCA, Red Hat mailing address.
+- Update groupdb format creation from fasClient.
+
 * Thu Mar 06 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.9.0
 - Add pkgdb2 support.
 - Link GPG's keys to key.fedoraproject.org.

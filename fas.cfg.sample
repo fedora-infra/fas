@@ -55,6 +55,14 @@ username_blacklist = "abuse,accounts,adm,admin,amanda,apache,askfedora,asterisk,
 admingroup = 'accounts'
 # systemgroup is for automated systems that can read any info from the FAS db
 systemgroup = 'fas-system'
+
+# Moderator group provides its members restricted admin power
+# allowed by defined action below.
+# Valid action :
+# modo.allow.update_status, allow approved member to do related action.
+modo.group = 'accounts-moderators'
+modo.allow.update_status = False
+
 # thirdpartygroup is for thirdparties that also need group management
 # via fas, but maintain their own actual account systems
 thirdpartygroup = 'thirdparty'

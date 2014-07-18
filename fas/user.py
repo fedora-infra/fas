@@ -72,7 +72,13 @@ import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log
 from fas import openssl_fas
-from fas.auth import is_admin, cla_done, undeprecated_cla_done, can_edit_user
+from fas.auth import (
+	is_admin,
+	cla_done,
+	undeprecated_cla_done,
+	can_edit_user,
+	is_modo
+)
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
     ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
@@ -254,6 +260,7 @@ class User(controllers.Controller):
             personal = False
         admin = is_admin(identity.current)
         (cla, undeprecated_cla) = undeprecated_cla_done(person)
+        (modo, can_update) = is_modo(identity.current)
         person_data = person.filter_private()
         person_data['approved_memberships'] = list(person.approved_memberships)
         person_data['unapproved_memberships'] = list(person.unapproved_memberships)
@@ -265,7 +272,7 @@ class User(controllers.Controller):
                 'Groups': ('unapproved_roles',),
                 }
         return dict(person=person_data, cla=cla, undeprecated=undeprecated_cla, personal=personal,
-                admin=admin, show=show)
+                admin=admin, modo=modo, can_update=can_update, show=show)
 
     @identity.require(identity.not_anonymous())
     @validate(validators={ 'targetname' : KnownUser })
@@ -413,8 +420,10 @@ login with your Fedora account first):
                       'gpg_keyid', 'comments', 'locale', 'timezone',
                       'country_code', 'privacy', 'latitude', 'longitude')
             for field in fields:
-                if getattr(target, field) != locals()[field]:
-                    setattr(target, field, locals()[field])
+                old = getattr(target, field)
+                new = locals()[field]
+                if (old or new) and old != new:
+                    setattr(target, field, new)
                     changed.append(field)
 
         except TypeError, error:
@@ -470,6 +479,60 @@ If the above information is incorrect, please log in and fix it:
             })
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
+
+    @identity.require(identity.not_anonymous())
+    @expose()
+    def updatestatus(self, people, status):
+        ''' Change account status on given user. '''
+        target = People.by_username(people)
+        user = identity.current.user_name
+
+        # Prevent user from using url directly to update
+        # account if requested's status has been set already.
+        if target.status == status:
+            turbogears.redirect("/user/view/%s" % target.username)
+            return dict()
+
+        (modo, can_update) = is_modo(user)
+        if (modo and can_update) or is_admin(user):
+            try:
+                target.status = status
+                target.status_change = datetime.now(pytz.utc)
+            except TypeError, error:
+                turbogears.flash(_('Account status could not be changed: %s')
+                    % error)
+                turbogears.redirect("/user/view/%s" % target.username)
+                return dict()
+        else:
+            turbogears.flash(_("You're not allowed to update accounts!"))
+            turbogears.redirect("/user/view/%s" % target.username)
+            return dict()
+
+        if is_admin(user) and status in ('expired', 'admin_disabled'):
+            target.old_password = target.password
+            target.password = '*'
+            for group in target.unapproved_memberships:
+                try:
+                    target.remove(group, target.username)
+                except fas.RemoveError:
+                    pass
+
+        subject = _('Your Fedora Account has been set to %s') % status
+        text = _('''
+Your account status have just been set to %s by an admin or an account's moderator. 
+If this is not expected, please contact admin@fedoraproject.org and let them know.
+
+- The Fedora Account System
+        ''') % status
+        send_mail(target.email, subject, text)
+
+        fas.fedmsgshim.send_message(topic="user.update", msg={
+                'agent': user,
+                'user': target.username,
+                'fields': 'status',
+        })
+        turbogears.redirect('/user/view/%s' % target.username)
+        return dict()
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
@@ -694,7 +757,7 @@ If the above information is incorrect, please log in and fix it:
                 person.group_roles[group.name] = role
                 person.roles.append(role)
 
-        if len(people_map) == 1 and people_map.get(search) and request_format != 'json':
+        if len(people_map) == 1 and people_map.get(search) and request_format() != 'json':
             turbogears.redirect('/user/view/%s' % search)
             return dict()
 
