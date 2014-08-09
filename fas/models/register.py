@@ -2,6 +2,7 @@
 
 from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
+from fas.models.configs import AccountPermissions
 
 from fas.utils import _
 from fas.utils.geoip import get_record_from
@@ -46,3 +47,24 @@ def save_account_activity(request, people, event):
         )
 
     session.add(activity)
+
+
+def add_token(people_id, description, token, permission):
+    """ Add people's token to database. """
+    perm = AccountPermissions(
+        people=people_id,
+        token=token,
+        application=description,
+        permissions=permission
+        )
+
+    session.add(perm)
+
+
+def remove_token(permission):
+    """ Remove people's token from database. """
+    perm = AccountPermissions()
+    perm.token = permission
+    session.query(AccountPermissions).filter(
+        AccountPermissions.token==permission).delete()
+    #session.delete(AccountPermissions).filter(AccountPermissions.token == perm)

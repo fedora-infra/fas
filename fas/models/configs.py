@@ -12,6 +12,8 @@ from sqlalchemy import (
     func
     )
 
+from sqlalchemy.orm import relation
+
 
 class Plugins(Base):
     __tablename__ = 'plugins'
@@ -31,3 +33,8 @@ class AccountPermissions(Base):
     granted_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp())
+
+    account = relation(
+        'People',
+        uselist=False
+        )
