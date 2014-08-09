@@ -18,6 +18,7 @@ from pyramid.security import (
 
 from fas.utils import Config
 import fas.models.provider as provider
+import fas.models.register as register
 
 
 @view_defaults(renderer='/home.xhtml')
@@ -58,10 +59,9 @@ class Home:
                 if person.password == password:
                     headers = remember(self.request, login)
                     self.request.session.get_csrf_token()
+                    register.save_account_activity(self.request, person.id, 1)
                     return HTTPFound(location=came_from, headers=headers)
-            message = 'Login failed. Invalid username or password!'
-            self.request.session.flash('info message')
-            self.request.session.pop_flash()
+            self.request.session.flash('Login failed', 'login')
 
         return dict(
             message=message,
