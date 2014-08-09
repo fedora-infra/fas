@@ -66,9 +66,6 @@ def people_list(request):
         data.set_pages('people', page, limit)
         data.set_data(users)
 
-    # Test insertion
-    #register.save_account_activity(request, 3000, 1)
-
     return data.get_metadata()
 
 

@@ -12,9 +12,12 @@ from fas.security import generate_token
 
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
+from fas.models import AccountPermissionType as permission
 
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound
+
+from fas.utils import _
 
 
 class People(object):
@@ -127,6 +130,23 @@ class People(object):
 
         perms = provider.get_account_permissions_by_people_id(self.id)
 
+        token_perm = []
+        token_perm.append(
+            (permission.CAN_READ_PEOPLE_PUBLIC_INFO,
+             _('client can read fas public\'s information')))
+        token_perm.append(
+            (permission.CAN_READ_PEOPLE_PUBLIC_INFO,
+             _('client can read only you public account\'s information')))
+        token_perm.append(
+            (int(permission.CAN_READ_PEOPLE_FULL_INFO),
+             _('client can read your full account information')))
+        token_perm.append(
+            (permission.CAN_READ_AND_EDIT_PEOPLE_INFO,
+             _('client can read and edit your account\' information')))
+        token_perm.append(
+            (permission.CAN_EDIT_GROUP_INFO,
+             _('client can edit fas group\'s information')))
+
         # Prevent client/user from requesting direct url
         #TODO: move this to Auth provider?
         if len(perms) > 0:
@@ -140,4 +160,4 @@ class People(object):
             else:
                 self.person = provider.get_people_by_id(self.id)
 
-        return dict(permissions=perms, person=self.person)
+        return dict(permissions=perms, person=self.person, access=token_perm)

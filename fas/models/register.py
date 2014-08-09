@@ -66,5 +66,4 @@ def remove_token(permission):
     perm = AccountPermissions()
     perm.token = permission
     session.query(AccountPermissions).filter(
-        AccountPermissions.token==permission).delete()
-    #session.delete(AccountPermissions).filter(AccountPermissions.token == perm)
+        AccountPermissions.token == permission).delete()

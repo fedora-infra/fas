@@ -43,11 +43,11 @@
             </div>
     <!--    This is for demo purpose - list will be coming dynamically from core app -->
             <div class="col-sm-offset-2 col-sm-10">
-              %for i in ['full_info', 'public_info', 'read_write_account']:
+              %for perm in access:
                   <dt>
                     <label>
-                      <input type="radio" name="permission" value="${i}">
-                      Token permission: ${i}
+                      <input type="radio" name="permission" value="${perm[0]}">
+                      ${perm[1]}
                     </label>
                   </dt>
               %endfor

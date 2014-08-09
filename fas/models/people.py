@@ -145,16 +145,17 @@ class People(Base):
             info['Bio'] = self.bio
 
             info['Membership'] = []
-            for groups in self.group_membership:
-                info['Membership'].append(
-                    {
-                        'GroupId': groups.group_id,
-                        'GroupName': groups.group.name,
-                        'GroupType': groups.group.group_type,
-                        'GroupSponsorId': self.group_sponsors.sponsor,
-                        'GroupRole': groups.role
-                    }
-                )
+            if self.group_membership > 0:
+                for groups in self.group_membership:
+                    info['Membership'].append(
+                        {
+                            'GroupId': groups.group_id,
+                            'GroupName': groups.group.name,
+                            'GroupType': groups.group.group_type,
+                            'GroupSponsorId': groups.sponsor,
+                            'GroupRole': groups.role
+                        }
+                    )
 
             # Infos that people set as private
             if not self.privacy:
