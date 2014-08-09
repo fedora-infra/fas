@@ -3,18 +3,18 @@
   ${profile.header()}
   <div id="profile-account-activities">
     <h3>${_(u'Your account activities')}</h3>
-    <ul class="profile-list">
+    <dl class="dl-horizontal">
       %for activity in activities:
             <li>
-              <span>${_(u'Date')}</span> ${activity.timestamp.strftime('%b, %d')}
-              <span>${_(u'Event')}</span>
+              <span><strong>${_(u'Date')}</strong></span> ${activity.timestamp.strftime('%b, %d')}
+              <span><strong>${_(u'Event')}</strong></span>
               %if activity.event == 1:
-                _(u'Signed in from') ${activity.access_from}
+                ${_(u'Signed in from')} ${activity.access_from}
               %elif activity.event == 2:
-                _(u'Connected App from')
+                ${_(u'Connected App from')}
               %endif
-             <span>${_(u'Location')}</span> ${activity.location} (${activity.remote_ip})
+             <span><strong>${_(u'Location')}</strong></span> ${activity.location} (${activity.remote_ip})
             </li>
       %endfor
-    </ul>
+    </dl>
   </div>

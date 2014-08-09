@@ -33,6 +33,7 @@ def __get_user(key, value):
 
     return user
 
+
 @view_config(route_name='api_people_list', renderer='json', request_method='GET')
 def people_list(request):
     """ Returns a JSON's output of people's list. """

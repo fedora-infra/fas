@@ -1,12 +1,12 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
   <h1>${_(u'People\'s List')}</h1>
-  ${paging.list(name='people', route='people-paging')}
-  <div id="people-list">
-    <ul id="people">
-      %if people: 
-          % for user in people:
-      <li>
+  %if people:
+      ${paging.list(name='people', route='people-paging')}
+  <div class="row">
+      %for user in people:
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
         <a href="${request.route_url('people-profile', id=user.id)}">
         %if user.avatar:
             <img src="${user.avatar + '?s=100&d=monsterid'}"/>
@@ -14,13 +14,13 @@
             <img src="http://cdn.libravatar.org/avatar/"/>
         %endif
         </a>
-        <span class="name">${user.username}</span>
-        <span class="fullname">(${user.fullname})</span>
-      </li>
-      % endfor
-    % else:
-      <li>${_(u'Found no registered people')}</li>
-    % endif
-    </ul>
+        <div class="caption">
+          <h3 >${user.fullname}</h3>
+          <p>${user.bio}</p>
+        </div>
+      </div>
+    </div>
+      %endfor
   </div>
-  ${paging.list(name="people", route='people-paging')}
+      ${paging.list(name="people", route='people-paging')}
+  %endif

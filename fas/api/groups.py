@@ -64,6 +64,7 @@ def group_list(request):
 
     return data.get_metadata()
 
+
 @view_config(route_name='api_group_get', renderer='json', request_method='GET')
 def api_group_get(request):
     group = None

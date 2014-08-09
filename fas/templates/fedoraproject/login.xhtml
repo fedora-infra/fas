@@ -1,19 +1,25 @@
 <%inherit file="/site.xhtml" />
   <div id="middlee">
+    %if request.session.peek_flash('login'):
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>WOooops!</strong> ${request.session.pop_flash('login')[0]}
+        </div>
+    %endif
+
       <div class="middle align-right">
         <div id="left" class="app-welcome align-left">
           <b>Login</b><br/>
           <span> ${message}</span>
         </div>
-        <div id="right" class="app-welcome align-right"></div>
       </div>
     </div>
     <div id="bottom">
       <div class="bottom">
         <form action="${url}" method="post">
           <input type="hidden" name="came_from" value="${came_from}"/>
-          <input type="text" name="login" value="${login}"/><br/>
-          <input type="password" name="password" value="${password}"/><br/>
+          <input type="text" class="form-control" id="inputLogin" placeholder="Login" name="login" value="${login}"/><br/>
+          <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password" value="${password}"/><br/>
           <input type="submit" name="form.submitted" value="Log In"/>
         </form>
       </div>

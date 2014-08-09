@@ -2,53 +2,58 @@
 <%namespace name="profile" file="/people/profile-header.xhtml"/>
 <%block name="details">
   ${profile.header()}
-  <div id=profile-basic-info>
-    <h3>${_(u'Basic Information')}</h3>
-    <ul class="profile-list">
-      <li>
-        <span>${_(u'Account Name')}:</span> ${person.username}
-      </li>
-      <li>
-        <span>${_(u'IRC Nick')}:</span> ${person.ircnick or _(u'Add your IRC nickname!')}
-      </li>
-      <li>
-        <span>${_(u'Country')}:</span> ${person.country_code}
-      </li>
-      <li>
-        <span>
-    </ul>
-  </div>
-  <div id=profile-contact-info>
-    <h3>${_(u'Contact Information')}</h3>
-    <ul class="profile-list">
-      <li>
-        <span>${_(u'Email')}: ${person.email}</span>
-        <span>${_(u'Telephone')}: ${person.telephone}</span>
-        <span>${_(u'Postal Address')}: ${person.postal_address}</span>
-        <span>${_(u'GPG ID')}: ${person.gpg_id}</span>
-      </li>
-    </ul>
-  %if person.username == request.authenticated_userid:
-  <div id="profile-security">
-    <h3>${_(u'Security')}</h3>
-        </form>
-      <dl class="profile-list">
-        <dt>${_(u'Password')}</dt>
-        <dt>${_(u'Security Question')}</dt>
-        <dt>${_(u'SSH key')}</dt>
-        <dd>${person.ssh_key}</dd>
-        <dt>${_(u'GPG Fingerprint')}</dt>
-        <dt>
-          %if len(person.activities_log) > 0:
-              <a href="${request.route_url('people-activities', id=person.id)}">
-                ${_(u'Account activities')}
-              </a>
-          %else:
-                ${_(u'Account activities')}
-          %endif
-        </dt>
+  <div class=row>
+    <div class="col-sm-6 col-md-4">
+      <h3>${_(u'Basic Information')}</h3>
+      <dl class="dl-horizontal">
+           <dt>${_(u'Account Name')}</dt>
+           <dd>${person.username}</dd>
+           <dt>${_(u'IRC Nick')}</dt>
+           <dd>${person.ircnick or _(u'Add your IRC nickname!')}</dd>
+           <dt>${_(u'Country')}</dt>
+           <dd>${person.country_code}</dd>
       </dl>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <h3>${_(u'Contact Information')}</h3>
+      <dl class="dl-horizontal">
+            %if request.authenticated_userid:
+                <dt>${_(u'Email')}</dt>
+                <dd>${person.email}</dd>
+                %if not person.privacy:
+                    <dt>${_(u'Telephone')}</dt> 
+                    <dd>${person.telephone}</dd>
+                    <dt>${_(u'Postal Address')}</dt> 
+                    <dd>${person.postal_address}</dd>
+                %endif
+            %endif
+                <!-- Wondering if this really is an contact information? -->
+                <dt>${_(u'GPG ID')}</dt> 
+                <dd>${person.gpg_id}</dd>
+      </dl>
+    </div>
   </div>
+  %if person.username == request.authenticated_userid:
+      <div id="profile-security">
+        <h3>${_(u'Security')}</h3>
+          <dl class="dl-horizontal">
+            <dt>${_(u'Password')}</dt>
+            <dt>${_(u'Security Question')}</dt>
+            <dt>${_(u'SSH key')}</dt>
+            <dd>${person.ssh_key}</dd>
+            <dt>${_(u'GPG Fingerprint')}</dt>
+            <dt><a href="${request.route_url('people-token', id=person.id)}">${_(u'Access Token')}</a></dt>
+            <dt>
+              %if len(person.activities_log) > 0:
+                  <a href="${request.route_url('people-activities', id=person.id)}">
+                    ${_(u'Account activities')}
+                  </a>
+              %else:
+                    ${_(u'Account activities')}
+              %endif
+            </dt>
+          </dl>
+      </div>
   %endif
   <div id=profile-involment>
     <h2>${_(u'Involment')}</h2>

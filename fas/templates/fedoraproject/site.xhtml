@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/fas.css')}" type="text/css" media="screen" charset="utf-8" />
   <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
   <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
+  <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/bootstrap/bootstrap.css')}" media="screen" />
+  <script src="${request.static_url('fas:static/theme/fedoraproject/scripts/jquery.js')}"></script>
+  <script src="${request.static_url('fas:static/theme/fedoraproject/bootstrap/js/bootstrap.min.js')}"></script>
 </head>
 <body>
     <div id="top">
@@ -22,8 +25,8 @@
         %if request.authenticated_userid is None:
             <form action="${request.application_url + '/login'}" method="post">
               <input type="hidden" name="came_from" value="${request.url}"/>
-                <button href="${request.route_url('login')}">Log In</button>
-        </form>
+              <button href="${request.route_url('login')}">Log In</button>
+            </form>
         %endif
         %if request.authenticated_userid is not None:
             <form action="${request.application_url + '/logout'}" method="post">
@@ -31,9 +34,16 @@
                 <button href="${request.route_url('logout')}">Logout (${request.authenticated_userid})</button>
             </form>
         %endif
+<!--
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;
+            </span><span class="sr-only">Close</span>
+          </button>
+          Alert test
+        </div>
+-->
         <p class="app-welcome">
-          <span class="app-name">${_(u'Fedora Account System')}</span><br/>
-          ${_(u'Web application in development.')}
+          <span class="app-name">${_(u'Fedora Account System')}</span>
         </p>
       </div>
     </div>

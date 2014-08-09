@@ -80,6 +80,7 @@ def add_default_group():
 
 
 def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
+    """ Create a fake user into fas DB. """
     from faker import Factory
     from fas.utils.avatar import gen_libravatar
     fake = Factory.create()
@@ -99,6 +100,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                     password=username,
                     fullname=user['name'],
                     email=mail,
+                    postal_address=user['address'],
                     bio=fake.paragraph(),
                     avatar=gen_libravatar(mail),
                     avatar_id=mail

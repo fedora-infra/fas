@@ -93,7 +93,6 @@ def get_group_membership(id):
 
     return query.all()
 
-
 def get_group_by_people_membership(username):
     """ Retrieve group's membership by people's username."""
     query = session.query(Groups)\
