@@ -24,6 +24,7 @@ requires = [
     'pygeoip',
     'ua-parser',
     'pyyaml',
+    'cryptacular',
 
     #i18n
     'Babel',

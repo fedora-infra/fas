@@ -30,6 +30,7 @@ from fas.models.group import (
 from fas.models.configs import AccountPermissions
 from fas.models import AccountPermissionType as perm
 
+from fas.utils.passwordmanager import PasswordManager
 from fas.security import generate_token
 
 _ = TranslationStringFactory('fas')
@@ -85,6 +86,8 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
     from fas.utils.avatar import gen_libravatar
     fake = Factory.create()
 
+    pv = PasswordManager()
+
     users = []
     email = []
     for i in range(0, upto):
@@ -97,7 +100,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
             people = People(
                     id=user_index,
                     username=username,
-                    password=username,
+                    password=pv.generate_password(username),
                     fullname=user['name'],
                     email=mail,
                     postal_address=user['address'],
@@ -117,6 +120,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                             sponsor=007,
                             role=random.choice([1, 2, 3, 5])
                             )
+            print 'Adding user %s to database' % people.username
             session.add(people)
             session.add(perms)
             session.add(membership)
@@ -132,6 +136,7 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
+    pv = PasswordManager()
     with transaction.manager:
         fill_account_status()
         fill_role_levels()
@@ -140,14 +145,14 @@ def main(argv=sys.argv):
         admin = People(
                     id=007,
                     username=u'admin',
-                    password=u'admin',
+                    password=pv.generate_password('admin'),
                     fullname=u'FAS Administrator',
                     email=u'admin@fedoraproject.org'
         )
         user = People(
                     id=999,
                     username=u'foobar',
-                    password=u'foobar',
+                    password=pv.generate_password('foobar'),
                     fullname=u'FAS User',
                     email=u'user@fedoraproject.org'
         )

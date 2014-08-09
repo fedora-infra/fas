@@ -6,6 +6,8 @@ import hashlib
 from pyramid.security import Allow, Everyone
 
 from fas.utils import Config
+from fas.utils.passwordmanager import PasswordManager
+
 import fas.models.provider as provider
 
 
@@ -48,7 +50,7 @@ class Base:
         self.dbsession = None
         self.people = None
         self.token = None
-        self.msg = ()
+        self.msg = ('Access denied.', 'Unauthorized API key.')
 
     def set_msg(self, name, text=''):
         self.msg = (name, text)
@@ -58,7 +60,18 @@ class Base:
 
 
 class PasswordValidator(Base):
-    pass
+
+    def __init__(self, person, password):
+        self.person = person
+        self.password = password
+        self.passwdmanager = PasswordManager()
+
+    def is_valid(self):
+        """ Check if password for given login is valid. """
+        if self.person:
+             return self.passwdmanager.is_valid_password(
+                 self.person.password, self.password)
+        return False
 
 
 class OtpValidator(Base):

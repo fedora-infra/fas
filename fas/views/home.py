@@ -17,6 +17,8 @@ from pyramid.security import (
     )
 
 from fas.utils import Config
+from fas.security import PasswordValidator
+
 import fas.models.provider as provider
 import fas.models.register as register
 
@@ -54,13 +56,14 @@ class Home:
             login = self.request.params['login']
             password = self.request.params['password']
             person = provider.get_people_by_username(login)
-            if person:
-                #TODO: this is for testing only. will be part of validator.
-                if person.password == password:
-                    headers = remember(self.request, login)
-                    self.request.session.get_csrf_token()
-                    register.save_account_activity(self.request, person.id, 1)
-                    return HTTPFound(location=came_from, headers=headers)
+
+            pv = PasswordValidator(person, password)
+            if pv.is_valid():
+                headers = remember(self.request, login)
+                self.request.session.get_csrf_token()
+                register.save_account_activity(self.request, person.id, 1)
+                return HTTPFound(location=came_from, headers=headers)
+
             self.request.session.flash('Login failed', 'login')
 
         return dict(
