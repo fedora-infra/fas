@@ -60,7 +60,9 @@
     <ul class="profile-list">
       %for g in membership:
         <li>
-          <img src="/static/theme/fedoraproject/fas.png">
+          <a href="${request.route_url('group-details', id=g.group.id)}">
+            <img src="/static/theme/fedoraproject/fas.png">
+          </a>
           <span>${g.group.name}</span>
           <span>${g.role_level.name}</span>
         </li>
