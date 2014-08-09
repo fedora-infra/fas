@@ -13,14 +13,15 @@ class Root(object):
     def __acl__(self):
         return [
             (Allow, Everyone, 'view'),
-            (Allow, self.owner, 'owner'),
+            (Allow, self.auth, 'authenticated'),
             (Allow, self.admin, ('admin', 'modo', 'group_edit')),
             (Allow, self.group_editor, 'group_edit'),
             (Allow, self.modo, 'modo')
         ]
 
     def __init__(self, request):
-        self.owner = request.authenticated_userid
+        """"""
+        self.auth = request.authenticated_userid
         self.admin = Config.get_admin_group()
         self.modo = Config.get_modo_group()
         self.group_editor = Config.get_group_editor()
