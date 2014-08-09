@@ -171,16 +171,16 @@ class People(Base):
                 info['LastLogged'] = self.last_logged.strftime(
                     '%Y-%m-%d %H:%M')
 
-                info['TokenApi'] = {
-                    'fas': self.fas_token,
+                info['ConnectedApplications'] = {
+                    #'fas': self.fas_token,
                     'github': self.github_token,
                     'twitter': self.twitter_token
                 }
 
                 if self.account_permissions:
-                    info['AccountPermissions'] = []
+                    info['AccountAccess'] = []
                     for perms in self.account_permissions:
-                        info['AccountPermissions'].append(
+                        info['AccountAccess'].append(
                             {
                                 'Application': perms.application,
                                 'Permissions': perms.permissions,
