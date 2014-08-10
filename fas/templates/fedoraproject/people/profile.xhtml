@@ -34,7 +34,10 @@
     </div>
   </div>
   %if person.username == request.authenticated_userid:
+    <div class="row">
+<!--
       <div id="profile-security">
+-->
         <h3>${_(u'Security')}</h3>
           <dl class="dl-horizontal">
             <dt>${_(u'Password')}</dt>
@@ -53,10 +56,16 @@
               %endif
             </dt>
           </dl>
+<!--
       </div>
+-->
+    </div>
   %endif
+    <div class="row">
+<!--
   <div id=profile-involment>
-    <h2>${_(u'Involment')}</h2>
+-->
+    <h3>${_(u'Involment')}</h3>
     <ul class="profile-list">
       %for g in membership:
         <li>
