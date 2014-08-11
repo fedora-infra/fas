@@ -215,7 +215,8 @@ class ValidGPGKeyID(validators.UnicodeString):
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
-
+    ssh_keysupport = config.get('ssh_keysupport').split(',')
+    
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.file.read().decode('utf-8')
@@ -228,7 +229,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
+            validline = re.match('ssh_keysupport', keyline)
             if not validline:
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
