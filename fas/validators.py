@@ -229,10 +229,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-                for value in self.ssh_keysupport:
-            
-            if value in self.ssh_keysupport:
-            if not validline:
+            if not keyline in self.ssh_keysupport:    
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
 
