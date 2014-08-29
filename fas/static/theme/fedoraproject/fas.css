@@ -223,6 +223,112 @@ body h1, body h2, body h3, body h4, body h5, body h6
   margin-left: auto;
 }
 
+header {
+    width: 100%;
+    height: 118px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+   // background-color: #0683c9;
+    background-color: #3C6EB4;
+    -webkit-transition: height 0.3s;
+    -moz-transition: height 0.3s;
+    -ms-transition: height 0.3s;
+    -o-transition: height 0.3s;
+    transition: height 0.3s;
+}
+
+header h1#logo {
+    display: inline-block;
+    height: 150px;
+    line-height: 150px;
+    float: left;
+    font-family: "Oswald", sans-serif;
+    font-size: 60px;
+    color: white;
+    font-weight: 400;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+header nav {
+    display: inline-block;
+    float: right;
+}
+
+header nav a {
+    line-height: 150px;
+    margin-left: 20px;
+    color: #9fdbfc;
+    font-weight: 700;
+    font-size: 18px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+header nav a:hover {
+    color: white;
+}
+
+header.smaller {
+    height: 45px;
+}
+
+header.smaller h1#logo {
+    width: 150px;
+    height: 75px;
+    line-height: 75px;
+    font-size: 30px;
+}
+
+header.smaller nav a {
+    line-height: 75px;
+}
+
+@media all and (max-width: 660px) {
+    header h1#logo {
+        display: block;
+        float: none;
+        margin: 0 auto;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+    }
+    header nav {
+        display: block;
+        float: none;
+        height: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    header nav a {
+        line-height: 50px;
+        margin: 0 10px;
+    }
+    header.smaller {
+        height: 75px;
+    }
+    header.smaller h1#logo {
+        height: 40px;
+        line-height: 40px;
+        font-size: 30px;
+    }
+    header.smaller nav {
+        height: 35px;
+    }
+    header.smaller nav a {
+        line-height: 35px;
+    }
+}
+
 //img.profile
 //{
 //  display: block;
@@ -253,7 +359,7 @@ div#profile-header
 {
   color: #000;
   height: 190px;
-  background: #fff url(header-prod.png) repeat-x 0 top;
+  //background: #fff url(header-prod.png) repeat-x 0 top;
   position: relative;
 }
 
@@ -261,7 +367,7 @@ div#profile-header
 {
   color: #000;
   height: 60px;
-  background: #fff url(header-prod.png) repeat-x 0 top;
+  //background: #fff url(header-prod.png) repeat-x 0 top;
   position: relative;
 }
 

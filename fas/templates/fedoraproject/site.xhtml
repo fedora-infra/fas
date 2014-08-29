@@ -12,13 +12,36 @@
   <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/bootstrap/bootstrap.css')}" media="screen" />
   <script src="${request.static_url('fas:static/theme/fedoraproject/scripts/jquery.js')}"></script>
   <script src="${request.static_url('fas:static/theme/fedoraproject/bootstrap/js/bootstrap.min.js')}"></script>
+  <script src="${request.static_url('fas:static/theme/fedoraproject/scripts/classie.js')}"></script>
+  <script>
+      function init() {
+          window.addEventListener('scroll', function(e){
+              var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+                  shrinkOn = 100,
+                  header = document.querySelector("header");
+              if (distanceY > shrinkOn) {
+                  classie.add(header,"smaller");
+              } else {
+                  if (classie.has(header,"smaller")) {
+                      classie.remove(header,"smaller");
+                  }
+              }
+          });
+      }
+      window.onload = init();
+  </script>
 </head>
 <body>
-    <div id="top">
-      <div class="top align-center">
-        <div><img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}" width="175" height="53" alt="pyramid"/></div>
+  <header>
+    <div class="container clearfix">
+      <div id="top">
+        <div class="top align-center">
+          <div id="logo"><img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
+          </div>
+        </div>
       </div>
     </div>
+  </header>
   <div id="wrap">
     <div id="middle">
       <div class="middle align-center">
