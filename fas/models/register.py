@@ -61,6 +61,16 @@ def add_token(people_id, description, token, permission):
     session.add(perm)
 
 
+def add_people(people):
+    """ Add new people obj into databse. """
+    session.add(people)
+
+
+def update_people(people):
+    """ Update people's infos into database. """
+    session.update(people)
+
+
 def remove_token(permission):
     """ Remove people's token from database. """
     perm = AccountPermissions()

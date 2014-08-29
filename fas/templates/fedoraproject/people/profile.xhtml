@@ -2,6 +2,7 @@
 <%namespace name="profile" file="/people/profile-header.xhtml"/>
 <%block name="details">
   ${profile.header()}
+  <a align="center" href="${request.route_url('people-edit', id=person.id)}"><span class="badge">edit infos</span></a>
   <div class=row>
     <div class="col-sm-6 col-md-4">
       <h3>${_(u'Basic Information')}</h3>

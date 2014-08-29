@@ -406,3 +406,32 @@ body:before
   width: 0;
   margin-top: -32767px;
 }
+
+.card-form {
+  display: block;
+  padding: 4px;
+  margin-top: 20px;
+  margin-left: 190px;
+  margin-right: 190px;
+  margin-bottom: 30px;
+  line-height: 1.42857143;
+  background-color: #FCFCFC;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+       -o-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+.card-form .section-title {
+  margin: 30px;
+  border-bottom: 2px solid whitesmoke;
+  margin-bottom: 10px;
+  line-height: 1.42857143;
+  color: #3C6EB4;
+}
+
+.card-form-footer {
+  padding: 15px;
+  text-align: right;
+}

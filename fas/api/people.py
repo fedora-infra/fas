@@ -9,11 +9,12 @@ from fas.api import (
 from pyramid.response import Response
 from pyramid.view import view_config
 
-import fas.forms as forms
 import fas.models.provider as provider
 import fas.models.register as register
 
 from fas.models import AccountPermissionType as perms
+
+from fas.forms.people import EditPeopleForm
 
 from fas.security import TokenValidator
 from fas.security import ParamsValidator
@@ -113,7 +114,7 @@ def api_user_edit(request):
         request.response.status = '404 page not found'
         return err
 
-    form = forms.EditPeopleForm(request.POST)
+    form = EditPeopleForm(request.POST)
     if form.validate():
         # Handle the latitude longitude that needs to be number or None
         form.latitude.data = form.latitude.data or None
@@ -128,7 +129,6 @@ def api_user_edit(request):
 
         #form.status.data = status
         form.populate_obj(user)
-        register.add_people(user)
         return {'message': 'User updated', 'user': user.to_json()}
     else:
         request.response.status = '400 bad request'

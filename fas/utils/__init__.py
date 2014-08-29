@@ -8,7 +8,6 @@ from fas.models import provider as provider
 
 from math import ceil
 
-
 _ = TranslationStringFactory('fas')
 
 

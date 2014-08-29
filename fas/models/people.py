@@ -37,6 +37,8 @@ class People(Base):
     postal_address = Column(UnicodeText(), nullable=True)
     country_code = Column(Unicode(2), nullable=True)
     locale = Column(UnicodeText, default=u'C')
+    birthday = Column(Integer(), nullable=True)
+    birthday_month = Column(UnicodeText(), nullable=True)
     telephone = Column(UnicodeText(), nullable=True)
     facsimile = Column(UnicodeText(), nullable=True)
     affiliation = Column(UnicodeText(), nullable=True)

@@ -10,6 +10,8 @@ import fas.models.register as register
 
 from fas.security import generate_token
 
+from fas.forms.people import EditPeopleForm
+
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 from fas.models import AccountPermissionType as permission
@@ -95,14 +97,49 @@ class People(object):
 
         return dict(activities=activities, person=self.person)
 
-    @view_config(route_name='people-edit', permission='authenticated')
-    def edit(self):
+    @view_config(route_name='people-edit', permission='authenticated',
+        renderer='/people/edit-infos.xhtml')
+    def edit_infos(self):
         """ Profile's edit page."""
-        #TODO: move this to Auth provider
-        #if self.request.authenticated_userid != person.username:
-            #return redirect_to('/people/profile/%s' % _id)
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
 
-        return Response('This is an empty edit page.')
+        self.person = provider.get_people_by_id(self.id)
+
+        #TODO: move this to Auth provider?
+        if self.request.authenticated_userid != self.person.username:
+            return redirect_to('/people/profile/%s' % self.id)
+
+        form = EditPeopleForm(self.request.POST, self.person)
+
+        # Remove fields we don't need for this form'
+        del form.status
+        del form.ssh_key
+        del form.blog_rss
+        del form.facsimile
+        del form.affiliation
+        del form.avatar
+
+        # username is not edit-able
+        form.username.data = self.person.username
+
+        if self.request.method == 'POST'\
+         and ('form.save.person-infos' in self.request.params):
+            # prevent TypeError on fields not updated by user
+            if form.birthday.data is None:
+                form.birthday.data = -1
+            if form.latitude.data is None:
+                form.latitude.data = -1
+            if form.longitude.data is None:
+                form.longitude.data = -1
+
+            if form.validate():
+                form.populate_obj(self.person)
+                return redirect_to('/people/profile/%s' % self.id)
+
+        return dict(form=form, id=self.id)
 
     @view_config(route_name='people-token', permission='authenticated',
         renderer='/people/access-token.xhtml')
