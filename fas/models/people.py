@@ -48,7 +48,7 @@ class People(Base):
     gpg_fingerprint = Column(UnicodeText(), nullable=True)
     ssh_key = Column(UnicodeText(), nullable=True)
     email = Column(UnicodeText(), unique=True, nullable=False)
-    recovery_email = Column(UnicodeText(), unique=True, nullable=False)
+    recovery_email = Column(UnicodeText(), unique=True, nullable=True)
     bugzilla_email = Column(UnicodeText(), unique=True, nullable=True)
     email_token = Column(UnicodeText(), unique=True, nullable=True)
     unverified_email = Column(UnicodeText(), nullable=True)
