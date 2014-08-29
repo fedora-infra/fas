@@ -1,8 +1,16 @@
 #-*- coding: utf-8 -*-
 
 
-from wtforms import Form, HiddenField, StringField, TextAreaField, SelectField, BooleanField, IntegerField, DecimalField, validators
-
+from wtforms import (
+    Form,
+    StringField,
+    TextAreaField,
+    SelectField,
+    BooleanField,
+    IntegerField,
+    DecimalField,
+    validators,
+    )
 
 from wtforms import ValidationError
 
@@ -29,6 +37,16 @@ def is_number(form, field):
     except ValueError:
         raise ValidationError(
             'Field must contain a number')
+
+
+class UpdateStatusForm(Form):
+    """ Form to update people\'s status"""
+    # TODO: filter out status user are not allowed to select.
+    status = SelectField(_(u'Status'),
+        [validators.Required()],
+        choices=[(stat.status,
+                stat.status)
+                 for stat in provider.get_accountstatus()])
 
 
 class EditPeopleForm(Form):
@@ -63,8 +81,8 @@ class EditPeopleForm(Form):
     bugzilla_email = StringField(_(u'Bugzilla email'))
     status = SelectField(_(u'Status'),
         [validators.Required()],
-        choices=[(stat.account_status.status.capitalize(),
-                stat.account_status.status.capitalize())
+        choices=[(stat.status,
+                stat.status)
                  for stat in provider.get_accountstatus()])
     privacy = BooleanField(_(u'Privacy'))
     blog_rss = StringField(_(u'Blog RSS'))

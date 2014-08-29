@@ -11,6 +11,7 @@ import fas.models.register as register
 from fas.security import generate_token
 
 from fas.forms.people import EditPeopleForm
+from fas.forms.people import UpdateStatusForm
 
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
@@ -72,7 +73,13 @@ class People(object):
 
         self.person = provider.get_people_by_id(_id)
 
-        return dict(person=self.person, membership=self.person.group_membership)
+        form = UpdateStatusForm(self.request.POST, self.person)
+        if self.request.method == 'POST' and form.validate():
+            form.populate_obj(self.person)
+
+        return dict(person=self.person,
+        form=form,
+        membership=self.person.group_membership)
 
     @view_config(route_name='people-activities',
         renderer='/people/activities.xhtml')
@@ -198,3 +205,4 @@ class People(object):
                 self.person = provider.get_people_by_id(self.id)
 
         return dict(permissions=perms, person=self.person, access=token_perm)
+

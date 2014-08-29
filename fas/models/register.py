@@ -68,7 +68,7 @@ def add_people(people):
 
 def update_people(people):
     """ Update people's infos into database. """
-    session.update(people)
+    session.commit()
 
 
 def remove_token(permission):

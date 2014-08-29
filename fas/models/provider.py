@@ -29,7 +29,7 @@ def __get_listoffset(page, limit):
 
 def get_accountstatus():
     """ Retrieve all the status an account can have. """
-    query = session.query(People).filter(People.status)
+    query = session.query(AccountStatus)
     return query.all()
 
 
