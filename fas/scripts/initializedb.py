@@ -5,6 +5,8 @@ import sys
 import random
 import transaction
 
+from time import sleep
+
 from sqlalchemy import engine_from_config
 from pyramid.i18n import TranslationStringFactory
 
@@ -90,6 +92,10 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
 
     users = []
     email = []
+    total = upto
+    point = total / 100
+    increment = total / 20
+    sys.stdout.write('\n')
     for i in range(0, upto):
         user = fake.profile()
         username = user['username']
@@ -120,11 +126,16 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                             sponsor=007,
                             role=random.choice([1, 2, 3, 5])
                             )
-            print 'Adding user %s to database' % people.username
             session.add(people)
             session.add(perms)
             session.add(membership)
             user_index += 1
+
+            if(i % (5 * point) == 0):
+                sys.stdout.write("\r"
+                "Generating fake people: [" + "=" * (i / increment) + " "
+                 * ((total - i) / increment) + "]" + str(i / point) + "%")
+                sys.stdout.flush()
 
 
 def main(argv=sys.argv):
