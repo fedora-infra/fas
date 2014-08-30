@@ -22,9 +22,11 @@
         %endfor
       </dl>
   %endif
-      <button  type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#generateToken">
-        Add token
-      </button>
+      <div class="well" style="max-width: 400px; margin: 0 auto 10px;">
+        <button  type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#generateToken">
+          Add token
+        </button>
+      </div>
 
   <form class="form-horizontal" role="form"
         action="${request.application_url + '/people/profile/%i/accesstoken' % person.id}" method="post">

@@ -4,17 +4,29 @@
   <div id="profile-account-activities">
     <h3>${_(u'Your account activities')}</h3>
     <dl class="dl-horizontal">
-      %for activity in activities:
-            <li>
-              <span><strong>${_(u'Date')}</strong></span> ${activity.timestamp.strftime('%b, %d')}
-              <span><strong>${_(u'Event')}</strong></span>
-              %if activity.event == 1:
+    <table class="table">
+      <thead>
+        <tr>
+          <th>${_(u'Date')}</th>
+          <th>${_(u'Event')}</th>
+          <th>${_(u'Location')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        %for activity in activities:
+        <tr>
+          <td>${activity.timestamp.strftime('%b, %d')}</td>
+          <td>
+            %if activity.event == 1:
                 ${_(u'Signed in from')} ${activity.access_from}
               %elif activity.event == 2:
                 ${_(u'Connected App from')}
               %endif
-             <span><strong>${_(u'Location')}</strong></span> ${activity.location} (${activity.remote_ip})
-            </li>
+          </td>
+          <td>${activity.location} (${activity.remote_ip})</td>
+        </tr>
       %endfor
+      </tbody>
+    </table>
     </dl>
   </div>
