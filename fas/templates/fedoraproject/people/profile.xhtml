@@ -42,6 +42,7 @@
         <h3>${_(u'Security')}</h3>
           <dl class="dl-horizontal">
             <dt>${_(u'Password')}</dt>
+            <dd><a href="${request.route_url('people-password', id=person.id)}">${_(u'Change')}</a></dd>
             <dt>${_(u'Security Question')}</dt>
             <dt>${_(u'SSH key')}</dt>
             <dd>${person.ssh_key}</dd>

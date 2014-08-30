@@ -9,6 +9,7 @@ from wtforms import (
     BooleanField,
     IntegerField,
     DecimalField,
+    PasswordField,
     validators,
     )
 
@@ -47,6 +48,13 @@ class UpdateStatusForm(Form):
         choices=[(stat.status,
                 stat.status)
                  for stat in provider.get_accountstatus()])
+
+
+class UpdatePasswordForm(Form):
+    """ Form to update people password."""
+    old_password = PasswordField(_(u'Old Password'))
+    new_password = PasswordField(_(u'New Password'))
+    password = PasswordField(_(u'Confirm new Password'))
 
 
 class EditPeopleForm(Form):

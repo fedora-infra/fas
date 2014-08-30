@@ -70,6 +70,7 @@ def main(global_config, **settings):
     config.add_route('people-activities', '/people/profile/{id}/activities')
     config.add_route('people-token', '/people/profile/{id}/accesstoken')
     config.add_route('people-edit', '/people/profile/{id}/edit')
+    config.add_route('people-password', '/people/profile/{id}/edit/password')
 
     config.add_route('groups', '/groups')
     config.add_route('groups-paging', '/groups/page/{pagenb}')

@@ -12,7 +12,9 @@ from fas.security import generate_token
 
 from fas.forms.people import EditPeopleForm
 from fas.forms.people import UpdateStatusForm
+from fas.forms.people import UpdatePasswordForm
 
+from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 from fas.models import AccountPermissionType as permission
@@ -147,6 +149,31 @@ class People(object):
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, id=self.id)
+
+    @view_config(route_name='people-password', permission='authenticated',
+        renderer='/people/edit-password.xhtml')
+    def update_password(self):
+        """" People password change."""
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.person = provider.get_people_by_id(self.id)
+
+        form = UpdatePasswordForm(self.request.POST, self.person)
+
+        if self.request.method == 'POST' and form.validate():
+            pv = PasswordValidator(self.person, form.old_password.data)
+
+            if pv.is_valid() and\
+             form.new_password.data == form.password.data:
+                del form.old_password
+                del form.new_password
+                register.update_password(form, self.person)
+                return redirect_to('/people/profile/%s' % self.id)
+
+        return dict(form=form, _id=self.id)
 
     @view_config(route_name='people-token', permission='authenticated',
         renderer='/people/access-token.xhtml')

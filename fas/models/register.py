@@ -5,6 +5,7 @@ from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
 
 from fas.utils import _
+from fas.utils.passwordmanager import PasswordManager
 from fas.utils.geoip import get_record_from
 
 from ua_parser import user_agent_parser
@@ -70,6 +71,12 @@ def update_people(people):
     """ Update people's infos into database. """
     session.commit()
 
+
+def update_password(form, people):
+    """ Update password."""
+    pm = PasswordManager()
+    form.password.data = pm.generate_password(form.password.data)
+    form.populate_obj(people)
 
 def remove_token(permission):
     """ Remove people's token from database. """
