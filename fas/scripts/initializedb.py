@@ -110,9 +110,14 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                     fullname=user['name'],
                     email=mail,
                     postal_address=user['address'],
-                    bio=fake.paragraph(),
+                    introduction=fake.sentence(),
                     avatar=gen_libravatar(mail),
-                    avatar_id=mail
+                    avatar_id=mail,
+                    bio=fake.paragraph(variable_nb_sentences=True),
+                    privacy=fake.boolean(),
+                    country_code=fake.country_code(),
+                    latitude=user['current_location'][0],
+                    longitude=user['current_location'][1]
                     )
             perms = AccountPermissions(
                         people=people.id,
