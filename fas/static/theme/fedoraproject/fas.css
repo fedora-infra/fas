@@ -218,7 +218,6 @@ body h1, body h2, body h3, body h4, body h5, body h6
 
 .header, .footer
 {
-  width: 750px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -379,7 +378,6 @@ div#profile-header
 
 .top, .top-small, .middle, .bottom
 {
-  width: 750px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -442,8 +440,6 @@ div#profile-header
 #login-link
 {
   padding-top: 140px;
-  padding-left: 650px;
-  padding-right: 650px;
 }
 
 .align-left

@@ -4,23 +4,25 @@
         <div id="left" class="align-left">
           <h2>Search for people</h2>
           <form method="get" >
-                <input type="text" id="q" name="q" value="" />
-                <input type="submit" id="x" value="Go" />
-            </form>
+            <input type="text" id="q" name="q" value="" />
+            <input type="submit" id="x" value="Go" />
+          </form>
         </div>
       </div>
-    </div>
-        <div id="right" class="align-right">
-          <a href="${request.route_url('groups')}">
-            <h2>Fedora Groups</h2>
-          </a>
-        </div>
-        <div id="right" class="align-right">
-          <a href="${request.route_url('people')}">
-            <h2>Fedora People</h2>
-          </a>
-        </div>
+      <div id="right" class="align-right">
+        <a href="${request.route_url('groups')}">
+          <h2>Fedora Groups</h2>
+        </a>
+      </div>
+      <div id="right" class="align-right">
+        <a href="${request.route_url('people')}">
+          <h2>Fedora People</h2>
+        </a>
+      </div>
       <div id="login-link" class="align-center">
-        <button type="button">Sign-In</button>
+        <a href="${request.route_url('login')}">
+          <button type="button">Sign-In</button>
+        </a>
       </div>
         <a id="login-link" class="align-center">Register</a>
+    </div>

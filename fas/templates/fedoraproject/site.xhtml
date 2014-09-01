@@ -35,8 +35,10 @@
   <header>
     <div class="container clearfix">
       <div id="top">
-        <div class="top align-center">
-          <div id="logo"><img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
+        <div class="align-center">
+          <a href="${request.route_url('home')}">
+            <div id="logo"><img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
+          </a>
           </div>
         </div>
       </div>
