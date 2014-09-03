@@ -1,81 +1,71 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<!DOCTYPE html>
+<html xml:lang="en-EN">
 <head>
-  <title>The Fedora Project Account System</title>
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-  <meta name="keywords" content="python web application" />
-  <meta name="description" content="Fedora Project web application" />
-  <link rel="shortcut icon" href="${request.static_url('fas:static/theme/fedoraproject/favicon.ico')}" />
-  <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/fas.css')}" type="text/css" media="screen" charset="utf-8" />
-  <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
-  <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
-  <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/bootstrap/bootstrap.css')}" media="screen" />
-  <script src="${request.static_url('fas:static/theme/fedoraproject/scripts/jquery.js')}"></script>
-  <script src="${request.static_url('fas:static/theme/fedoraproject/bootstrap/js/bootstrap.min.js')}"></script>
-  <script src="${request.static_url('fas:static/theme/fedoraproject/scripts/classie.js')}"></script>
-  <script>
-      function init() {
-          window.addEventListener('scroll', function(e){
-              var distanceY = window.pageYOffset || document.documentElement.scrollTop,
-                  shrinkOn = 100,
-                  header = document.querySelector("header");
-              if (distanceY > shrinkOn) {
-                  classie.add(header,"smaller");
-              } else {
-                  if (classie.has(header,"smaller")) {
-                      classie.remove(header,"smaller");
-                  }
-              }
-          });
-      }
-      window.onload = init();
-  </script>
+    <title>The Fedora Project Account System</title>
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="keywords" content="python web application" />
+    <meta name="description" content="Fedora Project web application" />
+  
+    <link rel="shortcut icon" href="${request.static_url('fas:static/theme/fedoraproject/assets/favicon.ico')}" />
+
+    <!-- custom fonts -->
+    <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
+    <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
+
+    <!-- theme -->
+    <link rel="stylesheet" href="${request.static_url('fas:static/theme/fedoraproject/style/fas.css')}" type="text/css" media="all" />
+    <script src="${request.static_url('fas:static/theme/fedoraproject/js/theme.js')}"></script>
 </head>
-<body>
-  <header>
-    <div class="container clearfix">
-      <div id="top">
-        <div class="align-center">
-          <a href="${request.route_url('home')}">
-            <div id="logo"><img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-          </a>
-          </div>
+
+<body class="navbar-expanded">
+
+<!-- top navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">${_(u'Toggle navigation')}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="${request.route_url('home')}" title="${_(u'Go back to Fedora Account System home')}">${_(u'Fedora Account System')}</a>
         </div>
-      </div>
-    </div>
-  </header>
-  <div id="wrap">
-    <div id="middle">
-      <div class="middle align-center">
-        %if request.authenticated_userid is None:
-            <form action="${request.application_url + '/login'}" method="post">
-              <input type="hidden" name="came_from" value="${request.url}"/>
-              <button href="${request.route_url('login')}">Log In</button>
-            </form>
-        %endif
-        %if request.authenticated_userid is not None:
-            <form action="${request.application_url + '/logout'}" method="post">
-              <input type="hidden" name="came_from" value="${request.url}"/>
-                <button href="${request.route_url('logout')}">Logout (${request.authenticated_userid})</button>
-            </form>
-        %endif
-<!--
-        <div class="alert alert-warning alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;
-            </span><span class="sr-only">Close</span>
-          </button>
-          Alert test
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="${request.route_url('groups')}">${_(u'Fedora groups')}</a></li>
+                <li><a href="${request.route_url('people')}">${_(u'Fedora people')}</a></li>
+            </ul>
+
+            %if request.authenticated_userid is None:
+            <p class="navbar-text navbar-right">
+                <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a>
+            </p>
+            %endif
+      
+            %if request.authenticated_userid is not None:
+            <p class="navbar-text navbar-right">
+                ${_(u'Logged in as')} <strong>${request.authenticated_userid}</strong> | 
+                <a href="${request.application_url + '/logout'}?redirect=${request.url}" class="navbar-link">${_(u'Log out')}</a>
+            </p>
+            %endif
         </div>
--->
-        <p class="app-welcome">
-          <span class="app-name">${_(u'Fedora Account System')}</span>
-        </p>
-      </div>
     </div>
-    ${self.body()}
-  </div>
-  <div id="footer">
-    <div class="footer">&copy; ${_(u'Copyright')} 2014, Xavier Lamien</div>
-  </div>
+</nav>
+
+${self.body()}
+
+<div class="footer-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="copyright">&copy; ${_(u'Copyright')} 2014, Xavier Lamien</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
