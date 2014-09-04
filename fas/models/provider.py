@@ -70,6 +70,15 @@ def get_groups(limit=None, page=None):
 
     return query.all()
 
+def get_candidate_parent_groups():
+    """ Retrieve all groups that can be a parent group."""
+    query = session.query(Groups.name).filter(Groups.parent_group_id == -1) \
+            .order_by(Groups.name)
+    return query.all()
+
+def get_child_groups():
+    """ Retrieve all child groups."""
+    query = session.query(Groups).filter(Groups.parent_group_id >= -1)
 
 def get_group_by_id(id):
     """ Retrieve Groups by its id. """
@@ -101,6 +110,11 @@ def get_group_by_people_membership(username):
 
     return query.all()
 
+def get_group_types():
+    """ Retrieve group's types."""
+    query = session.query(GroupType)
+    return query.all()
+
 ## Method to interact with GroupType
 
 def get_grouptype_by_id(id):
@@ -128,6 +142,10 @@ def get_people(limit=None, page=None):
 
     return query.all()
 
+def get_people_username():
+    """ Retrieve and return list of tuple of people's username and id."""
+    query = session.query(People.id, People.username).order_by(People.username)
+    return query.all()
 
 def get_people_by_id(id):
     """ Retrieve People by its id. """
