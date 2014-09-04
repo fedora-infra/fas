@@ -50,7 +50,7 @@ class Home:
         referrer = self.request.url
         if referrer == login_url:
             referrer = '/'  # never use the login form itself as came_from
-        came_from = self.request.params.get('came_from', referrer)
+        came_from = self.request.params.get('redirect', referrer)
 
         if 'form.submitted' in self.request.params:
             login = self.request.params['login']
@@ -78,6 +78,6 @@ class Home:
     def logout(self):
         """ Logs authenticated user out. """
         headers = forget(self.request)
-        came_from = self.request.params.get('came_from', self.request.url)
+        came_from = self.request.params.get('redirect    ', self.request.url)
 
         return HTTPFound(location=came_from, headers=headers)

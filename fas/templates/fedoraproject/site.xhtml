@@ -40,16 +40,16 @@
             </ul>
 
             %if request.authenticated_userid is None:
-            <p class="navbar-text navbar-right">
-                <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a>
-            </p>
+                <p class="navbar-text navbar-right">
+                    <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a>
+                </p>
             %endif
-      
+
             %if request.authenticated_userid is not None:
-            <p class="navbar-text navbar-right">
-                ${_(u'Logged in as')} <strong>${request.authenticated_userid}</strong> | 
-                <a href="${request.application_url + '/logout'}?redirect=${request.url}" class="navbar-link">${_(u'Log out')}</a>
-            </p>
+                <p class="navbar-text navbar-right">
+                    ${_(u'Logged in as')} <strong>${request.authenticated_userid}</strong> | 
+                    <a href="${request.application_url + '/logout'}?redirect=${request.url}" class="navbar-link">${_(u'Log out')}</a>
+                </p>
             %endif
         </div>
     </div>
