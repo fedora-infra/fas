@@ -3,15 +3,14 @@
 
 <div class="page-title">
     <h1>${_(u'Fedora Users List')}</h1>
-    <p>${_(u'All the Fedora contributors')}</p>
+    <p>${_(u'All Fedora's contributors')}</p>
 </div>
 
 %if people:
 
-  
     ${paging.list(name='people', route='people-paging')}
 
-<div class="container people-list">    
+<div class="container people-list">
     <div class="row">
         %for user in people:
         <div class="col-sm-6 col-md-4 col-lg-4">

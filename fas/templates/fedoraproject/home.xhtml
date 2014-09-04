@@ -4,11 +4,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 titling-col">
-                <strong>Welcome on Fedora Account System</strong>
+                <strong>The Fedora Project Account System</strong>
             </div>
             <div class="col-md-8 content-col">
-                <p>On Fedora Account System - aka FAS - you can easily create and update your account, find people or group informations.</p>
-                <p>Don't have an account yet? Join us and <a href="#">sign in now</a>!</p>
+                <p>${_(u'The Fedora Account System - aka FAS - you can easily create and manager your account, find people or group informations.')}</p>
+                <p>${_(u'Don\'t have an account yet? Join us and')} <a href="#">${_(u'sign up now')}</a>!</p>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
             <h2><a href="${request.route_url('people')}">${_(u'Fedora people')}</a></h2>
         </div>
         <div class="sidebar col-md-3">
-            
+
             <div class="searchform">
                 <h3>Search for people</h3>
                 <form method="get" >
@@ -38,19 +38,19 @@
             %if request.authenticated_userid is None:
             <div class="highlight-box">
                 <p>${_(u'Create an account and join the Fedora community')}</p>
-                <p>Already have an account? <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a></p>
+                <p>${_(u'Already have an account?')} <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a></p>
             </div>
             %endif
 
-            <h3>Fedora world</h3>
+            <h3>${_(u'Fedora world')}</h3>
             <ul>
-                <li><a href="http://fedoraproject.org/" targt="_blank">Learn about Fedora</a></li>
-                <li><a href="http://get.fedoraproject.org/" target="_blank">Download Fedora</a></li>
-                <li><a href="http://fedoraproject.org/wiki/" target="_blank">Projects</a></li>
-                <li><a href="http://join.fedoraproject.org/" target="_blank">Join Fedora</a></li>
-                <li><a href="http://fedoraproject.org/wiki/Communicate" target="_blank">Communicate</a></li>
-                <li><a href="http://docs.fedoraproject.org/" target="_blank">Help/Documentation</a></li>
-                <li><a href="https://fedoraproject.org/code-of-conduct" target="_blank">Code of Conduct</a></li>
+                <li><a href="http://fedoraproject.org/" targt="_blank">${_(u'Learn about Fedora')}</a></li>
+                <li><a href="http://get.fedoraproject.org/" target="_blank">${_(u'Download Fedora')}</a></li>
+                <li><a href="http://fedoraproject.org/wiki/" target="_blank">${_(u'Projects')}</a></li>
+                <li><a href="http://join.fedoraproject.org/" target="_blank">${_(u'Join Fedora')}</a></li>
+                <li><a href="http://fedoraproject.org/wiki/Communicate" target="_blank">${_(u'Communicate')}</a></li>
+                <li><a href="http://docs.fedoraproject.org/" target="_blank">${_(u'Help/Documentation')}</a></li>
+                <li><a href="https://fedoraproject.org/code-of-conduct" target="_blank">${_(u'Code of Conduct')}</a></li>
             </ul>
         </div>
     </div>
