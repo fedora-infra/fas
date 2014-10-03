@@ -25,6 +25,7 @@ from fas.models import (
 from fas.models.people import People
 
 from fas.models.group import (
+    GroupType,
     Groups,
     GroupMembership
     )
@@ -60,6 +61,7 @@ def fill_account_status():
 
 
 def fill_role_levels():
+    """ Add standard role level into system."""
     role = RoleLevel(id=0, name=_(u'Unknown'))
     DBSession.add(role)
     role = RoleLevel(id=1, name=_(u'User'))
@@ -72,13 +74,18 @@ def fill_role_levels():
     DBSession.add(role)
 
 
+def add_default_group_type():
+    """ Add standard group type into system."""
+    gtype = GroupType(id=1, name=u'shell', description='Shell access')
+    DBSession.add(gtype)
+
 def add_default_user(id, login, name, email, passwd=None, membership=None):
-    """ Add a default user into database. """
+    """ Add a default user into system. """
     pass
 
 
 def add_default_group():
-    """ ADd default group into system."""
+    """ Add default group into system."""
     pass
 
 

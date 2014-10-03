@@ -3,6 +3,8 @@
 from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
+from fas.models.group import Groups
+from fas.models.group import GroupMembership
 
 from fas.utils import _
 from fas.utils.passwordmanager import PasswordManager
@@ -72,11 +74,60 @@ def update_people(people):
     session.commit()
 
 
+def add_group(form):
+    """ Add group from given form."""
+    group = Groups()
+    group.name = form.name.data
+    group.display_name = form.display_name.data
+    group.description = form.description.data
+    # Disable now.
+    #group.avatar = form.avatar.data
+    group.web_link = form.web_link.data
+    group.mailing_list = form.mailing_list.data
+    group.mailing_list_url = form.mailing_list_url.data
+    group.irc_channel = form.irc_channel.data
+    group.irc_network = form.irc_network.data
+    group.owner_id = form.owner_id.data
+    group.group_type = form.group_type.data
+    group.parent_group_id = form.parent_group_id.data
+    group.private = form.private.data
+    group.self_removal = form.self_removal.data
+    group.need_approval = form.need_approval.data
+    group.invite_only = form.invite_only.data
+    group.join_msg = form.join_msg.data
+    group.apply_rules = form.apply_rules.data
+    group.license_sign_up = form.license_sign_up.data
+
+    session.add(group)
+    session.flush()
+    session.refresh(group)
+
+    return group
+
+
+def add_membership(group, people_id, role):
+    """ Add given people to group"""
+    membership = GroupMembership()
+    membership.group_id = group.id
+    membership.role = role
+    membership.people_id = people_id
+    membership.sponsor = people_id
+
+    session.add(membership)
+    session.flush()
+
+
 def update_password(form, people):
     """ Update password."""
     pm = PasswordManager()
     form.password.data = pm.generate_password(form.password.data)
     form.populate_obj(people)
+
+
+def remove_group(group_id):
+    """ Remove group from database."""
+    session.query(Groups).filter(Groups.id == group_id).delete()
+
 
 def remove_token(permission):
     """ Remove people's token from database. """

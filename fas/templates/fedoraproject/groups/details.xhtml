@@ -2,8 +2,113 @@
 <%namespace name="paging" file="/paging.xhtml"/>
   <div id="group-details-header">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-    <h1>${group.name}</h1>
-    <p>${group.display_name}</p>
+    <h1>${group.display_name}</h1>
+    <p>${group.name}</p>
+    %if group.parent_group_id > -1:
+        <div>
+          ${_(u'This group belong to')}
+          <a href="${request.route_url('group-details', id=group.parent_group_id)}">
+            ${parent_group.name}
+          </a>
+        </div>
+    %endif
+    %if request.authenticated_userid:
+      %if request.user_is_admin() or request.user_is_modo() or request.user_is_group_editor() or request.user_is_group_admin(group.name) :
+          <button class="btn btn-default" type="button"><a href="${request.route_url('group-edit', id=group.id)}">${_(u'Edit')}</a></button>
+      %endif
+    %endif
+  </div>
+  %if group.description:
+  <div>
+    <p>${group.description}</p>
+  </div>
+  %endif
+  <div class=row>
+    <div class="col-sm-6 col-md-4">
+      <h3></h3>
+      <dl class="dl-horizontal">
+           %if group.web_link:
+             <dt>${_(u'Web page')}</dt>
+             <dd>${group.web_link}</dd>
+           %endif
+           <dt>${_(u'Group type')}</dt>
+           <dd>${group.group_types.name}</dd>
+           <dt>${_(u'Principal Administrator')}</dt>
+           <dd><a href="${request.route_url('people-profile', id=group.owner_id)}">${group.owner.username}</a></dd>
+      </dl>
+    </div>
+  </div>
+  <div class=row>
+    <div class="col-sm-6 col-md-4">
+      <h3>${_(u'Contact information')}</h3>
+      %if not group.mailing_list and not group.irc_channel:
+        <div>
+          <p>${_(u'No contact informations provided.')}</p>
+        </div>
+      %else:
+        <dl class="dl-horizontal">
+             <dt>${_(u'Mailing list')}</dt>
+             <dd>
+               <a href="mailto:${group.mailing_list}">${group.mailing_list}</a> 
+               %if group.mailing_list_url:
+                 <a href="${group.mailing_list_url}">(${_(u'view list infos')})</a>
+               %endif
+             </dd>
+             <dt>${_(u'IRC channel')}</dt>
+             <dd>#${group.irc_channel} <a href="irc://${group.irc_network}">(${group.irc_network})</a></dd>
+             <dt>${_(u'')}</dt>
+             <dd></dd>
+        </dl>
+      %endif
+    </div>
+  </div>
+  <div class=row>
+    <div class="col-sm-6 col-md-4">
+      <h3>${_(u'Membership')}</h3>
+      %if not group.need_approval and group.license_sign_up == -1:
+        <div>
+          <p>${_(u'This group has no special requirements to apply to.')}</p>
+          %if request.authenticated_userid and not is_member:
+              <dd><button class="btn btn-default" type="button">${_(u'Join')}</button></dd>
+          %endif
+        </div>
+        %if is_member:
+          <dl class="dl-horizontal">
+            <dt>${_(u'Your role')}</dt><dd>${authenticated[1].name}
+            %if group.self_removal:
+              <span><a href="#">(${_(u'revoke my membership')})</a></span>
+            %else:
+              <span><a href="#">(${_(u'request revoking')})</a></span>
+            %endif
+            </dd>
+            %if request.user_is_group_admin(group.name) or request.user_is_group_sponsor(group.name):
+              <dt>${_(u'Requests')}</dt>
+              <dd><a href="#">${_(u'View membership request')}</a></dd>
+            %endif
+          </dl>
+        %endif
+      %else:
+        <dl class="dl-horizontal">
+          %if group.apply_rules:
+            <p>${group.apply_rules}</p>
+            %if group.need_approval:
+              <dt>${_(u'This group requires approvals')}</dt>
+              %if request.authenticated_userid and not is_member:
+                <dd><button class="btn btn-default" type="button">${_(u'Apply')}</button></dd>
+              %endif
+            %endif
+          %endif
+          %if group.license_sign_up > -1:
+            <dt>${_(u'This group requires a license agreement')}</dt>
+              %if license_signed_up:
+                <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
+              %else:
+                <dd><button class="btn btn-default" type="button">${_(u'Sign up')}</button></dd>
+              %endif
+          %endif
+        </dl>
+      %endif
+    </div>
   </div>
 
   <div id=group-members-list>
@@ -20,9 +125,9 @@
                 <span>
                   <a href="${request.route_url('people-profile', id=person.id)}">
                     %if person.avatar:
-                      <img class="profile" src="${person.avatar + '?s=100&d=monsterid'}"/>
+                      <img class="profile" src="${person.avatar + '?s=100&d=monsterid'}" class="img-circle"/>
                     %else:
-                      <img src="http://cdn.libravatar.org/avatar/"/>
+                      <img src="http://cdn.libravatar.org/avatar/" class="img-thumbnail"/>
                     %endif
                   </a>
                 </span>

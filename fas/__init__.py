@@ -1,11 +1,21 @@
 from pyramid.config import Configurator
-
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
 from sqlalchemy import engine_from_config
 
-from .security import groupfinder
+from .release import get_release_info
+
+from .security import (
+    groupfinder,
+    authenticated_is_admin,
+    authenticated_is_modo,
+    authenticated_is_group_admin,
+    authenticated_is_group_editor,
+    authenticated_is_group_sponsor,
+    )
+
+from .models.provider import get_authenticated_user
 
 from models import (
     DBSession,
@@ -58,12 +68,25 @@ def main(global_config, **settings):
 
     config.add_translation_dirs('fas:locale/')
 
+    config.add_request_method(get_release_info, 'release', reify=True)
+    config.add_request_method(get_authenticated_user, 'get_user', reify=True)
+    config.add_request_method(authenticated_is_admin,
+        'user_is_admin', reify=False)
+    config.add_request_method(authenticated_is_modo,
+        'user_is_modo', reify=False)
+    config.add_request_method(authenticated_is_group_admin,
+        'user_is_group_admin', reify=False)
+    config.add_request_method(authenticated_is_group_editor,
+        'user_is_group_editor', reify=False)
+    config.add_request_method(authenticated_is_group_sponsor,
+        'user_is_group_sponsor', reify=False)
+
+    # home pages
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
 
-    config.add_route('items-paging', '/{item}/list/{page}')
-
+    # People pages
     config.add_route('people', '/people')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
@@ -72,18 +95,23 @@ def main(global_config, **settings):
     config.add_route('people-edit', '/people/profile/{id}/edit')
     config.add_route('people-password', '/people/profile/{id}/edit/password')
 
+    # Grops pages
     config.add_route('groups', '/groups')
     config.add_route('groups-paging', '/groups/page/{pagenb}')
     config.add_route('group-details', '/group/details/{id}')
     config.add_route('group-edit', '/group/details/{id}/edit')
 
+    # API requests
     config.add_route('api_home', '/api')
     config.add_route('api_people_list', '/api/people')
     config.add_route('api_people_get', '/api/people/{key}/{value}')
     config.add_route('api_group_list', '/api/group')
     config.add_route('api_group_get', '/api/group/{key}/{value}')
 
-    config.add_route('admin', '/admin')
+    # Settings pages
+    config.add_route('settings', '/settings')
+    config.add_route('add-group', '/settings/add/group')
+    config.add_route('remove-group', '/settings/remove/group/{id}')
 
     config.scan()
     return config.make_wsgi_app()

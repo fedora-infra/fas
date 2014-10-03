@@ -41,6 +41,7 @@ class Groups(Base):
         primary_key=True)
     name = Column(Unicode(40), unique=True, nullable=False)
     display_name = Column(UnicodeText, nullable=True)
+    description = Column(UnicodeText, nullable=True)
     avatar = Column(UnicodeText, nullable=True)
     web_link = Column(UnicodeText, nullable=True)
     mailing_list = Column(UnicodeText, nullable=True)
@@ -79,17 +80,16 @@ class Groups(Base):
     )
     owner = relation(
         'People',
-        uselist=False,
-        order_by='People.username'
+        uselist=False
     )
     group_types = relation(
         'GroupType',
-        order_by='GroupType.id',
         uselist=False
     )
     parent_group = relation(
         'Groups',
-        order_by='Groups.name',
+        foreign_keys='Groups.id',
+        primaryjoin='and_(Groups.id==Groups.parent_group_id)',
         uselist=False
     )
 

@@ -1,7 +1,12 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
-  <h1>${_(u'Groups\' List')}</h1>
+  <div class="page-title">
+   <h1>${_(u'Fedora Groups\' List')}</h1>
+   <p>${_(u'All group\'s involvement')}</p>
+  </div>
+
   ${paging.list(name='groups', route='groups-paging')}
+
   <div id="groups-list">
     <ul id="groups">
       % if groups: 

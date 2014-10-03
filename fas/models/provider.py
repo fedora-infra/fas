@@ -72,8 +72,9 @@ def get_groups(limit=None, page=None):
 
 def get_candidate_parent_groups():
     """ Retrieve all groups that can be a parent group."""
-    query = session.query(Groups.name).filter(Groups.parent_group_id == -1) \
-            .order_by(Groups.name)
+    query = session.query(Groups.id, Groups.name)\
+        .filter(Groups.parent_group_id == -1)\
+        .order_by(Groups.name)
     return query.all()
 
 def get_child_groups():
@@ -87,35 +88,67 @@ def get_group_by_id(id):
 
 
 def get_group_by_name(name):
-    """ Retrieve Groups by its name. """
+    """ Retrieve Groups by its name.
+
+    :name: Group name.
+    :return: Group object
+    """
     query = session.query(Groups).filter(Groups.name == name)
     return query.first()
 
 
 def get_group_membership(id):
-    """ Retrieve group's membership by group's id"""
+    """ Retrieve group's membership by group's id
+
+    :id: Group id
+    :return: Tuple of related group, membership, people and roles object
+             for a given group's id
+    """
     query = session.query(Groups, GroupMembership, People, RoleLevel)\
     .join((GroupMembership, GroupMembership.group_id == Groups.id))\
     .join(People, People.id == GroupMembership.people_id)\
     .join(RoleLevel)\
-    .filter(Groups.id == id,)
+    .filter(Groups.id == id)
 
     return query.all()
+
 
 def get_group_by_people_membership(username):
-    """ Retrieve group's membership by people's username."""
+    """ Retrieve groups based on membership by people's username.
+
+    :username: people username
+    :return: List of groups object related to username's membership.
+    """
     query = session.query(Groups)\
     .join((GroupMembership, GroupMembership.group_id == Groups.id))\
-    .join(People, People.username == username)
+    .join(People, People.username == username)\
+    .filter(GroupMembership.people_id == People.id)
 
     return query.all()
+
+
+def get_membership(username, group):
+    """ Retrieve membership from given username and group name.
+
+    :username: people username
+    :group: Group name
+    :return: Membership object
+    """
+    query = session.query(GroupMembership)\
+    .join(People, People.username == username)\
+    .join(Groups, Groups.name == group)\
+    .filter(GroupMembership.people_id == People.id,
+        GroupMembership.group_id == Groups.id)
+
+    return query.first()
+
+## Method to interact with GroupType
 
 def get_group_types():
     """ Retrieve group's types."""
     query = session.query(GroupType)
     return query.all()
 
-## Method to interact with GroupType
 
 def get_grouptype_by_id(id):
     """ Retrive GroupType by its id. """
@@ -142,10 +175,12 @@ def get_people(limit=None, page=None):
 
     return query.all()
 
+
 def get_people_username():
     """ Retrieve and return list of tuple of people's username and id."""
     query = session.query(People.id, People.username).order_by(People.username)
     return query.all()
+
 
 def get_people_by_id(id):
     """ Retrieve People by its id. """
@@ -157,6 +192,11 @@ def get_people_by_username(username):
     """ Retrieve People by its username. """
     query = session.query(People).filter(People.username == username)
     return query.first()
+
+
+def get_authenticated_user(request):
+    """ Retrieve authenticated person object."""
+    return get_people_by_username(request.authenticated_userid)
 
 
 def get_people_by_email(email):
@@ -191,6 +231,23 @@ def get_license_by_id(id):
         LicenseAgreement.id == id
     )
     return query.first()
+
+
+def is_license_signed(id, people_id):
+    """ check if people has signed given license.
+
+    :id: license id
+    :people_id: people id
+    :return: True is people_id has signed otherwise, false.
+    """
+    query = session.query(SignedLicenseAgreement).filter(
+        SignedLicenseAgreement.people == people_id,
+        SignedLicenseAgreement.license == id)
+
+    if query.first() is not None:
+        return True
+
+    return False
 
 
 def get_account_permissions_by_people_id(id):

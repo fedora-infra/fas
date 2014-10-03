@@ -11,13 +11,69 @@ from fas.utils.passwordmanager import PasswordManager
 import fas.models.provider as provider
 
 
+def authenticated_is_admin(request):
+    """ Validate if authenticated user is an admin.
+    :return: True, if admin, false otherwise.
+    """
+    is_admin = MembershipValidator(request.authenticated_userid,
+        Config.get_admin_group())
+
+    return is_admin.validate()
+
+
+def authenticated_is_modo(request):
+    """ Validate an authenticated user as a moderator.
+    :return: True if modo, false otherwise.
+    """
+    is_modo = MembershipValidator(request.authenticated_userid,
+        Config.get_modo_group())
+
+    return is_modo.validate()
+
+
+def authenticated_is_group_editor(request):
+    """ Validate that authenticated user as group editor
+
+    :return: True is user is a group editor, false otherwise.
+    """
+    is_group_editor = MembershipValidator(request.authenticated_userid,
+        Config.get_group_editor())
+
+    return is_group_editor.validate()
+
+
+def authenticated_is_group_admin(request, group):
+    """ Validate that authenticated user is an group's admin.
+
+    :request: request's object
+    :group: group name.
+    :return: True if group_admin, false otherwise.
+    """
+    role = RoleValidator(request.authenticated_userid, group)
+
+    return role.is_admin()
+
+
+def authenticated_is_group_sponsor(request, group):
+    """ Validate that authenticated user is an group's sponsor.
+
+    :request: request's object
+    :group: group name
+    :return: True if group sponsor, false otherwise.
+    """
+    role = RoleValidator(request.authenticated_userid, group)
+
+    return role.is_sponsor()
+
+
 class Root(object):
     def __acl__(self):
         return [
             (Allow, Everyone, 'view'),
             (Allow, self.auth, 'authenticated'),
-            (Allow, self.admin, ('admin', 'modo', 'group_edit')),
+            (Allow, self.admin, ['admin', 'modo', 'group_edit']),
             (Allow, self.group_editor, 'group_edit'),
+            (Allow, self.auth, 'group_edit'),
             (Allow, self.modo, 'modo')
         ]
 
@@ -27,6 +83,7 @@ class Root(object):
         self.admin = Config.get_admin_group()
         self.modo = Config.get_modo_group()
         self.group_editor = Config.get_group_editor()
+
 
 def groupfinder(userid, request):
     """ Retrieve group from authenticated user's membership."""
@@ -44,7 +101,7 @@ def generate_token():
     return hashlib.sha1(os.urandom(256)).hexdigest()
 
 
-class Base:
+class Base(object):
 
     def __init__(self):
         self.dbsession = None
@@ -69,7 +126,7 @@ class PasswordValidator(Base):
     def is_valid(self):
         """ Check if password for given login is valid. """
         if self.person:
-             return self.passwdmanager.is_valid_password(
+            return self.passwdmanager.is_valid_password(
                  self.person.password, self.password)
         return False
 
@@ -112,6 +169,56 @@ class TokenValidator(Base):
     def get_people_id(self):
         """ Get People's ID from validated token. """
         return self.people
+
+
+class MembershipValidator(Base):
+    """ Validate membership from given group and username"""
+
+    def __init__(self, person_username, group):
+        if type(group) is str or unicode:
+            self.group = []
+            self.group.append(group)
+        if type(group) is list:
+            self.group = group
+        self.username = person_username
+        super(MembershipValidator, self).__init__()
+
+    def validate(self):
+        """ Validate membership."""
+        membership = provider.get_group_by_people_membership(self.username)
+
+        for group in membership:
+            if group.name in self.group:
+                return True
+
+        return False
+
+
+class RoleValidator(MembershipValidator):
+
+    def __init__(self, username, group):
+        super(RoleValidator, self).__init__(username, group)
+        self.username = username
+        self.group = group
+        self.group_admin = Config.get_admin_group()
+        self.group_modo = Config.get_modo_group()
+
+    def is_admin(self):
+        """ Check if user is an admin.
+        :return: true if user is admin, false otherwise.
+        """
+        if self.validate():
+            role = provider.get_membership(self.username, self.group)
+            if role and role.role == 5:
+                return True
+
+        return False
+
+    def is_modo(self):
+        pass
+
+    def is_sponsor(self):
+        pass
 
 
 class ParamsValidator(Base):
