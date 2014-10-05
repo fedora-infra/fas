@@ -78,6 +78,6 @@ class Home:
     def logout(self):
         """ Logs authenticated user out. """
         headers = forget(self.request)
-        came_from = self.request.params.get('redirect    ', self.request.url)
+        came_from = self.request.params.get('redirect', self.request.url)
 
         return HTTPFound(location=came_from, headers=headers)
