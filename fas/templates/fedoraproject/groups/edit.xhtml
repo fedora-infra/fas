@@ -137,18 +137,22 @@
       </div>
 
       <h4 class="section-title">${_('Membership requirements')}</h4>
+<!--
       %if form.license_sign_up.data < 0:
         <fieldset disabled>
       %endif
+-->
       <div class="form-group">
         ${form.license_sign_up.label(class_='col-sm-2 control-label')}
         <div class="col-sm-10">
           ${form.license_sign_up(class_='form-control')}
         </div>
       </div>
+<!--
       %if form.license_sign_up.data < 0:
         </fieldset>
       %endif
+-->
       <div class="form-group">
         ${form.apply_rules.label(class_='col-sm-2 control-label')}
         <div class="col-sm-10">

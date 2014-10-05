@@ -37,6 +37,9 @@
             <ul class="nav navbar-nav">
                 <li><a href="${request.route_url('groups')}">${_(u'Fedora groups')}</a></li>
                 <li><a href="${request.route_url('people')}">${_(u'Fedora people')}</a></li>
+            %if request.user_is_admin() or request.user_is_modo() or request.user_is_group_editor():
+                <li><a href="${request.route_url('settings')}">${_(u'Settings')}</a></li>
+            %endif
             </ul>
 
             %if request.authenticated_userid is None:

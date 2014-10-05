@@ -57,5 +57,5 @@ class EditGroupForm(Form):
     apply_rules = TextAreaField(_(u'Apply rules message'))
     license_sign_up = SelectField(_(u'License requirement'),
         [validators.Optional()],
-        choices=[(l.id, l.name) for l in provider.get_licenses()],
-        coerce=int)
+        coerce=int,
+        choices=[(l.id, l.name) for l in provider.get_licenses()])

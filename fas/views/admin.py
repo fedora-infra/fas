@@ -9,6 +9,7 @@ import fas.models.provider as provider
 import fas.models.register as register
 
 from fas.forms.group import EditGroupForm
+from fas.forms.la import EditLicenseForm
 
 from fas.views import redirect_to
 from fas.utils import Config
@@ -56,3 +57,57 @@ class Admin(object):
         return redirect_to('/groups')
 
         return dict()  #This should redirect to came_from
+
+    @view_config(route_name='add-license', permission='admin',
+        renderer='/admin/edit-license.xhtml')
+    def add_license(self):
+        """ Add license page."""
+        form = EditLicenseForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+         and ('form.save.license' in self.request.params):
+            if form.validate():
+                la = register.add_license(form)
+                #return redirect_to('/settings/option#licenses%s' % la.id)
+                # Redirect to home as admin page not view-able now
+                return redirect_to('/')
+
+        return dict(form=form)
+
+    @view_config(route_name='edit-license', permission='admin',
+        renderer='/admin/edit-license.xhtml')
+    def edit_license(self):
+        """ Edit license infos form page."""
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        la = provider.get_license_by_id(self.id)
+
+        form = EditLicenseForm(self.request.POST, la)
+
+        if self.request.method == 'POST'\
+         and ('form.save.license' in self.request.params):
+            if form.validate():
+                form.populate_obj(la)
+                # Redirect to home as admin page not view-able now
+                return redirect_to('/')
+
+        return dict(form=form)
+
+    @view_config(route_name='remove-license', permission='admin')
+    def remove_license(self):
+        """ Remove a license from system. """
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        register.remove_license(self.id)
+
+        # Redirect to home as admin page not view-able now
+        return redirect_to('/')
+
+        return dict()
+

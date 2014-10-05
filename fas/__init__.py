@@ -112,6 +112,9 @@ def main(global_config, **settings):
     config.add_route('settings', '/settings')
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')
+    config.add_route('add-license', '/settings/add/license')
+    config.add_route('edit-license', '/settings/edit/license')
+    config.add_route('remove-license', '/settings/remove/license/{id}')
 
     config.scan()
     return config.make_wsgi_app()

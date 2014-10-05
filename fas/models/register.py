@@ -5,6 +5,7 @@ from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
 from fas.models.group import Groups
 from fas.models.group import GroupMembership
+from fas.models.la import LicenseAgreement
 
 from fas.utils import _
 from fas.utils.passwordmanager import PasswordManager
@@ -116,6 +117,24 @@ def add_membership(group, people_id, role):
     session.add(membership)
     session.flush()
 
+
+def add_license(form):
+    la = LicenseAgreement()
+    la.name = form.name.data
+    la.content = form.content.data
+    la.comment = form.comment.data
+
+    session.add(la)
+    session.flush()
+
+
+def remove_license(license_id):
+    """ Remove given license from database.
+
+    :id: license id
+    """
+    session.query(LicenseAgreement).filter(LicenseAgreement.id == license_id)\
+    .delete()
 
 def update_password(form, people):
     """ Update password."""
