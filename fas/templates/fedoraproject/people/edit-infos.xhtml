@@ -32,6 +32,12 @@
         </div>
       </div>
       <div class="form-group">
+        ${form.introduction.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.introduction(class_='form-control col-lg-20', placeholder=_(u'Enter an introduction or a catch phrase'))}
+        </div>
+      </div>
+      <div class="form-group">
         ${form.email.label(class_='col-sm-2 control-label')}
         <div class="col-sm-10">
           ${form.email(class_='form-control col-lg-10', type='email', placeholder=_(u'Enter a valid email'))}

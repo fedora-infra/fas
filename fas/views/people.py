@@ -136,14 +136,6 @@ class People(object):
 
         if self.request.method == 'POST'\
          and ('form.save.person-infos' in self.request.params):
-            # prevent TypeError on fields not updated by user
-            if form.birthday.data is None:
-                form.birthday.data = -1
-            if form.latitude.data is None:
-                form.latitude.data = -1
-            if form.longitude.data is None:
-                form.longitude.data = -1
-
             if form.validate():
                 form.populate_obj(self.person)
                 return redirect_to('/people/profile/%s' % self.id)

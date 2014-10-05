@@ -52,20 +52,26 @@ class UpdateStatusForm(Form):
 
 class UpdatePasswordForm(Form):
     """ Form to update people password."""
-    old_password = PasswordField(_(u'Old Password'))
-    new_password = PasswordField(_(u'New Password'))
-    password = PasswordField(_(u'Confirm new Password'))
+    old_password = PasswordField(_(u'Old Password'),
+        [validators.Required()])
+    new_password = PasswordField(_(u'New Password'),
+        [validators.Required(), validators.EqualTo('password',
+            message='Your new passwords must match')])
+    password = PasswordField(_(u'Confirm new Password'),
+        [validators.Required()])
 
 
 class EditPeopleForm(Form):
     """ Form to edit user's information. """
     username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
-    email = StringField(_(u'Email'), [validators.Required(), validators.Email()])
+    introduction = StringField(_(u'Introduction', [validators.Optional()]))
+    email = StringField(_(u'Email'), [validators.Required(),
+        validators.Email()])
     ircnick = StringField(_(u'IRC nick'))
     avatar = StringField(_(u'Avatar'))
     postal_address = StringField(_(u'Postal address'))
-    birthday = IntegerField(_(u'Birthday'))
+    birthday = IntegerField(_(u'Birthday'), [validators.Optional()], default=-1)
     birthday_month = SelectField(_(u'Month'),
         choices=[(m, m) for m in calendar.month_name if m is not None])
     bio = TextAreaField(_(u'Introduction'))
@@ -94,5 +100,5 @@ class EditPeopleForm(Form):
                  for stat in provider.get_accountstatus()])
     privacy = BooleanField(_(u'Privacy'))
     blog_rss = StringField(_(u'Blog RSS'))
-    latitude = DecimalField(_(u'Latitude'))
-    longitude = DecimalField(_(u'Longitude'))
+    latitude = DecimalField(_(u'Latitude'), [validators.Optional()])
+    longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
