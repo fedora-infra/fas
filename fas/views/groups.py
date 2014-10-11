@@ -150,6 +150,10 @@ class Groups(object):
             (group.id, group.name) for group in parent_groups]
         form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
 
+        form.group_type.choices = [
+            (t.id, t.name) for t in provider.get_group_types()]
+        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
+
         #TODO: Double check usage of QuerySelectField for those two instead
         if self.request.method is not 'POST':
             form.owner_id.choices.insert(0, (-1, u'-- Select a username --'))

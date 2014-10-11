@@ -17,8 +17,15 @@ from fas.models import provider as provider
 def get_username_list():
     return provider.get_people()
 
+
+class EditGroupTypeForm(Form):
+    """ Form to edit and validate group type 's informations"""
+    name = StringField(_(u'Name'), [validators.Required()])
+    comment = StringField(_(u'Description'), [validators.Required()])
+
+
 class EditGroupForm(Form):
-    """ Form to edit and validate group\'s update."""
+    """ Form to edit and validate group\'s informations."""
     name = StringField(_(u'Name'))
     display_name = StringField(_(u'Display name'), [validators.Required()])
     description = StringField(_(u'Description'), [validators.Optional()])
@@ -37,10 +44,12 @@ class EditGroupForm(Form):
         coerce=int,
         choices=[(u.id, u.username + ' (' + u.fullname + ')')
             for u in provider.get_people()])
+    # We want group_type choices list to be dynamic so we won't add it here.
     group_type = SelectField(_(u'Group type'),
         [validators.Required()],
         coerce=int,
-        choices=[(t.id, t.name) for t in provider.get_group_types()])
+        choices=[(-1, _(u'-- None --'))])
+        #choices=[(t.id, t.name) for t in provider.get_group_types()])
     # We want parent_group choices list to be dynamic so we won't add it here.
     parent_group_id = SelectField(_(u'Parent group'),
         coerce=int,

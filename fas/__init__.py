@@ -110,11 +110,17 @@ def main(global_config, **settings):
 
     # Settings pages
     config.add_route('settings', '/settings')
+
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')
+
     config.add_route('add-license', '/settings/add/license')
     config.add_route('edit-license', '/settings/edit/license')
     config.add_route('remove-license', '/settings/remove/license/{id}')
+
+    config.add_route('add-grouptype', '/settings/add/group/type')
+    config.add_route('edit-grouptype', '/settings/edit/group/type/{id}')
+    config.add_route('remove-grouptype', '/settings/remove/group/type/{id}')
 
     config.scan()
     return config.make_wsgi_app()

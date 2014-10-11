@@ -8,7 +8,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 import fas.models.provider as provider
 import fas.models.register as register
 
-from fas.forms.group import EditGroupForm
+from fas.forms.group import EditGroupForm, EditGroupTypeForm
 from fas.forms.la import EditLicenseForm
 
 from fas.views import redirect_to
@@ -33,11 +33,26 @@ class Admin(object):
 
         form = EditGroupForm(self.request.POST)
 
+        form.parent_group_id.choices = [
+            (group.id, group.name) for group in provider.get_groups()]
+        form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
+
+        form.group_type.choices = [
+            (t.id, t.name) for t in provider.get_group_types()]
+        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
+
+        form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
+
         if self.request.method == 'POST'\
          and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
                 register.add_membership(group, group.owner_id, 5)
+                #if form.bound_to_github.data:
+                    #g = Github()
+                    #g.create_group(name=group.name,
+                        #repo=group.name,
+                        #access='push')
                 return redirect_to('/group/details/%s' % group.id)
 
         return dict(form=form)
@@ -109,5 +124,48 @@ class Admin(object):
         # Redirect to home as admin page not view-able now
         return redirect_to('/')
 
+        return dict()
+
+    @view_config(route_name='add-grouptype', permission='admin',
+        renderer='/admin/edit-grouptype.xhtml')
+    def add_grouptype(self):
+        """ Add/Edit group type's page."""
+        form = EditGroupTypeForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+         and ('form.save.grouptype' in self.request.params):
+            if form.validate():
+                gt = register.add_grouptype(form)
+                #return redirect_to('/settings/option#GroupsType%s' % la.id)
+                # Redirect to home as admin page not view-able now
+                return redirect_to('/')
+
+        return dict(form=form)
+
+    @view_config(route_name='edit-grouptype', permission='admin',
+        renderer='/admin/edit-grouptype.xhtml')
+    def edit_grouptype(self):
+        """ Edit group type' infos form page."""
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        gt = provider.get_grouptype_by_id(self.id)
+
+        form = EditLicenseForm(self.request.POST, gt)
+
+        if self.request.method == 'POST'\
+         and ('form.save.grouptype' in self.request.params):
+            if form.validate():
+                form.populate_obj(gt)
+                # Redirect to home as admin page not view-able now
+                return redirect_to('/')
+
+        return dict(form=form)
+
+    @view_config(route_name='remove-grouptype', permission='admin')
+    def remove_grouptype(self):
+        """ Remove group type page."""
         return dict()
 

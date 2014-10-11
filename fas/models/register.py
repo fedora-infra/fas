@@ -3,7 +3,7 @@
 from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
-from fas.models.group import Groups
+from fas.models.group import Groups, GroupType
 from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement
 
@@ -75,8 +75,25 @@ def update_people(people):
     session.commit()
 
 
+def add_grouptype(form):
+    """ Add group type into database."""
+    grouptype = GroupType()
+    grouptype.name = form.name.data
+    grouptype.comment = form.comment.data
+
+    session.add(grouptype)
+    session.flush()
+    session.refresh(grouptype)
+
+    return grouptype
+
+
 def add_group(form):
-    """ Add group from given form."""
+    """ Add group from given form.
+
+    :form: EditGroupForm object
+    :return: Groups object saved into database
+    """
     group = Groups()
     group.name = form.name.data
     group.display_name = form.display_name.data
@@ -141,6 +158,11 @@ def update_password(form, people):
     pm = PasswordManager()
     form.password.data = pm.generate_password(form.password.data)
     form.populate_obj(people)
+
+
+def remove_grouptype(type_id):
+    """ Remove group type from database. """
+    session.query(GroupType).filter(GroupType.id == type_id).delete()
 
 
 def remove_group(group_id):
