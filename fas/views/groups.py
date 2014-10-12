@@ -15,6 +15,8 @@ from fas.forms.group import EditGroupForm
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
+from fas.utils.fgithub import Github
+
 
 class Groups(object):
 
@@ -163,6 +165,11 @@ class Groups(object):
          and ('form.save.group-details' in self.request.params):
             if form.validate():
                 form.populate_obj(self.group)
+                if form.bound_to_github.data:
+                    g = Github()
+                    res = g.create_group(name=self.group.name,
+                        repo=self.group.name,
+                        access='push')
                 return redirect_to('/group/details/%s' % self.id)
 
         return dict(form=form, id=self.id)

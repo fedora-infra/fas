@@ -25,6 +25,7 @@ requires = [
     'ua-parser',
     'pyyaml',
     'cryptacular',
+    'PyGithub',
 
     #i18n
     'Babel',

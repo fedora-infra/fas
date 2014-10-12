@@ -13,6 +13,7 @@ from fas.forms.la import EditLicenseForm
 
 from fas.views import redirect_to
 from fas.utils import Config
+from fas.utils.fgithub import Github
 
 
 class Admin(object):
@@ -48,11 +49,11 @@ class Admin(object):
             if form.validate():
                 group = register.add_group(form)
                 register.add_membership(group, group.owner_id, 5)
-                #if form.bound_to_github.data:
-                    #g = Github()
-                    #g.create_group(name=group.name,
-                        #repo=group.name,
-                        #access='push')
+                if form.bound_to_github.data:
+                    g = Github()
+                    g.create_group(name=group.name,
+                        repo=group.name,
+                        access='push')
                 return redirect_to('/group/details/%s' % group.id)
 
         return dict(form=form)

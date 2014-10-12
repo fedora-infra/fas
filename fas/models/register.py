@@ -114,6 +114,7 @@ def add_group(form):
     group.invite_only = form.invite_only.data
     group.join_msg = form.join_msg.data
     group.apply_rules = form.apply_rules.data
+    group.bound_to_github = form.bound_to_github.data
     group.license_sign_up = form.license_sign_up.data
 
     session.add(group)

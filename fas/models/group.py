@@ -57,6 +57,7 @@ class Groups(Base):
     invite_only = Column(Boolean, default=False)
     join_msg = Column(UnicodeText, nullable=True)
     apply_rules = Column(UnicodeText, nullable=True)
+    bound_to_github = Column(Boolean, default=False)
     license_sign_up = Column(
         Integer,
         ForeignKey('license_agreement.id'),
