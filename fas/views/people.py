@@ -162,6 +162,18 @@ class People(object):
                 and ('form.save.person-infos' in self.request.params):
             self.person = mPeople()
             if form.validate():
+                # Check username and email's uniqueness before doing anything
+                if provider.get_people_by_username(form.username.data):
+                    self.request.session.flash(
+                        'An account is already registered with this username',
+                        'error')
+                    return dict(form=form)
+                if provider.get_people_by_email(form.email.data):
+                    self.request.session.flash(
+                        'An account is already registered with this email',
+                        'error')
+                    return dict(form=form)
+
                 self.person.username = form.username.data
                 self.person.email = form.email.data
                 self.person.fullname = form.fullname.data
@@ -170,19 +182,13 @@ class People(object):
                     form.password.data)
                 self.person.password_token = generate_token()
                 register.add_people(self.person)
-                try:
-                    register.flush()
-                    notify_account_creation(self.person)
-                    self.request.session.flash(
-                        'Account created, please check your email to finish '
-                        'the process', 'info')
-                    return redirect_to('/people/profile/%s' % self.person.id)
-                except SQLAlchemyError:
-                    self.request.session.flash(
-                        'Could not create this account, either this '
-                        'username or this email address are already used',
-                        'error')
-                    return redirect_to('/people/new')
+
+                register.flush()
+                notify_account_creation(self.person)
+                self.request.session.flash(
+                    'Account created, please check your email to finish '
+                    'the process', 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
 
