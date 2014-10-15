@@ -19,6 +19,7 @@ from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from, generate_token
 from fas.utils.notify import notify_account_creation
+from fas.utils.passwordmanager import PasswordManager
 from fas.models import AccountPermissionType as permission
 from fas.models.people import People as mPeople
 
@@ -162,6 +163,9 @@ class People(object):
             self.person = mPeople()
             if form.validate():
                 form.populate_obj(self.person)
+                pwdman = PasswordManager()
+                self.person.password = pwdman.generate_password(
+                    self.person.password)
                 self.person.password_token = generate_token()
                 register.add_people(self.person)
                 try:
