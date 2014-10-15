@@ -287,6 +287,12 @@ def get_people_by_username(username):
     return query.first()
 
 
+def get_people_by_password_token(token):
+    """ Retrieve People by its password token. """
+    query = session.query(People).filter(People.password_token == token)
+
+    return query.first()
+
 def get_authenticated_user(request):
     """ Retrieve authenticated person object."""
     return get_people_by_username(request.authenticated_userid)
