@@ -70,11 +70,6 @@ def add_people(people):
     session.add(people)
 
 
-def update_people(people):
-    """ Update people's infos into database. """
-    session.commit()
-
-
 def add_grouptype(form):
     """ Add group type into database."""
     grouptype = GroupType()
