@@ -192,13 +192,13 @@ def main(argv=sys.argv):
             id=2000,
             name=u'fas-admin',
             owner_id=admin.id,
-            type=2
+            group_type=2
         )
         group_user = Groups(
             id=3000,
             name=u'fas-user',
             owner_id=user.id,
-            type=1
+            group_type=1
         )
         admin_membership = GroupMembership(
             group_id=2000,
@@ -236,15 +236,15 @@ def main(argv=sys.argv):
 
 
         DBSession.add(Groups(
-            id=300, name=u'avengers', type=1, owner_id=admin.id))
+            id=300, name=u'avengers', group_type=1, owner_id=admin.id))
         DBSession.add(Groups(
-            id=301, name=u'justice_league', type=1, owner_id=user.id))
+            id=301, name=u'justice_league', group_type=1, owner_id=user.id))
         DBSession.add(Groups(
-            id=302, name=u'fantastic_four', type=2, owner_id=admin.id))
+            id=302, name=u'fantastic_four', group_type=2, owner_id=admin.id))
         DBSession.add(
-            Groups(id=303, name=u'all-star', type=1, owner_id=user.id))
+            Groups(id=303, name=u'all-star', group_type=1, owner_id=user.id))
         DBSession.add(
-            Groups(id=304, name=u'x-men', type=2, owner_id=admin.id))
+            Groups(id=304, name=u'x-men', group_type=2, owner_id=admin.id))
 
         groups = [3000, 300, 301, 302, 303, 304]
         create_fake_user(DBSession, upto=13811, group_list=groups)
