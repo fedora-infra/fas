@@ -20,7 +20,7 @@ from fas.utils import compute_list_pages_from
 from fas.models import AccountPermissionType as permission
 
 # temp import, i'm gonna move that away
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 
 from fas.utils import _
 
@@ -74,6 +74,8 @@ class People(object):
             return HTTPBadRequest()
 
         self.person = provider.get_people_by_id(_id)
+        if not self.person:
+            raise HTTPNotFound('No such user found')
 
         form = UpdateStatusForm(self.request.POST, self.person)
         if self.request.method == 'POST' and form.validate():
