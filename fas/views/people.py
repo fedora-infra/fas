@@ -127,6 +127,9 @@ class People(object):
 
         self.person = provider.get_people_by_id(self.id)
 
+        if not self.person:
+            raise HTTPNotFound('No such user found')
+
         # TODO: move this to Auth provider?
         if self.request.authenticated_userid != self.person.username:
             return redirect_to('/people/profile/%s' % self.id)
@@ -223,6 +226,9 @@ class People(object):
             return HTTPBadRequest()
 
         self.person = provider.get_people_by_id(self.id)
+
+        if not self.person:
+            raise HTTPNotFound('No such user found')
 
         form = UpdatePasswordForm(self.request.POST, self.person)
 
