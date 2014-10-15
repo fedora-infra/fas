@@ -52,10 +52,10 @@ def main(global_config, **settings):
 
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
 
-    config.add_static_view('static', 'fas:static/theme/%s'
-                            % settings['project.name'],
-                            cache_max_age=int(settings['cache.max_age'])
-                            )
+    config.add_static_view(
+        'static', 'fas:static/theme/%s' % settings['project.name'],
+        cache_max_age=int(settings['cache.max_age'])
+    )
 
     authn_policy = AuthTktAuthenticationPolicy(
         settings['authtkt.secret'],
@@ -72,20 +72,23 @@ def main(global_config, **settings):
 
     config.add_request_method(get_release_info, 'release', reify=True)
     config.add_request_method(get_authenticated_user, 'get_user', reify=True)
-    config.add_request_method(authenticated_is_admin,
-        'authenticated_is_admin', reify=False)
-    config.add_request_method(authenticated_is_modo,
-        'authenticated_is_modo', reify=False)
-    config.add_request_method(authenticated_is_group_admin,
-        'authenticated_is_group_admin', reify=False)
-    config.add_request_method(authenticated_is_group_editor,
-        'authenticated_is_group_editor', reify=False)
-    config.add_request_method(authenticated_is_group_sponsor,
-        'authenticated_is_group_sponsor', reify=False)
-    config.add_request_method(request_membership, 'request_membership',
+    config.add_request_method(
+        authenticated_is_admin, 'authenticated_is_admin', reify=False)
+    config.add_request_method(
+        authenticated_is_modo, 'authenticated_is_modo', reify=False)
+    config.add_request_method(
+        authenticated_is_group_admin, 'authenticated_is_group_admin',
         reify=False)
-    config.add_request_method(requested_membership, 'requested_membership',
+    config.add_request_method(
+        authenticated_is_group_editor, 'authenticated_is_group_editor',
         reify=False)
+    config.add_request_method(
+        authenticated_is_group_sponsor, 'authenticated_is_group_sponsor',
+        reify=False)
+    config.add_request_method(
+        request_membership, 'request_membership', reify=False)
+    config.add_request_method(
+        requested_membership, 'requested_membership', reify=False)
 
     # home pages
     config.add_route('home', '/')

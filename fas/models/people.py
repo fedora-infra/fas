@@ -17,7 +17,7 @@ from sqlalchemy import (
     Index,
     ForeignKey,
     func,
-    )
+)
 from sqlalchemy.orm import relation
 from fas.models import AccountPermissionType as perm
 
@@ -185,7 +185,7 @@ class People(Base):
                     '%Y-%m-%d %H:%M')
 
                 info['ConnectedApplications'] = {
-                    #'fas': self.fas_token,
+                    # 'fas': self.fas_token,
                     'github': self.github_token,
                     'twitter': self.twitter_token
                 }

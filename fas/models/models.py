@@ -11,5 +11,6 @@ class RootFactory(object):
         (Allow, Everyone, 'view'),
         (Allow, 'group:editors', 'edit')
     ]
+
     def __init__(self, request):
         pass

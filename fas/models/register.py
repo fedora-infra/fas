@@ -18,7 +18,7 @@ def save_account_activity(request, people, event):
     """ Register account activity. """
     remote_ip = request.client_addr
     record = get_record_from(remote_ip)
-    #record = get_record_from('86.70.6.26') # test IP
+    # record = get_record_from('86.70.6.26') # test IP
 
     user_agent = user_agent_parser.Parse(request.headers['User-Agent'])
     client = user_agent['user_agent']['family']
@@ -99,7 +99,7 @@ def add_group(form):
     group.display_name = form.display_name.data
     group.description = form.description.data
     # Disable now.
-    #group.avatar = form.avatar.data
+    # group.avatar = form.avatar.data
     group.web_link = form.web_link.data
     group.mailing_list = form.mailing_list.data
     group.mailing_list_url = form.mailing_list_url.data
@@ -160,8 +160,12 @@ def remove_license(license_id):
 
     :id: license id
     """
-    session.query(LicenseAgreement).filter(LicenseAgreement.id == license_id)\
-    .delete()
+    session.query(
+        LicenseAgreement
+    ).filter(
+        LicenseAgreement.id == license_id
+    ).delete()
+
 
 def update_password(form, people):
     """ Update password."""
@@ -184,8 +188,11 @@ def remove_token(permission):
     """ Remove people's token from database. """
     perm = AccountPermissions()
     perm.token = permission
-    session.query(AccountPermissions).filter(
-        AccountPermissions.token == permission).delete()
+    session.query(
+        AccountPermissions
+    ).filter(
+        AccountPermissions.token == permission
+    ).delete()
 
 
 def remove_membership_request(group, person):
@@ -199,4 +206,3 @@ def remove_membership_request(group, person):
     .filter(MembershipRequest.group_id == group,
         MembershipRequest.person_id == person
         ).delete()
-

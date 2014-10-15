@@ -31,8 +31,8 @@ class Groups(object):
         """ Groups list landing page. """
         return redirect_to('/groups/page/1')
 
-    @view_config(route_name='groups-paging',
-        renderer='/groups/list.xhtml', permission=NO_PERMISSION_REQUIRED)
+    @view_config(route_name='groups-paging', renderer='/groups/list.xhtml',
+                 permission=NO_PERMISSION_REQUIRED)
     def paging(self):
         """ Groups' list view with paging feature. """
         try:
@@ -40,8 +40,8 @@ class Groups(object):
         except ValueError:
             return HTTPBadRequest()
 
-        #TODO: still, get limit from config file or let user choose in between
-        #TODO: predifined one?
+        # TODO: still, get limit from config file or let user choose in between
+        # TODO: predifined one?
         groups = provider.get_groups(50, page)
 
         pages, count = compute_list_pages_from('groups', 50)
@@ -56,9 +56,8 @@ class Groups(object):
             pages=pages
             )
 
-    @view_config(
-        route_name='group-details',
-        renderer='/groups/details.xhtml', permission=NO_PERMISSION_REQUIRED)
+    @view_config(route_name='group-details', renderer='/groups/details.xhtml',
+                 permission=NO_PERMISSION_REQUIRED)
     def details(self):
         """ Group's details page."""
         try:
@@ -97,19 +96,19 @@ class Groups(object):
                 group.license_sign_up, self.request.get_user.id)
 
         # Disable paging on members list.
-        #valid_member = self.request.get_user() in person
+        # valid_member = self.request.get_user() in person
         # Disable paging for now
-        #obj_start = 0
-        #obj_max = limit
+        # obj_start = 0
+        # obj_max = limit
         page = 1
-        #if params.is_valid():
-            #page = int(params.get_optional('members_page')) or 1
-            #if page > 1:
-                #obj_max = (limit * page)
-                #obj_start = (obj_max - limit) + 1
-            #else:
-                #obj_max = limit
-                #obj_start = 0
+        # if params.is_valid():
+            # page = int(params.get_optional('members_page')) or 1
+            # if page > 1:
+                # obj_max = (limit * page)
+                # obj_start = (obj_max - limit) + 1
+            # else:
+                # obj_max = limit
+                # obj_start = 0
 
         return dict(
             group=group,
@@ -126,7 +125,7 @@ class Groups(object):
             )
 
     @view_config(route_name='group-edit', permission='group_edit',
-        renderer='/groups/edit.xhtml')
+                 renderer='/groups/edit.xhtml')
     def edit(self):
         """ group editor page."""
         try:
@@ -138,12 +137,12 @@ class Groups(object):
 
         ms = MembershipValidator(self.request.authenticated_userid,
             [self.group.name])
-        #TODO: move this to Auth provider?
+        # TODO: move this to Auth provider?
         # Prevent denied client from requesting direct url
         if not self.request.authenticated_is_admin():
             if not self.request.authenticated_is_modo():
-                if not self.request.authenticated_is_group_admin(self.group.name):
-        #if self.request.authenticated_userid is None or ms.validate():
+                if not self.request.authenticated_is_group_admin(
+                        self.group.name):
                     return redirect_to('/group/details/%s' % self.id)
 
         form = EditGroupForm(self.request.POST, self.group)
@@ -164,18 +163,19 @@ class Groups(object):
             (t.id, t.name) for t in provider.get_group_types()]
         form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
 
-        #TODO: Double check usage of QuerySelectField for those two instead
+        # TODO: Double check usage of QuerySelectField for those two instead
         if self.request.method is not 'POST':
             form.owner_id.choices.insert(0, (-1, u'-- Select a username --'))
             form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
 
         if self.request.method == 'POST'\
-         and ('form.save.group-details' in self.request.params):
+                and ('form.save.group-details' in self.request.params):
             if form.validate():
                 form.populate_obj(self.group)
                 if form.bound_to_github.data and not self.group.bound_to_github:
                     g = Github()
-                    g.create_group(name=self.group.name,
+                    g.create_group(
+                        name=self.group.name,
                         repo=self.group.name,
                         access='push')
                 return redirect_to('/group/details/%s' % self.id)

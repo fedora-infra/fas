@@ -12,14 +12,14 @@ class Github(Github):
         super(Github, self).__init__(
             Config.get('github.token'),
             user_agent=Config.get('project.name') + "\FAS 3.0")
-        #self.enable_console_debug_logging()
+        # self.enable_console_debug_logging()
         self.org = self.get_organization(Config.get('github.organization'))
 
-    #def get_organization(self):
-        #""" Retrieve registered organization.
-        #:rtype: string, organiszation name
-        #"""
-        #return self.org.name
+    # def get_organization(self):
+        # """ Retrieve registered organization.
+        # :rtype: string, organiszation name
+        # """
+        # return self.org.name
 
     def get_group(self, name):
         """ Retrieve organization's team from given name.

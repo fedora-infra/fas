@@ -20,7 +20,7 @@ class MetaData():
 
     def __init__(self, name=None):
         self.data = {}
-        #self.metadata[name + 'Result'] = {}
+        # self.metadata[name + 'Result'] = {}
         self.name = name
         self.datetime = datetime.datetime
         self.strftime = '%Y-%m-%dT%H:%M:%S%Z'
@@ -43,7 +43,7 @@ class MetaData():
         :arg total: int, total page grom request based on item's limit.
         """
         pages = compute_list_pages_from(obj, limit)[0]
-        #pages = ceil(float(count) / float(limit))
+        # pages = ceil(float(count) / float(limit))
 
         self.data['Pages'] = {}
         self.data['Pages']['Current'] = current
@@ -62,7 +62,8 @@ class MetaData():
             :returns: Dict object of metadata from given parameters.
         """
         self.data['StartTimeStamp'] = self.timestamp
-        self.data['EndTimeStamp'] = self.datetime.utcnow().strftime(self.strftime)
+        self.data['EndTimeStamp'] = self.datetime.utcnow().strftime(
+            self.strftime)
 
         return self.data
 
@@ -70,4 +71,3 @@ class MetaData():
 @view_config(route_name='api_home', renderer='/api_home.xhtml')
 def api_home(request):
     return {}
-

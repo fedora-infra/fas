@@ -10,6 +10,7 @@ from wtforms import (
 from fas.utils import _
 from fas.models import provider as provider
 
+
 class EditLicenseForm(Form):
     """ Form to  add, edit and validate license agreement infos."""
     name = StringField(_(u'Name'), [validators.Required()])

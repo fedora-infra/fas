@@ -4,7 +4,7 @@ from fas.api import (
     BadRequest,
     NotFound,
     MetaData
-    )
+)
 
 from pyramid.response import Response
 from pyramid.view import view_config
@@ -35,7 +35,8 @@ def __get_user(key, value):
     return user
 
 
-@view_config(route_name='api_people_list', renderer='json', request_method='GET')
+@view_config(
+    route_name='api_people_list', renderer='json', request_method='GET')
 def people_list(request):
     """ Returns a JSON's output of people's list. """
     people = None
@@ -72,7 +73,8 @@ def people_list(request):
     return data.get_metadata()
 
 
-@view_config(route_name='api_people_get', renderer='json', request_method='GET')
+@view_config(
+    route_name='api_people_get', renderer='json', request_method='GET')
 def api_user_get(request):
     user = None
     data = MetaData('People')
@@ -90,8 +92,10 @@ def api_user_get(request):
                 return err
             except NotFound as err:
                 request.response.status = '404 page not found'
-                data.set_error_msg('Item not found',
-                'Found no %s with the following value: %s' % (key, value))
+                data.set_error_msg(
+                    'Item not found',
+                    'Found no %s with the following value: %s' % (key, value)
+                )
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
     else:
@@ -103,7 +107,8 @@ def api_user_get(request):
     return data.get_metadata()
 
 
-@view_config(route_name='api_people_get', renderer='json', request_method='POST')
+@view_config(
+    route_name='api_people_get', renderer='json', request_method='POST')
 def api_user_edit(request):
     key = request.matchdict.get('key')
     value = request.matchdict.get('value')
@@ -123,13 +128,13 @@ def api_user_edit(request):
         form.longitude.data = form.longitude.data or None
 
         # Convert the status provided as string into an integer
-        #status = provider.get_accountstatus_by_status(
+        # status = provider.get_accountstatus_by_status(
         #    DBSession, status=form.status.data)
-        #if not status:
+        # if not status:
         #    request.response.status = '400 bad request'
         #    return {'error': 'Invalid status provided'}
 
-        #form.status.data = status
+        # form.status.data = status
         form.populate_obj(user)
         return {'message': 'User updated', 'user': user.to_json()}
     else:
