@@ -20,7 +20,7 @@ from fas.views import redirect_to
 from fas.utils import compute_list_pages_from, generate_token
 from fas.utils.notify import notify_account_creation
 from fas.utils.passwordmanager import PasswordManager
-from fas.models import AccountPermissionType as permission
+from fas.models import AccountPermissionType as permission, AccountStatus
 from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
@@ -211,6 +211,7 @@ class People(object):
             raise HTTPNotFound('No user found with this token')
 
         self.person.password_token = None
+        self.person.status = AccountStatus.ACTIVE
         register.add_people(self.person)
         self.request.session.flash('Account activated', 'info')
 
