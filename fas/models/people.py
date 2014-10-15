@@ -119,6 +119,11 @@ class People(Base):
         Index('people_username_idx', username),
     )
 
+    @property
+    def activated(self):
+        """ Returns whether an account has been activated or not. """
+        return self.password_token is None
+
     def get_status(self):
         """ Retrieve person status definition and return it. """
         return AccountStatus[self.status]
