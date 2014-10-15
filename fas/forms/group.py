@@ -70,7 +70,8 @@ class EditGroupForm(Form):
     invite_only = BooleanField(_(u'Invite only'))
     join_msg = TextAreaField(_(u'Join message'))
     apply_rules = TextAreaField(_(u'Apply rules message'))
-    bound_to_github = BooleanField(_(u'Bind your group to our GitHub oraganization'))
+    bound_to_github = BooleanField(
+        _(u'Bind your group to our GitHub oraganization'))
     license_sign_up = SelectField(_(u'License requirement'),
         [validators.Optional()],
         coerce=int,

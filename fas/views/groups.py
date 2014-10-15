@@ -173,9 +173,9 @@ class Groups(object):
          and ('form.save.group-details' in self.request.params):
             if form.validate():
                 form.populate_obj(self.group)
-                if form.bound_to_github.data:
+                if form.bound_to_github.data and not self.group.bound_to_github:
                     g = Github()
-                    res = g.create_group(name=self.group.name,
+                    g.create_group(name=self.group.name,
                         repo=self.group.name,
                         access='push')
                 return redirect_to('/group/details/%s' % self.id)
