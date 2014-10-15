@@ -41,7 +41,7 @@ class People(object):
         return redirect_to('/people/page/1')
 
     @view_config(route_name='people-paging', renderer='/people/list.xhtml',
-        permission=NO_PERMISSION_REQUIRED)
+                 permission=NO_PERMISSION_REQUIRED)
     def paging(self):
         """ People list's view with paging. """
         try:
@@ -49,7 +49,7 @@ class People(object):
         except ValueError:
             return HTTPBadRequest()
 
-        #TODO: get limit from config file or let user choose in between
+        # TODO: get limit from config file or let user choose in between
         #      predefined one ?
         people = provider.get_people(50, page)
 
@@ -79,12 +79,14 @@ class People(object):
         if self.request.method == 'POST' and form.validate():
             form.populate_obj(self.person)
 
-        return dict(person=self.person,
-        form=form,
-        membership=self.person.group_membership)
+        return dict(
+            person=self.person,
+            form=form,
+            membership=self.person.group_membership
+        )
 
     @view_config(route_name='people-activities',
-        renderer='/people/activities.xhtml')
+                 renderer='/people/activities.xhtml')
     def activities(self):
         """ People's activities page. """
         try:
@@ -101,13 +103,14 @@ class People(object):
                 return self.redirect_to_profile()
         else:
             if self.request.authenticated_userid != self.person.username\
-            or self.request.authenticated_userid == self.person.username:
+                    or self.request.authenticated_userid == \
+                    self.person.username:
                 return self.redirect_to_profile()
 
         return dict(activities=activities, person=self.person)
 
     @view_config(route_name='people-edit', permission='authenticated',
-        renderer='/people/edit-infos.xhtml')
+                 renderer='/people/edit-infos.xhtml')
     def edit_infos(self):
         """ Profile's edit page."""
         try:
@@ -117,7 +120,7 @@ class People(object):
 
         self.person = provider.get_people_by_id(self.id)
 
-        #TODO: move this to Auth provider?
+        # TODO: move this to Auth provider?
         if self.request.authenticated_userid != self.person.username:
             return redirect_to('/people/profile/%s' % self.id)
 
@@ -135,7 +138,7 @@ class People(object):
         form.username.data = self.person.username
 
         if self.request.method == 'POST'\
-         and ('form.save.person-infos' in self.request.params):
+                and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 form.populate_obj(self.person)
                 return redirect_to('/people/profile/%s' % self.id)
@@ -143,7 +146,7 @@ class People(object):
         return dict(form=form, id=self.id)
 
     @view_config(route_name='people-password', permission='authenticated',
-        renderer='/people/edit-password.xhtml')
+                 renderer='/people/edit-password.xhtml')
     def update_password(self):
         """" People password change."""
         try:
@@ -158,8 +161,8 @@ class People(object):
         if self.request.method == 'POST' and form.validate():
             pv = PasswordValidator(self.person, form.old_password.data)
 
-            if pv.is_valid() and\
-             form.new_password.data == form.password.data:
+            if pv.is_valid() \
+                    and form.new_password.data == form.password.data:
                 del form.old_password
                 del form.new_password
                 register.update_password(form, self.person)
@@ -168,7 +171,7 @@ class People(object):
         return dict(form=form, _id=self.id)
 
     @view_config(route_name='people-token', permission='authenticated',
-        renderer='/people/access-token.xhtml')
+                 renderer='/people/access-token.xhtml')
     def access_token(self):
         """ People's access token."""
         try:
@@ -188,8 +191,8 @@ class People(object):
             perm = self.request.params['form.delete.token']
             register.remove_token(perm)
             # prevent from printing out deleted token in url
-            return HTTPFound(self.request.route_path(
-            'people-token', id=self.id))
+            return HTTPFound(
+                self.request.route_path('people-token', id=self.id))
 
         perms = provider.get_account_permissions_by_people_id(self.id)
 
@@ -211,7 +214,7 @@ class People(object):
              _('client can edit fas group\'s information')))
 
         # Prevent client/user from requesting direct url
-        #TODO: move this to Auth provider?
+        # TODO: move this to Auth provider?
         if len(perms) > 0:
             self.person = perms[0].account
             if self.request.authenticated_userid != self.person.username:
@@ -224,4 +227,3 @@ class People(object):
                 self.person = provider.get_people_by_id(self.id)
 
         return dict(permissions=perms, person=self.person, access=token_perm)
-

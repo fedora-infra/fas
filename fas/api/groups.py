@@ -31,7 +31,8 @@ def __get_group(key, value):
     return group
 
 
-@view_config(route_name='api_group_list', renderer='json', request_method='GET')
+@view_config(
+    route_name='api_group_list', renderer='json', request_method='GET')
 def group_list(request):
     """ Returns a JSON's output of registered group's list. """
     group = None
@@ -83,8 +84,9 @@ def api_group_get(request):
                 request.response.status = '400 bad request'
                 return err
             except NotFound as err:
-                data.set_error_msg('Item not found',
-                'Found no %s with the following value: %s' % (key, value)
+                data.set_error_msg(
+                    'Item not found',
+                    'Found no %s with the following value: %s' % (key, value)
                 )
                 request.response.status = '404 page not found'
         else:

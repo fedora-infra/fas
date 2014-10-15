@@ -28,7 +28,7 @@ class Admin(object):
         return Response('This is an empty page')
 
     @view_config(route_name='add-group', permission='group_edit',
-        renderer='/groups/edit.xhtml')
+                 renderer='/groups/edit.xhtml')
     def add_group(self):
         """ Group addition page."""
 
@@ -45,15 +45,17 @@ class Admin(object):
         form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
 
         if self.request.method == 'POST'\
-         and ('form.save.group-details' in self.request.params):
+                and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
                 register.add_membership(group, group.owner_id, 5)
                 if form.bound_to_github.data:
                     g = Github()
-                    g.create_group(name=group.name,
+                    g.create_group(
+                        name=group.name,
                         repo=group.name,
-                        access='push')
+                        access='push'
+                    )
                 return redirect_to('/group/details/%s' % group.id)
 
         return dict(form=form)
@@ -66,32 +68,32 @@ class Admin(object):
         except KeyError:
             return HTTPBadRequest()
 
-        #TODO: Add a confirmation form if group has members and child groups.
+        # TODO: Add a confirmation form if group has members and child groups.
         group = provider.get_group_by_id(self.id)
 
         register.remove_group(group.id)
         return redirect_to('/groups')
 
-        return dict()  #This should redirect to came_from
+        return dict()  # This should redirect to came_from
 
     @view_config(route_name='add-license', permission='admin',
-        renderer='/admin/edit-license.xhtml')
+                 renderer='/admin/edit-license.xhtml')
     def add_license(self):
         """ Add license page."""
         form = EditLicenseForm(self.request.POST)
 
         if self.request.method == 'POST'\
-         and ('form.save.license' in self.request.params):
+                and ('form.save.license' in self.request.params):
             if form.validate():
                 la = register.add_license(form)
-                #return redirect_to('/settings/option#licenses%s' % la.id)
+                # return redirect_to('/settings/option#licenses%s' % la.id)
                 # Redirect to home as admin page not view-able now
                 return redirect_to('/')
 
         return dict(form=form)
 
     @view_config(route_name='edit-license', permission='admin',
-        renderer='/admin/edit-license.xhtml')
+                 renderer='/admin/edit-license.xhtml')
     def edit_license(self):
         """ Edit license infos form page."""
         try:
@@ -104,7 +106,7 @@ class Admin(object):
         form = EditLicenseForm(self.request.POST, la)
 
         if self.request.method == 'POST'\
-         and ('form.save.license' in self.request.params):
+                and ('form.save.license' in self.request.params):
             if form.validate():
                 form.populate_obj(la)
                 # Redirect to home as admin page not view-able now
@@ -128,23 +130,23 @@ class Admin(object):
         return dict()
 
     @view_config(route_name='add-grouptype', permission='admin',
-        renderer='/admin/edit-grouptype.xhtml')
+                 renderer='/admin/edit-grouptype.xhtml')
     def add_grouptype(self):
         """ Add/Edit group type's page."""
         form = EditGroupTypeForm(self.request.POST)
 
         if self.request.method == 'POST'\
-         and ('form.save.grouptype' in self.request.params):
+                and ('form.save.grouptype' in self.request.params):
             if form.validate():
                 gt = register.add_grouptype(form)
-                #return redirect_to('/settings/option#GroupsType%s' % la.id)
+                # return redirect_to('/settings/option#GroupsType%s' % la.id)
                 # Redirect to home as admin page not view-able now
                 return redirect_to('/')
 
         return dict(form=form)
 
     @view_config(route_name='edit-grouptype', permission='admin',
-        renderer='/admin/edit-grouptype.xhtml')
+                 renderer='/admin/edit-grouptype.xhtml')
     def edit_grouptype(self):
         """ Edit group type' infos form page."""
         try:
@@ -157,7 +159,7 @@ class Admin(object):
         form = EditLicenseForm(self.request.POST, gt)
 
         if self.request.method == 'POST'\
-         and ('form.save.grouptype' in self.request.params):
+                and ('form.save.grouptype' in self.request.params):
             if form.validate():
                 form.populate_obj(gt)
                 # Redirect to home as admin page not view-able now
@@ -169,4 +171,3 @@ class Admin(object):
     def remove_grouptype(self):
         """ Remove group type page."""
         return dict()
-

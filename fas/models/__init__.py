@@ -5,7 +5,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
-    )
+)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -27,10 +27,10 @@ class AccountStatus(BaseStatus):
 # Disable dynamic status as of right we don't handle workflow
 # mechanism to manage new status adding by end-user.
 #
-#class AccountStatus(Base):
-    #__tablename__ = 'account_status'
-    #id = sa.Column(sa.Integer, primary_key=True)
-    #status = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+# class AccountStatus(Base):
+#    __tablename__ = 'account_status'
+#    id = sa.Column(sa.Integer, primary_key=True)
+#    status = sa.Column(sa.Unicode(50), unique=True, nullable=False)
 
 class GroupStatus(BaseStatus):
     ARCHIVED = 0x0A
@@ -54,10 +54,11 @@ class MembershipRole(IntEnum):
 # Disable dynamic status as of right we don't handle workflow
 # mechanism to manage new status adding by end-user.
 #
-#class RoleLevel(Base):
-    #__tablename__ = 'role_level'
-    #id = sa.Column(sa.Integer, primary_key=True)
-    #name = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+# class RoleLevel(Base):
+#    __tablename__ = 'role_level'
+#    id = sa.Column(sa.Integer, primary_key=True)
+#    name = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+
 
 class AccountPermissionType(IntEnum):
     CAN_READ_PUBLIC_INFO = 0x01
@@ -65,6 +66,7 @@ class AccountPermissionType(IntEnum):
     CAN_READ_PEOPLE_FULL_INFO = 0x03
     CAN_READ_AND_EDIT_PEOPLE_INFO = 0x05
     CAN_EDIT_GROUP_INFO = 0x07
+
 
 class AccountLogType(IntEnum):
     LOGGED_IN = 0x01

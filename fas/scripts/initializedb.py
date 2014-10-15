@@ -37,7 +37,9 @@ from fas.models import AccountPermissionType as perm
 from fas.utils.passwordmanager import PasswordManager
 from fas.security import generate_token
 
+
 _ = TranslationStringFactory('fas')
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -115,43 +117,45 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
             users.append(username)
             email.append(mail)
             people = People(
-                    id=user_index,
-                    username=username,
-                    password=pv.generate_password(username),
-                    fullname=user['name'],
-                    email=mail,
-                    postal_address=user['address'],
-                    introduction=fake.sentence(),
-                    avatar=gen_libravatar(mail),
-                    avatar_id=mail,
-                    bio=fake.paragraph(variable_nb_sentences=True),
-                    privacy=fake.boolean(),
-                    country_code=fake.country_code(),
-                    latitude=user['current_location'][0],
-                    longitude=user['current_location'][1]
-                    )
+                id=user_index,
+                username=username,
+                password=pv.generate_password(username),
+                fullname=user['name'],
+                email=mail,
+                postal_address=user['address'],
+                introduction=fake.sentence(),
+                avatar=gen_libravatar(mail),
+                avatar_id=mail,
+                bio=fake.paragraph(variable_nb_sentences=True),
+                privacy=fake.boolean(),
+                country_code=fake.country_code(),
+                latitude=user['current_location'][0],
+                longitude=user['current_location'][1]
+            )
             perms = AccountPermissions(
-                        people=people.id,
-                        token=generate_token(),
-                        application=u'Fedora Mobile v0.9',
-                        permissions=perm.CAN_READ_PUBLIC_INFO
-                        )
+                people=people.id,
+                token=generate_token(),
+                application=u'Fedora Mobile v0.9',
+                permissions=perm.CAN_READ_PUBLIC_INFO
+            )
             membership = GroupMembership(
-                            group_id=random.choice(group_list),
-                            people_id=people.id,
-                            sponsor=007,
-                            role=random.choice(
-                                [r.value for r in MembershipRole])
-                            )
+                group_id=random.choice(group_list),
+                people_id=people.id,
+                sponsor=007,
+                role=random.choice(
+                    [r.value for r in MembershipRole]
+                )
+            )
             session.add(people)
             session.add(perms)
             session.add(membership)
             user_index += 1
 
             if(i % (5 * point) == 0):
-                sys.stdout.write("\r"
-                "Generating fake people: [" + "=" * (i / increment) + " "
-                 * ((total - i) / increment) + "]" + str(i / point) + "%")
+                sys.stdout.write(
+                    "\r"
+                    "Generating fake people: [" + "=" * (i / increment) + " "
+                    * ((total - i) / increment) + "]" + str(i / point) + "%")
                 sys.stdout.flush()
 
 
@@ -171,54 +175,54 @@ def main(argv=sys.argv):
 
         # Default values for Dev (could be used for a quick test case as well)
         admin = People(
-                    id=007,
-                    username=u'admin',
-                    password=pv.generate_password('admin'),
-                    fullname=u'FAS Administrator',
-                    email=u'admin@fedoraproject.org'
+            id=007,
+            username=u'admin',
+            password=pv.generate_password('admin'),
+            fullname=u'FAS Administrator',
+            email=u'admin@fedoraproject.org'
         )
         user = People(
-                    id=999,
-                    username=u'foobar',
-                    password=pv.generate_password('foobar'),
-                    fullname=u'FAS User',
-                    email=u'user@fedoraproject.org'
+            id=999,
+            username=u'foobar',
+            password=pv.generate_password('foobar'),
+            fullname=u'FAS User',
+            email=u'user@fedoraproject.org'
         )
         group_admin = Groups(
-                        id=2000,
-                        name=u'fas-admin',
-                        owner_id=admin.id,
-                        type=2
+            id=2000,
+            name=u'fas-admin',
+            owner_id=admin.id,
+            type=2
         )
         group_user = Groups(
-                        id=3000,
-                        name=u'fas-user',
-                        owner_id=user.id,
-                        type=1
+            id=3000,
+            name=u'fas-user',
+            owner_id=user.id,
+            type=1
         )
         admin_membership = GroupMembership(
-                            group_id=2000,
-                            role=MembershipRole.ADMINISTRATOR,
-                            people_id=admin.id,
-                            sponsor=admin.id
+            group_id=2000,
+            role=MembershipRole.ADMINISTRATOR,
+            people_id=admin.id,
+            sponsor=admin.id
         )
         user_membership = GroupMembership(
-                            group_id=2000,
-                            role=MembershipRole.USER,
-                            people_id=user.id,
-                            sponsor=admin.id
+            group_id=2000,
+            role=MembershipRole.USER,
+            people_id=user.id,
+            sponsor=admin.id
         )
         admin_token = AccountPermissions(
-                        people=admin.id,
-                        token=u'498327sdfdj982374239874j34j',
-                        application=u'GNOME',
-                        permissions=PermissionType.CAN_READ_PUBLIC_INFO
+            people=admin.id,
+            token=u'498327sdfdj982374239874j34j',
+            application=u'GNOME',
+            permissions=PermissionType.CAN_READ_PUBLIC_INFO
         )
         user_token = AccountPermissions(
-                        people=user.id,
-                        token=u'2342309w8esad09803983i2039e',
-                        application=u'IRC Bot - zodbot',
-                        permissions=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO
+            people=user.id,
+            token=u'2342309w8esad09803983i2039e',
+            application=u'IRC Bot - zodbot',
+            permissions=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO
         )
 
         DBSession.add(admin)
@@ -229,6 +233,7 @@ def main(argv=sys.argv):
         DBSession.add(user_membership)
         DBSession.add(user_token)
         DBSession.add(admin_token)
+
 
         DBSession.add(Groups(
             id=300, name=u'avengers', type=1, owner_id=admin.id))

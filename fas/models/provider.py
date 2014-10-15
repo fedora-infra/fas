@@ -36,7 +36,7 @@ def __get_listoffset(page, limit):
     return offset
 
 
-## Method to get AccountStatus
+# Method to get AccountStatus
 
 # Disable retrieval of account's status from database as we disabled
 # dynamic account's status.
@@ -58,7 +58,7 @@ def __get_listoffset(page, limit):
     #return query.first()
 
 
-## Method to get RoleLevel
+# Method to get RoleLevel
 
 # Disabled function. see above for details
 #.
@@ -68,7 +68,7 @@ def __get_listoffset(page, limit):
     #return query.all()
 
 
-## Method to interact with Groups
+# Method to interact with Groups
 
 def get_groups_count():
     """ Retrieve number of registered groups and returns its value. """
@@ -101,6 +101,7 @@ def get_child_groups():
     return query.all()
 
 
+
 def get_group_by_id(id):
     """ Retrieve Groups by its id. """
     query = session.query(Groups).filter(Groups.id == id)
@@ -124,10 +125,17 @@ def get_group_membership(id):
     :return: Tuple of related group, membership, people and roles object
              for a given group's id
     """
-    query = session.query(Groups, GroupMembership, People)\
-    .join((GroupMembership, GroupMembership.group_id == Groups.id))\
-    .join(People, People.id == GroupMembership.people_id)\
-    .filter(Groups.id == id)
+    query = session.query(
+        Groups, GroupMembership, People, RoleLevel
+    ).join(
+        (GroupMembership, GroupMembership.group_id == Groups.id)
+    ).join(
+        People, People.id == GroupMembership.people_id
+    ).join(
+        RoleLevel
+    ).filter(
+        Groups.id == id
+    )
 
     return query.all()
 
@@ -138,10 +146,15 @@ def get_group_by_people_membership(username):
     :username: people username
     :return: List of groups object related to username's membership.
     """
-    query = session.query(Groups)\
-    .join((GroupMembership, GroupMembership.group_id == Groups.id))\
-    .join(People, People.username == username)\
-    .filter(GroupMembership.people_id == People.id)
+    query = session.query(
+        Groups
+    ).join(
+        (GroupMembership, GroupMembership.group_id == Groups.id)
+    ).join(
+        People, People.username == username
+    ).filter(
+        GroupMembership.people_id == People.id
+    )
 
     return query.all()
 
@@ -153,11 +166,16 @@ def get_membership(username, group):
     :group: Group name
     :return: Membership object
     """
-    query = session.query(GroupMembership)\
-    .join(People, People.username == username)\
-    .join(Groups, Groups.name == group)\
-    .filter(GroupMembership.people_id == People.id,
-        GroupMembership.group_id == Groups.id)
+    query = session.query(
+        GroupMembership
+    ).join(
+        People, People.username == username
+    ).join(
+        Groups, Groups.name == group
+    ).filter(
+        GroupMembership.people_id == People.id,
+        GroupMembership.group_id == Groups.id
+    )
 
     return query.first()
 
@@ -170,10 +188,13 @@ def get_membership_by_role(group, person, role):
     :param person: `fas.models.people.People.id`
     :type person: list(`fas.models.group.GroupMembership`)
     """
-    query = session.query(GroupMembership)\
-    .filter(GroupMembership.group_id == group,
+    query = session.query(
+        GroupMembership
+    ).filter(
+        GroupMembership.group_id == group,
         GroupMembership.people_id == person,
-        GroupMembership.role == role)
+        GroupMembership.role == role
+    )
 
     return query.first()
 
@@ -184,8 +205,11 @@ def get_membership_requests(group):
     :param group: integer, group id.
     :rtype: :class:`fas.models.group.MembershipRequest`
     """
-    query = session.query(MembershipRequest)\
-    .filter(MembershipRequest.group_id == group)
+    query = session.query(
+        MembershipRequest
+    ).filter(
+        MembershipRequest.group_id == group
+    )
 
     return query.all()
 
@@ -201,7 +225,7 @@ def get_membership_request_by_people(people):
 
     return query.all()
 
-## Method to interact with GroupType
+# Method to interact with GroupType
 
 
 def get_group_types():
@@ -216,7 +240,7 @@ def get_grouptype_by_id(id):
     return query.first()
 
 
-## Method to interact with People
+# Method to interact with People
 
 def get_people_count():
     """ Return people count. """
@@ -226,10 +250,15 @@ def get_people_count():
 def get_people(limit=None, page=None):
     """ Retrieve all registered people from database. """
     if limit and page:
-        query = session.query(People) \
-        .order_by(People.username)\
-        .limit(limit) \
-        .offset(__get_listoffset(page, limit))
+        query = session.query(
+            People
+        ).order_by(
+            People.username
+        ).limit(
+            limit
+        ).offset(
+            __get_listoffset(page, limit)
+        )
     else:
         query = session.query(People).order_by(People.username)
 
@@ -238,7 +267,11 @@ def get_people(limit=None, page=None):
 
 def get_people_username():
     """ Retrieve and return list of tuple of people's username and id."""
-    query = session.query(People.id, People.username).order_by(People.username)
+    query = session.query(
+        People.id, People.username
+    ).order_by(
+        People.username
+    )
     return query.all()
 
 
@@ -273,8 +306,11 @@ def get_people_by_ircnick(ircnick):
 
 def get_account_activities_by_people_id(id):
     """ Retrieve account's avitivities by people's id. """
-    query = session.query(PeopleAccountActivitiesLog)\
-    .filter(PeopleAccountActivitiesLog.people == id)
+    query = session.query(
+        PeopleAccountActivitiesLog
+    ).filter(
+        PeopleAccountActivitiesLog.people == id
+    )
 
     return query.all()
 
@@ -302,9 +338,12 @@ def is_license_signed(id, people_id):
     :people_id: people id
     :return: True is people_id has signed otherwise, false.
     """
-    query = session.query(SignedLicenseAgreement).filter(
+    query = session.query(
+        SignedLicenseAgreement
+    ).filter(
         SignedLicenseAgreement.people == people_id,
-        SignedLicenseAgreement.license == id)
+        SignedLicenseAgreement.license == id
+    )
 
     if query.first() is not None:
         return True

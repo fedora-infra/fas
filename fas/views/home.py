@@ -34,9 +34,11 @@ class Home:
     @view_config(route_name='home')
     def index(self):
         """ Main page. """
-        return {'one': 'admin',
+        return {
+            'one': 'admin',
             'project': 'fas',
-            'project_name': self.config('project.name')}
+            'project_name': self.config('project.name')
+        }
 
     @view_config(route_name='login', renderer='/login.xhtml')
     @forbidden_view_config(renderer='/login.xhtml')

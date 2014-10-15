@@ -17,7 +17,8 @@ def authenticated_is_admin(request):
     """ Validate if authenticated user is an admin.
     :return: True, if admin, false otherwise.
     """
-    is_admin = MembershipValidator(request.authenticated_userid,
+    is_admin = MembershipValidator(
+        request.authenticated_userid,
         Config.get_admin_group())
 
     return is_admin.validate()
@@ -27,7 +28,8 @@ def authenticated_is_modo(request):
     """ Validate an authenticated user as a moderator.
     :return: True if modo, false otherwise.
     """
-    is_modo = MembershipValidator(request.authenticated_userid,
+    is_modo = MembershipValidator(
+        request.authenticated_userid,
         Config.get_modo_group())
 
     return is_modo.validate()
@@ -38,7 +40,8 @@ def authenticated_is_group_editor(request):
 
     :return: True is user is a group editor, false otherwise.
     """
-    is_group_editor = MembershipValidator(request.authenticated_userid,
+    is_group_editor = MembershipValidator(
+        request.authenticated_userid,
         Config.get_group_editor())
 
     return is_group_editor.validate()
@@ -157,7 +160,7 @@ class PasswordValidator(Base):
         """ Check if password for given login is valid. """
         if self.person:
             return self.passwdmanager.is_valid_password(
-                 self.person.password, self.password)
+                self.person.password, self.password)
         return False
 
 
@@ -295,15 +298,17 @@ class ParamsValidator(Base):
         if self.request.params:
             for key, value in self.request.params.iteritems():
                 if key not in self.params:
-                    self.set_msg('Parameter Error.',
-                                    'Invalid parameter: %r' % str(key))
+                    self.set_msg(
+                        'Parameter Error.',
+                        'Invalid parameter: %r' % str(key))
                     return False
                 else:
                     if not value and (key not in self.optional_params):
                         if key == 'apikey':
                             self.request.response.status = '401 Unauthorized'
-                            self.set_msg('Access denied.',
-                                            "Required API key is missing.")
+                            self.set_msg(
+                                'Access denied.',
+                                "Required API key is missing.")
                         else:
                             self.set_msg('Invalid parameters', '')
                         return False
