@@ -45,11 +45,13 @@ def people_list(request):
     param = ParamsValidator(request, True)
     param.add_optional('limit')
     param.add_optional('page')
+    param.add_optional('status')
 
     if param.is_valid():
 
         limit = param.get_limit()
         page = param.get_pagenumber()
+        status = param.get_optional('status')
 
         ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
