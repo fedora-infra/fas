@@ -24,6 +24,7 @@ from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from sqlalchemy.exc import SQLAlchemyError
 
 from fas.utils import _
 
@@ -163,12 +164,19 @@ class People(object):
                 form.populate_obj(self.person)
                 self.person.password_token = generate_token()
                 register.add_people(self.person)
-                register.flush()
-                notify_account_creation(self.person)
-                self.request.session.flash(
-                    'Account created, please check your email to finish '
-                    'the process', 'info')
-                return redirect_to('/people/profile/%s' % self.person.id)
+                try:
+                    register.flush()
+                    notify_account_creation(self.person)
+                    self.request.session.flash(
+                        'Account created, please check your email to finish '
+                        'the process', 'info')
+                    return redirect_to('/people/profile/%s' % self.person.id)
+                except SQLAlchemyError:
+                    self.request.session.flash(
+                        'Could not create this account, either this '
+                        'username or this email address are already used',
+                        'error')
+                    return redirect_to('/people/new')
 
         return dict(form=form)
 
