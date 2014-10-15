@@ -137,6 +137,12 @@ def add_membership(group, people_id, role):
 
 
 def add_license(form):
+    """
+    Add new license into database.
+
+    :form: EditLicenseForm which contains license object
+    :rtype: :class: `fas.models.la.LicenseAgreement`
+    """
     la = LicenseAgreement()
     la.name = form.name.data
     la.content = form.content.data
@@ -144,6 +150,9 @@ def add_license(form):
 
     session.add(la)
     session.flush()
+    session.refresh(la)
+
+    return la
 
 
 def remove_license(license_id):
