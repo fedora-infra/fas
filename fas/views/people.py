@@ -11,13 +11,16 @@ import fas.models.register as register
 from fas.security import generate_token
 
 from fas.forms.people import EditPeopleForm
+from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 
 from fas.security import PasswordValidator
 from fas.views import redirect_to
-from fas.utils import compute_list_pages_from
+from fas.utils import compute_list_pages_from, generate_token
+from fas.utils.notify import notify_account_creation
 from fas.models import AccountPermissionType as permission
+from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
@@ -146,6 +149,25 @@ class People(object):
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, id=self.id)
+
+    @view_config(route_name='people-new', permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/new.xhtml')
+    def new_user(self):
+        """ Create a user account."""
+        form = NewPeopleForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            self.person = mPeople()
+            if form.validate():
+                form.populate_obj(self.person)
+                self.person.password_token = generate_token()
+                register.add_people(self.person)
+                register.flush()
+                notify_account_creation(self.person)
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form)
 
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')

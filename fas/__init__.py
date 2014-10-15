@@ -97,6 +97,7 @@ def main(global_config, **settings):
 
     # People pages
     config.add_route('people', '/people')
+    config.add_route('people-new', '/people/new')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
