@@ -161,7 +161,48 @@ def get_membership(username, group):
 
     return query.first()
 
+
+def get_membership_by_role(group, person, role):
+    """ Retrieve group membership request from given group and person
+
+    :param group:`fas.models.group.Groups.id`
+    :type group: integer
+    :param person: `fas.models.people.People.id`
+    :type person: list(`fas.models.group.GroupMembership`)
+    """
+    query = session.query(GroupMembership)\
+    .filter(GroupMembership.group_id == group,
+        GroupMembership.people_id == person,
+        GroupMembership.role == role)
+
+    return query.first()
+
+
+def get_membership_requests(group):
+    """ Retrieve group membership request from given group.
+
+    :param group: integer, group id.
+    :rtype: :class:`fas.models.group.MembershipRequest`
+    """
+    query = session.query(MembershipRequest)\
+    .filter(MembershipRequest.group_id == group)
+
+    return query.all()
+
+
+def get_membership_request_by_people(people):
+    """ Retrieve group membership request from given people
+
+    :param people: integer, people id
+    :rtype: :class:`fas.models.group.MembershipRequest`
+    """
+    query = session.query(MembershipRequest)\
+    .filter(MembershipRequest.person_id == People.id)
+
+    return query.all()
+
 ## Method to interact with GroupType
+
 
 def get_group_types():
     """ Retrieve group's types."""
@@ -229,12 +270,14 @@ def get_people_by_ircnick(ircnick):
     query = session.query(People).filter(People.ircnick == ircnick)
     return query.first()
 
+
 def get_account_activities_by_people_id(id):
     """ Retrieve account's avitivities by people's id. """
     query = session.query(PeopleAccountActivitiesLog)\
     .filter(PeopleAccountActivitiesLog.people == id)
 
     return query.all()
+
 
 def get_licenses():
     """ Retrieve all licenses from database. """

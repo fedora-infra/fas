@@ -71,21 +71,25 @@ class Groups(object):
         self.params.add_optional('members')
         self.params.add_optional('members_page')
 
-        memberships = provider.get_group_membership(_id)
+        g_memberships = provider.get_group_membership(_id)
 
-        group = memberships[0][0]
+        group = g_memberships[0][0]
+        memberships = []
         members = []
-        people = []
 
-        user = None
+        authenticated = self.request.get_user
+        authenticated_membership = None
         is_member = False
-        for group, membership, member, roles in memberships:
-            members.append(membership)
-            if self.request.get_user != member:
-                people.append((member, roles))
+
+        for group, membership, member in g_memberships:
+            memberships.append(membership)
+            if authenticated != member:
+                members.append((member, membership.get_role()))
             else:
-                user = (member, roles)
-                is_member = True
+                authenticated = member
+                authenticated_membership = membership
+                if membership.get_status() == MembershipStatus.APPROVED:
+                    is_member = True
 
         license_signed_up = None
         if self.request.authenticated_userid:
@@ -110,13 +114,15 @@ class Groups(object):
         return dict(
             group=group,
             parent_group=group.parent_group,
-            members=people,
-            count=len(people),
+            members=members,
+            count=len(members),
             license_signed_up=license_signed_up,
             page=page,
-            pages=int(len(people) / limit),
-            authenticated=user,
-            is_member=is_member
+            pages=int(len(members) / limit),
+            person=authenticated,
+            person_membership=authenticated_membership,
+            is_member=is_member,
+            has_membership_request=False
             )
 
     @view_config(route_name='group-edit', permission='group_edit',
@@ -133,10 +139,10 @@ class Groups(object):
         ms = MembershipValidator(self.request.authenticated_userid,
             [self.group.name])
         #TODO: move this to Auth provider?
-        # Prevent denied client/user from requesting direct url
-        if not self.request.user_is_admin():
-            if not self.request.user_is_modo():
-                if not self.request.user_is_group_admin(self.group.name):
+        # Prevent denied client from requesting direct url
+        if not self.request.authenticated_is_admin():
+            if not self.request.authenticated_is_modo():
+                if not self.request.authenticated_is_group_admin(self.group.name):
         #if self.request.authenticated_userid is None or ms.validate():
                     return redirect_to('/group/details/%s' % self.id)
 

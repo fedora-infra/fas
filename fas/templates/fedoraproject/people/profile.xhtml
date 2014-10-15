@@ -85,7 +85,7 @@
             <img src="/static/theme/fedoraproject/fas.png">
           </a>
           <span>${g.group.name}</span>
-          <span>${g.role_level.name}</span>
+          <span>${g.get_role().name.lower()}</span>
         </li>
       %endfor
     </ul>

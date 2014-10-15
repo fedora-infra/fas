@@ -68,6 +68,34 @@ def authenticated_is_group_sponsor(request, group):
     return role.is_sponsor()
 
 
+def request_membership(request, group):
+    """
+    Request membership for given group from given person
+
+    :param request: re
+    :param group: id, `fas.models.group.Groups.id`
+    :param person: integer, `fas.models.people.People.id`
+    """
+    register.add_membership(group, request.get_user.id, MembershipRole.PENDING)
+
+
+def requested_membership(request, group, person):
+    """
+    Check if authenticated user requested membership already.
+
+    :param request:
+    :param group: integer, `fas.models.group.Groups.id`
+    :param person: integer, `fas.models.people.People.id`
+    :rtype: boolean, true is membership already requested, false otherwise.
+    """
+    rq = provider.get_membership_by_role(group, person, MembershipRole.PENDING)
+
+    if rq is not None:
+        return True
+
+    return False
+
+
 class Root(object):
     def __acl__(self):
         return [
@@ -295,7 +323,7 @@ class ParamsValidator(Base):
         self.params.append(params)
 
     def get_optional(self, optional):
-        """ Get request optional param value."""
+        """ Get optional param's value from request."""
         try:
             return self.request.params.getone(unicode(optional))
         except KeyError:

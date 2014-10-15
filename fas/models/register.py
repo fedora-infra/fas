@@ -177,3 +177,17 @@ def remove_token(permission):
     perm.token = permission
     session.query(AccountPermissions).filter(
         AccountPermissions.token == permission).delete()
+
+
+def remove_membership_request(group, person):
+    """
+    Remove membership request from pending list
+
+    :param group: integer, `fas.models.Groups.id`
+    :param person: integer, `fas.models.People.id`
+    """
+    session.query(MembershipRequest)\
+    .filter(MembershipRequest.group_id == group,
+        MembershipRequest.person_id == person
+        ).delete()
+

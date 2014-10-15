@@ -13,6 +13,8 @@ from .security import (
     authenticated_is_group_admin,
     authenticated_is_group_editor,
     authenticated_is_group_sponsor,
+    request_membership,
+    requested_membership
     )
 
 from .models.provider import get_authenticated_user
@@ -71,15 +73,19 @@ def main(global_config, **settings):
     config.add_request_method(get_release_info, 'release', reify=True)
     config.add_request_method(get_authenticated_user, 'get_user', reify=True)
     config.add_request_method(authenticated_is_admin,
-        'user_is_admin', reify=False)
+        'authenticated_is_admin', reify=False)
     config.add_request_method(authenticated_is_modo,
-        'user_is_modo', reify=False)
+        'authenticated_is_modo', reify=False)
     config.add_request_method(authenticated_is_group_admin,
-        'user_is_group_admin', reify=False)
+        'authenticated_is_group_admin', reify=False)
     config.add_request_method(authenticated_is_group_editor,
-        'user_is_group_editor', reify=False)
+        'authenticated_is_group_editor', reify=False)
     config.add_request_method(authenticated_is_group_sponsor,
-        'user_is_group_sponsor', reify=False)
+        'authenticated_is_group_sponsor', reify=False)
+    config.add_request_method(request_membership, 'request_membership',
+        reify=False)
+    config.add_request_method(requested_membership, 'requested_membership',
+        reify=False)
 
     # home pages
     config.add_route('home', '/')

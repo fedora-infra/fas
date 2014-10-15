@@ -13,7 +13,7 @@
         </div>
     %endif
     %if request.authenticated_userid:
-      %if request.user_is_admin() or request.user_is_modo() or request.user_is_group_editor() or request.user_is_group_admin(group.name) :
+      %if request.authenticated_is_admin() or request.authenticated_is_modo() or request.authenticated_is_group_editor() or request.authenticated_is_group_admin(group.name) :
           <button class="btn btn-default" type="button"><a href="${request.route_url('group-edit', id=group.id)}">${_(u'Edit')}</a></button>
       %endif
     %endif
@@ -74,16 +74,20 @@
         </div>
         %if is_member:
           <dl class="dl-horizontal">
-            <dt>${_(u'Your role')}</dt><dd>${authenticated[1].name}
+            <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
               <span><a href="#">(${_(u'revoke my membership')})</a></span>
             %else:
               <span><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
-            %if request.user_is_group_admin(group.name) or request.user_is_group_sponsor(group.name):
+            %if request.authenticated_is_group_admin(group.name) or request.authenticated_is_group_sponsor(group.name):
               <dt>${_(u'Requests')}</dt>
-              <dd><a href="#">${_(u'View membership request')}</a></dd>
+              %if has_membership_request:
+                <dd><a href="#">${_(u'View membership request')}</a></dd>
+              %else:
+                <dd><p>${_(u'None')}</p></dd>
+              %endif
             %endif
           </dl>
         %endif
@@ -91,11 +95,20 @@
         <dl class="dl-horizontal">
           %if group.apply_rules:
             <p>${group.apply_rules}</p>
-            %if group.need_approval:
-              <dt>${_(u'This group requires approvals')}</dt>
-              %if request.authenticated_userid and not is_member:
-                <dd><button class="btn btn-default" type="button">${_(u'Apply')}</button></dd>
-              %endif
+          %endif
+          %if group.need_approval:
+            %if request.authenticated_userid and not is_member:
+              %if person_membership is not None and person_membership.get_status() == person_membership.get_status()['PENDING']:
+                <dt>${_(u'Status')}</dt>
+                  <dd><p> Pending...</p></dd>
+                  %else:
+                <form method="POST">
+                <button class="btn btn-default" name="data" onClick="${group.id}">${_(u'Apply')}</button>
+                <!--
+                <button class="btn btn-default" name="data" onClick="add_membership">${_(u'Apply')}</button>
+                -->
+                </form>
+                %endif
             %endif
           %endif
           %if group.license_sign_up > -1:
@@ -118,8 +131,10 @@
       <!--
       ${paging.list(name='people', route='group-details', param={'members_page': 2})}
       -->
-      %for person, role in members:
-          <div id="people-list">
+      <!-- limit members list to 50 for now -->
+      <div class="row">
+      %for person, role in members[0:50]:
+          <div class="col-sm-6 col-md-4 col-lg-4">
             <ul id="people">
               <li>
                 <span>
@@ -131,12 +146,13 @@
                     %endif
                   </a>
                 </span>
-                <span>${person.username}</span>
-                <span>(${_(role.name)})</span>
+                <span>${person.fullname}</span>
+                <span>(${_(role.name.lower())})</span>
               </li>
             </ul>
           </div>
       %endfor
+      </div>
   %else:
     <div id="no-items-found">
       <p>${_(u'No members found.')}</p>

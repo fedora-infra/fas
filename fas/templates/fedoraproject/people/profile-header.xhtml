@@ -10,7 +10,7 @@
     %else:
         <img src="http://cdn.libravatar.org/avatar?s=200"/>
     %endif
-    ${person.status}
+    ${person.get_status().name.lower()}
     %if form:
         %if person.username == request.authenticated_userid:
             <span>
