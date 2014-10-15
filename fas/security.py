@@ -5,10 +5,12 @@ import hashlib
 
 from pyramid.security import Allow, Everyone
 
+from fas.models import MembershipRole
 from fas.utils import Config
 from fas.utils.passwordmanager import PasswordManager
 
 import fas.models.provider as provider
+from fas.models import register
 
 
 def authenticated_is_admin(request):

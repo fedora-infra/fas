@@ -13,27 +13,51 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-#class AccountStatus(IntEnum):
-#    ACTIVE = 1
-#    INACTIVE = 3
-#    LOCKED = 5
-#    DISABLED = 8
-class AccountStatus(Base):
-    __tablename__ = 'account_status'
-    id = sa.Column(sa.Integer, primary_key=True)
-    status = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+class BaseStatus(IntEnum):
+    INACTIVE = 0x00
+    ACTIVE = 0x01
+    PENDING = 0x03
+    LOCKED = 0x05
+    LOCKED_BY_ADMIN = 0x06
+    DISABLED = 0x08
 
+class AccountStatus(BaseStatus):
+    ON_VACATION = 0x04
 
-#class RoleLevel(IntEnum):
-#    UNKNOWN = 0
-#    USER = 1
-#    EDITOR = 2
-#    SPONSOR = 3
-#    ADMIN = 5
-class RoleLevel(Base):
-    __tablename__ = 'role_level'
-    id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+# Disable dynamic status as of right we don't handle workflow
+# mechanism to manage new status adding by end-user.
+#
+#class AccountStatus(Base):
+    #__tablename__ = 'account_status'
+    #id = sa.Column(sa.Integer, primary_key=True)
+    #status = sa.Column(sa.Unicode(50), unique=True, nullable=False)
+
+class GroupStatus(BaseStatus):
+    ARCHIVED = 0x0A
+
+class MembershipStatus(IntEnum):
+    UNAPPROVED = 0x00
+    APPROVED = 0x01
+    PENDING = 0x02
+
+class LicenseAgreementStatus(IntEnum):
+    DISABLED = 0x00
+    ENABLED = 0x01
+
+class MembershipRole(IntEnum):
+    UNKNOWN = 0x00
+    USER = 0x01
+    EDITOR = 0x02
+    SPONSOR = 0x03
+    ADMINISTRATOR = 0x05
+
+# Disable dynamic status as of right we don't handle workflow
+# mechanism to manage new status adding by end-user.
+#
+#class RoleLevel(Base):
+    #__tablename__ = 'role_level'
+    #id = sa.Column(sa.Integer, primary_key=True)
+    #name = sa.Column(sa.Unicode(50), unique=True, nullable=False)
 
 class AccountPermissionType(IntEnum):
     CAN_READ_PUBLIC_INFO = 0x01

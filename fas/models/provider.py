@@ -4,12 +4,24 @@ import sqlalchemy as sa
 from sqlalchemy import func
 
 from fas.models import DBSession as session
-from fas.models import AccountStatus, RoleLevel
-from fas.models.group import Groups, GroupType, GroupMembership
-from fas.models.people import People
-from fas.models.people import PeopleAccountActivitiesLog
-from fas.models.la import LicenseAgreement, SignedLicenseAgreement
+
+from fas.models.la import (
+    LicenseAgreement,
+    SignedLicenseAgreement
+    )
+
 from fas.models.configs import AccountPermissions
+
+from fas.models.group import (
+    Groups,
+    GroupType,
+    GroupMembership
+    )
+
+from fas.models.people import (
+    People,
+    PeopleAccountActivitiesLog
+    )
 
 
 def __get_listoffset(page, limit):
@@ -26,36 +38,40 @@ def __get_listoffset(page, limit):
 
 ## Method to get AccountStatus
 
+# Disable retrieval of account's status from database as we disabled
+# dynamic account's status.
 
-def get_accountstatus():
-    """ Retrieve all the status an account can have. """
-    query = session.query(AccountStatus)
-    return query.all()
+#def get_accountstatus():
+    #""" Retrieve all the status an account can have. """
+    #query = session.query(AccountStatus)
+    #return query.all()
 
-
-def get_accountstatus_by_status(status):
-    """ Retrieve the status an account can have for the specified status.
-    """
-    query = session.query(
-        AccountStatus
-    ).filter(
-        sa.func.lower(AccountStatus.status) == sa.func.lower(status)
-    )
-    return query.first()
+# Same as above.
+#def get_accountstatus_by_status(status):
+    #""" Retrieve the status an account can have for the specified status.
+    #"""
+    #query = session.query(
+        #AccountStatus
+    #).filter(
+        #sa.func.lower(AccountStatus.status) == sa.func.lower(status)
+    #)
+    #return query.first()
 
 
 ## Method to get RoleLevel
 
-def get_role_levels():
-    """ Retrieve all the roles someone can have in a group. """
-    query = session.query(RoleLevel)
-    return query.all()
+# Disabled function. see above for details
+#.
+#def get_role_levels():
+    #""" Retrieve all the roles someone can have in a group. """
+    #query = session.query(RoleLevel)
+    #return query.all()
 
 
 ## Method to interact with Groups
 
 def get_groups_count():
-    """ Return people count. """
+    """ Retrieve number of registered groups and returns its value. """
     return session.query(func.count(Groups.id)).first()[0]
 
 
@@ -70,6 +86,7 @@ def get_groups(limit=None, page=None):
 
     return query.all()
 
+
 def get_candidate_parent_groups():
     """ Retrieve all groups that can be a parent group."""
     query = session.query(Groups.id, Groups.name)\
@@ -77,9 +94,12 @@ def get_candidate_parent_groups():
         .order_by(Groups.name)
     return query.all()
 
+
 def get_child_groups():
     """ Retrieve all child groups."""
     query = session.query(Groups).filter(Groups.parent_group_id >= -1)
+    return query.all()
+
 
 def get_group_by_id(id):
     """ Retrieve Groups by its id. """
@@ -104,10 +124,9 @@ def get_group_membership(id):
     :return: Tuple of related group, membership, people and roles object
              for a given group's id
     """
-    query = session.query(Groups, GroupMembership, People, RoleLevel)\
+    query = session.query(Groups, GroupMembership, People)\
     .join((GroupMembership, GroupMembership.group_id == Groups.id))\
     .join(People, People.id == GroupMembership.people_id)\
-    .join(RoleLevel)\
     .filter(Groups.id == id)
 
     return query.all()

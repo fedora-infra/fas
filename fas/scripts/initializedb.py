@@ -19,7 +19,8 @@ from fas.models import (
     DBSession,
     Base,
     AccountStatus,
-    RoleLevel,
+    MembershipRole,
+    AccountPermissionType as PermissionType
     )
 
 from fas.models.people import People
@@ -45,39 +46,42 @@ def usage(argv):
     sys.exit(1)
 
 
-def fill_account_status():
-    status = AccountStatus(id=1, status=_(u'Active'))
-    DBSession.add(status)
-    status = AccountStatus(id=3, status=_(u'Inactive'))
-    DBSession.add(status)
-    status = AccountStatus(id=5, status=_(u'Blocked'))
-    DBSession.add(status)
-    status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
-    DBSession.add(status)
-    status = AccountStatus(id=8, status=_(u'Disabled'))
-    DBSession.add(status)
-    status = AccountStatus(id=10, status=_(u'OnVacation'))
-    DBSession.add(status)
+#def fill_account_status():
+    #""" Add standard status into system."""
+    #status = AccountStatus(id=1, status=_(u'Active'))
+    #DBSession.add(status)
+    #status = AccountStatus(id=3, status=_(u'Inactive'))
+    #DBSession.add(status)
+    #status = AccountStatus(id=5, status=_(u'Blocked'))
+    #DBSession.add(status)
+    #status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
+    #DBSession.add(status)
+    #status = AccountStatus(id=8, status=_(u'Disabled'))
+    #DBSession.add(status)
+    #status = AccountStatus(id=10, status=_(u'OnVacation'))
+    #DBSession.add(status)
 
 
-def fill_role_levels():
-    """ Add standard role level into system."""
-    role = RoleLevel(id=0, name=_(u'Unknown'))
-    DBSession.add(role)
-    role = RoleLevel(id=1, name=_(u'User'))
-    DBSession.add(role)
-    role = RoleLevel(id=2, name=_(u'Editor'))
-    DBSession.add(role)
-    role = RoleLevel(id=3, name=_(u'Sponsor'))
-    DBSession.add(role)
-    role = RoleLevel(id=5, name=_(u'Administrator'))
-    DBSession.add(role)
+#def fill_role_levels():
+    #""" Add standard role level into system."""
+    #role = RoleLevel(id=0, name=_(u'Unknown'))
+    #DBSession.add(role)
+    #role = RoleLevel(id=1, name=_(u'User'))
+    #DBSession.add(role)
+    #role = RoleLevel(id=2, name=_(u'Editor'))
+    #DBSession.add(role)
+    #role = RoleLevel(id=3, name=_(u'Sponsor'))
+    #DBSession.add(role)
+    #role = RoleLevel(id=5, name=_(u'Administrator'))
+    #DBSession.add(role)
 
 
 def add_default_group_type():
     """ Add standard group type into system."""
-    gtype = GroupType(id=1, name=u'shell', description='Shell access')
+    gtype = GroupType(name=u'tracking', description='Tracking people')
+    gtype = GroupType(name=u'shell', description='Shell access')
     DBSession.add(gtype)
+
 
 def add_default_user(id, login, name, email, passwd=None, membership=None):
     """ Add a default user into system. """
@@ -136,7 +140,8 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                             group_id=random.choice(group_list),
                             people_id=people.id,
                             sponsor=007,
-                            role=random.choice([1, 2, 3, 5])
+                            role=random.choice(
+                                [r.value for r in MembershipRole])
                             )
             session.add(people)
             session.add(perms)
@@ -161,8 +166,8 @@ def main(argv=sys.argv):
     Base.metadata.create_all(engine)
     pv = PasswordManager()
     with transaction.manager:
-        fill_account_status()
-        fill_role_levels()
+        #fill_account_status()
+        #fill_role_levels()
 
         # Default values for Dev (could be used for a quick test case as well)
         admin = People(
@@ -182,21 +187,24 @@ def main(argv=sys.argv):
         group_admin = Groups(
                         id=2000,
                         name=u'fas-admin',
-                        owner_id=admin.id
+                        owner_id=admin.id,
+                        type=2
         )
         group_user = Groups(
                         id=3000,
                         name=u'fas-user',
-                        owner_id=user.id
+                        owner_id=user.id,
+                        type=1
         )
         admin_membership = GroupMembership(
                             group_id=2000,
-                            role=5,
+                            role=MembershipRole.ADMINISTRATOR,
                             people_id=admin.id,
                             sponsor=admin.id
         )
         user_membership = GroupMembership(
                             group_id=2000,
+                            role=MembershipRole.USER,
                             people_id=user.id,
                             sponsor=admin.id
         )
@@ -204,13 +212,13 @@ def main(argv=sys.argv):
                         people=admin.id,
                         token=u'498327sdfdj982374239874j34j',
                         application=u'GNOME',
-                        permissions=1
+                        permissions=PermissionType.CAN_READ_PUBLIC_INFO
         )
         user_token = AccountPermissions(
                         people=user.id,
                         token=u'2342309w8esad09803983i2039e',
                         application=u'IRC Bot - zodbot',
-                        permissions=2
+                        permissions=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO
         )
 
         DBSession.add(admin)
@@ -222,11 +230,16 @@ def main(argv=sys.argv):
         DBSession.add(user_token)
         DBSession.add(admin_token)
 
-        DBSession.add(Groups(id=300, name=u'avengers', owner_id=admin.id))
-        DBSession.add(Groups(id=301, name=u'justice_league', owner_id=user.id))
-        DBSession.add(Groups(id=302, name=u'fantastic_four', owner_id=admin.id))
-        DBSession.add(Groups(id=303, name=u'all-star', owner_id=user.id))
-        DBSession.add(Groups(id=304, name=u'x-men', owner_id=admin.id))
+        DBSession.add(Groups(
+            id=300, name=u'avengers', type=1, owner_id=admin.id))
+        DBSession.add(Groups(
+            id=301, name=u'justice_league', type=1, owner_id=user.id))
+        DBSession.add(Groups(
+            id=302, name=u'fantastic_four', type=2, owner_id=admin.id))
+        DBSession.add(
+            Groups(id=303, name=u'all-star', type=1, owner_id=user.id))
+        DBSession.add(
+            Groups(id=304, name=u'x-men', type=2, owner_id=admin.id))
 
         groups = [3000, 300, 301, 302, 303, 304]
         create_fake_user(DBSession, upto=13811, group_list=groups)

@@ -1,5 +1,5 @@
 
-from . import Base, AccountStatus
+from . import Base, LicenseAgreementStatus
 
 from sqlalchemy import (
     Column,
@@ -15,9 +15,11 @@ from sqlalchemy.orm import relation
 
 
 class LicenseAgreement(Base):
+    """ Mapper class to SQL table LicenseAgreement. """
     __tablename__ = 'license_agreement'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255), nullable=False)
+    status = Column(Integer, default=LicenseAgreementStatus.DISABLED)
     content = Column(UnicodeText, nullable=False)
     comment = Column(UnicodeText, nullable=True)
     creation_timestamp = Column(
@@ -40,6 +42,7 @@ class LicenseAgreement(Base):
 
 
 class SignedLicenseAgreement(Base):
+    """ Mapper class to SQL table SignedLicenseAgreement. """
     __tablename__ = 'signed_license_agreement'
     id = Column(Integer, primary_key=True)
     license = Column(

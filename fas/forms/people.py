@@ -1,6 +1,9 @@
 #-*- coding: utf-8 -*-
 
 
+from fas.utils import _
+from fas.models import AccountStatus
+
 from wtforms import (
     Form,
     StringField,
@@ -11,16 +14,11 @@ from wtforms import (
     DecimalField,
     PasswordField,
     validators,
+    ValidationError
     )
-
-from wtforms import ValidationError
 
 from pytz import common_timezones
 
-from fas.utils import _
-from fas.utils import Config
-
-import fas.models.provider as provider
 import calendar
 
 
@@ -45,9 +43,7 @@ class UpdateStatusForm(Form):
     # TODO: filter out status user are not allowed to select.
     status = SelectField(_(u'Status'),
         [validators.Required()],
-        choices=[(stat.status,
-                stat.status)
-                 for stat in provider.get_accountstatus()])
+        choices=[(e.value, e.name.lower()) for e in AccountStatus])
 
 
 class UpdatePasswordForm(Form):
@@ -61,7 +57,7 @@ class UpdatePasswordForm(Form):
         [validators.Required()])
 
 
-class EditPeopleForm(Form):
+class EditPeopleForm(UpdateStatusForm):
     """ Form to edit user's information. """
     username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
@@ -93,11 +89,6 @@ class EditPeopleForm(Form):
     gpg_fingerprint = StringField(_(u'GPG Fingerprint'))
     ssh_key = StringField(_(u'Public SSH Key'))
     bugzilla_email = StringField(_(u'Bugzilla email'))
-    status = SelectField(_(u'Status'),
-        [validators.Required()],
-        choices=[(stat.status,
-                stat.status)
-                 for stat in provider.get_accountstatus()])
     privacy = BooleanField(_(u'Privacy'))
     blog_rss = StringField(_(u'Blog RSS'))
     latitude = DecimalField(_(u'Latitude'), [validators.Optional()])

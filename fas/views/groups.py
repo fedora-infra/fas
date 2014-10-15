@@ -5,6 +5,8 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
+from fas.models import MembershipRole, MembershipStatus
+
 import fas.models.provider as provider
 import fas.models.register as register
 

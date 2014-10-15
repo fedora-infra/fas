@@ -12,16 +12,22 @@ from wtforms import (
 #from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from fas.utils import _
+from fas.models import GroupStatus
 from fas.models import provider as provider
-
-def get_username_list():
-    return provider.get_people()
 
 
 class EditGroupTypeForm(Form):
     """ Form to edit and validate group type 's informations"""
     name = StringField(_(u'Name'), [validators.Required()])
     comment = StringField(_(u'Description'), [validators.Required()])
+
+
+class EditGroupStatusForm(Form):
+    """ Form to edit and validate group's status"""
+    status = SelectField(_(u'Status'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(e.value, e.name.lower()) for e in GroupStatus])
 
 
 class EditGroupForm(Form):
@@ -34,8 +40,8 @@ class EditGroupForm(Form):
     mailing_list_url = StringField(_(u'Mailing list URL'))
     irc_channel = StringField(_(u'IRC Channel'))
     irc_network = StringField(_(u'IRC network'))
-    # This is using QuerySelectField plugin, commented out for now as not working
-    # as expected, using built-in feature.
+    # This is using QuerySelectField plugin, commented out for now as not
+    # working as expected, using built-in feature.
     #owner_id = QuerySelectField(_(u'Principal Adminn'),
     #    query_factory=get_username_list,
     #    allow_blank=True, blank_text=_(u'-- Select a username --'))

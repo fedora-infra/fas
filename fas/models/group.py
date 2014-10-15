@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from . import Base
+from . import (
+    Base,
+    GroupStatus,
+    MembershipStatus,
+    MembershipRole
+    )
 
 from sqlalchemy import (
     Column,
@@ -42,6 +47,7 @@ class Groups(Base):
     name = Column(Unicode(40), unique=True, nullable=False)
     display_name = Column(UnicodeText, nullable=True)
     description = Column(UnicodeText, nullable=True)
+    status = Column(Integer, default=GroupStatus.INACTIVE)
     avatar = Column(UnicodeText, nullable=True)
     web_link = Column(UnicodeText, nullable=True)
     mailing_list = Column(UnicodeText, nullable=True)
@@ -144,30 +150,24 @@ class Groups(Base):
 
 
 class GroupMembership(Base):
+    """ A mapping object to SQL GroupMembership table. """
     __tablename__ = 'group_membership'
     id = Column(Integer, primary_key=True)
     group_id = Column(Integer, ForeignKey('group.id'))
-    role = Column(Integer, ForeignKey('role_level.id'), default=1)
-    status = Column(Integer, ForeignKey('account_status.id'), default=1)
+    role = Column(Integer, default=MembershipRole.USER)
+    status = Column(Integer, default=0)
     comment = Column(UnicodeText, nullable=True)
     people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor = Column(Integer, ForeignKey('people.id'), nullable=False)
     creation_timestamp = Column(DateTime, default=datetime.datetime.now)
     approval_timestamp = Column(DateTime, default=datetime.datetime.now)
 
-    role_level = relation(
-        'RoleLevel',
-        foreign_keys='RoleLevel.id',
-        primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
-        uselist=False
-    )
-
-    account_status = relation(
-        'AccountStatus',
-        foreign_keys='AccountStatus.id',
-        primaryjoin='and_(GroupMembership.status==AccountStatus.id)',
-        uselist=False
-    )
+    #role_level = relation(
+        #'RoleLevel',
+        #foreign_keys='RoleLevel.id',
+        #primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
+        #uselist=False
+    #)
 
     group = relation(
         'Groups',
@@ -191,3 +191,9 @@ class GroupMembership(Base):
     __table_args__ = (
         Index('people_roles_idx', role),
     )
+
+    def get_status(self):
+        return MembershipStatus[self.status]
+
+    def get_role(self):
+        return MembershipRole[self.role]

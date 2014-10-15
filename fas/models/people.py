@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from . import Base
+from . import (
+    Base,
+    AccountStatus
+    )
 
 from sqlalchemy import (
     Column,
@@ -22,6 +25,7 @@ import datetime
 
 
 class People(Base):
+    """ Class mapping SQL table People."""
     __tablename__ = 'people'
     id = Column(
         Integer,
@@ -57,10 +61,7 @@ class People(Base):
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
-    status = Column(
-        Integer,
-        ForeignKey('account_status.id'),
-        nullable=False, default=1)
+    status = Column(Integer, default=AccountStatus.PENDING)
     status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)
@@ -85,11 +86,11 @@ class People(Base):
         'Groups',
         order_by='Groups.id'
     )
-    account_status = relation(
-        'AccountStatus',
-        foreign_keys='People.status',
-        uselist=False
-    )
+    #account_status = relation(
+        #'AccountStatus',
+        #foreign_keys='People.status',
+        #uselist=False
+    #)
     group_membership = relation(
         'GroupMembership',
         foreign_keys='GroupMembership.people_id',
@@ -118,12 +119,21 @@ class People(Base):
         Index('people_username_idx', username),
     )
 
+    def get_status(self):
+        """ Retrieve person status definition and return it. """
+        return AccountStatus[self.status]
+
     def to_json(self, permissions):
         """ Return a json/dict representation of this user.
 
         Use the `filter_private` argument to retrieve all the information about
         the user or just the public information.
         By default only the public information are returned.
+
+        :param permissions: permission level to return related infos
+        :type permissions: `fas.models.AccountPermissionLevel`
+        :return: json/dict format of user data
+        :rtype: dict
         """
         info = {}
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
