@@ -165,6 +165,9 @@ class People(object):
                 register.add_people(self.person)
                 register.flush()
                 notify_account_creation(self.person)
+                self.request.session.flash(
+                    'Account created, please check your email to finish '
+                    'the process', 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
@@ -186,6 +189,7 @@ class People(object):
 
         self.person.password_token = None
         register.add_people(self.person)
+        self.request.session.flash('Account activated', 'info')
 
         return redirect_to('/people/profile/%s' % self.person.id)
 
