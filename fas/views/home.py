@@ -60,13 +60,18 @@ class Home:
             person = provider.get_people_by_username(login)
 
             pv = PasswordValidator(person, password)
-            if pv.is_valid():
+            if pv.is_valid() and person.activated:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
                 register.save_account_activity(self.request, person.id, 1)
                 return HTTPFound(location=came_from, headers=headers)
 
-            self.request.session.flash('Login failed', 'login')
+            if not person.activated:
+                self.request.session.flash(
+                    'Login failed, this account has not been activated, '
+                    'please check your emails.', 'login')
+            else:
+                self.request.session.flash('Login failed', 'login')
 
         return dict(
             message=message,
