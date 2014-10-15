@@ -162,10 +162,12 @@ class People(object):
                 and ('form.save.person-infos' in self.request.params):
             self.person = mPeople()
             if form.validate():
-                form.populate_obj(self.person)
+                self.person.username = form.username.data
+                self.person.email = form.email.data
+                self.person.fullname = form.fullname.data
                 pwdman = PasswordManager()
                 self.person.password = pwdman.generate_password(
-                    self.person.password)
+                    form.password.data)
                 self.person.password_token = generate_token()
                 register.add_people(self.person)
                 try:
