@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import random
+import string
+
 import pyramid.threadlocal
 
 from pyramid.i18n import TranslationStringFactory
@@ -52,3 +55,17 @@ def compute_list_pages_from(str_obj, limit=50):
     count = count()
 
     return (int(ceil(float(count) / float(limit))), int(count))
+
+
+def generate_token(size=15, chars=string.ascii_uppercase + string.digits):
+    """ Generates a random identifier for the given size and using the
+    specified characters.
+    If no size is specified, it uses 15 as default.
+    If no characters are specified, it uses ascii char upper case and
+    digits.
+
+    :arg size: the size of the identifier to return.
+    :arg chars: the list of characters that can be used in the
+        idenfitier.
+    """
+    return ''.join(random.choice(chars) for x in range(size))
