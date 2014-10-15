@@ -169,6 +169,26 @@ class People(object):
 
         return dict(form=form)
 
+    @view_config(
+        route_name='people-confirm-account',
+        permission=NO_PERMISSION_REQUIRED)
+    def confirm_account(self):
+        """ Confirm a user account creation."""
+        try:
+            token = self.request.matchdict['token']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.person = provider.get_people_by_password_token(token)
+
+        if not self.person:
+            raise HTTPNotFound('No user found with this token')
+
+        self.person.password_token = None
+        register.add_people(self.person)
+
+        return redirect_to('/people/profile/%s' % self.person.id)
+
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')
     def update_password(self):
