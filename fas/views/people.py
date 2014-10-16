@@ -15,6 +15,7 @@ from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
+from fas.forms.people import ResetPasswordPeopleForm
 
 import fas.utils.notify
 from fas.security import PasswordValidator
@@ -254,6 +255,33 @@ class People(object):
 
         return dict(form=form)
 
+    @view_config(route_name='people-reset-password',
+                 permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/reset-password.xhtml')
+    def reset_password(self):
+        """ Mechanism to reset a lost-password."""
+        try:
+            token = self.request.matchdict['token']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.person = provider.get_people_by_password_token(token)
+
+        if not self.person:
+            raise HTTPNotFound('No user found with this token')
+
+        form = ResetPasswordPeopleForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            if form.validate():
+                register.update_password(form, self.person)
+                self.person.status = AccountStatus.ACTIVE
+                register.flush()
+                self.request.session.flash('Password reset', 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form, token=token)
 
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')

@@ -100,6 +100,7 @@ def main(global_config, **settings):
     config.add_route('people-new', '/people/new')
     config.add_route('people-confirm-account', 'people/confirm/{token}')
     config.add_route('people-lost-password', 'people/lost/password')
+    config.add_route('people-reset-password', 'people/reset/password/{token}')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
