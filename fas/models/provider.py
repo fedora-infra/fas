@@ -2,6 +2,7 @@
 
 import sqlalchemy as sa
 from sqlalchemy import func
+from sqlalchemy.sql import or_
 
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
@@ -259,9 +260,27 @@ def get_grouptype_by_id(id):
 
 # Method to interact with People
 
-def get_people(limit=None, page=None, count=False):
+def get_people(limit=None, page=None, pattern=None, count=False):
     """ Retrieve all registered people from database. """
     query = session.query(People).order_by(People.username)
+
+    if pattern:
+        if '%' in pattern:
+            query = query.filter(
+                or_(
+                    People.username.ilike(pattern),
+                    People.fullname.ilike(pattern),
+                    People.ircnick.ilike(pattern),
+                )
+            )
+        else:
+            query = query.filter(
+                or_(
+                    People.username == pattern,
+                    People.fullname == pattern,
+                    People.ircnick == pattern,
+                )
+            )
 
     if limit and page:
         query = query.limit(
