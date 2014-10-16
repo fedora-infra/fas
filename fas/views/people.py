@@ -59,8 +59,9 @@ class People(object):
         # TODO: get limit from config file or let user choose in between
         #      predefined one ?
         people = provider.get_people(50, page)
+        peoples = provider.get_people(count=True)
 
-        pages, count = compute_list_pages_from('people', 50)
+        pages, count = compute_list_pages_from(peoples, 50)
 
         if page > pages:
             return HTTPBadRequest()
@@ -90,6 +91,7 @@ class People(object):
             self.person = provider.get_people_by_username(username)
         else:
             self.person = provider.get_people_by_id(_id)
+
         if not self.person:
             raise HTTPNotFound('No such user found')
 
