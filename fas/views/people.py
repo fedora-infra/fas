@@ -43,11 +43,8 @@ class People(object):
     def redirect_to_profile(self):
         return redirect_to('/people/profile/%s' % self.id)
 
-    @view_config(route_name='people')
-    def index(self):
-        """ People list landing page. """
-        return redirect_to('/people/page/1')
-
+    @view_config(route_name='people', renderer='/people/list.xhtml',
+                 permission=NO_PERMISSION_REQUIRED)
     @view_config(route_name='people-paging', renderer='/people/list.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
     def paging(self):
