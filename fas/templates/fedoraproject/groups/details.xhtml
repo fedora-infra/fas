@@ -113,10 +113,14 @@
             %endif
             </dd>
             %if request.authenticated_is_group_admin(group.name) \
-                    or request.authenticated_is_group_sponsor(group.name):
+                or request.authenticated_is_group_sponsor(group.name):
               <dt>${_(u'Requests')}</dt>
-              %if membership_request:
-                <dd><a href="#">${_(u'View membership request')}</a></dd>
+              %if has_membership_request:
+                <dd>
+                  <a href="#">
+                    ${_(u'View membership request')}
+                  </a>
+                </dd>
               %else:
                 <dd><p>${_(u'None')}</p></dd>
               %endif
@@ -130,7 +134,7 @@
           %if group.need_approval:
             %if request.authenticated_userid and not is_member:
               %if person_membership is not None\
-                and person_membership.get_status() == membership_status.PENDING:
+                  and person_membership.get_status() == membership_status.PENDING:
                 <dt>${_(u'Status')}</dt>
                   <dd><p>${_(u'Pending...')}</p></dd>
               %else:
@@ -154,7 +158,11 @@
               %if license_signed_up:
                 <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
               %else:
-                <dd><button class="btn btn-default" type="button">${_(u'Sign up')}</button></dd>
+                <dd>
+                  <button class="btn btn-default" type="button">
+                    ${_(u'Sign up')}
+                  </button>
+                </dd>
               %endif
           %endif
         </dl>
@@ -178,9 +186,11 @@
                 <span>
                   <a href="${request.route_url('people-profile', id=person.id)}">
                     %if person.avatar:
-                      <img class="profile" src="${person.avatar + '?s=100&d=monsterid'}" class="img-circle"/>
+                      <img src="${person.avatar + '?s=100&d=monsterid'}"
+                           class="profile img-circle" />
                     %else:
-                      <img src="http://cdn.libravatar.org/avatar/" class="img-thumbnail"/>
+                      <img src="http://cdn.libravatar.org/avatar/"
+                           class="img-thumbnail" />
                     %endif
                   </a>
                 </span>
