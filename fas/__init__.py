@@ -98,6 +98,9 @@ def main(global_config, **settings):
     # People pages
     config.add_route('people', '/people')
     config.add_route('people-new', '/people/new')
+    config.add_route('people-search-rd', '/people/search/')
+    config.add_route('people-search', '/people/search/{pattern}')
+    config.add_route('people-search-paging', '/people/search/{pattern}/{pagenb}')
     config.add_route('people-confirm-account', 'people/confirm/{token}')
     config.add_route('people-lost-password', 'people/lost/password')
     config.add_route('people-reset-password', 'people/reset/password/{token}')
