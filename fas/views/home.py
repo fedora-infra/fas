@@ -70,7 +70,8 @@ class Home:
             if pv.is_valid() and not blocked:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
-                register.save_account_activity(self.request, person.id, 1)
+                register.save_account_activity(
+                    self.request, person.id, AccountLogType.LOGGED_IN)
                 return HTTPFound(location=came_from, headers=headers)
 
             if person.status == AccountStatus.PENDING:
