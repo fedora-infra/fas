@@ -24,13 +24,16 @@ def send_email(message, subject, mail_to):  # pragma: no cover
 
     from_email = Config.get('email.from')
 
+    if isinstance(mail_to, basestring):
+        mail_to = [mail_to]
+
     msg['From'] = from_email
-    msg['To'] = mail_to
+    msg['To'] = ','.join(mail_to)
 
     # Send the message via our own SMTP server, but don't include the
     # envelope header.
     smtp = smtplib.SMTP(Config.get('email.smtp.server'))
-    smtp.sendmail(from_email, [mail_to], msg.as_string())
+    smtp.sendmail(from_email, mail_to, msg.as_string())
     smtp.quit()
 
 
