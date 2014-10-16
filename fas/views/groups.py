@@ -54,6 +54,66 @@ class Groups(object):
             pages=pages
             )
 
+    @view_config(
+        route_name='group-search-rd', renderer='/group/search.xhtml')
+    def search_redirect(self):
+        """ Redirect the search to the proper url. """
+        _id = self.request.params.get('q', '*')
+        return redirect_to('/group/search/%s' % _id)
+
+    @view_config(
+        route_name='group-search', renderer='/groups/search.xhtml')
+    @view_config(
+        route_name='group-search-paging', renderer='/groups/search.xhtml')
+    def search(self):
+        """ Search groups. """
+        try:
+            _id = self.request.matchdict['pattern']
+        except KeyError:
+            return HTTPBadRequest()
+        page = int(self.request.matchdict.get('pagenb', 1))
+
+        grpname = None
+        try:
+            _id = int(_id)
+        except:
+            grpname = _id
+
+        if grpname:
+            if '*' in grpname:
+                grpname = grpname.replace('*', '%')
+            else:
+                grpname = grpname + '%'
+            groups = provider.get_groups(50, page, pattern=grpname)
+            groups_cnt = provider.get_groups(pattern=grpname, count=True)
+        else:
+            groups = provider.get_group_by_id(_id)
+            groups_cnt = 1
+
+        if not groups:
+            self.request.session.flash(
+                'No group found for the query: %s' % _id, 'error')
+            return redirect_to('/groups')
+
+        pages, count = compute_list_pages_from(groups_cnt, 50)
+
+        if page > pages:
+            return HTTPBadRequest()
+
+        if grpname and len(groups) == 1 and page == 1:
+            self.request.session.flash(
+                "Only one group matching, redirecting to the group's page",
+                'info')
+            return redirect_to('/group/deails/%s' % groups[0].id)
+
+        return dict(
+            groups=groups,
+            page=page,
+            pages=pages,
+            count=count,
+            pattern=_id
+        )
+
     @view_config(route_name='group-details', renderer='/groups/details.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
     def details(self):
