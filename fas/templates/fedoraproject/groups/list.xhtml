@@ -9,11 +9,11 @@
 
   <div id="groups-list">
     <ul id="groups">
-      % if groups: 
+      % if groups:
           % for group in groups:
       <li>
         <a href="${request.route_url('group-details', id=group.id)}">
-        <img src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}">
+        <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_25.png')}">
         </a>
         <span class="name">${group.name}</span>
         <span class="fullname">(${group.display_name})</span>
