@@ -123,6 +123,7 @@ def main(global_config, **settings):
     config.add_route('people', '/people')
     config.add_route('people-new', '/register')
     config.add_route('people-confirm-account', '/register/confirm/{token}')
+    config.add_route('people-lost-password', '/register/lost/password')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')

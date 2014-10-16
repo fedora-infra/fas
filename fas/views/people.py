@@ -14,6 +14,7 @@ from fas.forms.people import EditPeopleForm
 from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
+from fas.forms.people import UsernameForm
 
 import fas.utils.notify
 from fas.security import PasswordValidator
@@ -218,6 +219,43 @@ class People(object):
         self.request.session.flash(_('Account activated'), 'info')
 
         return redirect_to('/people/profile/%s' % self.person.id)
+
+    @view_config(route_name='people-lost-password',
+                 permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/lost-password.xhtml')
+    def lost_password(self):
+        """ Mechanism to recover lost-password."""
+        form = UsernameForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            if form.validate():
+                self.person = provider.get_people_by_username(
+                    form.username.data)
+
+                if not self.person:
+                    self.request.session.flash(
+                        'No such account exists', 'error')
+                    return redirect_to('/')
+                elif self.person.status in [
+                        AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
+                        AccountStatus.DISABLED]:
+                    self.request.session.flash(
+                        'This account is blocked', 'error')
+                    return redirect_to('/')
+
+                self.person.password_token = generate_token()
+                self.person.status = AccountStatus.PENDING
+                register.add_people(self.person)
+
+                register.flush()
+                fas.utils.notify.notify_account_password_lost(self.person)
+                self.request.session.flash(
+                    'Check your email to finish the process', 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form)
+
 
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')
