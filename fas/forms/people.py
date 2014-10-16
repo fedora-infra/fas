@@ -45,6 +45,11 @@ class UpdateStatusForm(Form):
         choices=[(e.value, e.name.lower()) for e in AccountStatus])
 
 
+class UsernameForm(Form):
+    """ Simple form to request the user's username. """
+    username = StringField(_(u'Username'), [validators.Required()])
+
+
 class UpdatePasswordForm(Form):
     """ Form to update people password."""
     old_password = PasswordField(
