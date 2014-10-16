@@ -65,7 +65,7 @@ The Fedora Project
     send_email(
         message=text,
         subject=_(
-            '[FAS] Confirm account creation for : %(username)s'
+            'Confirm account creation for : %(username)s'
             % {'username': people.username}),
         mail_to=people.email,
     )
