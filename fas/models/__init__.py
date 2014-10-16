@@ -72,3 +72,4 @@ class AccountLogType(IntEnum):
     LOGGED_IN = 0x01
     ACCOUNT_UPDATE = 0x03
     APIKEY_REQUEST = 0x04
+    UPDATE_PASSWORD = 0x05

@@ -22,7 +22,8 @@ from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from, generate_token
 from fas.utils.passwordmanager import PasswordManager
-from fas.models import AccountPermissionType as permission, AccountStatus
+from fas.models import (
+    AccountPermissionType as permission, AccountStatus, AccountLogType)
 from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
@@ -307,6 +308,8 @@ class People(object):
                 del form.old_password
                 del form.new_password
                 register.update_password(form, self.person)
+                register.save_account_activity(
+                    self.request, person.id, AccountLogType.UPDATE_PASSWORD)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 
