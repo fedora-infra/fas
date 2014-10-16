@@ -307,6 +307,7 @@ class People(object):
                 del form.old_password
                 del form.new_password
                 register.update_password(form, self.person)
+                self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, _id=self.id)
