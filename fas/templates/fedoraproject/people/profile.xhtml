@@ -72,12 +72,20 @@
         <h3>${_(u'Security')}</h3>
           <dl class="dl-horizontal">
             <dt>${_(u'Password')}</dt>
-            <dd><a href="${request.route_url('people-password', id=person.id)}">${_(u'Change')}</a></dd>
+            <dd>
+              <a href="${request.route_url('people-password', id=person.id)}">
+                ${_(u'Change')}
+              </a>
+            </dd>
             <dt>${_(u'Security Question')}</dt>
             <dt>${_(u'SSH key')}</dt>
             <dd>${person.ssh_key}</dd>
             <dt>${_(u'GPG Fingerprint')}</dt>
-            <dt><a href="${request.route_url('people-token', id=person.id)}">${_(u'Access Token')}</a></dt>
+            <dt>
+              <a href="${request.route_url('people-token', id=person.id)}">
+                ${_(u'Access Token')}
+              </a>
+            </dt>
             <dt>
               %if len(person.activities_log) > 0:
                   <a href="${request.route_url('people-activities', id=person.id)}">
@@ -102,9 +110,10 @@
       %for g in membership:
         <li>
           <a href="${request.route_url('group-details', id=g.group.id)}">
-            <img src="/static/theme/fedoraproject/fas.png">
-          </a>
-          <span>${g.group.name}</span>
+            <img src="${
+                request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+            ${g.group.name}
+          </a> -
           <span>${g.get_role().name.lower()}</span>
         </li>
       %endfor
