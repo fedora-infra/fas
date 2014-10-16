@@ -50,17 +50,21 @@ class UsernameForm(Form):
     username = StringField(_(u'Username'), [validators.Required()])
 
 
-class UpdatePasswordForm(Form):
+class ResetPasswordPeopleForm(Form):
+    """ Form to used to reset one's password. """
+    new_password = PasswordField(
+        _(u'New Password'),
+        [validators.Required(), validators.EqualTo(
+            'password', message='Your passwords must match')])
+    password = PasswordField(
+        _(u'Confirm new Password'), [validators.Required()])
+
+
+class UpdatePasswordForm(ResetPasswordPeopleForm):
     """ Form to update people password."""
     old_password = PasswordField(
         _(u'Old Password'),
         [validators.Required()])
-    new_password = PasswordField(
-        _(u'New Password'),
-        [validators.Required(), validators.EqualTo(
-            'password', message='Your new passwords must match')])
-    password = PasswordField(
-        _(u'Confirm new Password'), [validators.Required()])
 
 
 class EditPeopleForm(UpdateStatusForm):
