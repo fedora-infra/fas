@@ -116,6 +116,9 @@ def main(global_config, **settings):
     config.add_route('groups-paging', '/groups/page/{pagenb}')
     config.add_route('group-details', '/group/details/{id}')
     config.add_route('group-edit', '/group/details/{id}/edit')
+    config.add_route('group-search-rd', '/group/search/')
+    config.add_route('group-search', '/group/search/{pattern}')
+    config.add_route('group-search-paging', '/group/search/{pattern}/{pagenb}')
 
     # API requests
     config.add_route('api_home', '/api')
