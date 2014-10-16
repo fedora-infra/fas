@@ -15,10 +15,10 @@ from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 
+import fas.utils.notify
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from, generate_token
-from fas.utils.notify import notify_account_creation
 from fas.utils.passwordmanager import PasswordManager
 from fas.models import AccountPermissionType as permission, AccountStatus
 from fas.models.people import People as mPeople
@@ -187,7 +187,7 @@ class People(object):
                 register.add_people(self.person)
 
                 register.flush()
-                notify_account_creation(self.person)
+                fas.utils.notify.notify_account_creation(self.person)
                 self.request.session.flash(
                     'Account created, please check your email to finish '
                     'the process', 'info')
