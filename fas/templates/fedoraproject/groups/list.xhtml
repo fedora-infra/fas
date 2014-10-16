@@ -14,9 +14,11 @@
       <li>
         <a href="${request.route_url('group-details', id=group.id)}">
         <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_25.png')}">
-        </a>
         <span class="name">${group.name}</span>
-        <span class="fullname">(${group.display_name})</span>
+        </a>
+        %if group.display_name:
+            <span class="fullname">(${group.display_name})</span>
+        %endif
       </li>
       % endfor
     % else:
