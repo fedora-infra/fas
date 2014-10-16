@@ -26,11 +26,8 @@ class Groups(object):
         self.request = request
         self.params = ParamsValidator(request)
 
-    @view_config(route_name="groups")
-    def index(self):
-        """ Groups list landing page. """
-        return redirect_to('/groups/page/1')
-
+    @view_config(route_name="groups", renderer='/groups/list.xhtml',
+                 permission=NO_PERMISSION_REQUIRED)
     @view_config(route_name='groups-paging', renderer='/groups/list.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
     def paging(self):
@@ -43,8 +40,9 @@ class Groups(object):
         # TODO: still, get limit from config file or let user choose in between
         # TODO: predifined one?
         groups = provider.get_groups(50, page)
+        cnt_groups = provider.get_groups(count=True)
 
-        pages, count = compute_list_pages_from('groups', 50)
+        pages, count = compute_list_pages_from(cnt_groups, 50)
 
         if page > pages:
             return HTTPBadRequest()
