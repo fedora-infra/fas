@@ -83,7 +83,16 @@ class People(object):
         except KeyError:
             return HTTPBadRequest()
 
-        self.person = provider.get_people_by_id(_id)
+        username = None
+        try:
+            _id = int(_id)
+        except:
+            username = _id
+
+        if username:
+            self.person = provider.get_people_by_username(username)
+        else:
+            self.person = provider.get_people_by_id(_id)
         if not self.person:
             raise HTTPNotFound('No such user found')
 
