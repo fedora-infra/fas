@@ -70,9 +70,25 @@ def __get_listoffset(page, limit):
 
 
 # Method to interact with Groups
-def get_groups(limit=None, page=None, count=False):
+def get_groups(limit=None, page=None, pattern=None, count=False):
     """ Retrieve all registered groups from databse. """
     query = session.query(Groups)
+
+    if pattern:
+        if '%' in pattern:
+            query = query.filter(
+                or_(
+                    Groups.name.ilike(pattern),
+                    Groups.display_name.ilike(pattern)
+                )
+            )
+        else:
+            query = query.filter(
+                or_(
+                    Groups.name == pattern,
+                    Groups.display_name == pattern,
+                )
+            )
 
     if limit and page:
         query = query.limit(limit).offset(__get_listoffset(page, limit))
