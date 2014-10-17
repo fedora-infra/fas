@@ -169,12 +169,12 @@ class People(object):
                 # Check username and email's uniqueness before doing anything
                 if provider.get_people_by_username(form.username.data):
                     self.request.session.flash(
-                        'An account is already registered with this username',
-                        'error')
+                        _('An account is already registered with this '
+                          'username'), 'error')
                     return dict(form=form)
                 if provider.get_people_by_email(form.email.data):
                     self.request.session.flash(
-                        'An account is already registered with this email',
+                        _('An account is already registered with this email'),
                         'error')
                     return dict(form=form)
 
@@ -190,8 +190,8 @@ class People(object):
                 register.flush()
                 notify_account_creation(self.person)
                 self.request.session.flash(
-                    'Account created, please check your email to finish '
-                    'the process', 'info')
+                    _('Account created, please check your email to finish '
+                      'the process'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
@@ -214,7 +214,7 @@ class People(object):
         self.person.password_token = None
         self.person.status = AccountStatus.ACTIVE
         register.add_people(self.person)
-        self.request.session.flash('Account activated', 'info')
+        self.request.session.flash(_('Account activated'), 'info')
 
         return redirect_to('/people/profile/%s' % self.person.id)
 
