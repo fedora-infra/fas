@@ -40,7 +40,7 @@ def notify_account_creation(people):
 
     base_url = Config.get('project.url')
     validation_url = urlparse.urljoin(
-        base_url, '/people/confirm/%s' % people.password_token)
+        base_url, '/register/confirm/%s' % people.password_token)
 
     text = _("""
 Welcome!
