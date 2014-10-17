@@ -129,9 +129,9 @@ def groupfinder(userid, request):
     return groups
 
 
-def generate_token():
+def generate_token(length=256):
     """ Generate an API token. """
-    return hashlib.sha1(os.urandom(256)).hexdigest()
+    return hashlib.sha1(os.urandom(length)).hexdigest()
 
 
 class Base(object):
