@@ -108,7 +108,7 @@ class People(object):
 
         if not people:
             self.request.session.flash(
-                'No user found for the query: %s' % _id, 'error')
+                _('No user found for the query: %s') % _id, 'error')
             return redirect_to('/people')
 
         pages, count = compute_list_pages_from(peoples, 50)
@@ -118,7 +118,7 @@ class People(object):
 
         if username and len(people) == 1 and page == 1:
             self.request.session.flash(
-                "Only one user matching, redirecting to the user's page",
+                _("Only one user matching, redirecting to the user's page"),
                 'info')
             return redirect_to('/people/profile/%s' % people[0].id)
 
