@@ -45,7 +45,7 @@ def notify_account_creation(people):
     text = _("""
 Welcome!
 
-You have just created an account on the Fedora project Account System (FAS)
+You have just created an account on the %(organisation)s Account System (FAS)
 at %(url)s.
 
 To complete the account creation, please visit this link:
@@ -53,8 +53,9 @@ To complete the account creation, please visit this link:
 
 Sincerely yours,
 
-The Fedora Project
+The %(organisation)s
 """ % ({
+        'organisation': Config.get('project.organisation'),
         'url': base_url,
         'validation_url': validation_url,
     }))
