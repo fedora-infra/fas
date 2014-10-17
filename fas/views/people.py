@@ -17,9 +17,10 @@ from fas.forms.people import UpdatePasswordForm
 
 from fas.security import PasswordValidator
 from fas.views import redirect_to
-from fas.utils import compute_list_pages_from, generate_token
+from fas.utils import compute_list_pages_from
 from fas.utils.notify import notify_account_creation
 from fas.utils.passwordmanager import PasswordManager
+from fas.security import generate_token
 from fas.models import AccountPermissionType as permission, AccountStatus
 from fas.models.people import People as mPeople
 
