@@ -63,7 +63,10 @@ The %(organisation)s
     send_email(
         message=text,
         subject=_(
-            '[FAS] Confirm account creation for : %(username)s'
-            % {'username': people.username}),
+            '%(username)s please confirm your %(project_name)s account'
+            % {
+                'username': people.username,
+                'project_name': Config.get('project.name'),
+            }),
         mail_to=people.email,
     )
