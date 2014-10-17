@@ -246,13 +246,13 @@ class People(object):
 
                 if not self.person:
                     self.request.session.flash(
-                        'No such account exists', 'error')
+                        _('No such account exists'), 'error')
                     return redirect_to('/')
                 elif self.person.status in [
                         AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                         AccountStatus.DISABLED]:
                     self.request.session.flash(
-                        'This account is blocked', 'error')
+                        _('This account is blocked'), 'error')
                     return redirect_to('/')
 
                 self.person.password_token = generate_token()
@@ -265,7 +265,7 @@ class People(object):
                 register.flush()
                 fas.utils.notify.notify_account_password_lost(self.person)
                 self.request.session.flash(
-                    'Check your email to finish the process', 'info')
+                    _('Check your email to finish the process'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
@@ -295,7 +295,7 @@ class People(object):
                 register.save_account_activity(
                     self.request, person.id, AccountLogType.RESET_PASSWORD)
                 register.flush()
-                self.request.session.flash('Password reset', 'info')
+                self.request.session.flash(_('Password reset'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form, token=token)
