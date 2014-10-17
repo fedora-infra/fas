@@ -11,16 +11,22 @@ import fas.models.register as register
 from fas.security import generate_token
 
 from fas.forms.people import EditPeopleForm
+from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
-from fas.models import AccountPermissionType as permission
+from fas.utils.notify import notify_account_creation
+from fas.utils.passwordmanager import PasswordManager
+from fas.security import generate_token
+from fas.models import AccountPermissionType as permission, AccountStatus
+from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from sqlalchemy.exc import SQLAlchemyError
 
 from fas.utils import _
 
@@ -74,6 +80,8 @@ class People(object):
             return HTTPBadRequest()
 
         self.person = provider.get_people_by_id(_id)
+        if not self.person:
+            raise HTTPNotFound('No such user found')
 
         form = UpdateStatusForm(self.request.POST, self.person)
         if self.request.method == 'POST' and form.validate():
@@ -120,6 +128,9 @@ class People(object):
 
         self.person = provider.get_people_by_id(self.id)
 
+        if not self.person:
+            raise HTTPNotFound('No such user found')
+
         # TODO: move this to Auth provider?
         if self.request.authenticated_userid != self.person.username:
             return redirect_to('/people/profile/%s' % self.id)
@@ -145,6 +156,68 @@ class People(object):
 
         return dict(form=form, id=self.id)
 
+    @view_config(route_name='people-new', permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/new.xhtml')
+    def new_user(self):
+        """ Create a user account."""
+        form = NewPeopleForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            self.person = mPeople()
+            if form.validate():
+                # Check username and email's uniqueness before doing anything
+                if provider.get_people_by_username(form.username.data):
+                    self.request.session.flash(
+                        _('An account is already registered with this '
+                          'username'), 'error')
+                    return dict(form=form)
+                if provider.get_people_by_email(form.email.data):
+                    self.request.session.flash(
+                        _('An account is already registered with this email'),
+                        'error')
+                    return dict(form=form)
+
+                self.person.username = form.username.data
+                self.person.email = form.email.data
+                self.person.fullname = form.fullname.data
+                pwdman = PasswordManager()
+                self.person.password = pwdman.generate_password(
+                    form.password.data)
+                self.person.password_token = generate_token()
+                register.add_people(self.person)
+
+                register.flush()
+                notify_account_creation(self.person)
+                self.request.session.flash(
+                    _('Account created, please check your email to finish '
+                      'the process'), 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form)
+
+    @view_config(
+        route_name='people-confirm-account',
+        permission=NO_PERMISSION_REQUIRED)
+    def confirm_account(self):
+        """ Confirm a user account creation."""
+        try:
+            token = self.request.matchdict['token']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.person = provider.get_people_by_password_token(token)
+
+        if not self.person:
+            raise HTTPNotFound('No user found with this token')
+
+        self.person.password_token = None
+        self.person.status = AccountStatus.ACTIVE
+        register.add_people(self.person)
+        self.request.session.flash(_('Account activated'), 'info')
+
+        return redirect_to('/people/profile/%s' % self.person.id)
+
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')
     def update_password(self):
@@ -155,6 +228,9 @@ class People(object):
             return HTTPBadRequest()
 
         self.person = provider.get_people_by_id(self.id)
+
+        if not self.person:
+            raise HTTPNotFound('No such user found')
 
         form = UpdatePasswordForm(self.request.POST, self.person)
 

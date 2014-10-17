@@ -14,6 +14,12 @@ from fas.utils.geoip import get_record_from
 from ua_parser import user_agent_parser
 
 
+
+def flush():
+    """ Flush the database session. """
+    session.flush()
+
+
 def save_account_activity(request, people, event):
     """ Register account activity. """
     remote_ip = request.client_addr
@@ -68,11 +74,6 @@ def add_token(people_id, description, token, permission):
 def add_people(people):
     """ Add new people obj into databse. """
     session.add(people)
-
-
-def update_people(people):
-    """ Update people's infos into database. """
-    session.commit()
 
 
 def add_grouptype(form):

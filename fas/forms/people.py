@@ -99,3 +99,17 @@ class EditPeopleForm(UpdateStatusForm):
     blog_rss = StringField(_(u'Blog RSS'))
     latitude = DecimalField(_(u'Latitude'), [validators.Optional()])
     longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
+
+
+class NewPeopleForm(Form):
+    """ Form to create an user's account. """
+    username = StringField(_(u'Username'), [validators.Required()])
+    fullname = StringField(_(u'Full name'), [validators.Required()])
+    email = StringField(
+        _(u'Email'), [validators.Required(), validators.Email()])
+    password = PasswordField(
+        _(u'Password'),
+        [validators.Required(), validators.EqualTo(
+            'password_confirm', message='Your new passwords must match')])
+    password_confirm = PasswordField(
+        _(u'Confirm new Password'), [validators.Required()])

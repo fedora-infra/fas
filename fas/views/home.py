@@ -18,6 +18,7 @@ from pyramid.security import (
 
 from fas.utils import Config
 from fas.security import PasswordValidator
+from fas.models import AccountStatus
 
 import fas.models.provider as provider
 import fas.models.register as register
@@ -59,14 +60,31 @@ class Home:
             password = self.request.params['password']
             person = provider.get_people_by_username(login)
 
+            blocked = True
+            if person.status in [
+                    AccountStatus.ACTIVE, AccountStatus.INACTIVE,
+                    AccountStatus.ON_VACATION]:
+                blocked = False
+
             pv = PasswordValidator(person, password)
-            if pv.is_valid():
+            if pv.is_valid() and not blocked:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
                 register.save_account_activity(self.request, person.id, 1)
                 return HTTPFound(location=came_from, headers=headers)
 
-            self.request.session.flash('Login failed', 'login')
+            if person.status == AccountStatus.PENDING:
+                self.request.session.flash(
+                    'Login failed, this account has not been activated, '
+                    'please check your emails.', 'login')
+            elif person.status in [
+                    AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
+                    AccountStatus.DISABLED
+                ]:
+                self.request.session.flash(
+                    'Login blocked.', 'login')
+            else:
+                self.request.session.flash('Login failed', 'login')
 
         return dict(
             message=message,

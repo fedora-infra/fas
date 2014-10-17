@@ -8,7 +8,7 @@
             </div>
             <div class="col-md-8 content-col">
                 <p>${_(u'The Fedora Account System - aka FAS - you can easily create and manager your account, find people or group informations.')}</p>
-                <p>${_(u'Don\'t have an account yet? Join us and')} <a href="#">${_(u'sign up now')}</a>!</p>
+                <p>${_(u'Don\'t have an account yet? Join us and')} <a href="${request.route_url('people-new')}">${_(u'sign up now')}</a>!</p>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
 
             %if request.authenticated_userid is None:
             <div class="highlight-box">
-                <p>${_(u'Create an account and join the Fedora community')}</p>
+                <p><a href="${request.route_url('people-new')}">${_(u'Create an account')}</a> ${_(u'and join the Fedora community')}</p>
                 <p>${_(u'Already have an account?')} <a href="${request.application_url + '/login'}?redirect=${request.url}" class="navbar-link">${_(u'Log in')}</a></p>
             </div>
             %endif
