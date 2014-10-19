@@ -2,8 +2,12 @@
 <%namespace name="paging" file="/paging.xhtml"/>
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-    <h1>${group.display_name}</h1>
-    <p>${group.name}</p>
+    <h1>${group.display_name or group.name}</h1>
+    <p>
+      %if group.display_name:
+        ${group.name}
+      %endif
+    </p>
     %if group.parent_group_id > -1:
         <div>
           ${_(u'This group belong to')}
