@@ -46,6 +46,8 @@
            <dd>
            %if group.group_types:
              ${group.group_types.name}
+           %else:
+             -
            %endif
            </dd>
            <dt>${_(u'Principal Administrator')}</dt>
