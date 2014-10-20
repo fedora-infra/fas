@@ -2,8 +2,12 @@
 <%namespace name="paging" file="/paging.xhtml"/>
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-    <h1>${group.display_name}</h1>
-    <p>${group.name}</p>
+    <h1>${group.display_name or group.name}</h1>
+    <p>
+      %if group.display_name:
+        ${group.name}
+      %endif
+    </p>
     %if group.parent_group_id > -1:
         <div>
           ${_(u'This group belong to')}
@@ -13,8 +17,15 @@
         </div>
     %endif
     %if request.authenticated_userid:
-      %if request.authenticated_is_admin() or request.authenticated_is_modo() or request.authenticated_is_group_editor() or request.authenticated_is_group_admin(group.name) :
-          <button class="btn btn-default" type="button"><a href="${request.route_url('group-edit', id=group.id)}">${_(u'Edit')}</a></button>
+      %if request.authenticated_is_admin() \
+            or request.authenticated_is_modo() \
+            or request.authenticated_is_group_editor() \
+            or request.authenticated_is_group_admin(group.name) :
+          <button class="btn btn-default" type="button">
+            <a href="${request.route_url('group-edit', id=group.id)}">
+              ${_(u'Edit')}
+            </a>
+          </button>
       %endif
     %endif
   </div>
@@ -32,9 +43,21 @@
              <dd>${group.web_link}</dd>
            %endif
            <dt>${_(u'Group type')}</dt>
-           <dd>${group.group_types.name}</dd>
+           <dd>
+           %if group.group_types:
+             ${group.group_types.name}
+           %else:
+             -
+           %endif
+           </dd>
            <dt>${_(u'Principal Administrator')}</dt>
-           <dd><a href="${request.route_url('people-profile', id=group.owner_id)}" data-toggle="tooltip" data-placement="top" title="${_(u'View profile')}">${group.owner.username}</a></dd>
+           <dd>
+             <a href="${request.route_url('people-profile', id=group.owner_id)}"
+                data-toggle="tooltip" data-placement="top"
+                title="${_(u'View profile')}">
+               ${group.owner.username}
+             </a>
+           </dd>
       </dl>
     </div>
   </div>
@@ -49,13 +72,18 @@
         <dl class="dl-horizontal">
              <dt>${_(u'Mailing list')}</dt>
              <dd>
-               <a href="mailto:${group.mailing_list}">${group.mailing_list}</a> 
+               <a href="mailto:${group.mailing_list}">${group.mailing_list}</a>
                %if group.mailing_list_url:
                  <a href="${group.mailing_list_url}">(${_(u'view list infos')})</a>
                %endif
              </dd>
              <dt>${_(u'IRC channel')}</dt>
-             <dd>#${group.irc_channel} <a href="irc://${group.irc_network}">(${group.irc_network})</a></dd>
+             <dd>
+               #${group.irc_channel}
+               <a href="irc://${group.irc_network}">
+                 (${group.irc_network})
+               </a>
+             </dd>
              <dt>${_(u'')}</dt>
              <dd></dd>
         </dl>
@@ -81,7 +109,8 @@
               <span><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
-            %if request.authenticated_is_group_admin(group.name) or request.authenticated_is_group_sponsor(group.name):
+            %if request.authenticated_is_group_admin(group.name) \
+                    or request.authenticated_is_group_sponsor(group.name):
               <dt>${_(u'Requests')}</dt>
               %if has_membership_request:
                 <dd><a href="#">${_(u'View membership request')}</a></dd>
@@ -98,14 +127,19 @@
           %endif
           %if group.need_approval:
             %if request.authenticated_userid and not is_member:
-              %if person_membership is not None and person_membership.get_status() == person_membership.get_status()['PENDING']:
+              %if person_membership is not None \
+                and person_membership.get_status() == person_membership.get_status()['PENDING']:
                 <dt>${_(u'Status')}</dt>
                   <dd><p> Pending...</p></dd>
                   %else:
                 <form method="POST">
-                <button class="btn btn-default" name="data" onClick="${group.id}">${_(u'Apply')}</button>
+                <button class="btn btn-default" name="data" onClick="${group.id}">
+                  ${_(u'Apply')}
+                </button>
                 <!--
-                <button class="btn btn-default" name="data" onClick="add_membership">${_(u'Apply')}</button>
+                <button class="btn btn-default" name="data" onClick="add_membership">
+                  ${_(u'Apply')}
+                </button>
                 -->
                 </form>
                 %endif
