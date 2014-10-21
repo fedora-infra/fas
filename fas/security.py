@@ -118,6 +118,18 @@ def requested_membership(request, group, person):
     return False
 
 
+def remove_membership(request, group):
+    """ Remove membership for given group and person
+
+    :param request: pyramid request
+    :param group: group id
+    :type group: integer, `fas.models.group.Group.id`
+    :param person: person id
+    :type person: integer, `fas.models.people.People.id`
+    """
+    register.remove_membership(group, request.get_user.id)
+
+
 class Root(object):
     def __acl__(self):
         return [

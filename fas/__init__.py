@@ -15,7 +15,8 @@ from .security import (
     authenticated_is_group_sponsor,
     join_group,
     request_membership,
-    requested_membership
+    requested_membership,
+    remove_membership
     )
 
 from .models.provider import get_authenticated_user
@@ -78,20 +79,40 @@ def main(global_config, **settings):
     config.add_request_method(
         authenticated_is_modo, 'authenticated_is_modo', reify=False)
     config.add_request_method(
-        authenticated_is_group_admin, 'authenticated_is_group_admin',
-        reify=False)
+        authenticated_is_group_admin,
+        'authenticated_is_group_admin',
+        reify=False
+        )
     config.add_request_method(
-        authenticated_is_group_editor, 'authenticated_is_group_editor',
-        reify=False)
+        authenticated_is_group_editor,
+        'authenticated_is_group_editor',
+        reify=False
+        )
     config.add_request_method(
-        authenticated_is_group_sponsor, 'authenticated_is_group_sponsor',
-        reify=False)
+        authenticated_is_group_sponsor,
+        'authenticated_is_group_sponsor',
+        reify=False
+        )
     config.add_request_method(
-        join_group, 'join_group', reify=False)
+        join_group,
+        'join_group',
+        reify=False
+        )
     config.add_request_method(
-        request_membership, 'request_membership', reify=False)
+        request_membership,
+        'request_membership',
+        reify=False
+        )
     config.add_request_method(
-        requested_membership, 'requested_membership', reify=False)
+        requested_membership,
+        'requested_membership',
+        reify=False
+        )
+    config.add_request_method(
+        remove_membership,
+        'revoke_membership',
+        reify=False
+        )
 
     # home pages
     config.add_route('home', '/')

@@ -195,6 +195,7 @@ def remove_token(permission):
     """ Remove people's token from database. """
     perm = AccountPermissions()
     perm.token = permission
+
     session.query(
         AccountPermissions
     ).filter(
@@ -202,14 +203,17 @@ def remove_token(permission):
     ).delete()
 
 
-def remove_membership_request(group, person):
-    """
-    Remove membership request from pending list
+def remove_membership(group, person):
+    """ Remove membership request from pending list
 
-    :param group: integer, `fas.models.Groups.id`
-    :param person: integer, `fas.models.People.id`
+    :param group: group id
+    :typpe group: integer, `fas.models.Groups.id`
+    :param person: person id
+    :type person: integer, `fas.models.People.id`
     """
-    session.query(MembershipRequest)\
-    .filter(MembershipRequest.group_id == group,
-        MembershipRequest.person_id == person
+    session.query(
+        GroupMembership
+        ).filter(
+            GroupMembership.group_id == group,
+            GroupMembership.people_id == person
         ).delete()
