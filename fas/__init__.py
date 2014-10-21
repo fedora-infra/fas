@@ -13,6 +13,7 @@ from .security import (
     authenticated_is_group_admin,
     authenticated_is_group_editor,
     authenticated_is_group_sponsor,
+    join_group,
     request_membership,
     requested_membership
     )
@@ -85,6 +86,8 @@ def main(global_config, **settings):
     config.add_request_method(
         authenticated_is_group_sponsor, 'authenticated_is_group_sponsor',
         reify=False)
+    config.add_request_method(
+        join_group, 'join_group', reify=False)
     config.add_request_method(
         request_membership, 'request_membership', reify=False)
     config.add_request_method(

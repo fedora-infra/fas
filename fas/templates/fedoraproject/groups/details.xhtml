@@ -97,29 +97,31 @@
         <div>
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
-              <dd><button class="btn btn-default" type="button">${_(u'Join')}</button></dd>
+              <dd>
+                <button class="btn btn-default" type="button" onClick="${request.join_group(group.id)}">${_(u'Join')}</button>
+              </dd>
           %endif
         </div>
-        %if is_member:
+      %endif
+      %if is_member:
           <dl class="dl-horizontal">
             <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
-              <span><a href="#">(${_(u'revoke my membership')})</a></span>
+              <span class="badge"><a href="#">${_(u'revoke my membership')}</a></span>
             %else:
-              <span><a href="#">(${_(u'request revoking')})</a></span>
+              <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
             %if request.authenticated_is_group_admin(group.name) \
                     or request.authenticated_is_group_sponsor(group.name):
               <dt>${_(u'Requests')}</dt>
-              %if has_membership_request:
+              %if membership_request:
                 <dd><a href="#">${_(u'View membership request')}</a></dd>
               %else:
                 <dd><p>${_(u'None')}</p></dd>
               %endif
             %endif
           </dl>
-        %endif
       %else:
         <dl class="dl-horizontal">
           %if group.apply_rules:
@@ -127,22 +129,24 @@
           %endif
           %if group.need_approval:
             %if request.authenticated_userid and not is_member:
-              %if person_membership is not None \
-                and person_membership.get_status() == person_membership.get_status()['PENDING']:
+              %if person_membership is not None\
+                and person_membership.get_status() == membership_status.PENDING:
                 <dt>${_(u'Status')}</dt>
-                  <dd><p> Pending...</p></dd>
-                  %else:
+                  <dd><p>${_(u'Pending...')}</p></dd>
+              %else:
+<!--
                 <form method="POST">
                 <button class="btn btn-default" name="data" onClick="${group.id}">
                   ${_(u'Apply')}
                 </button>
-                <!--
-                <button class="btn btn-default" name="data" onClick="add_membership">
+-->
+                <button class="btn btn-default" name="data" onClick="${request.request_membership(group.id)}">
                   ${_(u'Apply')}
                 </button>
-                -->
+<!--
                 </form>
-                %endif
+-->
+              %endif
             %endif
           %endif
           %if group.license_sign_up > -1:

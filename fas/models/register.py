@@ -125,13 +125,19 @@ def add_group(form):
     return group
 
 
-def add_membership(group, people_id, role):
+def add_membership(group_id, people_id, status, role=None, sponsor=None):
     """ Add given people to group"""
     membership = GroupMembership()
-    membership.group_id = group.id
-    membership.role = role
+    membership.group_id = group_id
     membership.people_id = people_id
+    membership.status = status
     membership.sponsor = people_id
+
+    if role:
+        membership.role = role
+
+    if sponsor:
+        membership.sponsor = sponsor
 
     session.add(membership)
     session.flush()

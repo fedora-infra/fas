@@ -5,7 +5,7 @@ import hashlib
 
 from pyramid.security import Allow, Everyone
 
-from fas.models import MembershipRole
+from fas.models import MembershipStatus
 from fas.utils import Config
 from fas.utils.passwordmanager import PasswordManager
 
@@ -71,15 +71,32 @@ def authenticated_is_group_sponsor(request, group):
     return role.is_sponsor()
 
 
-def request_membership(request, group):
-    """
-    Request membership for given group from given person
+def join_group(request, group):
+    """ Join given group from request object
 
-    :param request: re
+    :param request: pyramid request object
+    :param group: group id
+    :type group: integer, `fas.models.group.Group.id`
+    """
+    register.add_membership(
+        group,
+        request.get_user.id,
+        MembershipStatus.APPROVED
+        )
+
+
+def request_membership(request, group):
+    """ Request membership for given group from given person
+
+    :param request: request object
     :param group: id, `fas.models.group.Groups.id`
     :param person: integer, `fas.models.people.People.id`
     """
-    register.add_membership(group, request.get_user.id, MembershipRole.PENDING)
+    register.add_membership(
+        group,
+        request.get_user.id,
+        MembershipStatus.PENDING
+        )
 
 
 def requested_membership(request, group, person):
@@ -91,7 +108,9 @@ def requested_membership(request, group, person):
     :param person: integer, `fas.models.people.People.id`
     :rtype: boolean, true is membership already requested, false otherwise.
     """
-    rq = provider.get_membership_by_role(group, person, MembershipRole.PENDING)
+    rq = provider.get_membership_by_status(
+        MembershipStatus.PENDING, group, person
+        )
 
     if rq is not None:
         return True
