@@ -67,9 +67,8 @@ class UpdatePasswordForm(ResetPasswordPeopleForm):
         [validators.Required()])
 
 
-class EditPeopleForm(UpdateStatusForm):
+class EditPeopleForm(UpdateStatusForm, UsernameForm):
     """ Form to edit user's information. """
-    username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
     introduction = StringField(_(u'Introduction', [validators.Optional()]))
     email = StringField(
@@ -110,9 +109,8 @@ class EditPeopleForm(UpdateStatusForm):
     longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
 
 
-class NewPeopleForm(Form):
+class NewPeopleForm(UsernameForm):
     """ Form to create an user's account. """
-    username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
     email = StringField(
         _(u'Email'), [validators.Required(), validators.Email()])
