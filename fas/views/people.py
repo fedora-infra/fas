@@ -260,7 +260,7 @@ class People(object):
                 register.add_people(self.person)
                 register.save_account_activity(
                     self.request, person.id,
-                    AccountLogType.ASK_RESET_PASSWORD)
+                    AccountLogType.ASKED_RESET_PASSWORD)
 
                 register.flush()
                 fas.utils.notify.notify_account_password_lost(self.person)
