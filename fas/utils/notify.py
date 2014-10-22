@@ -102,7 +102,7 @@ The %(organisation)s
         'username': people.username,
         'url': base_url,
         'validation_url': validation_url,
-        'admin_email': Config.get('admin.email'),
+        'admin_email': Config.get('project.admin.email'),
     }))
 
     mail_to = [people.email]
