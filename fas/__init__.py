@@ -123,8 +123,6 @@ def main(global_config, **settings):
     config.add_route('people', '/people')
     config.add_route('people-new', '/register')
     config.add_route('people-confirm-account', '/register/confirm/{token}')
-    config.add_route('people-lost-password', '/register/lost/password')
-    config.add_route('people-reset-password', '/register/reset/password/{token}')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
@@ -147,6 +145,9 @@ def main(global_config, **settings):
 
     # Settings pages
     config.add_route('settings', '/settings')
+
+    config.add_route('lost-password', '/settings/lost/password')
+    config.add_route('reset-password', '/settings/reset/password/{token}')
 
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')

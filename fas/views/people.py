@@ -231,7 +231,7 @@ class People(object):
 
         return redirect_to('/people/profile/%s' % self.person.id)
 
-    @view_config(route_name='people-lost-password',
+    @view_config(route_name='lost-password',
                  permission=NO_PERMISSION_REQUIRED,
                  renderer='/people/lost-password.xhtml')
     def lost_password(self):
@@ -270,7 +270,7 @@ class People(object):
 
         return dict(form=form)
 
-    @view_config(route_name='people-reset-password',
+    @view_config(route_name='reset-password',
                  permission=NO_PERMISSION_REQUIRED,
                  renderer='/people/reset-password.xhtml')
     def reset_password(self):
