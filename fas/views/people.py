@@ -293,7 +293,8 @@ class People(object):
                 register.update_password(form, self.person)
                 self.person.status = AccountStatus.ACTIVE
                 register.save_account_activity(
-                    self.request, person.id, AccountLogType.RESET_PASSWORD)
+                    self.request, self.person.id,
+                    AccountLogType.RESET_PASSWORD)
                 register.flush()
                 self.request.session.flash(_('Password reset'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
