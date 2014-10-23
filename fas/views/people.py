@@ -14,14 +14,18 @@ from fas.forms.people import EditPeopleForm
 from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
+from fas.forms.people import UsernameForm
+from fas.forms.people import ResetPasswordPeopleForm
 
+import fas.utils.notify
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 from fas.utils.notify import notify_account_creation
 from fas.utils.passwordmanager import PasswordManager
 from fas.security import generate_token
-from fas.models import AccountPermissionType as permission, AccountStatus
+from fas.models import (
+    AccountPermissionType as permission, AccountStatus, AccountLogType)
 from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
@@ -79,7 +83,16 @@ class People(object):
         except KeyError:
             return HTTPBadRequest()
 
-        self.person = provider.get_people_by_id(_id)
+        username = None
+        try:
+            _id = int(_id)
+        except:
+            username = _id
+
+        if username:
+            self.person = provider.get_people_by_username(username)
+        else:
+            self.person = provider.get_people_by_id(_id)
         if not self.person:
             raise HTTPNotFound('No such user found')
 
@@ -188,7 +201,7 @@ class People(object):
                 register.add_people(self.person)
 
                 register.flush()
-                notify_account_creation(self.person)
+                fas.utils.notify.notify_account_creation(self.person)
                 self.request.session.flash(
                     _('Account created, please check your email to finish '
                       'the process'), 'info')
@@ -218,6 +231,76 @@ class People(object):
 
         return redirect_to('/people/profile/%s' % self.person.id)
 
+    @view_config(route_name='lost-password',
+                 permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/lost-password.xhtml')
+    def lost_password(self):
+        """ Mechanism to recover lost-password."""
+        form = UsernameForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            if form.validate():
+                self.person = provider.get_people_by_username(
+                    form.username.data)
+
+                if not self.person:
+                    self.request.session.flash(
+                        _('No such account exists'), 'error')
+                    return redirect_to('/')
+                elif self.person.status in [
+                        AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
+                        AccountStatus.DISABLED]:
+                    self.request.session.flash(
+                        _('This account is blocked'), 'error')
+                    return redirect_to('/')
+
+                self.person.password_token = generate_token()
+                self.person.status = AccountStatus.PENDING
+                register.add_people(self.person)
+                register.save_account_activity(
+                    self.request, person.id,
+                    AccountLogType.ASKED_RESET_PASSWORD)
+
+                register.flush()
+                fas.utils.notify.notify_account_password_lost(self.person)
+                self.request.session.flash(
+                    _('Check your email to finish the process'), 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form)
+
+    @view_config(route_name='reset-password',
+                 permission=NO_PERMISSION_REQUIRED,
+                 renderer='/people/reset-password.xhtml')
+    def reset_password(self):
+        """ Mechanism to reset a lost-password."""
+        try:
+            token = self.request.matchdict['token']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.person = provider.get_people_by_password_token(token)
+
+        if not self.person:
+            raise HTTPNotFound('No user found with this token')
+
+        form = ResetPasswordPeopleForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.person-infos' in self.request.params):
+            if form.validate():
+                register.update_password(form, self.person)
+                self.person.status = AccountStatus.ACTIVE
+                register.save_account_activity(
+                    self.request, self.person.id,
+                    AccountLogType.RESET_PASSWORD)
+                register.flush()
+                self.request.session.flash(_('Password reset'), 'info')
+                return redirect_to('/people/profile/%s' % self.person.id)
+
+        return dict(form=form, token=token)
+
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')
     def update_password(self):
@@ -242,6 +325,9 @@ class People(object):
                 del form.old_password
                 del form.new_password
                 register.update_password(form, self.person)
+                register.save_account_activity(
+                    self.request, person.id, AccountLogType.UPDATE_PASSWORD)
+                self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, _id=self.id)

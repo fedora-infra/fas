@@ -45,22 +45,30 @@ class UpdateStatusForm(Form):
         choices=[(e.value, e.name.lower()) for e in AccountStatus])
 
 
-class UpdatePasswordForm(Form):
-    """ Form to update people password."""
-    old_password = PasswordField(
-        _(u'Old Password'),
-        [validators.Required()])
+class UsernameForm(Form):
+    """ Simple form to request the user's username. """
+    username = StringField(_(u'Username'), [validators.Required()])
+
+
+class ResetPasswordPeopleForm(Form):
+    """ Form to used to reset one's password. """
     new_password = PasswordField(
         _(u'New Password'),
         [validators.Required(), validators.EqualTo(
-            'password', message='Your new passwords must match')])
+            'password', message='Your passwords must match')])
     password = PasswordField(
         _(u'Confirm new Password'), [validators.Required()])
 
 
-class EditPeopleForm(UpdateStatusForm):
+class UpdatePasswordForm(ResetPasswordPeopleForm):
+    """ Form to update people password."""
+    old_password = PasswordField(
+        _(u'Old Password'),
+        [validators.Required()])
+
+
+class EditPeopleForm(UpdateStatusForm, UsernameForm):
     """ Form to edit user's information. """
-    username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
     introduction = StringField(_(u'Introduction', [validators.Optional()]))
     email = StringField(
@@ -101,9 +109,8 @@ class EditPeopleForm(UpdateStatusForm):
     longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
 
 
-class NewPeopleForm(Form):
+class NewPeopleForm(UsernameForm):
     """ Form to create an user's account. """
-    username = StringField(_(u'Username'), [validators.Required()])
     fullname = StringField(_(u'Full name'), [validators.Required()])
     email = StringField(
         _(u'Email'), [validators.Required(), validators.Email()])

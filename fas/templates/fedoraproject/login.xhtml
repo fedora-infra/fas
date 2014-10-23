@@ -20,9 +20,14 @@
       <div class="bottom">
         <form action="${url}" method="post">
           <input type="hidden" name="redirect" value="${came_from}"/>
-          <input type="text" class="form-control" id="inputLogin" placeholder="Login" name="login" value="${login}"/><br/>
-          <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password" value="${password}"/><br/>
+          <input type="text" class="form-control" id="inputLogin"
+            placeholder="Login" name="login" value="${login}"/><br/>
+          <input type="password" class="form-control" id="inputPassword"
+            placeholder="Password" name="password" value="${password}"/><br/>
           <input type="submit" name="form.submitted" value="Log In"/>
+          <a href="${request.route_url('lost-password')}">
+            ${_(u'Lost password')}?
+          </a>
         </form>
       </div>
     </div>

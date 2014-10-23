@@ -146,6 +146,9 @@ def main(global_config, **settings):
     # Settings pages
     config.add_route('settings', '/settings')
 
+    config.add_route('lost-password', '/settings/lost/password')
+    config.add_route('reset-password', '/settings/reset/password/{token}')
+
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')
 

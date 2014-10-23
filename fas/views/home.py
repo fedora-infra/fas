@@ -70,21 +70,22 @@ class Home:
             if pv.is_valid() and not blocked:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
-                register.save_account_activity(self.request, person.id, 1)
+                register.save_account_activity(
+                    self.request, person.id, AccountLogType.LOGGED_IN)
                 return HTTPFound(location=came_from, headers=headers)
 
             if person.status == AccountStatus.PENDING:
                 self.request.session.flash(
-                    'Login failed, this account has not been activated, '
-                    'please check your emails.', 'login')
+                    _('Login failed, this account has not been activated, '
+                      'please check your emails.'), 'login')
             elif person.status in [
                     AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                     AccountStatus.DISABLED
                 ]:
                 self.request.session.flash(
-                    'Login blocked.', 'login')
+                    _('Login blocked.'), 'login')
             else:
-                self.request.session.flash('Login failed', 'login')
+                self.request.session.flash(_('Login failed'), 'login')
 
         return dict(
             message=message,
