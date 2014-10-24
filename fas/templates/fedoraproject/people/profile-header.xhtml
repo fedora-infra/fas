@@ -5,25 +5,6 @@
   <div id=profile-header>
 -->
 
-  %if request.session.peek_flash('error'):
-        <div class="alert alert-danger alert-dismissible" role="alert" style="max-width: 800px; margin: 0 auto 9px;">
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-          </button>
-          <strong>WOooops!</strong> ${request.session.pop_flash('error')[0]}
-        </div>
-  %endif
-  %if request.session.peek_flash('info'):
-        <div class="alert alert-info alert-dismissible" role="info" style="max-width: 800px; margin: 0 auto 9px;">
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-          </button>
-          %for info in request.session.pop_flash('info'):
-          ${ info }
-          %endfor
-        </div>
-  %endif
-
   <div class="page-title">
     %if person.avatar:
         <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
