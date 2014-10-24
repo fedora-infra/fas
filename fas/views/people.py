@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
@@ -21,9 +20,7 @@ import fas.utils.notify
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
-from fas.utils.notify import notify_account_creation
 from fas.utils.passwordmanager import PasswordManager
-from fas.security import generate_token
 from fas.models import (
     AccountPermissionType as permission, AccountStatus, AccountLogType)
 from fas.models.people import People as mPeople
@@ -247,7 +244,7 @@ class People(object):
                 if not self.person:
                     self.request.session.flash(
                         _('No such account exists'), 'error')
-                    return redirect_to('/')
+                    return dict(form=form)
                 elif self.person.status in [
                         AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                         AccountStatus.DISABLED]:
