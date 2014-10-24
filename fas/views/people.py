@@ -259,7 +259,7 @@ class People(object):
                 self.person.status = AccountStatus.PENDING
                 register.add_people(self.person)
                 register.save_account_activity(
-                    self.request, person.id,
+                    self.request, self.person.id,
                     AccountLogType.ASKED_RESET_PASSWORD)
 
                 register.flush()
@@ -326,7 +326,7 @@ class People(object):
                 del form.new_password
                 register.update_password(form, self.person)
                 register.save_account_activity(
-                    self.request, person.id, AccountLogType.UPDATE_PASSWORD)
+                    self.request, self.person.id, AccountLogType.UPDATE_PASSWORD)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 
