@@ -233,7 +233,7 @@ class People(object):
 
     @view_config(route_name='lost-password',
                  permission=NO_PERMISSION_REQUIRED,
-                 renderer='/people/lost-password.xhtml')
+                 renderer='/admin/lost-password.xhtml')
     def lost_password(self):
         """ Mechanism to recover lost-password."""
         form = UsernameForm(self.request.POST)
@@ -272,7 +272,7 @@ class People(object):
 
     @view_config(route_name='reset-password',
                  permission=NO_PERMISSION_REQUIRED,
-                 renderer='/people/reset-password.xhtml')
+                 renderer='/admin/reset-password.xhtml')
     def reset_password(self):
         """ Mechanism to reset a lost-password."""
         try:
