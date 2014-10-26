@@ -5,17 +5,17 @@
    <p>${_(u'All group\'s involvement')}</p>
   </div>
 
-<div class="searchform">
-    <h3>Search groups</h3>
-    <form method="get" action="${request.route_url('group-search-rd')}">
-        <div class="input-group">
-            <input type="text" name="q" class="form-control"/>
-            <span class="input-group-addon">
-                <button class="icon-search"></button>
-            </span>
-        </div>
-    </form>
-</div>
+  <div class="searchform">
+      <h3>Search groups</h3>
+      <form method="get" action="${request.route_url('group-search-rd')}">
+          <div class="input-group">
+              <input type="text" name="q" class="form-control"/>
+              <span class="input-group-addon">
+                  <button class="icon-search"></button>
+              </span>
+          </div>
+      </form>
+  </div>
 
   ${paging.list(name='groups', route='groups-paging')}
 

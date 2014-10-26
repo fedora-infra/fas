@@ -106,7 +106,7 @@ class Groups(object):
             self.request.session.flash(
                 "Only one group matching, redirecting to the group's page",
                 'info')
-            return redirect_to('/group/deails/%s' % groups[0].id)
+            return redirect_to('/group/details/%s' % groups[0].id)
 
         return dict(
             groups=groups,
