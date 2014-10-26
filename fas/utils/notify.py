@@ -66,11 +66,8 @@ The %(organisation)s
     send_email(
         message=text,
         subject=_(
-            '%(username)s please confirm your %(project_name)s account'
-            % {
-                'username': people.username,
-                'project_name': Config.get('project.name'),
-            }),
+            'Confirm account creation for : %(username)s'
+            % {'username': people.username}),
         mail_to=people.email,
     )
 
@@ -80,7 +77,7 @@ def notify_account_password_lost(people):
     """
     base_url = Config.get('project.url')
     validation_url = urlparse.urljoin(
-        base_url, '/register/reset/password/%s' % people.password_token)
+        base_url, '/settings/reset/password/%s' % people.password_token)
 
     text = _("""
 Welcome!

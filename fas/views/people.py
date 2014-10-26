@@ -42,11 +42,8 @@ class People(object):
     def redirect_to_profile(self):
         return redirect_to('/people/profile/%s' % self.id)
 
-    @view_config(route_name='people')
-    def index(self):
-        """ People list landing page. """
-        return redirect_to('/people/page/1')
-
+    @view_config(route_name='people', renderer='/people/list.xhtml',
+                 permission=NO_PERMISSION_REQUIRED)
     @view_config(route_name='people-paging', renderer='/people/list.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
     def paging(self):
@@ -59,8 +56,9 @@ class People(object):
         # TODO: get limit from config file or let user choose in between
         #      predefined one ?
         people = provider.get_people(50, page)
+        peoples = provider.get_people(count=True)
 
-        pages, count = compute_list_pages_from('people', 50)
+        pages, count = compute_list_pages_from(peoples, 50)
 
         if page > pages:
             return HTTPBadRequest()
@@ -71,6 +69,66 @@ class People(object):
             page=page,
             pages=pages
             )
+
+    @view_config(
+        route_name='people-search-rd', renderer='/people/search.xhtml')
+    def search_redirect(self):
+        """ Redirect the search to the proper url. """
+        _id = self.request.params.get('q', '*')
+        return redirect_to('/people/search/%s' % _id)
+
+    @view_config(
+        route_name='people-search', renderer='/people/search.xhtml')
+    @view_config(
+        route_name='people-search-paging', renderer='/people/search.xhtml')
+    def search(self):
+        """ Search people page. """
+        try:
+            _id = self.request.matchdict['pattern']
+        except KeyError:
+            return HTTPBadRequest()
+        page = int(self.request.matchdict.get('pagenb', 1))
+
+        username = None
+        try:
+            _id = int(_id)
+        except:
+            username = _id
+
+        if username:
+            if '*' in username:
+                username = username.replace('*', '%')
+            else:
+                username = username + '%'
+            people = provider.get_people(50, page, pattern=username)
+            peoples = provider.get_people(pattern=username, count=True)
+        else:
+            people = provider.get_people_by_id(_id)
+            peoples = 1
+
+        if not people:
+            self.request.session.flash(
+                'No user found for the query: %s' % _id, 'error')
+            return redirect_to('/people')
+
+        pages, count = compute_list_pages_from(peoples, 50)
+
+        if page > pages:
+            return HTTPBadRequest()
+
+        if username and len(people) == 1 and page == 1:
+            self.request.session.flash(
+                "Only one user matching, redirecting to the user's page",
+                'info')
+            return redirect_to('/people/profile/%s' % people[0].id)
+
+        return dict(
+            people=people,
+            page=page,
+            pages=pages,
+            count=count,
+            pattern=_id
+        )
 
     @view_config(route_name='people-profile', renderer='/people/profile.xhtml')
     def profile(self):

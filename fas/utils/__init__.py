@@ -41,14 +41,12 @@ class Config():
         return self.get('project.group.admin')
 
 
-def compute_list_pages_from(str_obj, limit=50):
+def compute_list_pages_from(count, limit=50):
     """ Compute list's pages from given object.
 
-    :arg obj: string, object to compute pages from.
+    :arg count: the total number of items in the list
     :arg limit: integer, limt object to compute pages from.
     :return: integer of nb pages.
     """
-    count = getattr(provider, 'get_%s_count' % str_obj)
-    count = count()
 
     return (int(ceil(float(count) / float(limit))), int(count))
