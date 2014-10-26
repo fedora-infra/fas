@@ -5,7 +5,7 @@ from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
 from fas.models.group import Groups, GroupType
 from fas.models.group import GroupMembership
-from fas.models.la import LicenseAgreement
+from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 
 from fas.utils import _
 from fas.utils.passwordmanager import PasswordManager
@@ -172,6 +172,16 @@ def remove_license(license_id):
     ).filter(
         LicenseAgreement.id == license_id
     ).delete()
+
+
+def add_signed_license(form):
+    """ Add a signed license to database. """
+    la = SignedLicenseAgreement()
+    la.license = form.license.data
+    la.people = form.people.data
+    la.signed = form.signed.data
+
+    session.add(la)
 
 
 def update_password(form, people):

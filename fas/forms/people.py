@@ -50,6 +50,22 @@ class UsernameForm(Form):
     username = StringField(_(u'Username'), [validators.Required()])
 
 
+class ContactInfosForm(Form):
+    """ Form to edit contact infos. """
+    fullname = StringField(_(u'Full name'), [validators.Required()])
+    email = StringField(
+        _(u'Email'), [validators.Required(), validators.Email()])
+    facsimile = StringField(_(u'Facsimile'))
+    telephone = StringField(_(u'Telephone number'))
+    postal_address = StringField(_(u'Postal address'), [validators.Optional()])
+    affiliation = StringField(_(u'Affiliation'), [validators.Optional()])
+    country_code = SelectField(
+        _(u'Country code'),
+        [validators.Required()],
+        coerce=str,
+        choices=[('FR', 'France (FR)'), ('JP', 'Japan (JP)')])
+
+
 class ResetPasswordPeopleForm(Form):
     """ Form to used to reset one's password. """
     new_password = PasswordField(
@@ -67,34 +83,22 @@ class UpdatePasswordForm(ResetPasswordPeopleForm):
         [validators.Required()])
 
 
-class EditPeopleForm(UpdateStatusForm, UsernameForm):
+class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
     """ Form to edit user's information. """
-    fullname = StringField(_(u'Full name'), [validators.Required()])
-    introduction = StringField(_(u'Introduction', [validators.Optional()]))
-    email = StringField(
-        _(u'Email'), [validators.Required(), validators.Email()])
+    introduction = StringField(_(u'Introduction'), [validators.Optional()])
     ircnick = StringField(_(u'IRC nick'))
     avatar = StringField(_(u'Avatar'))
-    postal_address = StringField(_(u'Postal address'))
     birthday = IntegerField(
         _(u'Birthday'), [validators.Optional()], default=-1)
     birthday_month = SelectField(
         _(u'Month'),
         choices=[(m, m) for m in calendar.month_name if m is not None])
     bio = TextAreaField(_(u'Introduction'))
-    country_code = SelectField(
-        _(u'Country code'),
-        [validators.Required()],
-        coerce=str,
-        choices=[('FR', 'France (FR)'), ('JP', 'Japan (JP)')])
     # FIXME: actually retrieve the list of locales available
     locale = SelectField(
         _(u'Locale'),
         [validators.Required()],
         choices=[('en', 'en'), ('fr', 'fr')], coerce=str)
-    telephone = StringField(_(u'Telephone number'))
-    facsimile = StringField(_(u'Facsimile'))
-    affiliation = StringField(_(u'Affiliation'))
     timezone = SelectField(
         _(u'Timezone'),
         [validators.Required()],

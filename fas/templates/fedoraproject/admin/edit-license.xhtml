@@ -2,7 +2,7 @@
   %if form.name.data is None:
     <form method="POST" action="${request.route_url('add-license')}" class="form-horizontal" role="form">
   %else:
-    <form method="POST" action="${request.route_url('edit-license', id=id)}" class="form-horizontal" role="form">
+    <form method="POST" action="${request.route_url('edit-license', id=1)}" class="form-horizontal" role="form">
   %endif
     <div class="card-form">
     %if form.errors:

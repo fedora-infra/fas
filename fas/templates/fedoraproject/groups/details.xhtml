@@ -1,5 +1,9 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
+%if group.license_sign_up > 0:
+<%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
+  ${licenseAgreement.form(license=group.license, person=request.get_user)}
+%endif
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
     <h1>${group.display_name or group.name}</h1>
@@ -159,7 +163,7 @@
                 <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
               %else:
                 <dd>
-                  <button class="btn btn-default" type="button">
+                  <button class="btn btn-default" type="button" data-toggle="modal" data-target="#signLicense">
                     ${_(u'Sign up')}
                   </button>
                 </dd>

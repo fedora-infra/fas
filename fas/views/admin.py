@@ -8,8 +8,9 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 import fas.models.provider as provider
 import fas.models.register as register
 
+from fas.forms.people import ContactInfosForm
 from fas.forms.group import EditGroupForm, EditGroupTypeForm
-from fas.forms.la import EditLicenseForm
+from fas.forms.la import EditLicenseForm, SignLicenseForm
 
 from fas.views import redirect_to
 from fas.utils import Config
@@ -128,6 +129,34 @@ class Admin(object):
         return redirect_to('/')
 
         return dict()
+
+    @view_config(route_name='sign-license', permission='authenticated')
+    def sign_license(self):
+        """ Sign license from given people """
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        person = self.request.get_user
+        userform = ContactInfosForm(self.request.POST, person)
+        form = SignLicenseForm(self.request.POST)
+
+        userform.fullname.data = person.fullname
+        userform.email.data = person.email
+
+        if self.request.method == 'POST'\
+        and ('form.sign.license' in self.request.params):
+            if userform.validate() and form.validate():
+                userform.populate_obj(person)
+
+                form.people.data = person.id
+                form.license.data = self.id
+                register.add_signed_license(form)
+
+                return redirect_to(self.request.params['form.sign.license'])
+
+        return redirect_to('/')
 
     @view_config(route_name='add-grouptype', permission='admin',
                  renderer='/admin/edit-grouptype.xhtml')

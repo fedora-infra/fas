@@ -18,11 +18,12 @@ from pyramid.security import (
 
 from fas.utils import Config
 from fas.security import PasswordValidator
-from fas.models import AccountStatus
+from fas.models import AccountStatus, AccountLogType
 
 import fas.models.provider as provider
 import fas.models.register as register
 
+from fas.utils import _
 
 @view_defaults(renderer='/home.xhtml')
 class Home:

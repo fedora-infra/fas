@@ -153,8 +153,9 @@ def main(global_config, **settings):
     config.add_route('remove-group', '/settings/remove/group/{id}')
 
     config.add_route('add-license', '/settings/add/license')
-    config.add_route('edit-license', '/settings/edit/license')
+    config.add_route('edit-license', '/settings/edit/license/{id}')
     config.add_route('remove-license', '/settings/remove/license/{id}')
+    config.add_route('sign-license', '/settings/sign/license/{id}')
 
     config.add_route('add-grouptype', '/settings/add/group/type')
     config.add_route('edit-grouptype', '/settings/edit/group/type/{id}')

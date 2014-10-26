@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
-from fas.models import MembershipRole, MembershipStatus
+from fas.models import MembershipStatus
 
 import fas.models.provider as provider
-import fas.models.register as register
 
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
+
+from fas.forms.people import ContactInfosForm
+from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
 
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
 from fas.utils.fgithub import Github
+import mistune
 
 
 class Groups(object):
@@ -69,6 +71,9 @@ class Groups(object):
 
         self.params.add_optional('members')
         self.params.add_optional('members_page')
+
+        user_form = ContactInfosForm(self.request.POST, self.request.get_user)
+        license_form = SignLicenseForm(self.request.POST)
 
         g_memberships = provider.get_group_membership(_id)
 
@@ -128,7 +133,10 @@ class Groups(object):
             person_membership=authenticated_membership,
             is_member=is_member,
             membership_status=MembershipStatus,
-            membership_request=membership_requets
+            membership_request=membership_requets,
+            userform=user_form,
+            licenseform=license_form,
+            text=mistune
             )
 
     @view_config(route_name='group-edit', permission='group_edit',

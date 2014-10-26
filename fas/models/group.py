@@ -99,6 +99,10 @@ class Groups(Base):
         primaryjoin='and_(Groups.id==Groups.parent_group_id)',
         uselist=False
     )
+    license = relation(
+        'LicenseAgreement',
+        uselist=False
+        )
 
     __table_args__ = (
         Index('group_name_idx', name),
