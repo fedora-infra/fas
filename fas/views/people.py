@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
@@ -20,7 +19,7 @@ from fas.forms.people import ResetPasswordPeopleForm
 import fas.utils.notify
 from fas.security import PasswordValidator
 from fas.views import redirect_to
-from fas.utils import compute_list_pages_from, generate_token
+from fas.utils import compute_list_pages_from
 from fas.utils.passwordmanager import PasswordManager
 from fas.models import (
     AccountPermissionType as permission, AccountStatus, AccountLogType)
@@ -149,7 +148,6 @@ class People(object):
             self.person = provider.get_people_by_username(username)
         else:
             self.person = provider.get_people_by_id(_id)
-
         if not self.person:
             raise HTTPNotFound('No such user found')
 
@@ -239,12 +237,12 @@ class People(object):
                 # Check username and email's uniqueness before doing anything
                 if provider.get_people_by_username(form.username.data):
                     self.request.session.flash(
-                        'An account is already registered with this username',
-                        'error')
+                        _('An account is already registered with this '
+                          'username'), 'error')
                     return dict(form=form)
                 if provider.get_people_by_email(form.email.data):
                     self.request.session.flash(
-                        'An account is already registered with this email',
+                        _('An account is already registered with this email'),
                         'error')
                     return dict(form=form)
 
@@ -260,8 +258,8 @@ class People(object):
                 register.flush()
                 fas.utils.notify.notify_account_creation(self.person)
                 self.request.session.flash(
-                    'Account created, please check your email to finish '
-                    'the process', 'info')
+                    _('Account created, please check your email to finish '
+                      'the process'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
@@ -284,13 +282,13 @@ class People(object):
         self.person.password_token = None
         self.person.status = AccountStatus.ACTIVE
         register.add_people(self.person)
-        self.request.session.flash('Account activated', 'info')
+        self.request.session.flash(_('Account activated'), 'info')
 
         return redirect_to('/people/profile/%s' % self.person.id)
 
-    @view_config(route_name='people-lost-password',
+    @view_config(route_name='lost-password',
                  permission=NO_PERMISSION_REQUIRED,
-                 renderer='/people/lost-password.xhtml')
+                 renderer='/admin/lost-password.xhtml')
     def lost_password(self):
         """ Mechanism to recover lost-password."""
         form = UsernameForm(self.request.POST)
@@ -303,33 +301,33 @@ class People(object):
 
                 if not self.person:
                     self.request.session.flash(
-                        'No such account exists', 'error')
-                    return redirect_to('/')
+                        _('No such account exists'), 'error')
+                    return dict(form=form)
                 elif self.person.status in [
                         AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                         AccountStatus.DISABLED]:
                     self.request.session.flash(
-                        'This account is blocked', 'error')
+                        _('This account is blocked'), 'error')
                     return redirect_to('/')
 
                 self.person.password_token = generate_token()
                 self.person.status = AccountStatus.PENDING
                 register.add_people(self.person)
                 register.save_account_activity(
-                    self.request, person.id,
-                    AccountLogType.ASK_RESET_PASSWORD)
+                    self.request, self.person.id,
+                    AccountLogType.ASKED_RESET_PASSWORD)
 
                 register.flush()
                 fas.utils.notify.notify_account_password_lost(self.person)
                 self.request.session.flash(
-                    'Check your email to finish the process', 'info')
+                    _('Check your email to finish the process'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form)
 
-    @view_config(route_name='people-reset-password',
+    @view_config(route_name='reset-password',
                  permission=NO_PERMISSION_REQUIRED,
-                 renderer='/people/reset-password.xhtml')
+                 renderer='/admin/reset-password.xhtml')
     def reset_password(self):
         """ Mechanism to reset a lost-password."""
         try:
@@ -350,9 +348,10 @@ class People(object):
                 register.update_password(form, self.person)
                 self.person.status = AccountStatus.ACTIVE
                 register.save_account_activity(
-                    self.request, person.id, AccountLogType.RESET_PASSWORD)
+                    self.request, self.person.id,
+                    AccountLogType.RESET_PASSWORD)
                 register.flush()
-                self.request.session.flash('Password reset', 'info')
+                self.request.session.flash(_('Password reset'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
         return dict(form=form, token=token)
@@ -382,7 +381,7 @@ class People(object):
                 del form.new_password
                 register.update_password(form, self.person)
                 register.save_account_activity(
-                    self.request, person.id, AccountLogType.UPDATE_PASSWORD)
+                    self.request, self.person.id, AccountLogType.UPDATE_PASSWORD)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 

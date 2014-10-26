@@ -99,6 +99,10 @@ class Groups(Base):
         primaryjoin='and_(Groups.id==Groups.parent_group_id)',
         uselist=False
     )
+    license = relation(
+        'LicenseAgreement',
+        uselist=False
+        )
 
     __table_args__ = (
         Index('group_name_idx', name),
@@ -158,7 +162,7 @@ class GroupMembership(Base):
     status = Column(Integer, default=0)
     comment = Column(UnicodeText, nullable=True)
     people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
-    sponsor = Column(Integer, ForeignKey('people.id'), nullable=False)
+    sponsor = Column(Integer, ForeignKey('people.id'), nullable=True)
     creation_timestamp = Column(DateTime, default=datetime.datetime.now)
     approval_timestamp = Column(DateTime, default=datetime.datetime.now)
 

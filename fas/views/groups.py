@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from pyramid.response import Response
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
-from fas.models import MembershipRole, MembershipStatus
+from fas.models import MembershipStatus
 
 import fas.models.provider as provider
-import fas.models.register as register
 
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
+
+from fas.forms.people import ContactInfosForm
+from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
 
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
 from fas.utils.fgithub import Github
+import mistune
 
 
 class Groups(object):
@@ -128,6 +130,9 @@ class Groups(object):
         self.params.add_optional('members')
         self.params.add_optional('members_page')
 
+        user_form = ContactInfosForm(self.request.POST, self.request.get_user)
+        license_form = SignLicenseForm(self.request.POST)
+
         g_memberships = provider.get_group_membership(_id)
 
         group = g_memberships[0][0]
@@ -140,13 +145,19 @@ class Groups(object):
 
         for group, membership, member in g_memberships:
             memberships.append(membership)
-            if authenticated != member:
+            if authenticated != member and\
+            membership.status == MembershipStatus.APPROVED:
                 members.append((member, membership.get_role()))
             else:
                 authenticated = member
                 authenticated_membership = membership
                 if membership.get_status() == MembershipStatus.APPROVED:
                     is_member = True
+
+        membership_requets = provider.get_memberships_by_status(
+            status=MembershipStatus.PENDING,
+            group=group.id
+            )
 
         license_signed_up = None
         if self.request.authenticated_userid:
@@ -179,7 +190,11 @@ class Groups(object):
             person=authenticated,
             person_membership=authenticated_membership,
             is_member=is_member,
-            has_membership_request=False
+            membership_status=MembershipStatus,
+            membership_request=membership_requets,
+            userform=user_form,
+            licenseform=license_form,
+            text=mistune
             )
 
     @view_config(route_name='group-edit', permission='group_edit',

@@ -4,6 +4,7 @@ import sqlalchemy as sa
 from sqlalchemy import func
 from sqlalchemy.sql import or_
 
+from fas.models import MembershipStatus
 from fas.models import DBSession as session
 
 from fas.models.la import (
@@ -137,13 +138,11 @@ def get_group_membership(id):
              for a given group's id
     """
     query = session.query(
-        Groups, GroupMembership, People, RoleLevel
+        Groups, GroupMembership, People,
     ).join(
         (GroupMembership, GroupMembership.group_id == Groups.id)
     ).join(
         People, People.id == GroupMembership.people_id
-    ).join(
-        RoleLevel
     ).filter(
         Groups.id == id
     )
@@ -208,6 +207,30 @@ def get_membership_by_role(group, person, role):
     )
 
     return query.first()
+
+
+def get_memberships_by_status(status, group=None):
+    """ Retrieve group membership request from given group and status
+
+    :param status: a membership status `fas.models.GroupMembershipStatus`
+    :type status: IntEnum
+    :param group: a group id, `fas.models.group.Groups.id`
+    :type group: integer
+    :rtype: `fas.models.group.GroupMembership`
+    """
+    query = session.query(
+        GroupMembership
+    ).filter(GroupMembership.status == status)
+
+    if group:
+        query = session.query(
+        GroupMembership
+        ).filter(
+            GroupMembership.status == status,
+            GroupMembership.group_id == group
+            )
+
+    return query.all()
 
 
 def get_membership_requests(group):

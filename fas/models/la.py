@@ -47,9 +47,9 @@ class SignedLicenseAgreement(Base):
     id = Column(Integer, primary_key=True)
     license = Column(
         Integer,
-        ForeignKey('license_agreement.id'),
-        primary_key=True)
-    people = Column(Integer, ForeignKey('people.id'), primary_key=True)
+        ForeignKey('license_agreement.id')
+        )
+    people = Column(Integer, ForeignKey('people.id'))
     signed = Column(Boolean, nullable=False)
 
     licenses = relation(

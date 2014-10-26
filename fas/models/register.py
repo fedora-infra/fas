@@ -5,7 +5,7 @@ from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions
 from fas.models.group import Groups, GroupType
 from fas.models.group import GroupMembership
-from fas.models.la import LicenseAgreement
+from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 
 from fas.utils import _
 from fas.utils.passwordmanager import PasswordManager
@@ -125,13 +125,19 @@ def add_group(form):
     return group
 
 
-def add_membership(group, people_id, role):
+def add_membership(group_id, people_id, status, role=None, sponsor=None):
     """ Add given people to group"""
     membership = GroupMembership()
-    membership.group_id = group.id
-    membership.role = role
+    membership.group_id = group_id
     membership.people_id = people_id
+    membership.status = status
     membership.sponsor = people_id
+
+    if role:
+        membership.role = role
+
+    if sponsor:
+        membership.sponsor = sponsor
 
     session.add(membership)
     session.flush()
@@ -168,6 +174,16 @@ def remove_license(license_id):
     ).delete()
 
 
+def add_signed_license(form):
+    """ Add a signed license to database. """
+    la = SignedLicenseAgreement()
+    la.license = form.license.data
+    la.people = form.people.data
+    la.signed = form.signed.data
+
+    session.add(la)
+
+
 def update_password(form, people):
     """ Update password."""
     pm = PasswordManager()
@@ -189,6 +205,7 @@ def remove_token(permission):
     """ Remove people's token from database. """
     perm = AccountPermissions()
     perm.token = permission
+
     session.query(
         AccountPermissions
     ).filter(
@@ -196,14 +213,17 @@ def remove_token(permission):
     ).delete()
 
 
-def remove_membership_request(group, person):
-    """
-    Remove membership request from pending list
+def remove_membership(group, person):
+    """ Remove membership request from pending list
 
-    :param group: integer, `fas.models.Groups.id`
-    :param person: integer, `fas.models.People.id`
+    :param group: group id
+    :typpe group: integer, `fas.models.Groups.id`
+    :param person: person id
+    :type person: integer, `fas.models.People.id`
     """
-    session.query(MembershipRequest)\
-    .filter(MembershipRequest.group_id == group,
-        MembershipRequest.person_id == person
+    session.query(
+        GroupMembership
+        ).filter(
+            GroupMembership.group_id == group,
+            GroupMembership.people_id == person
         ).delete()

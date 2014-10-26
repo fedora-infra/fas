@@ -19,6 +19,7 @@ requires = [
     'mako',
     'wtforms',
     'flufl.enum',
+    'mistune',
 
     #lib
     'pygeoip',

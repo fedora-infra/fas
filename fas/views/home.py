@@ -18,11 +18,12 @@ from pyramid.security import (
 
 from fas.utils import Config
 from fas.security import PasswordValidator
-from fas.models import AccountStatus
+from fas.models import AccountStatus, AccountLogType
 
 import fas.models.provider as provider
 import fas.models.register as register
 
+from fas.utils import _
 
 @view_defaults(renderer='/home.xhtml')
 class Home:
@@ -76,16 +77,16 @@ class Home:
 
             if person.status == AccountStatus.PENDING:
                 self.request.session.flash(
-                    'Login failed, this account has not been activated, '
-                    'please check your emails.', 'login')
+                    _('Login failed, this account has not been activated, '
+                      'please check your emails.'), 'login')
             elif person.status in [
                     AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                     AccountStatus.DISABLED
                 ]:
                 self.request.session.flash(
-                    'Login blocked.', 'login')
+                    _('Login blocked.'), 'login')
             else:
-                self.request.session.flash('Login failed', 'login')
+                self.request.session.flash(_('Login failed'), 'login')
 
         return dict(
             message=message,

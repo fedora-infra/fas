@@ -13,8 +13,10 @@ from .security import (
     authenticated_is_group_admin,
     authenticated_is_group_editor,
     authenticated_is_group_sponsor,
+    join_group,
     request_membership,
-    requested_membership
+    requested_membership,
+    remove_membership
     )
 
 from .models.provider import get_authenticated_user
@@ -77,18 +79,40 @@ def main(global_config, **settings):
     config.add_request_method(
         authenticated_is_modo, 'authenticated_is_modo', reify=False)
     config.add_request_method(
-        authenticated_is_group_admin, 'authenticated_is_group_admin',
-        reify=False)
+        authenticated_is_group_admin,
+        'authenticated_is_group_admin',
+        reify=False
+        )
     config.add_request_method(
-        authenticated_is_group_editor, 'authenticated_is_group_editor',
-        reify=False)
+        authenticated_is_group_editor,
+        'authenticated_is_group_editor',
+        reify=False
+        )
     config.add_request_method(
-        authenticated_is_group_sponsor, 'authenticated_is_group_sponsor',
-        reify=False)
+        authenticated_is_group_sponsor,
+        'authenticated_is_group_sponsor',
+        reify=False
+        )
     config.add_request_method(
-        request_membership, 'request_membership', reify=False)
+        join_group,
+        'join_group',
+        reify=False
+        )
     config.add_request_method(
-        requested_membership, 'requested_membership', reify=False)
+        request_membership,
+        'request_membership',
+        reify=False
+        )
+    config.add_request_method(
+        requested_membership,
+        'requested_membership',
+        reify=False
+        )
+    config.add_request_method(
+        remove_membership,
+        'revoke_membership',
+        reify=False
+        )
 
     # home pages
     config.add_route('home', '/')
@@ -97,13 +121,11 @@ def main(global_config, **settings):
 
     # People pages
     config.add_route('people', '/people')
-    config.add_route('people-new', '/people/new')
     config.add_route('people-search-rd', '/people/search/')
     config.add_route('people-search', '/people/search/{pattern}')
     config.add_route('people-search-paging', '/people/search/{pattern}/{pagenb}')
-    config.add_route('people-confirm-account', 'people/confirm/{token}')
-    config.add_route('people-lost-password', 'people/lost/password')
-    config.add_route('people-reset-password', 'people/reset/password/{token}')
+    config.add_route('people-new', '/register')
+    config.add_route('people-confirm-account', '/register/confirm/{token}')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
@@ -130,12 +152,16 @@ def main(global_config, **settings):
     # Settings pages
     config.add_route('settings', '/settings')
 
+    config.add_route('lost-password', '/settings/lost/password')
+    config.add_route('reset-password', '/settings/reset/password/{token}')
+
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')
 
     config.add_route('add-license', '/settings/add/license')
-    config.add_route('edit-license', '/settings/edit/license')
+    config.add_route('edit-license', '/settings/edit/license/{id}')
     config.add_route('remove-license', '/settings/remove/license/{id}')
+    config.add_route('sign-license', '/settings/sign/license/{id}')
 
     config.add_route('add-grouptype', '/settings/add/group/type')
     config.add_route('edit-grouptype', '/settings/edit/group/type/{id}')

@@ -43,12 +43,12 @@ def notify_account_creation(people):
 
     base_url = Config.get('project.url')
     validation_url = urlparse.urljoin(
-        base_url, '/people/confirm/%s' % people.password_token)
+        base_url, '/register/confirm/%s' % people.password_token)
 
     text = _("""
 Welcome!
 
-You have just created an account on the Fedora project Account System (FAS)
+You have just created an account on the %(organisation)s Account System (FAS)
 at %(url)s.
 
 To complete the account creation, please visit this link:
@@ -56,8 +56,9 @@ To complete the account creation, please visit this link:
 
 Sincerely yours,
 
-The Fedora Project
+The %(organisation)s
 """ % ({
+        'organisation': Config.get('project.organisation'),
         'url': base_url,
         'validation_url': validation_url,
     }))
@@ -76,13 +77,13 @@ def notify_account_password_lost(people):
     """
     base_url = Config.get('project.url')
     validation_url = urlparse.urljoin(
-        base_url, '/people/reset/password/%s' % people.password_token)
+        base_url, '/settings/reset/password/%s' % people.password_token)
 
     text = _("""
 Welcome!
 
 Someone (hopefully you) has just requested a password reset for the account
-`%(username)s` on the Fedora Account System (FAS): %(url)s.
+`%(username)s` on the %(organisation)s Account System (FAS): %(url)s.
 
 To complete this procedure, please visit this link:
 %(validation_url)s
@@ -92,12 +93,13 @@ at: %(admin_email)s
 
 Sincerely yours,
 
-The Fedora Project
+The %(organisation)s
 """ % ({
+        'organisation': Config.get('project.organisation'),
         'username': people.username,
         'url': base_url,
         'validation_url': validation_url,
-        'admin_email': Config.get('admin.email'),
+        'admin_email': Config.get('project.admin.email'),
     }))
 
     mail_to = [people.email]

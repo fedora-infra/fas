@@ -1,9 +1,17 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
+%if group.license_sign_up > 0:
+<%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
+  ${licenseAgreement.form(license=group.license, person=request.get_user)}
+%endif
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-    <h1>${group.display_name}</h1>
-    <p>${group.name}</p>
+    <h1>${group.display_name or group.name}</h1>
+    <p>
+      %if group.display_name:
+        ${group.name}
+      %endif
+    </p>
     %if group.parent_group_id > -1:
         <div>
           ${_(u'This group belong to')}
@@ -39,7 +47,13 @@
              <dd>${group.web_link}</dd>
            %endif
            <dt>${_(u'Group type')}</dt>
-           <dd>${group.group_types.name}</dd>
+           <dd>
+           %if group.group_types:
+             ${group.group_types.name}
+           %else:
+             -
+           %endif
+           </dd>
            <dt>${_(u'Principal Administrator')}</dt>
            <dd>
              <a href="${request.route_url('people-profile', id=group.owner_id)}"
@@ -72,7 +86,7 @@
                <a href="irc://${group.irc_network}">
                  (${group.irc_network})
                </a>
-              </dd>
+             </dd>
              <dt>${_(u'')}</dt>
              <dd></dd>
         </dl>
@@ -86,16 +100,19 @@
         <div>
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
-              <dd><button class="btn btn-default" type="button">${_(u'Join')}</button></dd>
+              <dd>
+                <button class="btn btn-default" type="button" onClick="${request.join_group(group.id)}">${_(u'Join')}</button>
+              </dd>
           %endif
         </div>
-        %if is_member:
+      %endif
+      %if is_member:
           <dl class="dl-horizontal">
             <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
-              <span><a href="#">(${_(u'revoke my membership')})</a></span>
+              <span class="badge"><button onClick="${request.revoke_membership(group.id)}">${_(u'revoke my membership')}</button></span>
             %else:
-              <span><a href="#">(${_(u'request revoking')})</a></span>
+              <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
             %if request.authenticated_is_group_admin(group.name) \
@@ -112,7 +129,6 @@
               %endif
             %endif
           </dl>
-        %endif
       %else:
         <dl class="dl-horizontal">
           %if group.apply_rules:
@@ -120,22 +136,24 @@
           %endif
           %if group.need_approval:
             %if request.authenticated_userid and not is_member:
-              %if person_membership is not None \
-                    and person_membership.get_status() == person_membership.get_status()['PENDING']:
+              %if person_membership is not None\
+                  and person_membership.get_status() == membership_status.PENDING:
                 <dt>${_(u'Status')}</dt>
-                  <dd><p> Pending...</p></dd>
-                  %else:
+                  <dd><p>${_(u'Pending...')}</p></dd>
+              %else:
+<!--
                 <form method="POST">
                 <button class="btn btn-default" name="data" onClick="${group.id}">
                   ${_(u'Apply')}
                 </button>
-                <!--
-                <button class="btn btn-default" name="data" onClick="add_membership">
+-->
+                <button class="btn btn-default" name="data" onClick="${request.request_membership(group.id)}">
                   ${_(u'Apply')}
                 </button>
-                -->
+<!--
                 </form>
-                %endif
+-->
+              %endif
             %endif
           %endif
           %if group.license_sign_up > -1:
@@ -144,7 +162,7 @@
                 <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
               %else:
                 <dd>
-                  <button class="btn btn-default" type="button">
+                  <button class="btn btn-default" type="button" data-toggle="modal" data-target="#signLicense">
                     ${_(u'Sign up')}
                   </button>
                 </dd>
