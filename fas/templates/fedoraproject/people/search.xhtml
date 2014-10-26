@@ -10,7 +10,7 @@
     <h3>Search for people</h3>
     <form method="get" action="${request.route_url('people-search-rd')}">
         <div class="input-group">
-            <input type="text" name="q" class="form-control"/>
+            <input type="text" name="q" class="form-control" value="${pattern}" />
             <span class="input-group-addon">
                 <button class="icon-search"></button>
             </span>
@@ -19,8 +19,7 @@
 </div>
 
 %if people:
-
-    ${paging.list(name='people', route='people-paging')}
+    ${paging.list(name='people matching', route='people-search-paging')}
 
 <div class="container people-list">
     <div class="row">
@@ -35,15 +34,22 @@
                 %endif
                 </a>
                 <div>
-                    <div><a href="${request.route_url('people-profile', id=user.id)}">${user.fullname}</a></div>
+                    <div>
+                        <a href="${request.route_url('people-profile', id=user.id)}">${user.fullname}</a>
+                        (${user.username})
+                    </div>
+                    %if user.introduction:
                     <p>${user.introduction}</p>
-                    <a class="more" href="${request.route_url('people-profile', id=user.id)}">${_(u'See full profile')}<i class="icon-right"></i></a>
+                    %endif
+                    <a class="more" href="${request.route_url('people-profile', id=user.id)}">
+                      ${_(u'See full profile')} <i class="icon-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
         %endfor
     </div>
 </div>
-    ${paging.list(name="people", route='people-paging')}
+    ${paging.list(name='people matching', route='people-search-paging')}
 
 %endif

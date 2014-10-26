@@ -2,6 +2,7 @@
 
 import sqlalchemy as sa
 from sqlalchemy import func
+from sqlalchemy.sql import or_
 
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
@@ -70,21 +71,31 @@ def __get_listoffset(page, limit):
 
 
 # Method to interact with Groups
-
-def get_groups_count():
-    """ Retrieve number of registered groups and returns its value. """
-    return session.query(func.count(Groups.id)).first()[0]
-
-
-def get_groups(limit=None, page=None):
+def get_groups(limit=None, page=None, pattern=None, count=False):
     """ Retrieve all registered groups from databse. """
-    if limit and page:
-        query = session.query(Groups) \
-            .limit(limit) \
-            .offset(__get_listoffset(page, limit))
-    else:
-        query = session.query(Groups)
+    query = session.query(Groups)
 
+    if pattern:
+        if '%' in pattern:
+            query = query.filter(
+                or_(
+                    Groups.name.ilike(pattern),
+                    Groups.display_name.ilike(pattern)
+                )
+            )
+        else:
+            query = query.filter(
+                or_(
+                    Groups.name == pattern,
+                    Groups.display_name == pattern,
+                )
+            )
+
+    if limit and page:
+        query = query.limit(limit).offset(__get_listoffset(page, limit))
+
+    if count:
+        return query.count()
     return query.all()
 
 
@@ -265,26 +276,37 @@ def get_grouptype_by_id(id):
 
 # Method to interact with People
 
-def get_people_count():
-    """ Return people count. """
-    return session.query(func.count(People.id)).first()[0]
-
-
-def get_people(limit=None, page=None):
+def get_people(limit=None, page=None, pattern=None, count=False):
     """ Retrieve all registered people from database. """
+    query = session.query(People).order_by(People.username)
+
+    if pattern:
+        if '%' in pattern:
+            query = query.filter(
+                or_(
+                    People.username.ilike(pattern),
+                    People.fullname.ilike(pattern),
+                    People.ircnick.ilike(pattern),
+                )
+            )
+        else:
+            query = query.filter(
+                or_(
+                    People.username == pattern,
+                    People.fullname == pattern,
+                    People.ircnick == pattern,
+                )
+            )
+
     if limit and page:
-        query = session.query(
-            People
-        ).order_by(
-            People.username
-        ).limit(
+        query = query.limit(
             limit
         ).offset(
             __get_listoffset(page, limit)
         )
-    else:
-        query = session.query(People).order_by(People.username)
 
+    if count:
+        return query.count()
     return query.all()
 
 
