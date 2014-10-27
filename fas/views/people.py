@@ -15,6 +15,7 @@ from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
+from fas.forms.captcha import check_result, CaptchaForm
 
 import fas.utils.notify
 from fas.security import PasswordValidator
@@ -229,40 +230,44 @@ class People(object):
     def new_user(self):
         """ Create a user account."""
         form = NewPeopleForm(self.request.POST)
+        captchaform = CaptchaForm(self.request.POST)
 
         if self.request.method == 'POST'\
                 and ('form.save.person-infos' in self.request.params):
             self.person = mPeople()
-            if form.validate():
-                # Check username and email's uniqueness before doing anything
-                if provider.get_people_by_username(form.username.data):
+            if captchaform.validate():
+                if form.validate():
+                    # Check username and email's uniqueness before
+                    # doing anything
+                    if provider.get_people_by_username(form.username.data):
+                        self.request.session.flash(
+                            _('An account is already registered with this '
+                              'username'), 'error')
+                        return dict(form=form)
+                    if provider.get_people_by_email(form.email.data):
+                        self.request.session.flash(
+                            _('An account is already registered with '
+                            'this email'),
+                            'error')
+                        return dict(form=form)
+
+                    self.person.username = form.username.data
+                    self.person.email = form.email.data
+                    self.person.fullname = form.fullname.data
+                    pwdman = PasswordManager()
+                    self.person.password = pwdman.generate_password(
+                        form.password.data)
+                    self.person.password_token = generate_token()
+                    register.add_people(self.person)
+
+                    register.flush()
+                    fas.utils.notify.notify_account_creation(self.person)
                     self.request.session.flash(
-                        _('An account is already registered with this '
-                          'username'), 'error')
-                    return dict(form=form)
-                if provider.get_people_by_email(form.email.data):
-                    self.request.session.flash(
-                        _('An account is already registered with this email'),
-                        'error')
-                    return dict(form=form)
+                        _('Account created, please check your email to finish '
+                          'the process'), 'info')
+                    return redirect_to('/people/profile/%s' % self.person.id)
 
-                self.person.username = form.username.data
-                self.person.email = form.email.data
-                self.person.fullname = form.fullname.data
-                pwdman = PasswordManager()
-                self.person.password = pwdman.generate_password(
-                    form.password.data)
-                self.person.password_token = generate_token()
-                register.add_people(self.person)
-
-                register.flush()
-                fas.utils.notify.notify_account_creation(self.person)
-                self.request.session.flash(
-                    _('Account created, please check your email to finish '
-                      'the process'), 'info')
-                return redirect_to('/people/profile/%s' % self.person.id)
-
-        return dict(form=form)
+        return dict(form=form, captchaform=captchaform)
 
     @view_config(
         route_name='people-confirm-account',
@@ -292,38 +297,41 @@ class People(object):
     def lost_password(self):
         """ Mechanism to recover lost-password."""
         form = UsernameForm(self.request.POST)
+        captcha_form = CaptchaForm(self.request.POST)
 
         if self.request.method == 'POST'\
                 and ('form.save.person-infos' in self.request.params):
-            if form.validate():
-                self.person = provider.get_people_by_username(
-                    form.username.data)
+            if captcha_form.validate():
+                if form.validate():
+                    self.person = provider.get_people_by_username(
+                        form.username.data)
 
-                if not self.person:
+                    if not self.person:
+                        self.request.session.flash(
+                            _('No such account exists'), 'error')
+                        return dict(form=form)
+                    elif self.person.status in [
+                            AccountStatus.LOCKED,
+                            AccountStatus.LOCKED_BY_ADMIN,
+                            AccountStatus.DISABLED]:
+                        self.request.session.flash(
+                            _('This account is blocked'), 'error')
+                        return redirect_to('/')
+
+                    self.person.password_token = generate_token()
+                    self.person.status = AccountStatus.PENDING
+                    register.add_people(self.person)
+                    register.save_account_activity(
+                        self.request, self.person.id,
+                        AccountLogType.ASKED_RESET_PASSWORD)
+
+                    register.flush()
+                    fas.utils.notify.notify_account_password_lost(self.person)
                     self.request.session.flash(
-                        _('No such account exists'), 'error')
-                    return dict(form=form)
-                elif self.person.status in [
-                        AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
-                        AccountStatus.DISABLED]:
-                    self.request.session.flash(
-                        _('This account is blocked'), 'error')
-                    return redirect_to('/')
+                        _('Check your email to finish the process'), 'info')
+                    return redirect_to('/people/profile/%s' % self.person.id)
 
-                self.person.password_token = generate_token()
-                self.person.status = AccountStatus.PENDING
-                register.add_people(self.person)
-                register.save_account_activity(
-                    self.request, self.person.id,
-                    AccountLogType.ASKED_RESET_PASSWORD)
-
-                register.flush()
-                fas.utils.notify.notify_account_password_lost(self.person)
-                self.request.session.flash(
-                    _('Check your email to finish the process'), 'info')
-                return redirect_to('/people/profile/%s' % self.person.id)
-
-        return dict(form=form)
+        return dict(form=form, captchaform=captcha_form)
 
     @view_config(route_name='reset-password',
                  permission=NO_PERMISSION_REQUIRED,

@@ -19,6 +19,7 @@ from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
 from fas.utils.fgithub import Github
+import fas.utils.captcha as captcha
 import mistune
 
 

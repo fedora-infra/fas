@@ -13,6 +13,7 @@ from fas.forms.group import EditGroupForm, EditGroupTypeForm
 from fas.forms.la import EditLicenseForm, SignLicenseForm
 
 from fas.views import redirect_to
+from fas.utils.captcha import Captcha
 from fas.utils import Config
 from fas.utils.fgithub import Github
 
@@ -27,6 +28,17 @@ class Admin(object):
     def index(self):
         """ Admin panel page."""
         return Response('This is an empty page')
+
+    @view_config(route_name='captcha-image', renderer='jpeg')
+    def captcha_image(self):
+        try:
+            cipherkey = self.request.matchdict['cipherkey']
+        except KeyError:
+            return HTTPBadRequest
+
+        captcha = Captcha()
+
+        return captcha.get_image(cipherkey)
 
     @view_config(route_name='add-group', permission='group_edit',
                  renderer='/groups/edit.xhtml')

@@ -50,6 +50,9 @@ def main(global_config, **settings):
         root_factory='fas.security.Root'
         )
 
+    from fas.renderers import jpeg
+    config.add_renderer('jpeg', jpeg)
+
     config.include('pyramid_mako')
 
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
@@ -151,6 +154,7 @@ def main(global_config, **settings):
 
     # Settings pages
     config.add_route('settings', '/settings')
+    config.add_route('captcha-image', '/settings/captcha/{cipherkey}')
 
     config.add_route('lost-password', '/settings/lost/password')
     config.add_route('reset-password', '/settings/reset/password/{token}')

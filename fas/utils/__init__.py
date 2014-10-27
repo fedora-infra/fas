@@ -4,8 +4,6 @@ import pyramid.threadlocal
 
 from pyramid.i18n import TranslationStringFactory
 
-from fas.models import provider as provider
-
 from math import ceil
 
 _ = TranslationStringFactory('fas')
@@ -14,7 +12,7 @@ _ = TranslationStringFactory('fas')
 class Config():
 
     @classmethod
-    def get(self, configname):
+    def get(self, configname, default_config=None):
         """ Retrieve config from configuration file.
 
         :arg configname: string, configuration key to look for
@@ -23,7 +21,7 @@ class Config():
         registry = pyramid.threadlocal.get_current_registry()
         settings = registry.settings
 
-        return settings[configname]
+        return settings[configname] or default_config
 
     @classmethod
     def get_admin_group(self):

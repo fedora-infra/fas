@@ -7,7 +7,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
-    #core
+    # Core
     'pyramid>=1.5.1',
     'pyramid_mako',
     'SQLAlchemy',
@@ -21,18 +21,20 @@ requires = [
     'flufl.enum',
     'mistune',
 
-    #lib
+    # Libs
     'pygeoip',
     'ua-parser',
     'pyyaml',
     'cryptacular',
     'PyGithub',
+    'PIL',
+    'cryptography',
 
-    #i18n
+    # i18n
     'Babel',
     'lingua',
 
-    #Test
+    # Test
     'fake-factory',
     ]
 
