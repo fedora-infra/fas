@@ -708,6 +708,7 @@ into the e-mail aliases within an hour.
                     'agent': person.username,
                     'user': target.username,
                     'group': group.name,
+                    'status': status,
                 })
 
                 turbogears.flash(_('%s has been upgraded!') % target.username)
@@ -759,6 +760,7 @@ into the e-mail aliases within an hour.
                     'agent': person.username,
                     'user': target.username,
                     'group': group.name,
+                    'status': status,
                 })
 
                 turbogears.flash(_('%s has been downgraded!') % target.username)

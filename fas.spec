@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.10.0
-Release:        5%{?dist}
+Version:        0.10.1
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -152,6 +152,13 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Wed Oct 29 2014 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.10.1-1
+- Fix bug in getting json user list
+- Fedmsg mesages for yubikey added
+- Inactive accounts no longer sent to bugzilla
+- New group status sent in fedmsg messages
+- Admins no longer need to verify email changes
+
 * Tue Jul 15 2014 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.0-5
 - Install right shadow database.
 
