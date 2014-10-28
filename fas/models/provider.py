@@ -332,11 +332,13 @@ def get_people_by_username(username):
     return query.first()
 
 
-def get_people_by_password_token(token):
+def get_people_by_password_token(username, token):
     """ Retrieve People by its password token. """
-    query = session.query(People).filter(People.password_token == token)
+    query = session.query(People).filter(People.username == username,
+                                         People.password_token == token)
 
     return query.first()
+
 
 def get_authenticated_user(request):
     """ Retrieve authenticated person object."""

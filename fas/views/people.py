@@ -331,11 +331,12 @@ class People(object):
     def reset_password(self):
         """ Mechanism to reset a lost-password."""
         try:
+            username = self.request.matchdist['username']
             token = self.request.matchdict['token']
         except KeyError:
             return HTTPBadRequest()
 
-        self.person = provider.get_people_by_password_token(token)
+        self.person = provider.get_people_by_password_token(username, token)
 
         if not self.person:
             raise HTTPNotFound('No user found with this token')
@@ -354,7 +355,7 @@ class People(object):
                 self.request.session.flash(_('Password reset'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)
 
-        return dict(form=form, token=token)
+        return dict(form=form, username=username, token=token)
 
     @view_config(route_name='people-password', permission='authenticated',
                  renderer='/people/edit-password.xhtml')
