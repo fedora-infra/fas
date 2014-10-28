@@ -385,27 +385,34 @@ class User(controllers.Controller):
                     turbogears.redirect("/user/edit/%s" % target.username)
                     return dict()
 
-                emailflash = _('Before your new email takes effect, you ' + \
-                    'must confirm it.  You should receive an email with ' + \
-                    'instructions shortly.')
-                token_charset = string.ascii_letters + string.digits
-                token = random_string(token_charset, 32)
-                target.unverified_email = email
-                target.emailtoken = token
-                change_subject = _('Email Change Requested for %s') % \
-                    person.username
-                change_text = _('''
-You have recently requested to change your Fedora Account System email
-to this address.  To complete the email change, you must confirm your
-ownership of this email by visiting the following URL (you will need to
-login with your Fedora account first):
+                if is_admin(person) and person.username != target.username:
+                    emailflash = _('Since you are an administrator ' + \
+                        'modifying another account, there will be no ' + \
+                        'validation of the email address')
+                    target.email = email
+                    changed.append('email')
+                else:
+                    emailflash = _('Before your new email takes effect, you ' + \
+                        'must confirm it.  You should receive an email with ' + \
+                        'instructions shortly.')
+                    token_charset = string.ascii_letters + string.digits
+                    token = random_string(token_charset, 32)
+                    target.unverified_email = email
+                    target.emailtoken = token
+                    change_subject = _('Email Change Requested for %s') % \
+                        person.username
+                    change_text = _('''
+    You have recently requested to change your Fedora Account System email
+    to this address.  To complete the email change, you must confirm your
+    ownership of this email by visiting the following URL (you will need to
+    login with your Fedora account first):
 
-%(verifyurl)s/accounts/user/verifyemail/%(token)s
-''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
-                send_mail(email, change_subject, change_text)
-                # Note: email is purposefully not added to the changed[] list
-                # here because we don't change it until the new email is
-                # verified (in a separate method)
+    %(verifyurl)s/accounts/user/verifyemail/%(token)s
+    ''') % { 'verifyurl' : config.get('base_url_filter.base_url').rstrip('/'), 'token' : token}
+                    send_mail(email, change_subject, change_text)
+                    # Note: email is purposefully not added to the changed[] list
+                    # here because we don't change it until the new email is
+                    # verified (in a separate method)
 
             # note, ssh_key is often None or empty string at this point
             # (file upload).  Testing ssh_key first prevents removing the
