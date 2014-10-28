@@ -131,21 +131,23 @@ if __name__ == '__main__':
         msg = Message()
         people = []
         for person in no_bz_account:
-            people.append('  %(user)s  --  %(name)s  --  %(email)s' %
+            if person.person.status == 'Active':
+                people.append('  %(user)s  --  %(name)s  --  %(email)s' %
                     {'name': person.person.human_name, 'email': person.email,
                      'user': person.person.username})
-        people = '\n'.join(people)
-        message = '''
+        if people:
+            people = '\n'.join(people)
+            message = '''
 The following people are in the packager group but do not have email addresses
 that are valid in bugzilla:
 %s
 
 ''' % people
 
-        msg.add_header('From', ADMINEMAIL)
-        msg.add_header('To', ', '.join(recipients))
-        msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
-        msg.set_payload(message)
-        smtp = smtplib.SMTP(MAILSERVER)
-        smtp.sendmail(ADMINEMAIL, recipients, msg.as_string())
-        smtp.quit()
+            msg.add_header('From', ADMINEMAIL)
+            msg.add_header('To', ', '.join(recipients))
+            msg.add_header('Subject', 'Fedora Account System and Bugzilla Mismatch')
+            msg.set_payload(message)
+            smtp = smtplib.SMTP(MAILSERVER)
+            smtp.sendmail(ADMINEMAIL, recipients, msg.as_string())
+            smtp.quit()
