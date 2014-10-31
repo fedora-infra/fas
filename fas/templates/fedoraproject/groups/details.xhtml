@@ -206,7 +206,6 @@
                   %if request.authenticated_userid:
                     %if request.authenticated_is_admin() \
                         or request.authenticated_is_modo() \
-                        or request.authenticated_is_group_editor() \
                         or request.authenticated_is_group_admin(group.name) :
                       <form action="${request.route_url('group-action')}"
                         method="POST">
@@ -261,7 +260,6 @@
                   %if request.authenticated_userid:
                     %if request.authenticated_is_admin() \
                         or request.authenticated_is_modo() \
-                        or request.authenticated_is_group_editor() \
                         or request.authenticated_is_group_admin(group.name) :
                       <form action="${request.route_url('group-action')}"
                         method="POST">
