@@ -146,9 +146,9 @@ class Groups(object):
 
         for group, membership, member in g_memberships:
             memberships.append(membership)
-            if authenticated != member and\
-            membership.status == MembershipStatus.APPROVED:
-                members.append((member, membership.get_role()))
+            if authenticated != member:
+                if membership.get_status() == MembershipStatus.APPROVED:
+                    members.append((member, membership.get_role()))
             else:
                 authenticated = member
                 authenticated_membership = membership
