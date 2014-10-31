@@ -252,7 +252,8 @@ class MembershipValidator(Base):
         membership = provider.get_group_by_people_membership(self.username)
 
         for group in membership:
-            if group.name in self.group:
+            if group.name in self.group \
+                    and group.status == MembershipStatus.APPROVED:
                 return True
 
         return False
