@@ -139,11 +139,9 @@ def get_group_membership(id):
     """
     query = session.query(
         Groups, GroupMembership, People,
-    ).join(
-        (GroupMembership, GroupMembership.group_id == Groups.id)
-    ).join(
-        People, People.id == GroupMembership.people_id
     ).filter(
+        Groups.id == GroupMembership.group_id,
+        GroupMembership.people_id == People.id,
         Groups.id == id
     )
 
