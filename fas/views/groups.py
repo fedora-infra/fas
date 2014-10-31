@@ -149,7 +149,7 @@ class Groups(object):
             memberships.append(membership)
             if authenticated != member:
                 if membership.get_status() == MembershipStatus.APPROVED:
-                    members.append((member, membership.get_role()))
+                    members.append(membership)
             else:
                 authenticated = member
                 authenticated_membership = membership

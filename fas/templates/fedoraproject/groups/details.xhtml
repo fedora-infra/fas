@@ -199,8 +199,8 @@
                   </a>
                 </span>
                 <span>
-                (${_(membership.get_role().name.lower())} -
-                 ${_(membership.get_status().name.lower())})
+                  (${_(membership.get_role().name.lower())} -
+                   ${_(membership.get_status().name.lower())})
                 </span>
               </li>
             </ul>
@@ -209,7 +209,7 @@
       </div>
   %else:
     <div id="no-items-found">
-      <p>${_(u'No members found.')}</p>
+      <p>${_(u'No members pending to access the group.')}</p>
     </div>
   %endif
 
@@ -222,14 +222,14 @@
       -->
       <!-- limit members list to 50 for now -->
       <div class="row">
-      %for person, role in members[0:50]:
+      %for member in members[0:50]:
           <div class="col-sm-6 col-md-4 col-lg-4">
             <ul id="people">
               <li>
                 <span>
-                  <a href="${request.route_url('people-profile', id=person.id)}">
-                    %if person.avatar:
-                      <img src="${person.avatar + '?s=100&d=monsterid'}"
+                  <a href="${request.route_url('people-profile', id=member.people.id)}">
+                    %if member.people.avatar:
+                      <img src="${member.people.avatar + '?s=80&d=monsterid'}"
                            class="profile img-circle" />
                     %else:
                       <img src="http://cdn.libravatar.org/avatar/"
@@ -237,8 +237,8 @@
                     %endif
                   </a>
                 </span>
-                <span>${person.fullname}</span>
-                <span>(${_(role.name.lower())})</span>
+                <span>${member.people.fullname}</span>
+                <span>(${_(member.get_role().name.lower())})</span>
               </li>
             </ul>
           </div>
