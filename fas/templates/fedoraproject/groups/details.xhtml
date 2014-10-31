@@ -101,7 +101,9 @@
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
               <dd>
-                <button class="btn btn-default" type="button" >${_(u'Join')}</button>
+                <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
+                <button class="btn btn-default" type="submit">${_(u'Join')}</button>
+                </form>
               </dd>
           %endif
         </div>
