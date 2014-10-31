@@ -20,6 +20,7 @@ from fas.forms.group import EditGroupForm
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
+from fas.utils import _
 from fas.utils.fgithub import Github
 import fas.utils.captcha as captcha
 import mistune
@@ -97,7 +98,7 @@ class Groups(object):
 
         if not groups:
             self.request.session.flash(
-                'No group found for the query: %s' % _id, 'error')
+                _('No group found for the query: %s') % _id, 'error')
             return redirect_to('/groups')
 
         pages, count = compute_list_pages_from(groups_cnt, 50)
@@ -107,7 +108,7 @@ class Groups(object):
 
         if grpname and len(groups) == 1 and page == 1:
             self.request.session.flash(
-                "Only one group matching, redirecting to the group's page",
+                _("Only one group matching, redirecting to the group's page"),
                 'info')
             return redirect_to('/group/details/%s' % groups[0].id)
 
@@ -287,14 +288,14 @@ class Groups(object):
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
                     self.request.session.flash(
-                        "You are already in this group", 'info')
+                        _("You are already in this group"), 'info')
                 elif membership.get_status() == MembershipStatus.PENDING:
                     self.request.session.flash(
-                        "Your application for this group is already pending",
+                        _("Your application for this group is already pending"),
                         'info')
                 elif membership.get_status() == MembershipStatus.UNAPPROVED:
                     self.request.session.flash(
-                        "Your application for this group has been declined",
+                        _("Your application for this group has been declined"),
                         'error')
 
         return redirect_to('/group/details/%s' % self.group.id)
@@ -319,37 +320,37 @@ class Groups(object):
             if action == 'upgrade':
                 if membership.get_status() == MembershipStatus.PENDING:
                     membership.status = MembershipStatus.APPROVED
-                    msg = 'User %s is now approved into the group %s' % (
-                        self.user.username, self.group.name)
+                    msg = _('User %s is now approved into the group %s' % (
+                        self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.USER:
                     membership.role = MembershipRole.EDITOR
-                    msg = 'User %s is now EDITOR of the group ' \
-                        '%s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now EDITOR of the group '
+                        '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.SPONSOR
-                    msg = 'User %s is now SPONSOR of the group ' \
-                        '%s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now SPONSOR of the group '
+                        '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.ADMINISTRATOR
-                    msg = 'User %s is now ADMINISTRATOR of the ' \
-                        'group %s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now ADMINISTRATOR of the '
+                        'group %s' % (self.user.username, self.group.name))
             else:
                 if membership.get_role() == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
-                    msg = 'User %s is no longer in the group %s' % (
-                        self.user.username, self.group.name)
+                    msg = _('User %s is no longer in the group %s' % (
+                        self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
-                    msg = 'User %s is now USER of the group ' \
-                        '%s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now USER of the group '
+                        '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
-                    msg = 'User %s is now EDITOR of the group ' \
-                        '%s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now EDITOR of the group %s' % (
+                        self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
-                    msg = 'User %s is now SPONSOR of the ' \
-                        'group %s' % (self.user.username, self.group.name)
+                    msg = _('User %s is now SPONSOR of the group %s' % (
+                        self.user.username, self.group.name))
 
             if msg:
                 self.request.session.flash(msg, 'info')
