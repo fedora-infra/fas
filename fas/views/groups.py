@@ -284,7 +284,16 @@ class Groups(object):
                     MembershipStatus.PENDING
                 )
             else:
-                self.request.session.flash(
-                    "You have already joined in this group", 'info')
+                if membership.get_status() == MembershipStatus.APPROVED:
+                    self.request.session.flash(
+                        "You are already in this group", 'info')
+                elif membership.get_status() == MembershipStatus.PENDING:
+                    self.request.session.flash(
+                        "Your application for this group is already pending",
+                        'info')
+                elif membership.get_status() == MembershipStatus.UNAPPROVED:
+                    self.request.session.flash(
+                        "Your application for this group has been declined",
+                        'error')
 
         return redirect_to('/group/details/%s' % self.group.id)
