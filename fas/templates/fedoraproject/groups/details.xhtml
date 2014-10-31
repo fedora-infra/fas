@@ -194,9 +194,9 @@
                       <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
                            class="img-thumbnail" />
                     %endif
+                    ${membership.people.fullname}
                   </a>
                 </span>
-                <span>${membership.people.fullname}</span>
                 <span>
                 (${_(membership.get_role().name.lower())} -
                  ${_(membership.get_status().name.lower())})
