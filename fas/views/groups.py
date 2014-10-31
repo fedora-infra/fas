@@ -156,7 +156,7 @@ class Groups(object):
                 if membership.get_status() == MembershipStatus.APPROVED:
                     is_member = True
 
-        membership_requets = provider.get_memberships_by_status(
+        membership_request = provider.get_memberships_by_status(
             status=MembershipStatus.PENDING,
             group=group.id
             )
@@ -193,7 +193,7 @@ class Groups(object):
             person_membership=authenticated_membership,
             is_member=is_member,
             membership_status=MembershipStatus,
-            membership_request=membership_requets,
+            membership_request=membership_request,
             userform=user_form,
             licenseform=license_form,
             text=mistune
