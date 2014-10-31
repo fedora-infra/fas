@@ -1,0 +1,31 @@
+<%namespace name="userMenu" />
+<%def name="menu(user)">
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li role="presentation">
+        <a tabindex="-1" href="${request.route_url('people-profile', id=user.id)}">
+          %if user.avatar:
+            <img src="${user.avatar + '?s=100&d=monsterid'}"
+                 class="img-thumbnail" />
+          %else:
+            <img src="http://cdn.libravatar.org/avatar/"
+                 class="img-thumbnail" />
+          %endif
+          <span>
+            <p>
+              <strong>
+                ${user.fullname}
+              </strong>
+            </p>
+          </span>
+        </a>
+      <a role="menuitem" tabindex="-1" href="${request.route_url('people-edit', id=user.id)}">
+        Edit infos
+      </a>
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href="${request.route_url('people-password', id=user.id)}">
+        Change password
+     </a>
+    </li>
+  </ul>
+</%def>

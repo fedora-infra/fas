@@ -54,27 +54,31 @@
                 </ul>
 
                 %if request.authenticated_userid is None:
-                    <p class="navbar-text navbar-right">
-                        <a href="${request.application_url + '/login'}?redirect=${request.url}"
-                            class="navbar-link">
-                          ${_(u'Log in')}
-                        </a>
-                    </p>
+                  <p class="navbar-text navbar-right">
+                      <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                          class="navbar-link">
+                        ${_(u'Log in')}
+                      </a>
+                  </p>
                 %endif
 
                 %if request.authenticated_userid is not None:
-                    <p class="navbar-text navbar-right">
-                        ${_(u'Logged in as')}
+                  <ul class="navbar-text navbar-right">
+                    <li id="fat-menu" class="dropdown">
+                      ${_(u'Logged in as')}
+                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <strong>
-                          <a href="${request.route_url('people-profile', id=request.authenticated_userid)}">
-                            ${request.authenticated_userid}
-                          </a>
-                        </strong> |
-                        <a href="${request.application_url + '/logout'}?redirect=${request.url}"
-                            class="navbar-link">
-                          ${_(u'Log out')}
-                        </a>
-                    </p>
+                          ${request.authenticated_userid}
+                        </strong>
+                        <span class="caret"></span></a> |
+                      <a href="${request.application_url + '/logout'}?redirect=${request.url}"
+                          class="navbar-link">
+                        ${_(u'Log out')}
+                      </a>
+                      <%namespace name="userMenu" file="/user-menu.xhtml" />
+                        ${userMenu.menu(request.get_user)}
+                    </li>
+                  </ul>
                 %endif
             </div>
         </div>
