@@ -157,7 +157,7 @@ def main(global_config, **settings):
     config.add_route('captcha-image', '/settings/captcha/{cipherkey}')
 
     config.add_route('lost-password', '/settings/lost/password')
-    config.add_route('reset-password', '/settings/reset/password/{token}')
+    config.add_route('reset-password', '/settings/reset/password/{username}/{token}')
 
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')

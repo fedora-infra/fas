@@ -77,7 +77,8 @@ def notify_account_password_lost(people):
     """
     base_url = Config.get('project.url')
     validation_url = urlparse.urljoin(
-        base_url, '/settings/reset/password/%s' % people.password_token)
+        base_url, '/settings/reset/password/%s/%s' % (people.username,
+                                                      people.password_token))
 
     text = _("""
 Welcome!
