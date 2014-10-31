@@ -202,6 +202,24 @@
                   (${_(membership.get_role().name.lower())} -
                    ${_(membership.get_status().name.lower())})
                 </span>
+                <span>
+                  %if request.authenticated_userid:
+                    %if request.authenticated_is_admin() \
+                        or request.authenticated_is_modo() \
+                        or request.authenticated_is_group_editor() \
+                        or request.authenticated_is_group_admin(group.name) :
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="upgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${membership.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Upgrade')}
+                        </button>
+                      </form>
+                    %endif
+                  %endif
+                </span>
               </li>
             </ul>
           </div>
@@ -239,6 +257,33 @@
                 </span>
                 <span>${member.people.fullname}</span>
                 <span>(${_(member.get_role().name.lower())})</span>
+                <span>
+                  %if request.authenticated_userid:
+                    %if request.authenticated_is_admin() \
+                        or request.authenticated_is_modo() \
+                        or request.authenticated_is_group_editor() \
+                        or request.authenticated_is_group_admin(group.name) :
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="upgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${member.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Upgrade')}
+                        </button>
+                      </form>
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="downgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${member.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Downgrade')}
+                        </button>
+                      </form>
+                    %endif
+                  %endif
+                </span>
               </li>
             </ul>
           </div>
