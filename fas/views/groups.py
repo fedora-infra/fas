@@ -273,14 +273,18 @@ class Groups(object):
         ms = MembershipValidator(self.request.authenticated_userid,
             [self.group.name])
 
-        print self.request.method
+        membership = provider.get_membership(
+            self.user.username, self.group.name)
 
         if self.request.method == 'POST':
-            print self.group.id, self.user.id, MembershipStatus.PENDING
-            register.add_membership(
-                self.group.id,
-                self.user.id,
-                MembershipStatus.PENDING
-            )
+            if not membership:
+                register.add_membership(
+                    self.group.id,
+                    self.user.id,
+                    MembershipStatus.PENDING
+                )
+            else:
+                self.request.session.flash(
+                    "You have already joined in this group", 'info')
 
         return redirect_to('/group/details/%s' % self.group.id)
