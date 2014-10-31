@@ -145,11 +145,11 @@
               %else:
 <!--
                 <form method="POST">
-                <button class="btn btn-default" name="data" onClick="${group.id}">
+                <button class="btn btn-default" name="data">
                   ${_(u'Apply')}
                 </button>
 -->
-                <button class="btn btn-default" name="data" onClick="${request.request_membership(group.id)}">
+                <button class="btn btn-default" name="data">
                   ${_(u'Apply')}
                 </button>
 <!--
@@ -164,7 +164,8 @@
                 <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
               %else:
                 <dd>
-                  <button class="btn btn-default" type="button" data-toggle="modal" data-target="#signLicense">
+                  <button class="btn btn-default" type="button"
+                        data-toggle="modal" data-target="#signLicense">
                     ${_(u'Sign up')}
                   </button>
                 </dd>
