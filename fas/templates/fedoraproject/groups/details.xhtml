@@ -175,6 +175,43 @@
     </div>
   </div>
 
+  <div id=group-pending-members-list>
+    <h3>${_(u'Pending Members')}</h3>
+  </div>
+  %if membership_request > 0:
+      <div class="row">
+      %for membership in membership_request:
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <ul id="people">
+              <li>
+                <span>
+                  <a href="${request.route_url(
+                            'people-profile', id=membership.people.id)}">
+                    %if membership.people.avatar:
+                      <img src="${membership.people.avatar}?s=50&d=monsterid"
+                           class="profile img-circle" />
+                    %else:
+                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                           class="img-thumbnail" />
+                    %endif
+                  </a>
+                </span>
+                <span>${membership.people.fullname}</span>
+                <span>
+                (${_(membership.get_role().name.lower())} -
+                 ${_(membership.get_status().name.lower())})
+                </span>
+              </li>
+            </ul>
+          </div>
+      %endfor
+      </div>
+  %else:
+    <div id="no-items-found">
+      <p>${_(u'No members found.')}</p>
+    </div>
+  %endif
+
   <div id=group-members-list>
     <h3>${_(u'Members')}</h3>
   </div>
