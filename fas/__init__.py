@@ -145,6 +145,7 @@ def main(global_config, **settings):
     config.add_route('group-search', '/group/search/{pattern}')
     config.add_route('group-search-paging', '/group/search/{pattern}/{pagenb}')
     config.add_route('group-apply', '/group/apply/{id}')
+    config.add_route('group-action', '/group/update/')
 
     # API requests
     config.add_route('api_home', '/api')

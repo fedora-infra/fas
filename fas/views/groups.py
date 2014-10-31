@@ -5,6 +5,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
 from fas.models import MembershipStatus
+from fas.models import MembershipRole
 
 import fas.models.provider as provider
 import fas.models.register as register
@@ -295,5 +296,62 @@ class Groups(object):
                     self.request.session.flash(
                         "Your application for this group has been declined",
                         'error')
+
+        return redirect_to('/group/details/%s' % self.group.id)
+
+
+    @view_config(route_name='group-action', permission='authenticated')
+    def group_action(self):
+        """ Upgrade or downgrade an user in a group."""
+        group_id = self.request.POST.get('group_id')
+        user_id = self.request.POST.get('user_id')
+
+        self.group = provider.get_group_by_id(group_id)
+        self.user = provider.get_people_by_id(user_id)
+
+        membership = provider.get_membership(
+            self.user.username, self.group.name)
+
+        if self.request.method == 'POST':
+            msg = ''
+            action = self.request.POST.get('action')
+
+            if action == 'upgrade':
+                if membership.get_status() == MembershipStatus.PENDING:
+                    membership.status = MembershipStatus.APPROVED
+                    msg = 'User %s is now approved into the group %s' % (
+                        self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.USER:
+                    membership.role = MembershipRole.EDITOR
+                    msg = 'User %s is now EDITOR of the group ' \
+                        '%s' % (self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.EDITOR:
+                    membership.role = MembershipRole.SPONSOR
+                    msg = 'User %s is now SPONSOR of the group ' \
+                        '%s' % (self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.SPONSOR:
+                    membership.role = MembershipRole.ADMINISTRATOR
+                    msg = 'User %s is now ADMINISTRATOR of the ' \
+                        'group %s' % (self.user.username, self.group.name)
+            else:
+                if membership.get_role() == MembershipRole.USER:
+                    membership.status = MembershipStatus.UNAPPROVED
+                    msg = 'User %s is no longer in the group %s' % (
+                        self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.EDITOR:
+                    membership.role = MembershipRole.USER
+                    msg = 'User %s is now USER of the group ' \
+                        '%s' % (self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.SPONSOR:
+                    membership.role = MembershipRole.EDITOR
+                    msg = 'User %s is now EDITOR of the group ' \
+                        '%s' % (self.user.username, self.group.name)
+                elif membership.get_role() == MembershipRole.ADMINISTRATOR:
+                    membership.role = MembershipRole.SPONSOR
+                    msg = 'User %s is now SPONSOR of the ' \
+                        'group %s' % (self.user.username, self.group.name)
+
+            if msg:
+                self.request.session.flash(msg, 'info')
 
         return redirect_to('/group/details/%s' % self.group.id)
