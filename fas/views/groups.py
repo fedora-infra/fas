@@ -7,6 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from fas.models import MembershipStatus
 
 import fas.models.provider as provider
+import fas.models.register as register
 
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
@@ -255,3 +256,31 @@ class Groups(object):
                 return redirect_to('/group/details/%s' % self.id)
 
         return dict(form=form, id=self.id)
+
+
+    @view_config(route_name='group-apply', permission='authenticated')
+    def group_apply(self):
+        """ Apply to a group."""
+        try:
+            self.id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest()
+
+        self.group = provider.get_group_by_id(self.id)
+        self.user = provider.get_people_by_username(
+            self.request.authenticated_userid)
+
+        ms = MembershipValidator(self.request.authenticated_userid,
+            [self.group.name])
+
+        print self.request.method
+
+        if self.request.method == 'POST':
+            print self.group.id, self.user.id, MembershipStatus.PENDING
+            register.add_membership(
+                self.group.id,
+                self.user.id,
+                MembershipStatus.PENDING
+            )
+
+        return redirect_to('/group/details/%s' % self.group.id)
