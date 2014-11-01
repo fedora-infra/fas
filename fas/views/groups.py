@@ -279,11 +279,15 @@ class Groups(object):
             self.user.username, self.group.name)
 
         if self.request.method == 'POST':
+            status = MembershipStatus.PENDING
+            if not self.group.need_approval:
+                status = MembershipStatus.APPROVED
+
             if not membership:
                 register.add_membership(
                     self.group.id,
                     self.user.id,
-                    MembershipStatus.PENDING
+                    status
                 )
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
