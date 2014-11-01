@@ -64,20 +64,20 @@
 
                 %if request.authenticated_userid is not None:
                   <ul class="navbar-text navbar-right">
-                    <li id="fat-menu" class="dropdown">
+                    <div id="fat-menu" class="dropdown">
                       ${_(u'Logged in as')}
                       <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <strong>
                           ${request.authenticated_userid}
                         </strong>
-                        <span class="caret"></span></a> |
+                      </a> |
                       <a href="${request.application_url + '/logout'}?redirect=${request.url}"
                           class="navbar-link">
                         ${_(u'Log out')}
                       </a>
                       <%namespace name="userMenu" file="/user-menu.xhtml" />
                         ${userMenu.menu(request.get_user)}
-                    </li>
+                    </div>
                   </ul>
                 %endif
             </div>
