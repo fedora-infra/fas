@@ -101,7 +101,9 @@
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
               <dd>
-                <button class="btn btn-default" type="button" onClick="${request.join_group(group.id)}">${_(u'Join')}</button>
+                <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
+                <button class="btn btn-default" type="submit">${_(u'Join')}</button>
+                </form>
               </dd>
           %endif
         </div>
@@ -110,7 +112,7 @@
           <dl class="dl-horizontal">
             <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
-              <span class="badge"><button onClick="${request.revoke_membership(group.id)}">${_(u'revoke my membership')}</button></span>
+              <span class="badge"><button type="submit">${_(u'revoke my membership')}</button></span>
             %else:
               <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
@@ -143,11 +145,11 @@
               %else:
 <!--
                 <form method="POST">
-                <button class="btn btn-default" name="data" onClick="${group.id}">
+                <button class="btn btn-default" name="data">
                   ${_(u'Apply')}
                 </button>
 -->
-                <button class="btn btn-default" name="data" onClick="${request.request_membership(group.id)}">
+                <button class="btn btn-default" name="data">
                   ${_(u'Apply')}
                 </button>
 <!--
@@ -162,7 +164,8 @@
                 <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
               %else:
                 <dd>
-                  <button class="btn btn-default" type="button" data-toggle="modal" data-target="#signLicense">
+                  <button class="btn btn-default" type="button"
+                        data-toggle="modal" data-target="#signLicense">
                     ${_(u'Sign up')}
                   </button>
                 </dd>
@@ -173,6 +176,60 @@
     </div>
   </div>
 
+  <div id=group-pending-members-list>
+    <h3>${_(u'Pending Members')}</h3>
+  </div>
+  %if membership_request > 0:
+      <div class="row">
+      %for membership in membership_request:
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <ul id="people">
+              <li>
+                <span>
+                  <a href="${request.route_url(
+                            'people-profile', id=membership.people.username)}">
+                    %if membership.people.avatar:
+                      <img src="${membership.people.avatar}?s=50&d=monsterid"
+                           class="profile img-circle" />
+                    %else:
+                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                           class="img-thumbnail" />
+                    %endif
+                    ${membership.people.fullname}
+                  </a>
+                </span>
+                <span>
+                  (${_(membership.get_role().name.lower())} -
+                   ${_(membership.get_status().name.lower())})
+                </span>
+                <span>
+                  %if request.authenticated_userid:
+                    %if request.authenticated_is_admin() \
+                        or request.authenticated_is_modo() \
+                        or request.authenticated_is_group_admin(group.name) :
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="upgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${membership.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Upgrade')}
+                        </button>
+                      </form>
+                    %endif
+                  %endif
+                </span>
+              </li>
+            </ul>
+          </div>
+      %endfor
+      </div>
+  %else:
+    <div id="no-items-found">
+      <p>${_(u'No members pending to access the group.')}</p>
+    </div>
+  %endif
+
   <div id=group-members-list>
     <h3>${_(u'Members')}</h3>
   </div>
@@ -182,14 +239,14 @@
       -->
       <!-- limit members list to 50 for now -->
       <div class="row">
-      %for person, role in members[0:50]:
+      %for member in members[0:50]:
           <div class="col-sm-6 col-md-4 col-lg-4">
             <ul id="people">
               <li>
                 <span>
-                  <a href="${request.route_url('people-profile', id=person.id)}">
-                    %if person.avatar:
-                      <img src="${person.avatar + '?s=100&d=monsterid'}"
+                  <a href="${request.route_url('people-profile', id=member.people.id)}">
+                    %if member.people.avatar:
+                      <img src="${member.people.avatar + '?s=80&d=monsterid'}"
                            class="profile img-circle" />
                     %else:
                       <img src="http://cdn.libravatar.org/avatar/"
@@ -197,8 +254,34 @@
                     %endif
                   </a>
                 </span>
-                <span>${person.fullname}</span>
-                <span>(${_(role.name.lower())})</span>
+                <span>${member.people.fullname}</span>
+                <span>(${_(member.get_role().name.lower())})</span>
+                <span>
+                  %if request.authenticated_userid:
+                    %if request.authenticated_is_admin() \
+                        or request.authenticated_is_modo() \
+                        or request.authenticated_is_group_admin(group.name) :
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="upgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${member.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Upgrade')}
+                        </button>
+                      </form>
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="downgrade">
+                        <input type="hidden" name="group_id" value="${group.id}">
+                        <input type="hidden" name="user_id" value="${member.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Downgrade')}
+                        </button>
+                      </form>
+                    %endif
+                  %endif
+                </span>
               </li>
             </ul>
           </div>

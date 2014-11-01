@@ -249,9 +249,9 @@ class MembershipValidator(Base):
 
     def validate(self):
         """ Validate membership."""
-        membership = provider.get_group_by_people_membership(self.username)
+        user_groups = provider.get_group_by_people_membership(self.username)
 
-        for group in membership:
+        for group in user_groups:
             if group.name in self.group:
                 return True
 

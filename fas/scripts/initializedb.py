@@ -33,6 +33,7 @@ from fas.models.group import (
 
 from fas.models.configs import AccountPermissions
 from fas.models import AccountPermissionType as perm
+from fas.models import AccountStatus
 
 from fas.utils.passwordmanager import PasswordManager
 from fas.security import generate_token
@@ -179,7 +180,8 @@ def main(argv=sys.argv):
             username=u'admin',
             password=pv.generate_password('admin'),
             fullname=u'FAS Administrator',
-            email=u'admin@fedoraproject.org'
+            email=u'admin@fedoraproject.org',
+            status=AccountStatus.ACTIVE,
         )
         user = People(
             id=999,

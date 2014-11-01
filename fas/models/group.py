@@ -18,6 +18,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     func,
+    UniqueConstraint
     )
 from sqlalchemy.orm import relation
 from fas.models import AccountPermissionType as perm
@@ -194,6 +195,7 @@ class GroupMembership(Base):
 
     __table_args__ = (
         Index('people_roles_idx', role),
+        UniqueConstraint('group_id', 'people_id'),
     )
 
     def get_status(self):

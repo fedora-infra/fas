@@ -131,13 +131,10 @@ def add_membership(group_id, people_id, status, role=None, sponsor=None):
     membership.group_id = group_id
     membership.people_id = people_id
     membership.status = status
-    membership.sponsor = people_id
+    membership.sponsor = sponsor or people_id
 
     if role:
         membership.role = role
-
-    if sponsor:
-        membership.sponsor = sponsor
 
     session.add(membership)
     session.flush()

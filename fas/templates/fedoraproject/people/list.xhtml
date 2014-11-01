@@ -27,7 +27,7 @@
         %for user in people:
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="usercard">
-                <a href="${request.route_url('people-profile', id=user.id)}">
+                <a href="${request.route_url('people-profile', id=user.username)}">
                 %if user.avatar:
                     <img src="${user.avatar + '?s=100&d=monsterid'}"/>
                 %else:
@@ -35,9 +35,17 @@
                 %endif
                 </a>
                 <div>
-                    <div><a href="${request.route_url('people-profile', id=user.id)}">${user.fullname}</a></div>
+                    <div>
+                      <a href="${request.route_url('people-profile', id=user.username)}">
+                        ${user.fullname}
+                      </a>
+                    </div>
                     <p>${user.introduction}</p>
-                    <a class="more" href="${request.route_url('people-profile', id=user.id)}">${_(u'See full profile')}<i class="icon-right"></i></a>
+                    <a class="more" href="${request.route_url(
+                        'people-profile', id=user.username)}">
+                      ${_(u'See full profile')}
+                      <i class="icon-right"></i>
+                    </a>
                 </div>
             </div>
         </div>

@@ -62,7 +62,7 @@ class Home:
             person = provider.get_people_by_username(login)
 
             blocked = True
-            if person.status in [
+            if person and person.status in [
                     AccountStatus.ACTIVE, AccountStatus.INACTIVE,
                     AccountStatus.ON_VACATION]:
                 blocked = False
@@ -75,11 +75,11 @@ class Home:
                     self.request, person.id, AccountLogType.LOGGED_IN)
                 return HTTPFound(location=came_from, headers=headers)
 
-            if person.status == AccountStatus.PENDING:
+            if person and person.status == AccountStatus.PENDING:
                 self.request.session.flash(
                     _('Login failed, this account has not been activated, '
                       'please check your emails.'), 'login')
-            elif person.status in [
+            elif person and person.status in [
                     AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
                     AccountStatus.DISABLED
                 ]:
