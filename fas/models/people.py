@@ -16,9 +16,15 @@ from sqlalchemy import (
     Numeric,
     Index,
     ForeignKey,
-    func,
-)
-from sqlalchemy.orm import relation
+    func
+    )
+
+from sqlalchemy.orm import (
+    relation,
+    relationship,
+    backref
+    )
+
 from fas.models import AccountPermissionType as perm
 
 import datetime
@@ -91,11 +97,11 @@ class People(Base):
         #foreign_keys='People.status',
         #uselist=False
     #)
-    group_membership = relation(
+    group_membership = relationship(
         'GroupMembership',
-        foreign_keys='GroupMembership.people_id',
-        order_by='GroupMembership.approval_timestamp'
-    )
+        primaryjoin='and_(GroupMembership.people_id==People.id)',
+        backref=backref('people', lazy="joined")
+        )
     group_sponsors = relation(
         'GroupMembership',
         foreign_keys='GroupMembership.sponsor',

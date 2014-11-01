@@ -1,9 +1,20 @@
 <%inherit file="/site.xhtml" />
-<%namespace name="paging" file="/paging.xhtml"/>
-%if group.license_sign_up > 0:
-<%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
-  ${licenseAgreement.form(license=group.license, person=request.get_user)}
-%endif
+
+  <%
+    user_is_group_admin = request.authenticated_is_group_admin(group.name)
+    user_is_sponsor = request.authenticated_is_group_sponsor(group.name)
+    user_is_group_manager = request.authenticated_is_admin \
+                            or request.authenticated_is_modo() \
+                            or user_is_group_admin
+  %>
+
+  <%namespace name="paging" file="/paging.xhtml"/>
+
+  %if group.license_sign_up > 0:
+  <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
+    ${licenseAgreement.form(license=group.license, person=request.get_user)}
+  %endif
+
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
     <h1>${group.display_name or group.name}</h1>
@@ -21,10 +32,7 @@
         </div>
     %endif
     %if request.authenticated_userid:
-      %if request.authenticated_is_admin() \
-            or request.authenticated_is_modo() \
-            or request.authenticated_is_group_editor() \
-            or request.authenticated_is_group_admin(group.name) :
+      %if user_is_group_manager or request.authenticated_is_group_editor():
           <button class="btn btn-default" type="button">
             <a href="${request.route_url('group-edit', id=group.id)}">
               ${_(u'Edit')}
@@ -117,8 +125,7 @@
               <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
-            %if request.authenticated_is_group_admin(group.name) \
-                or request.authenticated_is_group_sponsor(group.name):
+            %if user_is_group_admin or user_is_sponsor:
               <dt>${_(u'Requests')}</dt>
               %if has_membership_request:
                 <dd>
@@ -204,9 +211,7 @@
                 </span>
                 <span>
                   %if request.authenticated_userid:
-                    %if request.authenticated_is_admin() \
-                        or request.authenticated_is_modo() \
-                        or request.authenticated_is_group_admin(group.name) :
+                    %if user_is_group_manager:
                       <form action="${request.route_url('group-action')}"
                         method="POST">
                         <input type="hidden" name="action" value="upgrade">
@@ -258,9 +263,7 @@
                 <span>(${_(member.get_role().name.lower())})</span>
                 <span>
                   %if request.authenticated_userid:
-                    %if request.authenticated_is_admin() \
-                        or request.authenticated_is_modo() \
-                        or request.authenticated_is_group_admin(group.name) :
+                    %if user_is_group_manager:
                       <form action="${request.route_url('group-action')}"
                         method="POST">
                         <input type="hidden" name="action" value="upgrade">

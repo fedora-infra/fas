@@ -20,7 +20,13 @@ from sqlalchemy import (
     func,
     UniqueConstraint
     )
-from sqlalchemy.orm import relation
+
+from sqlalchemy.orm import (
+    relation,
+    relationship,
+    backref
+    )
+
 from fas.models import AccountPermissionType as perm
 
 import datetime
@@ -80,11 +86,10 @@ class Groups(Base):
         onupdate=func.current_timestamp()
     )
 
-    members = relation(
+    members = relationship(
         'GroupMembership',
-        foreign_keys='GroupMembership.group_id',
         primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-        backref='group_membership'
+        backref=backref('group', lazy='joined')
     )
     owner = relation(
         'People',
@@ -174,19 +179,6 @@ class GroupMembership(Base):
         #uselist=False
     #)
 
-    group = relation(
-        'Groups',
-        foreign_keys='Groups.id',
-        primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-        backref='group_membership',
-        uselist=False
-    )
-    people = relation(
-        'People',
-        foreign_keys='People.id',
-        primaryjoin='and_(GroupMembership.people_id==People.id)',
-        uselist=False
-    )
     sponsors = relation(
         'People',
         foreign_keys='People.id',
@@ -199,7 +191,9 @@ class GroupMembership(Base):
     )
 
     def get_status(self):
+        """ Returns membership status of instantiated `People` """
         return MembershipStatus[self.status]
 
     def get_role(self):
+        """ Returns membership role of instantiated `People` """
         return MembershipRole[self.role]

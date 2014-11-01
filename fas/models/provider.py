@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import sqlalchemy as sa
-from sqlalchemy import func
 from sqlalchemy.sql import or_
+from pyramid.security import unauthenticated_userid
 
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
@@ -111,7 +110,6 @@ def get_child_groups():
     """ Retrieve all child groups."""
     query = session.query(Groups).filter(Groups.parent_group_id >= -1)
     return query.all()
-
 
 
 def get_group_by_id(id):
@@ -231,32 +229,6 @@ def get_memberships_by_status(status, group=None):
     return query.all()
 
 
-def get_membership_requests(group):
-    """ Retrieve group membership request from given group.
-
-    :param group: integer, group id.
-    :rtype: :class:`fas.models.group.MembershipRequest`
-    """
-    query = session.query(
-        MembershipRequest
-    ).filter(
-        MembershipRequest.group_id == group
-    )
-
-    return query.all()
-
-
-def get_membership_request_by_people(people):
-    """ Retrieve group membership request from given people
-
-    :param people: integer, people id
-    :rtype: :class:`fas.models.group.MembershipRequest`
-    """
-    query = session.query(MembershipRequest)\
-    .filter(MembershipRequest.person_id == People.id)
-
-    return query.all()
-
 # Method to interact with GroupType
 
 
@@ -340,7 +312,7 @@ def get_people_by_password_token(username, token):
 
 def get_authenticated_user(request):
     """ Retrieve authenticated person object."""
-    return get_people_by_username(request.authenticated_userid)
+    return get_people_by_username(unauthenticated_userid(request))
 
 
 def get_people_by_email(email):

@@ -137,7 +137,6 @@ class Root(object):
             (Allow, self.auth, 'authenticated'),
             (Allow, self.admin, ['admin', 'modo', 'group_edit']),
             (Allow, self.group_editor, 'group_edit'),
-            (Allow, self.auth, 'group_edit'),
             (Allow, self.modo, 'modo')
         ]
 
@@ -150,14 +149,15 @@ class Root(object):
 
 
 def groupfinder(userid, request):
-    """ Retrieve group from authenticated user's membership."""
-    membership = provider.get_group_by_people_membership(userid)
+    """ Retrieve group's membership of authenticated user
+    and returns their name.
+    """
+    user = request.get_user
 
-    groups = []
-    for group in membership:
-        groups.append(group.name)
+    if user is not None:
+        return [ms.group.name for ms in request.get_user.group_membership]
 
-    return groups
+    return None
 
 
 def generate_token(length=256):
