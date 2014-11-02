@@ -153,8 +153,13 @@ class People(object):
             raise HTTPNotFound('No such user found')
 
         form = UpdateStatusForm(self.request.POST, self.person)
-        if self.request.method == 'POST' and form.validate():
-            form.populate_obj(self.person)
+        if self.request.method == 'POST':
+            if form.validate():
+                form.populate_obj(self.person)
+            else:
+                self.request.session.flash(
+                    _('Unable to update your status '),
+                    'error')
 
         return dict(
             person=self.person,

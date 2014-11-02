@@ -2,6 +2,7 @@
 
 from fas.utils import _
 from fas.models import AccountStatus
+from fas.models import provider
 
 from wtforms import (
     Form,
@@ -32,8 +33,23 @@ def is_number(form, field):
     try:
         float(field.data)
     except ValueError:
-        raise ValidationError(
-            'Field must contain a number')
+        raise ValidationError(_(u'Field must contain a number'))
+
+
+def check_availibility(key):
+    """ Check field availibility from registered list.
+
+    Requires: field username in your class definition.
+    """
+    __data__ = getattr(provider, 'get_people_%s' % key)
+
+    def __validate__(form, field):
+        """ Validata that field value is not stored already. """
+        avail_data = [value[0] for value in __data__(form.username.data)]
+        if field.data in avail_data:
+            raise ValidationError(_(u'%s exists already!' % field.data))
+
+    return __validate__
 
 
 class UpdateStatusForm(Form):
@@ -42,6 +58,7 @@ class UpdateStatusForm(Form):
     status = SelectField(
         _(u'Status'),
         [validators.Required()],
+        coerce=int,
         choices=[(e.value, e.name.lower()) for e in AccountStatus])
 
 
@@ -54,7 +71,10 @@ class ContactInfosForm(Form):
     """ Form to edit contact infos. """
     fullname = StringField(_(u'Full name'), [validators.Required()])
     email = StringField(
-        _(u'Email'), [validators.Required(), validators.Email()])
+        _(u'Email'),
+        [validators.Required(),
+            validators.Email(),
+            check_availibility(key='email')])
     facsimile = StringField(_(u'Facsimile'))
     telephone = StringField(_(u'Telephone number'))
     postal_address = StringField(_(u'Postal address'), [validators.Optional()])
@@ -106,7 +126,10 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
     gpg_id = StringField(_(u'GPG Key'))
     gpg_fingerprint = StringField(_(u'GPG Fingerprint'))
     ssh_key = StringField(_(u'Public SSH Key'))
-    bugzilla_email = StringField(_(u'Bugzilla email'))
+    bugzilla_email = StringField(_(u'Bugzilla email'),
+        [validators.Optional(),
+            validators.Email(),
+            check_availibility(key='bugzilla_email')])
     privacy = BooleanField(_(u'Privacy'))
     blog_rss = StringField(_(u'Blog RSS'))
     latitude = DecimalField(_(u'Latitude'), [validators.Optional()])

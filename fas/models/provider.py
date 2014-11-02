@@ -290,6 +290,34 @@ def get_people_username():
     return query.all()
 
 
+def get_people_email(filter_username=None):
+    """ Retrieve and return registered emails. """
+    if filter_username:
+        query = session.query(
+            People.email
+            ).filter(
+                People.username != filter_username
+                )
+    else:
+        query = session.query(People.email)
+
+    return query.all()
+
+
+def get_people_bugzilla_email(filter_username=None):
+    """ Retrieve and return registered bugzilla email. """
+    if filter_username:
+        query = session.query(
+            People.bugzilla_email
+            ).filter(
+                People.username != filter_username
+                )
+    else:
+        query = session.query(People.bugzilla_email)
+
+    return query.all()
+
+
 def get_people_by_id(id):
     """ Retrieve People by its id. """
     query = session.query(People).filter(People.id == id)

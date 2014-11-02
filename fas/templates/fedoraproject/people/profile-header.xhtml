@@ -4,6 +4,18 @@
 <!--
   <div id=profile-header>
 -->
+    %if form.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
 
   <div class="page-title">
     %if person.avatar:
@@ -11,7 +23,7 @@
     %else:
         <img src="http://cdn.libravatar.org/avatar?s=200"/>
     %endif
-    ${person.get_status().name.lower()}
+    ${person.get_status().name.lower().replace('_', ' ')}
     %if form:
         %if person.username == request.authenticated_userid:
             <span>
