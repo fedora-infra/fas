@@ -114,8 +114,12 @@
             <label>
               ${form.privacy} ${form.privacy.label}
               <span>
-                <a data-toggle="collapse" href="#collapsePrivacy">(?)</a> <!-- Updpate this with an cool glyphicons -->
+                <a data-toggle="collapse" href="#collapsePrivacy">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                </a>
               </span>
+            </label>
+          </div>
                 <div id="collapsePrivacy" class="panel-collapse collapse">
                   <div class="panel-body">
                     <i class="text-muted">
@@ -123,8 +127,6 @@
                     </i>
                   </div>
                 </div>
-            </label>
-          </div>
         </div>
       </div>
       <h4 class="section-title">${_('Additional informations')}</h4>

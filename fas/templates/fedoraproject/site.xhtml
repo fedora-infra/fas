@@ -45,11 +45,19 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="${request.route_url('groups')}">${_(u'Fedora groups')}</a></li>
-                    <li><a href="${request.route_url('people')}">${_(u'Fedora people')}</a></li>
+                    <li>
+                      <a href="${request.route_url('people')}">
+                        <span class="glyphicon glyphicon-user"></span> ${_(u'Fedora people')}
+                      </a>
+                    </li>
                 %if request.authenticated_is_admin() \
                         or request.authenticated_is_modo() \
                         or request.authenticated_is_group_editor():
-                    <li><a href="${request.route_url('settings')}">${_(u'Settings')}</a></li>
+                    <li>
+                      <a href="${request.route_url('settings')}">
+                        <span class="glyphicon glyphicon-cog"></span> ${_(u'Settings')}
+                      </a>
+                    </li>
                 %endif
                 </ul>
 
@@ -68,7 +76,7 @@
                       ${_(u'Logged in as')}
                       <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <strong>
-                          ${request.authenticated_userid}
+                          ${request.authenticated_userid} <span class="glyphicon glyphicon-th"></span>
                         </strong>
                       </a> |
                       <a href="${request.application_url + '/logout'}?redirect=${request.url}"
