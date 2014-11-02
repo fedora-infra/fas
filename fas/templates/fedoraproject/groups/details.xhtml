@@ -159,13 +159,14 @@
                   ${_(u'Apply')}
                 </button>
 -->
-                <button class="btn btn-default" name="button"
+                <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
+                <button class="btn btn-default" name="button">
+<!--
                     data-toggle="modal" data-target="#groupApplication">
+-->
                   ${_(u'Apply')}
                 </button>
-<!--
                 </form>
--->
               %endif
             %endif
           %endif

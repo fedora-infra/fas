@@ -270,41 +270,46 @@ class Groups(object):
             return HTTPBadRequest()
 
         self.group = provider.get_group_by_id(self.id)
-        self.user = provider.get_people_by_username(
-            self.request.authenticated_userid)
-
-        ms = MembershipValidator(self.request.authenticated_userid,
-            [self.group.name])
+        user = self.request.get_user
 
         membership = provider.get_membership(
-            self.user.username, self.group.name)
+            user.username, self.group.name)
+
+        can_apply = False
+        if not membership:
+            can_apply = True
+
+        if self.group.license_sign_up > -1:
+            if  provider.is_license_signed(
+                self.group.license_sign_up, user.id):
+                status = MembershipStatus.UNAPPROVED
+                can_apply = False
 
         if self.request.method == 'POST':
             status = MembershipStatus.PENDING
             if not self.group.need_approval:
                 status = MembershipStatus.APPROVED
 
-            if not membership:
+            if can_apply:
                 register.add_membership(
                     self.group.id,
-                    self.user.id,
+                    user.id,
                     status
                 )
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
                     self.request.session.flash(
-                        _("You are already in this group"), 'info')
+                        _("You are already a member of this group"), 'info')
                 elif membership.get_status() == MembershipStatus.PENDING:
                     self.request.session.flash(
-                        _("Your application for this group is already pending"),
+                        _("Your membership application already is pending"),
                         'info')
                 elif membership.get_status() == MembershipStatus.UNAPPROVED:
                     self.request.session.flash(
-                        _("Your application for this group has been declined"),
+                        _("Your membership application has been declined"),
                         'error')
 
         return redirect_to('/group/details/%s' % self.group.id)
-
 
     @view_config(route_name='group-action', permission='authenticated')
     def group_action(self):
