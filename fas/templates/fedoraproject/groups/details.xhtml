@@ -126,16 +126,14 @@
               <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
-            %if user_is_group_admin or user_is_sponsor:
-              <dt>${_(u'Requests')}</dt>
-              %if membership_request > 0:
-                <dd>
-                  <a href="#membershipRequests" data-toggle="collapse">
-                    ${_(u'View membership request')}
-                  </a>
-                </dd>
-              %else:
-                <dd><p>${_(u'None')}</p></dd>
+            %if len(membership_request) > 0:
+              %if user_is_group_admin or user_is_sponsor:
+                <dt>${_(u'Requests')}<span class="badge">${len(membership_request)}</span></dt>
+                  <dd>
+                    <a href="#membershipRequests" data-toggle="collapse">
+                      ${_(u'View membership request')}
+                    </a>
+                  </dd>
               %endif
             %endif
           </dl>
@@ -184,7 +182,7 @@
     </div>
   </div>
 
-  %if membership_request > 0:
+  %if len(membership_request) > 0:
     <div class="hidden members-list panel-collapse collapse" id="membershipRequests">
       <h3>${_(u'Pending Members')}</h3>
       <div class="row">
@@ -234,7 +232,7 @@
 
   <div class=members-list>
     <h3>${_(u'Members')}</h3>
-    %if members > 0:
+    %if len(members) > 0:
         <!--
         ${paging.list(name='people', route='group-details', param={'members_page': 2})}
         -->
