@@ -20,7 +20,7 @@ def flush():
     session.flush()
 
 
-def save_account_activity(request, people, event):
+def save_account_activity(request, people, event, msg=None):
     """ Register account activity. """
     remote_ip = request.client_addr
     record = get_record_from(remote_ip)
@@ -53,7 +53,8 @@ def save_account_activity(request, people, event):
         location=location,
         access_from=client,
         remote_ip=remote_ip,
-        event=event
+        event=event,
+        event_msg=msg
         )
 
     session.add(activity)

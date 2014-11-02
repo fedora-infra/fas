@@ -6,6 +6,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
+from fas.models import AccountLogType
 
 import fas.models.provider as provider
 import fas.models.register as register
@@ -321,39 +322,47 @@ class Groups(object):
             msg = ''
             action = self.request.POST.get('action')
 
-            if action == 'upgrade':
+            if action == 'removal':
+                register.remove_membership(self.group.id, self.user.id)
+                register.save_account_activity(
+                        self.request, self.user.id,
+                        AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                        self.group.name)
+                msg = _(u'You are no longer a member of this group')
+
+            elif action == 'upgrade':
                 if membership.get_status() == MembershipStatus.PENDING:
                     membership.status = MembershipStatus.APPROVED
-                    msg = _('User %s is now approved into the group %s' % (
+                    msg = _(u'User %s is now approved into the group %s' % (
                         self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.USER:
                     membership.role = MembershipRole.EDITOR
-                    msg = _('User %s is now EDITOR of the group '
+                    msg = _(u'User %s is now EDITOR of the group '
                         '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.SPONSOR
-                    msg = _('User %s is now SPONSOR of the group '
+                    msg = _(u'User %s is now SPONSOR of the group '
                         '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.ADMINISTRATOR
-                    msg = _('User %s is now ADMINISTRATOR of the '
+                    msg = _(u'User %s is now ADMINISTRATOR of the '
                         'group %s' % (self.user.username, self.group.name))
-            else:
+            elif action == 'downgrade':
                 if membership.get_role() == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
-                    msg = _('User %s is no longer in the group %s' % (
+                    msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
-                    msg = _('User %s is now USER of the group '
+                    msg = _(u'User %s is now USER of the group '
                         '%s' % (self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
-                    msg = _('User %s is now EDITOR of the group %s' % (
+                    msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
                 elif membership.get_role() == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
-                    msg = _('User %s is now SPONSOR of the group %s' % (
+                    msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
 
             if msg:

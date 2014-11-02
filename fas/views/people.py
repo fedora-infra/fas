@@ -391,7 +391,8 @@ class People(object):
         self.person = provider.get_people_by_id(self.id)
 
         if not self.person:
-            raise HTTPNotFound('No such user found')
+            raise HTTPNotFound(_(u'The person you are looking for'
+            'do not exist.'))
 
         form = UpdatePasswordForm(self.request.POST, self.person)
 
@@ -404,7 +405,8 @@ class People(object):
                 del form.new_password
                 register.update_password(form, self.person)
                 register.save_account_activity(
-                    self.request, self.person.id, AccountLogType.UPDATE_PASSWORD)
+                    self.request,
+                    self.person.id, AccountLogType.UPDATE_PASSWORD)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 

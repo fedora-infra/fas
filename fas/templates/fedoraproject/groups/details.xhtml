@@ -121,7 +121,11 @@
           <dl class="dl-horizontal">
             <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
-              <span class="badge"><button type="submit">${_(u'revoke my membership')}</button></span>
+              <span class="badge">
+                <button name="button" data-toggle="modal" data-target="#membershipRemoval">
+                 ${_(u'revoke my membership')}
+                </button>
+              </span>
             %else:
               <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
@@ -155,7 +159,8 @@
                   ${_(u'Apply')}
                 </button>
 -->
-                <button class="btn btn-default" name="data">
+                <button class="btn btn-default" name="button"
+                    data-toggle="modal" data-target="#groupApplication">
                   ${_(u'Apply')}
                 </button>
 <!--
@@ -314,3 +319,39 @@
       </div>
     %endif
   </div>
+  <form class="form-horizontal" role="form" method="POST"
+        action="${request.route_url('group-action')}">
+    <div class="modal in" id="membershipRemoval" tabindex="-1" role="dialog" aria-labelledby="MembershipRemoval" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">
+                Close
+              </span>
+            </button>
+            <h4 class="modal-title" id="UpdateStatus">${_(u'Membership removal')}</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <div class="col-lg-10">
+                  <!-- You can use markdown syntaxes here -->
+                  <p>
+                    ${_(u'Removing yourself from this group will removed your account'
+                          'from any related system.'
+                          'Are you sure?')}
+                  </p>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="group_id" value="${group.id}">
+            <input type="hidden" name="user_id" value="${person.id}">
+            <button type="button" class="btn btn-default" data-dismiss="modal">${_(u'No')}</button>
+            <button type="submit" class="btn btn-primary" name="action" value="removal">${_('Yes')}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
