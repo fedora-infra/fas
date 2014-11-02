@@ -71,7 +71,7 @@ class AccountPermissionType(IntEnum):
 class AccountLogType(IntEnum):
     LOGGED_IN = 0x01
     ACCOUNT_UPDATE = 0x03
-    APIKEY_REQUEST = 0x04
+    REQUESTED_API_KEY = 0x04
     UPDATE_PASSWORD = 0x05
     ASKED_RESET_PASSWORD = 0x06
     RESET_PASSWORD = 0x07

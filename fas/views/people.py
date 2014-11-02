@@ -425,6 +425,9 @@ class People(object):
 
             token = generate_token()
             register.add_token(self.id, desc, token, perm)
+            register.save_account_activity(
+                        self.request, self.id,
+                        AccountLogType.REQUESTED_API_KEY)
             self.request.session.flash(token, 'tokens')
 
         if 'form.delete.token' in self.request.params:

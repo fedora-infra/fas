@@ -1,32 +1,33 @@
 <%inherit file="/people/profile-header.xhtml" />
-<%namespace name="profile" file="/people/profile-header.xhtml"/>
-  ${profile.header()}
-  <div id="profile-account-activities">
-    <h3>${_(u'Your account activities')}</h3>
-    <dl class="dl-horizontal">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>${_(u'Date')}</th>
-          <th>${_(u'Event')}</th>
-          <th>${_(u'Location')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        %for activity in activities:
-        <tr>
-          <td>${activity.timestamp.strftime('%b, %d')}</td>
-          <td>
-            %if activity.event == 1:
-                ${_(u'Signed in from')} ${activity.access_from}
-              %elif activity.event == 2:
-                ${_(u'Connected App from')}
+  <%namespace name="account" module="fas.models" />
+  <%namespace name="profile" file="/people/profile-header.xhtml"/>
+    ${profile.header()}
+    <div id="profile-account-activities">
+      <h3>${_(u'Your account activities')}</h3>
+      <dl class="dl-horizontal">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>${_(u'Date')}</th>
+            <th>${_(u'Event')}</th>
+            <th>${_(u'Location')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          %for activity in activities:
+          <tr>
+            <td>${activity.timestamp.strftime('%b, %d')}</td>
+            <td>
+              %if activity.event == account.module.AccountLogType.LOGGED_IN:
+                  ${_(u'Signed in from')} ${activity.access_from}
+              %else:
+                  ${account.module.AccountLogType(activity.event).name.lower().replace('_', ' ')}
               %endif
-          </td>
-          <td>${activity.location} (${activity.remote_ip})</td>
-        </tr>
-      %endfor
-      </tbody>
-    </table>
-    </dl>
-  </div>
+            </td>
+            <td>${activity.location} (${activity.remote_ip})</td>
+          </tr>
+        %endfor
+        </tbody>
+      </table>
+      </dl>
+    </div>
