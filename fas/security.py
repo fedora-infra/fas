@@ -5,7 +5,7 @@ import hashlib
 
 from pyramid.security import Allow, Everyone
 
-from fas.models import MembershipStatus
+from fas.models import MembershipStatus, MembershipRole
 from fas.utils import Config
 from fas.utils.passwordmanager import PasswordManager
 
@@ -273,8 +273,9 @@ class RoleValidator(MembershipValidator):
         """
         if self.validate():
             role = provider.get_membership(self.username, self.group)
-            if role and role.role == 5:
-                return True
+            if role:
+                if role.role == MembershipRole.ADMINISTRATOR:
+                    return True
 
         return False
 
@@ -282,7 +283,16 @@ class RoleValidator(MembershipValidator):
         pass
 
     def is_sponsor(self):
-        pass
+        """ Check if user is an group sponsor.
+        :return: True if user is sponsor, false otherwise.
+        """
+        if self.validate():
+            role = provider.get_membership(self.username, self.group)
+            if role:
+                if role.role == MembershipRole.SPONSOR:
+                    return True
+
+        return False
 
 
 class ParamsValidator(Base):

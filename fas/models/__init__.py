@@ -49,7 +49,7 @@ class MembershipRole(IntEnum):
     USER = 0x01
     EDITOR = 0x02
     SPONSOR = 0x03
-    ADMINISTRATOR = 0x05
+    ADMINISTRATOR = 0x04
 
 # Disable dynamic status as of right we don't handle workflow
 # mechanism to manage new status adding by end-user.

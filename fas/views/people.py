@@ -159,7 +159,7 @@ class People(object):
         return dict(
             person=self.person,
             form=form,
-            membership=self.person.group_membership
+                membership=self.person.group_membership
         )
 
     @view_config(route_name='people-activities',

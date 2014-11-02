@@ -194,6 +194,9 @@ class GroupMembership(Base):
         """ Returns membership status of instantiated `People` """
         return MembershipStatus[self.status]
 
-    def get_role(self):
+    def get_role(self, index=None):
         """ Returns membership role of instantiated `People` """
-        return MembershipRole[self.role]
+        if index is not None:
+            return MembershipRole(index)
+
+        return MembershipRole(self.role)
