@@ -291,6 +291,7 @@ class Groups(object):
                 status = MembershipStatus.APPROVED
 
             if can_apply:
+                #TODO: Send notification to group's members
                 register.add_membership(
                     self.group.id,
                     user.id,

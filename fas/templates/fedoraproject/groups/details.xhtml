@@ -134,7 +134,7 @@
               %if user_is_group_admin or user_is_sponsor:
                 <dt>${_(u'Requests')}<span class="badge">${len(membership_request)}</span></dt>
                   <dd>
-                    <a href="#membershipRequests" data-toggle="collapse">
+                    <a href="#collapseMembershipRequests" data-toggle="collapse">
                       ${_(u'View membership request')}
                     </a>
                   </dd>
@@ -189,8 +189,8 @@
   </div>
 
   %if len(membership_request) > 0:
-    <div class="hidden members-list panel-collapse collapse" id="membershipRequests">
-      <h3>${_(u'Pending Members')}</h3>
+    <div class="members-list panel-collapse collapse" id="collapseMembershipRequests">
+      <h3>${_(u'Membership Request')}</h3>
       <div class="row">
         %for membership in membership_request:
           <div class="col-sm-6 col-md-4 col-lg-4">
@@ -210,10 +210,6 @@
                   </a>
                 </span>
                 <span>
-                  (${_(membership.get_role().name.lower())} -
-                   ${_(membership.get_status().name.lower())})
-                </span>
-                <span>
                   %if request.authenticated_userid:
                     %if user_is_group_manager:
                       <form action="${request.route_url('group-action')}"
@@ -222,7 +218,7 @@
                         <input type="hidden" name="group_id" value="${group.id}">
                         <input type="hidden" name="user_id" value="${membership.people.id}">
                         <button class="btn btn-default" type="submit">
-                          ${_(u'Upgrade')}
+                          ${_(u'Sponsor')}
                         </button>
                       </form>
                     %endif
