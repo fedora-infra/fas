@@ -159,7 +159,7 @@ class People(object):
         return dict(
             person=self.person,
             form=form,
-                membership=self.person.group_membership
+            membership=self.person.group_membership
         )
 
     @view_config(route_name='people-activities',
@@ -204,7 +204,7 @@ class People(object):
         if username:
             self.person = provider.get_people_by_username(username)
         else:
-            self.person = provider.get_people_by_id(_id)
+            self.person = provider.get_people_by_id(self.id)
 
         if not self.person:
             raise HTTPNotFound('No such user found')
