@@ -380,6 +380,11 @@ class Groups(object):
                     membership.status = MembershipStatus.UNAPPROVED
                     msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.REMOVED_GROUP_MEMBERSHIP,
+                        self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
