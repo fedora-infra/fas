@@ -342,6 +342,11 @@ class Groups(object):
                     membership.status = MembershipStatus.APPROVED
                     msg = _(u'User %s is now approved into the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.NEW_GROUP_MEMBERSHIP,
+                        self.group.name)
                 elif membership.get_role() == MembershipRole.USER:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
