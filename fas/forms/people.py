@@ -6,6 +6,7 @@ from fas.models import provider
 
 from wtforms import (
     Form,
+    HiddenField,
     StringField,
     TextAreaField,
     SelectField,
@@ -69,6 +70,7 @@ class UsernameForm(Form):
 
 class ContactInfosForm(Form):
     """ Form to edit contact infos. """
+    username = HiddenField()
     fullname = StringField(_(u'Full name'), [validators.Required()])
     email = StringField(
         _(u'Email'),

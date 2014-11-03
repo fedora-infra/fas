@@ -154,6 +154,7 @@ class Admin(object):
         userform = ContactInfosForm(self.request.POST, person)
         form = SignLicenseForm(self.request.POST)
 
+        userform.username.data = person.username
         userform.fullname.data = person.fullname
         userform.email.data = person.email
 
