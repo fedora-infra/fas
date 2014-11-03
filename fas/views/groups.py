@@ -384,14 +384,30 @@ class Groups(object):
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'USER: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'SPONSOR: %s' % self.group.name)
+
             elif action == 'revoke':
                 membership.status = MembershipStatus.UNAPPROVED
                 membership.role = MembershipRole.USER
