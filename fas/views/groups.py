@@ -331,9 +331,10 @@ class Groups(object):
             if action == 'removal':
                 register.remove_membership(self.group.id, self.user.id)
                 register.save_account_activity(
-                        self.request, self.user.id,
-                        AccountLogType.REVOKED_GROUP_MEMBERSHIP,
-                        self.group.name)
+                    self.request,
+                    self.user.id,
+                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    self.group.name)
                 msg = _(u'You are no longer a member of this group')
 
             elif action == 'upgrade':
