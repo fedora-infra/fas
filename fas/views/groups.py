@@ -351,14 +351,30 @@ class Groups(object):
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'SPONSOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
                         'group %s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'ADMINISTRATOR: %s' % self.group.name)
+
             elif action == 'downgrade':
                 if membership.get_role() == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
