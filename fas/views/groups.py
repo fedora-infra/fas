@@ -370,6 +370,11 @@ class Groups(object):
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
+            elif action == 'revoke':
+                membership.status = MembershipStatus.UNAPPROVED
+                membership.role = MembershipRole.USER
+                msg = _(u'User %s is no longer in the group %s' % (
+                    self.user.username, self.group.name))
 
             if msg:
                 self.request.session.flash(msg, 'info')
