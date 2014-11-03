@@ -287,8 +287,10 @@ class Groups(object):
 
         if self.request.method == 'POST':
             status = MembershipStatus.PENDING
+            log = AccountLogType.ASKED_GROUP_MEMBERSHIP
             if not self.group.need_approval:
                 status = MembershipStatus.APPROVED
+                log = AccountLogType.NEW_GROUP_MEMBERSHIP
 
             if can_apply:
                 #TODO: Send notification to group's members
@@ -297,6 +299,11 @@ class Groups(object):
                     user.id,
                     status
                 )
+                register.save_account_activity(
+                        self.request,
+                        user.id,
+                        log,
+                        self.group.name)
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
                     self.request.session.flash(
