@@ -33,11 +33,11 @@
     %endif
     %if request.authenticated_userid:
       %if user_is_group_manager or request.authenticated_is_group_editor():
+        <a href="${request.route_url('group-edit', id=group.id)}">
           <button class="btn btn-default" type="button">
-            <a href="${request.route_url('group-edit', id=group.id)}">
               ${_(u'Edit')}
-            </a>
           </button>
+        </a>
       %endif
     %endif
   </div>
