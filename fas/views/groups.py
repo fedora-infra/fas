@@ -418,6 +418,11 @@ class Groups(object):
                 membership.role = MembershipRole.USER
                 msg = _(u'User %s is no longer in the group %s' % (
                     self.user.username, self.group.name))
+                register.save_account_activity(
+                    self.request,
+                    self.user.id,
+                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    self.group.name)
 
             if msg:
                 self.request.session.flash(msg, 'info')
