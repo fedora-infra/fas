@@ -23,7 +23,9 @@ from fas.security import ParamsValidator
 
 from fas.utils import _
 from fas.utils.fgithub import Github
-import fas.utils.captcha as captcha
+
+from fas.notifications.email import Notify
+
 import mistune
 
 
@@ -324,6 +326,7 @@ class Groups(object):
         """ Upgrade or downgrade an user in a group."""
         group_id = self.request.POST.get('group_id')
         user_id = self.request.POST.get('user_id')
+        reason = self.request.POST.get('msg_text')
 
         self.group = provider.get_group_by_id(group_id)
         self.user = provider.get_people_by_id(user_id)
@@ -333,14 +336,16 @@ class Groups(object):
 
         if self.request.method == 'POST':
             msg = ''
+            log_type = None
             action = self.request.POST.get('action')
 
             if action == 'removal':
+                log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP
                 register.remove_membership(self.group.id, self.user.id)
                 register.save_account_activity(
                     self.request,
                     self.user.id,
-                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    log_type,
                     self.group.name)
                 msg = _(u'You are no longer a member of this group')
 
@@ -421,6 +426,7 @@ class Groups(object):
                         'SPONSOR: %s' % self.group.name)
 
             elif action == 'revoke':
+                log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP
                 membership.status = MembershipStatus.UNAPPROVED
                 membership.role = MembershipRole.USER
                 msg = _(u'User %s is no longer in the group %s' % (
@@ -428,10 +434,18 @@ class Groups(object):
                 register.save_account_activity(
                     self.request,
                     self.user.id,
-                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    log_type,
                     self.group.name)
 
             if msg:
                 self.request.session.flash(msg, 'info')
+
+            if log_type:
+                Notify.revoked_membership(
+                    self.user,
+                    self.group,
+                    reason,
+                    log_type
+                    )
 
         return redirect_to('/group/details/%s' % self.group.id)

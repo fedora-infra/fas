@@ -292,15 +292,19 @@
                         </form>
                         %endif
                         %if user_is_group_admin:
+<!--
                         <form action="${request.route_url('group-action')}"
                           method="POST">
                           <input type="hidden" name="action" value="revoke">
                           <input type="hidden" name="group_id" value="${group.id}">
                           <input type="hidden" name="user_id" value="${member.people.id}">
-                          <button class="btn btn-default" type="submit">
-                            ${_(u'Revoke Membership')}
+-->
+                          <button class="AddMsgBox btn btn-default" data-toggle="modal" data-target="#AddOptionalMsg" data-people="${member.people.id}" data-group="${group.id}">
+                            ${_(u'Revoke membership')}
                           </button>
+<!--
                         </form>
+-->
                         %endif
                       %endif
                     %endif
@@ -318,7 +322,7 @@
   </div>
   <form class="form-horizontal" role="form" method="POST"
         action="${request.route_url('group-action')}">
-    <div class="modal in" id="membershipRemoval" tabindex="-1"
+    <div class="modal fade" id="membershipRemoval" tabindex="-1"
          role="dialog" aria-labelledby="MembershipRemoval"
          aria-hidden="true">
       <div class="modal-dialog">
@@ -336,6 +340,7 @@
             <div class="form-group">
                 <div class="col-lg-10">
                   <!-- You can use markdown syntaxes here -->
+                  <!-- TODO: review wording before release to prod -->
                   <p>
                     ${_(u'Removing yourself from this group will removed your account'
                           'from any related system.'
@@ -358,3 +363,5 @@
       </div>
     </div>
   </form>
+  <%namespace name="groupMsg" file="/groups/msgs.xhtml" />
+    ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}

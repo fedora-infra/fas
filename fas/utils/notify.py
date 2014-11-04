@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-
+"""
+    TODO:
+        Move notification messages to `fas.notifications`
+        upgrading `fas.utils.notify` as a lib we can re-use as
+        3rd-party.
+"""
 
 import smtplib
 import urlparse
@@ -15,7 +20,6 @@ from fas.utils import Config
 
 def send_email(message, subject, mail_to):  # pragma: no cover
     ''' Send notification by email. '''
-
 
     msg = MIMEText(message)
 
