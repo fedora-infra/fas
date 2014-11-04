@@ -62,7 +62,7 @@ setup(
       [paste.app_factory]
       main = fas:main
       [console_scripts]
-      initialize_fas_db = fas.scripts.initializedb:main
+      fas-admin = fas.scripts.admin:main
       """,
     paster_plugins=['pyramid'],
     # i18n

@@ -33,7 +33,11 @@ Run the test suite
 
 Initialize the database
 -----------------------
-``initialize_fas_db``
+``fas-admin --initdb [--default-value]``
+
+Add fake data (People and group)
+-------------------------------
+``fas-admin --generate-fake-data [-n]``
 
 Migrating FAS from release 2.x
 ---------------------------------
@@ -45,6 +49,4 @@ Migrating FAS from release 2.x
 Run the web app
 ---------------
 ``pserve development.ini --reload``
-
-
 
