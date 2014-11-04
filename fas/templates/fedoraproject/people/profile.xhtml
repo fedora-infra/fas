@@ -4,11 +4,13 @@
 
   ${profile.header()}
   <div id=profile-header>
+    %if person.bio:
       <a data-toggle="collapse" href="#collapsePrivacy">+</a> <!-- Updpate this with an cool glyphicons -->
       <div id="collapsePrivacy" class="panel-collapse collapse">
         <div class="panel-body">
             <p>${person.bio}</p>
         </div>
+    %endif
   </div>
   </div>
   %if person.username == request.authenticated_userid:

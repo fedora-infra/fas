@@ -287,8 +287,10 @@ class Groups(object):
 
         if self.request.method == 'POST':
             status = MembershipStatus.PENDING
+            log = AccountLogType.ASKED_GROUP_MEMBERSHIP
             if not self.group.need_approval:
                 status = MembershipStatus.APPROVED
+                log = AccountLogType.NEW_GROUP_MEMBERSHIP
 
             if can_apply:
                 #TODO: Send notification to group's members
@@ -297,6 +299,11 @@ class Groups(object):
                     user.id,
                     status
                 )
+                register.save_account_activity(
+                        self.request,
+                        user.id,
+                        log,
+                        self.group.name)
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
                     self.request.session.flash(
@@ -331,9 +338,10 @@ class Groups(object):
             if action == 'removal':
                 register.remove_membership(self.group.id, self.user.id)
                 register.save_account_activity(
-                        self.request, self.user.id,
-                        AccountLogType.REVOKED_GROUP_MEMBERSHIP,
-                        self.group.name)
+                    self.request,
+                    self.user.id,
+                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    self.group.name)
                 msg = _(u'You are no longer a member of this group')
 
             elif action == 'upgrade':
@@ -341,35 +349,87 @@ class Groups(object):
                     membership.status = MembershipStatus.APPROVED
                     msg = _(u'User %s is now approved into the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.NEW_GROUP_MEMBERSHIP,
+                        self.group.name)
                 elif membership.get_role() == MembershipRole.USER:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'SPONSOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
                         'group %s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
+                        'ADMINISTRATOR: %s' % self.group.name)
+
             elif action == 'downgrade':
                 if membership.get_role() == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
                     msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.REMOVED_GROUP_MEMBERSHIP,
+                        self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
                         '%s' % (self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'USER: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
+                        'SPONSOR: %s' % self.group.name)
+
+            elif action == 'revoke':
+                membership.status = MembershipStatus.UNAPPROVED
+                membership.role = MembershipRole.USER
+                msg = _(u'User %s is no longer in the group %s' % (
+                    self.user.username, self.group.name))
+                register.save_account_activity(
+                    self.request,
+                    self.user.id,
+                    AccountLogType.REVOKED_GROUP_MEMBERSHIP,
+                    self.group.name)
 
             if msg:
                 self.request.session.flash(msg, 'info')

@@ -33,11 +33,11 @@
     %endif
     %if request.authenticated_userid:
       %if user_is_group_manager or request.authenticated_is_group_editor():
+        <a href="${request.route_url('group-edit', id=group.id)}">
           <button class="btn btn-default" type="button">
-            <a href="${request.route_url('group-edit', id=group.id)}">
               ${_(u'Edit')}
-            </a>
           </button>
+        </a>
       %endif
     %endif
   </div>
@@ -298,7 +298,7 @@
                           <input type="hidden" name="group_id" value="${group.id}">
                           <input type="hidden" name="user_id" value="${member.people.id}">
                           <button class="btn btn-default" type="submit">
-                            ${_(u'Revoke %s' % role.name.lower())}
+                            ${_(u'Revoke Membership')}
                           </button>
                         </form>
                         %endif
@@ -318,7 +318,9 @@
   </div>
   <form class="form-horizontal" role="form" method="POST"
         action="${request.route_url('group-action')}">
-    <div class="modal in" id="membershipRemoval" tabindex="-1" role="dialog" aria-labelledby="MembershipRemoval" aria-hidden="true">
+    <div class="modal in" id="membershipRemoval" tabindex="-1"
+         role="dialog" aria-labelledby="MembershipRemoval"
+         aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -345,8 +347,12 @@
           <div class="modal-footer">
             <input type="hidden" name="group_id" value="${group.id}">
             <input type="hidden" name="user_id" value="${person.id}">
-            <button type="button" class="btn btn-default" data-dismiss="modal">${_(u'No')}</button>
-            <button type="submit" class="btn btn-primary" name="action" value="removal">${_('Yes')}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                ${_(u'No')}
+            </button>
+            <button type="submit" class="btn btn-primary" name="action" value="removal">
+                ${_('Yes')}
+            </button>
           </div>
         </div>
       </div>
