@@ -23,7 +23,11 @@ from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 from fas.utils.passwordmanager import PasswordManager
 from fas.models import (
-    AccountPermissionType as permission, AccountStatus, AccountLogType)
+    AccountPermissionType as permission,
+    AccountStatus,
+    AccountLogType,
+    MembershipStatus
+    )
 from fas.models.people import People as mPeople
 
 # temp import, i'm gonna move that away
@@ -161,10 +165,15 @@ class People(object):
                     _('Unable to update your status '),
                     'error')
 
+        membership = [
+            g for g in self.person.group_membership
+            if not g.status == MembershipStatus.PENDING
+            ]
+
         return dict(
             person=self.person,
             form=form,
-            membership=self.person.group_membership
+            membership=membership
         )
 
     @view_config(route_name='people-activities',
