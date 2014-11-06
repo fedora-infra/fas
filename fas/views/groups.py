@@ -145,6 +145,9 @@ class Groups(object):
         group = g_memberships[0][0]
         memberships = []
         members = []
+        user_members = []
+        sponsor_members = []
+        admin_members = []
 
         authenticated = self.request.get_user
         authenticated_membership = None
@@ -154,6 +157,12 @@ class Groups(object):
             memberships.append(membership)
             if authenticated != member:
                 if membership.get_status() == MembershipStatus.APPROVED:
+                    if membership.role == MembershipRole.USER:
+                        user_members.append(membership)
+                    elif membership.role == MembershipRole.SPONSOR:
+                        sponsor_members.append(membership)
+                    elif membership.role == MembershipRole.ADMINISTRATOR:
+                        admin_members.append(membership)
                     members.append(membership)
             else:
                 authenticated = member
@@ -190,6 +199,9 @@ class Groups(object):
             group=group,
             parent_group=group.parent_group,
             members=members,
+            users=user_members,
+            sponsors=sponsor_members,
+            admin=admin_members,
             count=len(members),
             license_signed_up=license_signed_up,
             page=page,

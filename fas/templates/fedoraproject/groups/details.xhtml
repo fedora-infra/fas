@@ -239,81 +239,44 @@
         ${paging.list(name='people', route='group-details', param={'members_page': 2})}
         -->
         <!-- limit members list to 50 for now -->
-        <div class="row">
-        %for member in members[0:50]:
-            <div class="col-sm-6 col-md-4 col-lg-4">
-              <ul id="people">
-                <li>
-                  <span>
-                    <a href="${request.route_url('people-profile', id=member.people.id)}">
-                      %if member.people.avatar:
-                        <img src="${member.people.avatar + '?s=80&d=monsterid'}"
-                             class="profile img-circle" />
-                      %else:
-                        <img src="http://cdn.libravatar.org/avatar/"
-                             class="img-thumbnail" />
-                      %endif
-                    </a>
-                  </span>
-                  <span>${member.people.fullname}</span>
-                  <span>(${_(member.get_role().name.lower())})</span>
-                  <span>
-                    %if request.authenticated_userid:
-                        <% role = member.get_role() %>
-                      %if user_is_group_manager:
-                        <%namespace name="msLevel" module="fas.models" />
-                        %if role < msLevel.module.MembershipRole.ADMINISTRATOR \
-                            and user_is_group_admin \
-                            or role < msLevel.module.MembershipRole.SPONSOR \
-                            and user_is_sponsor:
-                          <form action="${request.route_url('group-action')}"
-                            method="POST">
-                            <input type="hidden" name="action" value="upgrade">
-                            <input type="hidden" name="group_id" value="${group.id}">
-                            <input type="hidden" name="user_id" value="${member.people.id}">
-                            <button class="btn btn-default" type="submit">
-                              ${_(u'Upgrade to %s' % member.get_role(role + 1).name.lower())}
-                            </button>
-                          </form>
-                        %endif
-                        %if role > msLevel.module.MembershipRole.USER \
-                            and user_is_group_admin \
-                            or role > msLevel.module.MembershipRole.USER \
-                            and role < msLevel.module.MembershipRole.SPONSOR \
-                            and user_is_sponsor:
-                        <form action="${request.route_url('group-action')}"
-                          method="POST">
-                          <input type="hidden" name="action" value="downgrade">
-                          <input type="hidden" name="group_id" value="${group.id}">
-                          <input type="hidden" name="user_id" value="${member.people.id}">
-                          <button class="btn btn-default" type="submit">
-                            ${_(u'Downgrade to %s' % member.get_role((role - 0x01)).name.lower())}
-                          </button>
-                        </form>
-                        %endif
-                        %if user_is_group_admin:
-<!--
-                        <form action="${request.route_url('group-action')}"
-                          method="POST">
-                          <input type="hidden" name="action" value="revoke">
-                          <input type="hidden" name="group_id" value="${group.id}">
-                          <input type="hidden" name="user_id" value="${member.people.id}">
--->
-                          <button class="AddMsgBox btn btn-default" data-toggle="modal" data-target="#AddOptionalMsg" data-people="${member.people.id}" data-group="${group.id}">
-                            ${_(u'Revoke membership')}
-                          </button>
-<!--
-                        </form>
--->
-                        %endif
-                      %endif
-                    %endif
-                  </span>
-                </li>
-              </ul>
-            </div>
-        %endfor
-        </div>
+       <%namespace name="groupMembers" file="members-list.xhtml" />
+       <ul class="nav nav-pills" role="tablist">
+         <li role="presentation" class="active">
+           <a href="#all" role="tab" data-toggle="pill">
+             All <span class="badge">${len(members)}</span>
+           </a>
+         </li>
+         <li role="presentation">
+           <a href="#user" role="tab" data-toggle="pill">
+             User <span class="badge">${len(users)}</span>
+           </a>
+         </li>
+         <li role="presentation">
+           <a href="#sponsors" role="tab" data-toggle="pill">
+             Sponsors <span class="badge">${len(sponsors)}</span>
+           </a>
+         </li>
+         <li role="presentation">
+           <a href="#admin" role="tab" data-toggle="pill">
+             Administrator <span class="badge">${len(admin)}</span>
+           </a>
+         </li>
+       </ul>
+
+       <div class="tad-content">
+         <div role="tabpanel" class="tab-pane fade in active" id="all">
+           ${groupMembers.list(members, user_is_group_admin)}
+         </div>
+         <div role="tabpanel" class="tab-pane fade in" id="user">
+           ${groupMembers.list(users, user_is_group_admin, display_role=False)}
+         </div>
+         <div role="tabpanel" class="tab-pane fade in" id="sponsors">
+           ${groupMembers.list(sponsors, user_is_group_admin, display_role=False)}
+         </div>
+         <div role="tabpanel" class="tab-pane fade in" id="admin">
+           ${groupMembers.list(admin, user_is_group_admin, display_role=False)}
+         </div>
+       </div>
     %else:
       <div class="no-members">
         <p>${_(u'No members found.')}</p>
