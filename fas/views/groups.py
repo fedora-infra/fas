@@ -336,17 +336,17 @@ class Groups(object):
     @view_config(route_name='group-action', permission='authenticated')
     def group_action(self):
         """ Upgrade or downgrade an user in a group."""
-        group_id = self.request.POST.get('group_id')
-        user_id = self.request.POST.get('user_id')
-        reason = self.request.POST.get('msg_text')
-
-        self.group = provider.get_group_by_id(group_id)
-        self.user = provider.get_people_by_id(user_id)
-
-        membership = provider.get_membership(
-            self.user.username, self.group.name)
-
         if self.request.method == 'POST':
+            group_id = self.request.POST.get('group_id')
+            user_id = self.request.POST.get('user_id')
+            reason = self.request.POST.get('msg_text')
+
+            self.group = provider.get_group_by_id(group_id)
+            self.user = provider.get_people_by_id(user_id)
+
+            membership = provider.get_membership(
+                self.user.username, self.group.name)
+
             msg = ''
             log_type = None
             action = self.request.POST.get('action')

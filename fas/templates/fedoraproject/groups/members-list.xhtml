@@ -1,10 +1,37 @@
 <%namespace name="groupMembers" />
 
-  <%def name="list(member, user_is_group_admin, display_role=True)">
+  <%def name="list(members, user_is_group_admin, user_is_sponsor, display_role=True)">
+      <!-- feature in review, move to front if pass -->
+      <script type='text/javascript' src="http://listjs.com/no-cdn/list.pagination.js"></script>
+      <script type='text/javascript' src="http://listjs.com/no-cdn/list.js"></script>
+
+      <style type='text/css'>
+          .pagination li {
+        display:inline-block;
+        padding:5px;
+      }
+      </style>
+
+      <script type='text/javascript'>//<![CDATA[ 
+      window.onload=function(){
+      var monkeyList = new List('members_list', {
+        valueNames: ['name'],
+        page: 50,
+        plugins: [ ListPagination({}) ] 
+      });
+      }//]]>
+
+      </script>
+
     <div class="row">
-      %for member in members[0:50]:
-          <div class="col-sm-6 col-md-4 col-lg-4">
-            <ul class="people">
+          <div id="members_list">
+            <ul class="pagination"></ul>
+<!-- Disable quick search
+            <input type="text" class="search" />
+-->
+            <ul class="list">
+      %for member in members[0:200]:
+          <div class="col-sm-6 col-md-4">
               <li>
                 <span>
                   <a href="${request.route_url('people-profile', id=member.people.id)}">
@@ -17,67 +44,87 @@
                     %endif
                   </a>
                 </span>
-                <span>${member.people.fullname}</span>
+                <span class="name">${member.people.fullname}</span>
                 %if display_role:
                   <span>(${_(member.get_role().name.lower())})</span>
                 %endif
-                <span>
                   %if request.authenticated_userid:
+                  %if user_is_group_admin or user_is_sponsor:
+                  <div class="btn-group">
+                     <button class="btn btn-info">${_(u'Manage membership')}</button>
+                     <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+                       <span class="caret"></span>
+                     </button>
+                     <ul class="dropdown-menu">
+                  %endif
                       <% role = member.get_role() %>
-                    %if user_is_group_manager:
                       <%namespace name="msLevel" module="fas.models" />
-                      %if role < msLevel.module.MembershipRole.ADMINISTRATOR \
-                          and user_is_group_admin \
-                          or role < msLevel.module.MembershipRole.SPONSOR \
-                          and user_is_sponsor:
-                        <form action="${request.route_url('group-action')}"
-                          method="POST">
-                          <input type="hidden" name="action" value="upgrade">
-                          <input type="hidden" name="group_id" value="${group.id}">
-                          <input type="hidden" name="user_id" value="${member.people.id}">
-                          <button class="btn btn-default" type="submit">
-                            ${_(u'Upgrade to %s' % member.get_role(role + 0x01).name.lower())}
-                          </button>
-                        </form>
+                      %if (role < msLevel.module.MembershipRole.ADMINISTRATOR \
+                          and user_is_group_admin) \
+                          or (role < msLevel.module.MembershipRole.SPONSOR \
+                          and user_is_sponsor):
+                        <li>
+                          <a>
+                            <form action="${request.route_url('group-action')}"
+                              method="POST">
+
+                              <input type="hidden" name="action" value="upgrade">
+                              <input type="hidden" name="group_id" value="${group.id}">
+                              <input type="hidden" name="user_id" value="${member.people.id}">
+                            <button class="btn btn-default" type="submit">
+                                ${_(u'Upgrade to %s' % member.get_role(role + 0x01).name.lower())}
+                            </button>
+                            </form>
+                          </a>
+                        </li>
                       %endif
                       %if role > msLevel.module.MembershipRole.USER \
                           and user_is_group_admin \
                           or role > msLevel.module.MembershipRole.USER \
                           and role < msLevel.module.MembershipRole.SPONSOR \
                           and user_is_sponsor:
-                      <form action="${request.route_url('group-action')}"
-                        method="POST">
-                        <input type="hidden" name="action" value="downgrade">
-                        <input type="hidden" name="group_id" value="${group.id}">
-                        <input type="hidden" name="user_id" value="${member.people.id}">
-                        <button class="btn btn-default" type="submit">
-                          ${_(u'Downgrade to %s' % member.get_role((role - 0x01)).name.lower())}
-                        </button>
-                      </form>
+                        <li>
+                          <a>
+                            <form action="${request.route_url('group-action')}"
+                              method="POST">
+                              <input type="hidden" name="action" value="downgrade">
+                              <input type="hidden" name="group_id" value="${group.id}">
+                              <input type="hidden" name="user_id" value="${member.people.id}">
+                              <button class="btn btn-default" type="submit">
+                                ${_(u'Downgrade to %s' % member.get_role((role - 0x01)).name.lower())}
+                              </button>
+                            </form>
+                          </a>
+                        </li>
                       %endif
                       %if user_is_group_admin:
+                        <li class="divider"></li>
+                        <li>
+                          <a>
+                            <form action="${request.route_url('group-action')}"
+                              method="POST">
+                              <input type="hidden" name="action" value="revoke">
+                              <input type="hidden" name="group_id" value="${group.id}">
+                              <input type="hidden" name="user_id" value="${member.people.id}">
 
-                      <form action="${request.route_url('group-action')}"
-                        method="POST">
-                        <input type="hidden" name="action" value="revoke">
-                        <input type="hidden" name="group_id" value="${group.id}">
-                        <input type="hidden" name="user_id" value="${member.people.id}">
-
-                        <button class="AddMsgBox btn btn-default" data-toggle="modal" 
-                                data-target="#AddOptionalMsg" data-people="${member.people.id}"
-                                data-group="${group.id}">
-                          ${_(u'Revoke membership')}
-                        </button>
-
-                      </form>
-
+                              <button class="AddMsgBox btn btn-default" data-toggle="modal"
+                                      data-target="#AddOptionalMsg" data-people="${member.people.id}"
+                                      data-group="${group.id}">
+                                ${_(u'Revoke membership')}
+                              </button>
+                            </form>
+                          </a>
+                        </li>
                       %endif
-                    %endif
+     %if user_is_group_admin or user_is_sponsor:
+        </ul>
+    </div>
+    %endif
                   %endif
-                </span>
               </li>
-            </ul>
           </div>
       %endfor
+            </ul>
+          </div>
     </div>
   </%def>

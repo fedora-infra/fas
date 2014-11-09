@@ -245,7 +245,7 @@
            <a href="#all" role="tab" data-toggle="pill">
              All <span class="badge">${len(members)}</span>
            </a>
-         </li>
+        </li>
          <li role="presentation">
            <a href="#user" role="tab" data-toggle="pill">
              User <span class="badge">${len(users)}</span>
@@ -263,18 +263,18 @@
          </li>
        </ul>
 
-       <div class="tad-content">
+       <div class="tab-content">
          <div role="tabpanel" class="tab-pane fade in active" id="all">
-           ${groupMembers.list(members, user_is_group_admin)}
+           ${groupMembers.list(members, user_is_group_admin, user_is_sponsor)}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="user">
-           ${groupMembers.list(users, user_is_group_admin, display_role=False)}
+           ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False)}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="sponsors">
-           ${groupMembers.list(sponsors, user_is_group_admin, display_role=False)}
+           ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False)}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="admin">
-           ${groupMembers.list(admin, user_is_group_admin, display_role=False)}
+           ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False)}
          </div>
        </div>
     %else:
@@ -283,6 +283,7 @@
       </div>
     %endif
   </div>
+  %if person:
   <form class="form-horizontal" role="form" method="POST"
         action="${request.route_url('group-action')}">
     <div class="modal fade" id="membershipRemoval" tabindex="-1"
@@ -326,5 +327,6 @@
       </div>
     </div>
   </form>
+  %endif
   <%namespace name="groupMsg" file="/groups/msgs.xhtml" />
     ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
