@@ -17,6 +17,7 @@ from fas.utils import compute_list_pages_from
 from fas.forms.people import ContactInfosForm
 from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
+from fas.forms.group import GroupAdminsForm
 
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
@@ -148,6 +149,7 @@ class Groups(object):
         user_members = []
         sponsor_members = []
         admin_members = []
+        admin_form = None
 
         authenticated = self.request.get_user
         authenticated_membership = None
@@ -169,6 +171,15 @@ class Groups(object):
                 authenticated_membership = membership
                 if membership.get_status() == MembershipStatus.APPROVED:
                     is_member = True
+
+        if authenticated:
+            if authenticated.id == group.owner_id:
+                admin_form = GroupAdminsForm(self.request.POST)
+                admin_form.owner_id.choices = [
+                    (person.people.id,
+                        '%s (%s)' % (
+                            person.people.username, person.people.fullname))
+                    for person in admin_members]
 
         membership_request = provider.get_memberships_by_status(
             status=MembershipStatus.PENDING,
@@ -213,6 +224,7 @@ class Groups(object):
             membership_request=membership_request,
             userform=user_form,
             licenseform=license_form,
+            adminform=admin_form,
             text=mistune
             )
 
@@ -449,10 +461,26 @@ class Groups(object):
                     log_type,
                     self.group.name)
 
+            elif action == 'change_admin':
+                form = GroupAdminsForm(self.request.POST, self.group)
+                form.owner_id.choices = [
+                    (m.people.id, m.people.username)
+                    for m in self.group.members
+                    if m.role == MembershipRole.ADMINISTRATOR]
+                if form.validate():
+                    form.populate_obj(self.group)
+                    log_type = AccountLogType.CHANGED_GROUP_MAIN_ADMIN
+                    msg = _(u'You are no longer the principal administrator')
+                    register.save_account_activity(
+                        self.request,
+                        self.user.id,
+                        log_type,
+                        self.group.name)
+
             if msg:
                 self.request.session.flash(msg, 'info')
 
-            if log_type:
+            if log_type == AccountLogType.REVOKED_GROUP_MEMBERSHIP:
                 Notify.revoked_membership(
                     self.user,
                     self.group,

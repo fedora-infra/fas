@@ -86,3 +86,12 @@ class EditGroupForm(Form):
         [validators.Optional()],
         coerce=int,
         choices=[(l.id, l.name) for l in provider.get_licenses()])
+
+
+class GroupAdminsForm(Form):
+    """ Form to select valid group admin. """
+    owner_id = SelectField(
+        _(u'New principal admin'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])

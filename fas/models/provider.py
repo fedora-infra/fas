@@ -6,6 +6,8 @@ from pyramid.security import unauthenticated_userid
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
 
+from fas.models import MembershipRole
+
 from fas.models.la import (
     LicenseAgreement,
     SignedLicenseAgreement
