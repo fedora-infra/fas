@@ -25,7 +25,7 @@ from fas.security import ParamsValidator
 from fas.utils import _
 from fas.utils.fgithub import Github
 
-from fas.notifications.email import Notify
+from fas.notifications.email import Email
 
 import mistune
 
@@ -360,6 +360,7 @@ class Groups(object):
                 self.user.username, self.group.name)
 
             msg = ''
+            email = Email(self.user.email)
             log_type = None
             action = self.request.POST.get('action')
 
@@ -460,6 +461,11 @@ class Groups(object):
                     self.user.id,
                     log_type,
                     self.group.name)
+                email.set_revoked_membership(
+                    self.user,
+                    self.group,
+                    reason,
+                    log_type)
 
             elif action == 'change_admin':
                 form = GroupAdminsForm(self.request.POST, self.group)
@@ -480,12 +486,7 @@ class Groups(object):
             if msg:
                 self.request.session.flash(msg, 'info')
 
-            if log_type == AccountLogType.REVOKED_GROUP_MEMBERSHIP:
-                Notify.revoked_membership(
-                    self.user,
-                    self.group,
-                    reason,
-                    log_type
-                    )
+            if email.is_ready:
+                email.send()
 
         return redirect_to('/group/details/%s' % self.group.id)

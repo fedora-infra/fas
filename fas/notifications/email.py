@@ -1,52 +1,49 @@
 # -*- coding: utf-8 -*-
 
 from fas.utils import _
-from fas.utils import Config
 from fas.utils.notify import send_email
 
 from fas.models import AccountLogType
 
+from .messages import membership_msgs as msg
 
-class Notify(object):
 
-    @classmethod
-    def revoked_membership(self, people, group, reason=None, eta=None):
+class Email(object):
+
+    def __init__(self, recipient=None):
+        self.subject = ""
+        self.body = ""
+        self.recipient = recipient
+        self.is_ready = False
+
+    def __set_is_ready__(self, ready=False):
+        """ Set email objects as ready to be sent."""
+        self.is_ready = ready
+
+    def is_ready(self):
+        """ Tell if email object is ready or not to send out its contents."""
+        return self.is_ready
+
+    def send(self):
+        """ Send out email with pre-configured email contents."""
+        if self.recipient is not None:
+            send_email(
+                message=self.body,
+                subject=self.subject,
+                mail_to=self.recipient
+                )
+
+    def set_revoked_membership(self, people, group, reason=None, eta=None):
         """ Notify about given person about its membership revoking. """
-        middle_text = None
-        subject = _(
-            'You have been removed from the group: %s' %
-            group.name)
+        if reason is None:
+            reason = ""
 
-        if eta == AccountLogType.REVOKED_GROUP_MEMBERSHIP_BY_ADMIN:
-            middle_text = _("""
-This is to inform you that you have been removed from the %s group
-""" % group.name)
-            if reason:
-                middle_text = middle_text + ("""
-with the following reason:
+        fields = msg['revoke']['fields'](people, group, reason)
 
-%(reason)s""") % ({'reason': reason})
-        elif eta == AccountLogType.REVOKED_GROUP_MEMBERSHIP:
-            middle_text = _("""
-This is to inform you that you have been successfully removed from the
-%(groupname)s group as requested.""") % ({'groupname': group.name})
+        if eta == AccountLogType.REVOKED_GROUP_MEMBERSHIP:
+            self.body = msg['revoke']['body_self_removal'] % fields
 
-        text = _("""
-Hello %(fullname)s,
+        elif eta == AccountLogType.REVOKED_GROUP_MEMBERSHIP_BY_ADMIN:
+            self.body = msg['revoke']['body_admin_revoked'] % fields
 
-%(middle_text)s
-
-If you believe this action is not expected, please, contact
-the group's administrator or an %(organisation)s administrator.
-
-Regards,
-
-The %(organisation)s
-""" % ({
-        'fullname': people.fullname,
-        'organisation': Config.get('project.organisation'),
-        'groupname': group.name,
-        'middle_text': middle_text
-    }))
-
-        send_email(message=text, subject=subject, mail_to=people.email)
+        self.__set_is_ready__(True)
