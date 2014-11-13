@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from fas.utils import _
-from fas.utils import Config
 
-__orga__ = Config.get('project.organisation')
-__signature__ = u"""
+class Msg(object):
+
+    def __init__(self, config):
+        self.config = config
+
+    def signature(self):
+        return u"""\
 Regards,
 -
-The %s
-""" % __orga__
+The %(orga)s
+""" % {'orga': self.config.get('project.organisation')}
 
-membership_msgs = {
+    def membership_update(self):
+        return {
 
     'application': {
-        'subject': _(u"""\
-        Your membership request for %(groupname)s is being reviewed"""),
-        'body': _(u"""\
+        'subject': u"""\
+        Your membership request for %(groupname)s is being reviewed""",
+        'body': u"""\
 Hello %(fullname)s,
 
 Your request to be part of group %(groupname)s has been successfully
@@ -25,18 +29,18 @@ an sponsor or administrator.
 You can check your request status by visiting %(url)s.
 
 %(sig)
-"""),
-        'fields': lambda x, y, z: {
-            'fullname': unicode(x.fullname),
-            'groupname': unicode(y.name),
-            'url': z,
-            'sig': __signature__
+""",
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'url': x['url'],
+            'sig': self.signature()
             }
         },
 
     'join': {
-        'subject': _(u"""Welcome to group %(groupname)s!"""),
-        'body': _(u"""\
+        'subject': u"""Welcome to group %(groupname)s!""",
+        'body': u"""\
 Hello %(fullname)s,
 
 Thank you for joining group %(groupname)s.
@@ -44,57 +48,58 @@ Thank you for joining group %(groupname)s.
 Review your membership at %(url)s
 
 %(sig)s
-"""),
-        'fields': lambda x, y, z: {
-            'fullname': unicode(x.fullname),
-            'groupname': unicode(y.name),
-            'url': z,
-            'sig': __signature__
+""",
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'url': x['url'],
+            'sig': self.signature()
             }
         },
 
     'upgrade': {
-        'subject': _(u"""You have been upgraded to %(role)s in %(groupname)s"""),
-        'body': _(u"""\
+        'subject': u"""\
+        You have been promoted to %(role)s in group %(groupname)s""",
+        'body': u"""\
 Congratulation %(fullname)s,
 
 You have been upgraded to %(role)s into group %(groupname)s.
 To review your new role and power visit %(url)s
 
 %(sig)s
-"""),
-        'fields': lambda x, y, z: {
-            'fullname': unicode(x.fullname),
-            'groupname': unicode(y.group.name),
-            'role': unicode(y.role.name.lower()),
-            'url': z,
-            'sig': __signature__
+""",
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'role': unicode(x['role'].name.lower()),
+            'url': x['url'],
+            'sig': self.signature()
             }
         },
 
     'downgrade': {
-        'subject': _(u"""\
-You have been downgraded to %(role)s in %(groupname)s"""),
-        'body': _(u"""\
+        'subject': u"""\
+You have been demoted to %(role)s in group %(groupname)s""",
+        'body': u"""\
 Hello %(fullname)s,
 
 this is to inform you that you have been downgraded to %(role)s
 into group %(groupname)s.
 
 %(sig)s
-"""),
-        'fields': lambda x, y: {
-            'fullname': unicode(x.fullname),
-            'groupname': unicode(y.group.name),
-            'role': unicode(y.role.name.lower()),
-            'sig': __signature__
+""",
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'role': x['role'].name.lower(),
+            'sig': self.signature()
             }
     },
 
     'admin_change': {
-        'subject': _(u"""\
-Your are now the new %(group)s principal administrator"""),
-        'body': _(u"""\
+        'subject': u"""\
+Your have been promoted as the new principal administrator of %(groupname)s""",
+        'body': u"""\
 Hello %(fullname)s,
 
 %(former_admin)s has made you the new principal administrator for group
@@ -103,40 +108,44 @@ Hello %(fullname)s,
 Review your new group information at %(url)s
 
 %(sig)s
-"""),
-        'fields': lambda w, x, y, z: {
-            'fullname': unicode(w.fullname),
-            'groupname': unicode(x.name),
-            'former_admin': y,
-            'url': z,
-            'sig': __signature__
+""",
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'former_admin': x['admin'].fullname,
+            'url': x['url'],
+            'sig': self.signature()
             }
     },
 
     'revoke': {
-        'subject': _(u"""You have been removed from group %(groupname)s"""),
-        'body_self_removal': _(u"""\
+        'subject': u"""You have been removed from group %(groupname)s""",
+        'body_self_removal': u"""\
+Hello %(fullname)s,
+
 This is to inform you that you have been successfully removed from the
 %(groupname)s group as requested.
 
 %(sig)s
-"""),
-        'body_admin_revoked': _(u"""\
+""",
+        'body_admin_revoked': u'''\
+Hello %(fullname)s,
+
 This is to inform you that you have been removed from the group %(groupname)s
 with the following reason:
 
 %(reason)s
 
 If you believe this action is not expected to be happened please, contact
-an group's administrator or an account's administrator.
+an group\'s administrator or an account\'s administrator.
 
 %(sig)s
-"""),
-        'fields': lambda x, y, z: {
-            'fullname': unicode(x.fullname),
-            'groupname': unicode(y.name),
-            'reason': z,
-            'sig': __signature__
+''',
+        'fields': lambda **x: {
+            'fullname': unicode(x['people'].fullname),
+            'groupname': unicode(x['group'].name),
+            'reason': x['reason'],
+            'sig': self.signature()
             }
-        },
-}
+            },
+        }
