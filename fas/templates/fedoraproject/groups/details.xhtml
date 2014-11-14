@@ -9,17 +9,30 @@
   %>
 
   <%namespace name="paging" file="/paging.xhtml"/>
+  <%namespace name="GroupForm" file="form.xhtml"/>
+  <%namespace name="groupMsg" file="msgs.xhtml" />
 
   %if user_is_group_admin:
-  <%namespace name="GroupForm" file="form.xhtml"/>
     ${GroupForm.invite()}
     ${GroupForm.addUser(peopleform)}
+  %endif
+
+  %if person:
+    %if person.id == group.owner.id:
+      ${GroupForm.changeAdmin(adminform, group.id, person.id)}
+    %endif
+  %endif
+
+  %if is_member:
+    ${GroupForm.membershipRemoval(group.id, person.id)}
   %endif
 
   %if group.license_sign_up > 0:
   <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
     ${licenseAgreement.form(license=group.license, person=request.get_user)}
   %endif
+
+  ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
 
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
@@ -308,92 +321,4 @@
       </div>
     %endif
   </div>
-  %if is_member:
-  <form class="form-horizontal" role="form" method="POST"
-        action="${request.route_url('group-action')}">
-    <div class="modal fade" id="membershipRemoval" tabindex="-1"
-         role="dialog" aria-labelledby="MembershipRemoval"
-         aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">&times;</span>
-              <span class="sr-only">
-                Close
-              </span>
-            </button>
-            <h4 class="modal-title" id="UpdateStatus">${_(u'Membership removal')}</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-                <div class="col-lg-10">
-                  <!-- You can use markdown syntaxes here -->
-                  <!-- TODO: review wording before release to prod -->
-                  <p>
-                    ${_(u'Removing yourself from this group will removed your account'
-                          'from any related system.'
-                          'Are you sure?')}
-                  </p>
-                </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input type="hidden" name="group_id" value="${group.id}">
-            <input type="hidden" name="user_id" value="${person.id}">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-                ${_(u'No')}
-            </button>
-            <button type="submit" class="btn btn-primary" name="action" value="removal">
-                ${_('Yes')}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  %endif
-  %if person:
-    %if person.id == group.owner.id:
-      <form class="form-horizontal" role="form" method="POST"
-          action="${request.route_url('group-action')}">
-        <div class="modal fade" id="groupMainAdminChange" tabindex="-1"
-             role="dialog" aria-labelledby="MembershipRemoval"
-             aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">
-                    Close
-                  </span>
-                </button>
-                <h4 class="modal-title" id="UpdateStatus">${_(u'Group admin update')}</h4>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  ${adminform.owner_id.label(class_='col-sm-2 control-label')}
-                  <div class="col-lg-10">
-                    ${adminform.owner_id(class_='form-control')}
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <input type="hidden" name="group_id" value="${group.id}">
-                <input type="hidden" name="user_id" value="${person.id}">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    ${_(u'Cancel')}
-                </button>
-                <button type="submit" class="btn btn-primary" name="action" value="change_admin">
-                    ${_('Update')}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    %endif
-  %endif
-  <%namespace name="groupMsg" file="/groups/msgs.xhtml" />
-    ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
+

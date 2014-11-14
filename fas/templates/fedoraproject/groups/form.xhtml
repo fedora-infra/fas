@@ -58,3 +58,44 @@
     ${footer(_(u'Cancel'), _(u'Add this member'), 'action', 'add')}
   </form>
   </%def>
+
+  <%def name="membershipRemoval(group, person)">
+  <form class="form-horizontal" role="form" method="POST"
+        action="${request.route_url('group-action')}">
+    ${header('membershipRemoval', _(u'Membership removal'))}
+          <div class="modal-body">
+            <div class="form-group">
+                <div class="col-lg-10">
+                  <!-- You can use markdown syntaxes here -->
+                  <!-- TODO: review wording before release to prod -->
+                  <p>
+                    ${_(u'Removing yourself from this group will removed your account'
+                          'from any related system.'
+                          'Are you sure?')}
+                  </p>
+                  <input type="hidden" name="group_id" value="${group}">
+                  <input type="hidden" name="user_id" value="${person}">
+                </div>
+            </div>
+          </div>
+    ${footer(_(u'No'), _(u'Yes'), 'action', 'removal')}
+  </form>
+  </%def>
+
+  <%def name="changeAdmin(form, group, person)">
+    <form class="form-horizontal" role="form" method="POST"
+          action="${request.route_url('group-action')}">
+      ${header('groupMainAdminChange', _(u'Group admin update'))}
+              <div class="modal-body">
+                <div class="form-group">
+                  ${form.owner_id.label(class_='col-sm-2 control-label')}
+                  <div class="col-lg-10">
+                    ${form.owner_id(class_='form-control')}
+                    <input type="hidden" name="group_id" value="${group}">
+                    <input type="hidden" name="user_id" value="${person}">
+                  </div>
+                </div>
+              </div>
+      ${footer(_(u'Cancel'), _(u'Change admin'), 'action', 'change_admin')}
+    </form>
+  </%def>
