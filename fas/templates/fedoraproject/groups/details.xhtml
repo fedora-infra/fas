@@ -10,6 +10,10 @@
 
   <%namespace name="paging" file="/paging.xhtml"/>
 
+  %if user_is_group_admin:
+  <%namespace name="GroupForm" file="form.xhtml"/>
+    ${GroupForm.invite()}
+  %endif
   %if group.license_sign_up > 0:
   <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
     ${licenseAgreement.form(license=group.license, person=request.get_user)}
@@ -148,6 +152,19 @@
                     </a>
                   </dd>
               %endif
+            %endif
+            %if user_is_group_admin:
+              ${GroupForm.addUser(peopleform)}
+              <div class="btn-group">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#invitePerson">
+                  ${_(u'Invite')}
+                </button>
+<!--
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPeople">
+                  ${_(u'Add a user')}
+                </button>
+-->
+              </div>
             %endif
           </dl>
       %else:

@@ -33,19 +33,17 @@ class Email(object):
                 subject=self.subject,
                 mail_to=recipient
                 )
+            self.__set_is_ready__(False)
 
     def set_msg(self, topic, subject='subject', body='body', **fields):
             """ Set up message from given template."""
-            try:
-                self.subject, self.body = (
-                    self.msg[topic][subject],
-                    self.msg[topic][body]
-                    % self.msg[topic]['fields'](**fields))
-            except KeyError:
-                self.__set_is_ready__(False)
-                return
-            except AttributeError:
-                self.__set_is_ready__(False)
-                return
-
             self.__set_is_ready__(True)
+
+            self.subject = self.msg[topic][subject]\
+            % self.msg[topic]['fields'](**fields)
+            self.body = self.msg[topic][body]\
+            % self.msg[topic]['fields'](**fields)
+
+            if not isinstance(self.subject, basestring)\
+            and not isinstance(self.body, basestring):
+                self.__set_is_ready__(False)

@@ -22,7 +22,7 @@ from fas.forms.group import GroupAdminsForm
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
-from fas.utils import _
+from fas.utils import _, Config
 from fas.utils.fgithub import Github
 
 from fas.notifications.email import Email
@@ -364,15 +364,29 @@ class Groups(object):
             self.group = provider.get_group_by_id(group_id)
             self.user = provider.get_people_by_id(user_id)
 
-            membership = provider.get_membership(
-                self.user.username, self.group.name)
+            if self.user:
+                membership = provider.get_membership(
+                    self.user.username, self.group.name)
 
             msg = ''
             email = Email('membership_update')
             log_type = None
             action = self.request.POST.get('action')
 
-            if action == 'removal':
+            if action == 'invite':
+                invitee = self.request.POST.get('invitee')
+                if invitee:
+                    email.set_msg(
+                        topic='invite',
+                        people=self.request.get_user,
+                        group=self.group,
+                        organisation=Config.get('project.organisation'),
+                        url=self.request.route_url(
+                            'group-details', id=self.group.id))
+                    email.send(invitee)
+                msg = _(u'Invitation sent!')
+
+            elif action == 'removal':
                 log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP
                 register.remove_membership(self.group.id, self.user.id)
                 register.save_account_activity(

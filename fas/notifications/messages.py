@@ -16,6 +16,35 @@ The %(orga)s
     def membership_update(self):
         return {
 
+    'invite': {
+        'subject': u"""\
+Invitation to join %(orga)s group %(groupname)s!""",
+        'body': u"""\
+%(fullname)s has invited you to join the %(orga)s by joining the group %(groupname)s!
+
+We are a community of users and developers who produce a complete
+operating system from entirely free and open source software (FOSS).
+
+%(fullname)s thinks that you have knowledge and skills that make you a great fit
+for the Fedora community, and that you might be interested in contributing.
+
+How could you team up with the Fedora community to use and develop your skills?
+Check out http://fedoraproject.org/join-fedora for some ideas.
+
+Our community is more than just software developers
+Fedora and FOSS are changing the world, come be a part of it!
+
+%(sig)s
+""",
+        'fields': lambda **x: {
+            'fullname': x['people'].fullname,
+            'groupname': x['group'].name,
+            'url': x['url'],
+            'orga': x['organisation'],
+            'sig': self.signature()
+            }
+        },
+
     'application': {
         'subject': u"""\
         Your membership request for %(groupname)s is being reviewed""",
