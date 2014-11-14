@@ -63,6 +63,19 @@ class UpdateStatusForm(Form):
         choices=[(e.value, e.name.lower()) for e in AccountStatus])
 
 
+class PeopleForm(Form):
+    """ Simple form to select registered people. """
+    people = SelectField(
+        _(u'Select a user'),
+        [validators.Required()],
+        coerce=int,
+        choices=[
+            (u.id, u.username + ' (' + u.fullname + ')')
+            for u in provider.get_people()
+        ]
+    )
+
+
 class UsernameForm(Form):
     """ Simple form to request the user's username. """
     username = StringField(_(u'Username'), [validators.Required()])

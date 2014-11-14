@@ -39,21 +39,22 @@
                 </div>
             </div>
           </div>
-    ${footer(_(u'Cancel'), _(u'Invite'), 'action', 'invite')}
+    ${footer(_(u'Cancel'), _(u'Send invitation'), 'action', 'invite')}
   </form>
   </%def>
 
   <%def name="addUser(_form)">
-  <form class="form-horizontal" role="form" method="POST">
+  <form class="form-horizontal" role="form" method="POST" action="${request.route_url('group-action')}">
     ${header('addPeople', _(u'Add a new member'))}
           <div class="modal-body">
+                <p>${_(u'Add a community member to your group')}</p>
             <div class="form-group">
-                <p>${_(u'Add a community member to your gorup')}</p>
                 <div class="col-lg-10">
+                  <input type="hidden" name="group_id" value="${group.id}">
                   ${_form.people(class_="form-control col-lg-10")}
                 </div>
             </div>
           </div>
-    ${footer(_(u'Cancel'), _(u'Add this person'), 'apply', 'None')}
+    ${footer(_(u'Cancel'), _(u'Add this member'), 'action', 'add')}
   </form>
   </%def>

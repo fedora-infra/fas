@@ -14,7 +14,7 @@ import fas.models.register as register
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 
-from fas.forms.people import ContactInfosForm
+from fas.forms.people import ContactInfosForm, PeopleForm
 from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
 from fas.forms.group import GroupAdminsForm
@@ -140,6 +140,7 @@ class Groups(object):
 
         user_form = ContactInfosForm(self.request.POST, self.request.get_user)
         license_form = SignLicenseForm(self.request.POST)
+        people_form = PeopleForm(self.request.POST)
 
         g_memberships = provider.get_group_membership(_id)
 
@@ -191,6 +192,11 @@ class Groups(object):
             license_signed_up = provider.is_license_signed(
                 group.license_sign_up, self.request.get_user.id)
 
+        #FIXME: filter out members from people list.
+        #people_form.people.choices = [
+            #(u.id, u.username + ' (' + u.fullname + ')')
+            #for u in provider.get_people()]
+
         # Disable paging on members list.
         # valid_member = self.request.get_user() in person
         # Disable paging for now
@@ -225,6 +231,7 @@ class Groups(object):
             userform=user_form,
             licenseform=license_form,
             adminform=admin_form,
+            peopleform=people_form,
             text=mistune
             )
 
@@ -295,6 +302,8 @@ class Groups(object):
         except KeyError:
             return HTTPBadRequest()
 
+        form = PeopleForm(self.request.POST)
+
         self.group = provider.get_group_by_id(self.id)
         user = self.request.get_user
 
@@ -302,11 +311,6 @@ class Groups(object):
             user.username, self.group.name)
 
         email = Email('membership_update')
-        email.set_msg(
-            topic='application',
-            people=user,
-            group=self.group,
-            url=self.request.route_url('group-detail', id=self.group.id))
 
         can_apply = False
         if not membership:
@@ -321,9 +325,22 @@ class Groups(object):
         if self.request.method == 'POST':
             status = MembershipStatus.PENDING
             log = AccountLogType.ASKED_GROUP_MEMBERSHIP
+            email.set_msg(
+                topic='application',
+                people=user,
+                group=self.group,
+                url=self.request.route_url(
+                    'group-details', id=self.group.id))
+
             if not self.group.need_approval:
                 status = MembershipStatus.APPROVED
                 log = AccountLogType.NEW_GROUP_MEMBERSHIP
+                email.set_msg(
+                    topic='join',
+                    people=user,
+                    group=self.group,
+                    url=self.request.route_url(
+                        'group-details', id=self.group.id))
 
             if can_apply:
                 register.add_membership(
@@ -357,9 +374,14 @@ class Groups(object):
     def group_action(self):
         """ Upgrade or downgrade an user in a group."""
         if self.request.method == 'POST':
+            form = PeopleForm(self.request.POST)
+
             group_id = self.request.POST.get('group_id')
             user_id = self.request.POST.get('user_id')
             reason = self.request.POST.get('msg_text')
+
+            if form.validate():
+                user_id = form.people.data
 
             self.group = provider.get_group_by_id(group_id)
             self.user = provider.get_people_by_id(user_id)
@@ -385,6 +407,21 @@ class Groups(object):
                             'group-details', id=self.group.id))
                     email.send(invitee)
                 msg = _(u'Invitation sent!')
+
+            elif action == 'add':
+                if form.validate():
+                    register.add_membership(
+                        self.group.id,
+                        self.user.id,
+                        MembershipStatus.APPROVED)
+                    email.set_msg(
+                        topic='join',
+                        people=self.user,
+                        group=self.group,
+                        url=self.request.route_url(
+                            'group-details', id=self.group.id))
+                    msg = _(u'%s is now a member of your group'
+                    % self.user.username)
 
             elif action == 'removal':
                 log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP
