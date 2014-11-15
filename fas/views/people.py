@@ -15,7 +15,7 @@ from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
-from fas.forms.captcha import check_result, CaptchaForm
+from fas.forms.captcha import CaptchaForm
 
 import fas.utils.notify
 from fas.security import PasswordValidator
@@ -30,11 +30,15 @@ from fas.models import (
     )
 from fas.models.people import People as mPeople
 
+from fas.notifications.email import Email
+
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
-from sqlalchemy.exc import SQLAlchemyError
 
-from fas.utils import _
+import logging
+from fas.utils import _, Config
+
+log = logging.getLogger(__name__)
 
 
 class People(object):
@@ -255,41 +259,45 @@ class People(object):
         form = NewPeopleForm(self.request.POST)
         captchaform = CaptchaForm(self.request.POST)
 
+        email = Email('account_update')
+
         if self.request.method == 'POST'\
                 and ('form.save.person-infos' in self.request.params):
             self.person = mPeople()
-            if captchaform.validate():
+            if not captchaform.validate():
+                log.debug('captcha is not valid')
+            else:
                 if form.validate():
-                    # Check username and email's uniqueness before
-                    # doing anything
-                    if provider.get_people_by_username(form.username.data):
-                        self.request.session.flash(
-                            _('An account is already registered with this '
-                              'username'), 'error')
-                        return dict(form=form)
-                    if provider.get_people_by_email(form.email.data):
-                        self.request.session.flash(
-                            _('An account is already registered with '
-                            'this email'),
-                            'error')
-                        return dict(form=form)
 
                     self.person.username = form.username.data
                     self.person.email = form.email.data
                     self.person.fullname = form.fullname.data
+
                     pwdman = PasswordManager()
                     self.person.password = pwdman.generate_password(
                         form.password.data)
                     self.person.password_token = generate_token()
-                    register.add_people(self.person)
 
+                    register.add_people(self.person)
                     register.flush()
-                    fas.utils.notify.notify_account_creation(self.person)
+
+                    email.set_msg(
+                        topic='registration',
+                        organisation=Config.get('project.organisation'),
+                        url=self.request.route_url(
+                            'people-confirm-account',
+                            username=self.person.username,
+                            token=self.person.password_token)
+                        )
+                    email.send(self.person.email)
                     self.request.session.flash(
                         _('Account created, please check your email to finish '
                           'the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)
 
+        log.debug('Captcha %s' % captchaform)
+        if captchaform is None:
+            raise HTTPNotFound('captcha is null')
         return dict(form=form, captchaform=captchaform)
 
     @view_config(
@@ -298,11 +306,12 @@ class People(object):
     def confirm_account(self):
         """ Confirm a user account creation."""
         try:
+            username = self.request.matchdict['username']
             token = self.request.matchdict['token']
         except KeyError:
             return HTTPBadRequest()
 
-        self.person = provider.get_people_by_password_token(token)
+        self.person = provider.get_people_by_password_token(username, token)
 
         if not self.person:
             raise HTTPNotFound('No user found with this token')
@@ -321,6 +330,12 @@ class People(object):
         """ Mechanism to recover lost-password."""
         form = UsernameForm(self.request.POST)
         captcha_form = CaptchaForm(self.request.POST)
+
+        # Override username validator
+        from wtforms import validators
+        form.username.validators = [validators.Required()]
+
+        email = Email('account_update')
 
         if self.request.method == 'POST'\
                 and ('form.save.person-infos' in self.request.params):
@@ -343,13 +358,26 @@ class People(object):
 
                     self.person.password_token = generate_token()
                     self.person.status = AccountStatus.PENDING
+
                     register.add_people(self.person)
                     register.save_account_activity(
                         self.request, self.person.id,
                         AccountLogType.ASKED_RESET_PASSWORD)
 
                     register.flush()
-                    fas.utils.notify.notify_account_password_lost(self.person)
+
+                    email.set_msg(
+                        topic='password-reset',
+                        people=self.person,
+                        organisation=Config.get('project.organisation'),
+                        reset_url=self.request.route_url(
+                            'reset-password',
+                            username=self.person.username,
+                            token=self.person.password_token))
+                    rcpt = [self.person.email]
+                    if self.person.recovery_email:
+                        rcpt.append(self.person.recovery_email)
+                    email.send(rcpt)
                     self.request.session.flash(
                         _('Check your email to finish the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)
@@ -362,7 +390,7 @@ class People(object):
     def reset_password(self):
         """ Mechanism to reset a lost-password."""
         try:
-            username = self.request.matchdist['username']
+            username = self.request.matchdict['username']
             token = self.request.matchdict['token']
         except KeyError:
             return HTTPBadRequest()

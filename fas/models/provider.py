@@ -282,13 +282,13 @@ def get_people(limit=None, page=None, pattern=None, count=False):
     return query.all()
 
 
-def get_people_username():
-    """ Retrieve and return list of tuple of people's username and id."""
-    query = session.query(
-        People.id, People.username
-    ).order_by(
-        People.username
-    )
+def get_people_username(filter_out=None):
+    """ Retrieve and return people's username."""
+    query = session.query(People.username)
+
+    #if filter_out:
+        #query.filter(People.username != filter_out)
+
     return query.all()
 
 

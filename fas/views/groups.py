@@ -297,7 +297,6 @@ class Groups(object):
 
         return dict(form=form, id=self.id)
 
-
     @view_config(route_name='group-apply', permission='authenticated')
     def group_apply(self):
         """ Apply to a group."""

@@ -47,6 +47,7 @@ def check_availibility(key):
     def __validate__(form, field):
         """ Validata that field value is not stored already. """
         avail_data = [value[0] for value in __data__(form.username.data)]
+
         if field.data in avail_data:
             raise ValidationError(_(u'%s exists already!' % field.data))
 
@@ -78,18 +79,23 @@ class PeopleForm(Form):
 
 class UsernameForm(Form):
     """ Simple form to request the user's username. """
-    username = StringField(_(u'Username'), [validators.Required()])
+    username = StringField(_(u'Username'),
+        [validators.Required(), check_availibility(key='username')])
 
 
-class ContactInfosForm(Form):
-    """ Form to edit contact infos. """
-    username = HiddenField()
-    fullname = StringField(_(u'Full name'), [validators.Required()])
+class EmailForm(Form):
+    """ Form to validate email. """
     email = StringField(
         _(u'Email'),
         [validators.Required(),
             validators.Email(),
             check_availibility(key='email')])
+
+
+class ContactInfosForm(EmailForm):
+    """ Form to edit contact infos. """
+    username = HiddenField()
+    fullname = StringField(_(u'Full name'), [validators.Required()])
     facsimile = StringField(_(u'Facsimile'))
     telephone = StringField(_(u'Telephone number'))
     postal_address = StringField(_(u'Postal address'), [validators.Optional()])
@@ -151,11 +157,9 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
     longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
 
 
-class NewPeopleForm(UsernameForm):
+class NewPeopleForm(UsernameForm, EmailForm):
     """ Form to create an user's account. """
     fullname = StringField(_(u'Full name'), [validators.Required()])
-    email = StringField(
-        _(u'Email'), [validators.Required(), validators.Email()])
     password = PasswordField(
         _(u'Password'),
         [validators.Required(), validators.EqualTo(

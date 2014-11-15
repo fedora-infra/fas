@@ -17,7 +17,8 @@
         </ul>
         </div>
     %endif
-    %if captchaform.errors:
+    %if captchaform:
+      %if captchaform.errors:
         <div class="alert alert-danger alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <ul class="errors">
@@ -28,6 +29,7 @@
             %endfor
         </ul>
         </div>
+      %endif
     %endif
       <h4 class="section-title">${_('Main informations')}</h4>
       <div class="form-group">
