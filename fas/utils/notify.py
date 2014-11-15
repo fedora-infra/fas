@@ -8,6 +8,7 @@
 
 import smtplib
 import urlparse
+import logging
 
 from email.mime.text import MIMEText
 
@@ -18,7 +19,7 @@ _ = TranslationStringFactory('fas')
 from fas.utils import Config
 
 
-def send_email(message, subject, mail_to):  # pragma: no cover
+def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
     ''' Send notification by email. '''
 
     msg = MIMEText(message)
@@ -37,6 +38,11 @@ def send_email(message, subject, mail_to):  # pragma: no cover
     # Send the message via our own SMTP server, but don't include the
     # envelope header.
     smtp = smtplib.SMTP(Config.get('email.smtp.server'))
+
+    if logger:
+        if logger.isEnabledFor(logging.DEBUG):
+            smtp.set_debuglevel(1)
+
     smtp.sendmail(from_email, mail_to, msg.as_string())
     smtp.quit()
 

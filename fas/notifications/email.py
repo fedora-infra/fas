@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from fas.utils import _, Config
+from fas.utils import Config
 from fas.utils.notify import send_email
 
 from messages import Msg
+
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Email(object):
@@ -31,7 +35,8 @@ class Email(object):
             send_email(
                 message=self.body,
                 subject=self.subject,
-                mail_to=recipient
+                mail_to=recipient,
+                logger=log
                 )
             self.__set_is_ready__(False)
 
