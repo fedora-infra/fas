@@ -48,6 +48,8 @@
                 %if display_role:
                   <span>(${_(member.get_role().name.lower())})</span>
                 %endif
+                <!-- FIXME: translate date -->
+                <p >${_(u'Joined group on')} ${member.approval_timestamp.strftime('%b, %d %Y')}</p>
                   %if request.authenticated_userid:
                   %if user_is_group_admin or user_is_sponsor:
                   <div class="btn-group">
