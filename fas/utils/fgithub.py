@@ -1,18 +1,28 @@
 # -*- coding: utf-8 -*-
 
+import logging
+from logging import Logger
 
 from github import Github
-from github import UnknownObjectException, GithubException
+from github import UnknownObjectException, GithubException, enable_console_debug_logging
 from fas.utils import Config
 
 
 class Github(Github):
 
-    def __init__(self):
+    def __init__(self, logger=None):
         super(Github, self).__init__(
             Config.get('github.token'),
-            user_agent=Config.get('project.name') + "\FAS 3.0")
-        # self.enable_console_debug_logging()
+            user_agent=Config.get('github.client.user-agent'))
+
+        if not isinstance(logger, Logger):
+            self.log = logging.getLogger()
+        else:
+            self.log = logger
+
+        if self.log.isEnabledFor(logging.DEBUG):
+            enable_console_debug_logging()
+
         self.org = self.get_organization(Config.get('github.organization'))
 
     # def get_organization(self):
@@ -37,15 +47,18 @@ class Github(Github):
         :rtype: tuple of :class:`github.Team.Team` and msg if error happens.
         """
         group = None
-        msg = None
         repo = []
 
         try:
             group = self.org.create_team(
                 name=name, repo_names=repo, permission=access)
-        except UnknownObjectException:
-            msg = group
-        except GithubException:
-            msg = group
+            self.log.debug('Created team %s' % group)
+        except UnknownObjectException, e:
+            self.log.debug(e)
+        except GithubException, e:
+            self.log.error('Something happened when creating team: %s', e)
 
-        return (group, msg)
+        if group is not None:
+            return True
+
+        return False

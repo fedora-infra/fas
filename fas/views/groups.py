@@ -23,17 +23,21 @@ from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 
 from fas.utils import _, Config
-from fas.utils.fgithub import Github
 
+from fas.events import GroupBindingRequested
 from fas.notifications.email import Email
 
+import logging
 import mistune
+
+log = logging.getLogger(__name__)
 
 
 class Groups(object):
 
     def __init__(self, request):
         self.request = request
+        self.notify = self.request.registry.notify
         self.params = ParamsValidator(request)
 
     @view_config(route_name="groups", renderer='/groups/list.xhtml',
@@ -179,7 +183,8 @@ class Groups(object):
                 admin_form.owner_id.choices = [
                     (person.people.id,
                         '%s (%s)' % (
-                            person.people.username, person.people.fullname))
+                            person.people.username,
+                            person.people.fullname))
                     for person in admin_members]
 
         membership_request = provider.get_memberships_by_status(
@@ -282,13 +287,12 @@ class Groups(object):
         if self.request.method == 'POST'\
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
-                form.populate_obj(self.group)
-                if form.bound_to_github.data and not self.group.bound_to_github:
-                    g = Github()
-                    g.create_group(
-                        name=self.group.name,
-                        repo=self.group.name,
-                        access='push')
+                if form.bound_to_github.data\
+                and self.group.bound_to_github is False:
+                    self.notify(
+                        GroupBindingRequested(self.request, form, self.group))
+                else:
+                    form.populate_obj(self.group)
                 return redirect_to('/group/details/%s' % self.id)
 
         return dict(form=form, id=self.id)
