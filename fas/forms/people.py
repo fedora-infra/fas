@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from fas.utils import _
+from fas.utils import _, Config
 from fas.models import AccountStatus
 from fas.models import provider
 
@@ -54,6 +54,17 @@ def check_availibility(key):
     return __validate__
 
 
+def check_blacklist():
+    """ Check username against policy."""
+    def __validate__(form, field):
+        """ Validate username field"""
+        if field.data in Config.get('blacklist.username').split(','):
+            raise ValidationError(
+                _(u'%s is not allowed!' % field.data))
+
+    return __validate__
+
+
 class UpdateStatusForm(Form):
     """ Form to update people\'s status"""
     # TODO: filter out status user are not allowed to select.
@@ -80,7 +91,9 @@ class PeopleForm(Form):
 class UsernameForm(Form):
     """ Simple form to request the user's username. """
     username = StringField(_(u'Username'),
-        [validators.Required(), check_availibility(key='username')])
+        [validators.Required(),
+            check_availibility(key='username'),
+            check_blacklist()])
 
 
 class EmailForm(Form):

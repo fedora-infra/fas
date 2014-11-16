@@ -5,6 +5,8 @@ from pyramid.events import (
     NewRequest
 )
 
+from fas.utils import _, Config
+
 # kept around for testing against checking below.
 from pyramid.session import check_csrf_token
 from pyramid.security import forget
@@ -32,3 +34,13 @@ def csrf_validity(event):
         user and user.is_authenticated()) and (
             csrf != unicode(request.session.get_csrf_token())):
         raise HTTPUnauthorized
+
+
+@subscriber(NewRequest)
+def check_usersame(event):
+    """ Check that authenticated user has valid username"""
+    if event.request.authenticated_userid\
+     in Config.get('blacklist.username').split(','):
+        event.request.session.flash(
+            _(u'Your username %s is forbidden! Please, update it'
+            % event.request.authenticated_userid), 'error')
