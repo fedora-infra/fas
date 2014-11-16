@@ -256,6 +256,10 @@ class People(object):
                  renderer='/people/new.xhtml')
     def new_user(self):
         """ Create a user account."""
+        if self.request.authenticated_userid:
+            return redirect_to(
+                '/people/profile/%s' % self.request.authenticated_userid)
+
         form = NewPeopleForm(self.request.POST)
         captchaform = CaptchaForm(self.request.POST)
 
@@ -295,9 +299,6 @@ class People(object):
                           'the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)
 
-        log.debug('Captcha %s' % captchaform)
-        if captchaform is None:
-            raise HTTPNotFound('captcha is null')
         return dict(form=form, captchaform=captchaform)
 
     @view_config(
