@@ -64,6 +64,7 @@ class People(Base):
     unverified_email = Column(UnicodeText(), nullable=True)
     security_question = Column(UnicodeText(), default=u'-')
     security_answer = Column(UnicodeText(), default=u'-')
+    login_attempt = Column(Integer(), nullable=True)
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)

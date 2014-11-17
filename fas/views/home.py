@@ -16,6 +16,12 @@ from pyramid.security import (
     forget,
     )
 
+from fas.events import (
+    LoginRequested,
+    LoginFailed,
+    LoginSucceeded
+    )
+
 from fas.utils import Config
 from fas.security import PasswordValidator
 from fas.models import AccountStatus, AccountLogType
@@ -31,6 +37,7 @@ class Home:
     def __init__(self, request):
         self.request = request
         self.logged_in = self.request.authenticated_userid
+        self.notify = self.request.registry.notify
         self.config = Config.get
 
     @view_config(route_name='home')
@@ -61,6 +68,8 @@ class Home:
             password = self.request.params['password']
             person = provider.get_people_by_username(login)
 
+            self.notify(LoginRequested(self.request, person))
+
             blocked = True
             if person and person.status in [
                     AccountStatus.ACTIVE, AccountStatus.INACTIVE,
@@ -71,6 +80,7 @@ class Home:
             if pv.is_valid() and not blocked:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
+                self.notify(LoginSucceeded(self.request, person))
                 register.save_account_activity(
                     self.request, person.id, AccountLogType.LOGGED_IN)
                 return HTTPFound(location=came_from, headers=headers)
@@ -86,7 +96,7 @@ class Home:
                 self.request.session.flash(
                     _('Login blocked.'), 'login')
             else:
-                self.request.session.flash(_('Login failed'), 'login')
+                self.notify(LoginFailed(self.request, person))
 
         return dict(
             message=message,
