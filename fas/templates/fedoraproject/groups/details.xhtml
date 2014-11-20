@@ -3,7 +3,8 @@
   <%
     user_is_group_admin = request.authenticated_is_group_admin(group.name)
     user_is_sponsor = request.authenticated_is_group_sponsor(group.name)
-    user_is_group_manager = request.authenticated_is_admin \
+    user_is_admin = request.authenticated_is_admin
+    user_is_group_manager = user_is_admin \
                             or request.authenticated_is_modo() \
                             or user_is_group_admin
   %>
@@ -89,10 +90,10 @@
                ${group.owner.username}
              </a>
              %if person:
-              %if person.id == group.owner.id:
+              %if person.id == group.owner.id or user_is_admin:
                 <span>
                   <button class="btn btn-default" name="button" data-toggle="modal" data-target="#groupMainAdminChange">
-                    ${_(u'Pass along your...')} <!-- review wording before prod -->
+                    ${_(u'Pass along responsability')} <!-- review wording before prod -->
                   </button>
                 </span>
               %endif
