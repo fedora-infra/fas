@@ -286,17 +286,26 @@
         </li>
          <li role="presentation">
            <a href="#user" role="tab" data-toggle="pill">
-             User <span class="badge">${len(users)}</span>
+             User 
+             %if len(users) > 0:
+               <span class="badge">${len(users)}</span>
+             %endif
            </a>
          </li>
          <li role="presentation">
            <a href="#sponsors" role="tab" data-toggle="pill">
-             Sponsors <span class="badge">${len(sponsors)}</span>
+             Sponsors 
+             %if len(sponsors) > 0:
+               <span class="badge">${len(sponsors)}</span>
+             %endif
            </a>
          </li>
          <li role="presentation">
            <a href="#admin" role="tab" data-toggle="pill">
-             Administrator <span class="badge">${len(admin)}</span>
+             Administrator 
+             %if len(admin) > 0:
+               <span class="badge">${len(admin)}</span>
+             %endif
            </a>
          </li>
        </ul>
