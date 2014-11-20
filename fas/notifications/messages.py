@@ -99,22 +99,43 @@ Fedora and FOSS are changing the world, come be a part of it!
             },
 
             'application': {
-                'subject': u"""\
-Your membership request for %(groupname)s is being reviewed""",
+                'subject': u"""Your membership request for %(groupname)s""",
                 'body': u"""\
 Hello %(fullname)s,
 
-Your request to be part of group %(groupname)s has been successfully
+Your request to join group %(groupname)s has been successfully
 registered and will be review for approval as soon as possible by
 an sponsor or administrator.
 
 You can check your request status by visiting %(url)s.
 
-%(sig)
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'fullname': x['people'].fullname,
+                    'groupname': x['group'].name,
+                    'url': x['url'],
+                    'sig': self.signature()
+                    }
+            },
+
+            'approved': {
+                'subject': u"""\
+Your membership request for %(groupname)s has been approved""",
+                'body': u"""\
+Hello %(fullname)s,
+
+%(sponsor)s has approved your request and will be sponsoring you
+into group %(groupname)s.
+
+For more details on your new membership, visit this link %(url)s
+
+%(sig)s
 """,
                 'fields': lambda **x: {
                     'fullname': unicode(x['people'].fullname),
-                    'groupname': unicode(x['group'].name),
+                    'groupname': x['group'].name,
+                    'sponsor': unicode(x['sponsor'].fullname),
                     'url': x['url'],
                     'sig': self.signature()
                     }

@@ -27,6 +27,7 @@ from fas.utils import _, Config
 from fas.events import GroupBindingRequested
 from fas.notifications.email import Email
 
+import datetime
 import logging
 import mistune
 
@@ -442,8 +443,10 @@ class Groups(object):
 
             elif action == 'upgrade':
                 if membership.get_status() == MembershipStatus.PENDING:
+                    topic = 'approved'
                     membership.status = MembershipStatus.APPROVED
-                    msg = _(u'User %s is now approved into the group %s' % (
+                    membership.approval_timestamp = datetime.datetime.now()
+                    msg = _(u'User %s is now an approved member of %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(
                         self.request,
@@ -451,6 +454,7 @@ class Groups(object):
                         AccountLogType.NEW_GROUP_MEMBERSHIP,
                         self.group.name)
                 elif membership.get_role() == MembershipRole.USER:
+                    topic = action
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
                         '%s' % (self.user.username, self.group.name))
@@ -460,6 +464,7 @@ class Groups(object):
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
+                    topic = action
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
                         '%s' % (self.user.username, self.group.name))
@@ -469,6 +474,7 @@ class Groups(object):
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'SPONSOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
+                    topic = action
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
                         'group %s' % (self.user.username, self.group.name))
@@ -479,8 +485,11 @@ class Groups(object):
                         'ADMINISTRATOR: %s' % self.group.name)
 
                 email.set_msg(
-                    topic='upgrade',
-                    people=self.user, group=self.group,
+                    topic=topic,
+                    people=self.user,
+                    group=self.group,
+                    sponsor=self.request.get_user,
+                    role=membership.role,
                     url=self.request.route_url(
                         'group-details', id=self.group.id))
 
