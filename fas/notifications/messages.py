@@ -166,7 +166,7 @@ You have been promoted to %(role)s in group %(groupname)s""",
                 'body': u"""\
 Congratulation %(fullname)s,
 
-You have been upgraded to %(role)s into group %(groupname)s.
+%(sponsor)s has promoted you to %(role)s into group %(groupname)s.
 To review your new role and power visit %(url)s
 
 %(sig)s
@@ -175,6 +175,7 @@ To review your new role and power visit %(url)s
                 'fullname': unicode(x['people'].fullname),
                 'groupname': unicode(x['group'].name),
                 'role': unicode(x['role'].name.lower()),
+                'sponsor': unicode(x['sponsor'].fullname),
                 'url': x['url'],
                 'sig': self.signature()
                 }
