@@ -12,6 +12,11 @@ from fas.utils.passwordmanager import PasswordManager
 import fas.models.provider as provider
 from fas.models import register
 
+import logging
+
+
+log = logging.getLogger(__name__)
+
 
 def authenticated_is_admin(request):
     """ Validate if authenticated user is an admin.
@@ -69,6 +74,25 @@ def authenticated_is_group_sponsor(request, group):
     role = RoleValidator(request.authenticated_userid, group)
 
     return role.is_sponsor()
+
+
+def penging_membership_requests(request):
+    """ Retrieve membership requests from group where
+    authenticated user is at least a sponsor.
+    """
+    membership = request.get_user.group_membership
+    groups = []
+
+    for m in membership:
+        if m.role >= MembershipRole.SPONSOR:
+            groups.append(m.group_id)
+
+    log.debug(
+        'Found %s group where logged user can manage requests' % len(groups))
+    if len(groups) <= 0:
+        return groups
+
+    return provider.get_memberships_by_status(MembershipStatus.PENDING, groups)
 
 
 def join_group(request, group):

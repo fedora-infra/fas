@@ -190,7 +190,7 @@ class Groups(object):
 
         membership_request = provider.get_memberships_by_status(
             status=MembershipStatus.PENDING,
-            group=group.id
+            group=[group.id]
             )
 
         license_signed_up = None
@@ -573,3 +573,10 @@ class Groups(object):
                 email.send(self.user.email)
 
         return redirect_to('/group/details/%s' % self.group.id)
+
+    @view_config(route_name='group-pending-request',
+        permission='authenticated', renderer='/groups/pending-requests.xhtml')
+    def pending_request(self):
+        """ Penging membership requests view. """
+
+        return dict(requests=self.request.get_pending_ms_requests)

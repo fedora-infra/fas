@@ -1,0 +1,57 @@
+<%inherit file="/site.xhtml" />
+
+  <div class="page-title">
+    <h1>${_(u'Groups membership requests')}</h1>
+    <p>
+      ${_(u'Manage membership requests')}
+    </p>
+  </div>
+
+  %if len(requests) > 0:
+    %for ms in requests:
+      <li>
+        <a href="#collapseRequests${ms.group.id}" data-toggle="collapse">
+        <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_25.png')}">
+        <span class="name">${ms.group.display_name}</span>
+        </a>
+        <span class="fullname">(${ms.group.name})</span>
+      </li>
+
+    <div class="members-list panel-collapse collapse" id="collapseRequests${ms.group.id}">
+      <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-4">
+            <ul id="people">
+              <li>
+                <span>
+                  <a href="${request.route_url(
+                            'people-profile', id=ms.people.username)}">
+                    %if ms.people.avatar:
+                      <img src="${ms.people.avatar}?s=50&d=monsterid"
+                           class="profile img-circle" />
+                    %else:
+                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                           class="img-thumbnail" />
+                    %endif
+                    ${ms.people.fullname}
+                  </a>
+                </span>
+                <span>
+                  %if request.authenticated_userid:
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                        <input type="hidden" name="action" value="upgrade">
+                        <input type="hidden" name="group_id" value="${ms.group.id}">
+                        <input type="hidden" name="user_id" value="${ms.people.id}">
+                        <button class="btn btn-default" type="submit">
+                          ${_(u'Sponsor')}
+                        </button>
+                      </form>
+                  %endif
+                </span>
+              </li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    %endfor
+  %endif

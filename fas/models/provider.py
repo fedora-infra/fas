@@ -212,8 +212,8 @@ def get_memberships_by_status(status, group=None):
 
     :param status: a membership status `fas.models.GroupMembershipStatus`
     :type status: IntEnum
-    :param group: a group id, `fas.models.group.Groups.id`
-    :type group: integer
+    :param group: a list of group id, [`fas.models.group.Groups.id`]
+    :type group: list()
     :rtype: `fas.models.group.GroupMembership`
     """
     query = session.query(
@@ -225,7 +225,7 @@ def get_memberships_by_status(status, group=None):
         GroupMembership
         ).filter(
             GroupMembership.status == status,
-            GroupMembership.group_id == group
+            GroupMembership.group_id.in_(group)
             )
 
     return query.all()

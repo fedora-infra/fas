@@ -13,6 +13,7 @@ from .security import (
     authenticated_is_group_admin,
     authenticated_is_group_editor,
     authenticated_is_group_sponsor,
+    penging_membership_requests,
     join_group,
     request_membership,
     requested_membership,
@@ -116,6 +117,11 @@ def main(global_config, **settings):
         'revoke_membership',
         reify=False
         )
+    config.add_request_method(
+        penging_membership_requests,
+        'get_pending_ms_requests',
+        reify=True
+        )
 
     # home pages
     config.add_route('home', '/')
@@ -146,6 +152,7 @@ def main(global_config, **settings):
     config.add_route('group-search-paging', '/group/search/{pattern}/{pagenb}')
     config.add_route('group-apply', '/group/apply/{id}')
     config.add_route('group-action', '/group/update/')
+    config.add_route('group-pending-request', '/groups/pending-requests')
 
     # API requests
     config.add_route('api_home', '/api')

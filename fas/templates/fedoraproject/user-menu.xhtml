@@ -27,5 +27,12 @@
         <span class="glyphicon glyphicon-lock"></span> Change password
      </a>
     </li>
+    %if len(request.get_pending_ms_requests) > 0:
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
+        <span class="glyphicon glyphicon-plus"></span> Pending request
+     </a>
+    </li>
+    %endif
   </ul>
 </%def>
