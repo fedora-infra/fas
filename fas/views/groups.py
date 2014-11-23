@@ -181,7 +181,8 @@ class Groups(object):
                     is_member = True
 
         if authenticated:
-            if authenticated.id == group.owner_id:
+            if authenticated.id == group.owner_id\
+            or self.request.authenticated_is_admin():
                 admin_form = GroupAdminsForm(self.request.POST)
                 admin_form.owner_id.choices = [
                     (person.people.id,

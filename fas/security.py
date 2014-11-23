@@ -264,8 +264,8 @@ class MembershipValidator(Base):
 
     def __init__(self, person_username, group):
         if type(group) is str or unicode:
-            self.group = []
-            self.group.append(group)
+            self.group = [group]
+            #self.group.append(group)
         if type(group) is list:
             self.group = group
         self.username = person_username
@@ -273,9 +273,11 @@ class MembershipValidator(Base):
 
     def validate(self):
         """ Validate membership."""
-        user_groups = provider.get_group_by_people_membership(self.username)
+        groups = provider.get_group_by_people_membership(self.username)
 
-        for group in user_groups:
+        for group in groups:
+            log.debug('checking group membership %s against %s'
+            % (group, self.group))
             if group.name in self.group:
                 return True
 
