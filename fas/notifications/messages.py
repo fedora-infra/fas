@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from fas.utils import _
 
 class Msg(object):
 
@@ -8,11 +9,12 @@ class Msg(object):
 
     def signature(self):
         """ Email signature template. """
-        return u"""\
+        sig = _(u'''\
 Regards,
 -
 The %(orga)s
-""" % {'orga': self.config.get('project.organisation')}
+''' % {'orga': self.config.get('project.organisation')})
+        return sig
 
     def account_update(self):
         """ Account messages template. """
@@ -64,6 +66,39 @@ invalid after 24 hours.
                     'sig': self.signature()
                     }
         },
+        }
+
+    def group_update(self):
+        """ Group messages template. """
+        return {
+            'updated': {
+                'subject': u"""Group update %(groupname)s""",
+                'body': u"""\
+Hello %(fullname)s,
+
+%(person)s has just updated informations about group %(groupname)s.
+If these changes are not expected please, contact %(admin)s and let them know.
+
+Updated informations:
+
+%(infos)s
+
+
+If the above informations is incorrect, please log in and fix it at:
+    %(url)s
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'fullname': x['people'],
+                    'groupname': x['group'].name,
+                    'person': x['person'].fullname,
+                    'admin': x['admin'],
+                    'infos': x['infos'],
+                    'url': x['url'],
+                    'sig': self.signature()
+                    }
+                }
         }
 
     def membership_update(self):

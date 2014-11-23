@@ -25,6 +25,8 @@ from fas.security import ParamsValidator
 from fas.utils import _, Config
 
 from fas.events import GroupBindingRequested
+from fas.events import GroupEdited
+
 from fas.notifications.email import Email
 
 import datetime
@@ -241,7 +243,7 @@ class Groups(object):
             text=mistune
             )
 
-    @view_config(route_name='group-edit', permission='group_edit',
+    @view_config(route_name='group-edit', permission='authenticated',
                  renderer='/groups/edit.xhtml')
     def edit(self):
         """ group editor page."""
@@ -288,12 +290,19 @@ class Groups(object):
         if self.request.method == 'POST'\
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
+                self.notify(GroupEdited(
+                    self.request,
+                    person=self.request.get_user,
+                    group=self.group,
+                    form=form))
+
                 if form.bound_to_github.data\
                 and self.group.bound_to_github is False:
                     self.notify(
                         GroupBindingRequested(self.request, form, self.group))
                 else:
                     form.populate_obj(self.group)
+
                 return redirect_to('/group/details/%s' % self.id)
 
         return dict(form=form, id=self.id)

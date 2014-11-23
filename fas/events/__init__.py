@@ -28,3 +28,11 @@ class LoginFailed(object):
     def __init__(self, request, person):
         self.request = request
         self.person = person
+
+class GroupEdited(object):
+
+    def __init__(self, request, person, group, form):
+        self.request = request
+        self.person = person
+        self.group = group
+        self.form = form

@@ -91,7 +91,7 @@ class Groups(Base):
         primaryjoin='and_(GroupMembership.group_id==Groups.id)',
         backref=backref('group', lazy='joined')
     )
-    owner = relation(
+    owner = relationship(
         'People',
         uselist=False
     )
