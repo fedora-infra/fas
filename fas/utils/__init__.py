@@ -48,3 +48,11 @@ def compute_list_pages_from(count, limit=50):
     """
 
     return (int(ceil(float(count) / float(limit))), int(count))
+
+
+def locale_negotiator(request):
+    """ Manage [dynamically] locale on request. """
+    if request.get_user:
+        return request.get_user.locale
+
+    return str(Config.get('locale.default'))

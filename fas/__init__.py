@@ -27,6 +27,8 @@ from models import (
     Base,
     )
 
+from .utils import locale_negotiator
+
 import logging
 
 log = logging.getLogger(__name__)
@@ -75,6 +77,7 @@ def main(global_config, **settings):
     config.set_authorization_policy(authz_policy)
 
     config.add_translation_dirs('fas:locale/')
+    config.set_locale_negotiator(locale_negotiator)
 
     config.add_request_method(get_release_info, 'release', reify=True)
     config.add_request_method(get_authenticated_user, 'get_user', reify=True)
