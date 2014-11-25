@@ -140,7 +140,7 @@ class UpdatePasswordForm(ResetPasswordPeopleForm):
 class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
     """ Form to edit user's information. """
     introduction = StringField(_(u'Introduction'), [validators.Optional()])
-    ircnick = StringField(_(u'IRC nick'))
+    ircnick = StringField(_(u'IRC nick'), [check_availibility('ircnick')])
     avatar = StringField(_(u'Avatar'))
     birthday = IntegerField(
         _(u'Birthday'), [validators.Optional()], default=-1)

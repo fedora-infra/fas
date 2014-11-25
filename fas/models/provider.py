@@ -306,6 +306,20 @@ def get_people_email(filter_username=None):
     return query.all()
 
 
+def get_people_ircnick(filter_out=None):
+    """ Retrieve and return people\'s IRC nicknames."""
+    query = session.query(People.ircnick)
+
+    if filter_out:
+        query = session.query(
+            People.ircnick
+            ).filter(
+                People.username != filter_out
+                )
+
+    return query.all()
+
+
 def get_people_bugzilla_email(filter_username=None):
     """ Retrieve and return registered bugzilla email. """
     if filter_username:
