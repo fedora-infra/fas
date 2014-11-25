@@ -284,10 +284,7 @@ def get_people(limit=None, page=None, pattern=None, count=False):
 
 def get_people_username(filter_out=None):
     """ Retrieve and return people's username."""
-    query = session.query(People.username)
-
-    #if filter_out:
-        #query.filter(People.username != filter_out)
+    query = session.query(People.username).filter(People.username != filter_out)
 
     return query.all()
 

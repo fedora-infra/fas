@@ -117,7 +117,7 @@ class ContactInfosForm(EmailForm):
         _(u'Country code'),
         [validators.Required()],
         coerce=str,
-        choices=[('FR', 'France (FR)'), ('JP', 'Japan (JP)')])
+        choices=[(-1, _(u'-- None --'))])
 
 
 class ResetPasswordPeopleForm(Form):
@@ -152,7 +152,8 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
     locale = SelectField(
         _(u'Locale'),
         [validators.Required()],
-        choices=[('en', 'en'), ('fr', 'fr')], coerce=str)
+        coerce=str,
+        choices=[(-1, _(u'-- None --'))])
     timezone = SelectField(
         _(u'Timezone'),
         [validators.Required()],

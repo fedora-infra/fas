@@ -17,7 +17,6 @@ from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
 from fas.forms.captcha import CaptchaForm
 
-import fas.utils.notify
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
@@ -35,6 +34,7 @@ from fas.notifications.email import Email
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 
+import GeoIP
 import logging
 from fas.utils import _, Config
 
@@ -243,6 +243,14 @@ class People(object):
 
         # username is not edit-able
         form.username.data = self.person.username
+
+        form.country_code.choices = [
+            (c[0], '%s (%s)' % (unicode(c[1]), c[0]))
+            for c in GeoIP.country_names.iteritems()
+            if c[0] not in Config.get('blacklist.country')]
+
+        form.locale.choices = [
+            (l, l) for l in list(Config.get('locale.available').split(','))]
 
         if self.request.method == 'POST'\
                 and ('form.save.person-infos' in self.request.params):

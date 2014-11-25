@@ -22,6 +22,7 @@ requires = [
     'mistune',
 
     # Libs
+    'GeoIP',
     'pygeoip',
     'ua-parser',
     'pyyaml',
