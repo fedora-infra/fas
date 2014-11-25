@@ -16,7 +16,7 @@
         <tbody>
           %for activity in activities:
           <tr>
-            <td>${activity.timestamp.strftime('%b, %d')}</td>
+            <td>${activity.get_date(request)}</td>
             <td>
               %if activity.event == account.module.AccountLogType.LOGGED_IN:
                   ${_(u'Signed in from')} ${activity.access_from}

@@ -44,12 +44,11 @@
                     %endif
                   </a>
                 </span>
-                <span class="name">${member.people.fullname}</span>
+                <span class="name"><strong>${member.people.fullname}</strong></span>
                 %if display_role:
-                  <span>(${_(member.get_role().name.lower())})</span>
+                  <p>${_(member.get_role().name.lower())}</p>
                 %endif
-                <!-- FIXME: translate date -->
-                <p >${_(u'Joined group on')} ${member.approval_timestamp.strftime('%b, %d %Y')}</p>
+                <p >${_(u'Joined group on')} ${member.get_approval_date(request)}</p>
                   %if request.authenticated_userid:
                   %if user_is_group_admin or user_is_sponsor:
                   <div class="btn-group">

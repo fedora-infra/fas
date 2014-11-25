@@ -14,6 +14,8 @@ from sqlalchemy import (
 
 from sqlalchemy.orm import relation
 
+from babel.dates import format_date
+
 
 class Plugins(Base):
     __tablename__ = 'plugins'
@@ -38,3 +40,11 @@ class AccountPermissions(Base):
         'People',
         uselist=False
         )
+
+    def get_granted_date(self, request):
+        """ Return granted date of account perms in a translated
+        human readable format.
+        """
+        date = self.granted_timestamp.date()
+
+        return format_date(date, locale=request.locale_name)

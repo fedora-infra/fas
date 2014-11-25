@@ -27,6 +27,8 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
+from babel.dates import format_date
+
 import datetime
 
 
@@ -46,7 +48,7 @@ class People(Base):
     introduction = Column(UnicodeText(), nullable=True)
     postal_address = Column(UnicodeText(), nullable=True)
     country_code = Column(Unicode(2), nullable=True)
-    locale = Column(UnicodeText, default=u'C')
+    locale = Column(UnicodeText, default=u'en_US')
     birthday = Column(Integer(), nullable=True)
     birthday_month = Column(UnicodeText(), nullable=True)
     telephone = Column(UnicodeText(), nullable=True)
@@ -129,6 +131,12 @@ class People(Base):
     def get_status(self):
         """ Retrieve person status definition and return it. """
         return AccountStatus[self.status]
+
+    def get_created_date(self, request):
+        """ Return activity date in a translated human readable format. """
+        date = self.date_created.date()
+
+        return format_date(date, locale=request.locale_name)
 
     def to_json(self, permissions):
         """ Return a json/dict representation of this user.
@@ -244,6 +252,12 @@ class PeopleAccountActivitiesLog(Base):
         Index('account_access_log_idx', location),
         Index('people_access_log_idx', access_from),
     )
+
+    def get_date(self, request):
+        """ Return activity date in a translated human readable format. """
+        date = self.timestamp.date()
+
+        return format_date(date, locale=request.locale_name)
 
 
 class PeopleVirtualAccount(Base):

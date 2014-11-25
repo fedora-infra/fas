@@ -29,6 +29,8 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
+from babel.dates import format_date
+
 import datetime
 
 
@@ -200,3 +202,9 @@ class GroupMembership(Base):
             return MembershipRole(index)
 
         return MembershipRole(self.role)
+
+    def get_approval_date(self, request):
+        """ Return approval date in human readable format. """
+        date = self.approval_timestamp.date()
+
+        return format_date(date, locale=request.locale_name)
