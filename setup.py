@@ -39,6 +39,10 @@ requires = [
     'fake-factory',
     ]
 
+optional = [
+    'rainbow_logging_handler',
+]
+
 setup(
     name='fas',
     version='3.0',
@@ -59,6 +63,7 @@ setup(
     zip_safe=False,
     test_suite='fas',
     install_requires=requires,
+    extras_require=optional,
     entry_points="""\
       [paste.app_factory]
       main = fas:main
