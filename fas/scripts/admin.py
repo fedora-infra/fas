@@ -123,7 +123,9 @@ def add_group(id, name, owner_id, type):
     DBSession.add(group)
 
 
-def add_membership(group_id, people_id, sponsor=None, role=None):
+def add_membership(
+    group_id, people_id, sponsor=None,
+    role=MembershipRole.USER, status=MembershipStatus.UNAPPROVED):
     """ Add a registered user into a registered group. """
     ms = GroupMembership()
     ms.group_id = group_id
@@ -131,9 +133,8 @@ def add_membership(group_id, people_id, sponsor=None, role=None):
     if not sponsor:
         sponsor = people_id
     ms.sponsor = sponsor
-    if not role:
-        role = MembershipRole.USER
     ms.role = role
+    ms.status = status
 
     DBSession.add(ms)
 
