@@ -243,7 +243,7 @@ class PeopleAccountActivitiesLog(Base):
     remote_ip = Column(Unicode, nullable=False)
     access_from = Column(UnicodeText(), nullable=False)
     event = Column(Integer, nullable=False)
-    event_msg = Column(UnicodeText(), nullable=False)
+    event_msg = Column(UnicodeText(), nullable=True)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow())
 
     person = relation('People', uselist=False)
