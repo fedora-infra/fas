@@ -1,16 +1,6 @@
 <%namespace name="groupMembers" />
 
-  <%def name="list(members, user_is_group_admin, user_is_sponsor, display_role=True)">
-      <!-- feature in review, move to front if pass -->
-      <script type='text/javascript' src="http://listjs.com/no-cdn/list.pagination.js"></script>
-      <script type='text/javascript' src="http://listjs.com/no-cdn/list.js"></script>
-
-      <style type='text/css'>
-          .pagination li {
-        display:inline-block;
-        padding:5px;
-      }
-      </style>
+  <%def name="list(members, user_is_group_admin, user_is_sponsor, display_role=True, type='all')">
 
       <script type='text/javascript'>//<![CDATA[ 
       window.onload=function(){
@@ -31,7 +21,7 @@
 -->
             <ul class="list">
       %for member in members[0:200]:
-          <div class="col-sm-6 col-md-4">
+          <div class="member-item col-sm-6 col-md-4">
               <li>
                 <span>
                   <a href="${request.route_url('people-profile', id=member.people.id)}">
@@ -44,7 +34,7 @@
                     %endif
                   </a>
                 </span>
-                <span class="name"><strong>${member.people.fullname}</strong></span>
+                <p class="name"><strong>${member.people.fullname}</strong></p>
                 %if display_role:
                   <p>${_(member.get_role().name.lower())}</p>
                 %endif

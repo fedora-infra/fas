@@ -67,8 +67,9 @@
   </div>
   %endif
 
+  <div class="container group-card">
   <div class=row>
-    <div class="col-sm-6 col-md-4">
+    <div class="centered col-sm-6 col-md-4">
       <h3></h3>
       <dl class="dl-horizontal">
            %if group.web_link:
@@ -103,7 +104,7 @@
     </div>
   </div>
   <div class=row>
-    <div class="col-sm-6 col-md-4">
+    <div class="centered col-sm-6 col-md-4">
       <h3>${_(u'Contact information')}</h3>
       %if not group.mailing_list and not group.irc_channel:
         <div>
@@ -131,8 +132,11 @@
       %endif
     </div>
   </div>
+
+  <hr />
+
   <div class=row>
-    <div class="col-sm-6 col-md-4">
+    <div class="centered col-sm-6 col-md-4">
       <h3>${_(u'Membership')}</h3>
       %if not group.need_approval and group.license_sign_up == -1:
         <div>
@@ -271,15 +275,30 @@
     </div>
   %endif
 
+  <hr />
+
   <div class=members-list>
     <h3>${_(u'Members')}</h3>
     %if len(members) > 0:
         <!--
         ${paging.list(name='people', route='group-details', param={'members_page': 2})}
         -->
-        <!-- limit members list to 50 for now -->
+
+       <!-- feature in review, move to front if pass -->
+       <script type='text/javascript' src="http://listjs.com/no-cdn/list.pagination.js"></script>
+       <script type='text/javascript' src="http://listjs.com/no-cdn/list.js"></script>
+
+<!--
+       <style type='text/css'>
+           .pagination li {
+         display:inline-block;
+         padding:5px;
+       }
+       </style>
+-->
+
        <%namespace name="groupMembers" file="members-list.xhtml" />
-       <ul class="nav nav-pills" role="tablist">
+       <ul class="role-filter nav nav-pills" role="tablist">
          <li role="presentation" class="active">
            <a href="#all" role="tab" data-toggle="pill">
              All <span class="badge">${len(members)}</span>
@@ -309,20 +328,20 @@
              %endif
            </a>
          </li>
-       </ul>
-
+       </ul
+</div>
        <div class="tab-content">
          <div role="tabpanel" class="tab-pane fade in active" id="all">
            ${groupMembers.list(members, user_is_group_admin, user_is_sponsor)}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="user">
-           ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False)}
+           ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False, type='users')}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="sponsors">
-           ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False)}
+           ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False, type='sponsors')}
          </div>
          <div role="tabpanel" class="tab-pane fade in" id="admin">
-           ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False)}
+           ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False, type='admin')}
          </div>
        </div>
     %else:
@@ -330,5 +349,6 @@
         <p>${_(u'No members found.')}</p>
       </div>
     %endif
+  </div>
   </div>
 
