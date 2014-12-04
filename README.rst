@@ -22,6 +22,19 @@ Add the following to your `~/.zshrc`::
 
 Bootstrap the virtualenv
 ------------------------
+**Dependencies**
+
+ - libffi
+ - openssl
+ - GeoIP
+
+Fedora OS
+
+::
+
+    sudo dnf install -y libffi-devel openssl-devel GeoIP-devel
+
+
 ::
 
     ./bootstrap.py

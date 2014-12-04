@@ -39,9 +39,9 @@ requires = [
     'fake-factory',
     ]
 
-optional = [
-    'rainbow_logging_handler',
-]
+optional = {
+    'rainbow': 'rainbow_logging_handler',
+}
 
 setup(
     name='fas',
