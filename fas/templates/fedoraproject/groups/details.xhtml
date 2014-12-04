@@ -40,7 +40,7 @@
     <h1>${group.display_name or group.name}</h1>
     <p>
       %if group.display_name:
-        ${group.name}
+        ${group.description or group.name}
       %endif
     </p>
     %if group.parent_group_id > -1:
@@ -53,19 +53,16 @@
     %endif
     %if request.authenticated_userid:
       %if user_is_group_manager or request.authenticated_is_group_editor():
+        <div class="pull-right">
         <a href="${request.route_url('group-edit', id=group.id)}">
           <button class="btn btn-default" type="button">
               ${_(u'Edit')}
           </button>
         </a>
+        </div>
       %endif
     %endif
   </div>
-  %if group.description:
-  <div>
-    <p>${group.description}</p>
-  </div>
-  %endif
 
   <div class="container group-card">
   <div class=row>
