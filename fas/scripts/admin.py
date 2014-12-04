@@ -20,6 +20,7 @@ from fas.models import (
     Base,
     AccountStatus,
     MembershipRole,
+    MembershipStatus,
     AccountPermissionType as PermissionType
     )
 
@@ -174,6 +175,7 @@ def create_default_group(owner):
     add_membership(
         group_id=2000,
         role=MembershipRole.ADMINISTRATOR,
+        status=MembershipStatus.APPROVED,
         people_id=owner.id,
         sponsor=owner.id
         )
@@ -229,9 +231,12 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 group_id=random.choice(group_list),
                 people_id=people.id,
                 sponsor=007,
+                status=random.choice(
+                    [s.value for s in MembershipStatus]
+                    ),
                 role=random.choice(
                     [r.value for r in MembershipRole]
-                )
+                    )
             )
 
             user_index += 1
@@ -339,6 +344,7 @@ def main(argv=sys.argv):
             add_membership(
                 group_id=3000,
                 role=MembershipRole.USER,
+                status=MembershipStatus.APPROVED,
                 people_id=user.id,
                 sponsor=admin.id
             )
