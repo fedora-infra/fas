@@ -10,7 +10,7 @@
     <h3>Search for people</h3>
     <form method="get" action="${request.route_url('people-search-rd')}">
         <div class="input-group">
-            <input type="text" name="q" class="form-control"/>
+            <input type="text" name="q" class="form-control" placeholder="${_('search for people')}"/>
             <span class="input-group-addon">
                 <button class="icon-search"></button>
             </span>

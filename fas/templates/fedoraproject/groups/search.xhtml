@@ -9,7 +9,7 @@
     <h3>Search groups</h3>
     <form method="get" action="${request.route_url('group-search-rd')}">
         <div class="input-group">
-            <input type="text" name="q" class="form-control" value="${pattern}" />
+            <input type="text" name="q" class="form-control" value="${pattern}" placeholder="${_(u'search groups')}" />
             <span class="input-group-addon">
                 <button class="icon-search"></button>
             </span>
