@@ -3,9 +3,9 @@
 <%block name="details">
 
   ${profile.header()}
-  <div id=profile-header>
+  <div class=profile-header>
     %if person.bio:
-      <a data-toggle="collapse" href="#collapsePrivacy">+</a> <!-- Updpate this with an cool glyphicons -->
+      <a data-toggle="collapse" href="#collapsePrivacy"><span class="glyphicon glyphicon-book"></span></a> <!-- Updpate this with an cool glyphicons -->
       <div id="collapsePrivacy" class="panel-collapse collapse">
         <div class="panel-body">
             <p>${person.bio}</p>
@@ -13,8 +13,16 @@
     %endif
   </div>
   </div>
+<!--
   %if person.username == request.authenticated_userid:
       <a align="center" href="${request.route_url('people-edit', id=person.id)}"><span class="badge">edit infos</span></a>
+  %endif
+-->
+  <div class="card-view container">
+  %if person.username == request.authenticated_userid:
+    <a align="center" href="${request.route_url('people-edit', id=person.id)}">
+      <span class="profile-edit glyphicon glyphicon-pencil"></span>
+    </a>
   %endif
   <div class=row>
     <div class="col-sm-6 col-md-4">
@@ -48,10 +56,7 @@
     </div>
   </div>
   %if person.username == request.authenticated_userid:
-    <div class="row">
-<!--
-      <div id="profile-security">
--->
+    <div class="centered row">
         <h3>${_(u'Security')}</h3>
           <dl class="dl-horizontal">
             <dt>${_(u'Password')}</dt>
@@ -79,27 +84,22 @@
               %endif
             </dt>
           </dl>
-<!--
-      </div>
--->
     </div>
   %endif
-    <div class="row">
-<!--
-  <div id=profile-involment>
--->
-    <h3>${_(u'Involment')}</h3>
-    <ul class="profile-list">
-      %for g in membership:
-        <li>
-          <a href="${request.route_url('group-details', id=g.group.id)}">
-            <img src="${
-                request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
-            ${g.group.name}
-          </a> -
-          <span>${g.get_role().name.lower()}</span>
-        </li>
-      %endfor
-    </ul>
+    <div class="centered row">
+      <h3>${_(u'Involment')}</h3>
+      <ul class="profile-list">
+        %for g in membership:
+          <li>
+            <a href="${request.route_url('group-details', id=g.group.id)}">
+              <img src="${
+                  request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+              ${g.group.name}
+            </a> -
+            <span>${g.get_role().name.lower()}</span>
+          </li>
+        %endfor
+      </ul>
+    </div>
   </div>
 </%block>

@@ -20,27 +20,28 @@
     %endif
 
   <div class="page-title">
-    %if person.avatar:
-        <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
-    %else:
-        <img src="http://cdn.libravatar.org/avatar?s=200"/>
-    %endif
-    ${person.get_status().name.lower().replace('_', ' ')}
-    %if form:
-        %if person.username == request.authenticated_userid:
-            <span>
-              <button  type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
-                  ${_(u'Update')}
-              </button>
-            </span>
-        %endif
-    %endif
-    <h1>${person.fullname}</h1>
-    <p>
-      %if person.introduction:
-        ${person.introduction}
+    <div class="profile-header">
+      %if person.avatar:
+          <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
+      %else:
+          <img src="http://cdn.libravatar.org/avatar?s=200"/>
       %endif
-    </p>
+      %if form:
+          %if person.username == request.authenticated_userid:
+              <span>
+                <button  type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
+                    ${_(u'Update')}
+                </button>
+              </span>
+          %endif
+      %endif
+      <h1>${person.fullname}</h1>
+      <p>
+        %if person.introduction:
+          ${person.introduction}
+        %endif
+      </p>
+    </div>
   </div>
   %if form:
       <form class="form-horizontal" role="form" method="POST">
