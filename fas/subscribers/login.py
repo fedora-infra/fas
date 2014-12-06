@@ -24,18 +24,19 @@ def onLoginFailed(event):
     """ Login failure listener. """
     person = event.person
 
-    if person.login_attempt is None:
-        person.login_attempt = 0
-    else:
-        if person.login_attempt > int(Config.get('login.failed_attempt')):
-            person.status = AccountStatus.LOCKED
-            register.add_people(person)
-            log.debug(
-                'Account %s locked, number of failure attempt reached: %s' %
-                (person.username, person.login_attempt)
-            )
+    if person:
+        if person.login_attempt is None:
+            person.login_attempt = 0
+        else:
+            if person.login_attempt > int(Config.get('login.failed_attempt')):
+                person.status = AccountStatus.LOCKED
+                register.add_people(person)
+                log.debug(
+                    'Account %s locked, number of failure attempt reached: %s' %
+                    (person.username, person.login_attempt)
+                )
 
-    person.login_attempt += 1
+        person.login_attempt += 1
 
     event.request.session.flash(_('Login failed'), 'login')
 
@@ -45,28 +46,29 @@ def onLoginRequested(event):
     """ Login request listener. """
     person = event.person
 
-    if person.login_attempt >= int(Config.get('login.failed_attempt')):
-        lock_timeout = int(Config.get('login.lock.timeout'))
-        unlock_time = person.date_updated + datetime.timedelta(
-            0, (60 * lock_timeout))
+    if person:
+        if person.login_attempt >= int(Config.get('login.failed_attempt')):
+            lock_timeout = int(Config.get('login.lock.timeout'))
+            unlock_time = person.date_updated + datetime.timedelta(
+                0, (60 * lock_timeout))
 
-        if datetime.datetime.utcnow() > unlock_time:
-            log.debug(
-                'Lock time passed, unlocking account %s' % person.username)
-            person.status = AccountStatus.ACTIVE
-            person.login_attempt = 0
+            if datetime.datetime.utcnow() > unlock_time:
+                log.debug(
+                    'Lock time passed, unlocking account %s' % person.username)
+                person.status = AccountStatus.ACTIVE
+                person.login_attempt = 0
 
-            register.add_people(person)
-        else:
-            log.debug(
-                'Account %s will be unlock at %s UTC'
-                % (person.username, unlock_time.time())
-            )
-            event.request.session.flash(
-                _(u'Your account has been locked down due to '
-                'too many login failure\'s attempt.Account locked for %smin'
-                % lock_timeout), 'error')
-            raise redirect_to('/login')
+                register.add_people(person)
+            else:
+                log.debug(
+                    'Account %s will be unlock at %s UTC'
+                    % (person.username, unlock_time.time())
+                )
+                event.request.session.flash(
+                    _(u'Your account has been locked down due to '
+                    'too many login failure\'s attempt.Account locked for %smin'
+                    % lock_timeout), 'error')
+                raise redirect_to('/login')
 
 
 @subscriber(LoginSucceeded)
