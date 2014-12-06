@@ -1,38 +1,41 @@
 <%inherit file="/site.xhtml" />
-  <div id="middlee">
-    %if request.session.peek_flash('login'):
-        <div class="alert alert-danger alert-dismissible" role="alert" style="max-width: 800px; margin: 0 auto 9px;">
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-          </button>
-          <strong>WOooops!</strong> ${request.session.pop_flash('login')[0]}
-        </div>
-    %endif
+  %if request.session.peek_flash('login'):
+  <div class="alert alert-danger alert-dismissible" role="alert" style="max-width: 500px; margin: 10px auto 9px;">
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    <strong>WOooops!</strong> ${request.session.pop_flash('login')[0]}
+  </div>
+  %endif
 
-      <div class="middle align-right">
-        <div id="left" class="app-welcome align-left">
-          <b>Login</b><br/>
-          <span> ${message}</span>
-        </div>
-      </div>
-    </div>
-    <div id="bottom">
-      <div class="bottom">
-        <form action="${url}" method="post">
-          <input type="hidden" name="redirect" value="${came_from}"/>
-          <input type="text" class="form-control" id="inputLogin"
-            placeholder="Login" name="login" value="${login}"/><br/>
-          <input type="password" class="form-control" id="inputPassword"
-            placeholder="Password" name="password" value="${password}"/><br/>
-          <input type="submit" name="form.submitted" value="Log In"/>
-          <a href="${request.route_url('lost-password')}">
-            ${_(u'Lost password')}?
-          </a>
-          |
-          <a href="${request.route_url('people-new')}">
-            ${_(u'Create an account')}?
-          </a>
-        </form>
-      </div>
+<div class="card-view login-container container">
+  <div class="head center">
+<!--
+    <b>Login</b>
+-->
+    <img src="http://cdn.libravatar.org/avatar?s=120&d=monsterid" class="img-circle" />
+  </div>
+
+  <div id="bottom center" class="container-fluid">
+    <div class="bottom">
+      <form action="${url}" method="post" class="center">
+        <input type="hidden" name="redirect" value="${came_from}"/>
+        <input type="text" class="form-control btn-sm" id="inputLogin"
+          placeholder="Login" name="login" value="${login}"/><br/>
+        <input type="password" class="form-control btn-sm" id="inputPassword"
+          placeholder="Password" name="password" value="${password}"/><br/>
+        <input type="submit" name="form.submitted" class="btn btn-sm" value="Log In"/>
+      </form>
     </div>
   </div>
+</div>
+
+<div style="text-align: center;">
+  <a href="${request.route_url('lost-password')}">
+    ${_(u'Lost password')}
+  </a>
+  |
+  <a href="${request.route_url('people-new')}">
+    ${_(u'Create an account')}
+  </a>
+</div>
