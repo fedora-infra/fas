@@ -83,7 +83,7 @@ def add_default_group_type():
 
 
 def add_user(id, login, passwd, fullname,
-    email=None, postal_address=None,
+    email=None, postal_address=None, joined=None,
     introduction=None, avatar=None, avatar_id=None,
     bio=None, privacy=False, country_code=None,
     latitude=0.0, longitude=0.0, status=None):
@@ -106,6 +106,7 @@ def add_user(id, login, passwd, fullname,
     user.latitude = latitude
     user.longitude = longitude
     user.status = status or AccountStatus.ACTIVE
+    user.date_created = joined
 
     DBSession.add(user)
 
@@ -124,7 +125,7 @@ def add_group(id, name, owner_id, type):
 
 
 def add_membership(
-    group_id, people_id, sponsor=None,
+    group_id, people_id, sponsor=None, joined=None,
     role=MembershipRole.USER, status=MembershipStatus.UNAPPROVED):
     """ Add a registered user into a registered group. """
     ms = GroupMembership()
@@ -135,6 +136,7 @@ def add_membership(
     ms.sponsor = sponsor
     ms.role = role
     ms.status = status
+    ms.approval_timestamp = joined
 
     DBSession.add(ms)
 
@@ -220,6 +222,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 country_code=fake.country_code(),
                 latitude=user['current_location'][0],
                 longitude=user['current_location'][1],
+                joined=fake.date_time_between(start_date='-7y', end_date='-1'),
                 status=random.choice([r.value for r in AccountStatus])
             )
             add_permission(
@@ -232,6 +235,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 group_id=random.choice(group_list),
                 people_id=people.id,
                 sponsor=007,
+                joined=fake.date_time_between(start_date='-6y', end_date='now'),
                 status=random.choice(
                     [s.value for s in MembershipStatus]
                     ),
