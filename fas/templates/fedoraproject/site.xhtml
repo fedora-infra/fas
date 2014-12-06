@@ -76,7 +76,12 @@
                       ${_(u'Logged in as')}
                       <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <strong>
-                          ${request.authenticated_userid} <span class="glyphicon glyphicon-th"></span>
+                          ${request.authenticated_userid} 
+                          %if len(request.get_pending_ms_requests) > 0:
+                          <span class="glyphicon glyphicon-th hover"></span>
+                          %else:
+                          <span class="glyphicon glyphicon-th"></span>
+                          %endif
                         </strong>
                       </a> |
                       <a href="${request.application_url + '/logout'}?redirect=${request.url}"

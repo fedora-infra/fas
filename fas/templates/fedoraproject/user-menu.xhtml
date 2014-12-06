@@ -29,7 +29,7 @@
     </li>
     %if len(request.get_pending_ms_requests) > 0:
     <li role="presentation">
-      <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
+      <a role="menuitem" tabindex="-1" class="pulse" href="${request.route_url('group-pending-request')}">
         <span class="glyphicon glyphicon-plus"></span> Pending request
      </a>
     </li>
