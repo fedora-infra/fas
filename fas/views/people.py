@@ -161,6 +161,18 @@ class People(object):
             raise HTTPNotFound('No such user found')
 
         form = UpdateStatusForm(self.request.POST, self.person)
+
+        if self.request.get_user.username == self.person.username:
+            form.status.choices = [
+                (s.value, s.name.lower()) for s in AccountStatus
+                if s in [
+                    AccountStatus.ACTIVE,
+                    AccountStatus.INACTIVE,
+                    AccountStatus.ON_VACATION,
+                    AccountStatus.DISABLED
+                    ]
+                ]
+
         if self.request.method == 'POST':
             if form.validate():
                 form.populate_obj(self.person)
