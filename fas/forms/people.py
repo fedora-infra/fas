@@ -67,7 +67,6 @@ def check_blacklist():
 
 class UpdateStatusForm(Form):
     """ Form to update people\'s status"""
-    # TODO: filter out status user are not allowed to select.
     status = SelectField(
         _(u'Status'),
         [validators.Required()],
@@ -180,3 +179,8 @@ class NewPeopleForm(UsernameForm, EmailForm):
             'password_confirm', message='Your new passwords must match')])
     password_confirm = PasswordField(
         _(u'Confirm new Password'), [validators.Required()])
+
+
+class UpdateAvatarForm(Form):
+    """ Form to update people\'s avatar"""
+    avatar_id = StringField(_(u'Avatar ID'), [validators.Required()])

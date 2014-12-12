@@ -15,12 +15,14 @@ from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
+from fas.forms.people import UpdateAvatarForm
 from fas.forms.captcha import CaptchaForm
 
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
 from fas.utils.passwordmanager import PasswordManager
+from fas.utils.avatar import gen_libravatar
 from fas.models import (
     AccountPermissionType as permission,
     AccountStatus,
@@ -160,26 +162,34 @@ class People(object):
         if not self.person:
             raise HTTPNotFound('No such user found')
 
+        form_avatar = UpdateAvatarForm(self.request.POST, self.person)
         form = UpdateStatusForm(self.request.POST, self.person)
 
-        if self.request.get_user.username == self.person.username:
-            form.status.choices = [
-                (s.value, s.name.lower()) for s in AccountStatus
-                if s in [
-                    AccountStatus.ACTIVE,
-                    AccountStatus.INACTIVE,
-                    AccountStatus.ON_VACATION,
-                    AccountStatus.DISABLED
+        if self.request.get_user:
+            if self.request.get_user.username == self.person.username:
+                form.status.choices = [
+                    (s.value, s.name.lower()) for s in AccountStatus
+                    if s in [
+                        AccountStatus.ACTIVE,
+                        AccountStatus.INACTIVE,
+                        AccountStatus.ON_VACATION,
+                        AccountStatus.DISABLED
+                        ]
                     ]
-                ]
 
         if self.request.method == 'POST':
             if form.validate():
+                log.debug(
+                    'Updating person status to: %s',
+                    form.status.data)
                 form.populate_obj(self.person)
-            else:
-                self.request.session.flash(
-                    _('Unable to update your status '),
-                    'error')
+            if form_avatar.validate():
+                log.debug(
+                    'Updating avatar id to: %s',
+                    form_avatar.avatar_id.data)
+                self.person.avatar = gen_libravatar(
+                    form_avatar.avatar_id.data)
+                form_avatar.populate_obj(self.person)
 
         membership = [
             g for g in self.person.group_membership
@@ -189,6 +199,7 @@ class People(object):
         return dict(
             person=self.person,
             form=form,
+            formavatar=form_avatar,
             membership=membership
         )
 

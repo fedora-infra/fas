@@ -1,37 +1,44 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="profile"/>
+<%namespace name="PeopleDialog" file="dialog.xhtml" />
 <%block name="header">
-    %if form:
-        %if form.errors:
-          <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <ul class="errors">
-              %for (field_name, field_errors) in form.errors.iteritems():
-                  %for error in field_errors:
-                      <li>${form[field_name].label}: ${error}</li>
-                  %endfor
-              %endfor
-          </ul>
-          </div>
-        %endif
-    %endif
+  %if form:
+      %if form.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+      %endif
+  %endif
 
   <div class="page-title">
-    <div class="profile-header">
+    <div class="profile-header cs-style-2">
+    <figure>
+      <a href="#updateAvatar" data-toggle="modal" data-target="#updateAvatar">
       %if person.avatar:
           <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
       %else:
           <img src="http://cdn.libravatar.org/avatar?s=200"/>
       %endif
+      </a>
+    <figcaption>
       %if form:
           %if person.username == request.authenticated_userid:
               <span>
                 <button  type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
-                    ${_(u'Update')}
+                    ${_(u'Update status')}
                 </button>
               </span>
           %endif
       %endif
+    </figcaption>
+    </figure>
       <h1>${person.fullname}</h1>
       <p>
         %if person.introduction:
@@ -40,6 +47,9 @@
       </p>
     </div>
   </div>
+  %if formavatar:
+    ${PeopleDialog.avatar(formavatar)}
+  %endif
   %if form:
       <form class="form-horizontal" role="form" method="POST">
         <div class="modal in" id="updateStatus" tabindex="-1" role="dialog" aria-labelledby="UpdateStatus" aria-hidden="true">
