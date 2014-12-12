@@ -1,0 +1,17 @@
+<%namespace name="PeopleDialog" />
+<%namespace name="Modal" file="/modal.xhtml" />
+
+<%def name="avatar(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateAvatar', _(u'Update avatar'))}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.avatar_id.label()}
+              <div class="col-lg-10">
+                ${form.avatar_id()}
+              </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Change avatar'), action='form.update.avatar')}
+</form>
+</%def>
