@@ -2,7 +2,7 @@
   <%namespace name="account" module="fas.models" />
   <%namespace name="profile" file="/people/profile-header.xhtml"/>
     ${profile.header()}
-    <div class="panel panel-default">
+    <div class="container">
       <h3>${_(u'Your account activities')}</h3>
       <dl class="dl-horizontal">
       <table class="table">
@@ -24,7 +24,8 @@
                   ${account.module.AccountLogType(activity.event).name.lower().replace('_', ' ')}
               %endif
             </td>
-            <td>${activity.location} (${activity.remote_ip})</td>
+            <td><span class="glyphicon glyphicon-map-marker"></span> ${activity.location}</td> 
+            <!-- We'll put this one into a popover info: (${activity.remote_ip})</td> -->
           </tr>
         %endfor
         </tbody>
