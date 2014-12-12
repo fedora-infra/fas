@@ -27,7 +27,7 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
-from babel.dates import format_date
+from babel.dates import format_date, format_time
 
 import datetime
 
@@ -255,9 +255,16 @@ class PeopleAccountActivitiesLog(Base):
 
     def get_date(self, request):
         """ Return activity date in a translated human readable format. """
+        current_date = datetime.datetime.utcnow().date()
         date = self.timestamp.date()
+        time = self.timestamp.time()
 
-        return format_date(date, locale=request.locale_name)
+        if date == current_date:
+            _datetime = format_time(time, locale=request.locale_name)
+        else:
+            _datetime = format_date(date, locale=request.locale_name)
+
+        return _datetime
 
 
 class PeopleVirtualAccount(Base):
