@@ -20,13 +20,17 @@
   <div class="page-title">
     <div class="profile-header cs-style-2">
     <figure>
+      %if person.username == request.authenticated_userid:
       <a href="#updateAvatar" data-toggle="modal" data-target="#updateAvatar">
+      %endif
       %if person.avatar:
           <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
       %else:
           <img src="http://cdn.libravatar.org/avatar?s=200"/>
       %endif
+      %if person.username == request.authenticated_userid:
       </a>
+      %endif
     <figcaption>
       %if form:
           %if person.username == request.authenticated_userid:
@@ -48,7 +52,9 @@
     </div>
   </div>
   %if formavatar:
-    ${PeopleDialog.avatar(formavatar)}
+    %if person.username == request.authenticated_userid:
+      ${PeopleDialog.avatar(formavatar)}
+    %endif
   %endif
   %if form:
       <form class="form-horizontal" role="form" method="POST">
