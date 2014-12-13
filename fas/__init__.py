@@ -42,13 +42,16 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
 
     from pyramid.session import SignedCookieSessionFactory
-    my_session_factory = SignedCookieSessionFactory(
+    session_factory = SignedCookieSessionFactory(
         settings['session.secret'],
-        timeout=settings['session.timeout']
+        cookie_name='fas_session',
+        timeout=int(settings['session.timeout']),
+        max_age=int(settings['session.max_age']),
+        reissue_time=int(settings['session.renew_time'])
         )
 
     config = Configurator(
-        session_factory=my_session_factory,
+        session_factory=session_factory,
         settings=settings,
         root_factory='fas.security.Root'
         )
@@ -66,9 +69,12 @@ def main(global_config, **settings):
     )
 
     authn_policy = AuthTktAuthenticationPolicy(
-        settings['authtkt.secret'],
-        hashalg='sha512',
-        callback=groupfinder
+        settings['session.auth.secret'],
+        cookie_name='fas_auth',
+        hashalg=settings['session.auth.digest'],
+        callback=groupfinder,
+        timeout=int(settings['session.auth.timeout']),
+        debug=log.isEnabledFor(logging.DEBUG)
         )
 
     authz_policy = ACLAuthorizationPolicy()
