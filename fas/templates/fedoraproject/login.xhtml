@@ -13,7 +13,11 @@
 <!--
     <b>Login</b>
 -->
+    %if request.get_user:
+    <img src="${request.get_user.avatar}" class="img-circle" />
+    %else:
     <img src="http://cdn.libravatar.org/avatar?s=120&d=monsterid" class="img-circle" />
+    %endif
   </div>
 
   <div id="bottom" class="center container-fluid">

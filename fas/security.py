@@ -88,7 +88,8 @@ def penging_membership_requests(request):
             groups.append(m.group_id)
 
     log.debug(
-        'Found %s group where logged user can manage requests' % len(groups))
+        'Found %s group where logged user can manage requests membership'
+        % len(groups))
     if len(groups) <= 0:
         return groups
 
@@ -277,7 +278,7 @@ class MembershipValidator(Base):
 
         for group in groups:
             log.debug('checking group membership %s against %s'
-            % (group, self.group))
+            % (group.name, self.group))
             if group.name in self.group:
                 return True
 

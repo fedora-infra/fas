@@ -30,6 +30,7 @@ from fas.models import (
     MembershipStatus
     )
 from fas.models.people import People as mPeople
+from fas.events import PasswordChangeRequested
 
 from fas.notifications.email import Email
 
@@ -49,6 +50,7 @@ class People(object):
         self.request = request
         self.id = -1
         self.person = None
+        self.notify = self.request.registry.notify
 
     def redirect_to_profile(self):
         return redirect_to('/people/profile/%s' % self.id)
@@ -462,6 +464,8 @@ class People(object):
         if not self.person:
             raise HTTPNotFound(_(u'The person you are looking for'
             'do not exist.'))
+
+        self.notify(PasswordChangeRequested(self.request, self.person))
 
         form = UpdatePasswordForm(self.request.POST, self.person)
 

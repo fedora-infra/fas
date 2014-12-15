@@ -81,8 +81,7 @@ class Home:
                 headers = remember(self.request, login)
                 self.request.session.get_csrf_token()
                 self.notify(LoginSucceeded(self.request, person))
-                register.save_account_activity(
-                    self.request, person.id, AccountLogType.LOGGED_IN)
+
                 return HTTPFound(location=came_from, headers=headers)
 
             if person and person.status == AccountStatus.PENDING:

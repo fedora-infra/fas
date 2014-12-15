@@ -82,3 +82,5 @@ def onLoginSucceeded(event):
             % person.username)
         person.login_attempt = 0
         register.add_people(person)
+
+    person.last_logged = datetime.datetime.utcnow()

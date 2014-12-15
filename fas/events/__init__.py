@@ -29,6 +29,14 @@ class LoginFailed(object):
         self.request = request
         self.person = person
 
+
+class PasswordChangeRequested(object):
+    """ Password change request event. """
+    def __init__(self, request, person):
+        self.request = request
+        self.person = person
+
+
 class GroupEdited(object):
 
     def __init__(self, request, person, group, form):
