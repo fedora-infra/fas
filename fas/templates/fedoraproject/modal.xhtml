@@ -1,8 +1,8 @@
 <%namespace name="Modal" />
 
-<%def name="header(id, title, dismissable=True)">
+<%def name="header(id, title, dismissable=True, size='sm')">
   <div class="modal in" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${id}" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-${size}">
       <div class="modal-content">
         <div class="modal-header">
           %if dismissable:

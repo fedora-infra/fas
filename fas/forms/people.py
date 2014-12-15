@@ -184,3 +184,8 @@ class NewPeopleForm(UsernameForm, EmailForm):
 class UpdateAvatarForm(Form):
     """ Form to update people\'s avatar"""
     avatar_id = StringField(_(u'Avatar ID'), [validators.Required()])
+
+
+class UpdateSshKeyForm(Form):
+    """ Form to update ssh key"""
+    ssh_key = TextAreaField(_(u'ssh key'), [validators.Optional()])

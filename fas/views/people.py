@@ -16,6 +16,7 @@ from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
 from fas.forms.people import UpdateAvatarForm
+from fas.forms.people import UpdateSshKeyForm
 from fas.forms.captcha import CaptchaForm
 
 from fas.security import PasswordValidator
@@ -166,6 +167,7 @@ class People(object):
 
         form_avatar = UpdateAvatarForm(self.request.POST, self.person)
         form = UpdateStatusForm(self.request.POST, self.person)
+        form_sshkey = UpdateSshKeyForm(self.request.POST, self.person)
 
         if self.request.get_user:
             if self.request.get_user.username == self.person.username:
@@ -192,6 +194,8 @@ class People(object):
                 self.person.avatar = gen_libravatar(
                     form_avatar.avatar_id.data)
                 form_avatar.populate_obj(self.person)
+            if form_sshkey.validate():
+                form_sshkey.populate_obj(self.person)
 
         membership = [
             g for g in self.person.group_membership
@@ -202,6 +206,7 @@ class People(object):
             person=self.person,
             form=form,
             formavatar=form_avatar,
+            formsshkey=form_sshkey,
             membership=membership
         )
 

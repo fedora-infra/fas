@@ -15,3 +15,17 @@
   ${Modal.footer(_(u'Cancel'), _(u'Change avatar'), action='form.update.avatar')}
 </form>
 </%def>
+
+<%def name="sshkey(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateSshKey', _(u'Update your SSH key'), size='md')}
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-lg-10">
+              ${form.ssh_key(class_='form-control', row='5', placheholder=_(u'Add a key'))}
+            </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Update key'), action='form.update.ssh')}
+</form>
+</%def>

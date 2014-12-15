@@ -1,8 +1,14 @@
 <%inherit file="/people/profile-header.xhtml" />
 <%namespace name="profile" file="/people/profile-header.xhtml"/>
+<%namespace name="PeopleDialog" file="dialog.xhtml" />
 <%block name="details">
 
+  %if person.username == request.authenticated_userid:
+      ${PeopleDialog.sshkey(formsshkey)}
+  %endif
+
   ${profile.header()}
+
   <div class=profile-header>
     %if person.bio:
       <a data-toggle="collapse" href="#collapsePrivacy"><span class="glyphicon glyphicon-book"></span></a> <!-- Updpate this with an cool glyphicons -->
@@ -11,7 +17,7 @@
             <p>${person.bio}</p>
         </div>
     %endif
-  </div>
+      </div>
   </div>
 <!--
   %if person.username == request.authenticated_userid:
@@ -66,8 +72,17 @@
               </a>
             </dd>
             <dt>${_(u'Security Question')}</dt>
+            <dd></dd>
             <dt>${_(u'SSH key')}</dt>
-            <dd>${person.ssh_key}</dd>
+            <dd>
+              <a href="#updateSshKey" data-toggle="modal" data-target="#updateSshKey">
+                %if person.ssh_key:
+                ${_(u'Update')}
+                %else:
+                ${_(u'Add a key')}
+                %endif
+              </a>
+            <dd>
             <dt>${_(u'GPG Fingerprint')}</dt>
             <dt>
               <a href="${request.route_url('people-token', id=person.id)}">
