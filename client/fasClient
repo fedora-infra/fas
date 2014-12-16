@@ -176,7 +176,7 @@ def __setup_logger__(level):
     log.addHandler(ch)
 
 try:
-    config = ConfigParser.ConfigParser()
+    config = ConfigParser.RawConfigParser()
     if os.path.exists(opts.CONFIG_FILE):
         config.read(opts.CONFIG_FILE)
     elif os.path.exists('fas.conf'):
@@ -670,7 +670,8 @@ class MakeShellAccounts(AccountSystem):
                for key_tmp in self.users[uid]['ssh_key'].split("\n"):
                    if key_tmp:
                        log.debug('Adding command to SSH entry')
-                       key.append('command="%s",%s %s' % (users[uid]['ssh_cmd'], users[uid]['ssh_options'], key_tmp))
+                       cmd = users[uid]['ssh_cmd'] % {'username': username}
+                       key.append('command="%s",%s %s' % (cmd, users[uid]['ssh_options'], key_tmp))
                key = "\n".join(key)
             else:
                key = self.users[uid]['ssh_key']
