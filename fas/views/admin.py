@@ -5,6 +5,8 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 
+from fas.models import MembershipStatus
+from fas.models import MembershipRole
 import fas.models.provider as provider
 import fas.models.register as register
 
@@ -61,7 +63,10 @@ class Admin(object):
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
-                register.add_membership(group, group.owner_id, 5)
+                register.add_membership(
+                    group.id, group.owner_id,
+                    MembershipStatus.APPROVED,
+                    MembershipRole.ADMINISTRATOR)
                 if form.bound_to_github.data:
                     g = Github()
                     g.create_group(
