@@ -27,9 +27,9 @@
         <div class="col-sm-6 col-sm-4 col-lg-4">
           <li>
             <a href="${request.route_url('group-details', id=group.id)}">
-            <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+              <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+              <h3>${group.display_name or group.name}</h3>
             </a>
-          <h4>${group.display_name or group.name}</h4>
           </li>
         </div>
       </ul>

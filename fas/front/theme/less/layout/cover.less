@@ -1,25 +1,29 @@
 .cover{
-    @height:300px;
-    background:@fedora-darkblue;
+    @height: 300px;
+    background: @fedora-darkblue;
     box-shadow: 0 0 30px 3px rgba(0, 0, 0, .3) inset;
     color: #fff;
+
     .row{
         height:@height;
         padding-top:50px;
     }
+
     .titling-col {
         strong{
             display:block;
             font-size:2.2em;
-            .font(sans);
+            font-family: @headings-font-family;
         }
-    }    
+    }
     .content-col{
         font-size:1.4em;
         font-weight:100!important;
+
         p{
-            
+            font-family: @fedora-text-font-family;
         }
+
         a{
             color:#fff;
             text-decoration:underline;

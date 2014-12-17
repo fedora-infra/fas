@@ -8,6 +8,7 @@ body{
 body.navbar-expanded {
     padding-top: @navbar-height + @navbar-expand-padding;
     .navbar.navbar-default{
+        border-color: white;
         border-top:6px solid @fedora-blue;
         padding-top: @navbar-expand-padding;
     }
@@ -15,7 +16,17 @@ body.navbar-expanded {
 
 .navbar.navbar-default {
     border-top:0;
-    .transition(background .2s, padding @navbar-collapsing-speed, border .2s;);
+    border-color: @fedora-darkblue;
+
+    a {
+        font-family: @fedora-text-font-family;
+    }
+
+    .transition(
+        background .2s, 
+        padding @navbar-collapsing-speed,
+        border .2s;
+    );
 }
 
 .navbar-brand{

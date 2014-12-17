@@ -28,12 +28,19 @@ Bootstrap the virtualenv
  - openssl
  - GeoIP
 
+If you want to enable fonts that match with Fedora logo usage guideline:
+
+ - comfortaa-fonts
+ - cantarell-fonts
+
 Fedora OS
 
 ::
 
     sudo dnf install -y libffi-devel openssl-devel GeoIP-devel
 
+    sudo dnf install -y aajohan-comfortaa-fonts abattis-cantarell-fonts
+    # if you want to use system fonts
 
 ::
 
