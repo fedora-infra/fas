@@ -98,7 +98,8 @@
     </nav>
     %if request.session.peek_flash('error'):
           <div class="alert alert-danger alert-dismissible" role="alert" 
-               style="max-width: 300px; margin: 20px; position: fixed; z-index: 20;">
+               style="max-width: 300px; margin: 20px; position: fixed; z-index: 20; box-shadow: 0px 0px 30px 3px rgba(159, 39, 39, 0.65);">
+            <!-- Note that this style is temporary while validating the layout -->
             <button type="button" class="close" data-dismiss="alert">
               <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
             </button>
