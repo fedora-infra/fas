@@ -1,6 +1,38 @@
-/* based on Fedora guidelines
+/* Fonts usage based on Fedora Logo guidelines
  * see http://fedoraproject.org/wiki/Logo/UsageGuidelines#Fonts
+ *
+ *
+ * Comfortaa
+ * ---------
+ * source: http://www.deviantart.com/download/105395949/comfortaa___font_by_aajohan-d1qr019.zip
+ *
+ * Cantarell
+ * ---------
+ * source: https://download.gnome.org/sources/cantarell-fonts/0.0/cantarell-fonts-0.0.16.tar.xz
+ *
  */
 
+@font-face {
+  font-family: "Comfortaa";
+
+  src: url('../assets/fonts/font/Comfortaa-Regular.ttf') format('truetype'),
+       url('../assets/fonts/font/Comfortaa-Bold.ttf') format('truetype'),
+       url('../assets/fonts/font/Comfortaa-Light.ttf') format('truetype');
+
+  font-weight: normal;
+  font-style: normal;
+}
+
 @fedora-titling-font-family:    "Comfortaa";
+
+@font-face {
+  font-family: "Cantarell";
+
+  src: url('../assets/fonts/font/Cantarell-Regular.otf') format('truetype'),
+       url('../assets/fonts/font/Cantarell-Bold.otf') format('truetype');
+
+  font-weight: normal;
+  font-style: normal;
+}
+
 @fedora-text-font-family:       "Cantarell";
