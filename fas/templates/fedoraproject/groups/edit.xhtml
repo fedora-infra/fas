@@ -1,8 +1,7 @@
 <%inherit file="/site.xhtml" />
-<div class="page-title">
-   <h1>${_(u'Group Update')}</h1>
-   <p>${_(u'Update group\'s informations')}</p>
-</div>
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+${Page.set_title(_(u'Group Update'), _(u'Update group\'s informations'))}
 
 <div class="container">
   %if form.name.data is None:

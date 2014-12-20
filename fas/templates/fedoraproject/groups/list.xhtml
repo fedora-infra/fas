@@ -1,9 +1,8 @@
 <%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
-  <div class="page-title">
-   <h1>${_(u'Fedora Groups\' List')}</h1>
-   <p>${_(u'All involvement\'s groups')}</p>
-  </div>
+
+${Page.set_title(_(u'Fedora Groups\' List'), _(u'All involvement\'s groups'))}
 
   <div class="searchform">
       <h3>Search groups</h3>

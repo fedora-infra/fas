@@ -1,9 +1,7 @@
 <%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
 
-<div class="page-title">
-   <h1>${_(u'Profile Update')}</h1>
-   <p>${_(u'Update your profile\'s informations')}</p>
-</div>
+${Page.set_title(_(u'Profile Update'), _(u'Update your profile\'s informations'))}
 
 <div class="container">
   <form method="POST" action="${request.route_url('people-edit', id=id)}" class="form-horizontal" role="form">

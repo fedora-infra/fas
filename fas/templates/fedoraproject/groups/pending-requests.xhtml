@@ -1,11 +1,7 @@
 <%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
 
-  <div class="page-title">
-    <h1>${_(u'Groups membership requests')}</h1>
-    <p>
-      ${_(u'Manage membership requests')}
-    </p>
-  </div>
+${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership requests'))}
 
   %if len(requests) > 0:
     %for ms in requests:
