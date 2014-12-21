@@ -19,6 +19,7 @@ from fas.models import (
     DBSession,
     Base,
     AccountStatus,
+    GroupStatus,
     MembershipRole,
     MembershipStatus,
     AccountPermissionType as PermissionType
@@ -140,7 +141,8 @@ def add_membership(
 
     DBSession.add(ms)
 
-def add_permission(people_id, token=None,application=None, perms=None):
+
+def add_permission(people_id, token=None, application=None, perms=None):
     """ Add permissions to a given user. """
     perm = AccountPermissions()
     perm.people = people_id
@@ -386,6 +388,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=300,
                     name=u'avengers',
+                    status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
                     )
@@ -393,6 +396,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=301,
                     name=u'justice_league',
+                    status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
                     )
@@ -400,6 +404,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=302,
                     name=u'fantastic_four',
+                    status=GroupStatus.ACTIVE,
                     group_type=2,
                     owner_id=admin.id)
                     )
@@ -407,6 +412,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=303,
                     name=u'all-star',
+                    status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
                     )
@@ -414,6 +420,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=304,
                     name=u'x-men',
+                    status=GroupStatus.ACTIVE,
                     group_type=2,
                     owner_id=admin.id)
                     )
