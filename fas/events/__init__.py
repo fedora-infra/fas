@@ -44,3 +44,22 @@ class GroupEdited(object):
         self.person = person
         self.group = group
         self.form = form
+
+class GroupRemovalRequested(object):
+    """ Group removal event. """
+    def __init__(self, request, group_id):
+        self.request = request
+        self.group = group_id
+
+class GroupTypeRemovalRequested(object):
+    """ Group type removal event. """
+    def __init__(self, request, grouptype_id):
+        self.request = request
+        self.grouptype = grouptype_id
+
+
+class LicenseRemovalRequested(object):
+    """ license agreement removal event. """
+    def __init__(self, request, license_id):
+        self.request = request
+        self.license = license_id

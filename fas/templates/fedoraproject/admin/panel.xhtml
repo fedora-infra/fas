@@ -1,0 +1,22 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="SettingsDialog" file="/admin/dialog.xhtml" />
+
+${SettingsDialog.group(groupform)}
+${SettingsDialog.grouptype(gtypeform)}
+${SettingsDialog.license(licenseform)}
+
+${Page.set_title(_(u'Account settings'), _(u'Manage account settings'))}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h2><a href="${request.route_url('add-group')}">${_(u'Add group')}</a></h2>
+      <h2><a href="#removeGroup" data-toggle="modal" data-trigger="#removeGroup">${_(u'Remove group')}</a></h2>
+      <h2><a href="${request.route_url('add-grouptype')}">${_(u'Add group type')}</a></h2>
+      <h2><a href="#removeGrouptype" data-toggle="modal" data-trigger="#removeGrouptype">${_(u'Remove group type')}</a></h2>
+      <h2><a href="${request.route_url('add-license')}">${_(u'Add license agreement')}</a></h2>
+      <h2><a href="#removeLicense" data-toggle="modal" data-trigger="#removeLicense">${_(u'Remove license agreement')}</a></h2>
+    </div>
+  </div>
+</div>

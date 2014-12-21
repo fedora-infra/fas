@@ -95,3 +95,21 @@ class GroupAdminsForm(Form):
         [validators.Required()],
         coerce=int,
         choices=[(-1, _(u'-- None --'))])
+
+
+class GroupListForm(Form):
+    """ Form to select valid group name. """
+    id = SelectField(
+        _(u'Select a group'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])
+
+
+class GroupTypeListForm(Form):
+    """ Form to select valid group name. """
+    id = SelectField(
+        _(u'Select a group type'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])

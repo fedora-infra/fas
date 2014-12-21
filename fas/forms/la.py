@@ -6,6 +6,7 @@ from wtforms import (
     TextAreaField,
     IntegerField,
     BooleanField,
+    SelectField,
     validators
     )
 
@@ -25,3 +26,12 @@ class SignLicenseForm(Form):
     people = IntegerField(_(u'People Id'), [validators.Optional()])
     signed = BooleanField(_(u'I agree to the terms of the license'),
         [validators.Required()])
+
+
+class LicenseListForm(Form):
+    """ Form to select valid license agreement name. """
+    id = SelectField(
+        _(u'Select a license'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])

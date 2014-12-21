@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
-from pyramid.security import NO_PERMISSION_REQUIRED
 
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
@@ -12,7 +10,12 @@ import fas.models.register as register
 
 from fas.forms.people import ContactInfosForm
 from fas.forms.group import EditGroupForm, EditGroupTypeForm
-from fas.forms.la import EditLicenseForm, SignLicenseForm
+from fas.forms.group import GroupListForm, GroupTypeListForm
+from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
+
+from fas.events import GroupRemovalRequested
+from fas.events import GroupTypeRemovalRequested
+from fas.events import LicenseRemovalRequested
 
 from fas.views import redirect_to
 from fas.utils.captcha import Captcha
@@ -24,12 +27,52 @@ class Admin(object):
 
     def __init__(self, request):
         self.request = request
+        self.nofity = self.request.registry.notify
         self.id = -1
 
-    @view_config(route_name='settings', permission='admin')
+    @view_config(route_name='settings', permission='admin',
+        renderer='/admin/panel.xhtml')
     def index(self):
         """ Admin panel page."""
-        return Response('This is an empty page')
+
+        group_form = GroupListForm(self.request.POST)
+        grouptype_form = GroupTypeListForm(self.request.POST)
+        license_form = LicenseListForm(self.request.POST)
+
+        group_form.id.choices = [
+            (group.id, group.name) for group in provider.get_groups()]
+
+        grouptype_form.id.choices = [
+            (gt.id, gt.name) for gt in provider.get_group_types()]
+
+        license_form.id.choices = [
+            (la.id, la.name) for la in provider.get_licenses()]
+
+        if self.request.method == 'POST':
+            key = None
+            if ('form.remove.group' in self.request.params)\
+            and group_form.validate():
+                key = group_form.id.data
+                self.notify(GroupRemovalRequested(self.request, key))
+                register.remove_group(key)
+
+            if ('form.remove.grouptype' in self.request.params)\
+            and grouptype_form.validate():
+                key = grouptype_form.id.data
+                self.notify(GroupTypeRemovalRequested(self.request, key))
+                register.remove_grouptype(key)
+
+            if ('form.remove.license' in self.request.params)\
+            and license_form.validate():
+                key = license_form.id.data
+                self.notify(LicenseRemovalRequested(self.request, key))
+                register.remove_license(key)
+
+            self.notify()
+
+        return dict(groupform=group_form,
+            gtypeform=grouptype_form,
+            licenseform=license_form)
 
     @view_config(route_name='captcha-image', renderer='jpeg')
     def captcha_image(self):
