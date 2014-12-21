@@ -7,6 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
 from fas.models import AccountLogType
+from fas.models import GroupStatus
 
 import fas.models.provider as provider
 import fas.models.register as register
@@ -158,6 +159,12 @@ class Groups(object):
         sponsor_members = []
         admin_members = []
         admin_form = None
+
+        if not self.request.authenticated_is_admin():
+            if group.status not in [
+                GroupStatus.ACTIVE,
+                GroupStatus.INACTIVE]:
+                return redirect_to('/groups')
 
         authenticated = self.request.get_user
         authenticated_membership = None

@@ -7,6 +7,7 @@ from fas.models import MembershipStatus
 from fas.models import DBSession as session
 
 from fas.models import AccountStatus
+from fas.models import GroupStatus
 
 from fas.models.la import (
     LicenseAgreement,
@@ -72,9 +73,18 @@ def __get_listoffset(page, limit):
 
 
 # Method to interact with Groups
-def get_groups(limit=None, page=None, pattern=None, count=False):
+def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
     """ Retrieve all registered groups from databse. """
     query = session.query(Groups)
+
+    if status is not None:
+        query = query.filter(Groups.status.in_(status))
+    else:
+        query = query.filter(
+            Groups.status.in_([
+                GroupStatus.ACTIVE,
+                GroupStatus.INACTIVE]
+                ))
 
     if pattern:
         if '%' in pattern:
