@@ -122,7 +122,7 @@ class People(object):
 
         if not people:
             self.request.session.flash(
-                _('No user found for the query: %s') % _id, 'error')
+                _('No user found for the query: %s' % _id), 'error')
             return redirect_to('/people')
 
         pages, count = compute_list_pages_from(peoples, 50)
@@ -164,6 +164,13 @@ class People(object):
             self.person = provider.get_people_by_id(_id)
         if not self.person:
             raise HTTPNotFound('No such user found')
+
+        if not self.request.authenticated_is_admin():
+            if self.person.status not in [
+                AccountStatus.ACTIVE,
+                AccountStatus.INACTIVE,
+                AccountStatus.ON_VACATION]:
+                return redirect_to('/people')
 
         form_avatar = UpdateAvatarForm(self.request.POST, self.person)
         form = UpdateStatusForm(self.request.POST, self.person)

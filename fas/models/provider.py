@@ -6,7 +6,7 @@ from pyramid.security import unauthenticated_userid
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
 
-from fas.models import MembershipRole
+from fas.models import AccountStatus
 
 from fas.models.la import (
     LicenseAgreement,
@@ -248,9 +248,21 @@ def get_grouptype_by_id(id):
 
 # Method to interact with People
 
-def get_people(limit=None, page=None, pattern=None, count=False):
-    """ Retrieve all registered people from database. """
-    query = session.query(People).order_by(People.username)
+def get_people(limit=None, page=None, pattern=None, count=False, status=None):
+    """ Retrieve all registered people from database
+    based on given pattern and status.
+    """
+    query = session.query(People).order_by(People.fullname)
+
+    if status is not None:
+        query = query.filter(People.status.in_(status))
+    else:
+        query = query.filter(
+            People.status.in_([
+                AccountStatus.ACTIVE,
+                AccountStatus.ON_VACATION,
+                AccountStatus.INACTIVE]
+                ))
 
     if pattern:
         if '%' in pattern:
@@ -279,7 +291,8 @@ def get_people(limit=None, page=None, pattern=None, count=False):
 
     if count:
         return query.count()
-    return query.all()
+
+    return query.distinct().all()
 
 
 def get_people_username(filter_out=None):
