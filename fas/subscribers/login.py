@@ -10,6 +10,7 @@ from fas.utils import _
 from fas.utils import Config
 
 from fas.models import AccountStatus
+from fas.models import AccountLogType
 from fas.models import register
 from fas.views import redirect_to
 
@@ -75,6 +76,7 @@ def onLoginRequested(event):
 def onLoginSucceeded(event):
     """ Login success listener. """
     person = event.person
+    request = event.request
 
     if person.login_attempt > 0:
         log.debug(
@@ -84,3 +86,6 @@ def onLoginSucceeded(event):
         register.add_people(person)
 
     person.last_logged = datetime.datetime.utcnow()
+
+    register.save_account_activity(request, person.id, AccountLogType.LOGGED_IN)
+

@@ -13,6 +13,9 @@ from fas.utils.geoip import get_record_from
 
 from ua_parser import user_agent_parser
 
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def flush():
@@ -23,12 +26,18 @@ def flush():
 def save_account_activity(request, people, event, msg=None):
     """ Register account activity. """
     remote_ip = request.client_addr
+
     record = get_record_from(remote_ip)
-    # record = get_record_from('86.70.6.26') # test IP
+    log.debug('Found record from remote IP(%s): %s' % (remote_ip, record))
 
     user_agent = user_agent_parser.Parse(request.headers['User-Agent'])
+    log.debug('Parsing user_agent: %s' % user_agent)
+
     client = user_agent['user_agent']['family']
+    log.debug('Found clien from user_agent: %s' % client)
+
     device = user_agent['device']['family']
+    log.debug('Found device from user_agent: %s' % device)
 
     if client != 'Other':
         client = client
@@ -36,10 +45,14 @@ def save_account_activity(request, people, event, msg=None):
             client = client + ' on %s' % device
     else:
         client = user_agent['string']
+        log.debug('Using user_agent as client: %s' % client)
 
     if record:
         city = record['city']
+        log.debug('Found city in IP record: %s' % city)
+
         country = '%s (%s)' % (record['country_name'], record['country_code3'])
+        log.debug('Found country in IP record: %s' % country)
 
         if city:
             location = '%s, %s' % (city, country)
@@ -47,6 +60,8 @@ def save_account_activity(request, people, event, msg=None):
             location = country
     else:
         location = _('Unknown')
+
+    log.debug('Set remote location to: %s' % location)
 
     activity = PeopleAccountActivitiesLog(
         people=people,
