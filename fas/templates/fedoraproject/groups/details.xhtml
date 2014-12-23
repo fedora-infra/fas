@@ -22,18 +22,18 @@
     %if person.id == group.owner.id or user_is_admin:
       ${GroupForm.changeAdmin(adminform, group.id, person.id)}
     %endif
-  %endif
 
-  %if is_member:
-    ${GroupForm.membershipRemoval(group.id, person.id)}
-  %endif
+    %if is_member:
+      ${GroupForm.membershipRemoval(group.id, person.id)}
+    %endif
 
-  %if group.license_sign_up > 0:
-  <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
-    ${licenseAgreement.form(license=group.license, person=request.get_user)}
-  %endif
+    %if group.license_sign_up > 0:
+    <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
+      ${licenseAgreement.form(license=group.license, person=request.get_user)}
+    %endif
 
-  ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
+    ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
+  %endif
 
   <div class="page-title">
     <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
@@ -183,45 +183,51 @@
           </dl>
       %else:
         <dl class="dl-horizontal">
-          %if group.apply_rules:
-            <p>${group.apply_rules}</p>
-          %endif
-          %if group.need_approval:
-            %if request.authenticated_userid and not is_member:
-              %if person_membership is not None\
-                  and person_membership.get_status() == membership_status.PENDING:
-                <dt>${_(u'Status')}</dt>
-                  <dd><p>${_(u'Pending...')}</p></dd>
-              %else:
+          %if not request.authenticated_userid:
+          <div>
+            <a href="${request.route_url('login')}?redirect=${request.url}">${_(u'Login')}</a> ${_(u'for more details')}
+          </div>
+          %else:
+            %if group.apply_rules:
+              <p>${group.apply_rules}</p>
+            %endif
+            %if group.need_approval:
+              %if request.authenticated_userid and not is_member:
+                %if person_membership is not None\
+                    and person_membership.get_status() == membership_status.PENDING:
+                  <dt>${_(u'Status')}</dt>
+                    <dd><p>${_(u'Pending...')}</p></dd>
+                %else:
 <!--
-                <form method="POST">
-                <button class="btn btn-default" name="data">
-                  ${_(u'Apply')}
-                </button>
+                  <form method="POST">
+                  <button class="btn btn-default" name="data">
+                    ${_(u'Apply')}
+                  </button>
 -->
-                <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
-                <button class="btn glow" name="button">
+                  <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
+                  <button class="btn glow" name="button">
 <!--
-                    data-toggle="modal" data-target="#groupApplication">
+                      data-toggle="modal" data-target="#groupApplication">
 -->
-                  ${_(u'Apply')}
-                </button>
-                </form>
+                    ${_(u'Apply')}
+                  </button>
+                  </form>
+                %endif
               %endif
             %endif
-          %endif
-          %if group.license_sign_up > -1:
-            <dt>${_(u'This group requires a license agreement')}</dt>
-              %if license_signed_up:
-                <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
-              %else:
-                <dd>
-                  <button class="btn glow" type="button"
-                        data-toggle="modal" data-target="#signLicense">
-                    ${_(u'Sign up')}
-                  </button>
-                </dd>
-              %endif
+            %if group.license_sign_up > -1:
+              <dt>${_(u'This group requires a license agreement')}</dt>
+                %if license_signed_up:
+                  <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
+                %else:
+                  <dd>
+                    <button class="btn glow" type="button"
+                          data-toggle="modal" data-target="#signLicense">
+                      ${_(u'Sign up')}
+                    </button>
+                  </dd>
+                %endif
+            %endif
           %endif
         </dl>
       %endif
