@@ -1,13 +1,80 @@
 @card-view {
-    width: 900px;
+    width: 800px;
 }
 
 .profile-header {
     margin: auto;
     text-align: center;
 
+    h1 {
+         padding-top: 10px;
+    }
+
     img {
         vertical-align: baseline;
+        display: block;
+        -webkit-transition: all 300ms;
+        -moz-transition: all 300ms;
+        transition: all 300ms;
+        //max-width: 100%;
+    }
+
+    figure {
+        margin: auto;
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+
+        border: 4px solid white;
+        border-radius: 5px;
+    }
+
+    figcaption p {
+        display: table-cell;
+        font-size: 1.6em;
+        position: relative;
+        top: -40px;
+        width: 200px;
+        -webkit-transition: all 300ms ease-out;
+        -moz-transition: all 300ms ease-out;
+        transition: all 300ms ease-out;
+        vertical-align: middle;
+    }
+
+    figure:hover figcaption p {
+        -moz-transform: translateY(70px);
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+    }
+
+    figcaption {
+        background: rgba(0,0,0,0.8);
+        color: white;
+        display: table;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        -webkit-transition: all 300ms;
+        -moz-transition: all 300ms;
+        transition: all 300ms;
+        -webkit-transition-delay: 100ms;
+        -moz-transition-delay: 100ms;
+        transition-delay: 100ms;
+        z-index: 100;
+    }
+
+    figure:hover figcaption {
+        opacity: 1;
+    }
+
+    figure:hover img {
+        -webkit-transform: scale(1.4);
+        -moz-transform: scale(1.4);
+        transform: scale(1.4);
     }
 }
 
@@ -16,3 +83,4 @@
     float: right;
     margin-right: -25px;
 }
+

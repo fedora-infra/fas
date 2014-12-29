@@ -18,44 +18,45 @@
   %endif
 
   <div class="page-title">
-    <div class="profile-header cs-style-2">
-    <figure>
-      %if person.username == request.authenticated_userid:
+    <div class="profile-header">
+      %if form and person.username == request.authenticated_userid:
       <a href="#updateAvatar" data-toggle="modal" data-target="#updateAvatar">
       %endif
-      %if person.avatar:
-          <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
-      %else:
-          <img src="http://cdn.libravatar.org/avatar?s=200"/>
-      %endif
-      %if person.username == request.authenticated_userid:
+        <figure>
+          %if person.avatar:
+              <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
+          %else:
+              <img src="http://cdn.libravatar.org/avatar?s=200"/>
+          %endif
+        %if form:
+        <figcaption>
+              %if person.username == request.authenticated_userid:
+                  <p>${_(u'Change Avatar')}</p>
+              %endif
+        </figcaption>
+        %endif
+        </figure>
+      %if form and person.username == request.authenticated_userid:
+      </a>
+      <a href="#UpdateStatus" type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
+        ${_(u'Update status')}
       </a>
       %endif
-    <figcaption>
-      %if form:
-          %if person.username == request.authenticated_userid:
-              <span>
-                <button  type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
-                    ${_(u'Update status')}
-                </button>
-              </span>
-          %endif
-      %endif
-    </figcaption>
-    </figure>
       <h1>${person.fullname}</h1>
+      %if person.introduction:
       <p>
-        %if person.introduction:
-          ${person.introduction}
-        %endif
+        ${person.introduction}
       </p>
+      %endif
     </div>
   </div>
+
   %if formavatar:
     %if person.username == request.authenticated_userid:
       ${PeopleDialog.avatar(formavatar)}
     %endif
   %endif
+
   %if form:
       <form class="form-horizontal" role="form" method="POST">
         <div class="modal in" id="updateStatus" tabindex="-1" role="dialog" aria-labelledby="UpdateStatus" aria-hidden="true">
