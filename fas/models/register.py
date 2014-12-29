@@ -214,16 +214,9 @@ def remove_group(group_id):
     session.query(Groups).filter(Groups.id == group_id).delete()
 
 
-def remove_token(permission):
+def remove_token(id):
     """ Remove people's token from database. """
-    perm = AccountPermissions()
-    perm.token = permission
-
-    session.query(
-        AccountPermissions
-    ).filter(
-        AccountPermissions.token == permission
-    ).delete()
+    session.query(AccountPermissions).filter_by(id=id).delete()
 
 
 def remove_membership(group, person):

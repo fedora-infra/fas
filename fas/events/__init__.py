@@ -63,3 +63,11 @@ class LicenseRemovalRequested(object):
     def __init__(self, request, license_id):
         self.request = request
         self.license = license_id
+
+
+class TokenUsed(object):
+    """ Token API acitvity event. """
+    def __init__(self, request, perm, person):
+        self.request = request
+        self.perm = perm
+        self.person = person

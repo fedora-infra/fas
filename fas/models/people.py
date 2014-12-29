@@ -27,7 +27,7 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
-from babel.dates import format_date, format_time
+from fas.utils import format_datetime
 
 import datetime
 
@@ -134,9 +134,7 @@ class People(Base):
 
     def get_created_date(self, request):
         """ Return activity date in a translated human readable format. """
-        date = self.date_created.date()
-
-        return format_date(date, locale=request.locale_name)
+        return format_datetime(request.locale_name, self.date_created)
 
     def to_json(self, permissions):
         """ Return a json/dict representation of this user.
@@ -255,16 +253,7 @@ class PeopleAccountActivitiesLog(Base):
 
     def get_date(self, request):
         """ Return activity date in a translated human readable format. """
-        current_date = datetime.datetime.utcnow().date()
-        date = self.timestamp.date()
-        time = self.timestamp.time()
-
-        if date == current_date:
-            _datetime = format_time(time, locale=request.locale_name)
-        else:
-            _datetime = format_date(date, locale=request.locale_name)
-
-        return _datetime
+        return format_datetime(request.locale_name, self.timestamp)
 
 
 class PeopleVirtualAccount(Base):

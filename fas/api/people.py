@@ -9,6 +9,8 @@ from fas.api import (
 from pyramid.response import Response
 from pyramid.view import view_config
 
+from fas.events import TokenUsed
+
 import fas.models.provider as provider
 import fas.models.register as register
 
@@ -56,6 +58,9 @@ def people_list(request):
 
         ak = TokenValidator(param.get_apikey())
         if ak.is_valid():
+            request.registry.notify(
+                TokenUsed(request, ak.get_obj(), ak.get_owner())
+                )
             people = provider.get_people(limit=limit, page=page)
         else:
             data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
@@ -65,9 +70,9 @@ def people_list(request):
     if people:
         users = []
         for user in people:
-            users.append(user.to_json(perms.CAN_READ_PUBLIC_INFO))
+            users.append(user.to_json(ak.get_perm()))
 
-        data.set_pages('people', page, limit)
+        data.set_pages(provider.get_people(count=True), page, limit)
         data.set_data(users)
 
     return data.get_metadata()
@@ -85,6 +90,9 @@ def api_user_get(request):
         if ak.is_valid():
             key = request.matchdict.get('key')
             value = request.matchdict.get('value')
+            request.registry.notify(
+                TokenUsed(request, ak.get_obj(), ak.get_owner())
+                )
             try:
                 user = __get_user(key, value)
             except BadRequest as err:

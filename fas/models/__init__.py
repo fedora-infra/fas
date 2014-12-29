@@ -61,6 +61,7 @@ class MembershipRole(IntEnum):
 
 
 class AccountPermissionType(IntEnum):
+    UNDEFINED = 0x00
     CAN_READ_PUBLIC_INFO = 0x01
     CAN_READ_PEOPLE_PUBLIC_INFO = 0x02
     CAN_READ_PEOPLE_FULL_INFO = 0x03

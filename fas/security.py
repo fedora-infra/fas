@@ -232,7 +232,8 @@ class TokenValidator(Base):
 
     def __init__(self, apikey):
         self.token = apikey
-        self.perms = 0
+        self.perm = 0x00
+        self.obj = None
         self.msg = ''
 
     def is_valid(self):
@@ -240,8 +241,9 @@ class TokenValidator(Base):
         self.msg = {'', ''}
         key = provider.get_account_permissions_by_token(self.token)
         if key:
-            self.perms = key.permissions
-            self.people = key.people
+            self.obj = key
+            self.perm = key.permissions
+            self.people = key.account
             return True
         else:
             self.msg = ('Access denied.', 'Unauthorized API key.')
@@ -251,12 +253,16 @@ class TokenValidator(Base):
         """ Set token for validation. """
         self.token = token
 
-    def get_perms(self):
-        """ Get token related permissions. """
-        return int(self.perms)
+    def get_obj(self):
+        """ Return token object model. """
+        return self.obj
 
-    def get_people_id(self):
-        """ Get People's ID from validated token. """
+    def get_perm(self):
+        """ Return token related permissions. """
+        return self.perm
+
+    def get_owner(self):
+        """ Return validated token\'s owner. """
         return self.people
 
 

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import pyramid.threadlocal
+import datetime
+
+from babel.dates import format_date, format_time
 
 from pyramid.i18n import TranslationStringFactory
 
@@ -56,3 +59,17 @@ def locale_negotiator(request):
         return request.get_user.locale
 
     return str(Config.get('locale.default'))
+
+
+def format_datetime(locale, tdatetime):
+        """ Return given `datetime` in a translated human readable format. """
+        current_date = datetime.datetime.utcnow().date()
+        date = tdatetime.date()
+        time = tdatetime.time()
+
+        if date == current_date:
+            tdatetime = format_time(time, locale=locale)
+        else:
+            tdatetime = format_date(date, locale=locale)
+
+        return tdatetime

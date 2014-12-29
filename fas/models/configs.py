@@ -14,7 +14,9 @@ from sqlalchemy import (
 
 from sqlalchemy.orm import relation
 
-from babel.dates import format_date
+from fas.models import AccountPermissionType
+
+from fas.utils import format_datetime
 
 
 class Plugins(Base):
@@ -35,16 +37,25 @@ class AccountPermissions(Base):
     granted_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp())
+    last_used = Column(DateTime, nullable=True)
 
-    account = relation(
-        'People',
-        uselist=False
-        )
+    account = relation('People', uselist=False)
 
     def get_granted_date(self, request):
         """ Return granted date of account perms in a translated
         human readable format.
         """
-        date = self.granted_timestamp.date()
+        return format_datetime(request.locale_name, self.granted_timestamp)
 
-        return format_date(date, locale=request.locale_name)
+    def get_last_used_date(self, request):
+        """ Return token last used date in a translated
+         human readable format.
+        """
+        return format_datetime(request.locale_name, self.last_used)
+
+    def get_perm_as_string(self):
+        """ Return permission level as string format. """
+        return AccountPermissionType(
+            self.permissions
+            ).name.lower().replace('_', ' ')
+
