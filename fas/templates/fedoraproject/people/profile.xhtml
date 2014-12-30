@@ -7,14 +7,18 @@
       ${PeopleDialog.sshkey(formsshkey)}
   %endif
 
+  %if person.username == request.authenticated_userid:
+      ${PeopleDialog.gpg_fingerprint(form_gpgfp)}
+  %endif
+
   ${profile.header()}
 
   <div class=profile-header>
     %if person.bio:
       <a data-toggle="collapse" href="#collapsePrivacy"><span class="glyphicon glyphicon-book"></span></a> <!-- Updpate this with an cool glyphicons -->
-      <div id="collapsePrivacy" class="panel-collapse collapse">
-        <div class="panel-body">
-            <p>${person.bio}</p>
+      <div id="collapsePrivacy" class="panel-collapse collapse container">
+        <div class="center-block">
+            <p class="text-center">${person.bio | n}</p>
         </div>
     %endif
       </div>
@@ -84,6 +88,15 @@
               </a>
             <dd>
             <dt>${_(u'GPG Fingerprint')}</dt>
+            <dd>
+              <a href="#updateGpgfp" data-toggle="modal" data-target="#updateGpgfp">
+                %if person.gpg_fingerprint:
+                ${_(u'Update')}
+                %else:
+                ${_(u'Add a fingerprint')}
+                %endif
+              </a>
+            </dd>
             <dt>
               <a href="${request.route_url('people-token', id=person.id)}">
                 ${_(u'Access Token')}

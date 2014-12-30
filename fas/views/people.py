@@ -17,6 +17,7 @@ from fas.forms.people import UsernameForm
 from fas.forms.people import ResetPasswordPeopleForm
 from fas.forms.people import UpdateAvatarForm
 from fas.forms.people import UpdateSshKeyForm
+from fas.forms.people import UpdateGpgFingerPrint
 from fas.forms.captcha import CaptchaForm
 from fas.forms.account import AccountPermissionForm
 
@@ -176,6 +177,7 @@ class People(object):
         form_avatar = UpdateAvatarForm(self.request.POST, self.person)
         form = UpdateStatusForm(self.request.POST, self.person)
         form_sshkey = UpdateSshKeyForm(self.request.POST, self.person)
+        form_gpgfp = UpdateGpgFingerPrint(self.request.POST, self.person)
 
         if self.request.get_user:
             if self.request.get_user.username == self.person.username:
@@ -204,6 +206,8 @@ class People(object):
                 form_avatar.populate_obj(self.person)
             if form_sshkey.validate():
                 form_sshkey.populate_obj(self.person)
+            if form_gpgfp.validate():
+                form_gpgfp.populate_obj(self.person)
 
         membership = [
             g for g in self.person.group_membership
@@ -215,6 +219,7 @@ class People(object):
             form=form,
             formavatar=form_avatar,
             formsshkey=form_sshkey,
+            form_gpgfp=form_gpgfp,
             membership=membership
         )
 

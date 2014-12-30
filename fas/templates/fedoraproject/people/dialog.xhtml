@@ -22,10 +22,25 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="col-lg-10">
-              ${form.ssh_key(class_='form-control', row='5', placheholder=_(u'Add a key'))}
+              ${form.ssh_key(class_='form-control', rows='10', placheholder=_(u'Add a key'))}
             </div>
           </div>
         </div>
   ${Modal.footer(_(u'Cancel'), _(u'Update key'), action='form.update.ssh')}
 </form>
 </%def>
+
+<%def name="gpg_fingerprint(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateGpgfp', _(u'Update your GPG Fingerprint'), size='md')}
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-lg-10">
+              ${form.gpg_fingerprint(class_='form-control', rows='5', placheholder=_(u'Add one or many fingerprint separated by a comma'))}
+            </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Update fingerprint'), action='form.update.gpgfp')}
+</form>
+</%def>
+

@@ -189,3 +189,9 @@ class UpdateAvatarForm(Form):
 class UpdateSshKeyForm(Form):
     """ Form to update ssh key"""
     ssh_key = TextAreaField(_(u'ssh key'), [validators.Optional()])
+
+
+class UpdateGpgFingerPrint(Form):
+    """ Form to edit GPG Fingerprint. """
+    gpg_fingerprint = TextAreaField(
+        _(u'GPG Fingerprint'), [validators.Optional()])
