@@ -19,6 +19,7 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #            Toshio Kuratomi <tkuratom@redhat.com>
+#            Chaoyi Zha <cydrobolt@fedoraproject.com>
 #
 '''Collection of validators for parameters coming to FAS URLs.'''
 
@@ -274,7 +275,15 @@ class ValidLanguage(validators.FancyValidator):
 class PasswordStrength(validators.UnicodeString):
     '''Make sure that a password meets our strength requirements'''
 
-    messages = {'strength': _('Passwords must meet certain strength requirements.  If they have a mix of symbols, upper and lowercase letters, and digits they must be at least 9 characters.  If they have a mix of upper and lowercase letters and digits they must be at least 10 characters.  If they have lowercase letters and digits, they must be at least 12 characters.  Letters alone need to have at least 3 different characters and be 20 or more characters in length.'),
+    messages = {'strength': _('''Passwords must meet certain strength requirements:
+    <ul>
+    <li>Passwords with symbols, digits, and both lowercase and uppercase letters: <b>9 characters</b> minimum length.</li>
+    <li>Passwords with letters and (digits and/or symbols): <b>12 characters</b> minimum length.</li>
+    <li>Other passwords: <b>20 characters</b> minimum length.</li>
+    </ul>
+    '''),
+
+
             'xkcd': _('Malicious hackers read xkcd, you know'),
             'pwquality': _(r'libpwquality reports this is a weak password: %(pwq_msg)s'),}
 
@@ -321,9 +330,6 @@ class PasswordStrength(validators.UnicodeString):
 
         if upper and lower and digit and symbol:
             if length >= 9:
-                return
-        elif upper and lower and (digit or symbol):
-            if length >= 10:
                 return
         elif (lower or upper) and (digit or symbol):
             if length >= 12:
