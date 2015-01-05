@@ -62,3 +62,4 @@ def onGroupEdited(event):
 
     if send_email and email.is_ready:
         email.send(recipient)
+

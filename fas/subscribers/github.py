@@ -28,3 +28,4 @@ def create_gh_team(event):
     else:
         event.request.session.flash(
             _(u'Group successfully bound to github'), 'info')
+

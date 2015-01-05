@@ -17,3 +17,4 @@ def on_token_used(event):
 
     log.debug('Saving token last usage timestamp for user %s',
         event.person.username)
+

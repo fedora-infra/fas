@@ -145,8 +145,9 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
         _(u'Birthday'), [validators.Optional()], default=-1)
     birthday_month = SelectField(
         _(u'Month'),
+        [validators.Optional()],
         choices=[(m, m) for m in calendar.month_name if m is not None])
-    bio = TextAreaField(_(u'Introduction'))
+    bio = TextAreaField(_(u'Introduction'), [validators.Optional()])
     # FIXME: actually retrieve the list of locales available
     locale = SelectField(
         _(u'Locale'),
@@ -165,7 +166,7 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
             validators.Email(),
             check_availibility(key='bugzilla_email')])
     privacy = BooleanField(_(u'Privacy'))
-    blog_rss = StringField(_(u'Blog RSS'))
+    blog_rss = StringField(_(u'Blog RSS'), [validators.Optional()])
     latitude = DecimalField(_(u'Latitude'), [validators.Optional()])
     longitude = DecimalField(_(u'Longitude'), [validators.Optional()])
 

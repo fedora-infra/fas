@@ -16,9 +16,17 @@
     <link rel="stylesheet"  media="screen"
         href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" />
 
+    <!-- rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- theme -->
-    <link rel="stylesheet"  type="text/css" media="all"
+    <link rel="stylesheet" type="text/css" media="all"
         href="${request.static_url('fas:static/theme/fedoraproject/style/fas.css')}" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('fas:static/theme/fedoraproject/style/component.css')}" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('fas:static/theme/fedoraproject/style/animations.css')}" />
+    <script src="${request.static_url('fas:static/theme/fedoraproject/js/modernizr.custom.js')}"></script>
     <script src="${request.static_url('fas:static/theme/fedoraproject/js/theme.js')}"></script>
     <script src="${request.static_url('fas:static/theme/fedoraproject/js/pwstrength.js')}"></script>
 </head>

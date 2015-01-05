@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.events import subscriber
-from fas.events import PasswordChangeRequested
 
+from fas.events import PasswordChangeRequested
+from fas.events import NewUserRegistered
+
+from fas.notifications.email import Email
 from fas.utils import Config
 from fas.views import redirect_to
 
@@ -10,6 +13,7 @@ import datetime
 import logging
 
 log = logging.getLogger(__name__)
+
 
 @subscriber(PasswordChangeRequested)
 def onPasswordChangeRequested(event):
@@ -28,3 +32,24 @@ def onPasswordChangeRequested(event):
         raise redirect_to('/login?redirect=%s' % event.request.url)
     else:
         log.debug('last login time still valid')
+
+
+@subscriber(NewUserRegistered)
+def onNewUserRegistered(event):
+    """ New user signup listener. """
+    request = event.request
+    person = event.person
+
+    email = Email('account_update')
+
+    email.set_msg(
+        topic='registration',
+        organisation=Config.get('project.organisation'),
+        url=request.route_url(
+            'people-confirm-account',
+            username=person.username,
+            token=person.password_token)
+                        )
+
+    email.send(person.email)
+

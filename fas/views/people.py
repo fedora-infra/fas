@@ -10,7 +10,6 @@ import fas.models.register as register
 from fas.security import generate_token
 
 from fas.forms.people import EditPeopleForm
-from fas.forms.people import NewPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
 from fas.forms.people import UsernameForm
@@ -24,15 +23,15 @@ from fas.forms.account import AccountPermissionForm
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.utils import compute_list_pages_from
-from fas.utils.passwordmanager import PasswordManager
 from fas.utils.avatar import gen_libravatar
+
 from fas.models import (
     AccountPermissionType as permission,
     AccountStatus,
     AccountLogType,
     MembershipStatus
     )
-from fas.models.people import People as mPeople
+
 from fas.events import PasswordChangeRequested
 
 from fas.notifications.email import Email
@@ -302,78 +301,6 @@ class People(object):
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, id=self.id)
-
-    @view_config(route_name='people-new', permission=NO_PERMISSION_REQUIRED,
-                 renderer='/people/new.xhtml')
-    def new_user(self):
-        """ Create a user account."""
-        if self.request.authenticated_userid:
-            return redirect_to(
-                '/people/profile/%s' % self.request.authenticated_userid)
-
-        form = NewPeopleForm(self.request.POST)
-        captchaform = CaptchaForm(self.request.POST)
-
-        email = Email('account_update')
-
-        if self.request.method == 'POST'\
-                and ('form.save.person-infos' in self.request.params):
-            self.person = mPeople()
-            if not captchaform.validate():
-                log.debug('captcha is not valid')
-            else:
-                if form.validate():
-
-                    self.person.username = form.username.data
-                    self.person.email = form.email.data
-                    self.person.fullname = form.fullname.data
-
-                    pwdman = PasswordManager()
-                    self.person.password = pwdman.generate_password(
-                        form.password.data)
-                    self.person.password_token = generate_token()
-
-                    register.add_people(self.person)
-                    register.flush()
-
-                    email.set_msg(
-                        topic='registration',
-                        organisation=Config.get('project.organisation'),
-                        url=self.request.route_url(
-                            'people-confirm-account',
-                            username=self.person.username,
-                            token=self.person.password_token)
-                        )
-                    email.send(self.person.email)
-                    self.request.session.flash(
-                        _('Account created, please check your email to finish '
-                          'the process'), 'info')
-                    return redirect_to('/people/profile/%s' % self.person.id)
-
-        return dict(form=form, captchaform=captchaform)
-
-    @view_config(
-        route_name='people-confirm-account',
-        permission=NO_PERMISSION_REQUIRED)
-    def confirm_account(self):
-        """ Confirm a user account creation."""
-        try:
-            username = self.request.matchdict['username']
-            token = self.request.matchdict['token']
-        except KeyError:
-            return HTTPBadRequest()
-
-        self.person = provider.get_people_by_password_token(username, token)
-
-        if not self.person:
-            raise HTTPNotFound('No user found with this token')
-
-        self.person.password_token = None
-        self.person.status = AccountStatus.ACTIVE
-        register.add_people(self.person)
-        self.request.session.flash(_('Account activated'), 'info')
-
-        return redirect_to('/people/profile/%s' % self.person.id)
 
     @view_config(route_name='lost-password',
                  permission=NO_PERMISSION_REQUIRED,

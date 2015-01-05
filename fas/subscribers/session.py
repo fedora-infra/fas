@@ -44,3 +44,4 @@ def check_usersame(event):
         event.request.session.flash(
             _(u'Your username %s is forbidden! Please, update it'
             % event.request.authenticated_userid), 'error')
+

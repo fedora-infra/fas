@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 
 
+class NewUserRegistered(object):
+    """ Event sent when new user signed up. """
+    def __init__(self):
+        self.request = request
+        self.person = person
+        validation_url = url
+
+
 class GroupBindingRequested(object):
     """ Group binding request event. """
     def __init__(self, request, form, group):
