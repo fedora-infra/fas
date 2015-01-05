@@ -22,6 +22,7 @@ class LicenseAgreement(Base):
     status = Column(Integer, default=LicenseAgreementStatus.DISABLED)
     content = Column(UnicodeText, nullable=False)
     comment = Column(UnicodeText, nullable=True)
+    enabled_at_signup = Column(Boolean, default=False)
     creation_timestamp = Column(
         DateTime,
         nullable=False,

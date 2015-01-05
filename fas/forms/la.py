@@ -18,6 +18,8 @@ class EditLicenseForm(Form):
     name = StringField(_(u'Name'), [validators.Required()])
     content = TextAreaField(_(u'Text'), [validators.Required()])
     comment = StringField(_(u'Comments'), [validators.Optional()])
+    enabled_at_signup = BooleanField(
+        _(u'Required at sign-up'), [validators.Optional()])
 
 
 class SignLicenseForm(Form):

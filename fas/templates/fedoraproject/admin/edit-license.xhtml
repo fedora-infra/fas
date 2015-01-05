@@ -32,13 +32,22 @@
       <div class="form-group">
             ${form.name.label(class_='col-sm-2 control-label')}
           <div class="col-lg-10">
-            ${form.name(class_='form-control col-lg-10', placeholder=_(u'Enter a license name'))}
+            ${form.name(class_='form-control', placeholder=_(u'Enter a license name'))}
           </div>
       </div>
       <div class="form-group">
         ${form.content.label(class_='col-sm-2 control-label')}
         <div class="col-lg-10">
           ${form.content(class_='form-control', rows='10',  placeholder=_(u'Enter a license text'))}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-4">
+          <div class="checkbox">
+            <label>
+              ${form.enabled_at_signup} ${form.enabled_at_signup.label()}
+            <label>
+          </div>
         </div>
       </div>
 
