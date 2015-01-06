@@ -20,9 +20,9 @@ import cryptography.fernet
 import random
 import six
 
-import Image
-import ImageDraw
-import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
 from . import Config
 

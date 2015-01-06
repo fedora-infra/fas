@@ -28,7 +28,7 @@ requires = [
     'pyyaml',
     'cryptacular',
     'PyGithub',
-    'PIL',
+    'pillow',
     'cryptography',
 
     # i18n
