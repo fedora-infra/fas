@@ -7,6 +7,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
 from fas.models import AccountLogType
+from fas.models import AccountStatus
 from fas.models import GroupStatus
 
 import fas.models.provider as provider
@@ -159,6 +160,10 @@ class Groups(object):
         sponsor_members = []
         admin_members = []
         admin_form = None
+        valid_active_status = [
+            AccountStatus.ACTIVE,
+            AccountStatus.INACTIVE,
+            AccountStatus.ON_VACATION]
 
         if not self.request.authenticated_is_admin():
             if group.status not in [
@@ -173,7 +178,8 @@ class Groups(object):
         for group, membership, member in g_memberships:
             memberships.append(membership)
             if authenticated != member:
-                if membership.get_status() == MembershipStatus.APPROVED:
+                if membership.get_status() == MembershipStatus.APPROVED\
+                and member.status in valid_active_status:
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
                     elif membership.role == MembershipRole.SPONSOR:
