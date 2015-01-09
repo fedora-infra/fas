@@ -41,6 +41,7 @@ requires = [
 
 optional = {
     'rainbow': 'rainbow_logging_handler',
+    'alembic': 'alembic',
 }
 
 setup(
