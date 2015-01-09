@@ -27,6 +27,12 @@ from fas.models.people import (
     PeopleAccountActivitiesLog
     )
 
+from fas.models.certificates import (
+    Certificates,
+    ClientsCertificates
+    )
+
+
 
 def __get_listoffset(page, limit):
     """ Get offset based on requeted limit. """
@@ -456,3 +462,15 @@ def get_account_permissions_by_token(token):
         AccountPermissions.token == token
     )
     return query.first()
+
+
+def get_certificates():
+    """ Retrieve certificates."""
+    query = session.query(Certificates)
+    return query.all()
+
+
+def get_clients_certificates():
+    """ Retrieve client certificates. """
+    query = session.query(ClientsCertificates)
+    return query.all()

@@ -12,6 +12,7 @@ from fas.forms.people import ContactInfosForm
 from fas.forms.group import EditGroupForm, EditGroupTypeForm
 from fas.forms.group import GroupListForm, GroupTypeListForm
 from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
+from fas.forms.certificates import EditCertificateForm
 
 from fas.events import GroupRemovalRequested
 from fas.events import GroupTypeRemovalRequested
@@ -261,3 +262,17 @@ class Admin(object):
     def remove_grouptype(self):
         """ Remove group type page."""
         return dict()
+
+    @view_config(route_name='add-certificate', permission='admin',
+                 renderer='/admin/edit-certificate.xhtml')
+    def add_certificate(self):
+        """ Add new certificates form page. """
+        form = EditCertificateForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+                and ('form.save.certificate' in self.request.params):
+            if form.validate():
+                register.add_certificate(form)
+                return redirect_to('/settings')
+
+        return dict(form=form)

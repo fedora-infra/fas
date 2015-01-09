@@ -6,6 +6,7 @@ from fas.models.configs import AccountPermissions
 from fas.models.group import Groups, GroupType
 from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
+from fas.models.certificates import Certificates, ClientsCertificates
 
 from fas.utils import _
 from fas.utils.passwordmanager import PasswordManager
@@ -233,3 +234,43 @@ def remove_membership(group, person):
             GroupMembership.group_id == group,
             GroupMembership.people_id == person
         ).delete()
+
+
+def add_certificate(form):
+    """
+    Add new certificate into database.
+
+    :form: `EditCertificateForm` which contains license object
+    :rtype: :class: `fas.models.la.LicenseAgreement`
+    """
+    cert = Certificates()
+    cert.name = form.name.data
+    cert.description = form.description.data
+    cert.cert = form.cert.data
+    cert.cert_key = form.cert_key.data
+    cert.client_cert_desc = form.client_cert_desc.data
+    cert.enabled = form.enabled.data
+
+    session.add(cert)
+    session.flush()
+    session.refresh(cert)
+
+    return cert
+
+
+def add_client_certificate(ca, people, cert, serial):
+    """
+    Add client certificate from given CA and people.
+
+    :ca: `fas.models.certificates.Certificates`
+    :people: `fas.models.people.People`
+    :cert: client certificate to store.
+    :serial: client certificate serial to store.
+    """
+    ccert = ClientsCertificates()
+    ccert.ca = ca.id
+    ccert.people = people.id
+    ccert.serial = serial
+    ccert.certificate = cert
+
+    session.add(ccert)
