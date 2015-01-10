@@ -192,6 +192,7 @@ def main(global_config, **settings):
     config.add_route('add-certificate', '/settings/add/certificate')
     config.add_route('edit-certificate', '/settings/edit/certificate/{id}')
     config.add_route('remove-certificate', '/settings/remove/certificate/{id}')
+    config.add_route('get-client-cert', '/settings/create/client-certificate')
 
     config.scan()
     return config.make_wsgi_app()

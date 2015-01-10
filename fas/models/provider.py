@@ -470,7 +470,29 @@ def get_certificates():
     return query.all()
 
 
+def get_certificate(id):
+    """ Retrieve certificate from given id. """
+    return session.query(Certificates).get(id)
+
+
 def get_clients_certificates():
     """ Retrieve client certificates. """
     query = session.query(ClientsCertificates)
     return query.all()
+
+
+def get_client_certificate(cacert, person):
+    """ Retrieve client certificate from given person and related group.
+
+    :cacert: `fas.models.certificates.Certificates.id`, certifiates ID
+    :person: `fas.models.people.People` object
+    :returns: `fas.models.certificates.ClientsCertificates` object
+    """
+    query = session.query(
+        ClientsCertificates
+        ).filter(
+            ClientsCertificates.ca == cacert,
+            ClientsCertificates.people == person.id
+            )
+
+    return query.first()

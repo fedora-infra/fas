@@ -81,6 +81,10 @@ class EditGroupForm(Form):
     apply_rules = TextAreaField(_(u'Apply rules message'))
     bound_to_github = BooleanField(
         _(u'Bind your group to our GitHub oraganization'))
+    certificate = SelectField(
+        _(u'Attach a certificate to this group'),
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])
     license_sign_up = SelectField(
         _(u'License requirement'),
         [validators.Optional()],

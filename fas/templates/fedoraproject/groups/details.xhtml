@@ -180,6 +180,16 @@
                 </button>
               </div>
             %endif
+            %if group.certificate > 0:
+            <form action="${request.route_url('get-client-cert')}" method="POST">
+              ${formcertificate.cacert(type='hidden', value=group.certificate)}
+              ${formcertificate.group_id(type='hidden', value=group.id)}
+              ${formcertificate.group_name(type='hidden', value=group.name)}
+              <button class="btn glow" type="submit" name="form.create.client_cert">
+                ${_(u'Get client certificate')}
+              </button>
+            </form>
+            %endif
           </dl>
       %else:
         <dl class="dl-horizontal">

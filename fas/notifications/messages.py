@@ -288,3 +288,30 @@ an group\'s administrator or an account\'s administrator.
                     }
             },
         }
+
+    def certificate(self):
+        """ New client certificate message template. """
+        return {
+            'new_client_cert': {
+                'subject': u"""\
+Your new certificate has been generated for group %(groupname)s!""",
+                'body': u"""\
+Hello %(fullname)s,
+
+You have generated a new SSL client certificate. If you did not request this,
+please contact %(admin_email)s and let them know.
+
+Note that certificate generated prior to the current one have been
+automatically revoked, and should stop working within the hour.
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'fullname': unicode(x['people'].fullname),
+                    'groupname': unicode(x['group']),
+                    'admin_email': self.config.get('project.admin.email'),
+                    'sig': self.signature()
+                    }
+            },
+        }
+

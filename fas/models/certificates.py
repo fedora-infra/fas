@@ -50,11 +50,14 @@ class ClientsCertificates(Base):
     cacert = relation(
         'Certificates',
         foreign_keys='Certificates.id',
-        primaryjoin='and_(ClientsCertificates.ca==Certificates.id)')
+        primaryjoin='and_(ClientsCertificates.ca==Certificates.id)',
+        uselist=False
+        )
 
     person = relation(
         'People',
         foreign_keys='People.id',
-        primaryjoin='and_(ClientsCertificates.people==People.id)'
+        primaryjoin='and_(ClientsCertificates.people==People.id)',
+        uselist=False
         )
 

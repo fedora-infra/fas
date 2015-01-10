@@ -20,6 +20,7 @@ from fas.forms.people import ContactInfosForm, PeopleForm
 from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
 from fas.forms.group import GroupAdminsForm
+from fas.forms.certificates import CreateClientCertificateForm
 
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
@@ -150,6 +151,7 @@ class Groups(object):
         user_form = ContactInfosForm(self.request.POST, self.request.get_user)
         license_form = SignLicenseForm(self.request.POST)
         people_form = PeopleForm(self.request.POST)
+        cert_form = CreateClientCertificateForm(self.request.POST)
 
         g_memberships = provider.get_group_membership(_id)
 
@@ -254,6 +256,7 @@ class Groups(object):
             licenseform=license_form,
             adminform=admin_form,
             peopleform=people_form,
+            formcertificate=cert_form,
             text=mistune
             )
 
@@ -295,6 +298,10 @@ class Groups(object):
         form.group_type.choices = [
             (t.id, t.name) for t in provider.get_group_types()]
         form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
+
+        form.certificate.choices = [
+            (cert.id, cert.name) for cert in provider.get_certificates()]
+        form.certificate.choices.insert(0, (-1, u'-- None --'))
 
         # TODO: Double check usage of QuerySelectField for those two instead
         if self.request.method is not 'POST':

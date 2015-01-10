@@ -73,3 +73,4 @@ def format_datetime(locale, tdatetime):
             tdatetime = format_date(date, locale=locale)
 
         return tdatetime
+

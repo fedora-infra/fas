@@ -13,6 +13,7 @@ from fas.forms.group import EditGroupForm, EditGroupTypeForm
 from fas.forms.group import GroupListForm, GroupTypeListForm
 from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
 from fas.forms.certificates import EditCertificateForm
+from fas.forms.certificates import CreateClientCertificateForm
 
 from fas.events import GroupRemovalRequested
 from fas.events import GroupTypeRemovalRequested
@@ -22,13 +23,20 @@ from fas.views import redirect_to
 from fas.utils.captcha import Captcha
 from fas.utils import Config
 from fas.utils.fgithub import Github
+from fas.utils.certificatemanager import CertificateManager
+
+from fas.events import NewClientCertificateCreated
+
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Admin(object):
 
     def __init__(self, request):
         self.request = request
-        self.nofity = self.request.registry.notify
+        self.notify = self.request.registry.notify
         self.id = -1
 
     @view_config(route_name='settings', permission='admin',
@@ -276,3 +284,69 @@ class Admin(object):
                 return redirect_to('/settings')
 
         return dict(form=form)
+
+    @view_config(route_name='get-client-cert', permission='authenticated')
+    def get_client_cert(self):
+        """ Generate and return as attachment client certificate. """
+        response = self.request.response
+        person = self.request.get_user
+        form = CreateClientCertificateForm(self.request.POST)
+
+        if self.request.method == 'POST'\
+        and ('form.create.client_cert' in self.request.params):
+            if not form.validate():
+                # Should redirect to previous url
+                log.error('Invalid form value from requester :'
+                'cacert: %s, group_id: %s, group_name: %s' %
+                (form.cacert.data, form.group_id.data, form.group_name.data))
+                raise redirect_to('/')
+            else:
+                # Setup headers
+                headers = response.headers
+                headers['Accept'] = 'text'
+                headers['Content-Description'] = 'Files transfer'
+                headers['Content-Type'] = 'text'
+                headers['Accept-Ranges'] = 'bytes'
+                headers['Content-Disposition'] = \
+                'attachment; filename=%s-%s.cert'\
+                % (Config.get('project.name'), str(form.group_name.data))
+
+                client_cert = provider.get_client_certificate(
+                    form.cacert.data, person)
+
+                serial = 1
+
+                if client_cert:
+                    log.debug('Found client certificate')
+                    cacert = client_cert.cacert
+                    if not Config.get('project.group.cert.always_renew'):
+                        response.body = client_cert.certificate
+                        return response
+                    else:
+                        serial = client_cert.serial + 1
+                else:
+                    cacert = provider.get_certificate(form.cacert.data)
+
+                certm = CertificateManager(cacert.cert, cacert.cert_key, Config)
+
+                (new_cert, new_key) = certm.create_client_certificate(
+                    person.username,
+                    person.email,
+                    form.client_cert_desc.data,
+                    serial)
+
+                cert = new_cert
+                cert += new_key
+
+                log.debug('Registering client certificate: %s', cert)
+
+                register.add_client_certificate(cacert, person, cert, serial)
+                self.notify(NewClientCertificateCreated(
+                    self.request, person, form.group_name.data))
+
+                response.body = cert
+
+                return response
+
+        raise redirect_to('/')
+

@@ -30,6 +30,7 @@ requires = [
     'PyGithub',
     'pillow',
     'cryptography',
+    'pyOpenSSL',
 
     # i18n
     'Babel',

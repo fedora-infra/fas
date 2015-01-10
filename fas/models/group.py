@@ -78,6 +78,7 @@ class Groups(Base):
         ForeignKey('license_agreement.id'),
         default=-1
     )
+    certificate = Column(Integer, ForeignKey('certificates.id'), default=-1)
     created = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()

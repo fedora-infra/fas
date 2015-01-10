@@ -79,3 +79,11 @@ class TokenUsed(object):
         self.request = request
         self.perm = perm
         self.person = person
+
+
+class NewClientCertificateCreated(object):
+    """ New client certificate creation event. """
+    def __init__(self, request, person, group_name):
+        self.request = request
+        self.person = person
+        self.group_name = group_name
