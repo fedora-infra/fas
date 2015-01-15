@@ -135,7 +135,7 @@ class Groups(Base):
                 'NeedApproval': self.need_approval,
                 'IsInviteOnly': self.invite_only,
                 'IsPrivate': self.private,
-                'CreationDate': self.created.strftime('%Y-%m-%d %H:%M'),
+                'CreationDate': self.created.isoformat(),
             }
 
         if self.group_types:
