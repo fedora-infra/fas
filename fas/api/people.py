@@ -110,7 +110,7 @@ def api_user_get(request):
         data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
 
     if user:
-        data.set_data(user.to_json(ak.get_perms()))
+        data.set_data(user.to_json(ak.get_perm()))
 
     return data.get_metadata()
 
