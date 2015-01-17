@@ -3,10 +3,10 @@
 
 class NewUserRegistered(object):
     """ Event sent when new user signed up. """
-    def __init__(self):
+    def __init__(self, request, person):
         self.request = request
         self.person = person
-        validation_url = url
+        #validation_url = url
 
 
 class GroupBindingRequested(object):
