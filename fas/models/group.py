@@ -32,7 +32,7 @@ from fas.models import AccountPermissionType as perm
 from babel.dates import format_date
 
 import datetime
-
+from fas.utils import fix_utc_iso_format
 
 class GroupType(Base):
     __tablename__ = 'group_type'
@@ -135,7 +135,7 @@ class Groups(Base):
                 'NeedApproval': self.need_approval,
                 'IsInviteOnly': self.invite_only,
                 'IsPrivate': self.private,
-                'CreationDate': self.created.isoformat(),
+                'CreationDate': fix_utc_iso_format(self.created),
             }
 
         if self.group_types:

@@ -74,3 +74,18 @@ def format_datetime(locale, tdatetime):
 
         return tdatetime
 
+def fix_utc_iso_format(utc):
+    '''Python's built in isoformat method for UTC datetime objects is,
+    despite its name, not really ISO format. It breaks the specification which
+    requires that if there is no timezone suffix, the time should be considered
+    local (not UTC) time. By default, datetime objects don't carry any timezone
+    information at all. So, here we format it ourselves to format it in the
+    right way, but we have no guarantee that the thing passed is actually a
+    *UTC* time as opposed to a local time, so this could very easily generate
+    bad output. In a typed environment this issue would be eliminated.
+
+    This change, as long as it's only applied to actual UTC times, results in
+    being able to parse the time correctly in environments which do follow the
+    specification.'''
+    strftime = '%Y-%m-%dT%H:%M:%SZ'
+    return utc.strftime(strftime)

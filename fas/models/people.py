@@ -27,7 +27,7 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
-from fas.utils import format_datetime
+from fas.utils import format_datetime, fix_utc_iso_format
 
 import datetime
 
@@ -158,7 +158,7 @@ class People(Base):
                 'Ircnick': self.ircnick,
                 'Avatar': self.avatar,
                 'Email': self.email,
-                'CreationDate': self.date_created.isoformat(),
+                'CreationDate': fix_utc_iso_format(self.date_created),
                 'Status': self.status
             }
 
