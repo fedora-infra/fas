@@ -74,7 +74,7 @@ def format_datetime(locale, tdatetime):
 
         return tdatetime
 
-def fix_utc_iso_format(utc):
+def utc_iso_format(utc):
     '''Python's built in isoformat method for UTC datetime objects is,
     despite its name, not really ISO format. It breaks the specification which
     requires that if there is no timezone suffix, the time should be considered

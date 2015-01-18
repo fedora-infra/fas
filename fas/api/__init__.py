@@ -3,7 +3,7 @@
 from pyramid.view import view_config
 from math import ceil
 
-from fas.utils import compute_list_pages_from, fix_utc_iso_format
+from fas.utils import compute_list_pages_from, utc_iso_format
 
 import datetime
 
@@ -23,7 +23,7 @@ class MetaData():
         # self.metadata[name + 'Result'] = {}
         self.name = name
         self.datetime = datetime.datetime
-        self.timestamp = fix_utc_iso_format(self.datetime.utcnow())
+        self.timestamp = utc_iso_format(self.datetime.utcnow())
 
     def set_error_msg(self, name='', text=''):
         """ Set error message into metadata's dict().
@@ -61,7 +61,7 @@ class MetaData():
             :returns: Dict object of metadata from given parameters.
         """
         self.data['StartTimeStamp'] = self.timestamp
-        self.data['EndTimeStamp'] = fix_utc_iso_format(self.datetime.utcnow())
+        self.data['EndTimeStamp'] = utc_iso_format(self.datetime.utcnow())
 
         return self.data
 
