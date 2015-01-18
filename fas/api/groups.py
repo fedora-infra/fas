@@ -60,7 +60,7 @@ def group_list(request):
         for g in group:
             groups.append(g.to_json(perms.CAN_READ_PUBLIC_INFO))
 
-        data.set_pages('groups', page, limit)
+        data.set_pages(provider.get_groups(count=True), page, limit)
         data.set_data(groups)
 
     return data.get_metadata()
