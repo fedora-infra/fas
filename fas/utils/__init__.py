@@ -74,6 +74,14 @@ def format_datetime(locale, tdatetime):
 
         return tdatetime
 
+# Originally from http://stackoverflow.com/a/23705687/1106202
+class UTC(datetime.tzinfo):
+    def tzname(self):
+        return "UTC"
+
+    def utcoffset(self, dt):
+        return datetime.timedelta(0)
+
 def utc_iso_format(utc):
     '''Python's built in isoformat method for UTC datetime objects is,
     despite its name, not really ISO format. It breaks the specification which
@@ -87,5 +95,4 @@ def utc_iso_format(utc):
     This change, as long as it's only applied to actual UTC times, results in
     being able to parse the time correctly in environments which do follow the
     specification.'''
-    strftime = '%Y-%m-%dT%H:%M:%SZ'
-    return utc.strftime(strftime)
+    return utc.replace(tzinfo=UTC()).isoformat()
