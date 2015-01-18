@@ -82,7 +82,7 @@ def api_group_get(request):
                 group = __get_group(key, value)
             except BadRequest as err:
                 request.response.status = '400 bad request'
-                return err
+                return err.message
             except NotFound as err:
                 data.set_error_msg(
                     'Item not found',

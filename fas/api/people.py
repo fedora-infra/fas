@@ -97,7 +97,7 @@ def api_user_get(request):
                 user = __get_user(key, value)
             except BadRequest as err:
                 request.response.status = '400 bad request'
-                return err
+                return err.message
             except NotFound as err:
                 request.response.status = '404 page not found'
                 data.set_error_msg(
@@ -124,10 +124,10 @@ def api_user_edit(request):
         user = __get_user(key, value)
     except BadRequest as err:
         request.response.status = '400 bad request'
-        return err
+        return err.message
     except NotFound as err:
         request.response.status = '404 page not found'
-        return err
+        return err.message
 
     form = EditPeopleForm(request.POST)
     if form.validate():
