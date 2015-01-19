@@ -6,145 +6,126 @@ from fas.api import (
     MetaData
 )
 
-from pyramid.response import Response
 from pyramid.view import view_config
 
-from fas.events import TokenUsed
+from fas.events import ApiRequest
 
 import fas.models.provider as provider
-import fas.models.register as register
-
-from fas.models import AccountPermissionType as perms
 
 from fas.forms.people import EditPeopleForm
 
 from fas.security import TokenValidator
 from fas.security import ParamsValidator
 
-
-def __get_user(key, value):
-    if key not in ['id', 'username', 'email', 'ircnick']:
-        raise BadRequest(
-            {"error": "Bad request, no '%s' allowed" % key}
-        )
-    method = getattr(provider, 'get_people_by_%s' % key)
-    user = method(value)
-    if not user:
-        raise NotFound(
-            {"error": "No such user %r" % value}
-        )
-
-    return user
+import logging
+log = logging.getLogger(__name__)
 
 
-@view_config(
-    route_name='api_people_list', renderer='json', request_method='GET')
-def people_list(request):
-    """ Returns a JSON's output of people's list. """
-    people = None
+class PeopleAPI(object):
 
-    data = MetaData('People')
+    def __init__(self, request):
+        self.request = request
+        self.notify = self.request.registry.notify
+        self.params = ParamsValidator(self.request, True)
+        self.data = MetaData('People')
+        self.perm = None
 
-    param = ParamsValidator(request, True)
-    param.add_optional('limit')
-    param.add_optional('page')
-    param.add_optional('status')
+        self.params.add_optional('limit')
+        self.params.add_optional('page')
+        self.params.add_optional('status')
 
-    if param.is_valid():
+        self.notify(ApiRequest(self.request, self.data, self.params, self.perm))
+        self.apikey = TokenValidator(self.params.get_apikey())
 
-        limit = param.get_limit()
-        page = param.get_pagenumber()
-        status = param.get_optional('status')
+    def __get_user__(self, key, value):
+        if key not in ['id', 'username', 'email', 'ircnick']:
+            raise BadRequest("Invalid key: '%s'" % key)
 
-        ak = TokenValidator(param.get_apikey())
-        if ak.is_valid():
-            request.registry.notify(
-                TokenUsed(request, ak.get_obj(), ak.get_owner())
+        method = getattr(provider, 'get_people_by_%s' % key)
+        log.debug('Looking for user %s', value)
+        user = method(value)
+
+        if not user:
+            raise NotFound('No such user: %r' % value)
+
+        return user
+
+    @view_config(
+        route_name='api_people_list', renderer='json', request_method='GET')
+    def get_people(self):
+        """ Returns a JSON's output of people's list. """
+        self.params.add_optional('limit')
+        self.params.add_optional('page')
+        self.params.add_optional('status')
+
+        limit = self.params.get_limit()
+        page = self.params.get_pagenumber()
+
+        if self.apikey.is_valid():
+            people = provider.get_people(
+                limit=limit,
+                page=page
                 )
-            people = provider.get_people(limit=limit, page=page)
-        else:
-            data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
-    else:
-        data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
 
-    if people:
-        users = []
-        for user in people:
-            users.append(user.to_json(ak.get_perm()))
+        if people:
+            users = []
+            for user in people:
+                users.append(user.to_json(self.apikey.get_perm()))
 
-        data.set_pages(provider.get_people(count=True), page, limit)
-        data.set_data(users)
+            self.data.set_pages(provider.get_people(count=True), page, limit)
+            self.data.set_data(users)
 
-    return data.get_metadata()
+        return self.data.get_metadata()
 
+    @view_config(
+        route_name='api_people_get', renderer='json', request_method='GET')
+    def get_person(self):
+        user = None
 
-@view_config(
-    route_name='api_people_get', renderer='json', request_method='GET')
-def api_user_get(request):
-    user = None
-    data = MetaData('People')
-    param = ParamsValidator(request, True)
+        if self.apikey.is_valid():
+            key = self.request.matchdict.get('key')
+            value = self.request.matchdict.get('value')
 
-    if param.is_valid():
-        ak = TokenValidator(param.get_apikey())
-        if ak.is_valid():
-            key = request.matchdict.get('key')
-            value = request.matchdict.get('value')
-            request.registry.notify(
-                TokenUsed(request, ak.get_obj(), ak.get_owner())
-                )
             try:
-                user = __get_user(key, value)
+                user = self.__get_user__(key, value)
+                self.data.set_data(user.to_json(self.apikey.get_perm()))
             except BadRequest as err:
-                request.response.status = '400 bad request'
-                return err
+                self.request.response.status = '400 bad request'
+                self.data.set_error_msg('Bad request', err.message)
             except NotFound as err:
-                request.response.status = '404 page not found'
-                data.set_error_msg(
-                    'Item not found',
-                    'Found no %s with the following value: %s' % (key, value)
-                )
-        else:
-            data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
-    else:
-        data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
+                self.request.response.status = '404 page not found'
+                self.data.set_error_msg('Item not found', err.message)
 
-    if user:
-        data.set_data(user.to_json(ak.get_perm()))
+        return self.data.get_metadata()
 
-    return data.get_metadata()
+    @view_config(
+        route_name='api_people_get', renderer='json', request_method='POST')
+    def edit_person(self):
+        key = self.request.matchdict.get('key')
+        value = self.request.matchdict.get('value')
 
+        if self.apikey.is_valid():
+            try:
+                user = self.__get_user__(key, value)
+            except BadRequest as err:
+                self.request.response.status = '400 bad request'
+                self.data.set_error_msg('Bad request', err.message)
+            except NotFound as err:
+                self.request.response.status = '404 page not found'
+                self.data.set_error_msg('Item not found', err.message)
 
-@view_config(
-    route_name='api_people_get', renderer='json', request_method='POST')
-def api_user_edit(request):
-    key = request.matchdict.get('key')
-    value = request.matchdict.get('value')
-    try:
-        user = __get_user(key, value)
-    except BadRequest as err:
-        request.response.status = '400 bad request'
-        return err
-    except NotFound as err:
-        request.response.status = '404 page not found'
-        return err
+            form = EditPeopleForm(self.request.POST)
 
-    form = EditPeopleForm(request.POST)
-    if form.validate():
-        # Handle the latitude longitude that needs to be number or None
-        form.latitude.data = form.latitude.data or None
-        form.longitude.data = form.longitude.data or None
+            if form.validate():
+                # Handle the latitude longitude that needs to be number or None
+                form.latitude.data = form.latitude.data or None
+                form.longitude.data = form.longitude.data or None
 
-        # Convert the status provided as string into an integer
-        # status = provider.get_accountstatus_by_status(
-        #    DBSession, status=form.status.data)
-        # if not status:
-        #    request.response.status = '400 bad request'
-        #    return {'error': 'Invalid status provided'}
+                form.populate_obj(user)
+                self.data.set_status('stored', 'User updated')
+                self.data.set_data(user.to_json(self.apikey.get_perm()))
+            else:
+                self.request.response.status = '400 bad request'
+                self.data.set_error_msg('Invalid request', form.errors)
 
-        # form.status.data = status
-        form.populate_obj(user)
-        return {'message': 'User updated', 'user': user.to_json()}
-    else:
-        request.response.status = '400 bad request'
-        return {'error': 'Invalid request', 'messages': form.errors}
+        return self.data.get_metadata()

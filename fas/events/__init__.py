@@ -73,6 +73,15 @@ class LicenseRemovalRequested(object):
         self.license = license_id
 
 
+class ApiRequest(object):
+    """ API requests event."""
+    def __init__(self, request, data, params, perm):
+        self.request = request
+        self.data = data
+        self.params = params
+        self.perm = perm
+
+
 class TokenUsed(object):
     """ Token API acitvity event. """
     def __init__(self, request, perm, person):

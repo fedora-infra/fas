@@ -8,93 +8,78 @@ from . import (
 
 from pyramid.view import view_config
 
-import fas.forms as forms
 import fas.models.provider as provider
 
-from fas.models import AccountPermissionType as perms
+from fas.events import ApiRequest
+
 from fas.security import TokenValidator
 from fas.security import ParamsValidator
 
 
-def __get_group(key, value):
-    if key not in ['id', 'name']:
-        raise BadRequest(
-            {"error": "Bad request, no '%s' allowed" % key}
-        )
-    method = getattr(provider, 'get_group_by_%s' % key)
-    group = method(value)
-    if not group:
-        raise NotFound(
-            {"error": "No such group %r" % value}
-        )
+class GroupAPI(object):
 
-    return group
+    def __init__(self, request):
+        self.request = request
+        self.notify = self.request.registry.notify
+        self.params = ParamsValidator(self.request, True)
+        self.data = MetaData('Groups')
+        self.perm = None
+        self.notify(ApiRequest(self.request, self.data, self.params,self.perm))
+        self.apikey = TokenValidator(self.params.get_apikey())
 
+    def __get_group__(self, key, value):
+        if key not in ['id', 'name']:
+            raise BadRequest('Invalid key: %s' % key)
+        method = getattr(provider, 'get_group_by_%s' % key)
+        group = method(value)
+        if not group:
+            raise NotFound('No such group: %s' % value)
 
-@view_config(
-    route_name='api_group_list', renderer='json', request_method='GET')
-def group_list(request):
-    """ Returns a JSON's output of registered group's list. """
-    group = None
-    data = MetaData('Groups')
+        return group
 
-    param = ParamsValidator(request, True)
-    param.add_optional('limit')
-    param.add_optional('page')
+    @view_config(
+        route_name='api_group_list', renderer='json', request_method='GET')
+    def group_list(self):
+        """ Returns a JSON's output of registered group's list. """
+        group = None
 
-    if param.is_valid():
+        self.params.add_optional('limit')
+        self.params.add_optional('page')
 
-        limit = param.get_limit()
-        page = param.get_pagenumber()
+        if self.apikey.is_valid():
+            limit = self.params.get_limit()
+            page = self.params.get_pagenumber()
 
-        ak = TokenValidator(param.get_apikey())
-        if ak.is_valid():
             group = provider.get_groups(limit=limit, page=page)
-        else:
-            data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
-    else:
-        data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
 
-    if group:
-        groups = []
-        for g in group:
-            groups.append(g.to_json(perms.CAN_READ_PUBLIC_INFO))
+        if group:
+            groups = []
+            for g in group:
+                groups.append(g.to_json(self.apikey.get_perm()))
 
-        data.set_pages(provider.get_groups(count=True), page, limit)
-        data.set_data(groups)
+            self.data.set_pages(provider.get_groups(count=True), page, limit)
+            self.data.set_data(groups)
 
-    return data.get_metadata()
+        return self.data.get_metadata()
 
+    @view_config(route_name='api_group_get', renderer='json', request_method='GET')
+    def api_group_get(self):
+        group = None
 
-@view_config(route_name='api_group_get', renderer='json', request_method='GET')
-def api_group_get(request):
-    group = None
-    data = MetaData('Group')
-    param = ParamsValidator(request, True)
-
-    if param.is_valid():
-        ak = TokenValidator(param.get_apikey())
-        if ak.is_valid():
-            key = request.matchdict.get('key')
-            value = request.matchdict.get('value')
+        if self.apikey.is_valid():
+            key = self.request.matchdict.get('key')
+            value = self.request.matchdict.get('value')
 
             try:
-                group = __get_group(key, value)
+                group = self.__get_group__(key, value)
             except BadRequest as err:
-                request.response.status = '400 bad request'
-                return err
+                self.request.response.status = '400 bad request'
+                self.data.set_error_msg('Bad request', err.message)
             except NotFound as err:
-                data.set_error_msg(
-                    'Item not found',
-                    'Found no %s with the following value: %s' % (key, value)
-                )
-                request.response.status = '404 page not found'
-        else:
-            data.set_error_msg(ak.get_msg()[0], ak.get_msg()[1])
-    else:
-        data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
+                self.data.set_error_msg('Item not found', err.message)
+                self.request.response.status = '404 page not found'
 
-    if group:
-        data.set_data(group.to_json(ak.get_perm()))
+        if group:
+            self.data.set_data(group.to_json(self.apikey.get_perm()))
 
-    return data.get_metadata()
+        return self.data.get_metadata()

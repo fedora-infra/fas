@@ -230,7 +230,7 @@ class QAValidator(Base):
 
 class TokenValidator(Base):
 
-    def __init__(self, apikey):
+    def __init__(self, apikey=None):
         self.token = apikey
         self.perm = 0x00
         self.obj = None

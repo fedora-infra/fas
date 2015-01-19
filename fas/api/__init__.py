@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from math import ceil
 
 from fas.utils import compute_list_pages_from, utc_iso_format
 
@@ -41,8 +40,7 @@ class MetaData():
         :arg current: int, current given page of request.
         :arg total: int, total page grom request based on item's limit.
         """
-        pages = compute_list_pages_from(obj, limit)[0]
-        # pages = ceil(float(count) / float(limit))
+        pages = compute_list_pages_from(obj, limit)
 
         self.data['Pages'] = {}
         self.data['Pages']['Current'] = current
@@ -69,3 +67,4 @@ class MetaData():
 @view_config(route_name='api_home', renderer='/api_home.xhtml')
 def api_home(request):
     return {}
+
