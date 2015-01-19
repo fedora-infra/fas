@@ -73,14 +73,14 @@ class People(object):
         people = provider.get_people(50, page)
         peoples = provider.get_people(count=True)
 
-        pages, count = compute_list_pages_from(peoples, 50)
+        pages = compute_list_pages_from(peoples, 50)
 
         if page > pages:
             return HTTPBadRequest()
 
         return dict(
             people=people,
-            count=count,
+            count=int(peoples),
             page=page,
             pages=pages
             )
@@ -126,7 +126,7 @@ class People(object):
                 _('No user found for the query: %s' % _id), 'error')
             return redirect_to('/people')
 
-        pages, count = compute_list_pages_from(peoples, 50)
+        pages = compute_list_pages_from(peoples, 50)
 
         if page > pages:
             return HTTPBadRequest()
@@ -141,7 +141,7 @@ class People(object):
             people=people,
             page=page,
             pages=pages,
-            count=count,
+            count=int(peoples),
             pattern=_id
         )
 

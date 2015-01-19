@@ -60,16 +60,16 @@ class Groups(object):
         # TODO: still, get limit from config file or let user choose in between
         # TODO: predifined one?
         groups = provider.get_groups(50, page)
-        cnt_groups = provider.get_groups(count=True)
+        groups_cnt = provider.get_groups(count=True)
 
-        pages, count = compute_list_pages_from(cnt_groups, 50)
+        pages = compute_list_pages_from(groups_cnt, 50)
 
         if page > pages:
             return HTTPBadRequest()
 
         return dict(
             groups=groups,
-            count=count,
+            count=int(groups_cnt),
             page=page,
             pages=pages
             )
@@ -115,7 +115,7 @@ class Groups(object):
                 _('No group found for the query: %s') % _id, 'error')
             return redirect_to('/groups')
 
-        pages, count = compute_list_pages_from(groups_cnt, 50)
+        pages = compute_list_pages_from(groups_cnt, 50)
 
         if page > pages:
             return HTTPBadRequest()
@@ -130,7 +130,7 @@ class Groups(object):
             groups=groups,
             page=page,
             pages=pages,
-            count=count,
+            count=int(groups_cnt),
             pattern=_id
         )
 

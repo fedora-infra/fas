@@ -49,8 +49,10 @@ def compute_list_pages_from(count, limit=50):
     :arg limit: integer, limt object to compute pages from.
     :return: integer of nb pages.
     """
+    if limit <= 0:
+        return int(count)
 
-    return (int(ceil(float(count) / float(limit))), int(count))
+    return int(ceil(float(count) / float(limit)))
 
 
 def locale_negotiator(request):
