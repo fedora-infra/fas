@@ -81,6 +81,9 @@ def __get_listoffset(page, limit):
 # Method to interact with Groups
 def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
     """ Retrieve all registered groups from databse. """
+    if page <= 0:
+        page = 1
+
     query = session.query(Groups)
 
     if status is not None:
@@ -268,6 +271,9 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=None):
     """ Retrieve all registered people from database
     based on given pattern and status.
     """
+    if page <= 0:
+        page = 1
+
     query = session.query(People).order_by(People.fullname)
 
     if status is not None:
