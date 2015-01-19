@@ -95,6 +95,6 @@ def api_group_get(request):
         data.set_error_msg(param.get_msg()[0], param.get_msg()[1])
 
     if group:
-        data.set_data(group.to_json(ak.get_perms))
+        data.set_data(group.to_json(ak.get_perm()))
 
     return data.get_metadata()
