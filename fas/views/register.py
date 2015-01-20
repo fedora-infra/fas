@@ -91,9 +91,10 @@ class Register(object):
                     register.add_people(self.person)
                     register.flush()
 
-                    la_form.license.data = la.id
-                    la_form.people.data = self.person.id
-                    register.add_signed_license(la_form)
+                    if la_form:
+                        la_form.license.data = la.id
+                        la_form.people.data = self.person.id
+                        register.add_signed_license(la_form)
 
                     self.request.registry.notify(
                         NewUserRegistered(self.request, self.person)
