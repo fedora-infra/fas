@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.10.1
+Version:        0.10.2
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -64,7 +64,7 @@ Requires: libselinux-python
 Additional scripts that work as clients to the accounts system.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -c -n %{name}-%{version}
 
 
 %build
@@ -152,6 +152,11 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Sat Jan 24 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.2-1
+- Fix Downgrade members function (github #82).
+- fasClient: load config as rawConfig.
+- fasClient: Add username to ssh_command string.
+
 * Wed Oct 29 2014 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.10.1-1
 - Fix bug in getting json user list
 - Fedmsg mesages for yubikey added
