@@ -8,7 +8,7 @@ Summary:        Yubikey plugin for FAS2
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        fas-plugin-yubikey-%{version}.tar.gz
+Source0:        fas-plugin-yubikey-%{version}.tar.xz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildArch:      noarch
@@ -25,7 +25,7 @@ Requires:       fas >= 0.8.4.5
 Yubikey plugin for FAS2
 
 %prep
-%setup -q
+%setup -q -c
 
 
 %build
