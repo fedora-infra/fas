@@ -229,7 +229,13 @@ class YubikeyPlugin(controllers.Controller):
         except IndexError:
             # No old record?  Maybe they never used their key
             pass
-            
+
+        fas.fedmsgshim.send_message(topic='user.update', msg={
+            'agent': username,
+            'user': username,
+            'fields': ['yubikey'],
+        })
+
         string = "%s %s %s" % (publicname, internalname, aeskey)
         return dict(key=string)
 
