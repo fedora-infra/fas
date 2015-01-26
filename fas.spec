@@ -2,7 +2,7 @@
 
 Name:           fas
 Version:        0.10.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -152,6 +152,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Mon Jan 26 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.2-2
+- Rebuild with up-to-date source tarball.
+
 * Sat Jan 24 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.2-1
 - Fix Downgrade members function (github #82).
 - fasClient: load config as rawConfig.
