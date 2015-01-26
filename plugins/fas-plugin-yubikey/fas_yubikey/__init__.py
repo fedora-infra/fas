@@ -259,7 +259,7 @@ class YubikeyPlugin(controllers.Controller):
         person = People.by_username(turbogears.identity.current.user_name)
         target = People.by_username(targetname)
         if not can_edit_user(person, target):
-            turbogears.error(_("You do not have permission to edit '%s'") % target.username)
+            turbogears.flash(_("You do not have permission to edit '%s'") % target.username)
             turbogears.redirect('/yubikey')
             return dict()
 
