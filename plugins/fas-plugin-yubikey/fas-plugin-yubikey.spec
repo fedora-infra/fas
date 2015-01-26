@@ -2,7 +2,7 @@
 
 Name:           fas-plugin-yubikey
 Version:        0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Yubikey plugin for FAS2
 
 Group:          Development/Languages
@@ -49,7 +49,7 @@ Yubikey plugin for FAS2
 
 
 %changelog
-* Mon Jan 26 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.8-1
+* Mon Jan 26 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.8-2
 - New upstream release.
 - Add fedmsg notifications.
 
