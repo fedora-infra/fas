@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas-plugin-yubikey
-Version:        0.7
+Version:        0.8
 Release:        1%{?dist}
 Summary:        Yubikey plugin for FAS2
 
@@ -49,6 +49,10 @@ Yubikey plugin for FAS2
 
 
 %changelog
+* Mon Jan 26 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.8-1
+- New upstream release.
+- Add fedmsg notifications.
+
 * Sun Jan 30 2011 Jon Stanley <jonstanley@gmail.com> - 0.7-1
 - New upstream release
 
