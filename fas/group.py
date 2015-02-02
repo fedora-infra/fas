@@ -727,7 +727,7 @@ into the e-mail aliases within an hour.
         group = Groups.by_name(groupname)
         target_locale = target.locale or 'C'
 
-        if not can_downgrade_user(person, group):
+        if not can_downgrade_user(person, group, target):
             turbogears.flash(_("You cannot downgrade '%s'") % target.username)
             turbogears.redirect(cherrypy.request.headerMap.get("Referer", "/"))
             return dict()

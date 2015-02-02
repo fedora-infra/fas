@@ -24,7 +24,7 @@
 Release information about the Fedora Accounts System
 '''
 
-VERSION = '0.10.1'
+VERSION = '0.10.2'
 NAME = 'fas'
 DESCRIPTION = 'The Fedora Account System'
 LONG_DESCRIPTION = '''
@@ -32,7 +32,7 @@ Manage the accounts of contributors to the Fedora Project.
 '''
 AUTHOR = 'Ricky Zhou, Mike McGrath, Toshio Kuratomi, and Yaakov Nemoy'
 EMAIL = 'fedora-infrastructure-list@fedoraproject.org'
-COPYRIGHT = '2007-2014 Red Hat, Inc.'
+COPYRIGHT = '2007-2015 Red Hat, Inc.'
 
 # if it's open source, you might want to specify these
 URL = 'https://admin.fedoraproject.org/accounts/'
