@@ -8,6 +8,14 @@ NEWS
 :Version: 0.8.18
 
 -------
+0.10.2
+------
+* Fix Downgrade members function (github #82).
+* fasClient: load config as rawConfig.
+* fasClient: Add username to ssh_command string.
+
+
+-------
 0.10.0
 -------
 * Add support for group moderator.
