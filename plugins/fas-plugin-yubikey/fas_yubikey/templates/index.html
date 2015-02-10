@@ -40,16 +40,8 @@
         </dd>
       </dl>
         <h2>${_('What are yubikeys?')}</h2>
-        <p>${_('Yubikeys are a hardware key built and sold by')} <a href="http://yubico.com/">http://yubico.com/</a>. ${_('These keys are only required to access some sysadmin groups to access high security systems.  These keys are optional for many other systems.  Users who have decided to purchase a yubikey may use them to access various Fedora services.  These services include some web sites and shell access.  Not all systems support it, those that do will be marked as such either with a yubikey logo or, as with a ssh prompt, the following:')}</p>
-        <pre>
-Yubikey for `username':
-        </pre>
-        <p>${_('For more information, see the user guide: ')} <a href="http://www.yubico.com/files/YubiKey_manual-2.0.pdf">http://www.yubico.com/files/YubiKey_manual-2.0.pdf</a></p>
-        <h2>${_('How do I burn my yubikey?')}</h2>
-        <p>${_('To burn your yubikey, install the "fedora-packager" package and run the following command:')}</p>
-        <pre>
-/usr/sbin/fedora-burn-yubikey -u YOUR_USERNAME
-        </pre>
+        <p>${_('Yubikeys are a hardware key built and sold by')} <a href="http://yubico.com/">yubico</a>. ${_('In the Fedora Project, these keys are only used by Fedora system administrators: ')} 
+        <a href="https://fedoraproject.org/wiki/Infrastructure/Yubikey">${_('Fedora Wiki YubiKey documentation')}</a></p>
     </div>
   </body>
 </html>
