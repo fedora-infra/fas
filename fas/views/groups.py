@@ -40,11 +40,12 @@ log = logging.getLogger(__name__)
 
 
 class Groups(object):
-
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
         self.params = ParamsValidator(request)
+        self.group = None
+        self.id = -1
 
     @view_config(route_name="groups", renderer='/groups/list.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
@@ -72,7 +73,7 @@ class Groups(object):
             count=int(groups_cnt),
             page=page,
             pages=pages
-            )
+        )
 
     @view_config(
         route_name='group-search-rd', renderer='/group/search.xhtml')
@@ -170,7 +171,8 @@ class Groups(object):
         if not self.request.authenticated_is_admin():
             if group.status not in [
                 GroupStatus.ACTIVE,
-                GroupStatus.INACTIVE]:
+                GroupStatus.INACTIVE
+            ]:
                 return redirect_to('/groups')
 
         authenticated = self.request.get_user
@@ -180,8 +182,8 @@ class Groups(object):
         for group, membership, member in g_memberships:
             memberships.append(membership)
             if authenticated != member:
-                if membership.get_status() == MembershipStatus.APPROVED\
-                and member.status in valid_active_status:
+                if membership.get_status() == MembershipStatus.APPROVED \
+                        and member.status in valid_active_status:
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
                     elif membership.role == MembershipRole.SPONSOR:
@@ -196,30 +198,35 @@ class Groups(object):
                     is_member = True
 
         if authenticated:
-            if authenticated.id == group.owner_id\
-            or self.request.authenticated_is_admin():
+            if authenticated.id == group.owner_id \
+                    or self.request.authenticated_is_admin():
                 admin_form = GroupAdminsForm(self.request.POST)
                 admin_form.owner_id.choices = [
                     (person.people.id,
-                        '%s (%s)' % (
-                            person.people.username,
-                            person.people.fullname))
+                     '%s (%s)' % (
+                         person.people.username,
+                         person.people.fullname))
                     for person in admin_members]
 
         membership_request = provider.get_memberships_by_status(
             status=MembershipStatus.PENDING,
             group=[group.id]
-            )
+        )
 
         license_signed_up = None
         if self.request.authenticated_userid:
             license_signed_up = provider.is_license_signed(
                 group.license_sign_up, self.request.get_user.id)
 
-        #FIXME: filter out members from people list.
-        #people_form.people.choices = [
-            #(u.id, u.username + ' (' + u.fullname + ')')
-            #for u in provider.get_people()]
+        # Assign some data we expect
+        cert_form.cacert.data = group.certificate
+        cert_form.group_id.data = group.id
+        cert_form.group_name.data = group.name
+
+        # FIXME: filter out members from people list.
+        # people_form.people.choices = [
+        # (u.id, u.username + ' (' + u.fullname + ')')
+        # for u in provider.get_people()]
 
         # Disable paging on members list.
         # valid_member = self.request.get_user() in person
@@ -228,13 +235,13 @@ class Groups(object):
         # obj_max = limit
         page = 1
         # if params.is_valid():
-            # page = int(params.get_optional('members_page')) or 1
-            # if page > 1:
-                # obj_max = (limit * page)
-                # obj_start = (obj_max - limit) + 1
-            # else:
-                # obj_max = limit
-                # obj_start = 0
+        # page = int(params.get_optional('members_page')) or 1
+        # if page > 1:
+        # obj_max = (limit * page)
+        # obj_start = (obj_max - limit) + 1
+        # else:
+        # obj_max = limit
+        # obj_start = 0
 
         return dict(
             group=group,
@@ -258,7 +265,7 @@ class Groups(object):
             peopleform=people_form,
             formcertificate=cert_form,
             text=mistune
-            )
+        )
 
     @view_config(route_name='group-edit', permission='authenticated',
                  renderer='/groups/edit.xhtml')
@@ -272,7 +279,7 @@ class Groups(object):
         self.group = provider.get_group_by_id(self.id)
 
         ms = MembershipValidator(self.request.authenticated_userid,
-            [self.group.name])
+                                 [self.group.name])
         # TODO: move this to Auth provider?
         # Prevent denied client from requesting direct url
         if not self.request.authenticated_is_admin():
@@ -308,7 +315,7 @@ class Groups(object):
             form.owner_id.choices.insert(0, (-1, u'-- Select a username --'))
             form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
                 self.notify(GroupEdited(
@@ -317,8 +324,8 @@ class Groups(object):
                     group=self.group,
                     form=form))
 
-                if form.bound_to_github.data\
-                and self.group.bound_to_github is False:
+                if form.bound_to_github.data \
+                        and self.group.bound_to_github is False:
                     self.notify(
                         GroupBindingRequested(self.request, form, self.group))
                 else:
@@ -351,8 +358,8 @@ class Groups(object):
             can_apply = True
 
         if self.group.license_sign_up > -1:
-            if  provider.is_license_signed(
-                self.group.license_sign_up, user.id):
+            if provider.is_license_signed(
+                    self.group.license_sign_up, user.id):
                 status = MembershipStatus.UNAPPROVED
                 can_apply = False
 
@@ -383,10 +390,10 @@ class Groups(object):
                     status
                 )
                 register.save_account_activity(
-                        self.request,
-                        user.id,
-                        log,
-                        self.group.name)
+                    self.request,
+                    user.id,
+                    log,
+                    self.group.name)
 
                 email.send(user.email)
             else:
@@ -455,7 +462,7 @@ class Groups(object):
                         url=self.request.route_url(
                             'group-details', id=self.group.id))
                     msg = _(u'%s is now a member of your group'
-                    % self.user.username)
+                            % self.user.username)
 
             elif action == 'removal':
                 log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP
@@ -487,7 +494,7 @@ class Groups(object):
                     topic = action
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
-                        '%s' % (self.user.username, self.group.name))
+                            '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
                         self.request,
                         self.user.id,
@@ -497,7 +504,7 @@ class Groups(object):
                     topic = action
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
-                        '%s' % (self.user.username, self.group.name))
+                            '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
                         self.request,
                         self.user.id,
@@ -507,7 +514,7 @@ class Groups(object):
                     topic = action
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
-                        'group %s' % (self.user.username, self.group.name))
+                            'group %s' % (self.user.username, self.group.name))
                     register.save_account_activity(
                         self.request,
                         self.user.id,
@@ -536,7 +543,7 @@ class Groups(object):
                 elif membership.get_role() == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
-                        '%s' % (self.user.username, self.group.name))
+                            '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
                         self.request,
                         self.user.id,
@@ -605,7 +612,7 @@ class Groups(object):
         return redirect_to('/group/details/%s' % self.group.id)
 
     @view_config(route_name='group-pending-request',
-        permission='authenticated', renderer='/groups/pending-requests.xhtml')
+                 permission='authenticated', renderer='/groups/pending-requests.xhtml')
     def pending_request(self):
         """ Penging membership requests view. """
 
