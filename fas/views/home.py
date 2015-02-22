@@ -3,27 +3,27 @@
 from pyramid.httpexceptions import (
     HTTPFound,
     HTTPNotFound,
-    )
+)
 
 from pyramid.view import (
     view_config,
     view_defaults,
     forbidden_view_config,
-    )
+)
 
 from pyramid.security import (
     remember,
     forget,
-    )
+)
 
 from fas.events import (
     LoginRequested,
     LoginFailed,
     LoginSucceeded
-    )
+)
 
 from fas.utils import Config
-from fas.security import PasswordValidator
+from fas.security import PasswordValidator, LoginStatus, process_login
 from fas.models import AccountStatus, AccountLogType
 
 import fas.models.provider as provider
@@ -31,9 +31,9 @@ import fas.models.register as register
 
 from fas.utils import _
 
+
 @view_defaults(renderer='/home.xhtml')
 class Home:
-
     def __init__(self, request):
         self.request = request
         self.logged_in = self.request.authenticated_userid
@@ -68,34 +68,24 @@ class Home:
             password = self.request.params['password']
             person = provider.get_people_by_username(login)
 
-            self.notify(LoginRequested(self.request, person))
+            result = process_login(self.request, person, password)
+            # self.notify(LoginRequested(self.request, person))
 
-            blocked = True
-            if person and person.status in [
-                    AccountStatus.ACTIVE, AccountStatus.INACTIVE,
-                    AccountStatus.ON_VACATION]:
-                blocked = False
-
-            pv = PasswordValidator(person, password)
-            if pv.is_valid() and not blocked:
+            if result == LoginStatus.SUCCEED:
                 headers = remember(self.request, login)
-                self.request.session.get_csrf_token()
-                self.notify(LoginSucceeded(self.request, person))
-
                 return HTTPFound(location=came_from, headers=headers)
-
-            if person and person.status == AccountStatus.PENDING:
+            elif result == LoginStatus.FAILED_INACTIVE_ACCOUNT:
                 self.request.session.flash(
-                    _('Login failed, this account has not been activated, '
-                      'please check your emails.'), 'login')
-            elif person and person.status in [
-                    AccountStatus.LOCKED, AccountStatus.LOCKED_BY_ADMIN,
-                    AccountStatus.DISABLED
-                ]:
+                    _('Login failed, this account has not been activated,'
+                      'please go check your emails and follow the'
+                      'the procedure to activate your account'),
+                    'login')
+            elif result == LoginStatus.FAILED_LOCKED_ACCOUNT:
                 self.request.session.flash(
                     _('Login blocked.'), 'login')
             else:
-                self.notify(LoginFailed(self.request, person))
+                self.request.session.flash(
+                    _('Invalid login or password'), 'login')
 
         return dict(
             message=message,
@@ -103,7 +93,7 @@ class Home:
             came_from=came_from,
             login=login,
             password=password,
-            )
+        )
 
     @view_config(route_name='logout')
     def logout(self):

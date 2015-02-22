@@ -185,13 +185,82 @@ def groupfinder(userid, request):
     return None
 
 
+class LoginStatus(IntEnum):
+    SUCCEED = 0x00
+    FAILED = 0x01
+    SUCCEED_NEED_APPROVAL = 0x02
+    FAILED_INACTIVE_ACCOUNT = 0x03
+    FAILED_LOCKED_ACCOUNT = 0x04
+
+
+def process_login(request, person, password):
+    """
+    Process login from given login and password
+
+    :param request: pyramid request's object
+    :type request: pyramid.request.Request
+    :param person: person to process login from
+    :type person: fas.models.people.People
+    :param password: person password to process login from
+    :type password: basestring
+    :return: login status
+    :rtype: LoginStatus
+    """
+    notify = request.registry.notify
+    blocked = True
+    result = LoginStatus.FAILED
+
+    notify(LoginRequested(request, person))
+
+    if person:
+        if person.status in [
+            AccountStatus.ACTIVE,
+            AccountStatus.INACTIVE,
+            AccountStatus.ON_VACATION
+        ]:
+            blocked = False
+
+        pv = PasswordValidator(person, password)
+
+        if pv.is_valid and not blocked:
+            # headers = remember(self.request, login)
+            request.session.get_csrf_token()
+
+            notify(LoginSucceeded(request, person))
+
+            log.debug('Login succeed for %s' % person.username)
+            return LoginStatus.SUCCEED
+            # return HTTPFound(location=came_from, headers=headers)
+
+        if person.status == AccountStatus.PENDING:
+            result = LoginStatus.PENDING_ACCOUNT
+            log.debug('Login failed, account %s has not been validated'
+                      % person.username)
+        elif person.status in [
+            AccountStatus.LOCKED,
+            AccountStatus.LOCKED_BY_ADMIN,
+            AccountStatus.DISABLED
+        ]:
+            result = LoginStatus.FAILED_LOCKED_ACCOUNT
+            log.debug('Login failed, account %s is blocked' % person.username)
+        else:
+            notify(LoginFailed(request, person))
+            result = LoginStatus.FAILED
+            log.debug('Login failed for %s' % person.username)
+
+    return result
+
+
 def generate_token(length=256):
-    """ Generate an API token. """
+    """
+    Generate token ID.
+
+    :rtype: basestring
+    """
     return hashlib.sha1(os.urandom(length)).hexdigest()
 
 
 class Base(object):
-
     def __init__(self):
         self.dbsession = None
         self.people = None
