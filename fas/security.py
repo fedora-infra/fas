@@ -116,23 +116,23 @@ def request_membership(request, group):
 
     :param request: request object
     :param group: id, `fas.models.group.Groups.id`
-    :param person: integer, `fas.models.people.People.id`
     """
     register.add_membership(
         group,
         request.get_user.id,
         MembershipStatus.PENDING
-        )
+    )
 
 
 def requested_membership(request, group, person):
     """
     Check if authenticated user requested membership already.
 
-    :param request:
+    :param request: pyramid requests, framework requirement only
     :param group: integer, `fas.models.group.Groups.id`
     :param person: integer, `fas.models.people.People.id`
-    :rtype: boolean, true is membership already requested, false otherwise.
+    :return: true is membership already requested, false otherwise.
+    :rtype: bool
     """
     rq = provider.get_memberships_by_status(
         MembershipStatus.PENDING, group, person
@@ -150,8 +150,6 @@ def remove_membership(request, group):
     :param request: pyramid request
     :param group: group id
     :type group: integer, `fas.models.group.Group.id`
-    :param person: person id
-    :type person: integer, `fas.models.people.People.id`
     """
     register.remove_membership(group, request.get_user.id)
 
@@ -256,6 +254,7 @@ def generate_token(length=256):
     """
     Generate token ID.
 
+    :param length: length of token to generate
     :rtype: basestring
     """
     return hashlib.sha1(os.urandom(length)).hexdigest()
@@ -428,7 +427,6 @@ class MembershipValidator(Base):
 
 
 class RoleValidator(MembershipValidator):
-
     def __init__(self, username, group):
         super(RoleValidator, self).__init__(username, group)
         self.username = username
@@ -437,7 +435,8 @@ class RoleValidator(MembershipValidator):
         self.group_modo = Config.get_modo_group()
 
     def is_admin(self):
-        """ Check if user is an admin.
+        """
+        Check if user is an admin.
         :return: true if user is admin, false otherwise.
         """
         if self.validate():

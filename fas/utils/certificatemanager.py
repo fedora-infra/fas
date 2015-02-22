@@ -8,8 +8,8 @@
 
 from OpenSSL import crypto
 
-class CertificateManager(object):
 
+class CertificateManager(object):
     __PEM__ = crypto.FILETYPE_PEM
 
     def __init__(self, cacert, cakey, config=None):
@@ -29,7 +29,7 @@ class CertificateManager(object):
         self.pkey.generate_key(self.key_type, self.bits)
 
     def __create_cert_request__(
-        self, client_name, client_email, client_desc, **name):
+            self, client_name, client_email, client_desc, **name):
         """
         Create a certificate request.
 
@@ -77,7 +77,8 @@ class CertificateManager(object):
                    expire   - Timestamp (relative to now) when the certificate
                                 stops being valid
 
-        Returns:  tuple of generated certificate pub and priv key.
+        :returns:  Generated pub and priv key certificate.
+        :rtype: tuple
         """
         req = self.__create_cert_request__(cname, email, desc)
 
@@ -101,4 +102,3 @@ class CertificateManager(object):
     def get_ca_key(self):
         """ Returns certificate authority private key. """
         return self.key
-

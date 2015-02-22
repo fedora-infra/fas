@@ -14,12 +14,18 @@ _ = TranslationStringFactory('fas')
 
 class Config():
 
+    def __init__(self):
+        pass
+
     @classmethod
     def get(self, configname, default_config=None):
         """ Retrieve config from configuration file.
 
-        :arg configname: string, configuration key to look for
-        :return: value of requested configuration.
+        :param configname: configuration key to look for
+        :type configname: str
+        :param default_config: default config value to use if config not found
+        :type default_config: str|int|list|unicode
+        :return: value of requested configuration key.
         """
         registry = pyramid.threadlocal.get_current_registry()
         settings = registry.settings
@@ -45,9 +51,12 @@ class Config():
 def compute_list_pages_from(count, limit=50):
     """ Compute list's pages from given object.
 
-    :arg count: the total number of items in the list
-    :arg limit: integer, limt object to compute pages from.
-    :return: integer of nb pages.
+    :param count: Total number of items in the list
+    :type count: int
+    :param limit: integer, limit object to compute pages from.
+    :type limit: int
+    :return: number of pages.
+    :rtype: int
     """
     if limit <= 0:
         return int(count)
@@ -64,7 +73,14 @@ def locale_negotiator(request):
 
 
 def format_datetime(locale, tdatetime):
-        """ Return given `datetime` in a translated human readable format. """
+        """ format given `datetime` in a translated human-readable format.
+
+        :param locale: locale to format from
+        :type locale: str
+        :param tdatetime: datetime to format from
+        :type tdatetime: datetime.datetime
+        :rtype: str | unicode
+        """
         current_date = datetime.datetime.utcnow().date()
         date = tdatetime.date()
         time = tdatetime.time()
@@ -76,6 +92,7 @@ def format_datetime(locale, tdatetime):
 
         return tdatetime
 
+
 # Originally from http://stackoverflow.com/a/23705687/1106202
 class UTC(datetime.tzinfo):
     def tzname(self):
@@ -84,8 +101,10 @@ class UTC(datetime.tzinfo):
     def utcoffset(self, dt):
         return datetime.timedelta(0)
 
+
 def utc_iso_format(utc):
-    '''Python's built in isoformat method for UTC datetime objects is,
+    """
+    Python's built in isoformat method for UTC datetime objects is,
     despite its name, not really ISO format. It breaks the specification which
     requires that if there is no timezone suffix, the time should be considered
     local (not UTC) time. By default, datetime objects don't carry any timezone
@@ -96,5 +115,10 @@ def utc_iso_format(utc):
 
     This change, as long as it's only applied to actual UTC times, results in
     being able to parse the time correctly in environments which do follow the
-    specification.'''
+    specification.
+
+    :param utc: datetime in UTC format
+    :type utc: datetime.datetime
+    :rtype: datetime.datetime.isoformat
+    """
     return utc.replace(tzinfo=UTC()).isoformat()

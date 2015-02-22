@@ -268,8 +268,20 @@ def get_grouptype_by_id(id):
 # Method to interact with People
 
 def get_people(limit=None, page=None, pattern=None, count=False, status=None):
-    """ Retrieve all registered people from database
-    based on given pattern and status.
+    """
+    Retrieve registered people based on given criteria.
+
+    :param limit: limit number to return
+    :type limit: int
+    :param page: list offset from where to start looking for people
+    :type page: int
+    :param pattern: could be people username, fullname or ircnick.
+    :type pattern: str
+    :param count: return or not only a count from given criteria
+    :type count: bool
+    :param status: filter people by status
+    :type status: fas.models.AccountStatus
+    :rtype: list of fas.models.people.People or int
     """
     if page <= 0:
         page = 1
@@ -318,7 +330,11 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=None):
 
 
 def get_people_username(filter_out=None):
-    """ Retrieve and return people's username."""
+    """ Retrieve and return people's username.
+
+    :rtype : object
+    :param filter_out:
+    """
     query = session.query(People.username).filter(People.username != filter_out)
 
     return query.all()
@@ -373,7 +389,13 @@ def get_people_by_id(id):
 
 
 def get_people_by_username(username):
-    """ Retrieve People by its username. """
+    """ Retrieve People by its username.
+
+    :param username: username to retrieve people from
+    :type username: str
+    :return: People's object from given username
+    :rtype: fas.models.people.People
+    """
     query = session.query(People).filter(People.username == username)
     return query.first()
 
@@ -404,7 +426,7 @@ def get_people_by_ircnick(ircnick):
 
 
 def get_account_activities_by_people_id(id):
-    """ Retrieve account's avitivities by people's id. """
+    """ Retrieve account's activities by people's id. """
     query = session.query(
         PeopleAccountActivitiesLog
     ).filter(
@@ -461,7 +483,14 @@ def get_account_permissions_by_people_id(id):
 
 
 def get_account_permissions_by_token(token):
-    """ Retrieve account permission based on given people's token. """
+    """
+    Retrieve account permission based on given people's token.
+
+    :param token: Token to retrieve account permission from.
+    :type token: str
+    :return: Account permissions if exist otherwise, None
+    :rtype: `fas.models.configs.AccountPermissions`
+    """
     query = session.query(
         AccountPermissions
     ).filter(
@@ -488,11 +517,16 @@ def get_clients_certificates():
 
 
 def get_client_certificate(cacert, person):
-    """ Retrieve client certificate from given person and related group.
+    """
+    Retrieve client certificate from given person
+    and related group's certificate.
 
-    :cacert: `fas.models.certificates.Certificates.id`, certifiates ID
-    :person: `fas.models.people.People` object
-    :returns: `fas.models.certificates.ClientsCertificates` object
+    :param cacert: certificate authority ID to retrieve client certificate from.
+    :type cacert: `fas.models.certificates.Certificates.id`
+    :param person: person to retrieve client certificate from
+    :type person: `fas.models.people.People`
+    :return: `fas.models.certificates.ClientsCertificates` object
+    :rtype: ClientsCertificates
     """
     query = session.query(
         ClientsCertificates

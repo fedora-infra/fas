@@ -62,13 +62,13 @@ def onLoginRequested(event):
                 register.add_people(person)
             else:
                 log.debug(
-                    'Account %s will be unlock at %s UTC'
+                    'Account %s will be unlocked at %s UTC'
                     % (person.username, unlock_time.time())
                 )
                 event.request.session.flash(
                     _(u'Your account has been locked down due to '
-                    'too many login failure\'s attempt.Account locked for %smin'
-                    % lock_timeout), 'error')
+                      u'too many login failure\'s attempt.Account locked for %smin'
+                      % lock_timeout), 'error')
                 raise redirect_to('/login')
 
 
@@ -80,7 +80,7 @@ def onLoginSucceeded(event):
 
     if person.login_attempt > 0:
         log.debug(
-            'Account %s successfully logged in, reseting failure attempt count.'
+            'Account %s successfully logged in, resetting failure attempt count.'
             % person.username)
         person.login_attempt = 0
         register.add_people(person)
