@@ -1,14 +1,14 @@
 """Add certificate to groups
 
-Revision ID: 386b6227f0b
-Revises: 400129ba655f
+Revision ID: 15b28d3a0911
+Revises: 386b6227f0b
 Create Date: 2015-01-10 03:01:47.856746
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '386b6227f0b'
-down_revision = '400129ba655f'
+revision = '15b28d3a0911'
+down_revision = '386b6227f0b'
 branch_labels = None
 depends_on = None
 

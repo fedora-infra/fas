@@ -1,14 +1,14 @@
 """Add Certificates Management
 
-Revision ID: 400129ba655f
-Revises: 
+Revision ID: 386b6227f0b
+Revises: 400129ba655f
 Create Date: 2015-01-08 23:30:47.791401
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '400129ba655f'
-down_revision = None
+revision = '386b6227f0b'
+down_revision = '400129ba655f'
 branch_labels = None
 depends_on = None
 
