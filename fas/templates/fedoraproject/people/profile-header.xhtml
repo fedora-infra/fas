@@ -31,7 +31,10 @@
         %if form:
         <figcaption>
               %if person.username == request.authenticated_userid:
+                  <p><span class="fas-icon-camera"></span></p>
+<!--
                   <p>${_(u'Change Avatar')}</p>
+-->
               %endif
         </figcaption>
         %endif

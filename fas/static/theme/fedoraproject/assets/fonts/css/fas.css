@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'fas';
-  src: url('../font/fas.eot?96579603');
-  src: url('../font/fas.eot?96579603#iefix') format('embedded-opentype'),
-       url('../font/fas.woff?96579603') format('woff'),
-       url('../font/fas.ttf?96579603') format('truetype'),
-       url('../font/fas.svg?96579603#fas') format('svg');
+  src: url('../font/fas.eot?57257826');
+  src: url('../font/fas.eot?57257826#iefix') format('embedded-opentype'),
+       url('../font/fas.woff?57257826') format('woff'),
+       url('../font/fas.ttf?57257826') format('truetype'),
+       url('../font/fas.svg?57257826#fas') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,12 +14,12 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fas';
-    src: url('../font/fas.svg?96579603#fas') format('svg');
+    src: url('../font/fas.svg?57257826#fas') format('svg');
   }
 }
 */
  
- [class^="icon-"]:before, [class*=" icon-"]:before {
+ [class^="fas-icon-"]:before, [class*=" fas-icon-"]:before {
   font-family: "fas";
   font-style: normal;
   font-weight: normal;
@@ -50,5 +50,21 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
-.icon-right:before { content: '\e800'; } /* '' */
-.icon-search:before { content: '\e801'; } /* '' */
+.fas-icon-right:before { content: '\e800'; } /* '' */
+.fas-icon-search:before { content: '\e801'; } /* '' */
+.fas-icon-github-circled:before { content: '\e802'; } /* '' */
+.fas-icon-users:before { content: '\e803'; } /* '' */
+.fas-icon-user:before { content: '\e804'; } /* '' */
+.fas-icon-cog-alt:before { content: '\e805'; } /* '' */
+.fas-icon-location:before { content: '\e806'; } /* '' */
+.fas-icon-info-circled-alt:before { content: '\e807'; } /* '' */
+.fas-icon-info-circled:before { content: '\e808'; } /* '' */
+.fas-icon-menu:before { content: '\e809'; } /* '' */
+.fas-icon-newspaper:before { content: '\e80a'; } /* '' */
+.fas-icon-attention:before { content: '\e80b'; } /* '' */
+.fas-icon-attention-alt:before { content: '\e80c'; } /* '' */
+.fas-icon-help-circled-alt:before { content: '\e80d'; } /* '' */
+.fas-icon-help-circled:before { content: '\e80e'; } /* '' */
+.fas-icon-copyright:before { content: '\e810'; } /* '' */
+.fas-icon-lock:before { content: '\e811'; } /* '' */
+.fas-icon-camera:before { content: '\e812'; } /* '' */

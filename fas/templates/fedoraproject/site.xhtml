@@ -55,12 +55,12 @@
                 <ul class="nav navbar-nav">
                     <li>
                       <a href="${request.route_url('groups')}">
-                        <span class="glyphicons glyphicons-group"></span> ${_(u'Fedora groups')}
+                        <span class="fas-icon-users"></span> ${_(u'Fedora groups')}
                       </a>
                     </li>
                     <li>
                       <a href="${request.route_url('people')}">
-                        <span class="glyphicon glyphicon-user"></span> ${_(u'Fedora people')}
+                        <span class="fas-icon-user"></span> ${_(u'Fedora people')}
                       </a>
                     </li>
                 %if request.authenticated_is_admin() \
@@ -68,7 +68,7 @@
                         or request.authenticated_is_group_editor():
                     <li>
                       <a href="${request.route_url('settings')}">
-                        <span class="glyphicon glyphicon-cog"></span> ${_(u'Settings')}
+                        <span class="fas-icon-cog-alt"></span> ${_(u'Settings')}
                       </a>
                     </li>
                 %endif
@@ -94,9 +94,9 @@
                         <strong>
                           ${request.authenticated_userid} 
                           %if len(request.get_pending_ms_requests) > 0:
-                          <span class="glyphicon glyphicon-th hover"></span>
+                          <span class="fas-icon-menu hover"></span>
                           %else:
-                          <span class="glyphicon glyphicon-th"></span>
+                          <span class="fas-icon-menu"></span>
                           %endif
                         </strong>
                       </a> |
