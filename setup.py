@@ -1,3 +1,4 @@
+import fas.release
 import os
 
 from setuptools import setup, find_packages
@@ -48,7 +49,7 @@ optional = {
 
 setup(
     name='fas',
-    version='3.0',
+    version=fas.release.__VERSION__,
     description='Fedora Account System',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
