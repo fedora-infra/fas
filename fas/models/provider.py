@@ -14,7 +14,7 @@ from fas.models.la import (
     SignedLicenseAgreement
     )
 
-from fas.models.configs import AccountPermissions
+from fas.models.configs import AccountPermissions, TrustedPermissions
 
 from fas.models.group import (
     Groups,
@@ -502,3 +502,28 @@ def get_client_certificate(cacert, person):
             )
 
     return query.first()
+
+
+def get_trusted_perms():
+    """
+    Retrieve trusted permissions
+
+    :return: list of trusted permissions if any, None otherwise
+    :rtype: fas.models.configs.TrustedPermissions
+    """
+    return session.query(TrustedPermissions).all()
+
+
+def get_trusted_perms_by_token(token):
+    """
+    Retrieve trusted permission from given token
+
+    :param token: token id to retrieve perm from
+    :type token: str
+    :return: permissions found from token, None otherwise
+    :rtype: fas.models.configs.TrustedPermissions
+    """
+    return session.query(
+        TrustedPermissions).filter(
+        token == TrustedPermissions.token
+    ).first()

@@ -2,7 +2,7 @@
 
 from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
-from fas.models.configs import AccountPermissions
+from fas.models.configs import AccountPermissions, TrustedPermissions
 from fas.models.group import Groups, GroupType
 from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
@@ -76,14 +76,46 @@ def save_account_activity(request, people, event, msg=None):
     session.add(activity)
 
 
-def add_token(people_id, description, token, permission):
-    """ Add people's token to database. """
-    perm = AccountPermissions(
-        people=people_id,
-        token=token,
-        application=description,
-        permissions=permission
-        )
+def add_token(
+        description,
+        token,
+        permission,
+        people_id=None,
+        trusted=False,
+        secret=None):
+    """
+    Add given token to database.
+
+    :param description: A description for the token
+    :type description: str
+    :param token: The token to store
+    :type token: basestring
+    :param permission: Level of permission for token
+    :type permission: `fas.models.AccountPermissionType`
+    :param people_id: People id to attach token to
+    (required if not trusted token)
+    :type people_id: int
+    :param trusted: Set given token as trusted
+    :type trusted: bool
+    :param secret: A secret token to attach to a trusted token
+    :type secret: basestring
+    """
+    if trusted:
+        perm = TrustedPermissions()
+        perm.secret = secret
+    else:
+        perm = AccountPermissions()
+        perm.people = people_id
+
+    perm.token = token
+    perm.application = description
+    perm.permissions = permission
+    # perm = AccountPermissions(
+    #     people=people_id,
+    #     token=token,
+    #     application=description,
+    #     permissions=permission
+    #     )
 
     session.add(perm)
 
@@ -274,3 +306,12 @@ def add_client_certificate(ca, people, cert, serial):
     ccert.certificate = cert
 
     session.add(ccert)
+
+
+def add_trusted_token():
+    """
+    Add trusted token
+
+    :return:
+    """
+    return None

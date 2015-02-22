@@ -1,24 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from pyramid.view import view_config
+
 from fas.api import (
     BadRequest,
     NotFound,
     MetaData
 )
-
-from pyramid.view import view_config
-
+from fas import log
 from fas.events import ApiRequest
-
 import fas.models.provider as provider
-
 from fas.forms.people import EditPeopleForm
-
-from fas.security import TokenValidator
 from fas.security import ParamsValidator
-
-import logging
-log = logging.getLogger(__name__)
 
 
 class PeopleAPI(object):
@@ -34,8 +27,8 @@ class PeopleAPI(object):
         self.params.add_optional('page')
         self.params.add_optional('status')
 
-        self.notify(ApiRequest(self.request, self.data, self.params, self.perm))
-        self.apikey = TokenValidator(self.params.get_apikey())
+        self.notify(ApiRequest(self.request, self.data, self.perm))
+        self.apikey = self.request.token_validator
 
     def __get_user__(self, key, value):
         if key not in ['id', 'username', 'email', 'ircnick']:
@@ -57,11 +50,12 @@ class PeopleAPI(object):
         self.params.add_optional('limit')
         self.params.add_optional('page')
         self.params.add_optional('status')
+        self.params.get_limit()
 
         limit = self.params.get_limit()
         page = self.params.get_pagenumber()
 
-        if self.apikey.is_valid():
+        if self.apikey.validate():
             people = provider.get_people(
                 limit=limit,
                 page=page
@@ -70,6 +64,7 @@ class PeopleAPI(object):
         if people:
             users = []
             for user in people:
+                log.debug('Processing account %s' % user.username)
                 users.append(user.to_json(self.apikey.get_perm()))
 
             self.data.set_pages(provider.get_people(count=True), page, limit)
@@ -82,7 +77,7 @@ class PeopleAPI(object):
     def get_person(self):
         user = None
 
-        if self.apikey.is_valid():
+        if self.apikey.validate():
             key = self.request.matchdict.get('key')
             value = self.request.matchdict.get('value')
 
@@ -104,7 +99,7 @@ class PeopleAPI(object):
         key = self.request.matchdict.get('key')
         value = self.request.matchdict.get('value')
 
-        if self.apikey.is_valid():
+        if self.apikey.validate():
             try:
                 user = self.__get_user__(key, value)
             except BadRequest as err:

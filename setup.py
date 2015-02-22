@@ -31,6 +31,7 @@ requires = [
     'pillow',
     'cryptography',
     'pyOpenSSL',
+    'itsdangerous',
 
     # i18n
     'Babel',
@@ -38,7 +39,7 @@ requires = [
 
     # Test
     'fake-factory',
-    ]
+]
 
 optional = {
     'rainbow': 'rainbow_logging_handler',
@@ -55,7 +56,7 @@ setup(
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
+    ],
     author='Xavier Lamien',
     author_email='laxathom@fedoraproject.org',
     url='',
@@ -74,9 +75,9 @@ setup(
       """,
     paster_plugins=['pyramid'],
     # i18n
-    message_extractors = {'fas': [
-            ('**.py', 'python', None),
-            ('templates/**.xhtml', 'mako', None),
-            ('static/**', 'ignore', None),
-            ]},
-    )
+    message_extractors=dict(fas=[
+        ('**.py', 'python', None),
+        ('templates/**.xhtml', 'mako', None),
+        ('static/**', 'ignore', None),
+    ]),
+)

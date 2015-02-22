@@ -3,19 +3,20 @@
 import os
 import hashlib
 
+from flufl.enum import IntEnum
+
 from pyramid.security import Allow, Everyone
 
-from fas.models import MembershipStatus, MembershipRole
+from itsdangerous import JSONWebSignatureSerializer, BadSignature, BadData
+
+from fas import log
+from fas.events import LoginSucceeded, LoginFailed, LoginRequested
+from fas.models import MembershipStatus, MembershipRole, AccountStatus
 from fas.utils import Config
 from fas.utils.passwordmanager import PasswordManager
 
 import fas.models.provider as provider
 from fas.models import register
-
-import logging
-
-
-log = logging.getLogger(__name__)
 
 
 def authenticated_is_admin(request):
@@ -107,7 +108,7 @@ def join_group(request, group):
         group,
         request.get_user.id,
         MembershipStatus.APPROVED
-        )
+    )
 
 
 def request_membership(request, group):
@@ -133,9 +134,9 @@ def requested_membership(request, group, person):
     :param person: integer, `fas.models.people.People.id`
     :rtype: boolean, true is membership already requested, false otherwise.
     """
-    rq = provider.get_membership_by_status(
+    rq = provider.get_memberships_by_status(
         MembershipStatus.PENDING, group, person
-        )
+    )
 
     if rq is not None:
         return True
@@ -268,24 +269,53 @@ class Base(object):
         self.msg = ('Access denied.', 'Unauthorized API key.')
 
     def set_msg(self, name, text=''):
+        """
+        Set messages into instantiated object
+
+        :param name: message name
+        :param text: message description
+        :return: Mone
+        """
         self.msg = (name, text)
 
     def get_msg(self):
+        """
+        Get message from instantiated object.
+
+        :return: message previously set
+        :rtype: (str, str)
+        """
         return self.msg
 
 
 class PasswordValidator(Base):
-
     def __init__(self, person, password):
+        """
+        Initialize password validator object.
+
+        :param person: person to check password validation against
+        :param password: given password to check validation against
+        :return: None
+        """
+        super(PasswordValidator, self).__init__()
         self.person = person
         self.password = password
-        self.passwdmanager = PasswordManager()
+        self.pwd_manager = PasswordManager()
 
+    @property
     def is_valid(self):
-        """ Check if password for given login is valid. """
+        """
+        Check if password for given login is valid.
+
+        :return:
+        true is person and given password at init class match
+        with registered one
+        :rtype: bool
+        """
         if self.person:
-            return self.passwdmanager.is_valid_password(
-                self.person.password, self.password)
+            return self.pwd_manager. \
+                is_valid_password(self.person.password, self.password)
+
         return False
 
 
@@ -298,40 +328,73 @@ class QAValidator(Base):
 
 
 class TokenValidator(Base):
-
-    def __init__(self, apikey=None):
-        self.token = apikey
+    def __init__(self, request):
+        """
+        :param request: pyramid request
+        :type request: pyramid.Request.request
+        :return: None
+        """
+        super(TokenValidator, self).__init__()
+        self.request = request
+        self.token = self.request.param_validator.get_apikey()
         self.perm = 0x00
         self.obj = None
         self.msg = ''
 
-    def is_valid(self):
-        """ Check that api's key is valid. """
+    def validate(self):
+        """
+        Check that api's key is valid.
+
+        :return: true if token is valid, false otherwise
+        :rtype: bool
+        """
         self.msg = {'', ''}
-        key = provider.get_account_permissions_by_token(self.token)
+        log.debug('Looking for valid token: %r' % self.token)
+        key = provider.get_account_permissions_by_token(self.token) or \
+              provider.get_trusted_perms_by_token(self.token)
         if key:
             self.obj = key
             self.perm = key.permissions
-            self.people = key.account
+            try:
+                self.people = key.account
+            except AttributeError:
+                log.debug('No people object available for this token')
             return True
         else:
+            log.debug('Invalid token, denying access!')
             self.msg = ('Access denied.', 'Unauthorized API key.')
+
         return False
 
     def set_token(self, token):
-        """ Set token for validation. """
+        """
+        Set token for validation if not provided
+        from class initialization.
+
+        :param token: token to check validation.
+        :type token: str
+        """
         self.token = token
 
     def get_obj(self):
-        """ Return token object model. """
+        """
+        Return token object model.
+        :rtype: `fas.models.configs.AccountPermissions`|`fas.models.configs.TrustedPermissions`
+        """
         return self.obj
 
     def get_perm(self):
-        """ Return token related permissions. """
+        """
+        Return token related permissions.
+        :rtype: `fas.models.AccountPermissionType`
+        """
         return self.perm
 
     def get_owner(self):
-        """ Return validated token\'s owner. """
+        """
+        Return validated token's owner.
+        :rtype: `fas.models.people.People`
+        """
         return self.people
 
 
@@ -341,19 +404,23 @@ class MembershipValidator(Base):
     def __init__(self, person_username, group):
         if type(group) is str or unicode:
             self.group = [group]
-            #self.group.append(group)
+            # self.group.append(group)
         if type(group) is list:
             self.group = group
         self.username = person_username
         super(MembershipValidator, self).__init__()
 
     def validate(self):
-        """ Validate membership."""
+        """
+        Validate membership.
+
+        :return: true if group membership is valid, false otherwise
+        """
         groups = provider.get_group_by_people_membership(self.username)
 
         for group in groups:
             log.debug('checking group membership %s against %s'
-            % (group.name, self.group))
+                      % (group.name, self.group))
             if group.name in self.group:
                 return True
 
@@ -398,17 +465,15 @@ class RoleValidator(MembershipValidator):
 
 
 class ParamsValidator(Base):
-
-    def __init__(self, request, check_apikey=False):
+    def __init__(self, request, check_apikey=True):
+        super(ParamsValidator, self).__init__()
         self.request = request
         self.params = []
         self.apikey = ''
-        # maybe we should let admin configure this limit?
         self.limit = 200
         self.pagenumber = 1
         self.optional_params = []
         self.msg = ()
-
         if check_apikey:
             self.params.append(u'apikey')
 
@@ -429,8 +494,9 @@ class ParamsValidator(Base):
         """
         self.params.append(unicode(params))
 
-    def is_valid(self):
-        """ Check if request's parameters are valid.
+    def validate(self):
+        """
+        Check if request's parameters are valid.
 
         :returns: True if all given parameters are valid. False otherwise.
         """
@@ -440,10 +506,12 @@ class ParamsValidator(Base):
 
         if self.request.params:
             for key, value in self.request.params.iteritems():
+                log.debug('Validating key %r' % key)
                 if key not in self.params:
                     self.set_msg(
                         'Parameter Error.',
-                        'Invalid parameter: %r' % str(key))
+                        'Invalid parameter: %r' % str(key)
+                    )
                     return False
                 else:
                     if not value and (key not in self.optional_params):
@@ -454,15 +522,18 @@ class ParamsValidator(Base):
                                 "Required API key is missing.")
                         else:
                             self.set_msg('Invalid parameters', '')
+                        log.debug('Missing mandatory key: apikey')
                         return False
                     if key == 'apikey':
                         self.apikey = value
+                        log.debug('Found token %r from parameters' % self.apikey)
                     elif key == 'limit':
                         self.limit = value
                     elif key == 'page':
                         self.pagenumber = value
             return True
         else:
+            log.debug('Given parameters are invalid')
             self.request.response.status = '400 bad request'
             self.set_msg('Parameter error.', 'No parameter(s) found.')
         return False
@@ -489,10 +560,74 @@ class ParamsValidator(Base):
         """ Get page index for pagination. """
         return int(self.pagenumber)
 
-    def get_msg(self):
-        """ Get error messages from a validation check.
 
-        :returns: tuple object of error message if is_valid() is False,
-                  None otherwise.
+class SignedDataValidator(Base):
+    def __init__(self, data=None, secret=None):
         """
-        return self.msg
+
+        :param data: Signed data to validate
+        :param secret: The secret used to exchange given data
+        :return: None
+        """
+        super(SignedDataValidator, self).__init__()
+
+        self.data = data
+        self.valid_data = None
+
+        if secret is None:
+            secret = Config.get('project.api.data.secret')
+
+        self.signer = JSONWebSignatureSerializer(secret)
+
+    def validate(self):
+        """
+        Validate signed data
+
+        :return: true if data is a valid signed data, false otherwise
+        :rtype: bool
+        """
+        global result
+
+        # self.signer = JSONWebSignatureSerializer(Config.get('project.api.data.secret'))
+        try:
+            self.valid_data = self.signer.loads(self.data)
+            result = True
+            log.debug('Get a Valid signed data')
+        except BadSignature, e:
+            self.set_msg('Access denied', 'Bad signature')
+            encoded_payload = e.payload
+            result = False
+
+            log.debug('Payload from bad signature: %s' % e.payload)
+
+            if encoded_payload is not None:
+                try:
+                    self.valid_data = self.signer.load_payload(encoded_payload)
+                    result = False
+                except BadData:
+                    self.set_msg('Invalid request', 'Unexpected signed data')
+                    log.debug('Signed data is not valid')
+                    result = False
+
+        return result
+
+    def get_data(self):
+        """
+        Get validated data after being un-serialized
+
+        :return: valid signed data
+        :rtype: dict
+        """
+        return self.valid_data
+
+    @classmethod
+    def sign_data(cls, data):
+        """
+        Sign given data for delivery
+
+        :param data: given data to sign
+        :type data: str
+        :return: A signed serialized data
+        :rtype
+        """
+        return cls().signer.dumps(data)

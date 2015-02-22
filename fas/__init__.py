@@ -6,6 +6,10 @@ from sqlalchemy import engine_from_config
 
 from .release import get_release_info
 
+import logging
+
+log = logging.getLogger(__name__)
+
 from .security import (
     groupfinder,
     authenticated_is_admin,
@@ -17,8 +21,8 @@ from .security import (
     join_group,
     request_membership,
     requested_membership,
-    remove_membership
-    )
+    remove_membership,
+    ParamsValidator, TokenValidator)
 
 from .models.provider import get_authenticated_user
 
@@ -28,10 +32,6 @@ from models import (
     )
 
 from .utils import locale_negotiator
-
-import logging
-
-log = logging.getLogger(__name__)
 
 
 def main(global_config, **settings):
@@ -131,6 +131,19 @@ def main(global_config, **settings):
         'get_pending_ms_requests',
         reify=True
         )
+    config.add_request_method(
+        ParamsValidator,
+        'param_validator',
+        reify=True
+    )
+    config.add_request_method(
+        TokenValidator,
+        'token_validator',
+        reify=True
+    )
+
+    # Test route
+    config.add_route('test', '/test')
 
     # home pages
     config.add_route('home', '/')
@@ -169,6 +182,9 @@ def main(global_config, **settings):
     config.add_route('api_people_get', '/api/people/{key}/{value}')
     config.add_route('api_group_list', '/api/group')
     config.add_route('api_group_get', '/api/group/{key}/{value}')
+    # API private requests
+    config.add_route('api-request-login', '/api/request-login')
+    config.add_route('api-request-perms', '/api/request-perms/{username}')
 
     # Settings pages
     config.add_route('settings', '/settings')

@@ -417,7 +417,7 @@ class People(object):
         if self.request.method == 'POST' and form.validate():
             pv = PasswordValidator(self.person, form.old_password.data)
 
-            if pv.is_valid() \
+            if pv.is_valid \
                     and form.new_password.data == form.password.data:
                 del form.old_password
                 del form.new_password
@@ -447,7 +447,10 @@ class People(object):
                 if form.validate():
                     token = generate_token()
                     register.add_token(
-                        self.id, form.desc.data, token, form.perm.data)
+                        form.desc.data,
+                        token,
+                        form.perm.data,
+                        people_id=self.id)
                     register.save_account_activity(
                                 self.request, self.id,
                                 AccountLogType.REQUESTED_API_KEY)

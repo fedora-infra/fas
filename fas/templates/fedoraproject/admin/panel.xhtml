@@ -5,19 +5,48 @@
 ${SettingsDialog.group(groupform)}
 ${SettingsDialog.grouptype(gtypeform)}
 ${SettingsDialog.license(licenseform)}
+${SettingsDialog.trustedperms(tpermform)}
+${SettingsDialog.revoketrustedperms(trustedpermform)}
 
 ${Page.set_title(_(u'Account settings'), _(u'Manage account settings'))}
 
 <div class="container">
+    %if request.session.peek_flash('tokens'):
+      <div class="alert alert-info alert-dismissible center-block" role="alert" style="width: 600px;">
+        <button type="button" class="close" data-dismiss="alert">
+          <!--<span aria-hidden="true">&times;</span>-->
+          <span class="sr-only">Close</span>
+        </button>
+        <p class="text-center">
+            <strong>${_(u'Trusted API key:')}</strong> ${request.session.pop_flash('tokens')[0]}
+            <br/>
+            <strong>${_(u'Trusted secret:')}</strong> ${request.session.pop_flash('secret')[0]}
+        </p>
+        <br/>
+        <p>
+          ${_(u'Save this token with care and keep in mind this '\
+            'token provide you with access whole Fedora account infos.'\
+            'Do not share it or post it to the world.')}
+        </p>
+        <br/>
+        <button type="button" class="btn btn-info text-right" role="alert" data-dismiss="alert">
+          ${_(u'Got it!')}
+        </button>
+      </div>
+    %endif
+
   <div class="row">
     <div class="col-md-9">
-      <h2><a href="${request.route_url('add-group')}">${_(u'Add group')}</a></h2>
-      <h2><a href="#removeGroup" data-toggle="modal" data-trigger="#removeGroup">${_(u'Remove group')}</a></h2>
-      <h2><a href="${request.route_url('add-grouptype')}">${_(u'Add group type')}</a></h2>
-      <h2><a href="#removeGrouptype" data-toggle="modal" data-trigger="#removeGrouptype">${_(u'Remove group type')}</a></h2>
-      <h2><a href="${request.route_url('add-license')}">${_(u'Add license agreement')}</a></h2>
-      <h2><a href="#removeLicense" data-toggle="modal" data-trigger="#removeLicense">${_(u'Remove license agreement')}</a></h2>
-      <h2><a href="${request.route_url('add-certificate')}">${_(u'Add certificate authority or server')}</a></h2>
+        <h2><a href="${request.route_url('add-group')}">${_(u'Add group')}</a></h2>
+        <h2><a href="#removeGroup" data-toggle="modal" data-trigger="#removeGroup">${_(u'Remove group')}</a></h2>
+        <h2><a href="${request.route_url('add-grouptype')}">${_(u'Add group type')}</a></h2>
+        <h2><a href="#removeGrouptype" data-toggle="modal" data-trigger="#removeGrouptype">${_(u'Remove group type')}</a></h2>
+        <h2><a href="${request.route_url('add-license')}">${_(u'Add license agreement')}</a></h2>
+        <h2><a href="#removeLicense" data-toggle="modal" data-trigger="#removeLicense">${_(u'Remove license agreement')}</a></h2>
+        <h2><a href="${request.route_url('add-certificate')}">${_(u'Add certificate authority or server')}</a></h2>
+        <h2><a href="#addTrustedPerm" data-toggle="modal" data-trigger="#addTrustedPerm">${_(u'Add Trusted app')}</a> </h2>
+        <h2><a href="#revokeTrustedPerm" data-toggle="modal" data-trigger="#revokeTrustedPerm">${_(u'Revoke a trusted App')}</a></h2>
+
 <!--
       <h2><a href="#removeCertificate" data-toggle="modal" data-trigger="#removeCertificate">${_(u'Remove a certificate')}</a></h2>
 -->

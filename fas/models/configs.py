@@ -59,3 +59,16 @@ class AccountPermissions(Base):
             self.permissions
             ).name.lower().replace('_', ' ')
 
+
+class TrustedPermissions(Base):
+    __tablename__ = 'trusted_perms'
+    id = Column(Integer, primary_key=True)
+    application = Column(UnicodeText(), nullable=False)
+    token = Column(UnicodeText(), nullable=False)
+    secret = Column(UnicodeText(), nullable=False)
+    permissions = Column(UnicodeText(), nullable=False)
+    granted_timestamp = Column(
+        DateTime, nullable=False,
+        default=func.current_timestamp()
+    )
+    last_used = Column(DateTime, nullable=True)

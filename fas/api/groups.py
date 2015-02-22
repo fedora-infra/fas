@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from pyramid.view import view_config
+
 from . import (
     BadRequest,
     NotFound,
     MetaData
     )
-
-from pyramid.view import view_config
-
 import fas.models.provider as provider
-
 from fas.events import ApiRequest
-
-from fas.security import TokenValidator
 from fas.security import ParamsValidator
 
 
@@ -24,8 +20,8 @@ class GroupAPI(object):
         self.params = ParamsValidator(self.request, True)
         self.data = MetaData('Groups')
         self.perm = None
-        self.notify(ApiRequest(self.request, self.data, self.params,self.perm))
-        self.apikey = TokenValidator(self.params.get_apikey())
+        self.notify(ApiRequest(self.request, self.data, self.perm))
+        self.apikey = self.request.token_validator
 
     def __get_group__(self, key, value):
         if key not in ['id', 'name']:
@@ -46,7 +42,7 @@ class GroupAPI(object):
         self.params.add_optional('limit')
         self.params.add_optional('page')
 
-        if self.apikey.is_valid():
+        if self.apikey.validate():
             limit = self.params.get_limit()
             page = self.params.get_pagenumber()
 
@@ -66,7 +62,7 @@ class GroupAPI(object):
     def api_group_get(self):
         group = None
 
-        if self.apikey.is_valid():
+        if self.apikey.validate():
             key = self.request.matchdict.get('key')
             value = self.request.matchdict.get('value')
 

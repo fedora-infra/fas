@@ -2,6 +2,7 @@
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
+from fas.forms.account import AccountPermissionForm, TrustedPermissionForm
 
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
@@ -18,6 +19,7 @@ from fas.forms.certificates import CreateClientCertificateForm
 from fas.events import GroupRemovalRequested
 from fas.events import GroupTypeRemovalRequested
 from fas.events import LicenseRemovalRequested
+from fas.security import generate_token
 
 from fas.views import redirect_to
 from fas.utils.captcha import Captcha
@@ -33,55 +35,76 @@ log = logging.getLogger(__name__)
 
 
 class Admin(object):
-
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
         self.id = -1
 
     @view_config(route_name='settings', permission='admin',
-        renderer='/admin/panel.xhtml')
+                 renderer='/admin/panel.xhtml')
     def index(self):
         """ Admin panel page."""
 
         group_form = GroupListForm(self.request.POST)
         grouptype_form = GroupTypeListForm(self.request.POST)
         license_form = LicenseListForm(self.request.POST)
+        token_form = AccountPermissionForm(self.request.POST)
+        trustedperm_form = TrustedPermissionForm(self.request.POST)
 
         group_form.id.choices = [
             (group.id, group.name) for group in provider.get_groups()]
 
         grouptype_form.id.choices = [
-            (gt.id, gt.name) for gt in provider.get_group_types()]
+            (gt.id, gt.name) for gt in provider.get_group_types()
+        ]
 
         license_form.id.choices = [
-            (la.id, la.name) for la in provider.get_licenses()]
+            (la.id, la.name) for la in provider.get_licenses()
+        ]
+
+        trustedperm_form.id.choices = [
+            (tp.id, tp.application) for tp in provider.get_trusted_perms()
+        ]
 
         if self.request.method == 'POST':
             key = None
-            if ('form.remove.group' in self.request.params)\
-            and group_form.validate():
+            if ('form.remove.group' in self.request.params) \
+                    and group_form.validate():
                 key = group_form.id.data
                 self.notify(GroupRemovalRequested(self.request, key))
                 register.remove_group(key)
 
-            if ('form.remove.grouptype' in self.request.params)\
-            and grouptype_form.validate():
+            if ('form.remove.grouptype' in self.request.params) \
+                    and grouptype_form.validate():
                 key = grouptype_form.id.data
                 self.notify(GroupTypeRemovalRequested(self.request, key))
                 register.remove_grouptype(key)
 
-            if ('form.remove.license' in self.request.params)\
-            and license_form.validate():
+            if ('form.remove.license' in self.request.params) \
+                    and license_form.validate():
                 key = license_form.id.data
                 self.notify(LicenseRemovalRequested(self.request, key))
                 register.remove_license(key)
+            if ('form.generate.key' in self.request.params) \
+                    and token_form.validate():
+                token = generate_token()
+                secret = generate_token(128)
+                register.add_token(
+                    description=token_form.desc.data,
+                    permission=token_form.perm.data,
+                    token=token,
+                    trusted=True,
+                    secret=secret)
+                self.request.session.flash(token, 'tokens')
+                self.request.session.flash(secret, 'secret')
 
-            self.notify()
+            # self.notify()
 
         return dict(groupform=group_form,
-            gtypeform=grouptype_form,
-            licenseform=license_form)
+                    gtypeform=grouptype_form,
+                    licenseform=license_form,
+                    trustedpermform=trustedperm_form,
+                    tpermform=token_form)
 
     @view_config(route_name='captcha-image', renderer='jpeg')
     def captcha_image(self):
@@ -111,7 +134,7 @@ class Admin(object):
 
         form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
@@ -152,7 +175,7 @@ class Admin(object):
         """ Add license page."""
         form = EditLicenseForm(self.request.POST)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.license' in self.request.params):
             if form.validate():
                 la = register.add_license(form)
@@ -175,7 +198,7 @@ class Admin(object):
 
         form = EditLicenseForm(self.request.POST, la)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.license' in self.request.params):
             if form.validate():
                 form.populate_obj(la)
@@ -215,8 +238,8 @@ class Admin(object):
         userform.fullname.data = person.fullname
         userform.email.data = person.email
 
-        if self.request.method == 'POST'\
-        and ('form.sign.license' in self.request.params):
+        if self.request.method == 'POST' \
+                and ('form.sign.license' in self.request.params):
             if userform.validate() and form.validate():
                 userform.populate_obj(person)
 
@@ -234,7 +257,7 @@ class Admin(object):
         """ Add/Edit group type's page."""
         form = EditGroupTypeForm(self.request.POST)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.grouptype' in self.request.params):
             if form.validate():
                 gt = register.add_grouptype(form)
@@ -257,7 +280,7 @@ class Admin(object):
 
         form = EditLicenseForm(self.request.POST, gt)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.grouptype' in self.request.params):
             if form.validate():
                 form.populate_obj(gt)
@@ -277,7 +300,7 @@ class Admin(object):
         """ Add new certificates form page. """
         form = EditCertificateForm(self.request.POST)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.certificate' in self.request.params):
             if form.validate():
                 register.add_certificate(form)
@@ -292,13 +315,13 @@ class Admin(object):
         person = self.request.get_user
         form = CreateClientCertificateForm(self.request.POST)
 
-        if self.request.method == 'POST'\
-        and ('form.create.client_cert' in self.request.params):
+        if self.request.method == 'POST' \
+                and ('form.create.client_cert' in self.request.params):
             if not form.validate():
                 # Should redirect to previous url
                 log.error('Invalid form value from requester :'
-                'cacert: %s, group_id: %s, group_name: %s' %
-                (form.cacert.data, form.group_id.data, form.group_name.data))
+                          'cacert: %s, group_id: %s, group_name: %s' %
+                          (form.cacert.data, form.group_id.data, form.group_name.data))
                 raise redirect_to('/')
             else:
                 # Setup headers
@@ -308,8 +331,8 @@ class Admin(object):
                 headers['Content-Type'] = 'text'
                 headers['Accept-Ranges'] = 'bytes'
                 headers['Content-Disposition'] = \
-                'attachment; filename=%s-%s.cert'\
-                % (Config.get('project.name'), str(form.group_name.data))
+                    'attachment; filename=%s-%s.cert' \
+                    % (Config.get('project.name'), str(form.group_name.data))
 
                 client_cert = provider.get_client_certificate(
                     form.cacert.data, person)

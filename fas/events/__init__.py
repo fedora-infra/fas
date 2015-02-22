@@ -3,10 +3,9 @@
 
 class NewUserRegistered(object):
     """ Event sent when new user signed up. """
-    def __init__(self):
+    def __init__(self, request, person):
         self.request = request
         self.person = person
-        validation_url = url
 
 
 class GroupBindingRequested(object):
@@ -75,10 +74,10 @@ class LicenseRemovalRequested(object):
 
 class ApiRequest(object):
     """ API requests event."""
-    def __init__(self, request, data, params, perm):
+    def __init__(self, request, data, perm, is_private=False):
+        self.is_private = is_private
         self.request = request
         self.data = data
-        self.params = params
         self.perm = perm
 
 

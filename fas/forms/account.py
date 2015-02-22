@@ -4,8 +4,8 @@ from wtforms import (
     Form,
     StringField,
     RadioField,
-    validators
-    )
+    validators,
+    SelectField)
 
 from fas.models import AccountPermissionType
 
@@ -21,3 +21,12 @@ class AccountPermissionForm(Form):
         coerce=int,
         choices=[(perm.value, perm.name) for perm in AccountPermissionType]
         )
+
+
+class TrustedPermissionForm(Form):
+    """Form to select valid trusted permissions ."""
+    id = SelectField(
+        _(u'Select a trusted permissions app'),
+        [validators.Required()],
+        coerce=int,
+        choices=[(-1, _(u'-- None --'))])
