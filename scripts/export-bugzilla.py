@@ -46,7 +46,7 @@ if __name__ == '__main__':
     bzGroup = args[1]
 
     server = bugzilla.Bugzilla(url=BZSERVER, user=BZUSER, password=BZPASS,
-            cookiefile=None)
+            cookiefile=None, tokenfile=None)
     bugzilla_queue = BugzillaQueue.query.join('group').filter_by(
             name=ourGroup)
 
