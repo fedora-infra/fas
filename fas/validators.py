@@ -183,7 +183,7 @@ class MaybeFloat(validators.FancyValidator):
         if value is None:
             return None
         else:
-            return float(value)
+            return value.strip()
 
     def validate_python(self, value, state):
         if value is None:
