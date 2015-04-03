@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2014-2015 Ralph Bean.
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -14,6 +18,7 @@
 # 02110-1301, USA.
 #
 # Authors:  Ralph Bean <rbean@redhat.com>
+#           Xavier Lamien <laxathom@fedoraproject.org>
 
 import base64
 import cryptography.fernet
