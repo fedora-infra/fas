@@ -24,6 +24,8 @@ from pyramid.httpexceptions import HTTPFound
 def redirect_to(url):
     """ Reroute to given url.
 
-    :arg url: String, url to be redirected to.
+    :param url: url to be redirected to.
+    :type url: str
+    :rtype: HTTPFound
     """
     return HTTPFound(location=url)

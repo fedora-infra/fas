@@ -18,15 +18,14 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
+import logging
+
 from pyramid.events import subscriber
 
 from fas.events import GroupEdited
-
-from fas.utils import Config
+from fas.utils import Config, get_data_changes
 from fas.utils import _
 from fas.notifications.email import Email
-
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -43,20 +42,7 @@ def onGroupEdited(event):
     if person.id == group.owner_id and group.mailing_list is None:
         send_email = False
 
-    diff = set(
-        k for k in set(
-            group.__dict__.keys()
-            ).intersection(
-                set(form.data.keys()))
-                if group.__dict__[k] != form.data[k]
-                )
-
-    changes = ''
-    for change in diff:
-        field = getattr(form, change)
-        changes += u"""    %s:    %s\n""" % (
-            field.label.__dict__['text'], form.data[change]
-            )
+    changes = get_data_changes(form, group)
 
     email = Email('group_update')
     recipient = group.owner.email

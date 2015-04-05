@@ -50,7 +50,7 @@ from fas.models import (
     MembershipStatus
     )
 
-from fas.events import PasswordChangeRequested
+from fas.events import PasswordChangeRequested, PeopleInfosUpdated
 
 from fas.notifications.email import Email
 
@@ -266,7 +266,7 @@ class People(object):
 
     @view_config(route_name='people-edit', permission='authenticated',
                  renderer='/people/edit-infos.xhtml')
-    def edit_infos(self):
+    def edit(self):
         """ Profile's edit page."""
         try:
             self.id = self.request.matchdict['id']
@@ -316,6 +316,8 @@ class People(object):
                 and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 form.populate_obj(self.person)
+                self.notify(PeopleInfosUpdated(self.request, form, person))
+
                 return redirect_to('/people/profile/%s' % self.id)
 
         return dict(form=form, id=self.id)

@@ -62,6 +62,14 @@ class PasswordChangeRequested(object):
         self.person = person
 
 
+class PeopleInfosUpdated(object):
+    """ People infos update event. """
+    def __init__(self, request, form, person):
+        self.request = request
+        self.form = form
+        self.person = person
+
+
 class GroupEdited(object):
 
     def __init__(self, request, person, group, form):

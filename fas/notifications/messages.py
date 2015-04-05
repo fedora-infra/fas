@@ -38,8 +38,7 @@ The %(orga)s
         """ Account messages template. """
         return {
             'registration': {
-                'subject': u"""\
-Confirm your %(organisation)s Account!""",
+                'subject': u"""Confirm your %(organisation)s Account!""",
                 'body': u"""\
 Welcome to the %(organisation)s!
 
@@ -55,7 +54,7 @@ To complete your account creation, please visit this link:
                     'url': x['url'],
                     'sig': self.signature()
                     }
-        },
+            },
             'password-reset': {
                 'subject': u"""Password reset request on your account""",
                 'body': u"""\
@@ -68,7 +67,7 @@ To complete this procedure, please visit this link:
 %(validation_url)s
 
 If you did not request this password change, simply disregard this email and
-please contact a FAS administrator at: %(admin_email)s.
+please contact a FAS administrator %(admin_email)s.
 This email is sent only to the address on file for your account and will become
 invalid after 24 hours.
 
@@ -82,8 +81,55 @@ invalid after 24 hours.
                     'validation_url': x['reset_url'],
                     'admin_email': self.config.get('project.admin.email'),
                     'sig': self.signature()
-                    }
-        },
+                }
+            },
+            'password-update': {
+                'subject': u"""Account password change confirmation""",
+                'body': u"""\
+Hello %(fullname)s,
+
+This email confirms that you have successfully changed your password
+for account %(username)s.
+
+If you did not initiate this password change, please contact a FAS
+administrator immediately %(admin_email)s.
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'fullname': x['people'].fullname,
+                    'username': x['people'].username,
+                    'admin_email': self.config.get('project.admin.email'),
+                    'sig': self.signature()
+                }
+            },
+            'data-update': {
+                'subject': u"""Account information update for %(username)s""",
+                'body': u"""\
+Hello %(fullname)s,
+
+Someone (hopefully you) has changed your FAS account information.
+if these changes are not expected, please contact a FAS administrator
+%(admin)s and let them know.
+
+Updated information:
+
+%(infos)s
+
+
+To review the changes, please log in at: %(url)s
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'fullname': x['people'].fullname,
+                    'username': x['people'].username,
+                    'admin': x['admin'],
+                    'infos': x['infos'],
+                    'url': x['url'],
+                    'sig': self.signature()
+                }
+            }
         }
 
     def group_update(self):
@@ -94,15 +140,15 @@ invalid after 24 hours.
                 'body': u"""\
 Hello %(fullname)s,
 
-%(person)s has just updated informations about group %(groupname)s.
+%(person)s has just updated information about group %(groupname)s.
 If these changes are not expected please, contact %(admin)s and let them know.
 
-Updated informations:
+Updated information:
 
 %(infos)s
 
 
-If the above informations is incorrect, please log in and fix it at:
+If the above information is incorrect, please log in and fix it at:
     %(url)s
 
 %(sig)s

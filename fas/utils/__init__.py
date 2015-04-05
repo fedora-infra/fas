@@ -93,7 +93,7 @@ def locale_negotiator(request):
 
 
 def format_datetime(locale, tdatetime):
-        """ format given `datetime` in a translated human-readable format.
+    """ format given `datetime` in a translated human-readable format.
 
         :param locale: locale to format from
         :type locale: str
@@ -101,16 +101,16 @@ def format_datetime(locale, tdatetime):
         :type tdatetime: datetime.datetime
         :rtype: str | unicode
         """
-        current_date = datetime.datetime.utcnow().date()
-        date = tdatetime.date()
-        time = tdatetime.time()
+    current_date = datetime.datetime.utcnow().date()
+    date = tdatetime.date()
+    time = tdatetime.time()
 
-        if date == current_date:
-            tdatetime = format_time(time, locale=locale)
-        else:
-            tdatetime = format_date(date, locale=locale)
+    if date == current_date:
+        tdatetime = format_time(time, locale=locale)
+    else:
+        tdatetime = format_date(date, locale=locale)
 
-        return tdatetime
+    return tdatetime
 
 
 # Originally from http://stackoverflow.com/a/23705687/1106202
@@ -142,3 +142,32 @@ def utc_iso_format(utc):
     :rtype: datetime.datetime.isoformat
     """
     return utc.replace(tzinfo=UTC()).isoformat()
+
+
+def get_data_changes(form, data, keep_value=True):
+    """
+    Get data changes from given data and stored one.
+
+    :param form: updated data to diff from
+    :param data: current data to diff from
+    :return: changes data
+    :rtype: basestring
+    """
+    diff = set(
+        k for k in set(
+            data.__dict__.keys()
+        ).intersection(
+            set(form.data.keys()))
+        if data.__dict__[k] != form.data[k]
+    )
+    changes = ''
+    for change in diff:
+        field = getattr(form, change)
+        if keep_value:
+            changes += u"""    %s:    %s\n""" % (
+                field.label.__dict__['text'], form.data[change]
+            )
+        else:
+            changes += field.label.__dict__['text']
+
+    return changes

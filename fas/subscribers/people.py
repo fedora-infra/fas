@@ -20,11 +20,11 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.events import subscriber
 
-from fas.events import PasswordChangeRequested
+from fas.events import PasswordChangeRequested, PeopleInfosUpdated
 from fas.events import NewUserRegistered
 
 from fas.notifications.email import Email
-from fas.utils import Config
+from fas.utils import Config, get_data_changes
 from fas.views import redirect_to
 
 import datetime
@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 
 
 @subscriber(PasswordChangeRequested)
-def onPasswordChangeRequested(event):
+def on_password_change_requested(event):
     """ Check that user is allowed to get through. """
     person = event.person
     curr_dtime = datetime.datetime.utcnow()
@@ -42,18 +42,18 @@ def onPasswordChangeRequested(event):
     delta = (curr_dtime - last_dtime).seconds
 
     log.debug('Checking current time %s against last login\'s time %s' %
-        (curr_dtime, last_dtime))
+              (curr_dtime, last_dtime))
 
     if delta >= int(Config.get('user.security_change.timeout')):
         log.debug('Too many time passed since last login, ask user to '
-        're-enter its password')
+                  're-enter its password')
         raise redirect_to('/login?redirect=%s' % event.request.url)
     else:
         log.debug('last login time still valid')
 
 
 @subscriber(NewUserRegistered)
-def onNewUserRegistered(event):
+def on_new_user_registered(event):
     """ New user signup listener. """
     request = event.request
     person = event.person
@@ -67,7 +67,24 @@ def onNewUserRegistered(event):
             'people-confirm-account',
             username=person.username,
             token=person.password_token)
-                        )
+    )
 
     email.send(person.email)
 
+
+@subscriber(PeopleInfosUpdated)
+def on_people_updated(event):
+    """ People infos update listener. """
+    person = event.person
+    changes = get_data_changes(event.form, person, keep_value=False)
+
+    email = Email('account_update')
+
+    email.set_msg(
+        topic='data-update',
+        admin=Config.get('project.admin.email'),
+        people=person,
+        infos=changes,
+        url=event.request.route_url('people-profile', id=person.id)
+    )
+    email.send(person.email)
