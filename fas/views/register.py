@@ -78,7 +78,7 @@ class Register(object):
                 if la.enabled_at_signup:
                     la = la
                     la_form = SignLicenseForm(self.request.POST)
-                    # NB: should we aloow multiple licenses at signup?
+                    # NB: should we allow multiple licenses at signup?
                     break
 
         if self.request.method == 'POST'\
@@ -109,9 +109,10 @@ class Register(object):
                     register.add_people(self.person)
                     register.flush()
 
-                    la_form.license.data = la.id
-                    la_form.people.data = self.person.id
-                    register.add_signed_license(la_form)
+                    if la_form:
+                        la_form.license.data = la.id
+                        la_form.people.data = self.person.id
+                        register.add_signed_license(la_form)
 
                     self.request.registry.notify(
                         NewUserRegistered(self.request, self.person)
