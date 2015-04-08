@@ -21,7 +21,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 from flufl.enum import IntEnum
 from sqlalchemy.ext.declarative import declarative_base
 
-import sqlalchemy as sa
+# import sqlalchemy as sa
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,

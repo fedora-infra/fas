@@ -31,7 +31,7 @@ from pyramid.i18n import TranslationStringFactory
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from fas.models import (
     DBSession,
@@ -41,7 +41,7 @@ from fas.models import (
     MembershipRole,
     MembershipStatus,
     AccountPermissionType as PermissionType
-    )
+)
 
 from fas.models.people import People
 
@@ -49,11 +49,11 @@ from fas.models.group import (
     GroupType,
     Groups,
     GroupMembership
-    )
+)
 
 from fas.models.configs import AccountPermissions
 
-from fas.utils.passwordmanager import PasswordManager
+from fas.lib.passwordmanager import PasswordManager
 from fas.security import generate_token
 
 import argparse
@@ -62,34 +62,34 @@ _ = TranslationStringFactory('fas')
 __admin_pw__ = u'admin'
 __domain__ = u'fedoraproject.org'
 
-#def fill_account_status():
-    #""" Add standard status into system."""
-    #status = AccountStatus(id=1, status=_(u'Active'))
-    #DBSession.add(status)
-    #status = AccountStatus(id=3, status=_(u'Inactive'))
-    #DBSession.add(status)
-    #status = AccountStatus(id=5, status=_(u'Blocked'))
-    #DBSession.add(status)
-    #status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
-    #DBSession.add(status)
-    #status = AccountStatus(id=8, status=_(u'Disabled'))
-    #DBSession.add(status)
-    #status = AccountStatus(id=10, status=_(u'OnVacation'))
-    #DBSession.add(status)
+# def fill_account_status():
+# """ Add standard status into system."""
+# status = AccountStatus(id=1, status=_(u'Active'))
+# DBSession.add(status)
+# status = AccountStatus(id=3, status=_(u'Inactive'))
+# DBSession.add(status)
+# status = AccountStatus(id=5, status=_(u'Blocked'))
+#     DBSession.add(status)
+#     status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
+#     DBSession.add(status)
+#     status = AccountStatus(id=8, status=_(u'Disabled'))
+#     DBSession.add(status)
+#     status = AccountStatus(id=10, status=_(u'OnVacation'))
+#     DBSession.add(status)
 
 
-#def fill_role_levels():
-    #""" Add standard role level into system."""
-    #role = RoleLevel(id=0, name=_(u'Unknown'))
-    #DBSession.add(role)
-    #role = RoleLevel(id=1, name=_(u'User'))
-    #DBSession.add(role)
-    #role = RoleLevel(id=2, name=_(u'Editor'))
-    #DBSession.add(role)
-    #role = RoleLevel(id=3, name=_(u'Sponsor'))
-    #DBSession.add(role)
-    #role = RoleLevel(id=5, name=_(u'Administrator'))
-    #DBSession.add(role)
+# def fill_role_levels():
+#     """ Add standard role level into system."""
+#     role = RoleLevel(id=0, name=_(u'Unknown'))
+#     DBSession.add(role)
+#     role = RoleLevel(id=1, name=_(u'User'))
+#     DBSession.add(role)
+#     role = RoleLevel(id=2, name=_(u'Editor'))
+#     DBSession.add(role)
+#     role = RoleLevel(id=3, name=_(u'Sponsor'))
+#     DBSession.add(role)
+#     role = RoleLevel(id=5, name=_(u'Administrator'))
+#     DBSession.add(role)
 
 
 def add_default_group_type():
@@ -102,10 +102,10 @@ def add_default_group_type():
 
 
 def add_user(id, login, passwd, fullname,
-    email=None, postal_address=None, joined=None,
-    introduction=None, avatar=None, avatar_id=None,
-    bio=None, privacy=False, country_code=None,
-    latitude=0.0, longitude=0.0, status=None):
+             email=None, postal_address=None, joined=None,
+             introduction=None, avatar=None, avatar_id=None,
+             bio=None, privacy=False, country_code=None,
+             latitude=0.0, longitude=0.0, status=None):
     """ Add a user into system. """
     user = People()
     user.id = id
@@ -144,8 +144,8 @@ def add_group(id, name, owner_id, type):
 
 
 def add_membership(
-    group_id, people_id, sponsor=None, joined=None,
-    role=MembershipRole.USER, status=MembershipStatus.UNAPPROVED):
+        group_id, people_id, sponsor=None, joined=None,
+        role=MembershipRole.USER, status=MembershipStatus.UNAPPROVED):
     """ Add a registered user into a registered group. """
     ms = GroupMembership()
     ms.group_id = group_id
@@ -179,7 +179,7 @@ def create_default_admin(passwd):
         passwd,
         u'FAS administrator',
         status=AccountStatus.ACTIVE
-        )
+    )
 
     return admin
 
@@ -188,12 +188,12 @@ def create_default_group(owner):
     """ Create a default group into database. """
     add_default_group_type()
 
-    group_admin = add_group(
+    add_group(
         id=2000,
         name=u'fas-admin',
         owner_id=owner.id,
         type=1
-        )
+    )
 
     add_membership(
         group_id=2000,
@@ -201,15 +201,14 @@ def create_default_group(owner):
         status=MembershipStatus.APPROVED,
         people_id=owner.id,
         sponsor=owner.id
-        )
-
-    return group_admin
+    )
 
 
 def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
     """ Create a fake user into fas DB. """
     from faker import Factory
-    from fas.utils.avatar import gen_libravatar
+    from fas.lib.avatar import gen_libravatar
+
     fake = Factory.create()
 
     pv = PasswordManager()
@@ -279,44 +278,39 @@ def main(argv=sys.argv):
         description=u'FAS administrative command-line')
 
     parser.add_argument('-c', '--config',
-        dest='config_file',
-        default='/etc/fas/production.ini',
-        metavar='CONFIG_FILE',
-        help=_('Specify config file (default "/etc/fas/production.ini")')
-        )
+                        dest='config_file',
+                        default='/etc/fas/production.ini',
+                        metavar='CONFIG_FILE',
+                        help=_(
+                            'Specify config file (default "/etc/fas/production.ini")'))
     parser.add_argument('--initdb',
-        dest='initdb',
-        action='store_true',
-        default=False,
-        help=_(u'Initialize fas database')
-        )
+                        dest='initdb',
+                        action='store_true',
+                        default=False,
+                        help=_(u'Initialize fas database'))
     parser.add_argument('--rebuilddb',
-        dest='rebuilddb',
-        action='store_true',
-        default=False,
-        help=_(u'Rebuild fas database from scratch.')
-        )
+                        dest='rebuilddb',
+                        action='store_true',
+                        default=False,
+                        help=_(u'Rebuild fas database from scratch.'))
     parser.add_argument('--default-value',
-        dest='add_default_value',
-        default=False,
-        action='store_true',
-        help=_(u'Inject default value into database.')
-        )
+                        dest='add_default_value',
+                        default=False,
+                        action='store_true',
+                        help=_(u'Inject default value into database.'))
 
     parser.add_argument('--generate-fake-data',
-        dest='gen_fake_data',
-        action='store_true',
-        default=False,
-        help=_(u'Generate fake data (people & groups) into database.')
-    )
+                        dest='gen_fake_data',
+                        action='store_true',
+                        default=False,
+                        help=_(u'Generate fake data (people & groups) into database.'))
     parser.add_argument('-n', '--people-nb',
-        dest='people_nb',
-        type=int,
-        default=[13811],
-        nargs=1,
-        help=_(u'Define numbers of fake people to generate '
-        'and inject into database.')
-        )
+                        dest='people_nb',
+                        type=int,
+                        default=[13811],
+                        nargs=1,
+                        help=_(u'Define numbers of fake people to generate '
+                               'and inject into database.'))
 
     opts = parser.parse_args()
     config_uri = opts.config_file
@@ -343,10 +337,9 @@ def main(argv=sys.argv):
 
         # Default values for Dev (could be used for a quick test case as well)
         if opts.add_default_value:
-
             DBSession.query(
                 People
-                ).filter(People.username == 'admin').delete()
+            ).filter(People.username == 'admin').delete()
 
             admin = create_default_admin(pv.generate_password(__admin_pw__))
 
@@ -356,7 +349,7 @@ def main(argv=sys.argv):
                 pv.generate_password(u'jbezorg'),
                 u'Jean-Baptiste Emanuel Zorg',
                 status=AccountStatus.ACTIVE
-                )
+            )
 
             create_default_group(owner=admin)
 
@@ -398,9 +391,9 @@ def main(argv=sys.argv):
             else:
                 admin = DBSession.query(
                     People
-                    ).filter(
-                        People.username == 'admin'
-                        ).first()
+                ).filter(
+                    People.username == 'admin'
+                ).first()
 
             DBSession.add(
                 Groups(
@@ -409,7 +402,7 @@ def main(argv=sys.argv):
                     status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
-                    )
+            )
             DBSession.add(
                 Groups(
                     id=301,
@@ -417,7 +410,7 @@ def main(argv=sys.argv):
                     status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
-                    )
+            )
             DBSession.add(
                 Groups(
                     id=302,
@@ -425,7 +418,7 @@ def main(argv=sys.argv):
                     status=GroupStatus.ACTIVE,
                     group_type=2,
                     owner_id=admin.id)
-                    )
+            )
             DBSession.add(
                 Groups(
                     id=303,
@@ -433,7 +426,7 @@ def main(argv=sys.argv):
                     status=GroupStatus.ACTIVE,
                     group_type=1,
                     owner_id=admin.id)
-                    )
+            )
             DBSession.add(
                 Groups(
                     id=304,
@@ -441,7 +434,7 @@ def main(argv=sys.argv):
                     status=GroupStatus.ACTIVE,
                     group_type=2,
                     owner_id=admin.id)
-                    )
+            )
 
             groups = [300, 301, 302, 303, 304]
 
@@ -449,7 +442,7 @@ def main(argv=sys.argv):
                 DBSession,
                 upto=int(opts.people_nb[0]),
                 group_list=groups
-                )
+            )
 
     if opts.add_default_value:
         sys.stdout.write(
@@ -458,8 +451,9 @@ def main(argv=sys.argv):
             "Default access:\n"
             "login: admin\tpassword: %s\n"
             "login: jbezorg\tpassword: jbezorg\n" % __admin_pw__
-            )
+        )
         sys.stdout.flush()
+
 
 if __name__ == '__main__':
     main()

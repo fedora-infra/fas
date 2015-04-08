@@ -45,7 +45,7 @@ from sqlalchemy.orm import (
 
 from fas.models import AccountPermissionType as perm
 
-from fas.utils import format_datetime, utc_iso_format
+from fas.util import format_datetime, utc_iso_format
 
 import datetime
 

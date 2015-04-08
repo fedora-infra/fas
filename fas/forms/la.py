@@ -30,7 +30,7 @@ from wtforms import (
     validators
     )
 
-from fas.utils import _
+from fas.util import _
 
 
 class EditLicenseForm(Form):

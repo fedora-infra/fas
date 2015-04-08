@@ -24,8 +24,8 @@ from fas.events import LoginFailed
 from fas.events import LoginRequested
 from fas.events import LoginSucceeded
 
-from fas.utils import _
-from fas.utils import Config
+from fas.util import _
+from fas.util import Config
 
 from fas.models import AccountStatus
 from fas.models import AccountLogType

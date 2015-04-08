@@ -27,7 +27,7 @@ from wtforms import (
 
 from fas.models import AccountPermissionType
 
-from fas.utils import _
+from fas.util import _
 
 
 class AccountPermissionForm(Form):

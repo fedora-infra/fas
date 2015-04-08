@@ -26,9 +26,9 @@ from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 from fas.models.certificates import Certificates, ClientsCertificates
 
-from fas.utils import _
-from fas.utils.passwordmanager import PasswordManager
-from fas.utils.geoip import get_record_from
+from fas.util import _
+from fas.lib.passwordmanager import PasswordManager
+from fas.lib.geoip import get_record_from
 
 from ua_parser import user_agent_parser
 

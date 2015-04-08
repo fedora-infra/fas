@@ -51,7 +51,7 @@ from models import (
     Base,
     )
 
-from .utils import locale_negotiator
+from .util import locale_negotiator
 
 
 def main(global_config, **settings):

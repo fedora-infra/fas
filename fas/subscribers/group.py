@@ -23,8 +23,8 @@ import logging
 from pyramid.events import subscriber
 
 from fas.events import GroupEdited
-from fas.utils import Config, get_data_changes
-from fas.utils import _
+from fas.util import Config, get_data_changes
+from fas.util import _
 from fas.notifications.email import Email
 
 log = logging.getLogger(__name__)

@@ -40,8 +40,8 @@ from fas.forms.account import AccountPermissionForm
 
 from fas.security import PasswordValidator
 from fas.views import redirect_to
-from fas.utils import compute_list_pages_from
-from fas.utils.avatar import gen_libravatar
+from fas.util import compute_list_pages_from
+from fas.lib.avatar import gen_libravatar
 
 from fas.models import (
     AccountPermissionType as permission,
@@ -59,7 +59,7 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 
 import GeoIP
 import logging
-from fas.utils import _, Config
+from fas.util import _, Config
 
 log = logging.getLogger(__name__)
 

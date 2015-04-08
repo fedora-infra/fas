@@ -23,7 +23,7 @@ from pyramid.events import (
     NewRequest
 )
 
-from fas.utils import _, Config
+from fas.util import _, Config
 
 # kept around for testing against checking below.
 from pyramid.session import check_csrf_token

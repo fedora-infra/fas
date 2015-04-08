@@ -24,7 +24,7 @@ from fas.events import PasswordChangeRequested, PeopleInfosUpdated
 from fas.events import NewUserRegistered
 
 from fas.notifications.email import Email
-from fas.utils import Config, get_data_changes
+from fas.util import Config, get_data_changes
 from fas.views import redirect_to
 
 import datetime

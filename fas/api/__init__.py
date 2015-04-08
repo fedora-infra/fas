@@ -20,7 +20,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.view import view_config
 
-from fas.utils import compute_list_pages_from, utc_iso_format
+from fas.util import compute_list_pages_from, utc_iso_format
 
 import datetime
 

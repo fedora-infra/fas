@@ -30,8 +30,8 @@ from itsdangerous import JSONWebSignatureSerializer, BadSignature, BadData
 from fas import log
 from fas.events import LoginSucceeded, LoginFailed, LoginRequested
 from fas.models import MembershipStatus, MembershipRole, AccountStatus
-from fas.utils import Config
-from fas.utils.passwordmanager import PasswordManager
+from fas.util import Config
+from fas.lib.passwordmanager import PasswordManager
 
 import fas.models.provider as provider
 from fas.models import register

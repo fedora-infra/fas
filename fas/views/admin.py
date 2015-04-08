@@ -40,10 +40,10 @@ from fas.events import LicenseRemovalRequested
 from fas.security import generate_token
 
 from fas.views import redirect_to
-from fas.utils.captcha import Captcha
-from fas.utils import Config
-from fas.utils.fgithub import Github
-from fas.utils.certificatemanager import CertificateManager
+from fas.lib.captcha import Captcha
+from fas.util import Config
+from fas.lib.fgithub import Github
+from fas.lib.certificatemanager import CertificateManager
 
 from fas.events import NewClientCertificateCreated
 

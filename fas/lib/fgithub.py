@@ -23,7 +23,7 @@ from logging import Logger
 
 from github import Github
 from github import UnknownObjectException, GithubException, enable_console_debug_logging
-from fas.utils import Config
+from fas.util import Config
 
 
 class Github(Github):

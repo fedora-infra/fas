@@ -18,11 +18,11 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.utils import (
+from fas.util import (
     _,
     Config,
     )
-from fas.utils.captcha import Captcha
+from fas.lib.captcha import Captcha
 
 from wtforms import (
     Form,

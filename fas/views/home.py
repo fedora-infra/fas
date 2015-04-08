@@ -20,34 +20,21 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.httpexceptions import (
     HTTPFound,
-    HTTPNotFound,
 )
-
 from pyramid.view import (
     view_config,
     view_defaults,
     forbidden_view_config,
 )
-
 from pyramid.security import (
     remember,
     forget,
 )
 
-from fas.events import (
-    LoginRequested,
-    LoginFailed,
-    LoginSucceeded
-)
-
-from fas.utils import Config
-from fas.security import PasswordValidator, LoginStatus, process_login
-from fas.models import AccountStatus, AccountLogType
-
+from fas.util import Config
+from fas.security import LoginStatus, process_login
 import fas.models.provider as provider
-import fas.models.register as register
-
-from fas.utils import _
+from fas.util import _
 
 
 @view_defaults(renderer='/home.xhtml')

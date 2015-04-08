@@ -29,7 +29,7 @@ from wtforms import (
 
 # from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
-from fas.utils import _
+from fas.util import _
 from fas.models import GroupStatus
 from fas.models import provider as provider
 

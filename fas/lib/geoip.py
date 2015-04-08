@@ -20,7 +20,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import pygeoip
 
-from . import Config
+from fas.util import Config
 
 
 def get_record_from(ip):

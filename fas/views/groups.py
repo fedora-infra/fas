@@ -18,41 +18,36 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
+import datetime
+import logging
+
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
+import mistune
 
 from fas.models import MembershipStatus
 from fas.models import MembershipRole
 from fas.models import AccountLogType
 from fas.models import AccountStatus
 from fas.models import GroupStatus
-
-import fas.models.provider as provider
-import fas.models.register as register
-
 from fas.views import redirect_to
-from fas.utils import compute_list_pages_from
-
+from fas.util import compute_list_pages_from
 from fas.forms.people import ContactInfosForm, PeopleForm
 from fas.forms.la import SignLicenseForm
 from fas.forms.group import EditGroupForm
 from fas.forms.group import GroupAdminsForm
 from fas.forms.certificates import CreateClientCertificateForm
-
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
-
-from fas.utils import _, Config
-
+from fas.util import _, Config
 from fas.events import GroupBindingRequested
 from fas.events import GroupEdited
-
 from fas.notifications.email import Email
 
-import datetime
-import logging
-import mistune
+import fas.models.provider as provider
+import fas.models.register as register
+
 
 log = logging.getLogger(__name__)
 

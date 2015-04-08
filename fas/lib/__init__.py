@@ -16,28 +16,3 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
-from pyramid.events import (
-    subscriber,
-    NewRequest
-    )
-
-from fas.util import _
-
-# Prevent from being translated
-ts = _
-
-
-@subscriber(NewRequest)
-def add_localizer(event):
-    """ Update local on client's requests. """
-    request = event.request
-    localizer = request.localizer
-
-    def auto_translate(*args, **kwargs):
-        """ Translate strings on client's requests. """
-        return localizer.translate(ts(*args, **kwargs))
-
-    request.localizer = localizer
-    request.translate = auto_translate

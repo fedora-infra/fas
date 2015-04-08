@@ -24,15 +24,11 @@ import logging
 
 from email.mime.text import MIMEText
 
-from pyramid.i18n import TranslationStringFactory
-
-_ = TranslationStringFactory('fas')
-
-from fas.utils import Config
+from fas.util import Config
 
 
 def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
-    ''' Send notification by email. '''
+    """ Send notification by email. """
 
     msg = MIMEText(message)
 

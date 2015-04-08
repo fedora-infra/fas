@@ -41,8 +41,8 @@ from fas.security import generate_token
 
 from fas.events import NewUserRegistered
 
-from fas.utils.passwordmanager import PasswordManager
-from fas.utils import _
+from fas.lib.passwordmanager import PasswordManager
+from fas.util import _
 
 import logging
 log = logging.getLogger(__name__)

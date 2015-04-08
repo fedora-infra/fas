@@ -29,7 +29,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-from . import Config
+from fas.util import Config
 
 
 class Captcha(Config):
@@ -37,7 +37,7 @@ class Captcha(Config):
     Generate a captcha math equation and validate its value
     from given solution.
 
-    Inherit from `fas.utils.Config`
+    Inherit from `fas.lib.Config`
     """
     def __init__(self, config=None):
         #TODO: Manage captcha configs value from initialization.

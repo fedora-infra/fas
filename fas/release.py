@@ -18,7 +18,7 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.utils import _
+from fas.util import _
 
 '''
 Release informations about software

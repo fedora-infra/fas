@@ -19,7 +19,7 @@
 __author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
               'Pierre-Yves Chibon <pingou@fedoraproject.org>']
 
-from fas.utils import _, Config
+from fas.util import _, Config
 from fas.models import AccountStatus
 from fas.models import provider
 

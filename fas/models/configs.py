@@ -35,7 +35,7 @@ from sqlalchemy.orm import relation
 
 from fas.models import AccountPermissionType
 
-from fas.utils import format_datetime
+from fas.util import format_datetime
 
 
 class Plugins(Base):
