@@ -327,7 +327,7 @@ class People(object):
                     if not self.person:
                         self.request.session.flash(
                             _('No such account exists'), 'error')
-                        return dict(form=form)
+                        return dict(form=form, captchaform=captcha_form)
                     elif self.person.status in [
                             AccountStatus.LOCKED,
                             AccountStatus.LOCKED_BY_ADMIN,
