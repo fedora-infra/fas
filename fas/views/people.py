@@ -42,6 +42,7 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 import GeoIP
 import logging
 from fas.utils import _, Config
+from socket import error as socket_error
 
 log = logging.getLogger(__name__)
 
@@ -356,7 +357,13 @@ class People(object):
                     rcpt = [self.person.email]
                     if self.person.recovery_email:
                         rcpt.append(self.person.recovery_email)
-                    email.send(rcpt)
+                    try:
+                        email.send(rcpt)
+                    except socket_error as err:
+                        self.request.session.flash(
+                            _("We're having trouble sending your recovery " +
+                              "email. Please contact us for assistance!"), 'error')
+                        return dict(form=form, captchaform=captcha_form)
                     self.request.session.flash(
                         _('Check your email to finish the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)
