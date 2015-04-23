@@ -36,8 +36,8 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     func,
-    UniqueConstraint
-    )
+    UniqueConstraint,
+    false)
 
 from sqlalchemy.orm import (
     relation,
@@ -50,7 +50,8 @@ from fas.models import AccountPermissionType as perm
 from babel.dates import format_date
 
 import datetime
-from fas.utils import utc_iso_format
+from fas.util import utc_iso_format
+
 
 class GroupType(Base):
     __tablename__ = 'group_type'
