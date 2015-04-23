@@ -19,7 +19,7 @@
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from fas.util import Config
-from fas.lib.notify import send_email
+from fas.lib.mailer import send_email
 
 from messages import Msg
 
