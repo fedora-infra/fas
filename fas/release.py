@@ -18,22 +18,20 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.util import _
-
 '''
-Release informations about software
+Release information about software
 '''
 
 __VERSION__ = '3.0.0'
 __NAME__ = 'fas'
 __DESC__ = 'The Fedora Account System'
-__LONG_DESC__ = _(u'''
+__LONG_DESC__ = u'''
 Manage contributors\' accounts and groups\'s involvements
 to the Fedora Project.
-''')
+'''
 __AUTHOR__ = 'Xavier Lamien'
 __EMAIL__ = 'laxathom@fedoraproject.org'
-__COPYRIGHT__ = _(u'© 2014')
+__COPYRIGHT__ = u'© 2014'
 
 __URL__ = 'https://github.com/fedora-infra/fas'
 __DOWNLOAD_URL__ = 'https://github.com/fedora-infra/fas/releases'
