@@ -208,6 +208,7 @@ class LoginStatus(IntEnum):
     SUCCEED_NEED_APPROVAL = 0x02
     FAILED_INACTIVE_ACCOUNT = 0x03
     FAILED_LOCKED_ACCOUNT = 0x04
+    PENDING_ACCOUNT = 0x05
 
 
 def process_login(request, person, password):
