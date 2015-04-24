@@ -1,5 +1,6 @@
-import fas.release
 import os
+
+execfile(os.path.join('fas', 'release.py'))
 
 from setuptools import setup, find_packages
 
@@ -49,7 +50,7 @@ optional = {
 
 setup(
     name='fas',
-    version=fas.release.__VERSION__,
+    version=__VERSION__,
     description='Fedora Account System',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
