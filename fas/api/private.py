@@ -44,7 +44,7 @@ class PrivateRequest(object):
         )
 
         self.sdata = SignedDataValidator(
-            self.request.json_body['data'],
+            self.request.json_body['credentials'],
             self.request.token_validator.get_obj().secret
         )
 
@@ -63,11 +63,11 @@ class PrivateRequest(object):
             result = process_login(self.request, person, password)
 
             if result == LoginStatus.SUCCEED:
-                auth_tk = {'auth_tk': generate_token()}
+                auth_tk = {'session': self.request.headers['Cookie']}
                 answer = {'status': result,
                           'data': SignedDataValidator.sign_data(auth_tk)}
                 # TODO: provide a list of allowed perms to request
-                # TODO: if requester if not a trusted app
+                # TODO: if requester if not a trusted app?
                 self.data.set_data(answer)
             elif result == LoginStatus.SUCCEED_NEED_APPROVAL:
                 answer = {'status': 'need_approval'}

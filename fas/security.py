@@ -559,8 +559,8 @@ class ParamsValidator(Base):
     def set_params(self, params):
         self.params.append(params)
 
-    def get_optional(self, optional):
-        """ Get optional param's value from request."""
+    def get_value_from_optional(self, optional):
+        """ Get optional param's value from instantiated request."""
         try:
             return self.request.params.getone(unicode(optional))
         except KeyError:

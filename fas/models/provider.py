@@ -23,33 +23,26 @@ from pyramid.security import unauthenticated_userid
 
 from fas.models import MembershipStatus
 from fas.models import DBSession as session
-
 from fas.models import AccountStatus
 from fas.models import GroupStatus
-
 from fas.models.la import (
     LicenseAgreement,
     SignedLicenseAgreement
     )
-
 from fas.models.configs import AccountPermissions, TrustedPermissions
-
 from fas.models.group import (
     Groups,
     GroupType,
     GroupMembership
     )
-
 from fas.models.people import (
     People,
     PeopleAccountActivitiesLog
     )
-
 from fas.models.certificates import (
     Certificates,
     ClientsCertificates
     )
-
 
 
 def __get_listoffset(page, limit):
@@ -285,7 +278,7 @@ def get_grouptype_by_id(id):
 
 # Method to interact with People
 
-def get_people(limit=None, page=None, pattern=None, count=False, status=None):
+def get_people(limit=None, page=None, pattern=None, count=False, status=-1):
     """
     Retrieve registered people based on given criteria.
 
@@ -306,8 +299,8 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=None):
 
     query = session.query(People).order_by(People.fullname)
 
-    if status is not None:
-        query = query.filter(People.status.in_(status))
+    if status > -1:
+        query = query.filter(People.status.in_([AccountStatus(status)]))
     else:
         query = query.filter(
             People.status.in_([

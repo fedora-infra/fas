@@ -66,18 +66,15 @@ class PeopleAPI(object):
         route_name='api_people_list', renderer='json', request_method='GET')
     def get_people(self):
         """ Returns a JSON's output of people's list. """
-        self.params.add_optional('limit')
-        self.params.add_optional('page')
-        self.params.add_optional('status')
-        self.params.get_limit()
-
         limit = self.params.get_limit()
         page = self.params.get_pagenumber()
+        status = int(self.params.get_value_from_optional('status'))
 
         if self.apikey.validate():
             people = provider.get_people(
                 limit=limit,
-                page=page
+                page=page,
+                status=status
                 )
 
         if people:
