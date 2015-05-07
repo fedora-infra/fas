@@ -53,11 +53,11 @@ Run the test suite
 
 Initialize the database
 -----------------------
-``fas-admin --initdb [--default-value]``
+``fas-admin -c development.ini --initdb [--default-value]``
 
 Add fake data (People and group)
 -------------------------------
-``fas-admin --generate-fake-data [-n]``
+``fas-admin -c development.ini --generate-fake-data [-n]``
 
 Migrating FAS from release 2.x
 ---------------------------------
