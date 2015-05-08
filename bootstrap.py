@@ -102,7 +102,12 @@ def rebuild():
 
 def setup_develop():
     """ `python setup.py develop` in our virtualenv """
-    cmd = '{workon}/{env}/bin/python setup.py develop'.format(
+    # Disable easy_install way (egg file) install
+    # cmd = '{workon}/{env}/bin/python setup.py develop'.format(
+    #     envs=ENVS, env=VENV, workon=os.getenv("WORKON_HOME"))
+    # Use pip way to install into our virtualenv as we have
+    # on dependency which doesn't work as expected when install as egg file
+    cmd = '{workon}/{env}/bin/pip install -e .'.format(
         envs=ENVS, env=VENV, workon=os.getenv("WORKON_HOME"))
     print(cmd)
     subprocess.call(cmd.split())
