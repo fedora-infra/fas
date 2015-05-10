@@ -27,6 +27,7 @@ Bootstrap the virtualenv
  - libffi
  - openssl
  - GeoIP
+ - libyaml
 
 If you want to enable fonts that match with Fedora logo usage guideline:
 
@@ -37,7 +38,7 @@ Fedora OS
 
 ::
 
-    sudo dnf install -y libffi-devel openssl-devel GeoIP-devel
+    sudo dnf install -y libffi-devel openssl-devel GeoIP-devel libyaml-devel
 
     sudo dnf install -y aajohan-comfortaa-fonts abattis-cantarell-fonts
     # if you want to use system fonts
