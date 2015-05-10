@@ -18,23 +18,63 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-import os
 import hashlib
 
+import os
 from flufl.enum import IntEnum
-
-from pyramid.security import Allow, Everyone
-
+from pyramid.security import Allow, Everyone, remember
 from itsdangerous import JSONWebSignatureSerializer, BadSignature, BadData
 
 from fas import log
 from fas.events import LoginSucceeded, LoginFailed, LoginRequested
-from fas.models import MembershipStatus, MembershipRole, AccountStatus
-from fas.util import Config
+from fas.models import MembershipStatus, MembershipRole, AccountStatus, \
+    AccountPermissionType
+from fas.util import Config, get_reversed_domain_name
 from fas.lib.passwordmanager import PasswordManager
-
 import fas.models.provider as provider
 from fas.models import register
+
+
+def get_auth_scopes():
+    return [
+        {
+            'name': get_reversed_domain_name() + '.fas.user.info',
+            'permission': AccountPermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value,
+            'description': 'Know your basic profile information.',
+            # 'auth_required': True
+        },
+        {
+            'name': get_reversed_domain_name() + '.fas.user.profile',
+            'permission': AccountPermissionType.CAN_READ_PEOPLE_FULL_INFO.value,
+            'description': """Know your full profile information and
+            list your group's membership""",
+            # 'auth_required': True
+        },
+        {
+            'name': get_reversed_domain_name() + '.fas.user.email',
+            'permission': AccountPermissionType.CAN_READ_PUBLIC_INFO.value,
+            'description': 'View your email address (associated with your FAS account)',
+            # 'auth_required': True
+        },
+        {
+            'name': get_reversed_domain_name() + '.fas.user.edit',
+            'permission': AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO.value,
+            'description': 'manage your profile information and your membership.',
+            # 'auth_required': True
+        },
+        {
+            'name': get_reversed_domain_name() + '.fas.group.edit',
+            'permission': AccountPermissionType.CAN_EDIT_GROUP_INFO.value,
+            'description': 'Manage groups information and related memberships.',
+            # 'auth_required': True
+        },
+        {
+            'name': get_reversed_domain_name() + '.fas.public.info',
+            'permission': AccountPermissionType.CAN_READ_PUBLIC_INFO.value,
+            'description': 'know FAS public information related to people and groups',
+            # 'auth_required': False
+        }
+    ]
 
 
 def authenticated_is_admin(request):
@@ -213,7 +253,7 @@ class LoginStatus(IntEnum):
 
 def process_login(request, person, password):
     """
-    Process login from given login and password
+    Processes login from given username and password
 
     :param request: pyramid request's object
     :type request: pyramid.request.Request
@@ -222,7 +262,7 @@ def process_login(request, person, password):
     :param password: person password to process login from
     :type password: basestring
     :return: login status
-    :rtype: LoginStatus
+    :rtype: fas.models.LoginStatus
     """
     notify = request.registry.notify
     blocked = True
@@ -241,7 +281,7 @@ def process_login(request, person, password):
         pv = PasswordValidator(person, password)
 
         if pv.is_valid and not blocked:
-            # headers = remember(self.request, login)
+            # headers = remember(request, person.username)
             request.session.get_csrf_token()
 
             notify(LoginSucceeded(request, person))
@@ -254,6 +294,8 @@ def process_login(request, person, password):
             result = LoginStatus.PENDING_ACCOUNT
             log.debug('Login failed, account %s has not been validated'
                       % person.username)
+        elif person.status == AccountStatus.INACTIVE:
+            result = LoginStatus.FAILED_INACTIVE_ACCOUNT
         elif person.status in [
             AccountStatus.LOCKED,
             AccountStatus.LOCKED_BY_ADMIN,
@@ -524,7 +566,8 @@ class ParamsValidator(Base):
 
         if self.request.params:
             for key, value in self.request.params.iteritems():
-                log.debug('Validating key %r' % key)
+                log.debug('Validating key %r from list %s' %
+                          (key, self.request.params.items()))
                 if key not in self.params:
                     self.set_msg(
                         'Parameter Error.',
@@ -638,8 +681,8 @@ class SignedDataValidator(Base):
         """
         return self.valid_data
 
-    @classmethod
-    def sign_data(cls, data):
+    # @classmethod
+    def sign_data(self, data):
         """
         Sign given data for delivery
 
@@ -648,4 +691,4 @@ class SignedDataValidator(Base):
         :return: A signed serialized data
         :rtype
         """
-        return cls().signer.dumps(data)
+        return self.signer.dumps(data)

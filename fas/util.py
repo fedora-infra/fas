@@ -48,8 +48,15 @@ class Config():
         """
         registry = pyramid.threadlocal.get_current_registry()
         settings = registry.settings
+        config = None
 
-        return settings[configname] or default_config
+        try:
+            config = settings[configname] or default_config
+        except TypeError:
+            # We might hit this if we call registry too soon when initializing
+            pass
+
+        return config
 
     @classmethod
     def get_admin_group(self):
@@ -170,3 +177,18 @@ def get_data_changes(form, data, keep_value=True):
             changes += field.label.__dict__['text']
 
     return changes
+
+
+def get_reversed_domain_name():
+    """
+    :return: A reversed domain's name
+            'domain.tld' becomes 'tld.domain'
+    :rtype: str
+    """
+    domain = Config.get('project.domain.name', 'fedoraproject.org')
+
+    if domain:
+        domain = domain.split('.')
+        return '.'.join(domain[::-1])
+    else:
+        return 'fedora'

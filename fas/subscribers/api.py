@@ -66,10 +66,10 @@ def on_api_request(event):
         )
 
     # Check private request
-    if event.is_private:
+    if request.method == 'POST' and event.is_private:
         log.debug('Parsing request for signed data:\n %s' % request.json_body)
         sdata = SignedDataValidator(
-            request.json_body['data'],
+            request.json_body['credentials'],
             secret=apikey.get_obj().secret
         )
         if not sdata.validate():
