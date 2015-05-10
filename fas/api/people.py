@@ -38,13 +38,14 @@ class PeopleAPI(object):
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
-        self.params = ParamsValidator(self.request, True)
+        # self.params = ParamsValidator(self.request, True)
+        self.params = self.request.param_validator
         self.data = MetaData('People')
         self.perm = None
 
-        self.params.add_optional('limit')
-        self.params.add_optional('page')
-        self.params.add_optional('status')
+        self.request.param_validator.add_optional('limit')
+        self.request.param_validator.add_optional('page')
+        self.request.param_validator.add_optional('status')
 
         self.notify(ApiRequest(self.request, self.data, self.perm))
         self.apikey = self.request.token_validator
