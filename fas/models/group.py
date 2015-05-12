@@ -23,7 +23,7 @@ from . import (
     GroupStatus,
     MembershipStatus,
     MembershipRole
-    )
+)
 
 from sqlalchemy import (
     Column,
@@ -43,7 +43,7 @@ from sqlalchemy.orm import (
     relation,
     relationship,
     backref
-    )
+)
 
 from fas.models import AccountPermissionType as perm
 
@@ -130,7 +130,7 @@ class Groups(Base):
     license = relation(
         'LicenseAgreement',
         uselist=False
-        )
+    )
 
     __table_args__ = (
         Index('group_name_idx', name),
@@ -154,6 +154,7 @@ class Groups(Base):
                 'NeedApproval': self.need_approval,
                 'IsInviteOnly': self.invite_only,
                 'IsPrivate': self.private,
+                'Status': self.status,
                 'CreationDate': utc_iso_format(self.created),
             }
 
@@ -163,20 +164,21 @@ class Groups(Base):
         if self.parent_group:
             info['ParentGroup'] = self.parent_group.name
 
-        if permissions == perm.CAN_READ_PEOPLE_FULL_INFO:
-            if self.members:
-                info['Members'] = []
-                for people in self.members:
-                    # This is not optimum - send query on every loop
-                    for user in people.people:
-                        info['Members'].append(
-                            {
-                                'PeopleId': user.id,
-                                'PeopleName': user.username,
-                                'PeopleRole': people.role_level.role,
-                                'GroupSponsor': people.sponsor
-                            }
-                        )
+        if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
+            info['Members'] = []
+            for member in self.members:
+                info['Members'].append(
+                    {
+                        'Id': member.people_id,
+                        'Name': member.person.username,
+                        'Role': member.role,
+                        'Sponsor': member.sponsor,
+                        'MembershipStatus': member.status,
+                        'Status': member.person.status,
+                        'Ircnick': member.person.ircnick,
+                        'JoinedDate': utc_iso_format(member.approval_timestamp)
+                    }
+                )
 
         return info
 
@@ -194,13 +196,19 @@ class GroupMembership(Base):
     creation_timestamp = Column(DateTime, default=datetime.datetime.now)
     approval_timestamp = Column(DateTime, default=datetime.datetime.now)
 
-    #role_level = relation(
-        #'RoleLevel',
-        #foreign_keys='RoleLevel.id',
-        #primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
-        #uselist=False
-    #)
+    # role_level = relation(
+    # 'RoleLevel',
+    #     foreign_keys='RoleLevel.id',
+    #     primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
+    #     uselist=False
+    # )
 
+    person = relationship(
+        'People',
+        foreign_keys='People.id',
+        primaryjoin='and_(GroupMembership.people_id==People.id)',
+        uselist=False
+    )
     sponsors = relation(
         'People',
         foreign_keys='People.id',
