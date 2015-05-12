@@ -69,7 +69,7 @@ class PeopleAPI(object):
         """ Returns a JSON's output of people's list. """
         limit = self.params.get_limit()
         page = self.params.get_pagenumber()
-        status = int(self.params.get_value_from_optional('status'))
+        status = self.params.get_value_from_optional('status')
 
         if self.apikey.validate():
             people = provider.get_people(
