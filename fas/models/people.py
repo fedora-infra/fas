@@ -177,7 +177,8 @@ class People(Base):
                 'Avatar': self.avatar,
                 'Email': self.email,
                 'CreationDate': utc_iso_format(self.date_created),
-                'Status': self.status
+                'Status': self.status,
+                'Timezone': self.timezone
             }
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
@@ -210,8 +211,8 @@ class People(Base):
                 info['Affiliation'] = self.affiliation
                 info['CertificateSerial'] = self.certificate_serial
                 info['SshKey'] = self.ssh_key
-                info['Latitude'] = self.latitude
-                info['Longitude'] = self.longitude
+                info['Latitude'] = int(self.latitude or 0.0)
+                info['Longitude'] = int(self.longitude or 0.0)
                 info['LastLogged'] = self.last_logged.strftime(
                     '%Y-%m-%d %H:%M')
 
@@ -239,7 +240,7 @@ class People(Base):
                     for log in self.activities_log:
                         info['AccountActivities'].append(
                             {
-                                'Location': log.location,
+                                'Location': log.location + '(%s)' % log.remote_ip,
                                 'AccessFrom': log.access_from,
                                 'DateTime': log.timestamp.strftime(
                                     '%Y-%m-%d %H:%M')
