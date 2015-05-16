@@ -170,84 +170,86 @@ class People(Base):
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
             # Standard public info
             info = {
-                'PeopleId': self.id,
-                'Username': self.username,
-                'Fullname': self.fullname,
-                'Ircnick': self.ircnick,
-                'Avatar': self.avatar,
-                'Email': self.email,
-                'CreationDate': utc_iso_format(self.date_created),
-                'Status': self.status,
-                'Timezone': self.timezone
+                'id': self.id,
+                'username': self.username,
+                'fullname': self.fullname,
+                'ircnick': self.ircnick,
+                'avatar': self.avatar,
+                'email': self.email,
+                'creationDate': utc_iso_format(self.date_created),
+                'status': self.status,
+                'timezone': self.timezone
             }
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
-            info['CountryCode'] = self.country_code
-            info['Locale'] = self.locale
-            info['BugzillaEmail'] = self.bugzilla_email or self.email
-            info['GpgId'] = self.gpg_id
-            info['BlogRss'] = self.blog_rss
-            info['Bio'] = self.bio
+            info['countryCode'] = self.country_code
+            info['locale'] = self.locale
+            info['bugzillaEmail'] = self.bugzilla_email or self.email
+            info['gpgId'] = self.gpg_id
+            info['blogrss'] = self.blog_rss
+            info['bio'] = self.bio
 
-            info['Membership'] = []
+            info['membership'] = []
             if self.group_membership > 0:
                 for groups in self.group_membership:
-                    info['Membership'].append(
+                    info['membership'].append(
                         {
-                            'GroupId': groups.group_id,
-                            'GroupName': groups.group.name,
-                            'GroupType': groups.group.group_type,
-                            'GroupSponsorId': groups.sponsor,
-                            'GroupRole': groups.role
+                            'groupId': groups.group_id,
+                            'groupName': groups.group.name,
+                            'groupType': groups.group.group_type,
+                            'groupSponsorId': groups.sponsor,
+                            'groupRole': groups.role,
+                            'status': groups.status,
+                            'groupStatus': groups.group.status
                         }
                     )
 
             # Infos that people set as private
             if not self.privacy:
-                info['EmailAlias'] = self.email_alias
-                info['PostalAddress'] = self.postal_address
-                info['Telephone'] = self.telephone
-                info['Fascimile'] = self.facsimile
-                info['Affiliation'] = self.affiliation
-                info['CertificateSerial'] = self.certificate_serial
-                info['SshKey'] = self.ssh_key
-                info['Latitude'] = int(self.latitude or 0.0)
-                info['Longitude'] = int(self.longitude or 0.0)
-                info['LastLogged'] = self.last_logged.strftime(
+                info['emailAlias'] = self.email_alias
+                info['postalAddress'] = self.postal_address
+                info['telephone'] = self.telephone
+                info['facsimile'] = self.facsimile
+                info['affiliation'] = self.affiliation
+                info['certificateSerial'] = self.certificate_serial
+                info['sshKey'] = self.ssh_key
+                info['latitude'] = int(self.latitude or 0.0)
+                info['longitude'] = int(self.longitude or 0.0)
+                info['lastLogged'] = self.last_logged.strftime(
                     '%Y-%m-%d %H:%M')
 
-                info['ConnectedApplications'] = {
+                info['connectedApplications'] = {
                     # 'fas': self.fas_token,
-                    'github': self.github_token,
-                    'twitter': self.twitter_token
+                    'github': 'connected' if self.github_token else 'inactivate',
+                    'twitter': 'connected' if self.twitter_token else 'inactivate'
                 }
 
                 if self.account_permissions:
-                    info['AccountAccess'] = []
+                    info['accountAccess'] = []
                     for perms in self.account_permissions:
-                        info['AccountAccess'].append(
+                        info['accountAccess'].append(
                             {
-                                'Application': perms.application,
-                                'Permissions': perms.permissions,
-                                'GrantedOn':
+                                'application': perms.application,
+                                'permissions': perms.permissions,
+                                'grantedOn':
                                     perms.granted_timestamp.strftime(
                                         '%Y-%m-%d')
                             }
                         )
 
                 if self.activities_log:
-                    info['AccountActivities'] = []
+                    info['accountActivities'] = []
                     for log in self.activities_log:
-                        info['AccountActivities'].append(
+                        info['accountActivities'].append(
                             {
-                                'Location': log.location + '(%s)' % log.remote_ip,
-                                'AccessFrom': log.access_from,
-                                'DateTime': log.timestamp.strftime(
+                                'location': log.location + ' (%s)' % log.remote_ip,
+                                'accessFrom': log.access_from,
+                                'datetime': log.timestamp.strftime(
                                     '%Y-%m-%d %H:%M')
                             }
                         )
             else:
-                info['Privacy'] = self.privacy
+                info['privacy'] = self.privacy
 
         return info
 

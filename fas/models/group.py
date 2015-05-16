@@ -141,42 +141,42 @@ class Groups(Base):
         info = {}
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
             info = {
-                'Name': self.name,
-                'DisplayName': self.display_name,
-                'Picture': self.avatar,
-                'Url': self.web_link,
-                'MailingList': self.mailing_list,
-                'MailingListUrl': self.mailing_list_url,
-                'IrcChannel': self.irc_channel,
-                'IrcNetwork': self.irc_network,
-                'Owner': self.owner.username,
-                'SelfRemoval': self.self_removal,
-                'NeedApproval': self.need_approval,
-                'IsInviteOnly': self.invite_only,
-                'IsPrivate': self.private,
-                'Status': self.status,
-                'CreationDate': utc_iso_format(self.created),
+                'name': self.name,
+                'displayName': self.display_name,
+                'picture': self.avatar,
+                'url': self.web_link,
+                'mailingList': self.mailing_list,
+                'mailingListUrl': self.mailing_list_url,
+                'ircChannel': self.irc_channel,
+                'ircNetwork': self.irc_network,
+                'owner': self.owner.username,
+                'selfRemoval': self.self_removal,
+                'needApproval': self.need_approval,
+                'isInviteOnly': self.invite_only,
+                'isPrivate': self.private,
+                'status': self.status,
+                'creationDate': utc_iso_format(self.created),
             }
 
         if self.group_types:
-            info['GroupType'] = self.group_types.name
+            info['groupType'] = self.group_types.name
 
         if self.parent_group:
-            info['ParentGroup'] = self.parent_group.name
+            info['parentGroup'] = self.parent_group.name
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
-            info['Members'] = []
+            info['members'] = []
             for member in self.members:
-                info['Members'].append(
+                info['members'].append(
                     {
-                        'Id': member.people_id,
-                        'Name': member.person.username,
-                        'Role': member.role,
-                        'Sponsor': member.sponsor,
-                        'MembershipStatus': member.status,
-                        'Status': member.person.status,
-                        'Ircnick': member.person.ircnick,
-                        'JoinedDate': utc_iso_format(member.approval_timestamp)
+                        'id': member.people_id,
+                        'name': member.person.username,
+                        'role': member.role,
+                        'sponsor': member.sponsor,
+                        'membershipStatus': member.status,
+                        'status': member.person.status,
+                        'ircnick': member.person.ircnick,
+                        'joinedDate': utc_iso_format(member.approval_timestamp)
                     }
                 )
 

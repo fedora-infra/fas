@@ -48,8 +48,8 @@ class MetaData(object):
         :param text: Error message
         """
         self.data['Error'] = {}
-        self.data['Error']['Name'] = name
-        self.data['Error']['Text'] = text
+        self.data['Error']['name'] = name
+        self.data['Error']['text'] = text
 
     def set_pages(self, items_nb, current=1, limit=0):
         """ Set page items into metadata's dictionary.
@@ -64,8 +64,8 @@ class MetaData(object):
         pages = compute_list_pages_from(items_nb, limit)
 
         self.data['Pages'] = {}
-        self.data['Pages']['Current'] = current
-        self.data['Pages']['Total'] = pages
+        self.data['Pages']['current'] = current
+        self.data['Pages']['total'] = pages
 
     def set_data(self, data):
         """ Add data infos to metadata's dictionary.
