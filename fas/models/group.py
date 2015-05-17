@@ -65,6 +65,21 @@ class GroupType(Base):
         Index('group_type_name_idx', name),
     )
 
+    def to_json(self):
+        """
+        Build a dict of GroupType model.
+
+        :return: A dict format of registered `GroupType` models
+        :rtype: dict
+        """
+        info = {
+            'id': self.id,
+            'name': self.name,
+            'comment': self.comment
+        }
+
+        return info
+
 
 class Groups(Base):
     __tablename__ = 'group'

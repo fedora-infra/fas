@@ -41,8 +41,18 @@ class MetaData(object):
         self.datetime = datetime.datetime
         self.timestamp = utc_iso_format(self.datetime.utcnow())
 
+    def set_name(self, name):
+        """
+        Set or update Metadata name.
+
+        :param name: metadata name
+        :type name: str
+        """
+        self.name = name
+
     def set_error_msg(self, name='', text=''):
-        """ Set error message into meta.
+        """
+        Set error message into metadata.
 
         :param name: Error name
         :param text: Error message
@@ -87,7 +97,7 @@ class MetaData(object):
         return self.data
 
 
-@view_config(route_name='api_home', renderer='/api_home.xhtml')
+@view_config(route_name='api', renderer='/api_home.xhtml')
 def api_home(request):
     return {}
 

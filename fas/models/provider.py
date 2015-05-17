@@ -265,7 +265,12 @@ def get_memberships_by_status(status, group=None):
 
 
 def get_group_types():
-    """ Retrieve group's types."""
+    """
+    Retrieve group's types.
+
+    :returns: Registered group's types
+    :rtype: list of fas.models.group.GroupType
+    """
     query = session.query(GroupType)
     return query.all()
 

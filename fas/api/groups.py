@@ -53,7 +53,7 @@ class GroupAPI(object):
         return group
 
     @view_config(
-        route_name='api_group_list', renderer='json', request_method='GET')
+        route_name='api-group-list', renderer='json', request_method='GET')
     def group_list(self):
         """ Returns a JSON's output of registered group's list. """
         group = None
@@ -77,8 +77,8 @@ class GroupAPI(object):
 
         return self.data.get_metadata()
 
-    @view_config(route_name='api_group_get', renderer='json', request_method='GET')
-    def api_group_get(self):
+    @view_config(route_name='api-group-get', renderer='json', request_method='GET')
+    def get_group(self):
         group = None
 
         if self.apikey.validate():
@@ -98,3 +98,79 @@ class GroupAPI(object):
             self.data.set_data(group.to_json(self.apikey.get_perm()))
 
         return self.data.get_metadata()
+
+    @view_config(
+        route_name='api-group-types', renderer='json', request_method='GET')
+    def get_group_type(self):
+        group_types = provider.get_group_types()
+        self.data.set_name('GroupTypes')
+
+        if len(group_types) > 0:
+            gtypes = [g.to_json() for g in group_types]
+            self.data.set_data(gtypes)
+        else:
+            self.data.set_error_msg('None items', 'There is no group types')
+
+        return self.data.get_metadata()
+
+    # @view_config(
+    #     route_name='api-group-edit', renderer='json', request_method='POST')
+    # def edit_group(self):
+    #     key = self.request.matchdict.get('key')
+    #     value = self.request.matchdict.get('value')
+    #
+    #     if self.apikey.validate():
+    #         try:
+    #             group = self.__get_group__(key, value)
+    #         except BadRequest as err:
+    #             self.request.response.status = '400 bad request'
+    #             self.data.set_error_msg('Bad request', err.message)
+    #         except NotFound as err:
+    #             self.request.response.status = '404 page not found'
+    #             self.data.set_error_msg('Item not found', err.message)
+    #
+    #         form = EditGroupForm(self.request.POST, group)
+    #
+    #         if form.validate():
+    #             form.populate_obj(group)
+    #             self.data.set_status('stored', 'User updated')
+    #             self.data.set_data(group.to_json(self.apikey.get_perm()))
+    #         else:
+    #             self.request.response.status = '400 bad request'
+    #             self.data.set_error_msg('Invalid request', form.errors)
+    #
+    #     return self.data.get_metadata()
+
+    @view_config(
+        route_name='api-group-edit', renderer='json', request_method='POST')
+    def create_group(self):
+        form = EditGroupForm(self.request.POST)
+
+        form.parent_group_id.choices = [
+            (group.id, group.name) for group in provider.get_groups()]
+        form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
+
+        form.group_type.choices = [
+            (t.id, t.name) for t in provider.get_group_types()]
+        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
+
+        form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
+
+        if self.request.method == 'POST' \
+                and ('form.save.group-details' in self.request.params):
+            if form.validate():
+                group = register.add_group(form)
+                register.add_membership(
+                    group.id, group.owner_id,
+                    MembershipStatus.APPROVED,
+                    MembershipRole.ADMINISTRATOR)
+                if form.bound_to_github.data:
+                    g = Github()
+                    g.create_group(
+                        name=group.name,
+                        repo=group.name,
+                        access='push'
+                    )
+                return redirect_to('/group/details/%s' % group.id)
+
+        return dict(form=form)

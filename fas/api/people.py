@@ -64,7 +64,7 @@ class PeopleAPI(object):
         return user
 
     @view_config(
-        route_name='api_people_list', renderer='json', request_method='GET')
+        route_name='api-people-list', renderer='json', request_method='GET')
     def get_people(self):
         """ Returns a JSON's output of people's list. """
         limit = self.params.get_limit()
@@ -90,7 +90,7 @@ class PeopleAPI(object):
         return self.data.get_metadata()
 
     @view_config(
-        route_name='api_people_get', renderer='json', request_method='GET')
+        route_name='api-people-get', renderer='json', request_method='GET')
     def get_person(self):
         user = None
 
@@ -102,16 +102,18 @@ class PeopleAPI(object):
                 user = self.__get_user__(key, value)
                 self.data.set_data(user.to_json(self.apikey.get_perm()))
             except BadRequest as err:
+                log.debug('Having a bad request here!')
                 self.request.response.status = '400 bad request'
                 self.data.set_error_msg('Bad request', err.message)
             except NotFound as err:
+                log.debug('Having a not found keyword here!')
                 self.request.response.status = '404 page not found'
                 self.data.set_error_msg('Item not found', err.message)
 
         return self.data.get_metadata()
 
     @view_config(
-        route_name='api_people_get', renderer='json', request_method='POST')
+        route_name='api-people-get', renderer='json', request_method='POST')
     def edit_person(self):
         key = self.request.matchdict.get('key')
         value = self.request.matchdict.get('value')

@@ -197,11 +197,14 @@ def main(global_config, **settings):
     config.add_route('group-pending-request', '/groups/pending-requests')
 
     # API requests
-    config.add_route('api_home', '/api')
-    config.add_route('api_people_list', '/api/people')
-    config.add_route('api_people_get', '/api/people/{key}/{value}')
-    config.add_route('api_group_list', '/api/groups')
-    config.add_route('api_group_get', '/api/group/{key}/{value}')
+    config.add_route('api', '/api')
+    config.add_route('api-people-list', '/api/people')
+    config.add_route('api-people-get', '/api/people/{key}/{value}')
+    config.add_route('api-group-list', '/api/groups')
+    config.add_route('api-group-edit', '/api/group/create')
+    config.add_route('api-group-get', '/api/group/{key}/{value}')
+    config.add_route('api-group-types', '/api/group/types')
+
     # API private requests
     config.add_route('api-request-login', '/api/request-login')
     config.add_route('api-request-perms', '/api/request-perm/{scope}')
