@@ -58,7 +58,7 @@ class AccountPermissions(Base):
         default=func.current_timestamp())
     last_used = Column(DateTime, nullable=True)
 
-    account = relation('People', uselist=False)
+    account = relationship('People', uselist=False)
 
     def get_granted_date(self, request):
         """ Return granted date of account perms in a translated

@@ -192,3 +192,59 @@ def get_reversed_domain_name():
         return '.'.join(domain[::-1])
     else:
         return 'fedora'
+
+
+def setup_group_form(request, group=None):
+    """
+    Dynamically setup group info from current request
+
+    :param request: pyramid request object
+    :type request: pyramid.request
+    :param group: group object to setup form from
+    :type group: str
+    :return: populated group form
+    :rtype: fas.forms.group.EditGroupForm
+    """
+
+    from fas.forms.group import EditGroupForm
+    from fas.models import provider as provider
+
+    data = None
+    if 'Content-type' in request.headers:
+        if request.headers['Content-Type'] == 'application/json':
+            data = request.json_body
+
+    form = EditGroupForm(request.POST, group, data=data)
+
+    if group is not None:
+        # Group's name is not edit-able
+        form.name.data = group.name
+
+        # Remove group being edited from parent list if present
+        parent_groups = provider.get_candidate_parent_groups()
+
+        if group in parent_groups:
+            parent_groups.remove((group.id, group.name))
+    else:
+        parent_groups = provider.get_groups()
+
+    if request.authenticated_userid:
+        form.owner_id.data = request.get_user.id
+    else:
+        form.owner_id.choices.insert(0, (-1, _(u'-- Select a username --')))
+
+    form.parent_group_id.choices = [
+        (group.id, group.name) for group in parent_groups]
+    form.parent_group_id.choices.insert(0, (-1, _(u'-- None --')))
+    form.group_type.choices = [
+        (t.id, t.name) for t in provider.get_group_types()]
+    form.group_type.choices.insert(0, (-1, _(u'-- Select a group type --')))
+    form.certificate.choices = [
+        (cert.id, cert.name) for cert in provider.get_certificates()]
+    form.certificate.choices.insert(0, (-1, _(u'-- None --')))
+
+    # TODO: Double check usage of QuerySelectField for this instead
+    if request.method is not 'POST':
+        form.license_sign_up.choices.insert(0, (-1, _(u'-- None --')))
+
+    return form

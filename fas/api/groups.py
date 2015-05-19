@@ -27,15 +27,19 @@ from . import (
     MetaData
 )
 import fas.models.provider as provider
-from fas.events import ApiRequest
+from fas.events import ApiRequest, GroupCreated
 from fas.security import ParamsValidator
+from fas.util import setup_group_form
+from fas.models import register, MembershipStatus, MembershipRole, \
+    AccountPermissionType
+from fas import log
 
 
 class GroupAPI(object):
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
-        self.params = ParamsValidator(self.request, True)
+        self.params = self.request.param_validator
         self.data = MetaData('Groups')
         self.perm = None
         self.notify(ApiRequest(self.request, self.data, self.perm))
@@ -105,17 +109,16 @@ class GroupAPI(object):
         self.data.set_name('GroupTypes')
 
         if len(group_types) > 0:
-            gtypes = [g.to_json() for g in group_types]
-            self.data.set_data(gtypes)
+            self.data.set_data([g.to_json() for g in group_types])
         else:
             self.data.set_error_msg('None items', 'There is no group types')
 
         return self.data.get_metadata()
 
     # @view_config(
-    #     route_name='api-group-edit', renderer='json', request_method='POST')
+    # route_name='api-group-edit', renderer='json', request_method='POST')
     # def edit_group(self):
-    #     key = self.request.matchdict.get('key')
+    # key = self.request.matchdict.get('key')
     #     value = self.request.matchdict.get('value')
     #
     #     if self.apikey.validate():
@@ -149,23 +152,22 @@ class GroupAPI(object):
             self.data.set_error_msg(self.apikey.get_msg())
             return self.data.get_metadata()
 
-        form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
+        form = setup_group_form(self.request)
 
-        if self.request.method == 'POST' \
-                and ('form.save.group-details' in self.request.params):
+        if self.request.method == 'POST':
             if form.validate():
                 group = register.add_group(form)
-                register.add_membership(
-                    group.id, group.owner_id,
-                    MembershipStatus.APPROVED,
-                    MembershipRole.ADMINISTRATOR)
-                if form.bound_to_github.data:
-                    g = Github()
-                    g.create_group(
-                        name=group.name,
-                        repo=group.name,
-                        access='push'
-                    )
-                return redirect_to('/group/details/%s' % group.id)
+                self.notify(GroupCreated(self.request, group))
+                self.data.set_data(form.data)
+            else:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        log.error('Error in field %s: %s' % (
+                            getattr(form, field).label.text,
+                            error
+                        ))
+                        self.data.set_error_msg('Invalid data', '%s: %s' %
+                                                (getattr(form, field).label.text,
+                                                 error))
 
-        return dict(form=form)
+        return self.data.get_metadata()

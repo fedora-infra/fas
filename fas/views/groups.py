@@ -32,10 +32,9 @@ from fas.models import AccountLogType
 from fas.models import AccountStatus
 from fas.models import GroupStatus
 from fas.views import redirect_to
-from fas.util import compute_list_pages_from
+from fas.util import compute_list_pages_from, setup_group_form
 from fas.forms.people import ContactInfosForm, PeopleForm
 from fas.forms.la import SignLicenseForm
-from fas.forms.group import EditGroupForm
 from fas.forms.group import GroupAdminsForm
 from fas.forms.certificates import CreateClientCertificateForm
 from fas.security import MembershipValidator
@@ -44,7 +43,6 @@ from fas.util import _, Config
 from fas.events import GroupBindingRequested
 from fas.events import GroupEdited
 from fas.notifications.email import Email
-
 import fas.models.provider as provider
 import fas.models.register as register
 
@@ -301,32 +299,7 @@ class Groups(object):
                         self.group.name):
                     return redirect_to('/group/details/%s' % self.id)
 
-        form = EditGroupForm(self.request.POST, self.group)
-
-        # Group's name is not edit-able
-        form.name.data = self.group.name
-
-        # Remove group being edited from parent list if present
-        parent_groups = provider.get_candidate_parent_groups()
-        if self.group in parent_groups:
-            parent_groups.remove((self.group.id, self.group.name))
-
-        form.parent_group_id.choices = [
-            (group.id, group.name) for group in parent_groups]
-        form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
-
-        form.group_type.choices = [
-            (t.id, t.name) for t in provider.get_group_types()]
-        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
-
-        form.certificate.choices = [
-            (cert.id, cert.name) for cert in provider.get_certificates()]
-        form.certificate.choices.insert(0, (-1, u'-- None --'))
-
-        # TODO: Double check usage of QuerySelectField for those two instead
-        if self.request.method is not 'POST':
-            form.owner_id.choices.insert(0, (-1, u'-- Select a username --'))
-            form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
+        form = setup_group_form(self.request, self.group)
 
         if self.request.method == 'POST' \
                 and ('form.save.group-details' in self.request.params):

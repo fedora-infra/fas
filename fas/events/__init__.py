@@ -70,8 +70,17 @@ class PeopleInfosUpdated(object):
         self.person = person
 
 
-class GroupEdited(object):
+class GroupCreated(object):
+    """ Event sent after adding a new group into system.
+    """
+    def __init__(self, request, group):
+        self.request = request
+        self.group = group
 
+
+class GroupEdited(object):
+    """ Event sent once group info updated.
+    """
     def __init__(self, request, person, group, form):
         self.request = request
         self.person = person

@@ -399,7 +399,6 @@ class TokenValidator(Base):
         self.token = self.request.param_validator.get_apikey()
         self.perm = 0x00
         self.obj = None
-        self.msg = ''
 
     def validate(self):
         """
@@ -408,7 +407,6 @@ class TokenValidator(Base):
         :return: true if token is valid, false otherwise
         :rtype: bool
         """
-        self.msg = {'', ''}
         log.debug('Looking for valid token: %r' % self.token)
         key = provider.get_account_permissions_by_token(self.token) or \
               provider.get_trusted_perms_by_token(self.token)
@@ -422,7 +420,7 @@ class TokenValidator(Base):
             return True
         else:
             log.debug('Invalid token, denying access!')
-            self.msg = ('Access denied.', 'Unauthorized API key.')
+            self.set_msg('Access denied.', 'Unauthorized API key.')
 
         return False
 

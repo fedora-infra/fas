@@ -18,7 +18,7 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.models import DBSession as session
+from fas.models import DBSession as session, MembershipStatus, MembershipRole
 from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions, TrustedPermissions
 from fas.models.group import Groups, GroupType
@@ -159,8 +159,10 @@ def add_grouptype(form):
 def add_group(form):
     """ Add group from given form.
 
-    :form: EditGroupForm object
-    :return: Groups object saved into database
+    :param form: Populated group edition form.
+    :type form: fas.forms.group.EditGroupForm
+    :return: Stored Groups object
+    :rtype: fas.models.group.Groups
     """
     group = Groups()
     group.name = form.name.data
@@ -184,6 +186,16 @@ def add_group(form):
     group.apply_rules = form.apply_rules.data
     group.bound_to_github = form.bound_to_github.data
     group.license_sign_up = form.license_sign_up.data
+
+    # Add default membership for group's owner
+    group.members.append(
+        GroupMembership(
+            group_id=group.id,
+            people_id=group.owner_id,
+            status=MembershipStatus.APPROVED,
+            role=MembershipRole.ADMINISTRATOR
+        )
+    )
 
     session.add(group)
     session.flush()

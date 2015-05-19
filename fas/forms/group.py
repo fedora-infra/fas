@@ -54,7 +54,7 @@ class EditGroupStatusForm(Form):
 
 class EditGroupForm(Form):
     """ Form to edit and validate group\'s informations."""
-    name = StringField(_(u'Name'))
+    name = StringField(_(u'Name'), [validators.DataRequired()])
     display_name = StringField(_(u'Display name'), [validators.Required()])
     description = StringField(_(u'Description'), [validators.Optional()])
     web_link = StringField(_(u'Web page'))

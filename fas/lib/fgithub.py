@@ -57,7 +57,7 @@ class Github(Github):
         """
         return self.org.get_team(name)
 
-    def create_group(self, name, repo=[], access='pull'):
+    def create_group(self, name, repo=None, access='pull'):
         """ Create a new team from registered oraganization.
 
         :param team: string, a group name for the team.

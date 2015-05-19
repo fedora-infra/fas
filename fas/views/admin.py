@@ -34,14 +34,14 @@ from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
 from fas.forms.certificates import EditCertificateForm
 from fas.forms.certificates import CreateClientCertificateForm
 
-from fas.events import GroupRemovalRequested
+from fas.events import GroupRemovalRequested, GroupCreated
 from fas.events import GroupTypeRemovalRequested
 from fas.events import LicenseRemovalRequested
 from fas.security import generate_token
 
 from fas.views import redirect_to
 from fas.lib.captcha import Captcha
-from fas.util import Config
+from fas.util import Config, setup_group_form
 from fas.lib.fgithub import Github
 from fas.lib.certificatemanager import CertificateManager
 
@@ -140,33 +140,13 @@ class Admin(object):
     def add_group(self):
         """ Group addition page."""
 
-        form = EditGroupForm(self.request.POST)
-
-        form.parent_group_id.choices = [
-            (group.id, group.name) for group in provider.get_groups()]
-        form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
-
-        form.group_type.choices = [
-            (t.id, t.name) for t in provider.get_group_types()]
-        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
-
-        form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
+        form = setup_group_form(self.request)
 
         if self.request.method == 'POST' \
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
-                register.add_membership(
-                    group.id, group.owner_id,
-                    MembershipStatus.APPROVED,
-                    MembershipRole.ADMINISTRATOR)
-                if form.bound_to_github.data:
-                    g = Github()
-                    g.create_group(
-                        name=group.name,
-                        repo=group.name,
-                        access='push'
-                    )
+                self.notify(GroupCreated(self.request, group))
                 return redirect_to('/group/details/%s' % group.id)
 
         return dict(form=form)

@@ -22,16 +22,31 @@ import logging
 
 from pyramid.events import subscriber
 
-from fas.events import GroupEdited
-from fas.util import Config, get_data_changes
+from fas import log
 from fas.util import _
+from fas.util import Config, get_data_changes
 from fas.notifications.email import Email
+from fas.events import GroupEdited, GroupCreated
+from fas.lib.fgithub import Github
 
-log = logging.getLogger(__name__)
+
+@subscriber(GroupCreated)
+def on_group_created(event):
+    """
+    Base group creation listener.
+
+    :param event: Pyramid event object
+    :type event: pyramid.events
+    """
+    group = event.group
+
+    if group.bound_to_github:
+        gh = Github(log)
+        gh.create_group(name=group.name, repo=group.name, access='push')
 
 
 @subscriber(GroupEdited)
-def onGroupEdited(event):
+def on_group_edited(event):
     """ Group editing listener. """
     person = event.person
     group = event.group

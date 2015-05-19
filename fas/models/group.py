@@ -51,7 +51,7 @@ from babel.dates import format_date
 
 import datetime
 from fas.util import utc_iso_format
-
+from fas import log
 
 class GroupType(Base):
     __tablename__ = 'group_type'
@@ -126,7 +126,8 @@ class Groups(Base):
     members = relationship(
         'GroupMembership',
         primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-        backref=backref('group', lazy='joined')
+        backref=backref('group', lazy='joined'),
+        cascade_backrefs=True
     )
     owner = relationship(
         'People',
@@ -182,18 +183,22 @@ class Groups(Base):
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
             info['members'] = []
             for member in self.members:
-                info['members'].append(
-                    {
-                        'id': member.people_id,
-                        'name': member.person.username,
-                        'role': member.role,
-                        'sponsor': member.sponsor,
-                        'membershipStatus': member.status,
-                        'status': member.person.status,
-                        'ircnick': member.person.ircnick,
-                        'joinedDate': utc_iso_format(member.approval_timestamp)
-                    }
-                )
+                if member.person is None:
+                    log.error('Got an empty People object from '
+                              'group membership: %s.' % self.name)
+                else:
+                    info['members'].append(
+                        {
+                            'id': member.people_id,
+                            'name': member.person.username,
+                            'role': member.role,
+                            'sponsor': member.sponsor,
+                            'membershipStatus': member.status,
+                            'status': member.person.status,
+                            'ircnick': member.person.ircnick,
+                            'joinedDate': utc_iso_format(member.approval_timestamp)
+                        }
+                    )
 
         return info
 
