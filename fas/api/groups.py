@@ -25,14 +25,13 @@ from . import (
     BadRequest,
     NotFound,
     MetaData
-    )
+)
 import fas.models.provider as provider
 from fas.events import ApiRequest
 from fas.security import ParamsValidator
 
 
 class GroupAPI(object):
-
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
@@ -144,15 +143,11 @@ class GroupAPI(object):
     @view_config(
         route_name='api-group-edit', renderer='json', request_method='POST')
     def create_group(self):
-        form = EditGroupForm(self.request.POST)
-
-        form.parent_group_id.choices = [
-            (group.id, group.name) for group in provider.get_groups()]
-        form.parent_group_id.choices.insert(0, (-1, u'-- None --'))
-
-        form.group_type.choices = [
-            (t.id, t.name) for t in provider.get_group_types()]
-        form.group_type.choices.insert(0, (-1, u'-- Select a group type --'))
+        """ Create a group from an client's request.
+        """
+        if self.apikey.get_perm != AccountPermissionType.CAN_EDIT_GROUP_INFO:
+            self.data.set_error_msg(self.apikey.get_msg())
+            return self.data.get_metadata()
 
         form.license_sign_up.choices.insert(0, (-1, u'-- None --'))
 
