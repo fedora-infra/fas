@@ -109,11 +109,10 @@ class LicenseRemovalRequested(object):
 
 class ApiRequest(object):
     """ API requests event."""
-    def __init__(self, request, data, perm, is_private=False):
+    def __init__(self, request, data, is_private=False):
         self.is_private = is_private
         self.request = request
         self.data = data
-        self.perm = perm
 
 
 class TokenUsed(object):

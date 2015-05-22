@@ -31,7 +31,7 @@ from sqlalchemy import (
     func
     )
 
-from sqlalchemy.orm import relation
+from sqlalchemy.orm import relation, relationship
 
 from fas.models import AccountPermissionType
 

@@ -22,13 +22,14 @@ __author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
 
 import pyramid.threadlocal
 import datetime
-
+from webob.multidict import MultiDict
 from babel.dates import format_date, format_time
 
 from pyramid.i18n import TranslationStringFactory
 
 from math import ceil
 
+from fas import log
 _ = TranslationStringFactory('fas')
 
 
@@ -196,7 +197,7 @@ def get_reversed_domain_name():
 
 def setup_group_form(request, group=None):
     """
-    Dynamically setup group info from current request
+    Dynamically setup group info from given active request
 
     :param request: pyramid request object
     :type request: pyramid.request
@@ -205,21 +206,24 @@ def setup_group_form(request, group=None):
     :return: populated group form
     :rtype: fas.forms.group.EditGroupForm
     """
-
     from fas.forms.group import EditGroupForm
     from fas.models import provider as provider
 
     data = None
+    form_data = request.POST
+
     if 'Content-type' in request.headers:
         if request.headers['Content-Type'] == 'application/json':
             data = request.json_body
+        elif data and group:
+            # Assuming here we're having an editing request from remote client
+            form_data = MultiDict(data)
 
-    form = EditGroupForm(request.POST, group, data=data)
+    form = EditGroupForm(form_data, group, data=data)
 
     if group is not None:
         # Group's name is not edit-able
         form.name.data = group.name
-
         # Remove group being edited from parent list if present
         parent_groups = provider.get_candidate_parent_groups()
 

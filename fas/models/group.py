@@ -157,28 +157,31 @@ class Groups(Base):
         info = {}
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
             info = {
+                'id': self.id,
                 'name': self.name,
-                'displayName': self.display_name,
+                'display_name': self.display_name,
                 'picture': self.avatar,
+                'join_msg': self.join_msg,
                 'url': self.web_link,
-                'mailingList': self.mailing_list,
-                'mailingListUrl': self.mailing_list_url,
-                'ircChannel': self.irc_channel,
-                'ircNetwork': self.irc_network,
-                'owner': self.owner.username,
-                'selfRemoval': self.self_removal,
-                'needApproval': self.need_approval,
-                'isInviteOnly': self.invite_only,
-                'isPrivate': self.private,
+                'mailing_list': self.mailing_list,
+                'mailing_list_url': self.mailing_list_url,
+                'irc_channel': self.irc_channel,
+                'irc_network': self.irc_network,
+                'owner_id': self.owner.id,
+                'self_removal': self.self_removal,
+                'need_approval': self.need_approval,
+                'invite_only': self.invite_only,
+                'apply_rules': self.apply_rules,
+                'private': self.private,
                 'status': self.status,
                 'creationDate': utc_iso_format(self.created),
             }
 
         if self.group_types:
-            info['groupType'] = self.group_types.name
+            info['group_type'] = self.group_types.id
 
         if self.parent_group:
-            info['parentGroup'] = self.parent_group.name
+            info['parent_group_id'] = self.parent_group.id
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
             info['members'] = []

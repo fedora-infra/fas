@@ -24,14 +24,12 @@ from pyramid.view import view_config
 from . import (
     BadRequest,
     NotFound,
-    MetaData
-)
+    MetaData,
+    RequestStatus)
 import fas.models.provider as provider
 from fas.events import ApiRequest, GroupCreated
-from fas.security import ParamsValidator
 from fas.util import setup_group_form
-from fas.models import register, MembershipStatus, MembershipRole, \
-    AccountPermissionType
+from fas.models import register, AccountPermissionType
 from fas import log
 
 
@@ -41,8 +39,8 @@ class GroupAPI(object):
         self.notify = self.request.registry.notify
         self.params = self.request.param_validator
         self.data = MetaData('Groups')
-        self.perm = None
-        self.notify(ApiRequest(self.request, self.data, self.perm))
+
+        self.notify(ApiRequest(self.request, self.data))
         self.apikey = self.request.token_validator
 
     def __get_group__(self, key, value):
@@ -54,6 +52,17 @@ class GroupAPI(object):
             raise NotFound('No such group: %s' % value)
 
         return group
+
+    def __requester_can_edit__(self):
+        """
+        :return: True if request can edit a group, otherwise false.
+        :rtype: bool
+        """
+        if self.apikey.get_perm != AccountPermissionType.CAN_EDIT_GROUP_INFO:
+            self.data.set_error_msg(self.apikey.get_msg())
+            return False
+
+        return True
 
     @view_config(
         route_name='api-group-list', renderer='json', request_method='GET')
@@ -111,37 +120,42 @@ class GroupAPI(object):
         if len(group_types) > 0:
             self.data.set_data([g.to_json() for g in group_types])
         else:
-            self.data.set_error_msg('None items', 'There is no group types')
+            self.data.set_error_msg('None items', 'No registered group\'s types.')
 
         return self.data.get_metadata()
 
-    # @view_config(
-    # route_name='api-group-edit', renderer='json', request_method='POST')
-    # def edit_group(self):
-    # key = self.request.matchdict.get('key')
-    #     value = self.request.matchdict.get('value')
-    #
-    #     if self.apikey.validate():
-    #         try:
-    #             group = self.__get_group__(key, value)
-    #         except BadRequest as err:
-    #             self.request.response.status = '400 bad request'
-    #             self.data.set_error_msg('Bad request', err.message)
-    #         except NotFound as err:
-    #             self.request.response.status = '404 page not found'
-    #             self.data.set_error_msg('Item not found', err.message)
-    #
-    #         form = EditGroupForm(self.request.POST, group)
-    #
-    #         if form.validate():
-    #             form.populate_obj(group)
-    #             self.data.set_status('stored', 'User updated')
-    #             self.data.set_data(group.to_json(self.apikey.get_perm()))
-    #         else:
-    #             self.request.response.status = '400 bad request'
-    #             self.data.set_error_msg('Invalid request', form.errors)
-    #
-    #     return self.data.get_metadata()
+    @view_config(
+        route_name='api-group-get', renderer='json', request_method='POST')
+    def edit_group(self):
+        """
+        Update group's information on remote client's request.
+        """
+        if not self.__requester_can_edit__():
+            return self.data.get_metadata()
+
+        key = self.request.matchdict.get('key')
+        value = self.request.matchdict.get('value')
+
+        try:
+            group = self.__get_group__(key, value)
+        except BadRequest as err:
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('Bad request', err.message)
+        except NotFound as err:
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('Item not found', err.message)
+
+        form = setup_group_form(self.request, group)
+
+        if form.validate():
+            form.populate_obj(group)
+            self.data.set_status(RequestStatus.SUCCESS.value)
+            self.data.set_data(group.to_json(self.apikey.get_perm()))
+        else:
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('Invalid request', form.errors)
+
+        return self.data.get_metadata()
 
     @view_config(
         route_name='api-group-edit', renderer='json', request_method='POST')

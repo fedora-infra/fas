@@ -65,6 +65,15 @@ class MetaData(object):
         """
         self.name = name
 
+    def set_status(self, status):
+        """
+        Set status' request into metadata response.
+
+        :param status: status code
+        :type status: int
+        """
+        self.data['Status'] = status
+
     def set_error_msg(self, name='', text=''):
         """
         Set error message into metadata.

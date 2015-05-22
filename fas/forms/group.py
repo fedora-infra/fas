@@ -93,8 +93,8 @@ class EditGroupForm(Form):
         [validators.Optional()],
         default=False)
     self_removal = BooleanField(_(u'Self removal'), default=True)
-    need_approval = BooleanField(_(u'Requires approval'), default=True)
-    invite_only = BooleanField(_(u'Invite only'))
+    need_approval = BooleanField(_(u'Requires approval'), default=False)
+    invite_only = BooleanField(_(u'Invite only'), default=False)
     join_msg = TextAreaField(_(u'Join message'))
     apply_rules = TextAreaField(_(u'Apply rules message'))
     bound_to_github = BooleanField(
