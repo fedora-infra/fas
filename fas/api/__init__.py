@@ -16,6 +16,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+from flufl.enum import IntEnum
+
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.view import view_config
@@ -23,6 +25,14 @@ from pyramid.view import view_config
 from fas.util import compute_list_pages_from, utc_iso_format
 
 import datetime
+import fas.release as fas_release
+
+VERSION = '0.1'
+
+
+class RequestStatus(IntEnum):
+    SUCCESS = 0x00
+    FAILED = 0x01
 
 
 class BadRequest(Exception):
@@ -38,8 +48,13 @@ class MetaData(object):
     def __init__(self, name=None):
         self.data = {}
         self.name = name
+
         self.datetime = datetime.datetime
         self.timestamp = utc_iso_format(self.datetime.utcnow())
+
+        build = self.data['Build'] = {}
+        build['name'] = u'FAS-%s' % fas_release.__VERSION__
+        build['api_version'] = VERSION
 
     def set_name(self, name):
         """
