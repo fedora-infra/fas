@@ -18,8 +18,6 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-import logging
-
 from pyramid.events import subscriber
 
 from fas import log

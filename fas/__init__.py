@@ -201,7 +201,7 @@ def main(global_config, **settings):
     config.add_route('api-people-list', '/api/people')
     config.add_route('api-people-get', '/api/people/{key}/{value}')
     config.add_route('api-group-list', '/api/groups')
-    config.add_route('api-group-edit', '/api/group/create')
+    config.add_route('api-group-create', '/api/group/create')
     config.add_route('api-group-get', '/api/group/{key}/{value}')
     config.add_route('api-group-types', '/api/group/types')
 

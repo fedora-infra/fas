@@ -158,30 +158,28 @@ class GroupAPI(object):
         return self.data.get_metadata()
 
     @view_config(
-        route_name='api-group-edit', renderer='json', request_method='POST')
+        route_name='api-group-create', renderer='json', request_method='POST')
     def create_group(self):
-        """ Create a group from an client's request.
         """
-        if self.apikey.get_perm != AccountPermissionType.CAN_EDIT_GROUP_INFO:
-            self.data.set_error_msg(self.apikey.get_msg())
+        Create a group on remote client's request.
+        """
+        if not self.__requester_can_edit__():
             return self.data.get_metadata()
 
         form = setup_group_form(self.request)
 
-        if self.request.method == 'POST':
-            if form.validate():
-                group = register.add_group(form)
-                self.notify(GroupCreated(self.request, group))
-                self.data.set_data(form.data)
-            else:
-                for field, errors in form.errors.items():
-                    for error in errors:
-                        log.error('Error in field %s: %s' % (
-                            getattr(form, field).label.text,
-                            error
-                        ))
-                        self.data.set_error_msg('Invalid data', '%s: %s' %
-                                                (getattr(form, field).label.text,
-                                                 error))
+        if form.validate():
+            group = register.add_group(form)
+            self.notify(GroupCreated(self.request, group))
+            self.data.set_data(form.data)
+            self.data.set_status(RequestStatus.SUCCESS.value)
+        else:
+            self.data.set_error_msg('Invalid data', form.errors)
+            for field, errors in form.errors.items():
+                for error in errors:
+                    log.error('Error in field %s: %s' % (
+                        getattr(form, field).label.text,
+                        error
+                    ))
 
         return self.data.get_metadata()
