@@ -29,7 +29,7 @@ from . import (
 import fas.models.provider as provider
 from fas.events import ApiRequest, GroupCreated
 from fas.util import setup_group_form
-from fas.models import register, AccountPermissionType
+from fas.models import register, AccountPermissionType, MembershipStatus
 from fas import log
 
 
@@ -58,11 +58,12 @@ class GroupAPI(object):
         :return: True if request can edit a group, otherwise false.
         :rtype: bool
         """
-        if self.apikey.get_perm != AccountPermissionType.CAN_EDIT_GROUP_INFO:
-            self.data.set_error_msg(self.apikey.get_msg())
-            return False
+        if self.apikey.get_perm() >= AccountPermissionType.CAN_EDIT_GROUP_INFO:
+            return True
 
-        return True
+        self.data.set_error_msg(self.apikey.get_msg())
+
+        return False
 
     @view_config(
         route_name='api-group-list', renderer='json', request_method='GET')
@@ -183,3 +184,85 @@ class GroupAPI(object):
                     ))
 
         return self.data.get_metadata()
+
+    def add_member(self):
+        """
+        Add member to given group on remote client's request.
+        """
+        pass
+
+    def remove_member(self):
+        """
+        Remove member from a given group on remote client's request.
+        """
+        pass
+
+    @view_config(
+        route_name='api-group-membership', renderer='json', request_method='POST')
+    def grant_membership(self):
+        """
+        Grants group's membership on remote client's request.
+        """
+        group_id = self.request.matchdict.get('gid')
+        candidate_id = self.request.matchdict.get('uid')
+        person = self.apikey.get_owner()
+        param = 'sponsor'
+
+        if not self.__requester_can_edit__():
+            return self.data.get_metadata()
+
+        if self.apikey.isTrusted:
+            # Trusted 3rd party has to send us id of person who requested
+            # membership approval we won't record membership or sponsorship on
+            # behalf 3rd party.
+            if self.request.json_body and \
+                            param in self.request.json_body:
+                sponsor = self.request.json_body[param]
+            else:
+                self.data.set_status(RequestStatus.FAILED.value)
+                self.data.set_error_msg(
+                    'Invalid param', 'Missing parameter %s' % param)
+                return self.data.get_metadata()
+
+        if person:
+            sponsor = person.id
+
+        membership = provider.get_membership_by_person_id(group_id, candidate_id)
+
+        if membership:
+            log.debug('Found membership for group %s' % membership.group.name)
+
+            if membership.group and membership.group.requires_sponsorship:
+                membership.sponsor = sponsor
+            else:
+                self.data.set_status(RequestStatus.FAILED.value)
+                return self.data.get_metadata()
+
+            membership.status = MembershipStatus.APPROVED
+            self.data.set_status(RequestStatus.SUCCESS.value)
+        else:
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('No Items',
+                                    'Found no pending membership with '
+                                    'group %s and person %s.' %
+                                    (group_id, candidate_id))
+
+        return self.data.get_metadata()
+
+    def upgrade_membership(self):
+        """
+        Upgrade membership level from a given group on remote client's request.
+        """
+        pass
+
+    def downgrade_membership(self):
+        """
+        Downgrade membership level from a given group on remote client's request.
+        """
+        pass
+
+    def edit_membership(self):
+        """
+        Edit membership status from a given group on remote client's request.
+        """
+        pass

@@ -197,7 +197,7 @@ def get_group_by_people_membership(username):
     return query.all()
 
 
-def get_membership(username, group):
+def get_membership_by_username(username, group):
     """ Retrieve membership from given username and group name.
 
     :username: people username
@@ -217,6 +217,26 @@ def get_membership(username, group):
 
     return query.first()
 
+
+def get_membership_by_person_id(group_id, person_id):
+    """
+    Retrieve group's membership based on given group and person ID.
+
+    :param group_id: group ID to look up for a membership.
+    :type group_id: int
+    :param person_id: person ID to look up for a membership.
+    :type person_id: int
+    :return: Membership's object from given person and group id.
+    :rtype: fas.models.group.GroupMembership
+    """
+    query = session.query(
+        GroupMembership
+    ).filter(
+        GroupMembership.people_id == person_id,
+        GroupMembership.group_id == group_id
+    )
+
+    return query.first()
 
 def get_membership_by_role(group, person, role):
     """ Retrieve group membership request from given group and person

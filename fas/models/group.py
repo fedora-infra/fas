@@ -103,6 +103,7 @@ class Groups(Base):
     private = Column(Boolean, default=False)
     self_removal = Column(Boolean, default=True)
     need_approval = Column(Boolean, default=False)
+    requires_sponsorship = Column(Boolean, default=False)
     invite_only = Column(Boolean, default=False)
     join_msg = Column(UnicodeText, nullable=True)
     apply_rules = Column(UnicodeText, nullable=True)
@@ -170,6 +171,7 @@ class Groups(Base):
                 'owner_id': self.owner.id,
                 'self_removal': self.self_removal,
                 'need_approval': self.need_approval,
+                'requires_sponsorship': self.requires_sponsorship,
                 'invite_only': self.invite_only,
                 'apply_rules': self.apply_rules,
                 'private': self.private,
@@ -185,23 +187,28 @@ class Groups(Base):
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
             info['members'] = []
+            info['pending_requests'] = []
             for member in self.members:
                 if member.person is None:
                     log.error('Got an empty People object from '
                               'group membership: %s.' % self.name)
                 else:
-                    info['members'].append(
-                        {
-                            'id': member.people_id,
-                            'name': member.person.username,
-                            'role': member.role,
-                            'sponsor': member.sponsor,
-                            'membershipStatus': member.status,
-                            'status': member.person.status,
-                            'ircnick': member.person.ircnick,
-                            'joinedDate': utc_iso_format(member.approval_timestamp)
-                        }
-                    )
+                    person = {
+                        'membership_id': member.id,
+                        'person_id': member.people_id,
+                        'name': member.person.username,
+                        'role': member.role,
+                        'sponsor': member.sponsor,
+                        'membershipStatus': member.status,
+                        'status': member.person.status,
+                        'ircnick': member.person.ircnick,
+                        'joinedDate': utc_iso_format(
+                            member.approval_timestamp)
+                    }
+                    if member.status == MembershipStatus.APPROVED:
+                        info['members'].append(person)
+                    elif member.status == MembershipStatus.PENDING:
+                        info['pending_requests'].append(person)
 
         return info
 
@@ -221,8 +228,8 @@ class GroupMembership(Base):
 
     # role_level = relation(
     # 'RoleLevel',
-    #     foreign_keys='RoleLevel.id',
-    #     primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
+    # foreign_keys='RoleLevel.id',
+    # primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
     #     uselist=False
     # )
 

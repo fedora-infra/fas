@@ -399,6 +399,7 @@ class TokenValidator(Base):
         self.token = self.request.param_validator.get_apikey()
         self.perm = 0x00
         self.obj = None
+        self.isTrusted = False
 
     def validate(self):
         """
@@ -416,7 +417,9 @@ class TokenValidator(Base):
             try:
                 self.people = key.account
             except AttributeError:
-                log.debug('No people object available for this token')
+                log.debug('No people object available for this token,'
+                          'we may dealing with a trusted requester.')
+                self.isTrusted = True
             return True
         else:
             log.debug('Invalid token, denying access!')
@@ -446,7 +449,7 @@ class TokenValidator(Base):
         Return token related permissions.
         :rtype: `fas.models.AccountPermissionType`
         """
-        return self.perm
+        return int(self.perm)
 
     def get_owner(self):
         """
@@ -499,7 +502,7 @@ class RoleValidator(MembershipValidator):
         :return: true if user is admin, false otherwise.
         """
         if self.validate():
-            role = provider.get_membership(self.username, self.group)
+            role = provider.get_membership_by_username(self.username, self.group)
             if role:
                 if role.role == MembershipRole.ADMINISTRATOR:
                     return True
@@ -514,7 +517,7 @@ class RoleValidator(MembershipValidator):
         :return: True if user is sponsor, false otherwise.
         """
         if self.validate():
-            role = provider.get_membership(self.username, self.group)
+            role = provider.get_membership_by_username(self.username, self.group)
             if role:
                 if role.role == MembershipRole.SPONSOR:
                     return True

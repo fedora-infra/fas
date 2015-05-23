@@ -203,6 +203,8 @@ def main(global_config, **settings):
     config.add_route('api-group-list', '/api/groups')
     config.add_route('api-group-create', '/api/group/create')
     config.add_route('api-group-get', '/api/group/{key}/{value}')
+    config.add_route('api-group-membership',
+                     '/api/group/{gid}/membership/grant/{uid}')
     config.add_route('api-group-types', '/api/group/types')
 
     # API private requests

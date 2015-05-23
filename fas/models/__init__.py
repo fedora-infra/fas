@@ -87,6 +87,7 @@ class AccountPermissionType(IntEnum):
     CAN_READ_PEOPLE_FULL_INFO = 0x03
     CAN_READ_AND_EDIT_PEOPLE_INFO = 0x05
     CAN_EDIT_GROUP_INFO = 0x07
+    CAN_EDIT_GROUP_MEMBERSHIP = 0x08
 
 
 class AccountLogType(IntEnum):

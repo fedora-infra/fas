@@ -334,7 +334,7 @@ class Groups(object):
         self.group = provider.get_group_by_id(self.id)
         user = self.request.get_user
 
-        membership = provider.get_membership(
+        membership = provider.get_membership_by_username(
             user.username, self.group.name)
 
         email = Email('membership_update')
@@ -414,7 +414,7 @@ class Groups(object):
             self.user = provider.get_people_by_id(user_id)
 
             if self.user:
-                membership = provider.get_membership(
+                membership = provider.get_membership_by_username(
                     self.user.username, self.group.name)
 
             msg = ''
