@@ -25,7 +25,7 @@ VENV = 'fas-python{major}.{minor}'.format(
 )
 
 
-def _link_system_lib(lib):
+def _link_system_lib(lib, virtenv_dir):
     for libdir in ('lib', 'lib64'):
         location = '{libdir}/python{major}.{minor}/site-packages'.format(
             major=sys.version_info.major, minor=sys.version_info.minor,
@@ -41,7 +41,7 @@ def _link_system_lib(lib):
         print("Linking in global module: %s" % lib)
         cmd = template.format(
             location=location, venv=VENV, lib=lib,
-            workon=os.getenv("WORKON_HOME"))
+            workon=virtenv_dir)
         try:
             subprocess.check_output(cmd.split())
             return True
@@ -52,10 +52,10 @@ def _link_system_lib(lib):
     print("Cannot find global module %s" % lib)
 
 
-def link_system_libs():
-    for mod in ('sqlitecachec', '_sqlitecache', 'psycopg2',
-                'krbVmodule'):
-        _link_system_lib(mod)
+def link_system_libs(virtenv_dir):
+    sys_libs = ['sqlitecachec', '_sqlitecache', 'psycopg2', 'krbVmodule']
+    for mod in sys_libs:
+        _link_system_lib(mod, virtenv_dir)
 
 
 def _do_virtualenvwrapper_command(cmd):
@@ -99,7 +99,7 @@ def rebuild():
             shutil.rmtree(base)
 
 
-def setup_develop():
+def setup_develop(virtenv_dir):
     """ `python setup.py develop` in our virtualenv """
     # Disable easy_install way (egg file) install
     # cmd = '{workon}/{env}/bin/python setup.py develop'.format(
@@ -107,13 +107,21 @@ def setup_develop():
     # Use pip way to install into our virtualenv as we have
     # on dependency which doesn't work as expected when install as egg file
     cmd = '{workon}/{env}/bin/pip install -e .'.format(
-        envs=ENVS, env=VENV, workon=os.getenv("WORKON_HOME"))
+        envs=ENVS, env=VENV, workon=virtenv_dir)
     print(cmd)
     subprocess.call(cmd.split())
 
 
 if __name__ == '__main__':
+    virtenv_dir = os.getenv('WORKON_HOME')
+    
+    if virtenv_dir is None:
+        print('ERROR: Cannot bootstrap FAS, your virtual-env dir is not set'
+              'Please, set variable "WORKON_HOME" wiith your virtual-env '
+              'root dir value.')
+        sys.exit(1)
+
     print("Bootstrapping fas...")
     rebuild()
-    link_system_libs()
-    setup_develop()
+    link_system_libs(virtenv_dir)
+    setup_develop(virtenv_dir)
