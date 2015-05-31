@@ -233,12 +233,12 @@ class GroupMembership(Base):
     #     uselist=False
     # )
 
-    person = relationship(
-        'People',
-        foreign_keys='People.id',
-        primaryjoin='and_(GroupMembership.people_id==People.id)',
-        uselist=False
-    )
+    # person = relationship(
+    #     'People',
+    #     foreign_keys='People.id',
+    #     primaryjoin='and_(GroupMembership.people_id==People.id)',
+    #     uselist=False
+    # )
     sponsors = relation(
         'People',
         foreign_keys='People.id',
