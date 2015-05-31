@@ -219,7 +219,7 @@ class GroupMembership(Base):
     id = Column(Integer, primary_key=True)
     group_id = Column(Integer, ForeignKey('group.id'))
     role = Column(Integer, default=MembershipRole.USER)
-    status = Column(Integer, default=MembershipStatus)
+    status = Column(Integer, default=MembershipStatus.UNAPPROVED)
     comment = Column(UnicodeText, nullable=True)
     people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor = Column(Integer, ForeignKey('people.id'), nullable=True)
