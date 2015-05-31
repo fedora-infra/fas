@@ -205,6 +205,7 @@ def main(global_config, **settings):
     config.add_route('api-group-get', '/api/group/{key}/{value}')
     config.add_route('api-group-membership',
                      '/api/group/{gid}/membership/grant/{uid}')
+    config.add_route('api-group-role', '/api/group/membership/edit/{mid}')
     config.add_route('api-group-types', '/api/group/types')
 
     # API private requests
@@ -216,7 +217,8 @@ def main(global_config, **settings):
     config.add_route('captcha-image', '/settings/captcha/{cipherkey}')
 
     config.add_route('lost-password', '/settings/lost/password')
-    config.add_route('reset-password', '/settings/reset/password/{username}/{token}')
+    config.add_route('reset-password',
+                     '/settings/reset/password/{username}/{token}')
 
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')

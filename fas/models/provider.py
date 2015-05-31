@@ -197,12 +197,25 @@ def get_group_by_people_membership(username):
     return query.all()
 
 
+def get_membership_by_id(membership_id):
+    """
+    Retrieve membership from from given ID.
+
+    :param membership_id: membership id to look up
+    :type membership_id: int
+    :return: Membership object if found, None otherwise
+    :rtype: fas.models.group.GroupMembership
+    """
+    return session.query(GroupMembership).get(membership_id)
+
+
 def get_membership_by_username(username, group):
     """ Retrieve membership from given username and group name.
 
     :username: people username
     :group: Group name
     :return: Membership object
+    :rtype: fas.models.group.GroupMembership
     """
     query = session.query(
         GroupMembership

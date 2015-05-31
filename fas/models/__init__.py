@@ -41,6 +41,7 @@ class BaseStatus(IntEnum):
     LOCKED_BY_ADMIN = 0x06
     DISABLED = 0x08
 
+
 class AccountStatus(BaseStatus):
     ON_VACATION = 0x04
 
@@ -52,17 +53,21 @@ class AccountStatus(BaseStatus):
 #    id = sa.Column(sa.Integer, primary_key=True)
 #    status = sa.Column(sa.Unicode(50), unique=True, nullable=False)
 
+
 class GroupStatus(BaseStatus):
     ARCHIVED = 0x0A
+
 
 class MembershipStatus(IntEnum):
     UNAPPROVED = 0x00
     APPROVED = 0x01
     PENDING = 0x02
 
+
 class LicenseAgreementStatus(IntEnum):
     DISABLED = 0x00
     ENABLED = 0x01
+
 
 class MembershipRole(IntEnum):
     UNKNOWN = 0x00

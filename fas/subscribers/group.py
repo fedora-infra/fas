@@ -42,6 +42,8 @@ def on_group_created(event):
         gh = Github(log)
         gh.create_group(name=group.name, repo=group.name, access='push')
 
+        # TODO: Add email notification
+
 
 @subscriber(GroupEdited)
 def on_group_edited(event):
@@ -79,4 +81,3 @@ def on_group_edited(event):
 
     if send_email and email.is_ready:
         email.send(recipient)
-

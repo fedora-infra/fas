@@ -417,8 +417,8 @@ class TokenValidator(Base):
             try:
                 self.people = key.account
             except AttributeError:
-                log.debug('No people object available for this token,'
-                          'we may dealing with a trusted requester.')
+                log.debug('No people\'s object available for this token,'
+                          'we might be dealing with a trusted requester.')
                 self.isTrusted = True
             return True
         else:
