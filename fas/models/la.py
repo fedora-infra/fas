@@ -19,7 +19,7 @@
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from . import Base, LicenseAgreementStatus
-
+from fas.util import utc_iso_format
 from sqlalchemy import (
     Column,
     Integer,
@@ -60,6 +60,22 @@ class LicenseAgreement(Base):
         order_by='Groups.name'
     )
 
+    def to_json(self):
+        """
+        Exports License Agreement to JSON/dict format.
+
+        :return: A dictionary of LicenseAgreement's data
+        :rtype: dict
+        """
+        return {
+            'name': self.name,
+            'status': self.status,
+            'content': self.content,
+            'comment': self.comment,
+            'enabled_at_signup': self.enabled_at_signup,
+            'created_on': utc_iso_format(self.creation_timestamp)
+        }
+
 
 class SignedLicenseAgreement(Base):
     """ Mapper class to SQL table SignedLicenseAgreement. """
@@ -76,3 +92,15 @@ class SignedLicenseAgreement(Base):
         'LicenseAgreement',
         order_by='LicenseAgreement.id'
     )
+
+    def to_json(self):
+        """
+        Exports License Agreement signing into JSON/dict format.
+
+        :return: A dictionary of SignedLicenseAgreement's data.
+        :rtype: dict
+        """
+        return {
+            'name': self.license,
+            'signed': self.signed
+        }

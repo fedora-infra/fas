@@ -109,34 +109,21 @@ class People(Base):
         onupdate=func.current_timestamp()
     )
 
-    groups = relation(
-        'Groups',
-        order_by='Groups.id'
-    )
-    #account_status = relation(
-        #'AccountStatus',
-        #foreign_keys='People.status',
-        #uselist=False
-    #)
     group_membership = relationship(
         'GroupMembership',
-        primaryjoin='and_(GroupMembership.people_id==People.id)',
-        backref=backref('people', lazy="joined")
+        foreign_keys='[GroupMembership.people_id]',
+        backref=backref('person', lazy="joined"),
+        cascade_backrefs=True
         )
-    group_sponsors = relation(
-        'GroupMembership',
-        foreign_keys='GroupMembership.sponsor',
-        uselist=False
-    )
-    licenses = relation(
+    licenses = relationship(
         'SignedLicenseAgreement',
         order_by='SignedLicenseAgreement.id'
     )
-    activities_log = relation(
+    activities_log = relationship(
         'PeopleAccountActivitiesLog',
         order_by='PeopleAccountActivitiesLog.timestamp'
     )
-    account_permissions = relation(
+    account_permissions = relationship(
         'AccountPermissions',
         primaryjoin='and_(AccountPermissions.people==People.id)',
         order_by='AccountPermissions.id'
@@ -189,6 +176,9 @@ class People(Base):
             info['blogrss'] = self.blog_rss
             info['bio'] = self.bio
 
+            if self.licenses:
+                info['license_agreement'] = [l.to_json() for l in self.licenses]
+
             info['membership'] = []
             if self.group_membership > 0:
                 for groups in self.group_membership:
@@ -225,29 +215,12 @@ class People(Base):
                 }
 
                 if self.account_permissions:
-                    info['accountAccess'] = []
-                    for perms in self.account_permissions:
-                        info['accountAccess'].append(
-                            {
-                                'application': perms.application,
-                                'permissions': perms.permissions,
-                                'grantedOn':
-                                    perms.granted_timestamp.strftime(
-                                        '%Y-%m-%d')
-                            }
-                        )
+                    info['account_access'] = [
+                        p.to_json() for p in self.account_permissions]
 
                 if self.activities_log:
-                    info['accountActivities'] = []
-                    for log in self.activities_log:
-                        info['accountActivities'].append(
-                            {
-                                'location': log.location + ' (%s)' % log.remote_ip,
-                                'accessFrom': log.access_from,
-                                'datetime': log.timestamp.strftime(
-                                    '%Y-%m-%d %H:%M')
-                            }
-                        )
+                    info['account_activities'] = [
+                        log.to_json() for log in self.activities_log]
             else:
                 info['privacy'] = self.privacy
 
@@ -271,6 +244,20 @@ class PeopleAccountActivitiesLog(Base):
         Index('account_access_log_idx', location),
         Index('people_access_log_idx', access_from),
     )
+
+    def to_json(self):
+        """
+        Exports Account activities to JSON/dict format.
+
+        :return: A dictionary of account's activities
+        :rtype: dict
+        """
+        return {
+            'location': self.location + ' (%s)' % self.remote_ip,
+            'remote_client': self.access_from,
+            'event': self.event,
+            'timestamp': utc_iso_format(self.timestamp)
+        }
 
     def get_date(self, request):
         """ Return activity date in a translated human readable format. """

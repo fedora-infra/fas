@@ -196,13 +196,13 @@ class Groups(Base):
                     person = {
                         'membership_id': member.id,
                         'person_id': member.people_id,
-                        'name': member.person.username,
-                        'role': member.role,
+                        'person_name': member.person.username,
+                        'role': MembershipRole(member.role).value,
                         'sponsor': member.sponsor,
-                        'membershipStatus': member.status,
-                        'status': member.person.status,
+                        'status': member.status,
+                        'person_status': member.person.status,
                         'ircnick': member.person.ircnick,
-                        'joinedDate': utc_iso_format(
+                        'joined_datetime': utc_iso_format(
                             member.approval_timestamp)
                     }
                     if member.status == MembershipStatus.APPROVED:

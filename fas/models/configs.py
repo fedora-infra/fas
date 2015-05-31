@@ -35,7 +35,7 @@ from sqlalchemy.orm import relation, relationship
 
 from fas.models import AccountPermissionType
 
-from fas.util import format_datetime
+from fas.util import format_datetime, utc_iso_format
 
 
 class Plugins(Base):
@@ -59,6 +59,19 @@ class AccountPermissions(Base):
     last_used = Column(DateTime, nullable=True)
 
     account = relationship('People', uselist=False)
+
+    def to_json(self):
+        """
+        Exports Account Permissions to JSON/dict format.
+
+        :return: A dictionary of AccountPermissions's data
+        :rtype: dict
+        """
+        return {
+            'application': self.application,
+            'permission': self.permissions,
+            'granted_on': utc_iso_format(self.granted_timestamp)
+        }
 
     def get_granted_date(self, request):
         """ Return granted date of account perms in a translated
