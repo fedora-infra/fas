@@ -149,7 +149,7 @@ class Groups(object):
     @view_config(route_name='group-details', renderer='/groups/details.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
     def details(self):
-        """ Group's details page."""
+        """ Group's details page. """
         try:
             _id = self.request.matchdict['id']
         except KeyError:
@@ -574,7 +574,7 @@ class Groups(object):
             elif action == 'change_admin':
                 form = GroupAdminsForm(self.request.POST, self.group)
                 form.owner_id.choices = [
-                    (m.people.id, m.people.username)
+                    (m.person.id, m.person.username)
                     for m in self.group.members
                     if m.role == MembershipRole.ADMINISTRATOR]
                 if form.validate():
