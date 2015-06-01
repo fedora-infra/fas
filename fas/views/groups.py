@@ -213,11 +213,9 @@ class Groups(object):
                     or self.request.authenticated_is_admin():
                 admin_form = GroupAdminsForm(self.request.POST)
                 admin_form.owner_id.choices = [
-                    (person.people.id,
-                     '%s (%s)' % (
-                         person.people.username,
-                         person.people.fullname))
-                    for person in admin_members]
+                    (p.person.id, '%s (%s)'
+                     % (p.person.username, p.person.fullname))
+                    for p in admin_members]
 
         membership_request = provider.get_memberships_by_status(
             status=MembershipStatus.PENDING,
