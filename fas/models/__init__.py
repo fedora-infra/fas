@@ -86,6 +86,10 @@ class MembershipRole(IntEnum):
 
 
 class AccountPermissionType(IntEnum):
+    """
+    Describes the type of permissions a person can request
+    or have over its account.
+    """
     UNDEFINED = 0x00
     CAN_READ_PUBLIC_INFO = 0x01
     CAN_READ_PEOPLE_PUBLIC_INFO = 0x02
@@ -93,6 +97,8 @@ class AccountPermissionType(IntEnum):
     CAN_READ_AND_EDIT_PEOPLE_INFO = 0x05
     CAN_EDIT_GROUP_INFO = 0x07
     CAN_EDIT_GROUP_MEMBERSHIP = 0x08
+    CAN_READ_SETTINGS = 0x0A
+    CAN_READ_AND_EDIT_SETTINGS = 0xAF
 
 
 class AccountLogType(IntEnum):

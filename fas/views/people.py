@@ -47,8 +47,8 @@ from fas.models import (
     AccountPermissionType as permission,
     AccountStatus,
     AccountLogType,
-    MembershipStatus
-    )
+    MembershipStatus,
+    AccountPermissionType)
 
 from fas.events import PasswordChangeRequested, PeopleInfosUpdated
 
@@ -65,7 +65,6 @@ log = logging.getLogger(__name__)
 
 
 class People(object):
-
     def __init__(self, request):
         self.request = request
         self.id = -1
@@ -87,7 +86,7 @@ class People(object):
             return HTTPBadRequest()
 
         # TODO: get limit from config file or let user choose in between
-        #      predefined one ?
+        # predefined one ?
         people = provider.get_people(50, page)
         peoples = provider.get_people(count=True)
 
@@ -101,7 +100,7 @@ class People(object):
             count=int(peoples),
             page=page,
             pages=pages
-            )
+        )
 
     @view_config(
         route_name='people-search-rd', renderer='/people/search.xhtml')
@@ -205,8 +204,8 @@ class People(object):
                         AccountStatus.INACTIVE,
                         AccountStatus.ON_VACATION,
                         AccountStatus.DISABLED
-                        ]
                     ]
+                ]
 
         if self.request.method == 'POST':
             if form.validate():
@@ -229,7 +228,7 @@ class People(object):
         membership = [
             g for g in self.person.group_membership
             if not g.status == MembershipStatus.PENDING
-            ]
+        ]
 
         return dict(
             person=self.person,
@@ -257,9 +256,9 @@ class People(object):
             if self.request.authenticated_userid != self.person.username:
                 return self.redirect_to_profile()
         else:
-            if self.request.authenticated_userid != self.person.username\
+            if self.request.authenticated_userid != self.person.username \
                     or self.request.authenticated_userid == \
-                    self.person.username:
+                            self.person.username:
                 return self.redirect_to_profile()
 
         return dict(activities=activities, person=self.person)
@@ -312,7 +311,7 @@ class People(object):
         form.locale.choices = [
             (l, l) for l in list(Config.get('locale.available').split(','))]
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 form.populate_obj(self.person)
@@ -332,11 +331,12 @@ class People(object):
 
         # Override username validator
         from wtforms import validators
+
         form.username.validators = [validators.Required()]
 
         email = Email('account_update')
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
             if captcha_form.validate():
                 if form.validate():
@@ -348,9 +348,9 @@ class People(object):
                             _('No such account exists'), 'error')
                         return dict(form=form)
                     elif self.person.status in [
-                            AccountStatus.LOCKED,
-                            AccountStatus.LOCKED_BY_ADMIN,
-                            AccountStatus.DISABLED]:
+                        AccountStatus.LOCKED,
+                        AccountStatus.LOCKED_BY_ADMIN,
+                        AccountStatus.DISABLED]:
                         self.request.session.flash(
                             _('This account is blocked'), 'error')
                         return redirect_to('/')
@@ -401,7 +401,7 @@ class People(object):
 
         form = ResetPasswordPeopleForm(self.request.POST)
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 register.update_password(form, self.person)
@@ -428,7 +428,7 @@ class People(object):
 
         if not self.person:
             raise HTTPNotFound(_(u'The person you are looking for'
-            'do not exist.'))
+                                 'do not exist.'))
 
         self.notify(PasswordChangeRequested(self.request, self.person))
 
@@ -461,6 +461,22 @@ class People(object):
 
         form = AccountPermissionForm(self.request.POST)
 
+        # Sets up allowed permissions from which a person could generate
+        # a token with, based on its account's privileges.
+        allowed_perms = [
+            AccountPermissionType.CAN_READ_PUBLIC_INFO,
+            AccountPermissionType.CAN_READ_PEOPLE_FULL_INFO,
+            AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO
+        ]
+
+        if self.request.authenticated_is_group_editor():
+            allowed_perms.append(AccountPermissionType.CAN_EDIT_GROUP_INFO)
+        elif self.request.authenticated_is_admin():
+            allowed_perms.append(AccountPermissionType.CAN_EDIT_GROUP_MEMBERSHIP)
+            allowed_perms.append(AccountPermissionType.CAN_READ_AND_EDIT_SETTINGS)
+
+        form.perm.choices = [(p.value, p.name) for p in allowed_perms]
+
         if self.request.method == 'POST':
 
             if 'form.save.token' in self.request.params:
@@ -472,8 +488,8 @@ class People(object):
                         form.perm.data,
                         people_id=self.id)
                     register.save_account_activity(
-                                self.request, self.id,
-                                AccountLogType.REQUESTED_API_KEY)
+                        self.request, self.id,
+                        AccountLogType.REQUESTED_API_KEY)
                     self.request.session.flash(token, 'tokens')
                 else:
                     log.error('Invalid token: %s', form.perm.data)

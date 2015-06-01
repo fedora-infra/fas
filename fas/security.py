@@ -100,9 +100,11 @@ def authenticated_is_modo(request):
 
 
 def authenticated_is_group_editor(request):
-    """ Validate that authenticated user as group editor
+    """ Validate that authenticated user has right
+     to edit group(s).
 
-    :return: True is user is a group editor, false otherwise.
+    :return: True if user is a group editor, false otherwise.
+    :rtype: bool
     """
     is_group_editor = MembershipValidator(
         request.authenticated_userid,
