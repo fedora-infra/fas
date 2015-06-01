@@ -115,8 +115,10 @@ class Admin(object):
                     secret=secret)
                 self.request.session.flash(token, 'tokens')
                 self.request.session.flash(secret, 'secret')
-
-            # self.notify()
+            if ('form.revoke.token' in self.request.params) \
+                    and trustedperm_form.validate():
+                register.remove_trusted_token(trustedperm_form.id.data)
+                # TODO: Add notifications
 
         return dict(groupform=group_form,
                     gtypeform=grouptype_form,
@@ -319,7 +321,8 @@ class Admin(object):
                 # Should redirect to previous url
                 log.error('Invalid form value from requester :'
                           'cacert: %s, group_id: %s, group_name: %s' %
-                          (form.cacert.data, form.group_id.data, form.group_name.data))
+                          (form.cacert.data, form.group_id.data,
+                           form.group_name.data))
                 raise redirect_to('/')
             else:
                 # Setup headers

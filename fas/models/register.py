@@ -345,3 +345,13 @@ def add_trusted_token():
     :return:
     """
     return None
+
+def remove_trusted_token(id):
+    """
+    Deletes a trusted token from the system.
+    :param id: Token id to look up
+    :type id: str
+    :return:
+    :rtype:
+    """
+    session.query(TrustedPermissions).filter_by(id=id).delete()
