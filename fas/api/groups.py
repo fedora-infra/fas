@@ -267,6 +267,12 @@ class GroupAPI(object):
         membership_id = self.request.matchdict.get('mid')
         requester = self.__get_action_requester_id__('admin')
 
+        if self.apikey.get_perm() \
+                >= AccountPermissionType.CAN_EDIT_GROUP_MEMBERSHIP:
+            self.data.set_status(RequestStatus.FAILED)
+            self.data.set_error_msg(self.apikey.get_msg())
+            return self.data.get_metadata()
+
         if requester is not None:
             membership = provider.get_membership_by_id(membership_id)
             log.debug('Found membership: %s' % membership)
