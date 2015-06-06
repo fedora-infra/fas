@@ -254,15 +254,15 @@
               <li>
                 <span>
                   <a href="${request.route_url(
-                            'people-profile', id=membership.people.username)}">
-                    %if membership.people.avatar:
-                      <img src="${membership.people.avatar}?s=50&d=monsterid"
+                            'people-profile', id=membership.person.username)}">
+                    %if membership.person.avatar:
+                      <img src="${membership.person.avatar}?s=50&d=monsterid"
                            class="profile img-circle" />
                     %else:
                       <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
                            class="img-thumbnail" />
                     %endif
-                    ${membership.people.fullname}
+                    ${membership.person.fullname}
                   </a>
                 </span>
                 <span>
@@ -272,7 +272,7 @@
                         method="POST">
                         <input type="hidden" name="action" value="upgrade">
                         <input type="hidden" name="group_id" value="${group.id}">
-                        <input type="hidden" name="user_id" value="${membership.people.id}">
+                        <input type="hidden" name="user_id" value="${membership.person.id}">
                         <button class="btn btn-default" type="submit">
                           ${_(u'Sponsor')}
                         </button>
@@ -341,7 +341,7 @@
              %endif
            </a>
          </li>
-       </ul
+       </ul>
 </div>
        <div class="tab-content">
          <div role="tabpanel" class="tab-pane fade in active" id="all">
