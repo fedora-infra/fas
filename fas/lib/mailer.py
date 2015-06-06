@@ -28,7 +28,7 @@ from fas.util import Config
 
 
 def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
-    """ Send notification by email. """
+    """ Sends notification by email. """
 
     msg = MIMEText(message)
 
@@ -47,9 +47,8 @@ def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
     # envelope header.
     smtp = smtplib.SMTP(Config.get('email.smtp.server'))
 
-    if logger:
-        if logger.isEnabledFor(logging.DEBUG):
-            smtp.set_debuglevel(1)
+    if logger and logger.isEnabledFor(logging.DEBUG):
+        smtp.set_debuglevel(1)
 
     smtp.sendmail(from_email, mail_to, msg.as_string())
     smtp.quit()

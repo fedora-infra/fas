@@ -40,9 +40,8 @@ from fas.forms.certificates import CreateClientCertificateForm
 from fas.security import MembershipValidator
 from fas.security import ParamsValidator
 from fas.util import _, Config
-from fas.events import GroupBindingRequested
+from fas.events import GroupBindingRequested, NotificationRequest
 from fas.events import GroupEdited
-from fas.notifications.email import Email
 import fas.models.provider as provider
 import fas.models.register as register
 
@@ -335,7 +334,7 @@ class Groups(object):
         membership = provider.get_membership_by_username(
             user.username, self.group.name)
 
-        email = Email('membership_update')
+        tpl = 'membership_update'
 
         can_apply = False
         if not membership:
@@ -350,22 +349,12 @@ class Groups(object):
         if self.request.method == 'POST':
             status = MembershipStatus.PENDING
             log = AccountLogType.ASKED_GROUP_MEMBERSHIP
-            email.set_msg(
-                topic='application',
-                people=user,
-                group=self.group,
-                url=self.request.route_url(
-                    'group-details', id=self.group.id))
+            topic = 'group.member.apply'
 
             if not self.group.need_approval:
                 status = MembershipStatus.APPROVED
                 log = AccountLogType.NEW_GROUP_MEMBERSHIP
-                email.set_msg(
-                    topic='join',
-                    people=user,
-                    group=self.group,
-                    url=self.request.route_url(
-                        'group-details', id=self.group.id))
+                topic = 'group.join'
 
             if can_apply:
                 register.add_membership(
@@ -379,7 +368,15 @@ class Groups(object):
                     log,
                     self.group.name)
 
-                email.send(user.email)
+                self.notify(NotificationRequest(
+                    request=self.request,
+                    topic=topic,
+                    people=user,
+                    group=self.group,
+                    url=self.request.route_url(
+                        'group-details', id=self.group.id),
+                    template=tpl
+                ))
             else:
                 if membership.get_status() == MembershipStatus.APPROVED:
                     self.request.session.flash(
@@ -416,22 +413,25 @@ class Groups(object):
                     self.user.username, self.group.name)
 
             msg = ''
-            email = Email('membership_update')
+            tpl = 'membership_update'
             log_type = None
             action = self.request.POST.get('action')
 
             if action == 'invite':
                 invitee = self.request.POST.get('invitee')
                 if invitee:
-                    email.set_msg(
-                        topic='invite',
+                    self.notify(NotificationRequest(
+                        request=self.request,
+                        topic='group.invite',
                         people=self.request.get_user,
                         group=self.group,
                         organisation=Config.get('project.organisation'),
                         url=self.request.route_url(
-                            'group-details', id=self.group.id))
-                    email.send(invitee)
-                msg = _(u'Invitation sent!')
+                            'group-details', id=self.group.id),
+                        target_email=invitee,
+                        template=tpl
+                    ))
+                    msg = _(u'Invitation sent!')
 
             elif action == 'add':
                 if form.validate():
@@ -439,12 +439,15 @@ class Groups(object):
                         self.group.id,
                         self.user.id,
                         MembershipStatus.APPROVED)
-                    email.set_msg(
-                        topic='join',
+                    self.notify(NotificationRequest(
+                        self.request,
+                        topic='group.join',
                         people=self.user,
                         group=self.group,
                         url=self.request.route_url(
-                            'group-details', id=self.group.id))
+                            'group-details', id=self.group.id),
+                        template=tpl
+                    ))
                     msg = _(u'%s is now a member of your group'
                             % self.user.username)
 
@@ -456,15 +459,18 @@ class Groups(object):
                     self.user.id,
                     log_type,
                     self.group.name)
-                email.set_msg(
-                    topic='revoke',
-                    body='body_self_removal',
-                    people=self.user, group=self.group)
+                self.notify(NotificationRequest(
+                    request=self.request,
+                    topic='group.member.revoke',
+                    people=self.user,
+                    group=self.group,
+                    template=tpl)
+                )
                 msg = _(u'You are no longer a member of this group')
 
             elif action == 'upgrade':
                 if membership.get_status() == MembershipStatus.PENDING:
-                    topic = 'approved'
+                    topic = 'group.member.approve'
                     membership.status = MembershipStatus.APPROVED
                     membership.approval_timestamp = datetime.datetime.now()
                     msg = _(u'User %s is now an approved member of %s' % (
@@ -475,7 +481,7 @@ class Groups(object):
                         AccountLogType.NEW_GROUP_MEMBERSHIP,
                         self.group.name)
                 elif membership.get_role() == MembershipRole.USER:
-                    topic = action
+                    topic = 'group.member.role.' + action
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
                             '%s' % (self.user.username, self.group.name))
@@ -485,7 +491,7 @@ class Groups(object):
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.EDITOR:
-                    topic = action
+                    topic = 'group.member.role.' + action
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
                             '%s' % (self.user.username, self.group.name))
@@ -495,7 +501,7 @@ class Groups(object):
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'SPONSOR: %s' % self.group.name)
                 elif membership.get_role() == MembershipRole.SPONSOR:
-                    topic = action
+                    topic = 'group.member.role.' + action
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
                             'group %s' % (self.user.username, self.group.name))
@@ -505,14 +511,17 @@ class Groups(object):
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'ADMINISTRATOR: %s' % self.group.name)
 
-                email.set_msg(
+                self.notify(NotificationRequest(
+                    request=self.request,
                     topic=topic,
                     people=self.user,
                     group=self.group,
                     sponsor=self.request.get_user,
                     role=membership.role,
                     url=self.request.route_url(
-                        'group-details', id=self.group.id))
+                        'group-details', id=self.group.id),
+                    template=tpl
+                ))
 
             elif action == 'downgrade':
                 if membership.get_role() == MembershipRole.USER:
@@ -551,9 +560,14 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'SPONSOR: %s' % self.group.name)
-                email.set_msg(
-                    topic='downgrade',
-                    people=self.user, group=self.group, role=membership.role)
+                self.notify(NotificationRequest(
+                    request=self.request,
+                    topic='group.member.role.downgrade',
+                    people=self.user,
+                    group=self.group,
+                    role=membership.role,
+                    template=tpl
+                ))
 
             elif action == 'revoke':
                 log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP_BY_ADMIN
@@ -566,10 +580,15 @@ class Groups(object):
                     self.user.id,
                     log_type,
                     self.group.name)
-                email.set_msg(
-                    topic='revoke',
+                self.notify(NotificationRequest(
+                    request=self.request,
+                    topic='group.member.revoke',
                     body='body_admin_revoked',
-                    people=self.user, group=self.group, reason=reason)
+                    people=self.user,
+                    group=self.group,
+                    reason=reason,
+                    template=tpl
+                ))
 
             elif action == 'change_admin':
                 form = GroupAdminsForm(self.request.POST, self.group)
@@ -589,9 +608,6 @@ class Groups(object):
 
             if msg:
                 self.request.session.flash(msg, 'info')
-
-            if email.is_ready:
-                email.send(self.user.email)
 
         return redirect_to('/group/details/%s' % self.group.id)
 

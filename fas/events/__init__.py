@@ -19,6 +19,16 @@
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 
+class NotificationRequest(object):
+    """ Event sent on notifications' request. """
+    def __init__(self, request, topic, subject='subject', body='body', **kwargs):
+        self.request = request
+        self.topic = topic
+        self.subject = subject
+        self.body = body
+        self.fields = kwargs
+
+
 class NewUserRegistered(object):
     """ Event sent when new user signed up. """
     def __init__(self, request, person):
@@ -35,35 +45,35 @@ class GroupBindingRequested(object):
 
 
 class LoginRequested(object):
-    """ Login success event. """
+    """ Event sent on Login request. """
     def __init__(self, request, person):
         self.request = request
         self.person = person
 
 
 class LoginSucceeded(object):
-    """ Login success event. """
+    """ Event sent on Login success. """
     def __init__(self, request, person):
         self.request = request
         self.person = person
 
 
 class LoginFailed(object):
-    """ Login failure event. """
+    """ Event sent on Login failure. """
     def __init__(self, request, person):
         self.request = request
         self.person = person
 
 
 class PasswordChangeRequested(object):
-    """ Password change request event. """
+    """ Event sent on Password change request. """
     def __init__(self, request, person):
         self.request = request
         self.person = person
 
 
 class PeopleInfosUpdated(object):
-    """ People infos update event. """
+    """ Event sent on People info update. """
     def __init__(self, request, form, person):
         self.request = request
         self.form = form
@@ -71,44 +81,44 @@ class PeopleInfosUpdated(object):
 
 
 class GroupCreated(object):
-    """ Event sent after adding a new group into system.
-    """
+    """ Event sent after adding a new group into system. """
     def __init__(self, request, group):
         self.request = request
         self.group = group
 
 
 class GroupEdited(object):
-    """ Event sent once group info updated.
-    """
+    """ Event sent once group info updated. """
     def __init__(self, request, person, group, form):
         self.request = request
         self.person = person
         self.group = group
         self.form = form
 
+
 class GroupRemovalRequested(object):
-    """ Group removal event. """
+    """ Event on Group removal. """
     def __init__(self, request, group_id):
         self.request = request
         self.group = group_id
 
+
 class GroupTypeRemovalRequested(object):
-    """ Group type removal event. """
+    """ Event sent on Group type removal. """
     def __init__(self, request, grouptype_id):
         self.request = request
         self.grouptype = grouptype_id
 
 
 class LicenseRemovalRequested(object):
-    """ license agreement removal event. """
+    """ Event sent on license agreement removal. """
     def __init__(self, request, license_id):
         self.request = request
         self.license = license_id
 
 
 class ApiRequest(object):
-    """ API requests event."""
+    """ EVent sent on API requests. """
     def __init__(self, request, data, is_private=False):
         self.is_private = is_private
         self.request = request
@@ -116,7 +126,7 @@ class ApiRequest(object):
 
 
 class TokenUsed(object):
-    """ Token API acitvity event. """
+    """ Event sent on Token API activity. """
     def __init__(self, request, perm, person):
         self.request = request
         self.perm = perm
@@ -124,7 +134,7 @@ class TokenUsed(object):
 
 
 class NewClientCertificateCreated(object):
-    """ New client certificate creation event. """
+    """ Event sent on New client certificate creation. """
     def __init__(self, request, person, group_name):
         self.request = request
         self.person = person

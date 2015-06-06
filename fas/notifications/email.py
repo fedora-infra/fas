@@ -18,55 +18,49 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.util import Config
+from socket import error as socket_error
+from pyramid.events import subscriber
+
+from fas.events import NotificationRequest
+from fas.util import Config, _
 from fas.lib.mailer import send_email
-
-from messages import Msg
-
-import logging
-
-log = logging.getLogger(__name__)
+from fas.notifications.messages import Msg
+from fas import log
 
 
-class Email(object):
+@subscriber(NotificationRequest)
+def on_notification_request(event):
+    """
+    Sends out email's notification on notification's request.
+    """
+    topic = event.topic
+    subject = event.subject
+    body = event.body
+    fields = event.fields
 
-    def __init__(self, template):
-        self.subject = ""
-        self.body = ""
-        self.is_ready = False
-        tplt = getattr(Msg(Config), template)
-        self.msg = tplt()
+    if 'target_email' in fields:
+        recipient = fields['target_email']
+    else:
+        recipient = fields['people'].email
 
-    def __set_is_ready__(self, ready=False):
-        """ Set email objects as ready to be sent."""
-        self.is_ready = ready
+    tplt = getattr(Msg(Config), fields['template'])
+    msg = tplt()
 
-    def is_ready(self):
-        """
-        Returns True if email object is ready or not to send out its contents.
-        """
-        return self.is_ready
+    # TODO: Add related error msg to message template.
+    error_msg = 'We are having trouble sending...'
 
-    def send(self, recipient=None):
-        """ Send out predefined emails. """
-        if recipient is not None:
+    subject = msg[topic][subject] % msg[topic]['fields'](**fields)
+    body = msg[topic][body] % msg[topic]['fields'](**fields)
+
+    if body is not None and isinstance(body, unicode):
+        try:
             send_email(
-                message=self.body,
-                subject=self.subject,
+                message=body,
+                subject=subject,
                 mail_to=recipient,
-                logger=log
-                )
-            self.__set_is_ready__(False)
-
-    def set_msg(self, topic, subject='subject', body='body', **fields):
-            """ Set up message from given template."""
-            self.__set_is_ready__(True)
-
-            self.subject = self.msg[topic][subject]\
-            % self.msg[topic]['fields'](**fields)
-            self.body = self.msg[topic][body]\
-            % self.msg[topic]['fields'](**fields)
-
-            if not isinstance(self.subject, basestring)\
-            and not isinstance(self.body, basestring):
-                self.__set_is_ready__(False)
+                logger=log)
+        except socket_error, e:
+            log.error('Unable to send email: %s', str(e))
+            event.request.flash(_('%s' % error_msg))
+    else:
+        log.warn('Unable to send out email, could not found email message.')

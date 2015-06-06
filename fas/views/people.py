@@ -24,9 +24,7 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 
 import fas.models.provider as provider
 import fas.models.register as register
-
 from fas.security import generate_token
-
 from fas.forms.people import EditPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
@@ -37,22 +35,19 @@ from fas.forms.people import UpdateSshKeyForm
 from fas.forms.people import UpdateGpgFingerPrint
 from fas.forms.captcha import CaptchaForm
 from fas.forms.account import AccountPermissionForm
-
 from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.util import compute_list_pages_from
 from fas.lib.avatar import gen_libravatar
-
 from fas.models import (
     AccountPermissionType as permission,
     AccountStatus,
     AccountLogType,
     MembershipStatus,
     AccountPermissionType)
+from fas.events import PasswordChangeRequested, PeopleInfosUpdated, \
+    NotificationRequest
 
-from fas.events import PasswordChangeRequested, PeopleInfosUpdated
-
-from fas.notifications.email import Email
 
 # temp import, i'm gonna move that away
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
@@ -334,8 +329,6 @@ class People(object):
 
         form.username.validators = [validators.Required()]
 
-        email = Email('account_update')
-
         if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
             if captcha_form.validate():
@@ -365,18 +358,22 @@ class People(object):
 
                     register.flush()
 
-                    email.set_msg(
-                        topic='password-reset',
+                    recipient = [self.person.email]
+                    if self.person.recovery_email:
+                        recipient.append(self.person.recovery_email)
+
+                    self.notify(NotificationRequest(
+                        request=self.request,
+                        topic='user.password.reset',
                         people=self.person,
                         organisation=Config.get('project.organisation'),
                         reset_url=self.request.route_url(
                             'reset-password',
                             username=self.person.username,
-                            token=self.person.password_token))
-                    rcpt = [self.person.email]
-                    if self.person.recovery_email:
-                        rcpt.append(self.person.recovery_email)
-                    email.send(rcpt)
+                            token=self.person.password_token),
+                        template='account_update',
+                        target_email=recipient
+                    ))
                     self.request.session.flash(
                         _('Check your email to finish the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)

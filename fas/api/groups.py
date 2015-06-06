@@ -26,9 +26,8 @@ from . import (
     NotFound,
     MetaData,
     RequestStatus)
-from fas.notifications.email import Email
 import fas.models.provider as provider
-from fas.events import ApiRequest, GroupCreated, GroupEdited
+from fas.events import ApiRequest, GroupCreated, GroupEdited, NotificationRequest
 from fas.util import setup_group_form
 from fas.models import register, AccountPermissionType, MembershipStatus, \
     MembershipRole
@@ -291,26 +290,18 @@ class GroupAPI(object):
                             membership.group.to_json(self.apikey.get_perm()))
                         self.data.set_status(RequestStatus.SUCCESS)
 
-                        email = Email('membership_update')
-                        email.set_msg(
+                        self.notify(NotificationRequest(
+                            request=self.request,
                             topic=topic,
                             people=membership.person,
                             group=membership.group,
                             sponsor=requester,
                             role=membership.role,
                             url=self.request.route_url(
-                                'group-details', id=membership.group_id)
-                        )
-                        email.send(membership.person.email)
-
-                        # TODO: Use notification to forward updated data to
-                        # TODO: centralize/unify email notification based on topic.
-                        # self.notify(MembershipUpdated(
-                        # self.request,
-                        #       topic=topic,
-                        #       membership=membership,
-                        #       sponsor=requester,
-                        # ))
+                                'group-details', id=membership.group_id),
+                            template='membership_update',
+                            target_email=membership.person.email
+                        ))
                     else:
                         self.data.set_error_msg(
                             'Invalid Item', 'Requested role does not exist!')

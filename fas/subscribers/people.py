@@ -18,17 +18,16 @@
 #
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from pyramid.events import subscriber
-
-from fas.events import PasswordChangeRequested, PeopleInfosUpdated
-from fas.events import NewUserRegistered
-
-from fas.notifications.email import Email
-from fas.util import Config, get_data_changes
-from fas.views import redirect_to
-
 import datetime
 import logging
+
+from pyramid.events import subscriber
+
+from fas.events import PasswordChangeRequested, PeopleInfosUpdated, \
+    NotificationRequest
+from fas.events import NewUserRegistered
+from fas.util import Config, get_data_changes
+from fas.views import redirect_to
 
 log = logging.getLogger(__name__)
 
@@ -58,33 +57,35 @@ def on_new_user_registered(event):
     request = event.request
     person = event.person
 
-    email = Email('account_update')
-
-    email.set_msg(
-        topic='registration',
+    request.registry.notify(NotificationRequest(
+        request=request,
+        topic='user.registration',
         organisation=Config.get('project.organisation'),
         url=request.route_url(
             'people-confirm-account',
             username=person.username,
-            token=person.password_token)
-    )
-
-    email.send(person.email)
+            token=person.password_token),
+        template='account_update'
+    ))
 
 
 @subscriber(PeopleInfosUpdated)
 def on_people_updated(event):
-    """ People infos update listener. """
+    """
+    Default People info update listener.
+    Retrieves updated data and request notification.
+    """
+    request = event.request
     person = event.person
+
     changes = get_data_changes(event.form, person, keep_value=False)
 
-    email = Email('account_update')
-
-    email.set_msg(
-        topic='data-update',
+    request.registry.notify(NotificationRequest(
+        request=request,
+        topic='user.update',
         admin=Config.get('project.admin.email'),
         people=person,
         infos=changes,
-        url=event.request.route_url('people-profile', id=person.id)
-    )
-    email.send(person.email)
+        url=event.request.route_url('people-profile', id=person.id),
+        template='account_update'
+    ))

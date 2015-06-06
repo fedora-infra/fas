@@ -20,8 +20,8 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from fas.util import _
 
-class Msg(object):
 
+class Msg(object):
     def __init__(self, config):
         self.config = config
 
@@ -37,7 +37,7 @@ The %(orga)s
     def account_update(self):
         """ Account messages template. """
         return {
-            'registration': {
+            'user.registration': {
                 'subject': u"""Confirm your %(organisation)s Account!""",
                 'body': u"""\
 Welcome to the %(organisation)s!
@@ -53,9 +53,9 @@ To complete your account creation, please visit this link:
                     'organisation': x['organisation'],
                     'url': x['url'],
                     'sig': self.signature()
-                    }
+                }
             },
-            'password-reset': {
+            'user.password.reset': {
                 'subject': u"""Password reset request on your account""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -83,7 +83,7 @@ invalid after 24 hours.
                     'sig': self.signature()
                 }
             },
-            'password-update': {
+            'user.password.update': {
                 'subject': u"""Account password change confirmation""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -103,7 +103,7 @@ administrator immediately %(admin_email)s.
                     'sig': self.signature()
                 }
             },
-            'data-update': {
+            'user.update': {
                 'subject': u"""Account information update for %(username)s""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -135,7 +135,7 @@ To review the changes, please log in at: %(url)s
     def group_update(self):
         """ Group messages template. """
         return {
-            'updated': {
+            'group.update': {
                 'subject': u"""Group update %(groupname)s""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -161,14 +161,14 @@ If the above information is incorrect, please log in and fix it at:
                     'infos': x['infos'],
                     'url': x['url'],
                     'sig': self.signature()
-                    }
                 }
+            }
         }
 
     def membership_update(self):
         """ Group membership messages template."""
         return {
-            'invite': {
+            'group.invite': {
                 'subject': u"""\
 Invitation to join %(orga)s group %(groupname)s!""",
                 'body': u"""\
@@ -194,10 +194,10 @@ Fedora and FOSS are changing the world, come be a part of it!
                     'url': x['url'],
                     'orga': x['organisation'],
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'application': {
+            'group.member.apply': {
                 'subject': u"""Your membership request for %(groupname)s""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -215,10 +215,10 @@ You can check your request status by visiting %(url)s.
                     'groupname': x['group'].name,
                     'url': x['url'],
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'approved': {
+            'group.member.approve': {
                 'subject': u"""\
 Your membership request for %(groupname)s has been approved""",
                 'body': u"""\
@@ -237,10 +237,10 @@ For more details on your new membership, visit this link %(url)s
                     'sponsor': unicode(x['sponsor'].fullname),
                     'url': x['url'],
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'join': {
+            'group.join': {
                 'subject': u"""Welcome to group %(groupname)s\!""",
                 'body': u"""\
 Hello %(fullname)s,
@@ -256,10 +256,10 @@ Review your membership at %(url)s
                     'groupname': x['group'].name,
                     'url': x['url'],
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'upgrade': {
+            'group.member.role.upgrade': {
                 'subject': u"""\
 You have been promoted to %(role)s in group %(groupname)s""",
                 'body': u"""\
@@ -270,17 +270,17 @@ To review your new role and power visit %(url)s
 
 %(sig)s
 """,
-            'fields': lambda **x: {
-                'fullname': unicode(x['people'].fullname),
-                'groupname': unicode(x['group'].name),
-                'role': unicode(x['role'].name.lower()),
-                'sponsor': unicode(x['sponsor'].fullname),
-                'url': x['url'],
-                'sig': self.signature()
+                'fields': lambda **x: {
+                    'fullname': unicode(x['people'].fullname),
+                    'groupname': unicode(x['group'].name),
+                    'role': unicode(x['role'].name.lower()),
+                    'sponsor': unicode(x['sponsor'].fullname),
+                    'url': x['url'],
+                    'sig': self.signature()
                 }
-        },
+            },
 
-            'downgrade': {
+            'group.member.role.downgrade': {
                 'subject': u"""\
 You have been demoted to %(role)s in group %(groupname)s""",
                 'body': u"""\
@@ -296,10 +296,10 @@ into group %(groupname)s.
                     'groupname': unicode(x['group'].name),
                     'role': x['role'].name.lower(),
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'admin_change': {
+            'group.admin_change': {
                 'subject': u"""\
 Your have been promoted as the new principal administrator of %(groupname)s""",
                 'body': u"""\
@@ -318,10 +318,10 @@ Review your new group information at %(url)s
                     'former_admin': x['admin'].fullname,
                     'url': x['url'],
                     'sig': self.signature()
-                    }
+                }
             },
 
-            'revoke': {
+            'group.member.revoke': {
                 'subject': u"""You have been removed from group %(groupname)s""",
                 'body_self_removal': u"""\
 Hello %(fullname)s,
@@ -349,7 +349,7 @@ an group\'s administrator or an account\'s administrator.
                     'groupname': unicode(x['group'].name),
                     'reason': x['reason'],
                     'sig': self.signature()
-                    }
+                }
             },
         }
 
@@ -375,7 +375,7 @@ automatically revoked, and should stop working within the hour.
                     'groupname': unicode(x['group']),
                     'admin_email': self.config.get('project.admin.email'),
                     'sig': self.signature()
-                    }
+                }
             },
         }
 

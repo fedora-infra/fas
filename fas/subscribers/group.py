@@ -21,10 +21,8 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 from pyramid.events import subscriber
 
 from fas import log
-from fas.util import _
 from fas.util import Config, get_data_changes
-from fas.notifications.email import Email
-from fas.events import GroupEdited, GroupCreated
+from fas.events import GroupEdited, GroupCreated, NotificationRequest
 from fas.lib.fgithub import Github
 
 
@@ -48,18 +46,14 @@ def on_group_created(event):
 @subscriber(GroupEdited)
 def on_group_edited(event):
     """ Group editing listener. """
+    request = event.request
     person = event.person
     group = event.group
     form = event.form
     people = group.owner.fullname
-    send_email = True
-
-    if person.id == group.owner_id and group.mailing_list is None:
-        send_email = False
 
     changes = get_data_changes(form, group)
 
-    email = Email('group_update')
     recipient = group.owner.email
 
     if group.mailing_list:
@@ -67,17 +61,17 @@ def on_group_edited(event):
             'Found mailing address %s for group %s, set it up as recipient.'
             % (group.mailing_list, group.name))
         recipient = group.mailing_list
-        people = _(u'folks')
-        send_email = True
 
-    email.set_msg(
-        topic='updated',
+    request.registry.notify(NotificationRequest(
+        request=request,
+        topic='group.update',
         people=people,
         person=person,
         group=group,
         admin=Config.get('project.admin.email'),
         infos=changes,
-        url=event.request.route_url('group-details', id=group.id))
+        url=event.request.route_url('group-details', id=group.id),
+        template='group_update',
+        target_email=recipient
+    ))
 
-    if send_email and email.is_ready:
-        email.send(recipient)
