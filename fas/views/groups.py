@@ -462,6 +462,7 @@ class Groups(object):
                 self.notify(NotificationRequest(
                     request=self.request,
                     topic='group.member.revoke',
+                    body='body_self_removal',
                     people=self.user,
                     group=self.group,
                     template=tpl)
