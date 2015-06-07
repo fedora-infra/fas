@@ -37,8 +37,9 @@ class AccountPermissionForm(Form):
         _('Accounts permissions'),
         [validators.Required()],
         coerce=int,
-        choices=[(perm.value, perm.name) for perm in AccountPermissionType]
-        )
+        choices=[(perm.value, perm.name) for perm in AccountPermissionType
+                 if perm != AccountPermissionType.UNDEFINED]
+    )
 
 
 class TrustedPermissionForm(Form):
