@@ -33,7 +33,8 @@ def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
     msg = MIMEText(message)
 
     if subject:
-        msg['Subject'] = '[FAS] %s' % subject
+        msg['Subject'] = '%s %s' % (subject, Config.get('email.subject_prefix'))
+        msg['Subject'].strip()
 
     from_email = Config.get('email.from')
 
