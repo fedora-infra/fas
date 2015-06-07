@@ -16,6 +16,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+from collections import OrderedDict
+
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from . import (
@@ -153,7 +155,7 @@ class People(Base):
         :return: json/dict format of user data
         :rtype: dict
         """
-        info = {}
+        info = OrderedDict()
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
             # Standard public info
             info = {
@@ -163,7 +165,7 @@ class People(Base):
                 'ircnick': self.ircnick,
                 'avatar': self.avatar,
                 'email': self.email,
-                'creationDate': utc_iso_format(self.date_created),
+                'creation_date': utc_iso_format(self.date_created),
                 'status': self.status,
                 'timezone': self.timezone
             }
@@ -171,9 +173,9 @@ class People(Base):
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
             info['countryCode'] = self.country_code
             info['locale'] = self.locale
-            info['bugzillaEmail'] = self.bugzilla_email or self.email
-            info['gpgId'] = self.gpg_id
-            info['blogrss'] = self.blog_rss
+            info['bugzilla_email'] = self.bugzilla_email or self.email
+            info['gpg_id'] = self.gpg_id
+            info['blog_rss'] = self.blog_rss
             info['bio'] = self.bio
 
             if self.licenses:
@@ -184,31 +186,30 @@ class People(Base):
                 for groups in self.group_membership:
                     info['membership'].append(
                         {
-                            'groupId': groups.group_id,
-                            'groupName': groups.group.name,
-                            'groupType': groups.group.group_type,
-                            'groupSponsorId': groups.sponsor,
-                            'groupRole': groups.role,
+                            'group_id': groups.group_id,
+                            'group_name': groups.group.name,
+                            'group_type': groups.group.group_type,
+                            'sponsor_id': groups.sponsor,
+                            'role': groups.role,
                             'status': groups.status,
-                            'groupStatus': groups.group.status
+                            'group_status': groups.group.status
                         }
                     )
 
             # Infos that people set as private
             if not self.privacy:
-                info['emailAlias'] = self.email_alias
-                info['postalAddress'] = self.postal_address
+                info['email_alias'] = self.email_alias
+                info['postal_address'] = self.postal_address
                 info['telephone'] = self.telephone
                 info['facsimile'] = self.facsimile
                 info['affiliation'] = self.affiliation
-                info['certificateSerial'] = self.certificate_serial
-                info['sshKey'] = self.ssh_key
+                info['certificate_serial'] = self.certificate_serial
+                info['ssh_key'] = self.ssh_key
                 info['latitude'] = int(self.latitude or 0.0)
                 info['longitude'] = int(self.longitude or 0.0)
-                info['lastLogged'] = self.last_logged.strftime(
-                    '%Y-%m-%d %H:%M')
+                info['last_logged'] = utc_iso_format(self.last_logged)
 
-                info['connectedApplications'] = {
+                info['connected_applications'] = {
                     # 'fas': self.fas_token,
                     'github': 'connected' if self.github_token else 'inactivate',
                     'twitter': 'connected' if self.twitter_token else 'inactivate'
