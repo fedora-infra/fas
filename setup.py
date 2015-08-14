@@ -34,6 +34,7 @@ requires = [
     'cryptography',
     'pyOpenSSL',
     'itsdangerous',
+    'fedmsg',
 
     # i18n
     'Babel',
