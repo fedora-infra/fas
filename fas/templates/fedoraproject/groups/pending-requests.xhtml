@@ -20,15 +20,15 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
               <li>
                 <span>
                   <a href="${request.route_url(
-                            'people-profile', id=ms.people.username)}">
-                    %if ms.people.avatar:
-                      <img src="${ms.people.avatar}?s=50&d=monsterid"
+                            'people-profile', id=ms.person.username)}">
+                    %if ms.person.avatar:
+                      <img src="${ms.person.avatar}?s=50&d=monsterid"
                            class="profile img-circle" />
                     %else:
                       <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
                            class="img-thumbnail" />
                     %endif
-                    ${ms.people.fullname}
+                    ${ms.person.fullname}
                   </a>
                 </span>
                 <span>
@@ -37,7 +37,7 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
                         method="POST">
                         <input type="hidden" name="action" value="upgrade">
                         <input type="hidden" name="group_id" value="${ms.group.id}">
-                        <input type="hidden" name="user_id" value="${ms.people.id}">
+                        <input type="hidden" name="user_id" value="${ms.person.id}">
                         <button class="btn btn-default" type="submit">
                           ${_(u'Sponsor')}
                         </button>
