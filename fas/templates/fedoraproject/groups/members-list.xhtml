@@ -48,46 +48,56 @@
                      </button>
                      <ul class="dropdown-menu">
                   %endif
-                      <% role = member.get_role() %>
-                      <%namespace name="msLevel" module="fas.models" />
-                      %if (role < msLevel.module.MembershipRole.ADMINISTRATOR \
-                          and user_is_group_admin) \
-                          or (role < msLevel.module.MembershipRole.SPONSOR \
-                          and user_is_sponsor):
-                        <li>
-                          <a>
-                            <form action="${request.route_url('group-action')}"
-                              method="POST">
+                      <%
+                         role = member.get_role()
+                         role_to_upgrade = role + 0x01
+                         role_to_downgrade = role - 0x01
 
-                              <input type="hidden" name="action" value="upgrade">
-                              <input type="hidden" name="group_id" value="${group.id}">
-                              <input type="hidden" name="user_id" value="${member.person.id}">
-                            <button class="btn btn-default" type="submit">
-                                ${_(u'Upgrade to %s' % member.get_role(role + 0x01).name.lower())}
-                            </button>
-                            </form>
-                          </a>
-                        </li>
-                      %endif
-                      %if role > msLevel.module.MembershipRole.USER \
-                          and user_is_group_admin \
-                          or role > msLevel.module.MembershipRole.USER \
-                          and role < msLevel.module.MembershipRole.SPONSOR \
-                          and user_is_sponsor:
-                        <li>
-                          <a>
-                            <form action="${request.route_url('group-action')}"
-                              method="POST">
-                              <input type="hidden" name="action" value="downgrade">
-                              <input type="hidden" name="group_id" value="${group.id}">
-                              <input type="hidden" name="user_id" value="${member.person.id}">
-                              <button class="btn btn-default" type="submit">
-                                ${_(u'Downgrade to %s' % member.get_role((role - 0x01)).name.lower())}
-                              </button>
-                            </form>
-                          </a>
-                        </li>
-                      %endif
+                         if not group.requires_sponsorship and (role_to_upgrade == msLevel.module.MembershipRole.SPONSOR):
+                            role_to_upgrade += 1
+
+                      %>
+
+                      <%namespace name="msLevel" module="fas.models" />
+                          %if (role < msLevel.module.MembershipRole.ADMINISTRATOR and user_is_group_admin) \
+                              or (role < msLevel.module.MembershipRole.SPONSOR \
+                              and user_is_sponsor):
+                            <li>
+                              <a>
+                                <form action="${request.route_url('group-action')}"
+                                  method="POST">
+
+                                  <input type="hidden" name="action" value="upgrade"/>
+                                  <input type="hidden" name="group_id" value="${group.id}"/>
+                                  <input type="hidden" name="user_id" value="${member.person.id}"/>
+                                  <input type="hidden" name="role_id" value="${role_to_upgrade}"/>
+                                <button class="btn btn-default" type="submit">
+                                    ${_(u'Upgrade to %s' % member.get_role(role_to_upgrade).name.lower())}
+                                </button>
+                                </form>
+                              </a>
+                            </li>
+                         %endif
+                          %if role > msLevel.module.MembershipRole.USER \
+                              and user_is_group_admin \
+                              or role > msLevel.module.MembershipRole.USER \
+                              and role < msLevel.module.MembershipRole.SPONSOR \
+                              and user_is_sponsor:
+                            <li>
+                              <a>
+                                <form action="${request.route_url('group-action')}"
+                                  method="POST">
+                                  <input type="hidden" name="action" value="downgrade"/>
+                                  <input type="hidden" name="group_id" value="${group.id}"/>
+                                  <input type="hidden" name="user_id" value="${member.person.id}"/>
+                                  <input type="hidden" name="role_id" value="${role_to_downgrade}"/>
+                                  <button class="btn btn-default" type="submit">
+                                    ${_(u'Downgrade to %s' % member.get_role(role_to_downgrade).name.lower())}
+                                  </button>
+                                </form>
+                              </a>
+                            </li>
+                          %endif
                       %if user_is_group_admin:
                         <li class="divider"></li>
                         <li>

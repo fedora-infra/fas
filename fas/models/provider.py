@@ -164,7 +164,7 @@ def get_group_membership(id):
     """ Retrieve group's membership by group's id
 
     :id: Group id
-    :return: Tuple of related group, membership, people and roles object
+    :rtype: tuple of Groupm membership, people and roles object
              for a given group's id
     """
     query = session.query(

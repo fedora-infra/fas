@@ -244,6 +244,7 @@
     </div>
   </div>
 
+  <!-- Membership requests list -->
   %if len(membership_request) > 0:
     <div class="members-list panel-collapse collapse" id="collapseMembershipRequests">
       <h3>${_(u'Membership Request')}</h3>
@@ -265,21 +266,23 @@
                     ${membership.person.fullname}
                   </a>
                 </span>
-                <span>
-                  %if request.authenticated_userid:
-                    %if user_is_group_manager:
+                  %if request.authenticated_userid and user_is_group_manager:
+                    </span>
                       <form action="${request.route_url('group-action')}"
                         method="POST">
-                        <input type="hidden" name="action" value="upgrade">
-                        <input type="hidden" name="group_id" value="${group.id}">
-                        <input type="hidden" name="user_id" value="${membership.person.id}">
+                        <input type="hidden" name="action" value="upgrade"/>
+                        <input type="hidden" name="group_id" value="${group.id}"/>
+                        <input type="hidden" name="user_id" value="${membership.person.id}"/>
                         <button class="btn btn-default" type="submit">
-                          ${_(u'Sponsor')}
+                            %if group.requires_sponsorship:
+                              ${_(u'Sponsor')}
+                            %else:
+                              ${_(u'Approve')}
+                            %endif
                         </button>
                       </form>
-                    %endif
+                    </span>
                   %endif
-                </span>
               </li>
             </ul>
           </div>
@@ -290,6 +293,7 @@
 
   <hr />
 
+  <!-- Members list -->
   <div class=members-list>
     <h3>${_(u'Members')}</h3>
     %if len(members) > 0:
@@ -325,6 +329,7 @@
              %endif
            </a>
          </li>
+         %if group.requires_sponsorship:
          <li role="presentation">
            <a href="#sponsors" role="tab" data-toggle="pill">
              Sponsors 
@@ -333,6 +338,7 @@
              %endif
            </a>
          </li>
+         %endif
          <li role="presentation">
            <a href="#admin" role="tab" data-toggle="pill">
              Administrator 
@@ -350,9 +356,11 @@
          <div role="tabpanel" class="tab-pane fade in" id="user">
            ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False, type='users')}
          </div>
+         %if group.requires_sponsorship:
          <div role="tabpanel" class="tab-pane fade in" id="sponsors">
            ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False, type='sponsors')}
          </div>
+         %endif
          <div role="tabpanel" class="tab-pane fade in" id="admin">
            ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False, type='admin')}
          </div>

@@ -182,12 +182,31 @@ ${Page.set_title(_(u'Group Update'), _(u'Update group\'s informations'))}
             <label>
               ${form.need_approval} ${form.need_approval.label}
               <span>
+                <a data-toggle="collapse" href="#collapseSponsorship">(?)</a> <!-- Updpate this with an cool glyphicons -->
+              </span>
+                <div id="collapseSponsorship" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Users will need to be approved by a sponsor or an admin to be an approved member.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.requires_sponsorship} ${form.requires_sponsorship.label}
+              <span>
                 <a data-toggle="collapse" href="#collapseApproval">(?)</a> <!-- Updpate this with an cool glyphicons -->
               </span>
                 <div id="collapseApproval" class="panel-collapse collapse">
                   <div class="panel-body">
                     <i class="text-muted">
-                      ${_(u'Your members need to be sponsor by a sponsor or an admin.')}
+                      ${_(u'Users will need to be sponsored to be an approved member.')}
                     </i>
                   </div>
                 </div>

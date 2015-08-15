@@ -94,6 +94,7 @@ class EditGroupForm(Form):
         default=False)
     self_removal = BooleanField(_(u'Self removal'), default=True)
     need_approval = BooleanField(_(u'Requires approval'), default=False)
+    requires_sponsorship = BooleanField(_(u'Requires sponsorship'), default=False)
     invite_only = BooleanField(_(u'Invite only'), default=False)
     join_msg = TextAreaField(_(u'Join message'))
     apply_rules = TextAreaField(_(u'Apply rules message'))

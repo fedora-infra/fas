@@ -196,7 +196,8 @@ class Groups(object):
                         and member.status in valid_active_status:
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
-                    elif membership.role == MembershipRole.SPONSOR:
+                    elif membership.role == MembershipRole.SPONSOR\
+                            and group.requires_sponsorship:
                         sponsor_members.append(membership)
                     elif membership.role == MembershipRole.ADMINISTRATOR:
                         admin_members.append(membership)
@@ -400,6 +401,7 @@ class Groups(object):
 
             group_id = self.request.POST.get('group_id')
             user_id = self.request.POST.get('user_id')
+            role_id = int(self.request.POST.get('role_id'))
             reason = self.request.POST.get('msg_text')
 
             if form.validate():
@@ -415,6 +417,7 @@ class Groups(object):
             msg = ''
             tpl = 'membership_update'
             log_type = None
+            topic = ''
             action = self.request.POST.get('action')
 
             if action == 'invite':
@@ -481,7 +484,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.NEW_GROUP_MEMBERSHIP,
                         self.group.name)
-                elif membership.get_role() == MembershipRole.USER:
+                elif membership.get_role(role_id - 1) == MembershipRole.USER:
                     topic = 'group.member.role.' + action
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group '
@@ -491,7 +494,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
-                elif membership.get_role() == MembershipRole.EDITOR:
+                elif membership.get_role(role_id - 1) == MembershipRole.EDITOR:
                     topic = 'group.member.role.' + action
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group '
@@ -501,7 +504,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.PROMOTED_GROUP_MEMBERSHIP,
                         'SPONSOR: %s' % self.group.name)
-                elif membership.get_role() == MembershipRole.SPONSOR:
+                elif membership.get_role(role_id - 1) == MembershipRole.SPONSOR:
                     topic = 'group.member.role.' + action
                     membership.role = MembershipRole.ADMINISTRATOR
                     msg = _(u'User %s is now ADMINISTRATOR of the '
@@ -525,7 +528,7 @@ class Groups(object):
                 ))
 
             elif action == 'downgrade':
-                if membership.get_role() == MembershipRole.USER:
+                if membership.get_role(role_id + 1) == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
                     msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
@@ -534,7 +537,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.REMOVED_GROUP_MEMBERSHIP,
                         self.group.name)
-                elif membership.get_role() == MembershipRole.EDITOR:
+                elif membership.get_role(role_id + 1) == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
                             '%s' % (self.user.username, self.group.name))
@@ -543,7 +546,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'USER: %s' % self.group.name)
-                elif membership.get_role() == MembershipRole.SPONSOR:
+                elif membership.get_role(role_id + 1) == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
@@ -552,7 +555,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
-                elif membership.get_role() == MembershipRole.ADMINISTRATOR:
+                elif membership.get_role(role_id + 1) == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
@@ -613,8 +616,9 @@ class Groups(object):
         return redirect_to('/group/details/%s' % self.group.id)
 
     @view_config(route_name='group-pending-request',
-                 permission='authenticated', renderer='/groups/pending-requests.xhtml')
+                 permission='authenticated',
+                 renderer='/groups/pending-requests.xhtml')
     def pending_request(self):
-        """ Penging membership requests view. """
+        """ Pending membership requests view. """
 
         return dict(requests=self.request.get_pending_ms_requests)
