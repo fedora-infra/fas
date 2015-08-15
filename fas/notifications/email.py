@@ -61,6 +61,6 @@ def on_notification_request(event):
                 logger=log)
         except socket_error, e:
             log.error('Unable to send email: %s', str(e))
-            event.request.flash(_('%s' % error_msg))
+            event.request.session.flash(_('%s' % error_msg))
     else:
         log.warn('Unable to send out email, could not found email message.')
