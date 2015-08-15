@@ -50,7 +50,7 @@ def on_group_edited(event):
     person = event.person
     group = event.group
     form = event.form
-    people = group.owner.fullname
+    people = group.owner
 
     changes = get_data_changes(form, group)
 
