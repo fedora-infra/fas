@@ -621,4 +621,4 @@ class Groups(object):
     def pending_request(self):
         """ Pending membership requests view. """
 
-        return dict(requests=self.request.get_pending_ms_requests)
+        return dict(ms_requests=self.request.get_pending_ms_requests)

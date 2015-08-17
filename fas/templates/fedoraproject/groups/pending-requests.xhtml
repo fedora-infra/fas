@@ -1,10 +1,11 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="msLevel" module="fas.models" />
 
 ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership requests'))}
 
-  %if len(requests) > 0:
-    %for ms in requests:
+  %if len(ms_requests) > 0:
+    %for ms in ms_requests:
       <li>
         <a href="#collapseRequests${ms.group.id}" data-toggle="collapse">
         <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_25.png')}">
@@ -35,9 +36,10 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
                   %if request.authenticated_userid:
                       <form action="${request.route_url('group-action')}"
                         method="POST">
-                        <input type="hidden" name="action" value="upgrade">
-                        <input type="hidden" name="group_id" value="${ms.group.id}">
-                        <input type="hidden" name="user_id" value="${ms.person.id}">
+                        <input type="hidden" name="action" value="upgrade" />
+                        <input type="hidden" name="group_id" value="${ms.group.id}" />
+                        <input type="hidden" name="user_id" value="${ms.person.id}" />
+                        <input type="hidden" name="role_id" value="${msLevel.module.MembershipRole.USER.value}" />
                         <button class="btn btn-default" type="submit">
                           ${_(u'Sponsor')}
                         </button>
