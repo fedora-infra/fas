@@ -1,5 +1,8 @@
 <%namespace name="userMenu" />
 <%def name="menu(user)">
+  <%
+      pending_ms_num = len(request.get_pending_ms_requests)
+  %>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
     <li role="presentation">
         <a tabindex="-1" href="${request.route_url('people-profile', id=user.id)}">
@@ -27,10 +30,11 @@
         <span class="fas-icon-lock"></span> Change password
      </a>
     </li>
-    %if len(request.get_pending_ms_requests) > 0:
+    %if pending_ms_um > 0:
     <li role="presentation">
-      <a role="menuitem" tabindex="-1" class="pulse" href="${request.route_url('group-pending-request')}">
+      <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
         <span class="glyphicon glyphicon-plus"></span> Pending request
+        <span class="badge">${pending_ms_num}</span>
      </a>
     </li>
     %endif
