@@ -1,0 +1,19 @@
+# Used for when working from a virtualenv.
+# Use this file by running "$ pip install -r requirements.txt"
+
+turbomail
+tg.devtools
+pygpgme
+SQLAlchemy
+Genshi
+psycopg2
+pytz
+Babel
+python-geoip
+python-openid
+python-memcached
+pyopenssl
+python-gettext
+pillow
+
+

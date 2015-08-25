@@ -221,6 +221,8 @@ class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
 
+    valid_ssh_key = config.get('valid_ssh_key').replace(',','|').strip()
+
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
         return value.file.read().decode('utf-8')
@@ -233,7 +235,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
+            validline = re.match('^({}) [ \t]*[^ \t]+.*$'.format(valid_ssh_key), keyline)
             if not validline:
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
