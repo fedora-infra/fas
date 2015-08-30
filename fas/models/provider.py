@@ -151,10 +151,12 @@ def get_group_by_id(id):
 
 
 def get_group_by_name(name):
-    """ Retrieve Groups by its name.
+    """ Retrieves Group info by its name.
 
-    :name: Group name.
-    :return: Group object
+    :param name: Group's name to look up.
+    :type name: str
+    :return: Group model object
+    :rtype: fas.models.group.Groups
     """
     query = session.query(Groups).filter(Groups.name == name)
     return query.first()

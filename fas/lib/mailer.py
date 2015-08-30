@@ -27,13 +27,25 @@ from email.mime.text import MIMEText
 from fas.util import Config
 
 
-def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
-    """ Sends notification by email. """
+def send_email(message, subject, mail_to, bcc=None, logger=None):  # pragma: no cover
+    """
+    Sends out email.
 
+    :param message: Email message to send
+    :type message: basestring
+    :param subject: Email's subject
+    :type subject: str
+    :param mail_to: email's recipient
+    :type mail_to: str or list
+    :param bcc: email(s) to add as bcc
+    :type bcc: str or list
+    :param logger: logging object instance
+    :type logger: logging
+    """
     msg = MIMEText(message)
 
     if subject:
-        msg['Subject'] = '%s %s' % (subject, Config.get('email.subject_prefix'))
+        msg['Subject'] = '%s %s' % (Config.get('email.subject_prefix'), subject)
         msg['Subject'].strip()
 
     from_email = Config.get('email.from')
@@ -42,7 +54,11 @@ def send_email(message, subject, mail_to, logger=None):  # pragma: no cover
         mail_to = [mail_to]
 
     msg['From'] = from_email
-    msg['To'] = ','.join(mail_to)
+
+    if bcc is not None:
+        mail_to += bcc
+    else:
+        msg['To'] = ','.join(mail_to)
 
     # Send the message via our own SMTP server, but don't include the
     # envelope header.

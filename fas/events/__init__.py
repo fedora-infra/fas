@@ -82,9 +82,10 @@ class PeopleInfosUpdated(object):
 
 class GroupCreated(object):
     """ Event sent after adding a new group into system. """
-    def __init__(self, request, group):
+    def __init__(self, request, group, person):
         self.request = request
         self.group = group
+        self.person = person
 
 
 class GroupEdited(object):

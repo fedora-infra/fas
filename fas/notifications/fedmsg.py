@@ -30,7 +30,11 @@ def on_notification_request(event):
     on notification's request.
     """
     topic = event.topic
-    target = event.fields['people']
+
+    if 'people' in event.fields:
+        target = event.fields['people']
+    else:
+        target = event.fields['person']
     msg = {'agent': target.username}
 
     if topic.startswith('user.'):

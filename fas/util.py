@@ -30,10 +30,11 @@ from pyramid.i18n import TranslationStringFactory
 from math import ceil
 
 from fas import log
+
 _ = TranslationStringFactory('fas')
 
 
-class Config():
+class Config(object):
     def __init__(self):
         pass
 
@@ -247,8 +248,30 @@ def setup_group_form(request, group=None):
         (cert.id, cert.name) for cert in provider.get_certificates()]
     form.certificate.choices.insert(0, (-1, _(u'-- None --')))
 
-    # TODO: Double check usage of QuerySelectField for this instead
     if request.method is not 'POST':
         form.license_sign_up.choices.insert(0, (-1, _(u'-- None --')))
 
     return form
+
+
+def get_email_recipient(group, user):
+    """
+    Provides email's recipient available for a given group.
+
+    :param group: The group to look up
+    :type group: fas.models.group.Group
+    :param user: Authenticated user
+    :type user: fas.models.people.People
+    :return: Returns email(s) recipient
+    :rtype: str or list
+    """
+    if group.mailing_list:
+        log.debug(
+            'Found mailing list address %s for group %s, set it up as recipient.'
+            % (group.mailing_list, group.name))
+        recipient = group.mailing_list
+    else:
+        if group.members > 1:
+            recipient = [
+                u.person.email for u in group.members if u.person.email != user.email]
+    return recipient

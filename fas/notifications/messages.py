@@ -135,10 +135,38 @@ To review the changes, please log in at: %(url)s
     def group_update(self):
         """ Group messages template. """
         return {
+            'group.new': {
+                'subject': u"""A new FAS Group has been created %(groupname)s""",
+                'body': u"""\
+Hello admins,
+
+%(person)s has just created a new group.
+
+Name: %(groupname)s
+Principal admin: %(groupadmin)s
+Type: %(grouptype)s
+
+%(description)s
+
+To review full group's information, please visit %(url)s
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'groupname': x['group'].name,
+                    'groupadmin': x['group'].owner.username,
+                    'grouptype': x['group'].group_types.name,
+                    'description': x['group'].description,
+                    'person': x['person'].username,
+                    'url': x['url'],
+                    'sig': self.signature()
+                }
+            },
+
             'group.update': {
                 'subject': u"""Group update %(groupname)s""",
                 'body': u"""\
-Hello %(fullname)s,
+Hello group's admin(s),
 
 %(person)s has just updated information about group %(groupname)s.
 If these changes are not expected please, contact %(admin)s and let them know.
@@ -154,7 +182,6 @@ If the above information is incorrect, please log in and fix it at:
 %(sig)s
 """,
                 'fields': lambda **x: {
-                    'fullname': x['people'],
                     'groupname': x['group'].name,
                     'person': x['person'].fullname,
                     'admin': x['admin'],

@@ -39,9 +39,9 @@ def on_notification_request(event):
     fields = event.fields
 
     if 'target_email' in fields:
-        recipient = fields['target_email']
+        recipients = fields['target_email']
     else:
-        recipient = fields['people'].email
+        recipients = fields['people'].email
 
     tplt = getattr(Msg(Config), fields['template'])
     msg = tplt()
@@ -51,6 +51,13 @@ def on_notification_request(event):
 
     subject = msg[topic][subject] % msg[topic]['fields'](**fields)
     body = msg[topic][body] % msg[topic]['fields'](**fields)
+    bcc = None
+
+    if isinstance(recipients, list):
+        recipient = recipients[0]
+        bcc = recipients
+    else:
+        recipient = recipients
 
     if body is not None and isinstance(body, unicode):
         try:
@@ -58,6 +65,7 @@ def on_notification_request(event):
                 message=body,
                 subject=subject,
                 mail_to=recipient,
+                bcc=bcc,
                 logger=log)
         except socket_error, e:
             log.error('Unable to send email: %s', str(e))

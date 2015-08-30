@@ -21,8 +21,9 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 from pyramid.events import subscriber
 
 from fas import log
-from fas.util import Config, get_data_changes
-from fas.events import GroupEdited, GroupCreated, NotificationRequest
+from fas.util import Config, get_data_changes, get_email_recipient
+from fas.events import GroupEdited, GroupCreated, NotificationRequest, GroupDeleted
+from fas.models import provider
 from fas.lib.fgithub import Github
 
 
@@ -35,12 +36,23 @@ def on_group_created(event):
     :type event: pyramid.events
     """
     group = event.group
+    request = event.request
 
     if group.bound_to_github:
         gh = Github(log)
         gh.create_group(name=group.name, repo=group.name, access='push')
 
-        # TODO: Add email notification
+    request.registry.notify(NotificationRequest(
+        request=request,
+        topic='group.new',
+        person=event.person,
+        group=group,
+        url=request.route_url('group-details', id=group.id),
+        template='group_update',
+        target_email=get_email_recipient(
+            provider.get_group_by_name(Config.get_admin_group()),
+            request.get_user)
+    ))
 
 
 @subscriber(GroupEdited)
@@ -51,16 +63,6 @@ def on_group_edited(event):
     group = event.group
     form = event.form
     people = group.owner
-
-    changes = get_data_changes(form, group)
-
-    recipient = group.owner.email
-
-    if group.mailing_list:
-        log.debug(
-            'Found mailing address %s for group %s, set it up as recipient.'
-            % (group.mailing_list, group.name))
-        recipient = group.mailing_list
 
     request.registry.notify(NotificationRequest(
         request=request,
