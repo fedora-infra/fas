@@ -200,7 +200,7 @@ class People(object):
                         AccountStatus.ON_VACATION,
                         AccountStatus.DISABLED
                     ]
-                ]
+                    ]
 
         if self.request.method == 'POST':
             if form.validate():
@@ -223,7 +223,7 @@ class People(object):
         membership = [
             g for g in self.person.group_membership
             if not g.status == MembershipStatus.PENDING
-        ]
+            ]
 
         return dict(
             person=self.person,
@@ -310,7 +310,7 @@ class People(object):
                 and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 form.populate_obj(self.person)
-                self.notify(PeopleInfosUpdated(self.request, form, person))
+                self.notify(PeopleInfosUpdated(self.request, form, self.person))
 
                 return redirect_to('/people/profile/%s' % self.id)
 
@@ -518,4 +518,3 @@ class People(object):
             person=self.person,
             access=permission,
             pform=form)
-
