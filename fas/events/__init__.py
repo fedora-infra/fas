@@ -97,6 +97,14 @@ class GroupEdited(object):
         self.form = form
 
 
+class GroupDeleted(object):
+    """ Event sent once group get deleted.
+    """
+    def __init__(self, request, group):
+        self.request = request
+        self.group = group
+
+
 class GroupRemovalRequested(object):
     """ Event on Group removal. """
     def __init__(self, request, group_id):

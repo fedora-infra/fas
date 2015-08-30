@@ -49,17 +49,16 @@ def csrf_validity(event):
     user = getattr(request, 'user', None)
     csrf = request.params.get('csrf_token')
     if (request.method == 'POST' or request.is_xhr) and (
-        user and user.is_authenticated()) and (
-            csrf != unicode(request.session.get_csrf_token())):
+                user and user.is_authenticated()) and (
+                csrf != unicode(request.session.get_csrf_token())):
         raise HTTPUnauthorized
 
 
 @subscriber(NewRequest)
 def check_usersame(event):
     """ Check that authenticated user has valid username"""
-    if event.request.authenticated_userid\
-     in Config.get('blacklist.username').split(','):
+    if event.request.authenticated_userid \
+            in Config.get('blacklist.username').split(','):
         event.request.session.flash(
             _(u'Your username %s is forbidden! Please, update it'
-            % event.request.authenticated_userid), 'error')
-
+              % event.request.authenticated_userid), 'error')

@@ -272,9 +272,11 @@ def remove_grouptype(type_id):
     session.query(GroupType).filter(GroupType.id == type_id).delete()
 
 
-def remove_group(group_id):
+def remove_group(group):
     """ Remove group from database."""
-    session.query(Groups).filter(Groups.id == group_id).delete()
+    # session.query(Groups).filter(Groups.id == group_id).delete()
+    session.delete(group)
+    session.flush()
 
 
 def remove_token(id):

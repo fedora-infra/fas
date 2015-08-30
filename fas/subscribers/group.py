@@ -71,9 +71,29 @@ def on_group_edited(event):
         person=person,
         group=group,
         admin=Config.get('project.admin.email'),
-        infos=changes,
+        infos=get_data_changes(form, group),
         url=event.request.route_url('group-details', id=group.id),
         template='group_update',
-        target_email=recipient
+        target_email=get_email_recipient(group, request.get_user)
     ))
 
+
+@subscriber(GroupDeleted)
+def on_group_deleted(event):
+    """
+    Base group removal event listener.
+    """
+    request = event.request
+
+    request.registry.notify(
+        NotificationRequest(
+            request=request,
+            topic='group.delete',
+            person=request.get_user,
+            group=event.group,
+            template='group_update',
+            target_email=get_email_recipient(
+                provider.get_group_by_name(Config.get_admin_group()),
+                request.get_user)
+        )
+    )

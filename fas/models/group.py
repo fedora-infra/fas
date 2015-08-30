@@ -127,8 +127,10 @@ class Groups(Base):
     members = relationship(
         'GroupMembership',
         primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-        backref=backref('group', lazy='joined'),
-        cascade_backrefs=True
+        backref=backref('group', lazy='joined',
+                        single_parent=True,
+                        cascade="save-update, delete, refresh-expire")
+        # cascade_backrefs=True
     )
     owner = relationship(
         'People',

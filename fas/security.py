@@ -239,7 +239,9 @@ def groupfinder(userid, request):
     user = request.get_user
 
     if user is not None:
-        return [ms.group.name for ms in request.get_user.group_membership]
+        return [
+            ms.group.name for ms in request.get_user.group_membership
+            if ms.group is not None]
 
     return None
 

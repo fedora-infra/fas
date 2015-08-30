@@ -189,6 +189,25 @@ If the above information is incorrect, please log in and fix it at:
                     'url': x['url'],
                     'sig': self.signature()
                 }
+            },
+
+            'group.delete': {
+                'subject': u"""Group %(groupname)s has been deleted!""",
+                'body': u"""
+Hello admins,
+
+%(person)s has just deleted group %(groupname)s.
+
+Note that any related membership to this group has been revoked,
+including all synchronized clients access's.
+
+%(sig)s
+""",
+                'fields': lambda **x: {
+                    'groupname': x['group'].name,
+                    'person': x['person'].username,
+                    'sig': self.signature()
+                }
             }
         }
 

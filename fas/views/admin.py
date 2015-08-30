@@ -34,14 +34,14 @@ from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
 from fas.forms.certificates import EditCertificateForm
 from fas.forms.certificates import CreateClientCertificateForm
 
-from fas.events import GroupRemovalRequested, GroupCreated
+from fas.events import GroupRemovalRequested, GroupCreated, GroupDeleted
 from fas.events import GroupTypeRemovalRequested
 from fas.events import LicenseRemovalRequested
 from fas.security import generate_token
 
 from fas.views import redirect_to
 from fas.lib.captcha import Captcha
-from fas.util import Config, setup_group_form
+from fas.util import Config, setup_group_form, _
 from fas.lib.fgithub import Github
 from fas.lib.certificatemanager import CertificateManager
 
@@ -148,7 +148,9 @@ class Admin(object):
                 and ('form.save.group-details' in self.request.params):
             if form.validate():
                 group = register.add_group(form)
-                self.notify(GroupCreated(self.request, group))
+                self.notify(GroupCreated(
+                    self.request, group, person=self.request.get_user)
+                )
                 return redirect_to('/group/details/%s' % group.id)
 
         return dict(form=form)
@@ -161,13 +163,22 @@ class Admin(object):
         except KeyError:
             return HTTPBadRequest()
 
-        # TODO: Add a confirmation form if group has members and child groups.
+        # TODO: Add a confirmation form if group has members and child groups?.
         group = provider.get_group_by_id(self.id)
 
-        register.remove_group(group.id)
-        return redirect_to('/groups')
+        if group.members and len(group.members) > 1:
+            self.request.session.flash(
+                _('Cannot remove group %s.'
+                  'Revoke membership first.' % group.name), 'error')
+            return redirect_to('/group/details/%s' % group.id)
 
-        return dict()  # This should redirect to came_from
+        register.remove_group(group)
+        self.notify(GroupDeleted(self.request, group))
+
+        self.request.session.flash(
+            _('Group %s has been deleted' % group.name), 'info')
+
+        return redirect_to('/groups')
 
     @view_config(route_name='add-license', permission='admin',
                  renderer='/admin/edit-license.xhtml')
