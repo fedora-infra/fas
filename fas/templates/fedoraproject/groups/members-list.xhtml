@@ -42,11 +42,11 @@
                   %if request.authenticated_userid:
                   %if user_is_group_admin or user_is_sponsor:
                   <div class="btn-group">
-                     <button class="btn btn-info">${_(u'Manage membership')}</button>
+                     <button class="btn btn-info">${_(u'Edit membership')}</button>
                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
                        <span class="caret"></span>
                      </button>
-                     <ul class="dropdown-menu">
+                      <ul class="dropdown-menu">
                   %endif
                       <%
                          role = member.get_role()
@@ -104,9 +104,10 @@
                           <a>
                             <form action="${request.route_url('group-action')}"
                               method="POST">
-                              <input type="hidden" name="action" value="revoke">
-                              <input type="hidden" name="group_id" value="${group.id}">
-                              <input type="hidden" name="user_id" value="${member.person.id}">
+                              <input type="hidden" name="action" value="revoke"/>
+                              <input type="hidden" name="group_id" value="${group.id}"/>
+                              <input type="hidden" name="user_id" value="${member.person.id}"/>
+                              <input type="hidden" name="role_id" value="${member.get_role()}"/>
 
                               <button class="AddMsgBox btn btn-default" data-toggle="modal"
                                       data-target="#AddOptionalMsg" data-people="${member.person.id}"

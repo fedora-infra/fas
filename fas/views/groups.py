@@ -401,7 +401,7 @@ class Groups(object):
 
             group_id = self.request.POST.get('group_id')
             user_id = self.request.POST.get('user_id')
-            role_id = int(self.request.POST.get('role_id'))
+            role_id = self.request.POST.get('role_id')
             reason = self.request.POST.get('msg_text')
 
             if form.validate():
@@ -473,6 +473,7 @@ class Groups(object):
                 msg = _(u'You are no longer a member of this group')
 
             elif action == 'upgrade':
+                role_id = int(role_id)
                 if membership.get_status() == MembershipStatus.PENDING:
                     topic = 'group.member.approve'
                     membership.status = MembershipStatus.APPROVED
@@ -528,6 +529,7 @@ class Groups(object):
                 ))
 
             elif action == 'downgrade':
+                role_id = int(role_id)
                 if membership.get_role(role_id + 1) == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
                     msg = _(u'User %s is no longer in the group %s' % (
