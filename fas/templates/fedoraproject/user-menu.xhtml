@@ -30,10 +30,10 @@
         <span class="fas-icon-lock"></span> Change password
      </a>
     </li>
-    %if pending_ms_um > 0:
+    %if pending_ms_num > 0:
     <li role="presentation">
       <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
-        <span class="glyphicon glyphicon-plus"></span> Pending request
+        <span class="glyphicon glyphicon-plus badge"></span> Pending request
         <span class="badge">${pending_ms_num}</span>
      </a>
     </li>
