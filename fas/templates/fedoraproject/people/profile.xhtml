@@ -77,16 +77,18 @@
             </dd>
             <dt>${_(u'Security Question')}</dt>
             <dd></dd>
+            %if ssh_is_required:
             <dt>${_(u'SSH key')}</dt>
             <dd>
               <a href="#updateSshKey" data-toggle="modal" data-target="#updateSshKey">
                 %if person.ssh_key:
                 ${_(u'Update')}
                 %else:
-                ${_(u'Add a key')}
+                ${_(u'Add a key')} <span class="glyphicon glyphicon-exclamation-sign"></span>
                 %endif
               </a>
-            <dd>
+            </dd>
+            %endif
             <dt>${_(u'GPG Fingerprint')}</dt>
             <dd>
               <a href="#updateGpgfp" data-toggle="modal" data-target="#updateGpgfp">

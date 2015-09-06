@@ -53,6 +53,7 @@ import datetime
 from fas.util import utc_iso_format
 from fas import log
 
+
 class GroupType(Base):
     __tablename__ = 'group_type'
     id = Column(Integer, unique=True, primary_key=True)
@@ -104,6 +105,7 @@ class Groups(Base):
     self_removal = Column(Boolean, default=True)
     need_approval = Column(Boolean, default=False)
     requires_sponsorship = Column(Boolean, default=False)
+    requires_ssh = Column(Boolean, default=False)
     invite_only = Column(Boolean, default=False)
     join_msg = Column(UnicodeText, nullable=True)
     apply_rules = Column(UnicodeText, nullable=True)

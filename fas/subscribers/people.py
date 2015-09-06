@@ -24,9 +24,9 @@ import logging
 from pyramid.events import subscriber
 
 from fas.events import PasswordChangeRequested, PeopleInfosUpdated, \
-    NotificationRequest
+    NotificationRequest, LoginSucceeded
 from fas.events import NewUserRegistered
-from fas.util import Config, get_data_changes
+from fas.util import Config, get_data_changes, _
 from fas.views import redirect_to
 
 log = logging.getLogger(__name__)
@@ -89,3 +89,26 @@ def on_people_updated(event):
         url=event.request.route_url('people-profile', id=person.id),
         template='account_update'
     ))
+
+
+@subscriber(LoginSucceeded)
+def check_ssh_key(event):
+    """
+    Checks and notifies - with a flash msg - authenticated user that an SSH key
+    is required if none have been set up.
+
+    :param event: pyramid event
+    :type event: pyramid.events
+    """
+    person = event.person
+
+    ssh_is_required = False
+    for m in person.group_membership:
+        if m.group and m.group.requires_ssh:
+            ssh_is_required = True
+
+    if not person.ssh_key and ssh_is_required:
+        event.request.session.flash(_(u'One of the group you belong to '
+                                      u'requires an SSH key.\n'
+                                      u'Go to your profile to add one.'),
+                                    'warning')

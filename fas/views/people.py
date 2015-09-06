@@ -200,7 +200,7 @@ class People(object):
                         AccountStatus.ON_VACATION,
                         AccountStatus.DISABLED
                     ]
-                    ]
+                ]
 
         if self.request.method == 'POST':
             if form.validate():
@@ -225,13 +225,19 @@ class People(object):
             if not g.status == MembershipStatus.PENDING
             ]
 
+        ssh_is_required = False
+        for g in membership:
+            if g.group and g.group.requires_ssh:
+                ssh_is_required = True
+
         return dict(
             person=self.person,
             form=form,
             formavatar=form_avatar,
             formsshkey=form_sshkey,
             form_gpgfp=form_gpgfp,
-            membership=membership
+            membership=membership,
+            ssh_is_required=ssh_is_required
         )
 
     @view_config(route_name='people-activities',

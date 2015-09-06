@@ -82,7 +82,6 @@ class EditGroupForm(Form):
         [validators.Required()],
         coerce=int,
         choices=[(-1, _(u'-- None --'))])
-        # choices=[(t.id, t.name) for t in provider.get_group_types()])
     # We want parent_group choices list to be dynamic so we won't add it here.
     parent_group_id = SelectField(
         _(u'Parent group'),
@@ -95,6 +94,7 @@ class EditGroupForm(Form):
     self_removal = BooleanField(_(u'Self removal'), default=True)
     need_approval = BooleanField(_(u'Requires approval'), default=False)
     requires_sponsorship = BooleanField(_(u'Requires sponsorship'), default=False)
+    requires_ssh = BooleanField(_(u'Requires SSH'), default=False)
     invite_only = BooleanField(_(u'Invite only'), default=False)
     join_msg = TextAreaField(_(u'Join message'))
     apply_rules = TextAreaField(_(u'Apply rules message'))
