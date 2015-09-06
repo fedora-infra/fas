@@ -1,6 +1,8 @@
 <%inherit file="/site.xhtml" />
 <%namespace name="Page" file="/page-layout.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
+<%namespace name="fasModel" module="fas.models" />
+<% account_status = fasModel.module.AccountStatus %>
 
 ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
 
@@ -10,7 +12,7 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
     <div class="input-group">
       <input type="text" name="q" class="form-control" placeholder="${_('search for people')}"/>
       <span class="input-group-addon">
-        <button class="icon-search"></button>
+        <button class="fas-icon-search"></button>
       </span>
     </div>
   </form>
@@ -39,10 +41,23 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                       </a>
                     </div>
                     <p>${user.introduction}</p>
+                    %if user.status == account_status.ACTIVE:
+                        <span class="label label-success">active</span>
+                    %elif user.status == account_status.ON_VACATION:
+                        <span class="label label-info">on vacation</span>
+                    %elif user.status == account_status.INACTIVE:
+                        <span class="label label-warning">inactive</span>
+                    %elif user.status == account_status.PENDING:
+                        <span class="label label-info">inactive</span>
+                    %elif user.status == account_status.DISABLED:
+                        <span class="label label-default">archived</span>
+                    %elif user.status == account_status.BLOCKED or user.status == account_status.BLOCKED_BY_ADMIN:
+                        <span class="label label-danger">blocked</span>
+                    %endif
                     <a class="more" href="${request.route_url(
                         'people-profile', id=user.username)}">
                       ${_(u'See full profile')}
-                      <i class="icon-right"></i>
+                      <i class="fas-icon-right"></i>
                     </a>
                 </div>
             </div>
