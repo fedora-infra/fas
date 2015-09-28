@@ -45,11 +45,11 @@ from fas.lib.passwordmanager import PasswordManager
 from fas.util import _
 
 import logging
+
 log = logging.getLogger(__name__)
 
 
 class Register(object):
-
     def __init__(self, request):
         self.request = request
         self.id = -1
@@ -81,7 +81,7 @@ class Register(object):
                     # NB: should we allow multiple licenses at signup?
                     break
 
-        if self.request.method == 'POST'\
+        if self.request.method == 'POST' \
                 and ('form.register' in self.request.params):
             self.person = People()
             if not captchaform.validate() and not la_form.validate():
@@ -99,7 +99,7 @@ class Register(object):
                     self.person.password_token = generate_token()
 
                     # Disabled validation while testing optional infos
-                    #if peopleform.validate():
+                    # if peopleform.validate():
                     self.person.avatar = peopleform.avatar.data
                     self.person.introduction = peopleform.introduction.data
                     self.person.ircnick = peopleform.ircnick.data
@@ -116,18 +116,15 @@ class Register(object):
 
                     self.request.registry.notify(
                         NewUserRegistered(self.request, self.person)
-                        )
+                    )
 
                     self.request.session.flash(
                         _('Account created, please check your email to finish '
                           'the process'), 'info')
                     return redirect_to('/people/profile/%s' % self.person.id)
 
-        return dict(form=form,
-        captchaform=captchaform,
-        licensesform=[la_form],
-        peopleform=peopleform,
-        licenses=licenses)
+        return dict(form=form, captchaform=captchaform, licensesform=[la_form],
+                    peopleform=peopleform, licenses=licenses)
 
     @view_config(
         route_name='people-confirm-account',
