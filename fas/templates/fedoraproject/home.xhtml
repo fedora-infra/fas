@@ -22,18 +22,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <h2><a href="${request.route_url('groups')}">${_(u'Fedora groups')}</a></h2>
-            <h2><a href="${request.route_url('people')}">${_(u'Fedora people')}</a></h2>
+            <h2>
+                <a href="${request.route_url('groups')}"><span class="fas-icon-users fs-2x"> </span>${_(u'Fedora groups')}</a>
+            </h2>
+            <h2>
+                <a href="${request.route_url('people')}"><span class="fas-icon-user fs-2x"> </span>${_(u'Fedora people')}</a>
+            </h2>
         </div>
         <div class="sidebar col-md-3">
 
             <div class="searchform">
-                <h3>Search for people</h3>
+                <h3>${_(u'Search for people')}</h3>
                 <form method="get" action="${request.route_url('people-search-rd')}">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control"/>
                         <span class="input-group-addon">
-                            <button class="icon-search"></button>
+                            <button class="fas-icon-search"></button>
                         </span>
                     </div>
                 </form>

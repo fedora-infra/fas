@@ -22,18 +22,19 @@
           </span>
         </a>
       <a role="menuitem" tabindex="-1" href="${request.route_url('people-edit', id=user.id)}">
-        <span class="glyphicon glyphicon-pencil"></span> Edit profile
+        <span class="fas-icon-pencil"></span> ${_(u'Edit profile')}
       </a>
     </li>
     <li role="presentation">
       <a role="menuitem" tabindex="-1" href="${request.route_url('people-password', id=user.id)}">
-        <span class="fas-icon-lock"></span> Change password
+        <span class="fas-icon-lock"></span> ${_(u'Change password')}
      </a>
     </li>
     %if pending_ms_num > 0:
+        <li class="divider"></li>
     <li role="presentation">
       <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
-        <span class="glyphicon glyphicon-plus badge"></span> Pending request
+        <span class="glyphicon glyphicon-plus badge"></span> ${_(u'Pending request')}
         <span class="badge">${pending_ms_num}</span>
      </a>
     </li>

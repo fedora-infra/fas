@@ -7,14 +7,11 @@
     <meta name="keywords" content="python web application" />
     <meta name="description" content="Fedora Project web application" />
 
-    <link rel="shortcut icon"
-        href="${request.static_url('fas:static/theme/fedoraproject/assets/favicon.ico')}" />
+    <link rel="shortcut icon" href="${request.static_url('fas:static/theme/fedoraproject/assets/favicon.ico')}" />
 
     <!-- custom fonts -->
-    <link rel="stylesheet" media="screen"
-        href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" />
-    <link rel="stylesheet"  media="screen"
-        href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" />
+    <link rel="stylesheet" media="screen" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" />
+    <link rel="stylesheet"  media="screen" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" />
 
     <!-- rendering -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +23,6 @@
         href="${request.static_url('fas:static/theme/fedoraproject/style/component.css')}" />
     <link rel="stylesheet" type="text/css" media="all"
         href="${request.static_url('fas:static/theme/fedoraproject/style/animations.css')}" />
-    <script src="${request.static_url('fas:static/theme/fedoraproject/js/modernizr.custom.js')}"></script>
     <script src="${request.static_url('fas:static/theme/fedoraproject/js/theme.js')}"></script>
     <script src="${request.static_url('fas:static/theme/fedoraproject/js/pwstrength.js')}"></script>
 </head>
@@ -40,74 +36,74 @@
                 <button type="button" class="navbar-toggle collapsed"
                         data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">${_(u'Toggle navigation')}</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="fas-icon-bar"></span>
+                    <span class="fas-icon-bar"></span>
+                    <span class="fas-icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="${request.route_url('home')}"
-                    title="${_(u'Go back to Fedora Account System home')}">
-                  ${_(u'Fedora Account System')}
+                   title="${_(u'Go back to Fedora Account System home')}">
+                    ${_(u'Fedora Account System')}
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 %if request.upath_info not in ['/', '/login']:
-                <ul class="nav navbar-nav">
-                    <li>
-                      <a href="${request.route_url('groups')}">
-                        <span class="fas-icon-users"></span> ${_(u'Fedora groups')}
-                      </a>
-                    </li>
-                    <li>
-                      <a href="${request.route_url('people')}">
-                        <span class="fas-icon-user"></span> ${_(u'Fedora people')}
-                      </a>
-                    </li>
-                %if request.authenticated_is_admin() \
-                        or request.authenticated_is_modo() \
-                        or request.authenticated_is_group_editor():
-                    <li>
-                      <a href="${request.route_url('settings')}">
-                        <span class="fas-icon-cog-alt"></span> ${_(u'Settings')}
-                      </a>
-                    </li>
-                %endif
-                </ul>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="${request.route_url('groups')}">
+                                <span class="fas-icon-users"></span> ${_(u'Fedora groups')}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${request.route_url('people')}">
+                                <span class="fas-icon-user"></span> ${_(u'Fedora people')}
+                            </a>
+                        </li>
+                        %if request.authenticated_is_admin() \
+                                or request.authenticated_is_modo() \
+                                or request.authenticated_is_group_editor():
+                            <li>
+                                <a href="${request.route_url('settings')}">
+                                    <span class="fas-icon-cog-alt"></span> ${_(u'Settings')}
+                                </a>
+                            </li>
+                        %endif
+                    </ul>
                 %endif
 
                 %if request.upath_info not in ['/login']:
-                  %if request.authenticated_userid is None:
-                    <p class="navbar-text navbar-right">
-                        <a href="${request.application_url + '/login'}?redirect=${request.url}"
-                            class="navbar-link">
-                          ${_(u'Log in')}
-                        </a>
-                    </p>
-                  %endif
+                    %if request.authenticated_userid is None:
+                        <p class="navbar-text navbar-right">
+                            <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                               class="navbar-link">
+                                ${_(u'Log in')}
+                            </a>
+                        </p>
+                    %endif
                 %endif
 
                 %if request.authenticated_userid is not None:
-                  <ul class="navbar-text navbar-right">
-                    <div id="fat-menu" class="dropdown">
-                      ${_(u'Logged in as')}
-                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                        <strong>
-                          ${request.authenticated_userid} 
-                          %if len(request.get_pending_ms_requests) > 0:
-                          <span class="fas-icon-menu hover"></span>
-                          %else:
-                          <span class="fas-icon-menu"></span>
-                          %endif
-                        </strong>
-                      </a> |
-                      <a href="${request.application_url + '/logout'}?redirect=${request.url}"
-                          class="navbar-link">
-                        ${_(u'Log out')}
-                      </a>
-                      <%namespace name="userMenu" file="/user-menu.xhtml" />
-                        ${userMenu.menu(request.get_user)}
-                    </div>
-                  </ul>
+                    <ul class="navbar-text navbar-right">
+                        <div id="fat-menu" class="dropdown">
+                            ${_(u'Logged in as')}
+                            <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                <strong>
+                                    ${request.authenticated_userid}
+                                    %if len(request.get_pending_ms_requests) > 0:
+                                        <span class="fas-icon-menu hover"></span>
+                                    %else:
+                                        <span class="fas-icon-menu"></span>
+                                    %endif
+                                </strong>
+                            </a> |
+                            <a href="${request.application_url + '/logout'}?redirect=${request.url}"
+                               class="navbar-link">
+                                ${_(u'Log out')}
+                            </a>
+                            <%namespace name="userMenu" file="/user-menu.xhtml" />
+                            ${userMenu.menu(request.get_user)}
+                        </div>
+                    </ul>
                 %endif
             </div>
         </div>
