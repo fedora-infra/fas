@@ -12,8 +12,10 @@
 
         var peopleId = _self.data('people');
         var groupId = _self.data('group');
+        var roleId = _set.data('roleid')
         $("#peopleId").val(peopleId);
         $("#groupId").val(groupId);
+        $("#roleID").val(roleId);
 
         $(_self.attr('target')).modal('show');
         });
@@ -47,8 +49,9 @@
               </div>
             </div>
             <div class="modal-footer">
-              <input type="hidden" id="groupId" name="group_id" >
-              <input type="hidden"  id="peopleId" name="user_id" >
+              <input type="hidden" id="groupId" name="group_id" />
+              <input type="hidden"  id="peopleId" name="user_id" />
+              <input type="hidden" id="roleId" name="role_id" />
               <button type="button" class="btn btn-default" data-dismiss="modal">
                   ${_(u'Cancel')}
               </button>

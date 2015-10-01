@@ -10,36 +10,14 @@ ${Page.set_title(_(u'Fedora Groups\' List'), _(u'All involvement\'s groups'))}
           <div class="input-group">
               <input type="text" name="q" class="form-control" placeholder="${_(u'search groups')}"/>
               <span class="input-group-addon">
-                  <button class="icon-search"></button>
+                  <button class="fas-icon-search"></button>
               </span>
           </div>
       </form>
   </div>
 
-  ${paging.list(name='groups', route='groups-paging')}
-
-  <div class="container">
-  %if groups:
-    <div class="row">
-    %for group in groups:
-      <ul class="list">
-        <div class="col-sm-6 col-sm-4 col-lg-4">
-          <li>
-            <a href="${request.route_url('group-details', id=group.id)}">
-              <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
-              <h3>${group.display_name or group.name}</h3>
-            </a>
-          </li>
-        </div>
-      </ul>
-    %endfor
-  %else:
-    <div id="no-items-found">
-      <p>${_(u'Found no groups')}</p>
-    </div>
-  %endif
-    </div>
-  </div>
-
-  ${paging.list(name='groups', route='groups-paging')}
+<h1></h1>
+<div class="container">
+${Page.set_group_list(groups=groups, enable_paging=True)}
+</div>
 

@@ -45,7 +45,6 @@ from fas.events import GroupEdited
 import fas.models.provider as provider
 import fas.models.register as register
 
-
 log = logging.getLogger(__name__)
 
 
@@ -196,7 +195,7 @@ class Groups(object):
                         and member.status in valid_active_status:
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
-                    elif membership.role == MembershipRole.SPONSOR\
+                    elif membership.role == MembershipRole.SPONSOR \
                             and group.requires_sponsorship:
                         sponsor_members.append(membership)
                     elif membership.role == MembershipRole.ADMINISTRATOR:
@@ -394,6 +393,8 @@ class Groups(object):
         return redirect_to('/group/details/%s' % self.group.id)
 
     @view_config(route_name='group-action', permission='authenticated')
+    @view_config(route_name='group-action', permission='authenticated', xhr=True,
+                 renderer='json')
     def group_action(self):
         """ Upgrade or downgrade an user in a group."""
         if self.request.method == 'POST':
@@ -410,12 +411,13 @@ class Groups(object):
             self.group = provider.get_group_by_id(group_id)
             self.user = provider.get_people_by_id(user_id)
 
-            if self.user:
+            if self.user is not None:
                 membership = provider.get_membership_by_username(
                     self.user.username, self.group.name)
 
+            status = "ok"
             msg = ''
-            tpl = 'membership_update'
+            tpl = "membership_update"
             log_type = None
             topic = ''
             action = self.request.POST.get('action')
@@ -530,7 +532,7 @@ class Groups(object):
 
             elif action == 'downgrade':
                 role_id = int(role_id)
-                if membership.get_role(role_id + 1) == MembershipRole.USER:
+                if membership.get_role(role_id) == MembershipRole.USER:
                     membership.status = MembershipStatus.UNAPPROVED
                     msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
@@ -539,7 +541,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.REMOVED_GROUP_MEMBERSHIP,
                         self.group.name)
-                elif membership.get_role(role_id + 1) == MembershipRole.EDITOR:
+                elif membership.get_role(role_id) == MembershipRole.EDITOR:
                     membership.role = MembershipRole.USER
                     msg = _(u'User %s is now USER of the group '
                             '%s' % (self.user.username, self.group.name))
@@ -548,7 +550,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'USER: %s' % self.group.name)
-                elif membership.get_role(role_id + 1) == MembershipRole.SPONSOR:
+                elif membership.get_role(role_id) == MembershipRole.SPONSOR:
                     membership.role = MembershipRole.EDITOR
                     msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
@@ -557,7 +559,7 @@ class Groups(object):
                         self.user.id,
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
-                elif membership.get_role(role_id + 1) == MembershipRole.ADMINISTRATOR:
+                elif membership.get_role(role_id) == MembershipRole.ADMINISTRATOR:
                     membership.role = MembershipRole.SPONSOR
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
@@ -581,6 +583,7 @@ class Groups(object):
                 membership.role = MembershipRole.USER
                 msg = _(u'User %s is no longer in the group %s' % (
                     self.user.username, self.group.name))
+                status = "removed"
                 register.save_account_activity(
                     self.request,
                     self.user.id,
@@ -611,6 +614,10 @@ class Groups(object):
                         self.user.id,
                         log_type,
                         self.group.name)
+
+            if self.request.is_xhr:  # We only use js that set this in header
+                resp = {"status": status, "msg": "{0:s}".format(msg)}
+                return resp
 
             if msg:
                 self.request.session.flash(msg, 'info')

@@ -44,6 +44,10 @@ module.exports = {
             'theme.js': [
                 'vendor/jquery/dist/jquery.min.js',
                 'vendor/bootstrap/dist/js/bootstrap.js',
+                'vendor/bootstrap-table/dist/bootstrap-table.min.js',
+                'vendor/NotificationStyles/js/classie.js',
+                'vendor/NotificationStyles/js/modernizr.custom.js',
+                'vendor/NotificationStyles/js/notificationFx.js',
                 srcPath + '/tmp/theme.js'
             ]
         }

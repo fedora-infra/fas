@@ -1,132 +1,103 @@
 <%namespace name="groupMembers" />
+<%namespace name="msLevel" module="fas.models" />
 
   <%def name="list(members, user_is_group_admin, user_is_sponsor, display_role=True, type='all')">
 
-      <script type='text/javascript'>//<![CDATA[ 
-      window.onload=function(){
-      var monkeyList = new List('members_list', {
-        valueNames: ['name'],
-        page: 50,
-        plugins: [ ListPagination({}) ] 
-      });
-      }//]]>
-
-      </script>
-
     <div class="row">
-          <div id="members_list">
-            <ul class="pagination"></ul>
-<!-- Disable quick search
-            <input type="text" class="search" />
--->
+        <div id="${type}-members">
+            %if len(members) > 50: # We paginate up to 50 items so everything we can display wont need this below
+                <ul class="pagination"></ul>
+                <input type="text" class="search" />
+            %endif
             <ul class="list">
-      %for member in members[0:200]:
-          <div class="member-item col-sm-6 col-md-4">
-              <li>
-                <span>
-                  <a href="${request.route_url('people-profile', id=member.person.id)}">
-                    %if member.person.avatar:
-                      <img src="${member.person.avatar + '?s=80&d=monsterid'}"
-                           class="profile img-circle" />
-                    %else:
-                      <img src="http://cdn.libravatar.org/avatar/"
-                           class="img-thumbnail" />
-                    %endif
-                </span>
-                <h4 class="name"><strong>${member.person.fullname}</strong></h4>
-                </a>
-                %if display_role:
-                  <p>${_(member.get_role().name.lower())}</p>
-                %endif
-                <p >${_(u'Joined group on')} ${member.get_approval_date(request)}</p>
-                  %if request.authenticated_userid:
-                  %if user_is_group_admin or user_is_sponsor:
-                  <div class="btn-group">
-                     <button class="btn btn-info">${_(u'Edit membership')}</button>
-                     <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
-                       <span class="caret"></span>
-                     </button>
-                      <ul class="dropdown-menu">
-                  %endif
-                      <%
-                         role = member.get_role()
-                         role_to_upgrade = role + 0x01
-                         role_to_downgrade = role - 0x01
+                %for member in members:
+                <%
+                    role = member.get_role()
+                    role_to_upgrade = role + 0x01
+                    role_to_downgrade = role - 0x01
 
-                         if not group.requires_sponsorship and (role_to_upgrade == msLevel.module.MembershipRole.SPONSOR):
-                            role_to_upgrade += 1
-
-                      %>
-
-                      <%namespace name="msLevel" module="fas.models" />
-                          %if (role < msLevel.module.MembershipRole.ADMINISTRATOR and user_is_group_admin) \
-                              or (role < msLevel.module.MembershipRole.SPONSOR \
-                              and user_is_sponsor):
-                            <li>
-                              <a>
-                                <form action="${request.route_url('group-action')}"
-                                  method="POST">
-
-                                  <input type="hidden" name="action" value="upgrade"/>
-                                  <input type="hidden" name="group_id" value="${group.id}"/>
-                                  <input type="hidden" name="user_id" value="${member.person.id}"/>
-                                  <input type="hidden" name="role_id" value="${role_to_upgrade}"/>
-                                <button class="btn btn-default" type="submit">
-                                    ${_(u'Upgrade to %s' % member.get_role(role_to_upgrade).name.lower())}
+                    if not group.requires_sponsorship and (role_to_upgrade == msLevel.module.MembershipRole.SPONSOR):
+                        role_to_upgrade += 1
+                %>
+                    <div id="${member.people_id}" class="member-item col-sm-6 col-md-3">
+                        <span>
+                            <a href="${request.route_url('people-profile', id=member.people_id)}">
+                                <img id="loader_img" src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}" style="display: none">
+                                %if member.person.avatar:
+                                    <img  id="main_img" src="${member.person.avatar + '?s=80&d=monsterid'}"
+                                          class="profile img-circle" />
+                                %else:
+                                    <img src="http://cdn.libravatar.org/avatar/"
+                                         class="img-thumbnail" />
+                                %endif
+                            </a>
+                        </span>
+                        <h4 class="name"><strong>${member.person.fullname}</strong></h4>
+                        %if display_role:
+                            <p id="role_${member.people_id}">${_(member.get_role().name.lower())}</p>
+                        %endif
+                        <p>${_(u'Joined group on')} ${member.get_approval_date(request)}</p>
+                        %if request.authenticated_userid:
+                            %if user_is_group_admin or user_is_sponsor:
+                            <div class="btn-group">
+                                <button class="btn btn-info">${_(u'Edit membership')}</button>
+                                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+                                    <span class="caret"></span>
                                 </button>
-                                </form>
-                              </a>
-                            </li>
-                         %endif
-                          %if role > msLevel.module.MembershipRole.USER \
-                              and user_is_group_admin \
-                              or role > msLevel.module.MembershipRole.USER \
-                              and role < msLevel.module.MembershipRole.SPONSOR \
-                              and user_is_sponsor:
-                            <li>
-                              <a>
-                                <form action="${request.route_url('group-action')}"
-                                  method="POST">
-                                  <input type="hidden" name="action" value="downgrade"/>
-                                  <input type="hidden" name="group_id" value="${group.id}"/>
-                                  <input type="hidden" name="user_id" value="${member.person.id}"/>
-                                  <input type="hidden" name="role_id" value="${role_to_downgrade}"/>
-                                  <button class="btn btn-default" type="submit">
-                                    ${_(u'Downgrade to %s' % member.get_role(role_to_downgrade).name.lower())}
-                                  </button>
-                                </form>
-                              </a>
-                            </li>
-                          %endif
-                      %if user_is_group_admin:
-                        <li class="divider"></li>
-                        <li>
-                          <a>
-                            <form action="${request.route_url('group-action')}"
-                              method="POST">
-                              <input type="hidden" name="action" value="revoke"/>
-                              <input type="hidden" name="group_id" value="${group.id}"/>
-                              <input type="hidden" name="user_id" value="${member.person.id}"/>
-                              <input type="hidden" name="role_id" value="${member.get_role()}"/>
-
-                              <button class="AddMsgBox btn btn-default" data-toggle="modal"
-                                      data-target="#AddOptionalMsg" data-people="${member.person.id}"
-                                      data-group="${group.id}">
-                                ${_(u'Revoke membership')}
-                              </button>
-                            </form>
+                            <ul class="dropdown-menu">
+                            %endif
+                            %if (role < msLevel.module.MembershipRole.ADMINISTRATOR and user_is_group_admin) \
+                                    or (role < msLevel.module.MembershipRole.SPONSOR \
+                                            and user_is_sponsor):
+                                <li>
+                                    <a href="#" class="group-action" data-group-action="upgrade"
+                                       data-username="${member.person.username}" data-user_id="${member.person.id}"
+                                       data-group_id="${group.id}" data-role_id="${role_to_upgrade}"
+                                       data-role_name="${member.get_role(role_to_upgrade).name.lower()}">
+                                        <span class="fas-icon-up"></span> ${_(u'Upgrade to %s' % member.get_role(role_to_upgrade).name.lower())}
+                                    </a>
+                                </li>
+                            %endif
+                            %if role > msLevel.module.MembershipRole.USER \
+                                    and user_is_group_admin \
+                                    or role > msLevel.module.MembershipRole.USER \
+                                           and role < msLevel.module.MembershipRole.SPONSOR \
+                                           and user_is_sponsor:
+                                <li>
+                                    <a href="#" class="group-action" data-group-action="downgrade"
+                                       data-username="${member.person.username}" data-user_id="${member.person.id}"
+                                       data-group_id="${group.id}" data-role_id="${role_to_upgrade}"
+                                       data-role_name="${member.get_role(role_to_downgrade).name.lower()}">
+                                        <span class="fas-icon-down"></span> ${_(u'Downgrade to %s' % member.get_role(role_to_downgrade).name.lower())}
+                                    </a>
+                                </li>
+                            %endif
+                            %if user_is_group_admin:
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" class="group-action" data-group-action="revoke"
+                                       data-username="${member.person.username}" data-user_id="${member.person.id}"
+                                       data-group_id="${group.id}" data-role_id="${role_to_upgrade}">
+                                        ##                             <form action="${request.route_url('group-action')}"
+                              ##                               method="POST">
+                              ##                               <button class="AddMsgBox btn btn-default" data-toggle="modal"
+                              ##                                       data-target="#AddOptionalMsg" data-people="${member.person.id}"
+                              ##                                       data-group="${group.id}">
+                                                              <span class="fas-icon-cancel"></span>  ${_(u'Revoke membership')}
+##                               </button>
+##                             </form>
                           </a>
-                        </li>
-                      %endif
-     %if user_is_group_admin or user_is_sponsor:
-        </ul>
-    </div>
-    %endif
-                  %endif
-              </li>
-          </div>
-      %endfor
+                                </li>
+                            %endif
+                            %if user_is_group_admin or user_is_sponsor:
+                                </ul>
+                                </div>
+                            %endif
+                        %endif
+                    </div>
+                %endfor
             </ul>
-          </div>
+        </div>
     </div>
+
   </%def>

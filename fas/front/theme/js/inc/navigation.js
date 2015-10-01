@@ -11,7 +11,7 @@
 module.exports = function() {
     var expandedClassname = 'navbar-expanded',
         toggling = 50;
-    
+
     function resizeNavbar() {
         if($(document).scrollTop() > toggling) {
             $('body').removeClass(expandedClassname);
@@ -22,7 +22,7 @@ module.exports = function() {
             $('.navbar').removeClass('navbar-inverse');
         }
     }
-    
+
     $(document).scroll(function() {
         resizeNavbar();
     });

@@ -157,6 +157,14 @@ class Groups(Base):
         Index('group_name_idx', name),
     )
 
+    def get_status(self):
+        """
+
+        :return:
+        :rtype:
+        """
+        return GroupStatus[self.status]
+
     def to_json(self, permissions):
         """ Return a JSON/dict representation of a Group object. """
         info = {}

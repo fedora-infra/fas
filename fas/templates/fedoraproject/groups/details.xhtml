@@ -32,15 +32,24 @@
       ${licenseAgreement.form(license=group.license, person=request.get_user)}
     %endif
 
-    ${groupMsg.msg(_(u'Membership revoking'), _(u'Reason'))}
+    ${groupMsg.msg(_(u'You are about to revoke a membership'), _(u'Reason'))}
   %endif
 
   <div class="page-title">
-    <img class="group" src="${request.static_url('fas:static/theme/fedoraproject/logo.png')}"/>
-    <h1>${group.display_name or group.name}</h1>
+    <h1>
+        %if group.avatar is None:
+        <span class="fas-icon-users fs-2x"> </span>
+        %else:
+            <span>
+                    <img src="${request.status_url('fas:static/theme/fedoraproject/%s' % group.avatar)}/>
+            </span>
+        %endif
+         ${group.display_name or group.name}
+    </h1>
     <p>
       %if group.display_name:
-        ${group.description or group.name}
+        ${group.description or _(u'No description provided')}
+## or group.name}
       %endif
     </p>
     %if group.parent_group_id > -1:
@@ -65,78 +74,78 @@
   </div>
 
   <div class="container group-card">
-  <div class=row>
-    <div class="centered col-sm-6 col-md-4">
-      <h3></h3>
-      <dl class="dl-horizontal">
-           %if group.web_link:
-             <dt>${_(u'Web page')}</dt>
-             <dd>${group.web_link}</dd>
-           %endif
-           <dt>${_(u'Group type')}</dt>
-           <dd>
-           %if group.group_types:
-             ${group.group_types.name}
-           %else:
-             -
-           %endif
-           </dd>
-           <dt>${_(u'Principal Administrator')}</dt>
-           <dd>
-             <a href="${request.route_url('people-profile', id=group.owner_id)}"
-                 data-toggle="tooltip" data-placement="top" title="${_(u'View profile')}">
-               ${group.owner.username}
-             </a>
-             %if person:
-              %if person.id == group.owner.id or user_is_admin:
-                <span>
+      <div class=row>
+          <div class="centered text-center col-sm-7 col-md-6">
+              <h3></h3>
+              <dl class="dl-horizontal">
+                  %if group.web_link:
+                      <dt>${_(u'Web page')}</dt>
+                      <dd>${group.web_link}</dd>
+                  %endif
+                  <dt>${_(u'Group type')}</dt>
+                  <dd>
+                      %if group.group_types:
+                          ${group.group_types.name}
+                      %else:
+                          -
+                      %endif
+                  </dd>
+                  <dt>${_(u'Principal Administrator')}</dt>
+                  <dd>
+                      <a href="${request.route_url('people-profile', id=group.owner_id)}"
+                         data-toggle="tooltip" data-placement="top" title="${_(u'View profile')}">
+                          ${group.owner.username}
+                      </a>
+                      %if person:
+                          %if person.id == group.owner.id or user_is_admin:
+                              <span>
                   <button class="btn glow" name="button" data-toggle="modal" data-target="#groupMainAdminChange">
-                    ${_(u'Pass along responsability')} <!-- review wording before prod -->
+                      <span class="fas-icon-exchange"></span>
                   </button>
                 </span>
+                          %endif
+                      %endif
+                  </dd>
+              </dl>
+          </div>
+      </div>
+      <div class=row>
+          <div class="centered col-sm-7 col-md-6">
+              <h3>${_(u'Contact information')}</h3>
+              %if not group.mailing_list and not group.irc_channel:
+                  <div class="text-center">
+                      <p>${_(u'No contact information provided.')}</p>
+                  </div>
+              %else:
+                  <dl class="dl-horizontal">
+                      <dt>${_(u'Mailing list')}</dt>
+                      <dd>
+                          <a href="mailto:${group.mailing_list}">${group.mailing_list}</a>
+                          %if group.mailing_list_url:
+                              <a href="${group.mailing_list_url}">(${_(u'view list infos')})</a>
+                          %endif
+                      </dd>
+                      <dt>${_(u'IRC channel')}</dt>
+                      <dd>
+                          #${group.irc_channel}
+                          <a href="irc://${group.irc_network}">
+                              (${group.irc_network})
+                          </a>
+                      </dd>
+                      <dt>${_(u'')}</dt>
+                      <dd></dd>
+                  </dl>
               %endif
-            %endif
-           </dd>
-      </dl>
-    </div>
-  </div>
-  <div class=row>
-    <div class="centered col-sm-6 col-md-4">
-      <h3>${_(u'Contact information')}</h3>
-      %if not group.mailing_list and not group.irc_channel:
-        <div>
-          <p>${_(u'No contact informations provided.')}</p>
-        </div>
-      %else:
-        <dl class="dl-horizontal">
-             <dt>${_(u'Mailing list')}</dt>
-             <dd>
-               <a href="mailto:${group.mailing_list}">${group.mailing_list}</a>
-               %if group.mailing_list_url:
-                 <a href="${group.mailing_list_url}">(${_(u'view list infos')})</a>
-               %endif
-             </dd>
-             <dt>${_(u'IRC channel')}</dt>
-             <dd>
-               #${group.irc_channel}
-               <a href="irc://${group.irc_network}">
-                 (${group.irc_network})
-               </a>
-             </dd>
-             <dt>${_(u'')}</dt>
-             <dd></dd>
-        </dl>
-      %endif
-    </div>
-  </div>
+          </div>
+      </div>
 
   <hr />
 
   <div class=row>
-    <div class="centered col-sm-6 col-md-4">
+    <div class="centered text-center col-sm-7 col-md-6">
       <h3>${_(u'Membership')}</h3>
       %if not group.need_approval and group.license_sign_up == -1:
-        <div>
+        <div class="text-center">
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
               <dd>
@@ -152,34 +161,27 @@
             <dt>${_(u'Your role')}</dt><dd>${person_membership.get_role().name.lower()}
             %if group.self_removal:
               <span>
-                <button class="btn glow" name="button" data-toggle="modal" data-target="#membershipRemoval">
-                 ${_(u'revoke my membership')}
+                <button class="btn glow" name="button" data-toggle="modal" data-target="#membershipRemoval" title="${_(u'Revoke your membership')}">
+                 <span class="fas-icon-cancel text-danger"></span>
                 </button>
               </span>
             %else:
               <span class="badge"><a href="#">(${_(u'request revoking')})</a></span>
             %endif
             </dd>
+
             %if len(membership_request) > 0:
               %if user_is_group_admin or user_is_sponsor:
-                <dt>${_(u'Requests')}<span class="badge">${len(membership_request)}</span></dt>
+                <dt>${_(u'Requests')}</dt>
                   <dd>
-                    <a href="#collapseMembershipRequests" data-toggle="collapse">
-                      ${_(u'View membership request')}
-                    </a>
+                      <span class="badge">${len(membership_request)}</span>
+                      <a href="#collapseMembershipRequests"  data-toggle="collapse">
+                          ${_(u'View request(s)')}
+                      </a>
                   </dd>
               %endif
             %endif
-            %if user_is_group_admin:
-              <div class="btn-group">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#invitePerson">
-                  ${_(u'Invite')}
-                </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPeople">
-                  ${_(u'Add a user')}
-                </button>
-              </div>
-            %endif
+
             %if group.certificate > 0:
             <form action="${request.route_url('get-client-cert')}" method="POST">
               ${formcertificate.cacert(type='hidden', value=group.certificate)}
@@ -191,11 +193,22 @@
             </form>
             %endif
           </dl>
+
+          %if user_is_group_admin:
+              <div class="btn-group text-center">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#invitePerson">
+                  <span class="fas-icon-gift"></span> ${_(u'Invite')}
+                </button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPeople">
+                  <span class="fas-icon-user-add"></span> ${_(u'Add a user')}
+                </button>
+              </div>
+            %endif
       %else:
         <dl class="dl-horizontal">
           %if not request.authenticated_userid:
-          <div>
-            <a href="${request.route_url('login')}?redirect=${request.url}">${_(u'Login')}</a> ${_(u'for more details')}
+          <div class="text-center">
+            <a href="${request.route_url('login')}?redirect=${request.url}">${_(u'Log in')}</a> ${_(u'for more details')}
           </div>
           %else:
             %if group.apply_rules:
@@ -208,17 +221,8 @@
                   <dt>${_(u'Status')}</dt>
                     <dd><p>${_(u'Pending...')}</p></dd>
                 %else:
-<!--
-                  <form method="POST">
-                  <button class="btn btn-default" name="data">
-                    ${_(u'Apply')}
-                  </button>
--->
                   <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
                   <button class="btn glow" name="button">
-<!--
-                      data-toggle="modal" data-target="#groupApplication">
--->
                     ${_(u'Apply')}
                   </button>
                   </form>
@@ -244,132 +248,206 @@
     </div>
   </div>
 
-  <!-- Membership requests list -->
+##   Membership requests list, collapsed by default.
   %if len(membership_request) > 0:
-    <div class="members-list panel-collapse collapse" id="collapseMembershipRequests">
-      <h3>${_(u'Membership Request')}</h3>
-      <div class="row">
-        %for membership in membership_request:
-          <div class="col-sm-6 col-md-4 col-lg-4">
-            <ul id="people">
-              <li>
-                <span>
-                  <a href="${request.route_url(
-                            'people-profile', id=membership.person.username)}">
-                    %if membership.person.avatar:
-                      <img src="${membership.person.avatar}?s=50&d=monsterid"
-                           class="profile img-circle" />
-                    %else:
-                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
-                           class="img-thumbnail" />
-                    %endif
-                    ${membership.person.fullname}
-                  </a>
-                </span>
-                  %if request.authenticated_userid and user_is_group_manager:
-                    </span>
-                      <form action="${request.route_url('group-action')}"
-                        method="POST">
-                        <input type="hidden" name="action" value="upgrade"/>
-                        <input type="hidden" name="group_id" value="${group.id}"/>
-                        <input type="hidden" name="user_id" value="${membership.person.id}"/>
-                        <button class="btn btn-default" type="submit">
-                            %if group.requires_sponsorship:
-                              ${_(u'Sponsor')}
-                            %else:
-                              ${_(u'Approve')}
-                            %endif
-                        </button>
-                      </form>
-                    </span>
-                  %endif
-              </li>
-            </ul>
+      <h1> </h1>
+      <div class="members-list panel-collapse collapse" id="collapseMembershipRequests">
+          <h3>${_(u'Request(s)')}</h3>
+          <div class="row">
+              %for membership in membership_request:
+                  <div id="${membership.people_id}" class="col-sm-6 col-md-4 col-lg-4">
+                      <ul id="people">
+                          <span>
+                              <a href="${request.route_url('people-profile', id=membership.person.username)}">
+                                  %if membership.person.avatar:
+                                      <img src="${membership.person.avatar}?s=50&d=monsterid"
+                                           class="profile img-circle" />
+                                  %else:
+                                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                                           class="img-thumbnail" />
+                                  %endif
+                              </a>
+                          </span>
+                          <h4>${membership.person.fullname}</h4>
+                          %if request.authenticated_userid and user_is_group_manager:
+                              <form action="${request.route_url('group-action')}" method="POST">
+                                  <input type="hidden" name="action" value="upgrade"/>
+                                  <input type="hidden" name="group_id" value="${group.id}"/>
+                                  <input type="hidden" name="user_id" value="${membership.person.id}"/>
+                                  <button class="btn btn-success" type="submit">
+                                      %if group.requires_sponsorship:
+                                        ${_(u'Sponsor')}
+                                      %else:
+                                        ${_(u'Approve')}
+                                      %endif
+                                  </button>
+                              </form>
+                          %endif
+                      </ul>
+                  </div>
+              %endfor
           </div>
-        %endfor
       </div>
-    </div>
   %endif
 
   <hr />
 
-  <!-- Members list -->
+##   Members list
   <div class=members-list>
-    <h3>${_(u'Members')}</h3>
-    %if len(members) > 0:
-        <!--
-        ${paging.list(name='people', route='group-details', param={'members_page': 2})}
-        -->
+      <h3>${_(u'Members')}</h3>
+      %if len(members) > 0:
 
-       <!-- feature in review, move to front if pass -->
-       <script type='text/javascript' src="http://listjs.com/no-cdn/list.pagination.js"></script>
-       <script type='text/javascript' src="http://listjs.com/no-cdn/list.js"></script>
+##     feature in review, move to front if pass
+          <script type='text/javascript' src="http://listjs.com/no-cdn/list.pagination.js"></script>
+          <script type='text/javascript' src="http://listjs.com/no-cdn/list.js"></script>
 
-<!--
-       <style type='text/css'>
-           .pagination li {
-         display:inline-block;
-         padding:5px;
-       }
-       </style>
--->
+      <%namespace name="groupMembers" file="members-list.xhtml" />
+          <ul class="role-filter nav nav-pills" role="tablist">
+              <li role="presentation" class="active">
+                  <a href="#all" role="tab" data-toggle="pill">
+                      ${_(u'All')} <span class="badge">${len(members)}</span>
+                  </a>
+              </li>
+              <li role="presentation">
+                  <a href="#user" role="tab" data-toggle="pill">
+                      ${_(u'Users')}
+                      %if len(users) > 0:
+                          <span class="badge">${len(users)}</span>
+                      %endif
+                  </a>
+              </li>
+              %if group.requires_sponsorship:
+                  <li role="presentation">
+                      <a href="#sponsors" role="tab" data-toggle="pill">
+                          ${_(u'Sponsors')}
+                          %if len(sponsors) > 0:
+                              <span class="badge">${len(sponsors)}</span>
+                          %endif
+                      </a>
+                  </li>
+              %endif
+              <li role="presentation">
+                  <a href="#admin" role="tab" data-toggle="pill">
+                      ${_(u'Administrator')}
+                      %if len(admin) > 0:
+                          <span class="badge">${len(admin)}</span>
+                      %endif
+                  </a>
+              </li>
+          </ul>
 
-       <%namespace name="groupMembers" file="members-list.xhtml" />
-       <ul class="role-filter nav nav-pills" role="tablist">
-         <li role="presentation" class="active">
-           <a href="#all" role="tab" data-toggle="pill">
-             All <span class="badge">${len(members)}</span>
-           </a>
-        </li>
-         <li role="presentation">
-           <a href="#user" role="tab" data-toggle="pill">
-             User 
-             %if len(users) > 0:
-               <span class="badge">${len(users)}</span>
-             %endif
-           </a>
-         </li>
-         %if group.requires_sponsorship:
-         <li role="presentation">
-           <a href="#sponsors" role="tab" data-toggle="pill">
-             Sponsors 
-             %if len(sponsors) > 0:
-               <span class="badge">${len(sponsors)}</span>
-             %endif
-           </a>
-         </li>
-         %endif
-         <li role="presentation">
-           <a href="#admin" role="tab" data-toggle="pill">
-             Administrator 
-             %if len(admin) > 0:
-               <span class="badge">${len(admin)}</span>
-             %endif
-           </a>
-         </li>
-       </ul>
-</div>
-       <div class="tab-content">
-         <div role="tabpanel" class="tab-pane fade in active" id="all">
-           ${groupMembers.list(members, user_is_group_admin, user_is_sponsor)}
-         </div>
-         <div role="tabpanel" class="tab-pane fade in" id="user">
-           ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False, type='users')}
-         </div>
-         %if group.requires_sponsorship:
-         <div role="tabpanel" class="tab-pane fade in" id="sponsors">
-           ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False, type='sponsors')}
-         </div>
-         %endif
-         <div role="tabpanel" class="tab-pane fade in" id="admin">
-           ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False, type='admin')}
-         </div>
-       </div>
-    %else:
-      <div class="no-members">
-        <p>${_(u'This group has no members yet.')}</p>
-      </div>
-    %endif
+          <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade in active" id="all">
+                  ${groupMembers.list(members, user_is_group_admin, user_is_sponsor)}
+              </div>
+              <div role="tabpanel" class="tab-pane fade in" id="user">
+                  ${groupMembers.list(users, user_is_group_admin, user_is_sponsor, display_role=False, type='users')}
+              </div>
+              %if group.requires_sponsorship:
+                  <div role="tabpanel" class="tab-pane fade in" id="sponsors">
+                      ${groupMembers.list(sponsors, user_is_group_admin, user_is_sponsor, display_role=False, type='sponsors')}
+                  </div>
+              %endif
+              <div role="tabpanel" class="tab-pane fade in" id="admin">
+                  ${groupMembers.list(admin, user_is_group_admin, user_is_sponsor, display_role=False, type='admin')}
+              </div>
+          </div>
+      %else:
+          <div class="no-members">
+              <p>${_(u'This group has no members yet.')}</p>
+          </div>
+      %endif
   </div>
   </div>
+
+   <script type='text/javascript'>//<![CDATA[
+    window.onload = function() {
+        var allList = new List('all-members', {
+            valueNames: ['name'],
+            page: 50,
+            plugins: [ ListPagination({}) ]
+        });
+        var usersList = new List('users-members', {
+            valueNames: ['name'],
+            page: 50,
+            plugins: [ ListPagination({}) ]
+        });
+        var usersList = new List('sponsors-members', {
+            valueNames: ['name'],
+            page: 50,
+            plugins: [ ListPagination({}) ]
+        });
+        var adminList = new List('admin-members', {
+            valueNames: ['name'],
+            page: 50,
+            plugins: [ ListPagination({}) ]
+        });
+
+
+        // show loading image
+##         $('img#loader_img').show();
+
+        // main image loaded ?
+##         $('img#main_img').on('load', function(){
+##             // hide/remove the loading image
+##             $('img#loader_img').hide();
+##         });
+    }
+
+    $('a.group-action').bind('click', function(event) {
+        event.preventDefault();
+        var action = $(this).attr('data-group-action');
+        var groupid = $(this).attr('data-group_id');
+        var userid = $(this).attr('data-user_id');
+        var roleid = $(this).attr('data-role_id');
+        var rolename = $(this).attr('data-role_name');
+        var username = $(this).attr('data-username');
+        $.ajax({
+            url: '/group/update/',
+            data: {
+                async: "True",
+                action: action,
+                group_id: groupid,
+                user_id: userid,
+                role_id: roleid,
+                csrf_token: "${request.session.get_csrf_token()}"
+            },
+            cache: false,
+            type: "POST",
+            statusCode: {
+                401: function(response) {
+                    console.log(response);
+                    window.location.replace('/login?redirect_url=' + "${request.route_url('group-details', id=group.id)}" );
+                }
+            },
+            success: function(response) {
+                console.log(response);
+
+                if(response.status == "removed") {
+                    var member = document.getElementById(userid);
+                    member.parentNode.removeChild(member);
+                } else {
+                     $('p#role_' + userid).html(rolename);
+                }
+
+                var notification = new window.NotificationFx({
+
+                    wrapper : document.body,
+                    // We assume here that we only have one msg to handle.
+                    message : '<p>' + response.msg + '.</p>',
+                    layout : 'growl',
+                    effect : 'genie',
+                    type : 'notice',
+                    ttl : 3300,
+                    onClose : function() { return false; },
+                    onOpen : function() { return false; }
+                });
+                notification.show();
+            },
+            error: function(response) {
+                console.error(response);
+            }
+        });
+    });//]]>
+    </script>
 

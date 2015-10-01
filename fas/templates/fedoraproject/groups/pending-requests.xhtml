@@ -5,20 +5,14 @@
 ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership requests'))}
 
   %if len(ms_requests) > 0:
-    %for ms in ms_requests:
-      <li>
-        <a href="#collapseRequests${ms.group.id}" data-toggle="collapse">
-        <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_25.png')}">
-        <span class="name">${ms.group.display_name}</span>
-        </a>
-        <span class="fullname">(${ms.group.name})</span>
-      </li>
+
+      <% groups = [g.group for g in ms_requests] %>
+      ${Page.set_group_list(groups=groups, data_toggle="collapse", toggle_target="#collapseRequests")}
+  %for ms in ms_requests:
 
     <div class="members-list panel-collapse collapse" id="collapseRequests${ms.group.id}">
       <div class="row">
           <div class="col-sm-6 col-md-4 col-lg-4">
-            <ul id="people">
-              <li>
                 <span>
                   <a href="${request.route_url(
                             'people-profile', id=ms.person.username)}">
@@ -46,8 +40,6 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
                       </form>
                   %endif
                 </span>
-              </li>
-            </ul>
           </div>
       </div>
     </div>

@@ -13,7 +13,7 @@
               </span>
             </button>
             %endif
-            <h4 class="modal-title" id="${id}">${title}</h4>
+            <h3 class="modal-title" id="${id}">${title}</h3>
           </div>
   </%def>
 
@@ -32,10 +32,10 @@
     ${header('invitePerson', _(u'Invite a person'))}
           <div class="modal-body">
             <div class="form-group">
-                <p>${_(u'Invite a person to fedora project')}</p>
                 <div class="col-lg-10">
-                  <input type="hidden" name="group_id" value="${group.id}">
-                  <input class="form-control col-lg-10" id="invitee" name="invitee" placeholder="${_(u'Add an email here')}" type="email" value="">
+                    <p>${_(u'Invite a person to fedora project')}</p>
+                    <input type="hidden" name="group_id" value="${group.id}">
+                    <input class="form-control col-lg-10" id="invitee" name="invitee" placeholder="${_(u'Add an email here')}" type="email" value="">
                 </div>
             </div>
           </div>
@@ -55,26 +55,28 @@
                 </div>
             </div>
           </div>
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
     ${footer(_(u'Cancel'), _(u'Add this member'), 'action', 'add')}
   </form>
   </%def>
 
-  <%def name="membershipRemoval(group, person)">
-  <form class="form-horizontal" role="form" method="POST"
+<%def name="membershipRemoval(group, person)">
+    <form class="form-horizontal" role="form" method="POST"
         action="${request.route_url('group-action')}">
-    ${header('membershipRemoval', _(u'Membership removal'))}
-          <div class="modal-body">
+        ${header('membershipRemoval', _(u'Membership removal'))}
+        <div class="modal-body">
             <div class="form-group">
                 <div class="col-lg-10">
-                  <!-- You can use markdown syntaxes here -->
-                  <!-- TODO: review wording before release to prod -->
-                  <p>
-                    ${_(u'Removing yourself from this group will removed your account'
-                          'from any related system.'
-                          'Are you sure?')}
-                  </p>
-                  <input type="hidden" name="group_id" value="${group}">
-                  <input type="hidden" name="user_id" value="${person}">
+                    <!-- You can use markdown syntax here -->
+                    <!-- TODO: review wording before release to prod -->
+                    <p>
+                        ${_(u'Removing yourself from this group will removed your account'
+                        'from any related system.'
+                        'Are you sure?')}
+                    </p>
+                    <input type="hidden" name="group_id" value="${group}">
+                    <input type="hidden" name="user_id" value="${person}">
+                    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
                 </div>
             </div>
           </div>
