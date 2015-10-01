@@ -2,6 +2,7 @@
 <%namespace name="Page" file="/page-layout.xhtml" />
 <%namespace name="paging" file="/paging.xhtml"/>
 <%namespace name="fasModel" module="fas.models" />
+
 <% account_status = fasModel.module.AccountStatus %>
 
 ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
@@ -42,17 +43,17 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                     </div>
                     <p>${user.introduction}</p>
                     %if user.status == account_status.ACTIVE:
-                        <span class="label label-success">active</span>
+                        <span class="label label-success">${_(u'active')}</span>
                     %elif user.status == account_status.ON_VACATION:
-                        <span class="label label-info">on vacation</span>
+                        <span class="label label-info">${_(u'on vacation')}</span>
                     %elif user.status == account_status.INACTIVE:
-                        <span class="label label-warning">inactive</span>
+                        <span class="label label-warning">${_(u'inactive')}</span>
                     %elif user.status == account_status.PENDING:
-                        <span class="label label-info">inactive</span>
+                        <span class="label label-info">${_(u'inactive')}</span>
                     %elif user.status == account_status.DISABLED:
-                        <span class="label label-default">archived</span>
+                        <span class="label label-default">${_(u'archived')}</span>
                     %elif user.status == account_status.BLOCKED or user.status == account_status.BLOCKED_BY_ADMIN:
-                        <span class="label label-danger">blocked</span>
+                        <span class="label label-danger">${_(u'blocked')}</span>
                     %endif
                     <a class="more" href="${request.route_url(
                         'people-profile', id=user.username)}">
