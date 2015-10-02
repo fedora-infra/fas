@@ -83,18 +83,22 @@
                 %endif
 
                 %if request.authenticated_userid is not None:
+                    <%
+                        # we only have group's request as notifications to handle for now.
+##                         notifs_nb = len(request.get_pending_ms_requests)
+                        notifs_nb = 1
+                    %>
                     <ul class="navbar-text navbar-right">
                         <div id="fat-menu" class="dropdown">
                             ${_(u'Logged in as')}
                             <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                                <strong>
                                     ${request.authenticated_userid}
                                     %if len(request.get_pending_ms_requests) > 0:
-                                        <span class="fas-icon-menu hover"></span>
+                                        <i class="fas-icon-menu"></i>
+                                        <span class="label label-warning">${notifs_nb}</span>
                                     %else:
-                                        <span class="fas-icon-menu"></span>
+                                        <i class="fas-icon-menu"></i>
                                     %endif
-                                </strong>
                             </a> |
                             <a href="${request.application_url + '/logout'}?redirect=${request.url}"
                                class="navbar-link">

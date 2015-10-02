@@ -8,17 +8,13 @@
         <a tabindex="-1" href="${request.route_url('people-profile', id=user.id)}">
           %if user.avatar:
             <img src="${user.avatar + '?s=100&d=monsterid'}"
-                 class="img-thumbnail" />
+                 class="img-thumbnail img-responsive center-block" />
           %else:
             <img src="http://cdn.libravatar.org/avatar/"
-                 class="img-thumbnail" />
+                 class="img-thumbnail img-responsive center-block" />
           %endif
-          <span>
-            <p>
-              <strong>
-                ${user.fullname}
-              </strong>
-            </p>
+          <span class="text-center">
+            <p><strong>${user.fullname}</strong></p>
           </span>
         </a>
       <a role="menuitem" tabindex="-1" href="${request.route_url('people-edit', id=user.id)}">
@@ -34,7 +30,7 @@
         <li class="divider"></li>
     <li role="presentation">
       <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
-        <span class="glyphicon glyphicon-plus badge"></span> ${_(u'Pending request')}
+         <span class="fas-icon-bell text-warning"></span> ${_(u'Pending request')}
         <span class="badge">${pending_ms_num}</span>
      </a>
     </li>
