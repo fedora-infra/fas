@@ -15,7 +15,8 @@
 
   <div class=profile-header>
     %if person.bio:
-      <a data-toggle="collapse" href="#collapsePrivacy"><span class="fas-icon-newspaper"></span></a> <!-- Updpate this with an cool glyphicons -->
+      <a data-toggle="collapse" href="#collapsePrivacy" title="${_(u'Read BIO')}"><span class="fas-icon-newspaper fs-2x"></span>
+      </a> <!-- Updpate this with an cool glyphicons -->
       <div id="collapsePrivacy" class="panel-collapse collapse container">
         <div class="center-block">
             <p class="text-center">${person.bio | n}</p>
@@ -23,113 +24,130 @@
     %endif
       </div>
   </div>
-<!--
-  %if person.username == request.authenticated_userid:
-      <a align="center" href="${request.route_url('people-edit', id=person.id)}"><span class="badge">edit infos</span></a>
-  %endif
--->
+
   <div class="card-view container">
   %if person.username == request.authenticated_userid:
-    <a align="center" href="${request.route_url('people-edit', id=person.id)}">
-      <span class="profile-edit glyphicon glyphicon-pencil"></span>
-    </a>
-  %endif
-  <div class=row>
-    <div class="col-sm-6 col-md-4">
-      <h3>${_(u'Basic Information')}</h3>
-      <dl class="dl-horizontal">
-           <dt>${_(u'Account Name')}</dt>
-           <dd>${person.username}</dd>
-           <dt>${_(u'IRC Nick')}</dt>
-           <dd>${person.ircnick or _(u'Add your IRC nickname!')}</dd>
-           <dt>${_(u'Country')}</dt>
-           <dd>${person.country_code}</dd>
-      </dl>
-    </div>
-    <div class="col-sm-6 col-md-4">
-      <h3>${_(u'Contact Information')}</h3>
-      <dl class="dl-horizontal">
-            %if request.authenticated_userid:
-                <dt>${_(u'Email')}</dt>
-                <dd>${person.email}</dd>
-                %if not person.privacy:
-                    <dt>${_(u'Telephone')}</dt>
-                    <dd>${person.telephone}</dd>
-                    <dt>${_(u'Postal Address')}</dt>
-                    <dd>${person.postal_address}</dd>
-                %endif
-            %endif
-                <!-- Wondering if this really is an contact information? -->
-                <dt>${_(u'GPG ID')}</dt>
-                <dd>${person.gpg_id}</dd>
-      </dl>
-    </div>
+  <div class="popover-markup">
+      <a href="${request.route_url('people-edit', id=person.id)}">
+          <span class="profile-edit fas-icon-pencil"
+                data-toggle="popover" data-trigger="hover" data-placement="left auto"
+                title="${_(u'Profile update')}" data-content="${_(u'Update your profile information')}">
+          </span>
+      </a>
   </div>
-  %if person.username == request.authenticated_userid:
-    <div class="centered row">
-        <h3>${_(u'Security')}</h3>
+  %endif
+  <div class="centered container-sd">
+  <div class="row">
+      <div class="col-md-7">
+          <h3>${_(u'Basic Information')}</h3>
           <dl class="dl-horizontal">
-            <dt>${_(u'Password')}</dt>
-            <dd>
-              <a href="${request.route_url('people-password', id=person.id)}">
-                ${_(u'Change')}
-              </a>
-            </dd>
-            <dt>${_(u'Security Question')}</dt>
-            <dd></dd>
-            %if ssh_is_required:
-            <dt>${_(u'SSH key')}</dt>
-            <dd>
-              <a href="#updateSshKey" data-toggle="modal" data-target="#updateSshKey">
-                %if person.ssh_key:
-                ${_(u'Update')}
-                %else:
-                ${_(u'Add a key')} <span class="glyphicon glyphicon-exclamation-sign"></span>
-                %endif
-              </a>
-            </dd>
-            %endif
-            <dt>${_(u'GPG Fingerprint')}</dt>
-            <dd>
-              <a href="#updateGpgfp" data-toggle="modal" data-target="#updateGpgfp">
-                %if person.gpg_fingerprint:
-                ${_(u'Update')}
-                %else:
-                ${_(u'Add a fingerprint')}
-                %endif
-              </a>
-            </dd>
-            <dt>
-              <a href="${request.route_url('people-token', id=person.id)}">
-                ${_(u'Access Token')}
-              </a>
-            </dt>
-            <dt>
-              %if len(person.activities_log) > 0:
-                  <a href="${request.route_url('people-activities', id=person.id)}">
-                    ${_(u'Account activities')}
-                  </a>
-              %else:
-                    ${_(u'Account activities')}
+              <dt>${_(u'Account Name')}</dt>
+              <dd>${person.username}</dd>
+              %if person.ircnick:
+              <dt>${_(u'IRC Nick')}</dt>
+              <dd>${person.ircnick}</dd>
               %endif
-            </dt>
+              <dt>${_(u'Country')}</dt>
+              <dd>${person.country_code}</dd>
           </dl>
-    </div>
-  %endif
-    <div class="centered row">
-      <h3>${_(u'Involment')}</h3>
-      <ul class="profile-list">
-        %for g in membership:
-          <li>
-            <a href="${request.route_url('group-details', id=g.group.id)}">
-              <img src="${
-                  request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
-              ${g.group.name}
-            </a> -
-            <span>${g.get_role().name.lower()}</span>
-          </li>
-        %endfor
-      </ul>
-    </div>
+      </div>
+      <div class="col-md-3">
+          <h3>${_(u'Contact Information')}</h3>
+          <dl class="dl-horizontal">
+              %if request.authenticated_userid:
+              <dt>${ _(u'Email')}</dt>
+              <dd>${person.email}</dd>
+              %if not person.privacy:
+              <dt>${_(u'Telephone')}</dt>
+              <dd>${person.telephone}</dd>
+              <dt>${_(u'Postal Address')}</dt>
+              <dd>${person.postal_address}</dd>
+              %endif
+              %endif
+              <!-- Wondering if this really is an contact information? -->
+              <dt>${_(u'GPG ID')}</dt>
+              <dd>${person.gpg_id}</dd>
+          </dl>
+      </div>
   </div>
+      </div>
+  %if person.username == request.authenticated_userid:
+  <div class="centered row">
+      <h3>${_(u'Security')}</h3>
+      <dl class="dl-horizontal">
+          <dt>${_(u'Password')}</dt>
+          <dd>
+              <a href="${request.route_url('people-password', id=person.id)}">
+                  ${_(u'Change')}
+              </a>
+          </dd>
+          <dt>${_(u'Security Question')}</dt>
+          <dd></dd>
+          %if ssh_is_required:
+          <dt>${_(u'SSH key')}</dt>
+          <dd>
+              <a href="#updateSshKey" data-toggle="modal" data-target="#updateSshKey">
+                  %if person.ssh_key:
+                  ${_(u'Update')}
+                  %else:
+                  <span class="fas-icon-attention text-warning-alt" data-toggle="popover"
+                        title="${_(u'Your SSH key is required')}" data-placement="auto right"
+                        data-content="${_(u'One or more group you belong to requires you to add an SSH key.')}"
+                        data-trigger="hover"> ${_(u'Add a key')}
+                  </span>
+                  %endif
+              </a>
+          </dd>
+          <dt>${_(u'GPG Fingerprint')}</dt>
+          <dd>
+              <a href="#updateGpgfp" data-toggle="modal" data-target="#updateGpgfp">
+                  %if person.gpg_fingerprint:
+                  ${_(u'Update')}
+                  %else:
+                  ${_(u'Add a fingerprint')}
+                  %endif
+              </a>
+          </dd>
+          %endif
+          <dt>
+              <a href="${request.route_url('people-token', id=person.id)}">
+                  ${_(u'Access Token')}
+              </a>
+          </dt>
+          <dt>
+              %if len(person.activities_log) > 0:
+              <a href="${request.route_url('people-activities', id=person.id)}">
+                  ${_(u'Account activities')}
+              </a>
+              %else:
+              ${_(u'Account activities')}
+              %endif
+          </dt>
+      </dl>
+  </div>
+  %endif
+  <div class="centered row">
+      <h3>${_(u'Involvement')}</h3>
+      <ul class="profile-list">
+          <div class="row">
+              %for g in membership:
+              %if g.group is not None:
+              <div class="col-sm-6 col-sm-4 col-lg-4">
+                  <a href="${request.route_url('group-details', id=g.group.id)}">
+                      <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+                      ${g.group.display_name}
+                  </a> -
+                  <span>${g.get_role().name.lower()}</span>
+              </div>
+              %endif
+              %endfor
+          </div>
+      </ul>
+  </div>
+  </div>
+  <script>
+      $(function () {
+          $('[data-toggle="popover"]').popover()
+      })
+  </script>
 </%block>
