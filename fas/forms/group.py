@@ -71,10 +71,7 @@ class EditGroupForm(Form):
         _(u'Principal Admin'),
         [validators.Required()],
         coerce=int,
-        choices=[
-            (u.id, u.username + ' (' + u.fullname + ')')
-            for u in provider.get_people()
-        ]
+        choices=[(-1, _(u'-- None --'))]
     )
     # We want group_type choices list to be dynamic so we won't add it here.
     group_type = SelectField(

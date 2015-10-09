@@ -154,6 +154,7 @@ def utc_iso_format(utc):
 
     return None
 
+
 def get_data_changes(form, data, keep_value=True):
     """
     Get data changes from given data and stored one.
@@ -235,6 +236,8 @@ def setup_group_form(request, group=None):
     else:
         parent_groups = provider.get_groups()
 
+    form.owner_id.choices = [(u.id, u.username + ' (' + u.fullname + ')')
+                             for u in provider.get_people()]
     if request.authenticated_userid:
         form.owner_id.data = request.get_user.id
     else:
@@ -273,7 +276,11 @@ def get_email_recipient(group, user):
             % (group.mailing_list, group.name))
         recipient = group.mailing_list
     else:
-        if group.members > 1:
+        if len(group.members) > 1:
             recipient = [
-                u.person.email for u in group.members if u.person.email != user.email]
+                u.person.email for u in group.members if
+                u.person.email != user.email]
+        else:
+            recipient = group.owner.email
+            
     return recipient
