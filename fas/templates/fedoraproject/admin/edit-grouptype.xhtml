@@ -43,6 +43,7 @@
         </div>
       </div>
 
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
       <div class="card-form-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
         <button type="submit" class="btn btn-primary" name="form.save.grouptype">${_(u'Save changes')}</button>

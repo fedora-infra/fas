@@ -165,7 +165,7 @@ class Groups(Base):
         """
         return GroupStatus[self.status]
 
-    def to_json(self, permissions):
+    def to_json(self, permissions, human_r=False):
         """ Return a JSON/dict representation of a Group object. """
         info = {}
         if permissions >= perm.CAN_READ_PUBLIC_INFO:
@@ -180,7 +180,7 @@ class Groups(Base):
                 'mailing_list_url': self.mailing_list_url,
                 'irc_channel': self.irc_channel,
                 'irc_network': self.irc_network,
-                'owner_id': self.owner.id,
+                'owner_id': self.owner.username if human_r else self.owner_id,
                 'self_removal': self.self_removal,
                 'need_approval': self.need_approval,
                 'requires_sponsorship': self.requires_sponsorship,
@@ -192,10 +192,12 @@ class Groups(Base):
             }
 
         if self.group_types:
-            info['group_type'] = self.group_types.id
+            info['group_type'] = self.group_types.name if human_r else \
+                self.group_type
 
         if self.parent_group:
-            info['parent_group_id'] = self.parent_group.id
+            info['parent_group_id'] = self.parent_group.name if human_r else \
+                self.parent_group.id
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
             info['members'] = []

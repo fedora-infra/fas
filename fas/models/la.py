@@ -68,6 +68,7 @@ class LicenseAgreement(Base):
         :rtype: dict
         """
         return {
+            'id': self.id,
             'name': self.name,
             'status': self.status,
             'content': self.content,

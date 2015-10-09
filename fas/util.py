@@ -149,8 +149,10 @@ def utc_iso_format(utc):
     :type utc: datetime.datetime
     :rtype: datetime.datetime.isoformat
     """
-    return utc.replace(tzinfo=UTC()).isoformat()
+    if utc is not None:
+        return utc.replace(tzinfo=UTC()).isoformat()
 
+    return None
 
 def get_data_changes(form, data, keep_value=True):
     """

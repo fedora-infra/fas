@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from . import Base
@@ -33,7 +34,7 @@ from sqlalchemy import (
     )
 
 from sqlalchemy.orm import relation
-
+from fas.util import utc_iso_format
 
 class Certificates(Base):
 
@@ -54,6 +55,21 @@ class Certificates(Base):
     __table_args__ = (
         Index('certificates_idx', id),
     )
+
+    def to_json(self):
+        """
+        Exports certificate to JSON/dict format.
+
+        :return: A dictionary of AccountPermissions's data
+        :rtype: dict
+        """
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'enabled': self.enabled,
+            'creation_timestamp': utc_iso_format(self.creation_timestamp)
+        }
 
 
 class ClientsCertificates(Base):

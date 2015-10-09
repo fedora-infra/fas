@@ -16,19 +16,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+import json
+from pyramid.security import NO_PERMISSION_REQUIRED
+
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from fas.forms.account import AccountPermissionForm, TrustedPermissionForm
 
-from fas.models import MembershipStatus
-from fas.models import MembershipRole
+from fas.models import AccountPermissionType, GroupStatus, AccountStatus
 import fas.models.provider as provider
 import fas.models.register as register
 
 from fas.forms.people import ContactInfosForm
-from fas.forms.group import EditGroupForm, EditGroupTypeForm
+from fas.forms.group import EditGroupTypeForm
 from fas.forms.group import GroupListForm, GroupTypeListForm
 from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
 from fas.forms.certificates import EditCertificateForm
@@ -42,7 +44,6 @@ from fas.security import generate_token
 from fas.views import redirect_to
 from fas.lib.captcha import Captcha
 from fas.util import Config, setup_group_form, _
-from fas.lib.fgithub import Github
 from fas.lib.certificatemanager import CertificateManager
 
 from fas.events import NewClientCertificateCreated
@@ -62,6 +63,10 @@ class Admin(object):
                  renderer='/admin/panel.xhtml')
     def index(self):
         """ Admin panel page."""
+        people = provider.get_people(count=True)
+        groups = provider.get_groups(count=True)
+        licenses = len(provider.get_licenses())
+        trusted_apps = len(provider.get_trusted_perms())
 
         group_form = GroupListForm(self.request.POST)
         grouptype_form = GroupTypeListForm(self.request.POST)
@@ -74,15 +79,15 @@ class Admin(object):
 
         grouptype_form.id.choices = [
             (gt.id, gt.name) for gt in provider.get_group_types()
-        ]
+            ]
 
         license_form.id.choices = [
             (la.id, la.name) for la in provider.get_licenses()
-        ]
+            ]
 
         trustedperm_form.id.choices = [
             (tp.id, tp.application) for tp in provider.get_trusted_perms()
-        ]
+            ]
 
         if self.request.method == 'POST':
             key = None
@@ -120,7 +125,11 @@ class Admin(object):
                 register.remove_trusted_token(trustedperm_form.id.data)
                 # TODO: Add notifications
 
-        return dict(groupform=group_form,
+        return dict(people=people,
+                    groups=groups,
+                    licenses=licenses,
+                    trusted_apps=trusted_apps,
+                    groupform=group_form,
                     gtypeform=grouptype_form,
                     licenseform=license_form,
                     trustedpermform=trustedperm_form,
@@ -155,7 +164,87 @@ class Admin(object):
 
         return dict(form=form)
 
+    @view_config(route_name='dump-data', permission='admin', renderer='json')
+    def dump(self):
+        query = None
+        query_order = None
+        limit = 0
+        offset = 0
+
+        key = self.request.matchdict.get('key')
+
+        try:
+            if 'search' in self.request.GET.keys():
+                query = self.request.params['search']
+
+            query_order = self.request.params['order']
+
+            limit = self.request.params['limit']
+            offset = int(self.request.params['offset'])
+        except KeyError:
+            pass
+
+        data = dict()
+        data.setdefault('total')
+        data.setdefault('rows')
+
+        # # Compute page number
+        # offset = (offset / int(limit))
+        # offset += 1 if offset == 1 else 0
+
+        if query:
+            if '*' in query:
+                query = query.replace('*', '%')
+            else:
+                query += '%'
+
+        if 'people' == key:
+            items_count = provider.get_people(count=True)
+            items = [i.to_json(AccountPermissionType.CAN_READ_PUBLIC_INFO)
+                     for i in
+                     provider.get_people(limit=int(limit), pattern=query,
+                                         offset=offset, status=AccountStatus) if
+                     i is not None]
+        elif 'groups' == key:
+            items = [i.to_json(AccountPermissionType.CAN_READ_PUBLIC_INFO, True)
+                     for i in
+                     provider.get_groups(limit=int(limit), pattern=query,
+                                         status=GroupStatus, offset=offset) if
+                     i is not None]
+            items_count = provider.get_groups(count=True)
+            log.warn('Found {} items'.format(items_count))
+            log.warn('Found items {}'.format(items))
+        elif 'grouptypes' == key:
+            gt = provider.get_group_types()
+            items_count = len(gt)
+            items = [i.to_json() for i in gt if i is not None]
+        elif 'licenses' == key:
+            la = provider.get_licenses()
+            items = [i.to_json() for i in la if i is not None]
+            items_count = len(la)
+        elif 'certificates' == key:
+            certs = provider.get_certificates()
+            items = [i.to_json() for i in certs if certs is not None]
+            items_count = len(certs)
+        elif 'trustedapps' == key:
+            apps = provider.get_trusted_perms()
+            items = [i.to_json() for i in apps if apps is not None]
+            items_count = len(apps)
+        else:
+            items = []
+            items_count = 0
+
+        log.warn('Offset is: {}'.format(offset))
+
+        if items is not None:
+            data['total'] = items_count
+            data['rows'] = items
+
+        return data
+
     @view_config(route_name='remove-group', permission='admin')
+    @view_config(route_name='remove-group', permission='admin', xhr=True,
+                 renderer='json')
     def remove_group(self):
         """ Remove a group from system."""
         try:
@@ -167,18 +256,28 @@ class Admin(object):
         group = provider.get_group_by_id(self.id)
 
         if group.members and len(group.members) > 1:
-            self.request.session.flash(
-                _('Cannot remove group %s.'
-                  'Revoke membership first.' % group.name), 'error')
+            status = "failed"
+            msg_type = 'error'
+            msg = "Cannot remove group {0:s}. Revoke membership first.".format(
+                group.name)
+            self.request.response.status_code = 403
+        else:
+            status = "success"
+            msg_type = 'info'
+            msg = "Group {0:s} has been deleted from system".format(group.name)
+
+            register.remove_group(group)
+            self.notify(GroupDeleted(self.request, group))
+
+        if self.request.is_xhr:  # We only use js that set this in header
+            return {"status": status, "msg": msg}
+
+        self.request.session.flash(msg, msg_type)
+
+        if status == "failed":
             return redirect_to('/group/details/%s' % group.id)
-
-        register.remove_group(group)
-        self.notify(GroupDeleted(self.request, group))
-
-        self.request.session.flash(
-            _('Group %s has been deleted' % group.name), 'info')
-
-        return redirect_to('/groups')
+        else:
+            return redirect_to('/groups')
 
     @view_config(route_name='add-license', permission='admin',
                  renderer='/admin/edit-license.xhtml')
@@ -301,6 +400,8 @@ class Admin(object):
         return dict(form=form)
 
     @view_config(route_name='remove-grouptype', permission='admin')
+    @view_config(route_name='remove-grouptype', permission='admin', xhr=True,
+                 renderer='json')
     def remove_grouptype(self):
         """ Remove group type page."""
         return dict()
@@ -384,4 +485,3 @@ class Admin(object):
                 return response
 
         raise redirect_to('/')
-

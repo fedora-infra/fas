@@ -28,25 +28,25 @@ from fas.models import GroupStatus
 from fas.models.la import (
     LicenseAgreement,
     SignedLicenseAgreement
-    )
+)
 from fas.models.configs import AccountPermissions, TrustedPermissions
 from fas.models.group import (
     Groups,
     GroupType,
     GroupMembership
-    )
+)
 from fas.models.people import (
     People,
     PeopleAccountActivitiesLog
-    )
+)
 from fas.models.certificates import (
     Certificates,
     ClientsCertificates
-    )
+)
 
 
 def __get_listoffset(page, limit):
-    """ Get offset based on requeted limit. """
+    """ Get offset based on requested limit. """
     offset = (page - 1) * limit
 
     if offset < limit:
@@ -62,37 +62,38 @@ def __get_listoffset(page, limit):
 # Disable retrieval of account's status from database as we disabled
 # dynamic account's status.
 
-#def get_accountstatus():
-    #""" Retrieve all the status an account can have. """
-    #query = session.query(AccountStatus)
-    #return query.all()
+# def get_accountstatus():
+# """ Retrieve all the status an account can have. """
+# query = session.query(AccountStatus)
+# return query.all()
 
 # Same as above.
-#def get_accountstatus_by_status(status):
-    #""" Retrieve the status an account can have for the specified status.
-    #"""
-    #query = session.query(
-        #AccountStatus
-    #).filter(
-        #sa.func.lower(AccountStatus.status) == sa.func.lower(status)
-    #)
-    #return query.first()
+# def get_accountstatus_by_status(status):
+# """ Retrieve the status an account can have for the specified status.
+# """
+# query = session.query(
+# AccountStatus
+# ).filter(
+# sa.func.lower(AccountStatus.status) == sa.func.lower(status)
+# )
+# return query.first()
 
 
 # Method to get RoleLevel
 
 # Disabled function. see above for details
-#.
-#def get_role_levels():
-    #""" Retrieve all the roles someone can have in a group. """
-    #query = session.query(RoleLevel)
-    #return query.all()
+# .
+# def get_role_levels():
+# """ Retrieve all the roles someone can have in a group. """
+# query = session.query(RoleLevel)
+# return query.all()
 
 
 # Method to interact with Groups
-def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
+def get_groups(limit=None, page=None, pattern=None, count=False, status=None,
+               offset=None):
     """ Retrieve all registered groups from databse. """
-    if page <= 0:
+    if page is not None and (page <= 0):
         page = 1
 
     query = session.query(Groups)
@@ -104,7 +105,7 @@ def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
             Groups.status.in_([
                 GroupStatus.ACTIVE,
                 GroupStatus.INACTIVE]
-                ))
+            ))
 
     if pattern:
         if '%' in pattern:
@@ -122,8 +123,11 @@ def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
                 )
             )
 
-    if limit and page:
-        query = query.limit(limit).offset(__get_listoffset(page, limit))
+    if (limit and page) or (limit and offset >= 0):
+        if page is not None:
+            offset = __get_listoffset(page, limit)
+
+        query = query.limit(limit).offset(offset)
 
     if count:
         return query.count()
@@ -132,8 +136,8 @@ def get_groups(limit=None, page=None, pattern=None, count=False, status=None):
 
 def get_candidate_parent_groups():
     """ Retrieve all groups that can be a parent group."""
-    query = session.query(Groups.id, Groups.name)\
-        .filter(Groups.parent_group_id == -1)\
+    query = session.query(Groups.id, Groups.name) \
+        .filter(Groups.parent_group_id == -1) \
         .order_by(Groups.name)
     return query.all()
 
@@ -253,6 +257,7 @@ def get_membership_by_person_id(group_id, person_id):
 
     return query.first()
 
+
 def get_membership_by_role(group, person, role):
     """ Retrieve group membership request from given group and person
 
@@ -287,11 +292,11 @@ def get_memberships_by_status(status, group=None):
 
     if group:
         query = session.query(
-        GroupMembership
+            GroupMembership
         ).filter(
             GroupMembership.status == status,
             GroupMembership.group_id.in_(group)
-            )
+        )
 
     return query.all()
 
@@ -318,7 +323,8 @@ def get_grouptype_by_id(id):
 
 # Method to interact with People
 
-def get_people(limit=None, page=None, pattern=None, count=False, status=-1):
+def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
+               offset=0):
     """
     Retrieve registered people based on given criteria.
 
@@ -334,20 +340,20 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1):
     :type status: fas.models.AccountStatus
     :rtype: list of fas.models.people.People or int
     """
-    if page <= 0:
+    if page is not None and (page <= 0):
         page = 1
 
     query = session.query(People).order_by(People.fullname)
 
     if status > -1:
-        query = query.filter(People.status.in_([AccountStatus(status)]))
+        query = query.filter(People.status.in_(status))
     else:
         query = query.filter(
             People.status.in_([
                 AccountStatus.ACTIVE,
                 AccountStatus.ON_VACATION,
                 AccountStatus.INACTIVE]
-                ))
+            ))
 
     if pattern:
         if '%' in pattern:
@@ -367,12 +373,13 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1):
                 )
             )
 
-    if limit and page:
+    if (limit and page) or (limit and offset >= 0):
+        if page:
+            offset = __get_listoffset(page, limit)
+
         query = query.limit(
             limit
-        ).offset(
-            __get_listoffset(page, limit)
-        )
+        ).offset(offset)
 
     if count:
         return query.count()
@@ -396,9 +403,9 @@ def get_people_email(filter_username=None):
     if filter_username:
         query = session.query(
             People.email
-            ).filter(
-                People.username != filter_username
-                )
+        ).filter(
+            People.username != filter_username
+        )
     else:
         query = session.query(People.email)
 
@@ -412,9 +419,9 @@ def get_people_ircnick(filter_out=None):
     if filter_out:
         query = session.query(
             People.ircnick
-            ).filter(
-                People.username != filter_out
-                )
+        ).filter(
+            People.username != filter_out
+        )
 
     return query.all()
 
@@ -424,9 +431,9 @@ def get_people_bugzilla_email(filter_username=None):
     if filter_username:
         query = session.query(
             People.bugzilla_email
-            ).filter(
-                People.username != filter_username
-                )
+        ).filter(
+            People.username != filter_username
+        )
     else:
         query = session.query(People.bugzilla_email)
 
@@ -581,10 +588,10 @@ def get_client_certificate(cacert, person):
     """
     query = session.query(
         ClientsCertificates
-        ).filter(
-            ClientsCertificates.ca == cacert,
-            ClientsCertificates.people == person.id
-            )
+    ).filter(
+        ClientsCertificates.ca == cacert,
+        ClientsCertificates.people == person.id
+    )
 
     return query.first()
 

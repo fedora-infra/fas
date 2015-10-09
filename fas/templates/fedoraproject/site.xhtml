@@ -123,6 +123,23 @@
           </div>
     %endif
     %if request.session.peek_flash('info'):
+        <script>
+            var notification = new window.NotificationFx({
+
+                wrapper : document.body,
+                // We assume here that we only have one msg to handle.
+                message : '<p>${request.session.pop_flash('info')[0]}</p>',
+                layout : 'growl',
+                effect : 'genie',
+                type : 'notice',
+                ttl : 3100,
+                onClose : function() { return false; },
+                onOpen : function() { return false; }
+
+            });
+          notification.show();
+        </script>
+<!-- Keep old code around for now.
           <div class="alert alert-info alert-dismissible" role="info" style="max-width: 800px; margin: 10px auto 9px;">
             <button type="button" class="close" data-dismiss="alert">
               <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
@@ -131,8 +148,8 @@
             ${ info }
             %endfor
           </div>
+-->
     %endif
-    <!-- TODO: Move form error msg here? -->
 
     ${self.body()}
 

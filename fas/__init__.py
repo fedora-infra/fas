@@ -49,7 +49,7 @@ from .models.provider import get_authenticated_user
 from models import (
     DBSession,
     Base,
-    )
+)
 
 from .util import locale_negotiator
 
@@ -68,13 +68,13 @@ def main(global_config, **settings):
         timeout=int(settings['session.timeout']),
         max_age=int(settings['session.max_age']),
         reissue_time=int(settings['session.renew_time'])
-        )
+    )
 
     config = Configurator(
         session_factory=session_factory,
         settings=settings,
         root_factory='fas.security.Root'
-        )
+    )
 
     from fas.renderers import jpeg
     config.add_renderer('jpeg', jpeg)
@@ -95,7 +95,7 @@ def main(global_config, **settings):
         callback=groupfinder,
         timeout=int(settings['session.auth.timeout']),
         debug=log.isEnabledFor(logging.DEBUG)
-        )
+    )
 
     authz_policy = ACLAuthorizationPolicy()
 
@@ -115,42 +115,42 @@ def main(global_config, **settings):
         authenticated_is_group_admin,
         'authenticated_is_group_admin',
         reify=False
-        )
+    )
     config.add_request_method(
         authenticated_is_group_editor,
         'authenticated_is_group_editor',
         reify=False
-        )
+    )
     config.add_request_method(
         authenticated_is_group_sponsor,
         'authenticated_is_group_sponsor',
         reify=False
-        )
+    )
     config.add_request_method(
         join_group,
         'join_group',
         reify=False
-        )
+    )
     config.add_request_method(
         request_membership,
         'request_membership',
         reify=False
-        )
+    )
     config.add_request_method(
         requested_membership,
         'requested_membership',
         reify=False
-        )
+    )
     config.add_request_method(
         remove_membership,
         'revoke_membership',
         reify=False
-        )
+    )
     config.add_request_method(
         penging_membership_requests,
         'get_pending_ms_requests',
         reify=True
-        )
+    )
     config.add_request_method(
         ParamsValidator,
         'param_validator',
@@ -176,7 +176,8 @@ def main(global_config, **settings):
     config.add_route('people-search', '/people/search/{pattern}')
     config.add_route('people-search-paging', '/people/search/{pattern}/{pagenb}')
     config.add_route('people-new', '/register')
-    config.add_route('people-confirm-account', '/register/confirm/{username}/{token}')
+    config.add_route('people-confirm-account',
+                     '/register/confirm/{username}/{token}')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
     config.add_route('people-activities', '/people/profile/{id}/activities')
@@ -184,7 +185,7 @@ def main(global_config, **settings):
     config.add_route('people-edit', '/people/profile/{id}/edit')
     config.add_route('people-password', '/people/profile/{id}/edit/password')
 
-    # Grops pages
+    # Groups pages
     config.add_route('groups', '/groups')
     config.add_route('groups-paging', '/groups/page/{pagenb}')
     config.add_route('group-details', '/group/details/{id}')
@@ -236,6 +237,8 @@ def main(global_config, **settings):
     config.add_route('edit-certificate', '/settings/edit/certificate/{id}')
     config.add_route('remove-certificate', '/settings/remove/certificate/{id}')
     config.add_route('get-client-cert', '/settings/create/client-certificate')
+
+    config.add_route('dump-data', '/settings/dump/{key}')  # internal query
 
     config.scan()
     return config.make_wsgi_app()

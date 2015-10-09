@@ -104,3 +104,17 @@ class TrustedPermissions(Base):
         default=func.current_timestamp()
     )
     last_used = Column(DateTime, nullable=True)
+
+    def to_json(self):
+        """
+        Exports Trusted Permissions to JSON/dict format.
+
+        :return: A dictionary of AccountPermissions's data
+        :rtype: dict
+        """
+        return {
+            'application': self.application,
+            'permission': self.permissions,
+            'granted_on': utc_iso_format(self.granted_timestamp),
+            'last_used': utc_iso_format(self.last_used)
+        }

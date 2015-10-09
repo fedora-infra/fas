@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'fas';
-  src: url('../font/fas.eot?59249585');
-  src: url('../font/fas.eot?59249585#iefix') format('embedded-opentype'),
-       url('../font/fas.woff?59249585') format('woff'),
-       url('../font/fas.ttf?59249585') format('truetype'),
-       url('../font/fas.svg?59249585#fas') format('svg');
+  src: url('../font/fas.eot?26122671');
+  src: url('../font/fas.eot?26122671#iefix') format('embedded-opentype'),
+       url('../font/fas.woff?26122671') format('woff'),
+       url('../font/fas.ttf?26122671') format('truetype'),
+       url('../font/fas.svg?26122671#fas') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fas';
-    src: url('../font/fas.svg?59249585#fas') format('svg');
+    src: url('../font/fas.svg?26122671#fas') format('svg');
   }
 }
 */
@@ -89,3 +89,10 @@
 .fas-icon-spin3:before { content: '\e820'; } /* '' */
 .fas-icon-gift:before { content: '\e821'; } /* '' */
 .fas-icon-pencil:before { content: '\e822'; } /* '' */
+.fas-icon-key:before { content: '\e823'; } /* '' */
+.fas-icon-bell:before { content: '\e824'; } /* '' */
+.fas-icon-bell-alt:before { content: '\e825'; } /* '' */
+.fas-icon-file-archive:before { content: '\e826'; } /* '' */
+.fas-icon-level-up:before { content: '\e827'; } /* '' */
+.fas-icon-level-down:before { content: '\e828'; } /* '' */
+.fas-icon-lock-open:before { content: '\e829'; } /* '' */

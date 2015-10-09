@@ -23,7 +23,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 from . import (
     Base,
     AccountStatus
-    )
+)
 
 from sqlalchemy import (
     Column,
@@ -37,13 +37,13 @@ from sqlalchemy import (
     Index,
     ForeignKey,
     func
-    )
+)
 
 from sqlalchemy.orm import (
     relation,
     relationship,
     backref
-    )
+)
 
 from fas.models import AccountPermissionType as perm
 
@@ -116,7 +116,7 @@ class People(Base):
         foreign_keys='[GroupMembership.people_id]',
         backref=backref('person', lazy="joined"),
         cascade_backrefs=True
-        )
+    )
     licenses = relationship(
         'SignedLicenseAgreement',
         order_by='SignedLicenseAgreement.id'

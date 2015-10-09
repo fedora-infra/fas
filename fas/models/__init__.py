@@ -38,12 +38,12 @@ class BaseStatus(IntEnum):
     ACTIVE = 0x01
     PENDING = 0x03
     LOCKED = 0x05
-    LOCKED_BY_ADMIN = 0x06
     DISABLED = 0x08
 
 
 class AccountStatus(BaseStatus):
     ON_VACATION = 0x04
+    LOCKED_BY_ADMIN = 0x06
 
 # Disable dynamic status as of right we don't handle workflow
 # mechanism to manage new status adding by end-user.
