@@ -4,6 +4,7 @@ FONTELLO_HOST ?= http://fontello.com
 
 install:
 	npm install
+	npm install gulp
 	$(BIN)/bower install
 
 reinstall:
@@ -17,13 +18,13 @@ update:
 	$(BIN)/bower prune
 	$(BIN)/bower update
 
-watch:
-	make build # first compile
-	gulp watch
+watch: build
+#	make build # first compile
+	$(BIN)/gulp watch
 
 build:
-	gulp less
-	gulp js
+	$(BIN)/gulp less
+	$(BIN)/gulp js
 
 # remove existing token if any
 fontgettoken:
