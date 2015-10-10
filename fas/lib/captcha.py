@@ -21,6 +21,7 @@
 #           Xavier Lamien <laxathom@fedoraproject.org>
 
 import base64
+import logging
 import cryptography.fernet
 import random
 import six
@@ -103,7 +104,8 @@ class Captcha(Config):
 
         try:
             font = ImageFont.truetype(self.font_path, self.font_size)
-        except IOError:
+        except IOError, e:
+            logging.error("Unable to read from Image Font: {0:s}".format(e))
             return
 
         width, height = font.getsize(plainkey)
