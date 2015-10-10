@@ -49,7 +49,7 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                     %elif user.status == account_status.INACTIVE:
                         <span class="label label-warning">${_(u'inactive')}</span>
                     %elif user.status == account_status.PENDING:
-                        <span class="label label-info">${_(u'inactive')}</span>
+                        <span class="label label-warning">${_(u'inactive')}</span>
                     %elif user.status == account_status.DISABLED:
                         <span class="label label-default">${_(u'archived')}</span>
                     %elif user.status == account_status.BLOCKED or user.status == account_status.BLOCKED_BY_ADMIN:
