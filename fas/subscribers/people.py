@@ -60,6 +60,7 @@ def on_new_user_registered(event):
     request.registry.notify(NotificationRequest(
         request=request,
         topic='user.registration',
+        people=person,
         organisation=Config.get('project.organisation'),
         url=request.route_url(
             'people-confirm-account',
