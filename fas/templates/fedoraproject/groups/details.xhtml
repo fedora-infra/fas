@@ -144,7 +144,7 @@
   <div class=row>
     <div class="centered text-center col-sm-7 col-md-6">
       <h3>${_(u'Membership')}</h3>
-      %if not group.need_approval and group.license_sign_up == -1:
+      %if not (group.need_approval or group.requires_sponsorship) and group.license_sign_up == -1:
         <div class="text-center">
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
@@ -203,7 +203,7 @@
                   <span class="fas-icon-user-add"></span> ${_(u'Add a user')}
                 </button>
               </div>
-            %endif
+          %endif
       %else:
         <dl class="dl-horizontal">
           %if not request.authenticated_userid:
@@ -214,7 +214,7 @@
             %if group.apply_rules:
               <p>${group.apply_rules}</p>
             %endif
-            %if group.need_approval:
+            %if group.need_approval or group.requires_sponsorship:
               %if request.authenticated_userid and not is_member:
                 %if person_membership is not None\
                     and person_membership.get_status() == membership_status.PENDING:
