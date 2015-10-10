@@ -60,6 +60,14 @@ class LicenseAgreement(Base):
         order_by='Groups.name'
     )
 
+    def get_status(self):
+        """
+
+        :return:
+        :rtype:
+        """
+        return LicenseAgreementStatus[self.status]
+
     def to_json(self):
         """
         Exports License Agreement to JSON/dict format.
