@@ -19,8 +19,9 @@
 
   <%def name="footer(button_1, button_2, action, value)">
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">${button_1}</button>
-            <button type="submit" class="btn btn-primary" name="${action}" value="${value}">${button_2}</button>
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">${button_1}</button>
+              <button type="submit" class="btn btn-primary" name="${action}" value="${value}">${button_2}</button>
           </div>
         </div>
       </div>
