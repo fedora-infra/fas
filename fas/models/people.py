@@ -57,7 +57,7 @@ class People(Base):
     __tablename__ = 'people'
     id = Column(
         Integer,
-        Sequence('people_seq', start='10000'),
+        Sequence('people_seq', start=10000),
         primary_key=True)
     username = Column(Unicode(255), unique=True, nullable=False)
     password = Column(UnicodeText(), nullable=False)
