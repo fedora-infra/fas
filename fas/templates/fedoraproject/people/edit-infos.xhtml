@@ -74,12 +74,9 @@ ${Page.set_title(_(u'Profile Update'), _(u'Update your profile\'s informations')
       </div>
       <div class="form-group">
         <div class="row">
-            ${form.gpg_id.label(class_='col-xs-2 control-label')}
+            ${form.gpg_fingerprint.label(class_='col-xs-2 control-label')}
           <div class="col-xs-3">
-            ${form.gpg_id(class_='form-control', placeholder=_(u'Enter your key ID'))}
-          </div>
-          <div class="col-xs-4">
-            ${form.gpg_fingerprint(class_='form-control', placeholder=_(u'Enter fingerprint here'))}
+            ${form.gpg_fingerprint(class_='form-control', placeholder=_(u'Enter GPG fingerprint here'))}
           </div>
         </div>
       </div>

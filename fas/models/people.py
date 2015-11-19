@@ -76,7 +76,6 @@ class People(Base):
     affiliation = Column(UnicodeText(), nullable=True)
     bio = Column(UnicodeText(), nullable=True)
     timezone = Column(UnicodeText(), default=u'UTC')
-    gpg_id = Column(UnicodeText(), nullable=True)
     gpg_fingerprint = Column(UnicodeText(), nullable=True)
     ssh_key = Column(UnicodeText(), nullable=True)
     email = Column(UnicodeText(), unique=True, nullable=False)
@@ -167,14 +166,14 @@ class People(Base):
                 'email': self.email,
                 'creation_date': utc_iso_format(self.date_created),
                 'status': self.status,
-                'timezone': self.timezone
+                'timezone': self.timezone,
+                'gpg_fingerprint': self.gpg_fingerprint,
             }
 
         if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
             info['countryCode'] = self.country_code
             info['locale'] = self.locale
             info['bugzilla_email'] = self.bugzilla_email or self.email
-            info['gpg_id'] = self.gpg_id
             info['blog_rss'] = self.blog_rss
             info['bio'] = self.bio
 
