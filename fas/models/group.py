@@ -83,10 +83,10 @@ class GroupType(Base):
 
 
 class Groups(Base):
-    __tablename__ = 'group'
+    __tablename__ = 'groups'
     id = Column(
         Integer,
-        Sequence('group_seq', start=20000),
+        Sequence('groups_seq', start=20000),
         primary_key=True)
     name = Column(Unicode(40), unique=True, nullable=False)
     display_name = Column(UnicodeText, nullable=True)
@@ -100,7 +100,7 @@ class Groups(Base):
     irc_network = Column(UnicodeText, nullable=True)
     owner_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     group_type = Column(Integer, ForeignKey('group_type.id'), default=-1)
-    parent_group_id = Column(Integer, ForeignKey('group.id'), default=-1)
+    parent_group_id = Column(Integer, ForeignKey('groups.id'), default=-1)
     private = Column(Boolean, default=False)
     self_removal = Column(Boolean, default=True)
     need_approval = Column(Boolean, default=False)
@@ -129,7 +129,7 @@ class Groups(Base):
     members = relationship(
         'GroupMembership',
         primaryjoin='and_(GroupMembership.group_id==Groups.id)',
-        backref=backref('group', lazy='joined',
+        backref=backref('groups', lazy='joined',
                         single_parent=True,
                         cascade="save-update, delete, refresh-expire")
         # cascade_backrefs=True
@@ -154,7 +154,7 @@ class Groups(Base):
     )
 
     __table_args__ = (
-        Index('group_name_idx', name),
+        Index('groups_name_idx', name),
     )
 
     def get_status(self):
@@ -231,7 +231,7 @@ class GroupMembership(Base):
     """ A mapping object to SQL GroupMembership table. """
     __tablename__ = 'group_membership'
     id = Column(Integer, primary_key=True)
-    group_id = Column(Integer, ForeignKey('group.id'))
+    group_id = Column(Integer, ForeignKey('groups.id'))
     role = Column(Integer, default=MembershipRole.USER)
     status = Column(Integer, default=MembershipStatus.UNAPPROVED)
     comment = Column(UnicodeText, nullable=True)
