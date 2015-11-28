@@ -104,8 +104,16 @@ class EditGroupForm(Form):
     license_sign_up = SelectField(
         _(u'License requirement'),
         [validators.Optional()],
-        coerce=int,
-        choices=[(l.id, l.name) for l in provider.get_licenses()])
+        coerce=int)
+
+    def __init__(self, *args, **kwargs):
+        super(EditGroupForm, self).__init__(*args, **kwargs)
+        # Initialize choices here so we load this every time instead of
+        # upon startup
+        self.license_sign_up.choices = [
+            (l.id, l.name)
+            for l in provider.get_licenses()
+        ]
 
 
 class GroupAdminsForm(Form):
