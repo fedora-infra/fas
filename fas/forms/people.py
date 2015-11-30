@@ -98,12 +98,17 @@ class PeopleForm(Form):
     people = SelectField(
         _(u'Select a user'),
         [validators.Required()],
-        coerce=int,
-        choices=[
+        coerce=int
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(PeopleForm, self).__init__(*args, **kwargs)
+        # Initialize choices here so we load this every time instead of
+        # upon startup
+        self.people.choices = [
             (u.id, u.username + ' (' + u.fullname + ')')
             for u in provider.get_people()
         ]
-    )
 
 
 class UsernameForm(Form):
