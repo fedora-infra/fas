@@ -182,7 +182,6 @@ class EditPeopleForm(UpdateStatusForm, UsernameForm, ContactInfosForm):
         _(u'Timezone'),
         [validators.Required()],
         choices=[(tzone, tzone) for tzone in common_timezones])
-    gpg_id = StringField(_(u'GPG Key'))
     gpg_fingerprint = StringField(_(u'GPG Fingerprint'))
     ssh_key = StringField(_(u'Public SSH Key'))
     bugzilla_email = StringField(_(u'Bugzilla email'),
@@ -218,5 +217,5 @@ class UpdateSshKeyForm(Form):
 
 class UpdateGpgFingerPrint(Form):
     """ Form to edit GPG Fingerprint. """
-    gpg_fingerprint = TextAreaField(
+    gpg_fingerprint = StringField(
         _(u'GPG Fingerprint'), [validators.Optional()])
