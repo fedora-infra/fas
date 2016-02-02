@@ -343,7 +343,7 @@ class ValidHumanWithOverride(validators.FancyValidator):
 
     def __init__(self, name_field, override_field):
         super(validators.FancyValidator, self).__init__()
-        self.name_field = name_field
+        self.name_field = name_field.strip()
         self.override = override_field
 
     def validate_python(self, values, state):
