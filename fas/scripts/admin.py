@@ -380,11 +380,16 @@ def main(argv=sys.argv):
             )
 
         if opts.gen_fake_data:
-            if len(DBSession.query(People).all()) > 2:
+            people = DBSession.query(People).all()
+            if len(people) > 2:
                 print 'Cleaning up People data.'
                 DBSession.query(People).delete()
                 DBSession.query(Groups).delete()
 
+                admin = create_default_admin(
+                    pv.generate_password(__admin_pw__))
+                create_default_group(owner=admin)
+            elif len(people) == 0:
                 admin = create_default_admin(
                     pv.generate_password(__admin_pw__))
                 create_default_group(owner=admin)
