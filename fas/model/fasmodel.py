@@ -554,6 +554,7 @@ class CaptchaNonce(SABase):
             return False
         captcha = CaptchaNonce()
         captcha.nonce = nonce
+        return True
 
 #
 # set up mappers between tables and classes
