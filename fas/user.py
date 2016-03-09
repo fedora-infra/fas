@@ -70,7 +70,7 @@ import fas.fedmsgshim
 
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
-from fas.model import People, PersonRoles, Groups, Log
+from fas.model import People, PersonRoles, Groups, Log, CaptchaNonce
 from fas import openssl_fas
 from fas.auth import (
 	is_admin,
@@ -115,7 +115,8 @@ class UserCreate(validators.Schema):
     security_answer = validators.UnicodeString(not_empty=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True)
     postal_address = validators.UnicodeString(max=512)
-    captcha = CaptchaFieldValidator()
+    # Pass the captchanonce use_nonce function to register uses of captchas
+    captcha = CaptchaFieldValidator(CaptchaNonce.use_nonce)
     chained_validators = [ validators.FieldsMatch('email', 'verify_email'),
                            ValidHumanWithOverride('human_name', 'human_name_override') ]
 

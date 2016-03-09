@@ -19,20 +19,21 @@
 # Author(s): Ricky Zhou <ricky@fedoraproject.org>
 #            Mike McGrath <mmcgrath@redhat.com>
 #            Toshio Kuratomi <tkuratom@redhat.com>
+#            Patrick Uiterwijk <patrick@puiterwijk.org>
 #
 '''
 Release information about the Fedora Accounts System
 '''
 
-VERSION = '0.10.2'
+VERSION = '0.11.0'
 NAME = 'fas'
 DESCRIPTION = 'The Fedora Account System'
 LONG_DESCRIPTION = '''
 Manage the accounts of contributors to the Fedora Project.
 '''
-AUTHOR = 'Ricky Zhou, Mike McGrath, Toshio Kuratomi, and Yaakov Nemoy'
+AUTHOR = 'Ricky Zhou, Mike McGrath, Toshio Kuratomi Patrick Uiterwijk, and Yaakov Nemoy'
 EMAIL = 'fedora-infrastructure-list@fedoraproject.org'
-COPYRIGHT = '2007-2015 Red Hat, Inc.'
+COPYRIGHT = '2007-2016 Red Hat, Inc.'
 
 # if it's open source, you might want to specify these
 URL = 'https://admin.fedoraproject.org/accounts/'
