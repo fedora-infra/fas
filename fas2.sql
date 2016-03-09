@@ -82,6 +82,11 @@ CREATE TABLE people (
 create index people_status_idx on people(status);
 cluster people_status_idx on people;
 
+CREATE TABLE captchanonce (
+    nonce VARCHAR(32) PRIMARY KEY NOT NULL,
+    used TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 CREATE TABLE configs (
     id SERIAL PRIMARY KEY,
     person_id integer references people(id) not null,

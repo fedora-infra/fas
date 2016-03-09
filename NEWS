@@ -7,6 +7,11 @@ NEWS
 :Date: 08 May 2013
 :Version: 0.8.18
 
+------
+0.11.0
+------
+* Add captcha nonce system (Related to DWF-2016-89000)
+
 -------
 0.10.2
 ------

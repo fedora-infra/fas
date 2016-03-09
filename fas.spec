@@ -1,8 +1,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.10.2
-Release:        2%{?dist}
+Version:        0.11.0
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 Group:          Development/Languages
@@ -38,7 +38,7 @@ Requires: python-webob
 Requires: tulrich-tuffy-fonts
 # For the audio captcha
 Requires: espeak
-Requires: python-tgcaptcha2
+Requires: python-tgcaptcha2 >= 0.3.0
 # We really do want this, just optional for now.
 #Requires: fedmsg
 
@@ -152,6 +152,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Wed Mar 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.11.0-1
+- Added nonce system from tgcaptcha2-0.3.0+ (Related to DWF-2016-89000)
+
 * Mon Jan 26 2015 Xavier Lamien <laxathom@fedoraproject.org> - 0.10.2-2
 - Rebuild with up-to-date source tarball.
 

@@ -67,6 +67,8 @@ RequestsTable = Table('requests', metadata, autoload=True)
 
 SessionTable = Table('session', metadata, autoload=True)
 
+CaptchaNonceTable = Table('captchanonce', metadata, autoload=True)
+
 #
 # Selects for filtering roles
 #
@@ -539,11 +541,26 @@ class Session(SABase):
     '''Session'''
     pass
 
+class CaptchaNonce(SABase):
+    @classmethod
+    def use_nonce(cls, nonce):
+        '''
+        A class method that can be used to mark a nonce
+        as used
+        '''
+        used = cls.query.filter_by(nonce=nonce).first()
+        if used is not None:
+            # This nonce was already used
+            return False
+        captcha = CaptchaNonce()
+        captcha.nonce = nonce
+
 #
 # set up mappers between tables and classes
 #
 
 mapper(Session, SessionTable)
+mapper(CaptchaNonce, CaptchaNonceTable)
 
 #
 # mappers for filtering roles
