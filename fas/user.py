@@ -36,6 +36,7 @@ from turbogears import controllers, expose, identity, \
         validate, validators, error_handler, config, redirect
 from turbogears.database import session
 import cherrypy
+import time
 from tgcaptcha2 import CaptchaField
 from tgcaptcha2.validator import CaptchaFieldValidator
 
@@ -49,6 +50,7 @@ import StringIO
 import crypt
 import string
 import subprocess
+import requests
 from OpenSSL import crypto
 
 if config.get('use_openssl_rand_bytes', False):
@@ -63,6 +65,9 @@ import time
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.sql import select
+
+import logging
+log = logging.getLogger(__name__)
 
 from fedora.tg.utils import request_format
 
@@ -962,10 +967,31 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             turbogears.flash(_("Sorry.  Email addresses do not match"))
             turbogears.redirect("/")
             return dict()
+
+        # Check that the user claims to be over 13 otherwise it puts us in a
+        # legally sticky situation.
+        if not age_check:
+            turbogears.flash(_("We're sorry but out of special concern " +    \
+            "for children's privacy, we do not knowingly accept online " +    \
+            "personal information from children under the age of 13. We " +   \
+            "do not knowingly allow children under the age of 13 to become " +\
+            "registered members of our sites or buy products and services " + \
+            "on our sites. We do not knowingly collect or solicit personal " +\
+            "information about children under 13."))
+            turbogears.redirect(redirect_location)
+            return dict()
+        test = select([PeopleTable.c.username],
+            func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        if test:
+            turbogears.flash(_("Sorry.  That email address is already in " + \
+                "use. Perhaps you forgot your password?"))
+            turbogears.redirect(redirect_location)
+            return dict()
+
         try:
-            person = self.create_user(username.strip(), human_name.strip(),
-                    email.strip(), security_question, security_answer,
-                    telephone, postal_address.strip(), age_check)
+            person, accepted = self.create_user(username.strip(),
+                human_name.strip(), email, security_question, security_answer,
+                telephone, postal_address.strip(), age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please " + \
                 "contact %s for assistance.") % config.get('accounts_email'))
@@ -974,8 +1000,16 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         else:
             Log(author_id=person.id, description='Account created: %s' %
                 person.username)
-            turbogears.flash(_('Your password has been emailed to you.  ' + \
-                'Please log in with it and change your password'))
+            if accepted is True:
+                turbogears.flash(_('Your password has been emailed to you.  ' + \
+                    'Please log in with it and change your password'))
+            elif accepted is False:
+                turbogears.flash(_('Your registration has been denied. Please' + \
+                                   'email accounts@fedoraproject.org if you ' + \
+                                   'disagree with this decission.'))
+            else:
+                turbogears.flash(_('We are processing your account application, ' + \
+                                   'please watch for an email from us with the status'))
             turbogears.redirect('/user/changepass')
             return dict()
 
@@ -995,24 +1029,6 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             :arg redirect: location to redirect to after creation
             :returns: person
         '''
-        # Check that the user claims to be over 13 otherwise it puts us in a
-        # legally sticky situation.
-        if not age_check:
-            turbogears.flash(_("We're sorry but out of special concern " +    \
-            "for children's privacy, we do not knowingly accept online " +    \
-            "personal information from children under the age of 13. We " +   \
-            "do not knowingly allow children under the age of 13 to become " +\
-            "registered members of our sites or buy products and services " + \
-            "on our sites. We do not knowingly collect or solicit personal " +\
-            "information about children under 13."))
-            turbogears.redirect(redirect_location)
-        test = select([PeopleTable.c.username],
-            func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
-        if test:
-            turbogears.flash(_("Sorry.  That email address is already in " + \
-                "use. Perhaps you forgot your password?"))
-            turbogears.redirect(redirect_location)
-            return dict()
         person = People()
         person.username = username
         person.human_name = human_name
@@ -1022,9 +1038,43 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         person.security_question = security_question
         person.security_answer = encrypt_text(config.get('key_securityquestion'), security_answer)
         person.password = '*'
-        person.status = 'active'
+        person.status = 'spamcheck_awaiting'
         person.old_password = generate_password()['hash']
         session.flush()
+        if config.get('antispam.registration.autoaccept', True):
+            self.accept_user()
+            return (person, True)
+
+        else:  # Not autoaccepted, submit to spamcheck
+            r = requests.post(config.get('antispam.api.url'),
+                auth=(config.get('antispam.api.username'),
+                      config.get('antispam.api.password')),
+                data={'action': 'fedora.fas.registration',
+                      'time': int(time.time()),
+                      'data':{'request_headers': cherrypy.request.headers,
+                              'user': person.filter_private('systems', True)
+                             }})
+            try:
+                log.info('Spam response: %s' % r.text)
+                response = r.json()
+                result = response['result']
+            except Exception as ex:
+                log.error('Spam checking failed: %s' % repr(ex))
+                result = 'checking'
+
+            # Result is either accepted, denied or checking
+            if result == 'accepted':
+                self.accept_user()
+                return (person, True)
+            elif result == 'denied':
+                person.status = 'spamcheck_denied'
+                session.flush()
+                return (person, False)
+            else:
+                return (person, None)
+
+
+    def accept_user(self, person):
         newpass = generate_password()
         send_mail(person.email, _('Welcome to the Fedora Project!'), _('''
 You have created a new Fedora account!
@@ -1076,11 +1126,12 @@ forward to working with you!
         'base_url': config.get('base_url_filter.base_url'),
         'webpath': config.get('server.webpath')})
         person.password = newpass['hash']
+        person.status = 'active'
+        session.flush()
         fas.fedmsgshim.send_message(topic="user.create", msg={
             'agent': person.username,
             'user': person.username,
         })
-        return person
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changequestion")

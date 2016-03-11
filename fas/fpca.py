@@ -26,12 +26,16 @@ from turbogears import controllers, expose, identity, config
 from turbogears.database import session
 
 import cherrypy
+import time
 
 from sqlalchemy.exc import DBAPIError
 
 from datetime import datetime
 import GeoIP
 from genshi.template.plugin import TextTemplateEnginePlugin
+
+import logging
+log = logging.getLogger(__name__)
 
 import fas.fedmsgshim
 
@@ -353,6 +357,40 @@ Thanks!
             turbogears.redirect('/fpca/')
             return dict()
 
+        if config.get('antispam.cla.autoaccept', True):
+            self.accept_fpca()
+            turbogears.redirect('/user/view/%s' % person.username)
+            return dict()
+        else:
+            r = requests.post(config.get('antispam.api.url'),
+                auth=(config.get('antispam.api.username'),
+                      config.get('antispam.api.password')),
+                data={'action': 'fedora.fas.cla_sign',
+                      'time': int(time.time()),
+                      'data': {'request_headers': cherrypy.request.headers,
+                               'user': person.filter_private('systems', True)}})
+
+            try:
+                log.info('Spam response: %s' % r.text)
+                response = r.json()
+                result = response['result']
+            except:
+                log.error('Spam checking failed: %s' % repr(ex))
+                result = 'checking'
+
+            # Result is either accepted or checking
+            if result == 'accepted':
+                self.accept_fpca()
+                turbogears.redirect('/user/view/%s' % person.username)
+                return dict()
+            else:
+                turbogears.flash(_('We are processing your FPCA application, ' + \
+                                   'please watch for an email from us with the status.'))
+                turbogears.redirect('/user/view/%s' % person.username)
+                return dict()
+
+
+    def accept_fpca():
         try:
             # Everything is correct.
             person.sponsor(group, person) # Sponsor!
@@ -402,5 +440,3 @@ If you need to revoke it, please visit this link:
 
         turbogears.flash(_("You have successfully completed the FPCA.  You " + \
                             "are now in the '%s' group.") % group.name)
-        turbogears.redirect('/user/view/%s' % person.username)
-        return dict()
