@@ -75,7 +75,7 @@ CREATE TABLE people (
     alias_enabled BOOLEAN DEFAULT TRUE,
     blog_rss text,
     blog_avatar text,
-    check (status in ('active', 'inactive', 'expired', 'admin_disabled'))
+    check (status in ('active', 'inactive', 'expired', 'admin_disabled', 'bot', 'spamcheck_awaiting', 'spamcheck_manual', 'spamcheck_denied'))
     --check (gpg_keyid ~ '^[0-9A-F]{17}$')
 );
 

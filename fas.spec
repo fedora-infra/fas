@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.11.0
+Version:        0.12.0
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -36,6 +36,7 @@ Requires: pyOpenSSL
 Requires: python-memcached
 Requires: python-webob
 Requires: tulrich-tuffy-fonts
+Requires: python-requests
 # For the audio captcha
 Requires: espeak
 Requires: python-tgcaptcha2 >= 0.3.0
@@ -152,6 +153,9 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Fri Mar 11 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.12.0-1
+- Add hook points into anti-spam script on account creation and CLA signing
+
 * Wed Mar 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.11.0-1
 - Added nonce system from tgcaptcha2-0.3.0+ (Related to DWF-2016-89000)
 
