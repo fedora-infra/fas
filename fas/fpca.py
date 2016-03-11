@@ -365,7 +365,7 @@ Thanks!
             r = requests.post(config.get('antispam.api.url'),
                 auth=(config.get('antispam.api.username'),
                       config.get('antispam.api.password')),
-                data={'action': 'fedora.fas.cla_sign',
+                json={'action': 'fedora.fas.cla_sign',
                       'time': int(time.time()),
                       'data': {'request_headers': cherrypy.request.headers,
                                'user': person.filter_private('systems', True)}})

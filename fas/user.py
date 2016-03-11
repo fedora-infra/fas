@@ -1049,7 +1049,7 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             r = requests.post(config.get('antispam.api.url'),
                 auth=(config.get('antispam.api.username'),
                       config.get('antispam.api.password')),
-                data={'action': 'fedora.fas.registration',
+                json={'action': 'fedora.fas.registration',
                       'time': int(time.time()),
                       'data':{'request_headers': cherrypy.request.headers,
                               'user': person.filter_private('systems', True)
