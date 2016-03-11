@@ -99,6 +99,13 @@ cla_deprecated_groups = ['cla_fedora']
 # Format: 'group1:a,b,c|group2:d,e,f'
 auto_approve_groups = 'packager:fedorabugs|triagers:fedorabugs|docs-writers:fedorabugs|cla_fpca:cla_done|cla_redhat:cla_done|cla_dell:cla_done|cla_ibm:cla_done|cla_intel:cla_done'
 
+# Anti-spam approval check script, which injects in both registration and CLA steps
+antispam.api.url = 'http://acceptance.fas.local/api'
+antispam.api.username = ''
+antispam.api.password = ''
+antispam.registration.autoaccept = False
+antispam.cla.autoaccept = False
+
 # Some server parameters that you may want to tweak
 server.socket_port=8088
 server.thread_pool=50
