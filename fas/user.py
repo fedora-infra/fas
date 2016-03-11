@@ -967,6 +967,27 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             turbogears.flash(_("Sorry.  Email addresses do not match"))
             turbogears.redirect("/")
             return dict()
+
+        # Check that the user claims to be over 13 otherwise it puts us in a
+        # legally sticky situation.
+        if not age_check:
+            turbogears.flash(_("We're sorry but out of special concern " +    \
+            "for children's privacy, we do not knowingly accept online " +    \
+            "personal information from children under the age of 13. We " +   \
+            "do not knowingly allow children under the age of 13 to become " +\
+            "registered members of our sites or buy products and services " + \
+            "on our sites. We do not knowingly collect or solicit personal " +\
+            "information about children under 13."))
+            turbogears.redirect(redirect_location)
+            return dict()
+        test = select([PeopleTable.c.username],
+            func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
+        if test:
+            turbogears.flash(_("Sorry.  That email address is already in " + \
+                "use. Perhaps you forgot your password?"))
+            turbogears.redirect(redirect_location)
+            return dict()
+
         try:
             person, accepted = self.create_user(username,
                 human_name, email, security_question, security_answer,
@@ -1008,24 +1029,6 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             :arg redirect: location to redirect to after creation
             :returns: person
         '''
-        # Check that the user claims to be over 13 otherwise it puts us in a
-        # legally sticky situation.
-        if not age_check:
-            turbogears.flash(_("We're sorry but out of special concern " +    \
-            "for children's privacy, we do not knowingly accept online " +    \
-            "personal information from children under the age of 13. We " +   \
-            "do not knowingly allow children under the age of 13 to become " +\
-            "registered members of our sites or buy products and services " + \
-            "on our sites. We do not knowingly collect or solicit personal " +\
-            "information about children under 13."))
-            turbogears.redirect(redirect_location)
-        test = select([PeopleTable.c.username],
-            func.lower(PeopleTable.c.email)==email.lower()).execute().fetchall()
-        if test:
-            turbogears.flash(_("Sorry.  That email address is already in " + \
-                "use. Perhaps you forgot your password?"))
-            turbogears.redirect(redirect_location)
-            return dict()
         person = People()
         person.username = username
         person.human_name = human_name
