@@ -316,7 +316,7 @@ class People(SABase):
     def get_share_loc(self):
         return Groups.by_name(SHARE_LOC_GROUP) in self.memberships
 
-    def filter_private(self, user='public'):
+    def filter_private(self, user='public', trust_argument=False):
         '''Filter out data marked private unless the user is authorized.
 
         Some data in this class can only be released if the user has not asked
@@ -339,17 +339,18 @@ class People(SABase):
         person_data = DictContainer()
 
         try:
-            if identity.in_any_group(admin_group, system_group):
-                # Admin and system are the same for now
-                user ='admin'
-            elif identity.current.user_name == self.username:
-                user = 'self'
-            elif identity.current.anonymous:
-                user = 'anonymous'
-            elif self.privacy:
-                user = 'privacy'
-            else:
-                user = 'public'
+            if not trust_argument:
+                if identity.in_any_group(admin_group, system_group):
+                    # Admin and system are the same for now
+                    user ='admin'
+                elif identity.current.user_name == self.username:
+                    user = 'self'
+                elif identity.current.anonymous:
+                    user = 'anonymous'
+                elif self.privacy:
+                    user = 'privacy'
+                else:
+                    user = 'public'
 
             for field in self.allow_fields[user]:
                 person_data[field] = self.__dict__[field]
