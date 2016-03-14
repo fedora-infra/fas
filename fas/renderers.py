@@ -28,5 +28,5 @@ def jpeg(info):
             if ct == response.default_content_type:
                 response.content_type = 'image/jpeg'
 
-        return data.tostring('jpeg', 'RGB')
+        return data.tobytes('jpeg', 'RGB')
     return render
