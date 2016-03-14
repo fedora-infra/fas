@@ -53,12 +53,14 @@ def get_auth_scopes():
         {
             'name': get_reversed_domain_name() + '.fas.user.email',
             'permission': AccountPermissionType.CAN_READ_PUBLIC_INFO.value,
-            'description': 'View your email address (associated with your FAS account)',
+            'description': 'View your email address (associated with your FAS '
+                           'account)',
             # 'auth_required': True
         },
         {
             'name': get_reversed_domain_name() + '.fas.user.edit',
-            'permission': AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO.value,
+            'permission': AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO
+                .value,
             'description': 'manage your profile information and your membership.',
             # 'auth_required': True
         },
@@ -71,7 +73,8 @@ def get_auth_scopes():
         {
             'name': get_reversed_domain_name() + '.fas.public.info',
             'permission': AccountPermissionType.CAN_READ_PUBLIC_INFO.value,
-            'description': 'know FAS public information related to people and groups',
+            'description': 'know FAS public information related to people and '
+                           'groups',
             # 'auth_required': False
         }
     ]
@@ -444,7 +447,8 @@ class TokenValidator(Base):
     def get_obj(self):
         """
         Return token object model.
-        :rtype: `fas.models.configs.AccountPermissions`|`fas.models.configs.TrustedPermissions`
+        :rtype: `fas.models.configs.AccountPermissions`|`fas.models.configs
+        .TrustedPermissions`
         """
         return self.obj
 
@@ -654,7 +658,8 @@ class SignedDataValidator(Base):
         """
         global result
 
-        # self.signer = JSONWebSignatureSerializer(Config.get('project.api.data.secret'))
+        # self.signer = JSONWebSignatureSerializer(Config.get(
+        # 'project.api.data.secret'))
         try:
             self.valid_data = self.signer.loads(self.data)
             result = True

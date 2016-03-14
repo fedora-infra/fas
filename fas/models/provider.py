@@ -149,7 +149,12 @@ def get_child_groups():
 
 
 def get_group_by_id(id):
-    """ Retrieve Groups by its id. """
+    """ Retrieve Groups by its id.
+
+     :param id: group ID to look up
+     :type id: int
+     :rtype: fas.models.group.Groups
+    """
     query = session.query(Groups).filter(Groups.id == id)
     return query.first()
 
@@ -316,7 +321,12 @@ def get_group_types():
 
 
 def get_grouptype_by_id(id):
-    """ Retrive GroupType by its id. """
+    """ Retrive GroupType by its id.
+
+     :param id: group type id to look up
+     :type id: int
+     :rtype: fas.models.group.GroupType
+    """
     query = session.query(GroupType).filter(GroupType.id == id)
     return query.first()
 
@@ -441,7 +451,12 @@ def get_people_bugzilla_email(filter_username=None):
 
 
 def get_people_by_id(id):
-    """ Retrieve People by its id. """
+    """ Retrieve People by its id.
+
+     :param id: ID to look up
+     :type id: int
+     :rtype: fas.models.people.People
+    """
     query = session.query(People).filter(People.id == id)
     return query.first()
 
@@ -501,7 +516,12 @@ def get_licenses():
 
 
 def get_license_by_id(id):
-    """ Retrieve license based on given id"""
+    """ Retrieve license based on given id
+
+    :param id: license Id to look up
+    :type id: int
+    :rtype: fas.models.la.LicenseAgreement
+    """
     query = session.query(
         LicenseAgreement
     ).filter(

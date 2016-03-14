@@ -221,6 +221,13 @@ def main(global_config, **settings):
     config.add_route('reset-password',
                      '/settings/reset/password/{username}/{token}')
 
+    # management calls
+    config.add_route('lock', '/settings/lock/{context}/{id}')
+    config.add_route('unlock', '/settings/unlock/{context}/{id}')
+    config.add_route('archive', '/settings/archive/{context}/{id}')
+    config.add_route('disable', 'settings/disable/{context}/{id}')
+    config.add_route('enable', '/settings/enable/{context}/{id}')
+
     config.add_route('add-group', '/settings/add/group')
     config.add_route('remove-group', '/settings/remove/group/{id}')
 

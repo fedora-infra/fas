@@ -16,39 +16,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-import json
-from pyramid.security import NO_PERMISSION_REQUIRED
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
+import logging
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from fas.forms.account import AccountPermissionForm, TrustedPermissionForm
-
-from fas.models import AccountPermissionType, GroupStatus, AccountStatus
+from fas.models import AccountPermissionType, GroupStatus, AccountStatus, \
+    LicenseAgreementStatus
 import fas.models.provider as provider
 import fas.models.register as register
-
 from fas.forms.people import ContactInfosForm
 from fas.forms.group import EditGroupTypeForm
 from fas.forms.group import GroupListForm, GroupTypeListForm
 from fas.forms.la import EditLicenseForm, SignLicenseForm, LicenseListForm
 from fas.forms.certificates import EditCertificateForm
 from fas.forms.certificates import CreateClientCertificateForm
-
 from fas.events import GroupRemovalRequested, GroupCreated, GroupDeleted
 from fas.events import GroupTypeRemovalRequested
 from fas.events import LicenseRemovalRequested
 from fas.security import generate_token
-
 from fas.views import redirect_to
 from fas.lib.captcha import Captcha
-from fas.util import Config, setup_group_form, _
+from fas.util import Config, setup_group_form
 from fas.lib.certificatemanager import CertificateManager
-
 from fas.events import NewClientCertificateCreated
-
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -58,6 +51,8 @@ class Admin(object):
         self.request = request
         self.notify = self.request.registry.notify
         self.id = -1
+        self.status = 'error'
+        self.msg = 'Unable to process your request'
 
     @view_config(route_name='settings', permission='admin',
                  renderer='/admin/panel.xhtml')
@@ -485,3 +480,79 @@ class Admin(object):
                 return response
 
         raise redirect_to('/')
+
+    @view_config(route_name='lock', permission='authenticated', xhr=True,
+                 renderer='json')
+    def lock(self):
+        try:
+            self.id = self.request.matchdict['id']
+            context = self.request.matchdict['context']
+        except KeyError:
+            return HTTPBadRequest()
+
+        if context == 'people':
+            people = provider.get_people_by_id(self.id)
+            people.status = AccountStatus.LOCKED_BY_ADMIN
+            self.msg = '{0:s} {1:s} has been locked'.format(context,
+                                                            people.username)
+        elif context == 'group':
+            group = provider.get_group_by_id(self.id)
+            group.status = GroupStatus.LOCKED
+            self.msg = '{0:s} {1:s} has been locked'.format(context, group.name)
+        else:
+            return {'status': 'error', 'msg': 'invalid ctx: {0:s}'.format(context)}
+
+        return {'status': 'success', 'msg': self.msg}
+
+    @view_config(route_name='unlock', permission='authenticated', xhr=True,
+                 renderer='json')
+    def unlock(self):
+        try:
+            self.id = self.request.matchdict['id']
+            context = self.request.matchdict['context']
+        except KeyError:
+            return HTTPBadRequest()
+
+        if context == 'people':
+            people = provider.get_people_by_id(self.id)
+            people.status = AccountStatus.ACTIVE
+            self.msg = '{0:s} {1:s} has been unlocked'.format(context,
+                                                              people.username)
+        elif context == 'group':
+            group = provider.get_group_by_id(self.id)
+            group.status = GroupStatus.ACTIVE
+            self.msg = '{0:s} {1:s} has been unlocked'.format(context, group.name)
+        else:
+            return {'status': 'error', 'msg': 'invalid ctx: {0:s}'.format(context)}
+
+        return dict(status='success',
+                    msg='{0:s} {1:s} has been unlocked.'.format(
+                        context, people.username
+                    ))
+
+    @view_config(route_name='archive', permission='authenticated', xhr=True,
+                 renderer='json')
+    def archive(self):
+        try:
+            self.id = self.request.matchdict['id']
+            context = self.request.matchdict['context']
+        except KeyError:
+            return HTTPBadRequest()
+
+        if context == 'people':
+            people = provider.get_people_by_id(self.id)
+            people.status = AccountStatus.DISABLED
+            self.msg = 'Account {0:s} has been disabled and archived'.format(
+                people.username)
+        elif context == 'group':
+            group = provider.get_group_by_id(self.id)
+            group.status = GroupStatus.DISABLED
+            self.msg = 'Group {0:s} has been disabled'.format(group.name)
+        elif context == 'license':
+            license = provider.get_license_by_id(self.id)
+            license.status = LicenseAgreementStatus.DISABLED
+            self.msg = 'License {0:s} has been disabled'.format(license.name)
+        else:
+            logging.error(self.msg)
+
+        return {'status': 'success', 'msg': self.msg}

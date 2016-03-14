@@ -282,5 +282,5 @@ def get_email_recipient(group, user):
                 u.person.email != user.email]
         else:
             recipient = group.owner.email
-            
+
     return recipient

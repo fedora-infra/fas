@@ -79,7 +79,7 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
       <h2><a href="#removeCertificate" data-toggle="modal" data-trigger="#removeCertificate">${_(u'Remove a certificate')}</a></h2>
 -->
 </div>
-<div class="container">
+<div class="container-fluid">
 
 
     <div class="panel panel-default">
@@ -185,7 +185,7 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
 
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
@@ -219,7 +219,7 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
@@ -255,7 +255,7 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
@@ -318,17 +318,17 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
             ];
             if(row.status != ${account_status.DISABLED.value}) {
                 actions.unshift(
-                        '<a class="archive" href="javascript:void(0)" title="Disable and archive account">',
+                        '<a class="archive action-events" data-context="people" href="javascript:void(0)" title="Disable and archive account">',
                         '<i class="fas-icon-file-archive text-warning"></i>',
                         '</a> '
                 )
                 if (row.status == ${account_status.LOCKED.value} || row.status == ${account_status.LOCKED_BY_ADMIN.value}) {
-                    actions.unshift('<a class="unlock" href="javascript:void(0)" title="Unlock account">',
+                    actions.unshift('<a class="unlock action-events" data-context="people" href="javascript:void(0)" title="Unlock account">',
                             '<i class="fas-icon-lock-open"></i>',
                             '</a> ')
                 }
                 else {
-                    actions.unshift('<a class="lock" href="javascript:void(0)" title="Lock account">',
+                    actions.unshift('<a class="lock action-events" data-context="people" href="javascript:void(0)" title="Lock account">',
                             '<i class="fas-icon-lock"></i>',
                             '</a> ');
                 }
@@ -443,25 +443,27 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
 
     window.actionEvents = {
         'click .lock': function (e, value, row, index) {
-##             sendRequest(getFasContext($(this)), '/settings/lock/' + getFasContext($(this)) + '/' + row.id);
-            alert('Action not implemented');
+            console.log(e);
+            sendRequest(getFasContext($(this)), '/settings/lock/' + getFasContext($(this)) + '/' + row.id);
+##             alert('Action not implemented');
         },
         'click .archive': function (e, value, row, index) {
-##             sendRequest(getFasContext($(this)), '/settings/archive/' + getFasContext($(this)) + '/' + row.id);
-            alert('Action not implemented');
+            sendRequest(getFasContext($(this)), '/settings/archive/' + getFasContext($(this)) + '/' + row.id);
+##             alert('Action not implemented');
         },
         'click .enable': function (e, value, row, index) {
-            alert('Action not implemented');
-##             sendRequest(getFasContext($(this)), '/settings/enable/' + getFasContext($(this)) + '/' + row.id);
+##             alert('Action not implemented');
+            sendRequest(getFasContext($(this)), '/settings/unlock/' + getFasContext($(this)) + '/' + row.id);
         },
         'click .remove': function (e, value, row, index) {
 ##             console.log(e);
             sendRequest(getFasContext($(this)), '/settings/remove/' + getFasContext($(this)) + '/' + row.id);
         },
         'click .revoke': function (e, value, row, index) {
+            console.log(e);
             alert('Action not implemented');
 ##             sendRequest(getFasContext($(this)), '/settings/revoke/' + getFasContext($(this)) + '/' + row.id);
-          }
+          },
     };
     var selections = [];
     function responseHandler(res) {
@@ -487,7 +489,7 @@ ${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
         else if(row.status == ${account_status.DISABLED.value}) {
             return '<span class="label label-default">${_(u'archived')}</span>';
         }
-        else if(row.status == ${account_status.LOCKED.value} || row.status == "${account_status.LOCKED_BY_ADMIN.name.lower()}") {
+        else if(row.status == ${account_status.LOCKED.value} || row.status == "${account_status.LOCKED_BY_ADMIN.value}") {
             return '<span class="label label-danger">${_(u'blocked')}</span>';
         }
         else {
