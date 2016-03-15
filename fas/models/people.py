@@ -89,7 +89,7 @@ class People(Base):
     password_token = Column(UnicodeText(), nullable=True)
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
-    status = Column(Integer, default=AccountStatus.PENDING)
+    status = Column(Integer, default=AccountStatus.PENDING.value)
     status_change = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)

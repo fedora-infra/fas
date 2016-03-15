@@ -50,7 +50,7 @@ def __get_listoffset(page, limit):
     offset = (page - 1) * limit
 
     if offset < limit:
-        offset = -1
+        offset = 0
     else:
         offset += 1
 
@@ -103,8 +103,8 @@ def get_groups(limit=None, page=None, pattern=None, count=False, status=None,
     else:
         query = query.filter(
             Groups.status.in_([
-                GroupStatus.ACTIVE,
-                GroupStatus.INACTIVE]
+                GroupStatus.ACTIVE.value,
+                GroupStatus.INACTIVE.value]
             ))
 
     if pattern:
@@ -200,7 +200,7 @@ def get_group_by_people_membership(username):
     ).filter(
         GroupMembership.group_id == Groups.id,
         GroupMembership.people_id == People.id,
-        GroupMembership.status == MembershipStatus.APPROVED,
+        GroupMembership.status == MembershipStatus.APPROVED.value,
         People.username == username,
 
     )
@@ -276,7 +276,7 @@ def get_membership_by_role(group, person, role):
     ).filter(
         GroupMembership.group_id == group,
         GroupMembership.people_id == person,
-        GroupMembership.role == role
+        GroupMembership.role == role.status
     )
 
     return query.first()
@@ -293,13 +293,13 @@ def get_memberships_by_status(status, group=None):
     """
     query = session.query(
         GroupMembership
-    ).filter(GroupMembership.status == status)
+    ).filter(GroupMembership.status == status.value)
 
     if group:
         query = session.query(
             GroupMembership
         ).filter(
-            GroupMembership.status == status,
+            GroupMembership.status == status.value,
             GroupMembership.group_id.in_(group)
         )
 
@@ -356,13 +356,13 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     query = session.query(People).order_by(People.fullname)
 
     if status > -1:
-        query = query.filter(People.status.in_(status))
+        query = query.filter(People.status.in_(status.value))
     else:
         query = query.filter(
             People.status.in_([
-                AccountStatus.ACTIVE,
-                AccountStatus.ON_VACATION,
-                AccountStatus.INACTIVE]
+                AccountStatus.ACTIVE.value,
+                AccountStatus.ON_VACATION.value,
+                AccountStatus.INACTIVE.value]
             ))
 
     if pattern:
@@ -386,6 +386,7 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     if (limit and page) or (limit and offset >= 0):
         if page:
             offset = __get_listoffset(page, limit)
+            print '****** %s' % offset
 
         query = query.limit(
             limit

@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
@@ -355,12 +355,12 @@ class People(object):
                         return redirect_to('/')
 
                     self.person.password_token = generate_token()
-                    self.person.status = AccountStatus.PENDING
+                    self.person.status = AccountStatus.PENDING.value
 
                     register.add_people(self.person)
                     register.save_account_activity(
                         self.request, self.person.id,
-                        AccountLogType.ASKED_RESET_PASSWORD)
+                        AccountLogType.ASKED_RESET_PASSWORD.value)
 
                     register.flush()
 
@@ -408,10 +408,10 @@ class People(object):
                 and ('form.save.person-infos' in self.request.params):
             if form.validate():
                 register.update_password(form, self.person)
-                self.person.status = AccountStatus.ACTIVE
+                self.person.status = AccountStatus.ACTIVE.value
                 register.save_account_activity(
                     self.request, self.person.id,
-                    AccountLogType.RESET_PASSWORD)
+                    AccountLogType.RESET_PASSWORD.value)
                 register.flush()
                 self.request.session.flash(_('Password reset'), 'info')
                 return redirect_to('/people/profile/%s' % self.person.id)

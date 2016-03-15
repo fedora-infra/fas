@@ -38,7 +38,7 @@ class LicenseAgreement(Base):
     __tablename__ = 'license_agreement'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255), nullable=False)
-    status = Column(Integer, default=LicenseAgreementStatus.DISABLED)
+    status = Column(Integer, default=LicenseAgreementStatus.DISABLED.value)
     content = Column(UnicodeText, nullable=False)
     comment = Column(UnicodeText, nullable=True)
     enabled_at_signup = Column(Boolean, default=False)

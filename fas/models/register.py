@@ -194,8 +194,8 @@ def add_group(form):
         GroupMembership(
             group_id=group.id,
             people_id=group.owner_id,
-            status=MembershipStatus.APPROVED,
-            role=MembershipRole.ADMINISTRATOR
+            status=MembershipStatus.APPROVED.value,
+            role=MembershipRole.ADMINISTRATOR.value
         )
     )
 

@@ -91,7 +91,7 @@ class Groups(Base):
     name = Column(Unicode(40), unique=True, nullable=False)
     display_name = Column(UnicodeText, nullable=True)
     description = Column(UnicodeText, nullable=True)
-    status = Column(Integer, default=GroupStatus.INACTIVE)
+    status = Column(Integer, default=GroupStatus.INACTIVE.value)
     avatar = Column(UnicodeText, nullable=True)
     web_link = Column(UnicodeText, nullable=True)
     mailing_list = Column(UnicodeText, nullable=True)
@@ -99,8 +99,8 @@ class Groups(Base):
     irc_channel = Column(UnicodeText, nullable=True)
     irc_network = Column(UnicodeText, nullable=True)
     owner_id = Column(Integer, ForeignKey('people.id'), nullable=False)
-    group_type = Column(Integer, ForeignKey('group_type.id'), default=-1)
-    parent_group_id = Column(Integer, ForeignKey('groups.id'), default=-1)
+    group_type = Column(Integer, ForeignKey('group_type.id'), nullable=True)
+    parent_group_id = Column(Integer, ForeignKey('groups.id'), nullable=True)
     private = Column(Boolean, default=False)
     self_removal = Column(Boolean, default=True)
     need_approval = Column(Boolean, default=False)
@@ -113,9 +113,9 @@ class Groups(Base):
     license_sign_up = Column(
         Integer,
         ForeignKey('license_agreement.id'),
-        default=-1
+        nullable=True
     )
-    certificate = Column(Integer, ForeignKey('certificates.id'), default=-1)
+    certificate = Column(Integer, ForeignKey('certificates.id'), nullable=True)
     created = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
@@ -232,8 +232,8 @@ class GroupMembership(Base):
     __tablename__ = 'group_membership'
     id = Column(Integer, primary_key=True)
     group_id = Column(Integer, ForeignKey('groups.id'))
-    role = Column(Integer, default=MembershipRole.USER)
-    status = Column(Integer, default=MembershipStatus.UNAPPROVED)
+    role = Column(Integer, default=MembershipRole.USER.value)
+    status = Column(Integer, default=MembershipStatus.UNAPPROVED.value)
     comment = Column(UnicodeText, nullable=True)
     people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor = Column(Integer, ForeignKey('people.id'), nullable=True)

@@ -16,23 +16,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-import os
-import sys
+import argparse
 import random
+import sys
+
 import transaction
-
-from time import sleep
-
-from sqlalchemy import engine_from_config
 from pyramid.i18n import TranslationStringFactory
-
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
 )
+from sqlalchemy import engine_from_config
 
+from fas.lib.passwordmanager import PasswordManager
 from fas.models import (
     DBSession,
     Base,
@@ -42,21 +40,14 @@ from fas.models import (
     MembershipStatus,
     AccountPermissionType as PermissionType
 )
-
-from fas.models.people import People
-
+from fas.models.configs import AccountPermissions
 from fas.models.group import (
     GroupType,
     Groups,
     GroupMembership
 )
-
-from fas.models.configs import AccountPermissions
-
-from fas.lib.passwordmanager import PasswordManager
+from fas.models.people import People
 from fas.security import generate_token
-
-import argparse
 
 _ = TranslationStringFactory('fas')
 __admin_pw__ = u'admin'
@@ -124,7 +115,7 @@ def add_user(id, login, passwd, fullname,
     user.country_code = country_code
     user.latitude = latitude
     user.longitude = longitude
-    user.status = status or AccountStatus.ACTIVE
+    user.status = status or AccountStatus.ACTIVE.value
     user.date_created = joined
 
     DBSession.add(user)
@@ -145,8 +136,21 @@ def add_group(id, name, owner_id, type):
 
 def add_membership(
         group_id, people_id, sponsor=None, joined=None,
-        role=MembershipRole.USER, status=MembershipStatus.UNAPPROVED):
-    """ Add a registered user into a registered group. """
+        role=MembershipRole.USER.value, status=MembershipStatus.UNAPPROVED.value):
+    """ Add a registered user into a registered group.
+    :param joined:
+    :type joined:
+    :param status:
+    :type status:
+    :param group_id:
+    :type group_id:
+    :param people_id:
+    :type people_id:
+    :param sponsor:
+    :type sponsor:
+    :param role:
+    :type role:
+    """
     ms = GroupMembership()
     ms.group_id = group_id
     ms.people_id = people_id
@@ -178,7 +182,7 @@ def create_default_admin(passwd):
         u'admin',
         passwd,
         u'FAS administrator',
-        status=AccountStatus.ACTIVE
+        status=AccountStatus.ACTIVE.value
     )
 
     return admin
@@ -197,8 +201,8 @@ def create_default_group(owner):
 
     add_membership(
         group_id=2000,
-        role=MembershipRole.ADMINISTRATOR,
-        status=MembershipStatus.APPROVED,
+        role=MembershipRole.ADMINISTRATOR.value,
+        status=MembershipStatus.APPROVED.value,
         people_id=owner.id,
         sponsor=owner.id
     )
@@ -248,7 +252,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 people_id=people.id,
                 token=generate_token(),
                 application=u'Fedora Mobile v0.9',
-                perms=PermissionType.CAN_READ_PUBLIC_INFO
+                perms=PermissionType.CAN_READ_PUBLIC_INFO.value
             )
             add_membership(
                 group_id=random.choice(group_list),
@@ -257,15 +261,15 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 joined=fake.date_time_between(start_date='-6y', end_date='now'),
                 status=random.choice(
                     [s.value for s in MembershipStatus]
-                    ),
+                ),
                 role=random.choice(
                     [r.value for r in MembershipRole]
-                    )
+                )
             )
 
             user_index += 1
 
-            if(i % (5 * point) == 0):
+            if (i % (5 * point) == 0):
                 sys.stdout.write(
                     "\r"
                     "Generating fake people: [" + "=" * (i / increment) + " "
@@ -348,8 +352,10 @@ def main(argv=sys.argv):
                 u'jbezorg',
                 pv.generate_password(u'jbezorg'),
                 u'Jean-Baptiste Emanuel Zorg',
-                status=AccountStatus.ACTIVE
+                status=AccountStatus.ACTIVE.value
             )
+
+            DBSession.flush()
 
             create_default_group(owner=admin)
 
@@ -361,8 +367,8 @@ def main(argv=sys.argv):
             )
             add_membership(
                 group_id=3000,
-                role=MembershipRole.USER,
-                status=MembershipStatus.APPROVED,
+                role=MembershipRole.USER.value,
+                status=MembershipStatus.APPROVED.value,
                 people_id=user.id,
                 sponsor=admin.id
             )
@@ -370,13 +376,13 @@ def main(argv=sys.argv):
                 people_id=admin.id,
                 token=u'498327sdfdj982374239874j34j',
                 application=u'GNOME',
-                perms=PermissionType.CAN_READ_PUBLIC_INFO
+                perms=PermissionType.CAN_READ_PUBLIC_INFO.value
             )
             add_permission(
                 people_id=user.id,
                 token=u'2342309w8esad09803983i2039e',
                 application=u'IRC Bot - zodbot',
-                perms=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO
+                perms=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value
             )
 
         if opts.gen_fake_data:
@@ -404,7 +410,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=300,
                     name=u'avengers',
-                    status=GroupStatus.ACTIVE,
+                    status=GroupStatus.ACTIVE.value,
                     group_type=1,
                     owner_id=admin.id)
             )
@@ -412,7 +418,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=301,
                     name=u'justice_league',
-                    status=GroupStatus.ACTIVE,
+                    status=GroupStatus.ACTIVE.value,
                     group_type=1,
                     owner_id=admin.id)
             )
@@ -420,7 +426,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=302,
                     name=u'fantastic_four',
-                    status=GroupStatus.ACTIVE,
+                    status=GroupStatus.ACTIVE.value,
                     group_type=2,
                     owner_id=admin.id)
             )
@@ -428,7 +434,7 @@ def main(argv=sys.argv):
                 Groups(
                     id=303,
                     name=u'all-star',
-                    status=GroupStatus.ACTIVE,
+                    status=GroupStatus.ACTIVE.value,
                     group_type=1,
                     owner_id=admin.id)
             )
@@ -436,10 +442,11 @@ def main(argv=sys.argv):
                 Groups(
                     id=304,
                     name=u'x-men',
-                    status=GroupStatus.ACTIVE,
+                    status=GroupStatus.ACTIVE.value,
                     group_type=2,
                     owner_id=admin.id)
             )
+            DBSession.flush()
 
             groups = [300, 301, 302, 303, 304]
 

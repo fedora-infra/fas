@@ -19,19 +19,15 @@
 __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.events import subscriber
-
 from fas.events import LoginFailed
 from fas.events import LoginRequested
 from fas.events import LoginSucceeded
-
 from fas.util import _
 from fas.util import Config
-
 from fas.models import AccountStatus
 from fas.models import AccountLogType
 from fas.models import register
 from fas.views import redirect_to
-
 import logging
 import datetime
 
@@ -48,7 +44,7 @@ def onLoginFailed(event):
             person.login_attempt = 0
         else:
             if person.login_attempt > int(Config.get('login.failed_attempt')):
-                person.status = AccountStatus.LOCKED
+                person.status = AccountStatus.LOCKED.value
                 register.add_people(person)
                 log.debug(
                     'Account %s locked, number of failure attempt reached: %s' %
@@ -74,7 +70,7 @@ def onLoginRequested(event):
             if datetime.datetime.utcnow() > unlock_time:
                 log.debug(
                     'Lock time passed, unlocking account %s' % person.username)
-                person.status = AccountStatus.ACTIVE
+                person.status = AccountStatus.ACTIVE.value
                 person.login_attempt = 0
 
                 register.add_people(person)
@@ -105,5 +101,5 @@ def onLoginSucceeded(event):
 
     person.last_logged = datetime.datetime.utcnow()
 
-    register.save_account_activity(request, person.id, AccountLogType.LOGGED_IN)
-
+    register.save_account_activity(request, person.id,
+                                   AccountLogType.LOGGED_IN.value)
