@@ -358,7 +358,7 @@ Thanks!
             return dict()
 
         if config.get('antispam.cla.autoaccept', True):
-            self.accept_fpca()
+            self.accept_fpca(group, person)
             turbogears.redirect('/user/view/%s' % person.username)
             return dict()
         else:
@@ -380,7 +380,7 @@ Thanks!
 
             # Result is either accepted or checking
             if result == 'accepted':
-                self.accept_fpca()
+                self.accept_fpca(group, person)
                 turbogears.redirect('/user/view/%s' % person.username)
                 return dict()
             else:
@@ -390,7 +390,7 @@ Thanks!
                 return dict()
 
 
-    def accept_fpca():
+    def accept_fpca(group, person):
         try:
             # Everything is correct.
             person.sponsor(group, person) # Sponsor!
