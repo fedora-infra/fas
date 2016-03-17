@@ -76,6 +76,7 @@ import fas.fedmsgshim
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log, CaptchaNonce
+from fas.model import disabled_statuses
 from fas import openssl_fas
 from fas.auth import (
 	is_admin,
@@ -151,7 +152,7 @@ class UserSave(validators.Schema):
     )
     ircnick = validators.UnicodeString(max=42)
     status = validators.OneOf([
-        'active', 'inactive', 'expired', 'admin_disabled'])
+        'active', 'inactive'] + disabled_statusese)
     ssh_key = ValidSSHKey(max=5000)
     gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
@@ -356,8 +357,8 @@ class User(controllers.Controller):
 
         try:
             if target.status != status:
-                if (status in ('expired', 'admin_disabled') or target.status \
-                    in ('expired', 'admin_disabled')) and \
+                if (status in disabled_statuses or target.status \
+                    in disabled_statuses) and \
                     not is_admin(person):
                     turbogears.flash(_(
                         'Only admin can enable or disable an account.'))
@@ -521,7 +522,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
-        if is_admin(user) and status in ('expired', 'admin_disabled'):
+        if is_admin(user) and status in disabled_statuses:
             target.old_password = target.password
             target.password = '*'
             for group in target.unapproved_memberships:
@@ -1297,7 +1298,7 @@ forward to working with you!
         if email != person.email.lower():
             turbogears.flash(_("username + email combo unknown."))
             return dict()
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \
@@ -1390,7 +1391,7 @@ To change your password (or to cancel the request), please visit
         '''
 
         person = People.by_username(username)
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % {'status': person.status,
@@ -1439,7 +1440,7 @@ To change your password (or to cancel the request), please visit
             turbogears.flash(_("Both passwords must match"))
             return dict()
 
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \

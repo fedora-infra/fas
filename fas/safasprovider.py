@@ -36,7 +36,7 @@ from turbogears.database import session
 from turbogears.util import load_class
 from turbogears.identity import set_login_attempted
 
-from fas.model import People, Configs
+from fas.model import People, Configs, disabled_statuses, active_statuses
 
 import pytz
 from datetime import datetime
@@ -147,7 +147,7 @@ class SaFasIdentity(object):
         # This is a hack, need to talk to Toshio abvout it.w
         user.approved_memberships
 
-        if user.status in ('inactive', 'expired', 'admin_disabled'):
+        if user.status in (['inactive'] + disabled_statuses):
             log.warning("User %(username)s has status %(status)s, logging them out." % \
                 { 'username': user.username, 'status': user.status })
             self.logout()
@@ -388,7 +388,7 @@ class SaFasIdentityProvider(object):
             cherrypy.request.fas_identity_failure_reason = 'no_user'
             return None
 
-        if user.status in ('inactive', 'expired', 'admin_disabled'):
+        if user.status not in active_statuses:
             log.warning("User %(username)s has status %(status)s" %
                 {'username': user_name, 'status': user.status})
             cherrypy.request.fas_identity_failure_reason = 'status_%s'% user.status

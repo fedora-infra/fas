@@ -106,6 +106,13 @@ admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
+active_statuses = ['active', 'bot']
+disabled_statuses = ['expired',
+                     'admin_disabled',
+                     'spamcheck_awaiting',
+                     'spamcheck_manual',
+                     'spamcheck_denied']
+
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
 
