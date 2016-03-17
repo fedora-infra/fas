@@ -41,6 +41,7 @@ from tgcaptcha2 import CaptchaField
 from tgcaptcha2.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
+from fas.lib import submit_to_spamcheck
 from fas.lib.gpg import encrypt_text
 
 import os
@@ -50,7 +51,6 @@ import StringIO
 import crypt
 import string
 import subprocess
-import requests
 from OpenSSL import crypto
 
 if config.get('use_openssl_rand_bytes', False):
@@ -1047,14 +1047,8 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             return (person, True)
 
         else:  # Not autoaccepted, submit to spamcheck
-            r = requests.post(config.get('antispam.api.url'),
-                auth=(config.get('antispam.api.username'),
-                      config.get('antispam.api.password')),
-                json={'action': 'fedora.fas.registration',
-                      'time': int(time.time()),
-                      'data':{'request_headers': cherrypy.request.headers,
-                              'user': person.filter_private('systems', True)
-                             }})
+            r = submit_to_spamcheck('fedora.fas.registration',
+                                    {'user': person.filter_private('systems', True)})
             try:
                 log.info('Spam response: %s' % r.text)
                 response = r.json()
