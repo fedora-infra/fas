@@ -1134,6 +1134,32 @@ forward to working with you!
         })
 
     @identity.require(identity.not_anonymous())
+    @expose(allow_json=True)
+    def acceptuser(self, people, status):
+        ''' Accept account from antispam service. '''
+        target = People.by_username(people)
+        user = identity.current.user_name
+
+        # Prevent user from using url directly to update
+        # account if requested's status has been set already.
+        if target.status == status:
+            return {'result': 'nochange'}
+
+        (modo, can_update) = is_modo(user)
+        if (modo and can_update) or is_admin(user):
+            try:
+                target.status = status
+                target.status_change = datetime.now(pytz.utc)
+            except TypeError, error:
+                return {'result': 'error', 'error': str(error)}
+        else:
+            return {'result': 'unauthorized'}
+
+        self.accept_user(target)
+
+        return {'result': 'OK'}
+
+    @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changequestion")
     def changequestion(self):
         ''' Provides forms for user to change security question/answer
