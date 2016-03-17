@@ -1043,7 +1043,7 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         person.old_password = generate_password()['hash']
         session.flush()
         if config.get('antispam.registration.autoaccept', True):
-            self.accept_user()
+            self.accept_user(person)
             return (person, True)
 
         else:  # Not autoaccepted, submit to spamcheck

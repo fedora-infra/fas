@@ -385,7 +385,7 @@ Thanks!
                 return dict()
 
 
-    def accept_fpca(group, person):
+    def accept_fpca(self, group, person):
         try:
             # Everything is correct.
             person.sponsor(group, person) # Sponsor!
