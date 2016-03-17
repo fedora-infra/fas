@@ -543,7 +543,7 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         fas.fedmsgshim.send_message(topic="user.update", msg={
                 'agent': user,
                 'user': target.username,
-                'fields': 'status',
+                'fields': ['status'],
         })
         turbogears.redirect('/user/view/%s' % target.username)
         return dict()
