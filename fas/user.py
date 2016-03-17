@@ -41,6 +41,7 @@ from tgcaptcha2 import CaptchaField
 from tgcaptcha2.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
+from fas.lib import submit_to_spamcheck
 from fas.lib.gpg import encrypt_text
 
 import os
@@ -50,7 +51,6 @@ import StringIO
 import crypt
 import string
 import subprocess
-import requests
 from OpenSSL import crypto
 
 if config.get('use_openssl_rand_bytes', False):
@@ -76,6 +76,7 @@ import fas.fedmsgshim
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log, CaptchaNonce
+from fas.model import disabled_statuses
 from fas import openssl_fas
 from fas.auth import (
 	is_admin,
@@ -151,7 +152,7 @@ class UserSave(validators.Schema):
     )
     ircnick = validators.UnicodeString(max=42)
     status = validators.OneOf([
-        'active', 'inactive', 'expired', 'admin_disabled'])
+        'active', 'inactive'] + disabled_statusese)
     ssh_key = ValidSSHKey(max=5000)
     gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
@@ -356,8 +357,8 @@ class User(controllers.Controller):
 
         try:
             if target.status != status:
-                if (status in ('expired', 'admin_disabled') or target.status \
-                    in ('expired', 'admin_disabled')) and \
+                if (status in disabled_statuses or target.status \
+                    in disabled_statuses) and \
                     not is_admin(person):
                     turbogears.flash(_(
                         'Only admin can enable or disable an account.'))
@@ -521,7 +522,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
-        if is_admin(user) and status in ('expired', 'admin_disabled'):
+        if is_admin(user) and status in disabled_statuses:
             target.old_password = target.password
             target.password = '*'
             for group in target.unapproved_memberships:
@@ -1046,14 +1047,8 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             return (person, True)
 
         else:  # Not autoaccepted, submit to spamcheck
-            r = requests.post(config.get('antispam.api.url'),
-                auth=(config.get('antispam.api.username'),
-                      config.get('antispam.api.password')),
-                json={'action': 'fedora.fas.registration',
-                      'time': int(time.time()),
-                      'data':{'request_headers': cherrypy.request.headers,
-                              'user': person.filter_private('systems', True)
-                             }})
+            r = submit_to_spamcheck('fedora.fas.registration',
+                                    {'user': person.filter_private('systems', True)})
             try:
                 log.info('Spam response: %s' % r.text)
                 response = r.json()
@@ -1132,6 +1127,32 @@ forward to working with you!
             'agent': person.username,
             'user': person.username,
         })
+
+    @identity.require(identity.not_anonymous())
+    @expose(allow_json=True)
+    def acceptuser(self, people, status):
+        ''' Accept account from antispam service. '''
+        target = People.by_username(people)
+        user = identity.current.user_name
+
+        # Prevent user from using url directly to update
+        # account if requested's status has been set already.
+        if target.status == status:
+            return {'result': 'nochange'}
+
+        (modo, can_update) = is_modo(user)
+        if (modo and can_update) or is_admin(user):
+            try:
+                target.status = status
+                target.status_change = datetime.now(pytz.utc)
+            except TypeError, error:
+                return {'result': 'error', 'error': str(error)}
+        else:
+            return {'result': 'unauthorized'}
+
+        self.accept_user(target)
+
+        return {'result': 'OK'}
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changequestion")
@@ -1271,7 +1292,7 @@ forward to working with you!
         if email != person.email.lower():
             turbogears.flash(_("username + email combo unknown."))
             return dict()
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \
@@ -1364,7 +1385,7 @@ To change your password (or to cancel the request), please visit
         '''
 
         person = People.by_username(username)
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % {'status': person.status,
@@ -1413,7 +1434,7 @@ To change your password (or to cancel the request), please visit
             turbogears.flash(_("Both passwords must match"))
             return dict()
 
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \
