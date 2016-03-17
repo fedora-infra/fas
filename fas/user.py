@@ -152,7 +152,7 @@ class UserSave(validators.Schema):
     )
     ircnick = validators.UnicodeString(max=42)
     status = validators.OneOf([
-        'active', 'inactive'] + disabled_statusese)
+        'active', 'inactive'] + disabled_statuses)
     ssh_key = ValidSSHKey(max=5000)
     gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
