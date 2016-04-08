@@ -111,7 +111,7 @@ class People(Base):
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
     status = Column(Integer, default=AccountStatus.PENDING.value)
-    status_change = Column(DateTime, default=datetime.datetime.utcnow)
+    status_timestamp = Column(DateTime, default=datetime.datetime.utcnow)
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)
     blog_rss = Column(UnicodeText(), nullable=True)
@@ -120,12 +120,12 @@ class People(Base):
     fas_token = Column(UnicodeText(), nullable=True)
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
-    last_logged = Column(DateTime, default=datetime.datetime.utcnow)
-    date_created = Column(
+    login_timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
     )
-    date_updated = Column(
+    update_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp(),
         onupdate=func.current_timestamp()
@@ -161,7 +161,7 @@ class People(Base):
 
     def get_created_date(self, request):
         """ Returns activity date in a translated human readable format. """
-        return format_datetime(request.locale_name, self.date_created)
+        return format_datetime(request.locale_name, self.creation_timestamp)
 
     def to_json(self, permissions):
         """ Returns a json/dict representation of this user.
@@ -181,7 +181,7 @@ class People(Base):
                 'ircnick': self.ircnick,
                 'avatar': self.avatar,
                 'email': self.email,
-                'creation_date': utc_iso_format(self.date_created),
+                'creation_date': utc_iso_format(self.creation_timestamp),
                 'status': self.status,
                 'timezone': self.timezone,
                 'gpg_fingerprint': self.gpg_fingerprint,
@@ -223,7 +223,7 @@ class People(Base):
                 info['ssh_key'] = self.ssh_key
                 info['latitude'] = int(self.latitude or 0.0)
                 info['longitude'] = int(self.longitude or 0.0)
-                info['last_logged'] = utc_iso_format(self.last_logged)
+                info['last_logged'] = utc_iso_format(self.login_timestamp)
 
                 info['connected_applications'] = {
                     # 'fas': self.fas_token,

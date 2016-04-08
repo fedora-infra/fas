@@ -54,7 +54,7 @@ class AccountPermissions(Base):
     granted_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp())
-    last_used = Column(DateTime, nullable=True)
+    last_used_timestamp = Column(DateTime, nullable=True)
 
     account = relationship('People', uselist=False)
 
@@ -81,7 +81,7 @@ class AccountPermissions(Base):
         """ Return token last used date in a translated
          human readable format.
         """
-        return format_datetime(request.locale_name, self.last_used)
+        return format_datetime(request.locale_name, self.last_used_timestamp)
 
     def get_perm_as_string(self):
         """ Return permission level as string format. """
@@ -101,7 +101,7 @@ class TrustedPermissions(Base):
         DateTime, nullable=False,
         default=func.current_timestamp()
     )
-    last_used = Column(DateTime, nullable=True)
+    last_used_timestamp = Column(DateTime, nullable=True)
 
     def to_json(self):
         """
@@ -114,5 +114,5 @@ class TrustedPermissions(Base):
             'application': self.application,
             'permission': self.permissions,
             'granted_on': utc_iso_format(self.granted_timestamp),
-            'last_used': utc_iso_format(self.last_used)
+            'last_used': utc_iso_format(self.last_used_timestamp)
         }

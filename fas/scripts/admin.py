@@ -111,7 +111,7 @@ def add_user(id, login, passwd, fullname,
     user.latitude = latitude
     user.longitude = longitude
     user.status = status or AccountStatus.ACTIVE.value
-    user.date_created = joined
+    user.creation_timestamp = joined
 
     DBSession.add(user)
 

@@ -128,11 +128,11 @@ class Groups(Base):
         nullable=True
     )
     certificate = Column(Integer, ForeignKey('certificates.id'), nullable=True)
-    created = Column(
+    creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
     )
-    updated = Column(
+    updated_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp(),
         onupdate=func.current_timestamp()
@@ -200,7 +200,7 @@ class Groups(Base):
                 'apply_rules': self.apply_rules,
                 'private': self.private,
                 'status': self.status,
-                'creationDate': utc_iso_format(self.created),
+                'creationDate': utc_iso_format(self.creation_timestamp),
             }
 
         if self.group_types:
