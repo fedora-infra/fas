@@ -54,42 +54,10 @@ def __get_listoffset(page, limit):
     return offset
 
 
-# Method to get AccountStatus
-
-# Disable retrieval of account's status from database as we disabled
-# dynamic account's status.
-
-# def get_accountstatus():
-# """ Retrieve all the status an account can have. """
-# query = session.query(AccountStatus)
-# return query.all()
-
-# Same as above.
-# def get_accountstatus_by_status(status):
-# """ Retrieve the status an account can have for the specified status.
-# """
-# query = session.query(
-# AccountStatus
-# ).filter(
-# sa.func.lower(AccountStatus.status) == sa.func.lower(status)
-# )
-# return query.first()
-
-
-# Method to get RoleLevel
-
-# Disabled function. see above for details
-# .
-# def get_role_levels():
-# """ Retrieve all the roles someone can have in a group. """
-# query = session.query(RoleLevel)
-# return query.all()
-
-
 # Method to interact with Groups
 def get_groups(limit=None, page=None, pattern=None, count=False, status=None,
                offset=None):
-    """ Retrieve all registered groups from databse. """
+    """ Retrieves all registered groups from database. """
     if page is not None and (page <= 0):
         page = 1
 
@@ -318,7 +286,7 @@ def get_group_types():
 
 
 def get_grouptype_by_id(id):
-    """ Retrive GroupType by its id.
+    """ Retrieves Group Type by its id.
 
      :param id: group type id to look up
      :type id: int
@@ -333,7 +301,7 @@ def get_grouptype_by_id(id):
 def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
                offset=0):
     """
-    Retrieve registered people based on given criteria.
+    Retrieves registered people based on given criteria.
 
     :param limit: limit number to return
     :type limit: int
@@ -383,7 +351,6 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     if (limit and page) or (limit and offset >= 0):
         if page:
             offset = __get_listoffset(page, limit)
-            print '****** %s' % offset
 
         query = query.limit(
             limit
@@ -407,7 +374,7 @@ def get_people_username(filter_out=None):
 
 
 def get_people_email(filter_username=None):
-    """ Retrieve and return registered emails. """
+    """ Retrieves and returns registered emails. """
     if filter_username:
         query = session.query(
             People.email
@@ -421,7 +388,7 @@ def get_people_email(filter_username=None):
 
 
 def get_people_ircnick(filter_out=None):
-    """ Retrieve and return people\'s IRC nicknames."""
+    """ Retrieves and returns people\'s IRC nicknames."""
     query = session.query(People.ircnick)
 
     if filter_out:
@@ -435,7 +402,7 @@ def get_people_ircnick(filter_out=None):
 
 
 def get_people_bugzilla_email(filter_username=None):
-    """ Retrieve and return registered bugzilla email. """
+    """ Retrieves and returns registered bugzilla email. """
     if filter_username:
         query = session.query(
             People.bugzilla_email
@@ -449,7 +416,7 @@ def get_people_bugzilla_email(filter_username=None):
 
 
 def get_people_by_id(id):
-    """ Retrieve People by its id.
+    """ Retrieves People by its id.
 
      :param id: ID to look up
      :type id: int
@@ -472,7 +439,7 @@ def get_people_by_username(username):
 
 
 def get_people_by_password_token(username, token):
-    """ Retrieve People by its password token. """
+    """ Retrieves People by its password token. """
     query = session.query(People).filter(People.username == username,
                                          People.password_token == token)
 
@@ -480,18 +447,18 @@ def get_people_by_password_token(username, token):
 
 
 def get_authenticated_user(request):
-    """ Retrieve authenticated person object."""
+    """ Retrieves authenticated person object."""
     return get_people_by_username(unauthenticated_userid(request))
 
 
 def get_people_by_email(email):
-    """ Retrieve People by its email. """
+    """ Retrieves People by its email. """
     query = session.query(People).filter(People.email == email)
     return query.first()
 
 
 def get_people_by_ircnick(ircnick):
-    """ Retrieve by its ircnick. """
+    """ Retrieves by its ircnick. """
     query = session.query(People).filter(People.ircnick == ircnick)
     return query.first()
 
@@ -508,13 +475,13 @@ def get_account_activities_by_people_id(id):
 
 
 def get_licenses():
-    """ Retrieve all licenses from database. """
+    """ Retrieves all licenses from database. """
     query = session.query(LicenseAgreement)
     return query.all()
 
 
 def get_license_by_id(id):
-    """ Retrieve license based on given id
+    """ Retrieves license based on given id
 
     :param id: license Id to look up
     :type id: int
@@ -529,7 +496,7 @@ def get_license_by_id(id):
 
 
 def is_license_signed(id, people_id):
-    """ check if people has signed given license.
+    """ Checks if person has signed given license.
 
     :id: license id
     :people_id: people id
@@ -549,7 +516,7 @@ def is_license_signed(id, people_id):
 
 
 def get_account_permissions_by_people_id(id):
-    """ Retrieve account permissions based on given people's id. """
+    """ Retrieves account permissions based on given people's id. """
     query = session.query(
         AccountPermissions
     ).filter(
@@ -560,7 +527,7 @@ def get_account_permissions_by_people_id(id):
 
 def get_account_permissions_by_token(token):
     """
-    Retrieve account permission based on given people's token.
+    Retrieves account permission based on given people's token.
 
     :param token: Token to retrieve account permission from.
     :type token: str
@@ -576,25 +543,25 @@ def get_account_permissions_by_token(token):
 
 
 def get_certificates():
-    """ Retrieve certificates."""
+    """ Retrieves certificates."""
     query = session.query(Certificates)
     return query.all()
 
 
 def get_certificate(id):
-    """ Retrieve certificate from given id. """
+    """ Retrieves certificate from given id. """
     return session.query(Certificates).get(id)
 
 
 def get_clients_certificates():
-    """ Retrieve client certificates. """
+    """ Retrieves client certificates. """
     query = session.query(ClientsCertificates)
     return query.all()
 
 
 def get_client_certificate(cacert, person):
     """
-    Retrieve client certificate from given person
+    Retrieves client certificate from given person
     and related group's certificate.
 
     :param cacert: certificate authority ID to retrieve client certificate from.
@@ -616,7 +583,7 @@ def get_client_certificate(cacert, person):
 
 def get_trusted_perms():
     """
-    Retrieve trusted permissions
+    Retrieves trusted permissions
 
     :return: list of trusted permissions if any, None otherwise
     :rtype: fas.models.configs.TrustedPermissions
@@ -626,7 +593,7 @@ def get_trusted_perms():
 
 def get_trusted_perms_by_token(token):
     """
-    Retrieve trusted permission from given token
+    Retrieves trusted permission from given token
 
     :param token: token id to retrieve perm from
     :type token: str
