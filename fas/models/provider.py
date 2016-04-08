@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,15 +16,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from sqlalchemy.sql import or_
 from pyramid.security import unauthenticated_userid
 
-from fas.models import MembershipStatus
 from fas.models import DBSession as session
-from fas.models import AccountStatus
-from fas.models import GroupStatus
 from fas.models.la import (
     LicenseAgreement,
     SignedLicenseAgreement
@@ -33,12 +30,12 @@ from fas.models.configs import AccountPermissions, TrustedPermissions
 from fas.models.group import (
     Groups,
     GroupType,
-    GroupMembership
-)
+    GroupMembership,
+    GroupStatus, MembershipStatus)
 from fas.models.people import (
     People,
-    PeopleAccountActivitiesLog
-)
+    PeopleAccountActivitiesLog,
+    AccountStatus)
 from fas.models.certificates import (
     Certificates,
     ClientsCertificates
@@ -347,7 +344,7 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     :param count: return or not only a count from given criteria
     :type count: bool
     :param status: filter people by status
-    :type status: fas.models.AccountStatus
+    :type status: fas.models.people.AccountStatus
     :rtype: list of fas.models.people.People or int
     """
     if page is not None and (page <= 0):
@@ -356,7 +353,7 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     query = session.query(People).order_by(People.fullname)
 
     if status > -1:
-        query = query.filter(People.status.in_(status.value))
+        query = query.filter(People.status.in_(status.__members__.values()))
     else:
         query = query.filter(
             People.status.in_([

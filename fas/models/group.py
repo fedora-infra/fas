@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,14 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
-from . import (
-    Base,
-    GroupStatus,
-    MembershipStatus,
-    MembershipRole
-)
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from sqlalchemy import (
     Column,
@@ -36,22 +29,41 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     func,
-    UniqueConstraint,
-    false)
-
+    UniqueConstraint)
 from sqlalchemy.orm import (
     relation,
     relationship,
-    backref
-)
-
-from fas.models import AccountPermissionType as perm
-
+    backref)
+from . import Base
+from enum import IntEnum
+from fas.models.people import AccountPermissionType
 from babel.dates import format_date
-
-import datetime
 from fas.util import utc_iso_format
 from fas import log
+import datetime
+
+
+class GroupStatus(IntEnum):
+    INACTIVE = 0
+    ACTIVE = 1
+    PENDING = 3
+    LOCKED = 5
+    DISABLED = 8
+    ARCHIVED = 10
+
+
+class MembershipStatus(IntEnum):
+    UNAPPROVED = 0
+    APPROVED = 1
+    PENDING = 2
+
+
+class MembershipRole(IntEnum):
+    UNKNOWN = 0
+    USER = 1
+    EDITOR = 2
+    SPONSOR = 3
+    ADMINISTRATOR = 4
 
 
 class GroupType(Base):
@@ -168,7 +180,7 @@ class Groups(Base):
     def to_json(self, permissions, human_r=False):
         """ Return a JSON/dict representation of a Group object. """
         info = {}
-        if permissions >= perm.CAN_READ_PUBLIC_INFO:
+        if permissions >= AccountPermissionType.CAN_READ_PUBLIC_INFO:
             info = {
                 'id': self.id,
                 'name': self.name,
@@ -199,7 +211,8 @@ class Groups(Base):
             info['parent_group_id'] = self.parent_group.name if human_r else \
                 self.parent_group.id
 
-        if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO and self.members:
+        if permissions >= AccountPermissionType.CAN_READ_PEOPLE_FULL_INFO and \
+                self.members:
             info['members'] = []
             info['pending_requests'] = []
             for member in self.members:

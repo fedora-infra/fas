@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2015 Xavier Lamien.
+# Copyright © 2015-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,9 +24,7 @@ from wtforms import (
     RadioField,
     validators,
     SelectField)
-
-from fas.models import AccountPermissionType
-
+from fas.models.people import AccountPermissionType
 from fas.util import _
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ __author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
               'Pierre-Yves Chibon <pingou@fedoraproject.org>']
 
 from fas.util import _, Config
-from fas.models import AccountStatus
+from fas.models.people import AccountStatus
 from fas.models import provider
 
 from wtforms import (

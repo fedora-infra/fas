@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,11 +26,8 @@ from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 import mistune
 
-from fas.models import MembershipStatus
-from fas.models import MembershipRole
-from fas.models import AccountLogType
-from fas.models import AccountStatus
-from fas.models import GroupStatus
+from fas.models.people import AccountStatus, AccountLogType
+from fas.models.group import GroupStatus, MembershipStatus, MembershipRole
 from fas.views import redirect_to
 from fas.util import compute_list_pages_from, setup_group_form
 from fas.forms.people import ContactInfosForm, PeopleForm
@@ -191,7 +188,7 @@ class Groups(object):
         for group, membership, member in g_memberships:
             memberships.append(membership)
             if authenticated != member:
-                if membership.get_status() == MembershipStatus.APPROVED \
+                if membership.status == MembershipStatus.APPROVED \
                         and member.status in valid_active_status:
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
@@ -204,7 +201,7 @@ class Groups(object):
             else:
                 authenticated = member
                 authenticated_membership = membership
-                if membership.get_status() == MembershipStatus.APPROVED:
+                if membership.status == MembershipStatus.APPROVED:
                     is_member = True
 
         if authenticated:
@@ -378,14 +375,14 @@ class Groups(object):
                     template=tpl
                 ))
             else:
-                if membership.get_status() == MembershipStatus.APPROVED:
+                if membership.status == MembershipStatus.APPROVED:
                     self.request.session.flash(
                         _("You are already a member of this group"), 'info')
-                elif membership.get_status() == MembershipStatus.PENDING:
+                elif membership.status == MembershipStatus.PENDING:
                     self.request.session.flash(
                         _("Your membership application already is pending"),
                         'info')
-                elif membership.get_status() == MembershipStatus.UNAPPROVED:
+                elif membership.status == MembershipStatus.UNAPPROVED:
                     self.request.session.flash(
                         _("Your membership application has been declined"),
                         'error')
@@ -476,7 +473,7 @@ class Groups(object):
 
             elif action == 'upgrade':
                 role_id = int(role_id)
-                if membership.get_status() == MembershipStatus.PENDING:
+                if membership.status == MembershipStatus.PENDING:
                     topic = 'group.member.approve'
                     membership.status = MembershipStatus.APPROVED
                     membership.approval_timestamp = datetime.datetime.now()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,8 +24,7 @@ from fas.events import LoginRequested
 from fas.events import LoginSucceeded
 from fas.util import _
 from fas.util import Config
-from fas.models import AccountStatus
-from fas.models import AccountLogType
+from fas.models.people import AccountStatus, AccountLogType
 from fas.models import register
 from fas.views import redirect_to
 import logging

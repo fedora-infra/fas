@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,14 +19,12 @@
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 
-import logging
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from fas.forms.account import AccountPermissionForm, TrustedPermissionForm
-from fas.models import AccountPermissionType, GroupStatus, AccountStatus, \
-    LicenseAgreementStatus
-import fas.models.provider as provider
-import fas.models.register as register
+from fas.models.la import LicenseAgreementStatus
+from fas.models.group import GroupStatus
+from fas.models.people import AccountStatus, AccountPermissionType
 from fas.forms.people import ContactInfosForm
 from fas.forms.group import EditGroupTypeForm
 from fas.forms.group import GroupListForm, GroupTypeListForm
@@ -42,6 +40,10 @@ from fas.lib.captcha import Captcha
 from fas.util import Config, setup_group_form
 from fas.lib.certificatemanager import CertificateManager
 from fas.events import NewClientCertificateCreated
+
+import fas.models.provider as provider
+import fas.models.register as register
+import logging
 
 log = logging.getLogger(__name__)
 

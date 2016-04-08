@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,23 +16,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import hashlib
-
 import os
-from flufl.enum import IntEnum
+
+from enum import IntEnum
 from pyramid.security import Allow, Everyone, remember
 from itsdangerous import JSONWebSignatureSerializer, BadSignature, BadData
 
 from fas import log
 from fas.events import LoginSucceeded, LoginFailed, LoginRequested
-from fas.models import MembershipStatus, MembershipRole, AccountStatus, \
-    AccountPermissionType
+from fas.models.group import MembershipStatus, MembershipRole
+from fas.models.people import AccountStatus, AccountPermissionType
 from fas.util import Config, get_reversed_domain_name
 from fas.lib.passwordmanager import PasswordManager
-import fas.models.provider as provider
 from fas.models import register
+import fas.models.provider as provider
+
+
+class LoginStatus(IntEnum):
+    SUCCEED = 0
+    FAILED = 1
+    SUCCEED_NEED_APPROVAL = 2
+    FAILED_INACTIVE_ACCOUNT = 3
+    FAILED_LOCKED_ACCOUNT = 4
+    PENDING_ACCOUNT = 5
 
 
 def get_auth_scopes():
@@ -59,8 +68,7 @@ def get_auth_scopes():
         },
         {
             'name': get_reversed_domain_name() + '.fas.user.edit',
-            'permission': AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO
-                .value,
+            'permission': AccountPermissionType.CAN_READ_AND_EDIT_PEOPLE_INFO.value,
             'description': 'manage your profile information and your membership.',
             # 'auth_required': True
         },
@@ -247,15 +255,6 @@ def groupfinder(userid, request):
             if ms.group is not None]
 
     return None
-
-
-class LoginStatus(IntEnum):
-    SUCCEED = 0x00
-    FAILED = 0x01
-    SUCCEED_NEED_APPROVAL = 0x02
-    FAILED_INACTIVE_ACCOUNT = 0x03
-    FAILED_LOCKED_ACCOUNT = 0x04
-    PENDING_ACCOUNT = 0x05
 
 
 def process_login(request, person, password):
@@ -455,7 +454,7 @@ class TokenValidator(Base):
     def get_perm(self):
         """
         Return token related permissions.
-        :rtype: `fas.models.AccountPermissionType`
+        :rtype: `fas.models.people.AccountPermissionType`
         """
         return int(self.perm)
 

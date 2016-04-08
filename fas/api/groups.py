@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,8 +16,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
-              'Pierre-Yves Chibon <pingou@fedoraproject.org>']
+# __author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
+#              'Pierre-Yves Chibon <pingou@fedoraproject.org>']
 
 from pyramid.view import view_config
 
@@ -29,8 +29,9 @@ from . import (
 import fas.models.provider as provider
 from fas.events import ApiRequest, GroupCreated, GroupEdited, NotificationRequest
 from fas.util import setup_group_form
-from fas.models import register, AccountPermissionType, MembershipStatus, \
-    MembershipRole
+from fas.models import register
+from fas.models.group import MembershipStatus, MembershipRole
+from fas.models.people import AccountPermissionType
 from fas import log
 
 

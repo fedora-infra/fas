@@ -39,12 +39,8 @@ from fas.security import PasswordValidator
 from fas.views import redirect_to
 from fas.util import compute_list_pages_from
 from fas.lib.avatar import gen_libravatar
-from fas.models import (
-    AccountPermissionType as permission,
-    AccountStatus,
-    AccountLogType,
-    MembershipStatus,
-    AccountPermissionType)
+from fas.models.group import MembershipStatus
+from fas.models.people import AccountStatus, AccountPermissionType, AccountLogType
 from fas.events import PasswordChangeRequested, PeopleInfosUpdated, \
     NotificationRequest
 
@@ -522,5 +518,5 @@ class People(object):
         return dict(
             permissions=perms,
             person=self.person,
-            access=permission,
+            # access=permission,
             pform=form)

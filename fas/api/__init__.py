@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,12 +16,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-from flufl.enum import IntEnum
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
+from enum import IntEnum
 from pyramid.view import view_config
-
 from fas.util import compute_list_pages_from, utc_iso_format
 
 import datetime
@@ -31,8 +29,8 @@ VERSION = '0.1'
 
 
 class RequestStatus(IntEnum):
-    SUCCESS = 0x00
-    FAILED = 0x01
+    SUCCESS = 0
+    FAILED = 1
 
 
 class BadRequest(Exception):

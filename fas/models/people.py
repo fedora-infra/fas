@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,14 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-from collections import OrderedDict
-
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
-from . import (
-    Base,
-    AccountStatus
-)
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from sqlalchemy import (
     Column,
@@ -38,18 +31,46 @@ from sqlalchemy import (
     ForeignKey,
     func
 )
-
 from sqlalchemy.orm import (
     relation,
     relationship,
     backref
 )
-
-from fas.models import AccountPermissionType as perm
-
+from . import Base
+from collections import OrderedDict
 from fas.util import format_datetime, utc_iso_format
+from enum import IntEnum
 
 import datetime
+
+
+class AccountStatus(IntEnum):
+    """
+    Describes the status of a registered person.
+    """
+    INACTIVE = 0
+    ACTIVE = 1
+    PENDING = 3
+    ON_VACATION = 4
+    LOCKED = 5
+    LOCKED_BY_ADMIN = 6
+    DISABLED = 8
+
+
+class AccountPermissionType(IntEnum):
+    """
+    Describes the type of permissions a person can request
+    or have over its account.
+    """
+    UNDEFINED = 0
+    CAN_READ_PUBLIC_INFO = 1
+    CAN_READ_PEOPLE_PUBLIC_INFO = 2
+    CAN_READ_PEOPLE_FULL_INFO = 3
+    CAN_READ_AND_EDIT_PEOPLE_INFO = 5
+    CAN_EDIT_GROUP_INFO = 7
+    CAN_EDIT_GROUP_MEMBERSHIP = 8
+    CAN_READ_SETTINGS = 10
+    CAN_READ_AND_EDIT_SETTINGS = 11
 
 
 class People(Base):
@@ -135,27 +156,23 @@ class People(Base):
     )
 
     def get_status(self):
-        """ Retrieve person status definition and return it. """
+        """ Retrieves person's status definition and return it. """
         return AccountStatus[self.status]
 
     def get_created_date(self, request):
-        """ Return activity date in a translated human readable format. """
+        """ Returns activity date in a translated human readable format. """
         return format_datetime(request.locale_name, self.date_created)
 
     def to_json(self, permissions):
-        """ Return a json/dict representation of this user.
-
-        Use the `filter_private` argument to retrieve all the information about
-        the user or just the public information.
-        By default only the public information are returned.
+        """ Returns a json/dict representation of this user.
 
         :param permissions: permission level to return related infos
-        :type permissions: `fas.models.AccountPermissionLevel`
-        :return: json/dict format of user data
+        :type permissions: AccountPermissionType
+        :return: A json/dict format of user's data
         :rtype: dict
         """
         info = OrderedDict()
-        if permissions >= perm.CAN_READ_PUBLIC_INFO:
+        if permissions >= AccountPermissionType.CAN_READ_PUBLIC_INFO:
             # Standard public info
             info = {
                 'id': self.id,
@@ -170,7 +187,7 @@ class People(Base):
                 'gpg_fingerprint': self.gpg_fingerprint,
             }
 
-        if permissions >= perm.CAN_READ_PEOPLE_FULL_INFO:
+        if permissions >= AccountPermissionType.CAN_READ_PEOPLE_FULL_INFO:
             info['countryCode'] = self.country_code
             info['locale'] = self.locale
             info['bugzilla_email'] = self.bugzilla_email or self.email
@@ -271,3 +288,22 @@ class PeopleVirtualAccount(Base):
     parent = Column(Integer, ForeignKey('people.id'), nullable=False)
     type = Column(Integer, default=1)
     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
+
+
+class AccountLogType(IntEnum):
+    LOGGED_IN = 1
+    ACCOUNT_UPDATE = 3
+    REQUESTED_API_KEY = 4
+    UPDATE_PASSWORD = 5
+    ASKED_RESET_PASSWORD = 6
+    RESET_PASSWORD = 7
+    SIGNED_LICENSE = 10
+    REVOKED_GROUP_MEMBERSHIP = 11
+    REVOKED_LICENSE = 12
+    ASKED_GROUP_MEMBERSHIP = 13
+    NEW_GROUP_MEMBERSHIP = 14
+    PROMOTED_GROUP_MEMBERSHIP = 15
+    DOWNGRADED_GROUP_MEMBERSHIP = 16
+    REMOVED_GROUP_MEMBERSHIP = 17
+    REVOKED_GROUP_MEMBERSHIP_BY_ADMIN = 18
+    CHANGED_GROUP_MAIN_ADMIN = 19

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,12 +16,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from fas.models import DBSession as session, MembershipStatus, MembershipRole
+from fas.models import DBSession as session
 from fas.models.people import PeopleAccountActivitiesLog
 from fas.models.configs import AccountPermissions, TrustedPermissions
-from fas.models.group import Groups, GroupType
+from fas.models.group import Groups, GroupType, MembershipStatus
 from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
 from fas.models.certificates import Certificates, ClientsCertificates
@@ -109,7 +109,7 @@ def add_token(
     :param token: The token to store
     :type token: basestring
     :param permission: Level of permission for token
-    :type permission: `fas.models.AccountPermissionType`
+    :type permission: `fas.models.people.AccountPermissionType`
     :param people_id: People id to attach token to
     (required if not trusted token)
     :type people_id: int

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,19 +34,14 @@ from fas.lib.passwordmanager import PasswordManager
 from fas.models import (
     DBSession,
     Base,
-    AccountStatus,
-    GroupStatus,
-    MembershipRole,
-    MembershipStatus,
-    AccountPermissionType as PermissionType
 )
 from fas.models.configs import AccountPermissions
 from fas.models.group import (
     GroupType,
     Groups,
-    GroupMembership
-)
-from fas.models.people import People
+    GroupMembership,
+    GroupStatus, MembershipStatus, MembershipRole)
+from fas.models.people import People, AccountStatus, AccountPermissionType
 from fas.security import generate_token
 
 _ = TranslationStringFactory('fas')
@@ -252,7 +247,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 people_id=people.id,
                 token=generate_token(),
                 application=u'Fedora Mobile v0.9',
-                perms=PermissionType.CAN_READ_PUBLIC_INFO.value
+                perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
             )
             add_membership(
                 group_id=random.choice(group_list),
@@ -376,13 +371,13 @@ def main(argv=sys.argv):
                 people_id=admin.id,
                 token=u'498327sdfdj982374239874j34j',
                 application=u'GNOME',
-                perms=PermissionType.CAN_READ_PUBLIC_INFO.value
+                perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
             )
             add_permission(
                 people_id=user.id,
                 token=u'2342309w8esad09803983i2039e',
                 application=u'IRC Bot - zodbot',
-                perms=PermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value
+                perms=AccountPermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value
             )
 
         if opts.gen_fake_data:

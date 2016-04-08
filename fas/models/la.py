@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014-2015 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,9 +16,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from . import Base, LicenseAgreementStatus
+from enum import IntEnum
+from . import Base
 from fas.util import utc_iso_format
 from sqlalchemy import (
     Column,
@@ -31,6 +32,11 @@ from sqlalchemy import (
     func
     )
 from sqlalchemy.orm import relation
+
+
+class LicenseAgreementStatus(IntEnum):
+    DISABLED = 0
+    ENABLED = 1
 
 
 class LicenseAgreement(Base):
@@ -113,3 +119,4 @@ class SignedLicenseAgreement(Base):
             'name': self.license,
             'signed': self.signed
         }
+

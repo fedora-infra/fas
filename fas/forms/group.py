@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Xavier Lamien.
+# Copyright © 2014-2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from wtforms import (
     Form,
@@ -30,7 +30,7 @@ from wtforms import (
 # from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from fas.util import _
-from fas.models import GroupStatus
+from fas.models.group import GroupStatus
 from fas.models import provider as provider
 
 
