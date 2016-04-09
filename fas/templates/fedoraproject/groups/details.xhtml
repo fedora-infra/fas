@@ -84,8 +84,8 @@
                   %endif
                   <dt>${_(u'Group type')}</dt>
                   <dd>
-                      %if group.group_types:
-                          ${group.group_types.name}
+                      %if group.group_type:
+                          ${group.group_type.name}
                       %else:
                           -
                       %endif
@@ -255,7 +255,7 @@
           <h3>${_(u'Request(s)')}</h3>
           <div class="row">
               %for membership in membership_request:
-                  <div id="${membership.people_id}" class="col-sm-6 col-md-4 col-lg-4">
+                  <div id="${membership.person_id}" class="col-sm-6 col-md-4 col-lg-4">
                       <ul id="people">
                           <span>
                               <a href="${request.route_url('people-profile', id=membership.person.username)}">

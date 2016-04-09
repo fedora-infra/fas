@@ -111,7 +111,7 @@ class Groups(Base):
     irc_channel = Column(UnicodeText, nullable=True)
     irc_network = Column(UnicodeText, nullable=True)
     owner_id = Column(Integer, ForeignKey('people.id'), nullable=False)
-    group_type = Column(Integer, ForeignKey('group_type.id'), nullable=True)
+    group_type_id = Column(Integer, ForeignKey('group_type.id'), nullable=True)
     parent_group_id = Column(Integer, ForeignKey('groups.id'), nullable=True)
     private = Column(Boolean, default=False)
     self_removal = Column(Boolean, default=True)
@@ -148,10 +148,12 @@ class Groups(Base):
     )
     owner = relationship(
         'People',
+        primaryjoin='and_(People.id==Groups.owner_id)',
         uselist=False
     )
-    group_types = relation(
+    group_type = relationship(
         'GroupType',
+        primaryjoin='and_(GroupType.id==Groups.group_type_id)',
         uselist=False
     )
     parent_group = relation(
@@ -203,8 +205,8 @@ class Groups(Base):
                 'creationDate': utc_iso_format(self.creation_timestamp),
             }
 
-        if self.group_types:
-            info['group_type'] = self.group_types.name if human_r else \
+        if self.group_type:
+            info['group_type'] = self.group_type.name if human_r else \
                 self.group_type
 
         if self.parent_group:
@@ -222,7 +224,7 @@ class Groups(Base):
                 else:
                     person = {
                         'membership_id': member.id,
-                        'person_id': member.people_id,
+                        'person_id': member.person_id,
                         'person_name': member.person.username,
                         'role': MembershipRole(member.role).value,
                         'sponsor': member.sponsor,
@@ -248,24 +250,11 @@ class GroupMembership(Base):
     role = Column(Integer, default=MembershipRole.USER.value)
     status = Column(Integer, default=MembershipStatus.UNAPPROVED.value)
     comment = Column(UnicodeText, nullable=True)
-    people_id = Column(Integer, ForeignKey('people.id'), nullable=False)
+    person_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor = Column(Integer, ForeignKey('people.id'), nullable=True)
     creation_timestamp = Column(DateTime, default=datetime.datetime.now)
     approval_timestamp = Column(DateTime, default=datetime.datetime.now)
 
-    # role_level = relation(
-    # 'RoleLevel',
-    # foreign_keys='RoleLevel.id',
-    # primaryjoin='and_(GroupMembership.role==RoleLevel.id)',
-    #     uselist=False
-    # )
-
-    # person = relationship(
-    #     'People',
-    #     foreign_keys='People.id',
-    #     primaryjoin='and_(GroupMembership.people_id==People.id)',
-    #     uselist=False
-    # )
     sponsors = relation(
         'People',
         foreign_keys='People.id',
@@ -274,7 +263,7 @@ class GroupMembership(Base):
 
     __table_args__ = (
         Index('people_roles_idx', role),
-        UniqueConstraint('group_id', 'people_id'),
+        UniqueConstraint('group_id', 'person_id'),
     )
 
     def get_status(self):

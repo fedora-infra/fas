@@ -485,7 +485,7 @@ class People(object):
                         form.desc.data,
                         token,
                         form.perm.data,
-                        people_id=self.id)
+                        person_id=self.id)
                     register.save_account_activity(
                         self.request, self.id,
                         AccountLogType.REQUESTED_API_KEY)

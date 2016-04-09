@@ -42,7 +42,7 @@ def flush():
     session.flush()
 
 
-def save_account_activity(request, people, event, msg=None):
+def save_account_activity(request, person_id, event, msg=None):
     """ Register account activity. """
     remote_ip = request.client_addr
 
@@ -83,7 +83,7 @@ def save_account_activity(request, people, event, msg=None):
     log.debug('Set remote location to: %s' % location)
 
     activity = PeopleAccountActivitiesLog(
-        people=people,
+        person_id=person_id,
         location=location,
         access_from=client,
         remote_ip=remote_ip,
@@ -98,7 +98,7 @@ def add_token(
         description,
         token,
         permission,
-        people_id=None,
+        person_id=None,
         trusted=False,
         secret=None):
     """
@@ -110,9 +110,9 @@ def add_token(
     :type token: basestring
     :param permission: Level of permission for token
     :type permission: `fas.models.people.AccountPermissionType`
-    :param people_id: People id to attach token to
+    :param person_id: People id to attach token to
     (required if not trusted token)
-    :type people_id: int
+    :type person_id: int
     :param trusted: Set given token as trusted
     :type trusted: bool
     :param secret: A secret token to attach to a trusted token
@@ -123,7 +123,7 @@ def add_token(
         perm.secret = secret
     else:
         perm = AccountPermissions()
-        perm.people = people_id
+        perm.people = person_id
 
     perm.token = token
     perm.application = description
@@ -187,7 +187,7 @@ def add_group(form):
     group.members.append(
         GroupMembership(
             group_id=group.id,
-            people_id=group.owner_id,
+            person_id=group.owner_id,
             status=MembershipStatus.APPROVED.value,
             role=MembershipRole.ADMINISTRATOR.value
         )
@@ -200,13 +200,13 @@ def add_group(form):
     return group
 
 
-def add_membership(group_id, people_id, status, role=None, sponsor=None):
+def add_membership(group_id, person_id, status, role=None, sponsor=None):
     """ Add given people to group"""
     membership = GroupMembership()
     membership.group_id = group_id
-    membership.people_id = people_id
+    membership.person_id = person_id
     membership.status = status
-    membership.sponsor = sponsor or people_id
+    membership.sponsor = sponsor or person_id
 
     if role:
         membership.role = role
@@ -291,8 +291,8 @@ def remove_membership(group, person):
     session.query(
         GroupMembership
         ).filter(
-            GroupMembership.group_id == group,
-            GroupMembership.people_id == person
+        GroupMembership.group_id == group,
+        GroupMembership.person_id == person
         ).delete()
 
 

@@ -73,6 +73,25 @@ class AccountPermissionType(IntEnum):
     CAN_READ_AND_EDIT_SETTINGS = 11
 
 
+class AccountLogType(IntEnum):
+    LOGGED_IN = 1
+    ACCOUNT_UPDATE = 3
+    REQUESTED_API_KEY = 4
+    UPDATE_PASSWORD = 5
+    ASKED_RESET_PASSWORD = 6
+    RESET_PASSWORD = 7
+    SIGNED_LICENSE = 10
+    REVOKED_GROUP_MEMBERSHIP = 11
+    REVOKED_LICENSE = 12
+    ASKED_GROUP_MEMBERSHIP = 13
+    NEW_GROUP_MEMBERSHIP = 14
+    PROMOTED_GROUP_MEMBERSHIP = 15
+    DOWNGRADED_GROUP_MEMBERSHIP = 16
+    REMOVED_GROUP_MEMBERSHIP = 17
+    REVOKED_GROUP_MEMBERSHIP_BY_ADMIN = 18
+    CHANGED_GROUP_MAIN_ADMIN = 19
+
+
 class People(Base):
     """ Class mapping SQL table People."""
     __tablename__ = 'people'
@@ -133,7 +152,7 @@ class People(Base):
 
     group_membership = relationship(
         'GroupMembership',
-        foreign_keys='[GroupMembership.people_id]',
+        foreign_keys='[GroupMembership.person_id]',
         backref=backref('person', lazy="joined"),
         cascade_backrefs=True
     )
@@ -247,7 +266,7 @@ class People(Base):
 class PeopleAccountActivitiesLog(Base):
     __tablename__ = 'people_activity_log'
     id = Column(Integer, primary_key=True)
-    people = Column(Integer, ForeignKey('people.id'), nullable=False)
+    person_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     location = Column(UnicodeText(), nullable=False)
     remote_ip = Column(Unicode, nullable=False)
     access_from = Column(UnicodeText(), nullable=False)
@@ -281,29 +300,11 @@ class PeopleAccountActivitiesLog(Base):
         return format_datetime(request.locale_name, self.timestamp)
 
 
-class PeopleVirtualAccount(Base):
-    __tablename__ = 'virtual_people'
-    id = Column(Integer, unique=True, primary_key=True)
-    username = Column(UnicodeText(), unique=True, nullable=False)
-    parent = Column(Integer, ForeignKey('people.id'), nullable=False)
-    type = Column(Integer, default=1)
-    last_logged = Column(DateTime, default=datetime.datetime.utcnow)
+# class PeopleVirtualAccount(Base):
+#     __tablename__ = 'virtual_people'
+#     id = Column(Integer, unique=True, primary_key=True)
+#     username = Column(UnicodeText(), unique=True, nullable=False)
+#     parent = Column(Integer, ForeignKey('people.id'), nullable=False)
+#     type = Column(Integer, default=1)
+#     last_logged = Column(DateTime, default=datetime.datetime.utcnow)
 
-
-class AccountLogType(IntEnum):
-    LOGGED_IN = 1
-    ACCOUNT_UPDATE = 3
-    REQUESTED_API_KEY = 4
-    UPDATE_PASSWORD = 5
-    ASKED_RESET_PASSWORD = 6
-    RESET_PASSWORD = 7
-    SIGNED_LICENSE = 10
-    REVOKED_GROUP_MEMBERSHIP = 11
-    REVOKED_LICENSE = 12
-    ASKED_GROUP_MEMBERSHIP = 13
-    NEW_GROUP_MEMBERSHIP = 14
-    PROMOTED_GROUP_MEMBERSHIP = 15
-    DOWNGRADED_GROUP_MEMBERSHIP = 16
-    REMOVED_GROUP_MEMBERSHIP = 17
-    REVOKED_GROUP_MEMBERSHIP_BY_ADMIN = 18
-    CHANGED_GROUP_MAIN_ADMIN = 19

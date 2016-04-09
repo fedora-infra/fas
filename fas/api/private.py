@@ -106,7 +106,7 @@ class PrivateRequest(object):
                     description=data['name'],
                     permission=auth_scope['permission'],
                     token=data['token'],
-                    people_id=self.request.get_user.id
+                    person_id=self.request.get_user.id
                 )
                 self.data.set_data({'Message': 'Permission granted'})
             else:

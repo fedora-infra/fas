@@ -21,7 +21,6 @@
 import argparse
 import random
 import sys
-
 import transaction
 from pyramid.i18n import TranslationStringFactory
 from pyramid.paster import (
@@ -29,7 +28,6 @@ from pyramid.paster import (
     setup_logging,
 )
 from sqlalchemy import engine_from_config
-
 from fas.lib.passwordmanager import PasswordManager
 from fas.models import (
     DBSession,
@@ -47,35 +45,6 @@ from fas.security import generate_token
 _ = TranslationStringFactory('fas')
 __admin_pw__ = u'admin'
 __domain__ = u'fedoraproject.org'
-
-# def fill_account_status():
-# """ Add standard status into system."""
-# status = AccountStatus(id=1, status=_(u'Active'))
-# DBSession.add(status)
-# status = AccountStatus(id=3, status=_(u'Inactive'))
-# DBSession.add(status)
-# status = AccountStatus(id=5, status=_(u'Blocked'))
-#     DBSession.add(status)
-#     status = AccountStatus(id=6, status=_(u'BlockedByAdmin'))
-#     DBSession.add(status)
-#     status = AccountStatus(id=8, status=_(u'Disabled'))
-#     DBSession.add(status)
-#     status = AccountStatus(id=10, status=_(u'OnVacation'))
-#     DBSession.add(status)
-
-
-# def fill_role_levels():
-#     """ Add standard role level into system."""
-#     role = RoleLevel(id=0, name=_(u'Unknown'))
-#     DBSession.add(role)
-#     role = RoleLevel(id=1, name=_(u'User'))
-#     DBSession.add(role)
-#     role = RoleLevel(id=2, name=_(u'Editor'))
-#     DBSession.add(role)
-#     role = RoleLevel(id=3, name=_(u'Sponsor'))
-#     DBSession.add(role)
-#     role = RoleLevel(id=5, name=_(u'Administrator'))
-#     DBSession.add(role)
 
 
 def add_default_group_type():
@@ -113,24 +82,23 @@ def add_user(id, login, passwd, fullname,
     user.status = status or AccountStatus.ACTIVE.value
     user.creation_timestamp = joined
 
-    DBSession.add(user)
-
     return user
 
 
-def add_group(id, name, owner_id, type):
+def add_group(id, name, display_name=None, owner_id=None, type=None):
     """ Add a new group into system."""
     group = Groups()
     group.id = id
     group.name = name
+    group.display_name = display_name
     group.owner_id = owner_id
     group.group_type = type
 
-    DBSession.add(group)
+    return group
 
 
 def add_membership(
-        group_id, people_id, sponsor=None, joined=None,
+        group_id, person_id, sponsor=None, joined=None,
         role=MembershipRole.USER.value, status=MembershipStatus.UNAPPROVED.value):
     """ Add a registered user into a registered group.
     :param joined:
@@ -139,8 +107,8 @@ def add_membership(
     :type status:
     :param group_id:
     :type group_id:
-    :param people_id:
-    :type people_id:
+    :param person_id:
+    :type person_id:
     :param sponsor:
     :type sponsor:
     :param role:
@@ -148,59 +116,98 @@ def add_membership(
     """
     ms = GroupMembership()
     ms.group_id = group_id
-    ms.people_id = people_id
+    ms.person_id = person_id
     if not sponsor:
-        sponsor = people_id
+        sponsor = person_id
     ms.sponsor = sponsor
     ms.role = role
     ms.status = status
     ms.approval_timestamp = joined
 
-    DBSession.add(ms)
+    return ms
 
 
-def add_permission(people_id, token=None, application=None, perms=None):
+def add_permission(person_id, token=None, application=None, perms=None):
     """ Add permissions to a given user. """
     perm = AccountPermissions()
-    perm.people = people_id
+    perm.people = person_id
     perm.token = token
     perm.application = application
     perm.permissions = perms
 
-    DBSession.add(perm)
+    return perm
 
 
-def create_default_admin(passwd):
+def create_default_values(passwd):
     """ Add a default admin into database. """
+    pv = PasswordManager()
+
+    tracking_group = GroupType(name=u'tracking', comment='Tracking people')
+    shell_group = GroupType(name=u'shell', comment='Shell access')
+
     admin = add_user(
         007,
         u'admin',
         passwd,
-        u'FAS administrator',
+        u'FAS Administrator',
+        status=AccountStatus.ACTIVE.value
+    )
+    fas_user = add_user(
+        999,
+        u'jbezorg',
+        pv.generate_password(u'jbezorg'),
+        u'Jean-Baptiste Emanuel Zorg',
         status=AccountStatus.ACTIVE.value
     )
 
-    return admin
-
-
-def create_default_group(owner):
-    """ Create a default group into database. """
-    add_default_group_type()
-
-    add_group(
-        id=2000,
-        name=u'fas-admin',
-        owner_id=owner.id,
-        type=1
+    admin_group = add_group(id=2000, name=u'fas-admin',
+                            display_name=u'Fedora Admin')
+    admin_group.group_type = tracking_group
+    admin_group.owner = admin
+    admin_group.members.append(
+        add_membership(
+            group_id=admin_group.id,
+            role=MembershipRole.ADMINISTRATOR.value,
+            status=MembershipStatus.APPROVED.value,
+            person_id=admin.id,
+            sponsor=admin.id
+        )
     )
 
-    add_membership(
-        group_id=2000,
-        role=MembershipRole.ADMINISTRATOR.value,
-        status=MembershipStatus.APPROVED.value,
-        people_id=owner.id,
-        sponsor=owner.id
+    fas_group = add_group(id=3000, name=u'fas-user', display_name=u'FAS users')
+    fas_group.group_type = tracking_group
+    fas_group.owner = fas_user
+    fas_group.members.append(
+        add_membership(
+            group_id=3000,
+            role=MembershipRole.USER.value,
+            status=MembershipStatus.APPROVED.value,
+            person_id=fas_user.id,
+            sponsor=fas_user.id
+        )
     )
+
+    admin.account_permissions.append(
+        add_permission(
+            person_id=admin.id,
+            token=u'498327sdfdj982374239874j34j',
+            application=u'GNOME',
+            perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
+        )
+    )
+
+    fas_user.account_permissions.append(
+        add_permission(
+            person_id=fas_user.id,
+            token=u'2342309w8esad09803983i2039e',
+            application=u'IRC Bot - zodbot',
+            perms=AccountPermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value
+        )
+    )
+
+    DBSession.add(shell_group)
+    DBSession.add(admin_group)
+    DBSession.add(fas_group)
 
 
 def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
@@ -243,15 +250,15 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 joined=fake.date_time_between(start_date='-7y', end_date='-1'),
                 status=random.choice([r.value for r in AccountStatus])
             )
-            add_permission(
-                people_id=people.id,
+            perm = add_permission(
+                person_id=people.id,
                 token=generate_token(),
                 application=u'Fedora Mobile v0.9',
                 perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
             )
-            add_membership(
+            ms = add_membership(
                 group_id=random.choice(group_list),
-                people_id=people.id,
+                person_id=people.id,
                 sponsor=007,
                 joined=fake.date_time_between(start_date='-6y', end_date='now'),
                 status=random.choice(
@@ -261,6 +268,10 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                     [r.value for r in MembershipRole]
                 )
             )
+
+            people.account_permissions.append(perm)
+            people.group_membership.append(ms)
+            DBSession.add(people)
 
             user_index += 1
 
@@ -281,7 +292,8 @@ def main(argv=sys.argv):
                         default='/etc/fas/production.ini',
                         metavar='CONFIG_FILE',
                         help=_(
-                            'Specify config file (default "/etc/fas/production.ini")'))
+                            'Specify config file (default '
+                            '"/etc/fas/production.ini")'))
     parser.add_argument('--initdb',
                         dest='initdb',
                         action='store_true',
@@ -302,7 +314,9 @@ def main(argv=sys.argv):
                         dest='gen_fake_data',
                         action='store_true',
                         default=False,
-                        help=_(u'Generate fake data (people & groups) into database.'))
+                        help=_(
+                            u'Generate fake data (people & groups) into '
+                            u'database.'))
     parser.add_argument('-n', '--people-nb',
                         dest='people_nb',
                         type=int,
@@ -331,8 +345,8 @@ def main(argv=sys.argv):
     pv = PasswordManager()
 
     with transaction.manager:
-        #fill_account_status()
-        #fill_role_levels()
+        # fill_account_status()
+        # fill_role_levels()
 
         # Default values for Dev (could be used for a quick test case as well)
         if opts.add_default_value:
@@ -340,45 +354,7 @@ def main(argv=sys.argv):
                 People
             ).filter(People.username == 'admin').delete()
 
-            admin = create_default_admin(pv.generate_password(__admin_pw__))
-
-            user = add_user(
-                999,
-                u'jbezorg',
-                pv.generate_password(u'jbezorg'),
-                u'Jean-Baptiste Emanuel Zorg',
-                status=AccountStatus.ACTIVE.value
-            )
-
-            DBSession.flush()
-
-            create_default_group(owner=admin)
-
-            add_group(
-                id=3000,
-                name=u'fas-user',
-                owner_id=user.id,
-                type=1
-            )
-            add_membership(
-                group_id=3000,
-                role=MembershipRole.USER.value,
-                status=MembershipStatus.APPROVED.value,
-                people_id=user.id,
-                sponsor=admin.id
-            )
-            add_permission(
-                people_id=admin.id,
-                token=u'498327sdfdj982374239874j34j',
-                application=u'GNOME',
-                perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
-            )
-            add_permission(
-                people_id=user.id,
-                token=u'2342309w8esad09803983i2039e',
-                application=u'IRC Bot - zodbot',
-                perms=AccountPermissionType.CAN_READ_PEOPLE_PUBLIC_INFO.value
-            )
+            create_default_values(pv.generate_password(__admin_pw__))
 
         if opts.gen_fake_data:
             people = DBSession.query(People).all()
@@ -387,13 +363,11 @@ def main(argv=sys.argv):
                 DBSession.query(People).delete()
                 DBSession.query(Groups).delete()
 
-                admin = create_default_admin(
+                create_default_values(
                     pv.generate_password(__admin_pw__))
-                create_default_group(owner=admin)
             elif len(people) == 0:
-                admin = create_default_admin(
+                create_default_values(
                     pv.generate_password(__admin_pw__))
-                create_default_group(owner=admin)
             else:
                 admin = DBSession.query(
                     People
@@ -401,45 +375,48 @@ def main(argv=sys.argv):
                     People.username == 'admin'
                 ).first()
 
+            group_type = DBSession.query(GroupType).filter(
+                GroupType.name == 'shell').first()
+
             DBSession.add(
                 Groups(
                     id=300,
                     name=u'avengers',
                     status=GroupStatus.ACTIVE.value,
-                    group_type=1,
-                    owner_id=admin.id)
+                    group_type_id=group_type.id,
+                    owner_id=007)
             )
             DBSession.add(
                 Groups(
                     id=301,
                     name=u'justice_league',
                     status=GroupStatus.ACTIVE.value,
-                    group_type=1,
-                    owner_id=admin.id)
+                    group_type_id=group_type.id,
+                    owner_id=007)
             )
             DBSession.add(
                 Groups(
                     id=302,
                     name=u'fantastic_four',
                     status=GroupStatus.ACTIVE.value,
-                    group_type=2,
-                    owner_id=admin.id)
+                    group_type_id=group_type.id,
+                    owner_id=007)
             )
             DBSession.add(
                 Groups(
                     id=303,
                     name=u'all-star',
                     status=GroupStatus.ACTIVE.value,
-                    group_type=1,
-                    owner_id=admin.id)
+                    group_type_id=group_type.id,
+                    owner_id=007)
             )
             DBSession.add(
                 Groups(
                     id=304,
                     name=u'x-men',
                     status=GroupStatus.ACTIVE.value,
-                    group_type=2,
-                    owner_id=admin.id)
+                    group_type_id=group_type.id,
+                    owner_id=007)
             )
             DBSession.flush()
 

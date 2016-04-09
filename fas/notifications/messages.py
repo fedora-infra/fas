@@ -155,7 +155,7 @@ To review full group's information, please visit %(url)s
                 'fields': lambda **x: {
                     'groupname': x['group'].name,
                     'groupadmin': x['group'].owner.username,
-                    'grouptype': x['group'].group_types.name,
+                    'grouptype': x['group'].group_type.name,
                     'description': x['group'].description,
                     'person': x['person'].username,
                     'url': x['url'],

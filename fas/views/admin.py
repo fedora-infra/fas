@@ -494,12 +494,12 @@ class Admin(object):
 
         if context == 'people':
             people = provider.get_people_by_id(self.id)
-            people.status = AccountStatus.LOCKED_BY_ADMIN
+            people.status = AccountStatus.LOCKED_BY_ADMIN.value
             self.msg = '{0:s} {1:s} has been locked'.format(context,
                                                             people.username)
         elif context == 'group':
             group = provider.get_group_by_id(self.id)
-            group.status = GroupStatus.LOCKED
+            group.status = GroupStatus.LOCKED.value
             self.msg = '{0:s} {1:s} has been locked'.format(context, group.name)
         else:
             return {'status': 'error', 'msg': 'invalid ctx: {0:s}'.format(context)}
@@ -517,12 +517,12 @@ class Admin(object):
 
         if context == 'people':
             people = provider.get_people_by_id(self.id)
-            people.status = AccountStatus.ACTIVE
+            people.status = AccountStatus.ACTIVE.value
             self.msg = '{0:s} {1:s} has been unlocked'.format(context,
                                                               people.username)
         elif context == 'group':
             group = provider.get_group_by_id(self.id)
-            group.status = GroupStatus.ACTIVE
+            group.status = GroupStatus.ACTIVE.value
             self.msg = '{0:s} {1:s} has been unlocked'.format(context, group.name)
         else:
             return {'status': 'error', 'msg': 'invalid ctx: {0:s}'.format(context)}
@@ -543,16 +543,16 @@ class Admin(object):
 
         if context == 'people':
             people = provider.get_people_by_id(self.id)
-            people.status = AccountStatus.DISABLED
+            people.status = AccountStatus.DISABLED.value
             self.msg = 'Account {0:s} has been disabled and archived'.format(
                 people.username)
         elif context == 'group':
             group = provider.get_group_by_id(self.id)
-            group.status = GroupStatus.DISABLED
+            group.status = GroupStatus.DISABLED.value
             self.msg = 'Group {0:s} has been disabled'.format(group.name)
         elif context == 'license':
             license = provider.get_license_by_id(self.id)
-            license.status = LicenseAgreementStatus.DISABLED
+            license.status = LicenseAgreementStatus.DISABLED.value
             self.msg = 'License {0:s} has been disabled'.format(license.name)
         else:
             logging.error(self.msg)

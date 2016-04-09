@@ -19,9 +19,9 @@
                     if not group.requires_sponsorship and (role_to_upgrade == msLevel.module.MembershipRole.SPONSOR):
                         role_to_upgrade += 1
                 %>
-                    <div id="${member.people_id}" class="member-item col-sm-6 col-md-3">
+                    <div id="${member.person_id}" class="member-item col-sm-6 col-md-3">
                         <span>
-                            <a href="${request.route_url('people-profile', id=member.people_id)}">
+                            <a href="${request.route_url('people-profile', id=member.person_id)}">
                                 <img id="loader_img" src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}" style="display: none">
                                 %if member.person.avatar:
                                     <img  id="main_img" src="${member.person.avatar + '?s=80&d=monsterid'}"
@@ -34,7 +34,7 @@
                         </span>
                         <h4 class="name"><strong>${member.person.fullname}</strong></h4>
                         %if display_role:
-                            <p id="role_${member.people_id}">${_(member.get_role().name.lower())}</p>
+                            <p id="role_${member.person_id}">${_(member.get_role().name.lower())}</p>
                         %endif
                         <p>${_(u'Joined group on')} ${member.get_approval_date(request)}</p>
                         %if request.authenticated_userid:

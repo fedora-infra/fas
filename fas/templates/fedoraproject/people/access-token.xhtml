@@ -40,7 +40,7 @@ ${profile.header()}
         <td><strong>${perm.application}</strong></td>
         <td><em>${perm.get_perm_as_string()}</em>
           <cite class="pull-right">
-          %if perm.last_used:
+          %if perm.last_used_timestamp:
             ${_(u'Last used on %s' % perm.get_last_used_date(request))}
           %else:
             ${_(u'Not used')}

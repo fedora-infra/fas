@@ -20,7 +20,6 @@
 
 from sqlalchemy.sql import or_
 from pyramid.security import unauthenticated_userid
-
 from fas.models import DBSession as session
 from fas.models.la import (
     LicenseAgreement,
@@ -64,7 +63,8 @@ def get_groups(limit=None, page=None, pattern=None, count=False, status=None,
     query = session.query(Groups)
 
     if status is not None:
-        query = query.filter(Groups.status.in_(status))
+        query = query.filter(
+            Groups.status.in_([s.value for s in status.__members__.values()]))
     else:
         query = query.filter(
             Groups.status.in_([
@@ -147,7 +147,7 @@ def get_group_membership(id):
         Groups, GroupMembership, People,
     ).filter(
         Groups.id == GroupMembership.group_id,
-        GroupMembership.people_id == People.id,
+        GroupMembership.person_id == People.id,
         Groups.id == id
     )
 
@@ -164,7 +164,7 @@ def get_group_by_people_membership(username):
         Groups
     ).filter(
         GroupMembership.group_id == Groups.id,
-        GroupMembership.people_id == People.id,
+        GroupMembership.person_id == People.id,
         GroupMembership.status == MembershipStatus.APPROVED.value,
         People.username == username,
 
@@ -200,7 +200,7 @@ def get_membership_by_username(username, group):
     ).join(
         Groups, Groups.name == group
     ).filter(
-        GroupMembership.people_id == People.id,
+        GroupMembership.person_id == People.id,
         GroupMembership.group_id == Groups.id
     )
 
@@ -221,7 +221,7 @@ def get_membership_by_person_id(group_id, person_id):
     query = session.query(
         GroupMembership
     ).filter(
-        GroupMembership.people_id == person_id,
+        GroupMembership.person_id == person_id,
         GroupMembership.group_id == group_id
     )
 
@@ -240,7 +240,7 @@ def get_membership_by_role(group, person, role):
         GroupMembership
     ).filter(
         GroupMembership.group_id == group,
-        GroupMembership.people_id == person,
+        GroupMembership.person_id == person,
         GroupMembership.role == role.status
     )
 
@@ -321,7 +321,8 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
     query = session.query(People).order_by(People.fullname)
 
     if status > -1:
-        query = query.filter(People.status.in_(status.__members__.values()))
+        query = query.filter(
+            People.status.in_([s.value for s in status.__members__.values()]))
     else:
         query = query.filter(
             People.status.in_([
@@ -468,7 +469,7 @@ def get_account_activities_by_people_id(id):
     query = session.query(
         PeopleAccountActivitiesLog
     ).filter(
-        PeopleAccountActivitiesLog.people == id
+        PeopleAccountActivitiesLog.person_id == id
     )
 
     return query.all()
@@ -495,17 +496,17 @@ def get_license_by_id(id):
     return query.first()
 
 
-def is_license_signed(id, people_id):
+def is_license_signed(id, person_id):
     """ Checks if person has signed given license.
 
     :id: license id
-    :people_id: people id
-    :return: True is people_id has signed otherwise, false.
+    :person_id: people id
+    :return: True is person has signed otherwise, false.
     """
     query = session.query(
         SignedLicenseAgreement
     ).filter(
-        SignedLicenseAgreement.people == people_id,
+        SignedLicenseAgreement.people == person_id,
         SignedLicenseAgreement.license == id
     )
 

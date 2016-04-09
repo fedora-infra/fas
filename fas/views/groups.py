@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import datetime
 import logging
@@ -160,7 +160,7 @@ class Groups(object):
         people_form = PeopleForm(self.request.POST)
         cert_form = CreateClientCertificateForm(self.request.POST)
 
-        g_memberships = provider.get_group_membership(_id)
+        g_memberships = provider.get_group_membership(int(_id))
 
         group = g_memberships[0][0]
         memberships = []
