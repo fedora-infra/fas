@@ -213,7 +213,7 @@ class People(Base):
             info['blog_rss'] = self.blog_rss
             info['bio'] = self.bio
 
-            if self.licenses:
+            if self.signed_license:
                 info['license_agreement'] = [l.to_json() for l in self.licenses]
 
             info['membership'] = []

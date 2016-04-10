@@ -30,8 +30,8 @@ from sqlalchemy import (
     Boolean,
     ForeignKey,
     func
-    )
-from sqlalchemy.orm import relation
+)
+from sqlalchemy.orm import relation, relationship, backref
 
 
 class LicenseAgreementStatus(IntEnum):
@@ -61,8 +61,8 @@ class LicenseAgreement(Base):
 
     groups = relation(
         'Groups',
-        foreign_keys='Groups.license_sign_up',
-        primaryjoin='and_(LicenseAgreement.id==Groups.license_sign_up)',
+        foreign_keys='Groups.license_id',
+        # primaryjoin='and_(LicenseAgreement.id==Groups.license_id)',
         order_by='Groups.name'
     )
 
@@ -96,16 +96,18 @@ class SignedLicenseAgreement(Base):
     """ Mapper class to SQL table SignedLicenseAgreement. """
     __tablename__ = 'signed_license_agreement'
     id = Column(Integer, primary_key=True)
-    license = Column(
-        Integer,
-        ForeignKey('license_agreement.id')
-        )
-    people = Column(Integer, ForeignKey('people.id'))
-    signed = Column(Boolean, nullable=False)
+    license_id = Column(Integer, ForeignKey('license_agreement.id'))
+    person_id = Column(Integer, ForeignKey('people.id'))
 
-    licenses = relation(
+    license = relationship(
         'LicenseAgreement',
-        order_by='LicenseAgreement.id'
+        order_by='LicenseAgreement.id',
+        uselist=True,
+    )
+
+    person = relationship(
+        "People",
+        backref=backref('signed_license', lazy='joined')
     )
 
     def to_json(self):
@@ -116,7 +118,7 @@ class SignedLicenseAgreement(Base):
         :rtype: dict
         """
         return {
-            'name': self.license,
-            'signed': self.signed
+            'id': self.license_id,
+            'name': self.license.name,
+            'signed': True
         }
-

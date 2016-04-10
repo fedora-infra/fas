@@ -179,7 +179,7 @@ def add_group(form):
     group.join_msg = form.join_msg.data
     group.apply_rules = form.apply_rules.data
     group.bound_to_github = form.bound_to_github.data
-    group.license_sign_up = form.license_sign_up.data
+    group.license_id = form.license_sign_up.data
     group.requires_sponsorship = form.requires_sponsorship.data
     group.requires_ssh = form.requires_ssh.data
 
@@ -251,7 +251,7 @@ def add_signed_license(form):
     la = SignedLicenseAgreement()
     la.license = form.license.data
     la.people = form.people.data
-    la.signed = form.signed.data
+    # la.signed = form.signed.data
 
     session.add(la)
 

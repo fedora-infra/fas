@@ -101,7 +101,7 @@ class EditGroupForm(Form):
         _(u'Attach a certificate to this group'),
         coerce=int,
         choices=[(-1, _(u'-- None --'))])
-    license_sign_up = SelectField(
+    license_id = SelectField(
         _(u'License requirement'),
         [validators.Optional()],
         coerce=int)
@@ -110,7 +110,7 @@ class EditGroupForm(Form):
         super(EditGroupForm, self).__init__(*args, **kwargs)
         # Initialize choices here so we load this every time instead of
         # upon startup
-        self.license_sign_up.choices = [
+        self.license_id.choices = [
             (l.id, l.name)
             for l in provider.get_licenses()
         ]

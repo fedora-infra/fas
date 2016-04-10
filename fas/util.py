@@ -254,7 +254,7 @@ def setup_group_form(request, group=None):
     form.certificate.choices.insert(0, (-1, _(u'-- None --')))
 
     if request.method is not 'POST':
-        form.license_sign_up.choices.insert(0, (-1, _(u'-- None --')))
+        form.license_id.choices.insert(0, (-1, _(u'-- None --')))
 
     return form
 

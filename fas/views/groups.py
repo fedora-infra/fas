@@ -20,12 +20,10 @@
 
 import datetime
 import logging
-
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED
 import mistune
-
 from fas.models.people import AccountStatus, AccountLogType
 from fas.models.group import GroupStatus, MembershipStatus, MembershipRole
 from fas.views import redirect_to
@@ -219,9 +217,9 @@ class Groups(object):
         )
 
         license_signed_up = None
-        if self.request.authenticated_userid:
+        if self.request.authenticated_userid and self.request.get_user.license:
             license_signed_up = provider.is_license_signed(
-                group.license_sign_up, self.request.get_user.id)
+                self.request.get_user.id, group.id)
 
         # Assign some data we expect
         cert_form.cacert.data = group.certificate
@@ -337,9 +335,9 @@ class Groups(object):
         if not membership:
             can_apply = True
 
-        if self.group.license_sign_up > -1:
+        if self.group.license_id > -1:
             if provider.is_license_signed(
-                    self.group.license_sign_up, user.id):
+                    self.group.license_id, user.id):
                 status = MembershipStatus.UNAPPROVED
                 can_apply = False
 

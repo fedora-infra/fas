@@ -122,7 +122,7 @@ class Groups(Base):
     join_msg = Column(UnicodeText, nullable=True)
     apply_rules = Column(UnicodeText, nullable=True)
     bound_to_github = Column(Boolean, default=False)
-    license_sign_up = Column(
+    license_id = Column(
         Integer,
         ForeignKey('license_agreement.id'),
         nullable=True
@@ -164,6 +164,8 @@ class Groups(Base):
     )
     license = relation(
         'LicenseAgreement',
+        foreign_keys='Groups.license_id',
+        backref=backref('group', lazy='joined'),
         uselist=False
     )
 

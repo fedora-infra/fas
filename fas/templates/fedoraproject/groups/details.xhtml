@@ -27,7 +27,7 @@
       ${GroupForm.membershipRemoval(group.id, person.id)}
     %endif
 
-    %if group.license_sign_up > 0:
+    %if group.license_id > 0:
     <%namespace name="licenseAgreement" file="/admin/license-agreement.xhtml"/>
       ${licenseAgreement.form(license=group.license, person=request.get_user)}
     %endif
@@ -144,7 +144,7 @@
   <div class=row>
     <div class="centered text-center col-sm-7 col-md-6">
       <h3>${_(u'Membership')}</h3>
-      %if not (group.need_approval or group.requires_sponsorship) and group.license_sign_up == -1:
+      %if not (group.need_approval or group.requires_sponsorship) and group.license_id <= 0:
         <div class="text-center">
           <p>${_(u'This group has no special requirements to apply to.')}</p>
           %if request.authenticated_userid and not is_member:
@@ -229,7 +229,7 @@
                 %endif
               %endif
             %endif
-            %if group.license_sign_up > -1:
+            %if group.license_id <= 0:
               <dt>${_(u'This group requires a license agreement')}</dt>
                 %if license_signed_up:
                   <dd>Signed up</dd> <!-- TODO: Add a nice glyphicon here -->
