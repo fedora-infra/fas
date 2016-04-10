@@ -31,7 +31,6 @@ requires = [
     'PyGithub',
     'pillow',
     'cryptography',
-    'pyOpenSSL',
     'itsdangerous',
     'fedmsg',
 
