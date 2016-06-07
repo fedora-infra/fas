@@ -600,13 +600,16 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
     #@validate(validators=UserList())
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search=u'a*', fields=None, limit=None):
+    def list(self, search=u'a*', fields=None, limit=None,
+             return_non_active=False):
         '''List users
 
         :kwarg search: Limit the users returned by the search string.  * is a
             wildcard character.
         :kwarg fields: Fields to return in the json request.  Default is
             to return everything.
+        :kwargs return_non_active: Whether to return accounts with status
+            not "active"
 
         This should be fixed up at some point.  Json data needs at least the
         following for fasClient to work::
@@ -667,6 +670,8 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
                     onclause=PersonRolesTable.c.group_id==GroupsTable.c.id)
         stmt = select([joined_roles]).where(People.username.ilike(re_search))\
                 .order_by(People.username).limit(limit)
+        if return_non_active is False:
+            stmt = stmt.where(People.status=='active')
         stmt.use_labels = True
         people = stmt.execute()
 
