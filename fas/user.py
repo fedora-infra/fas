@@ -88,7 +88,7 @@ from fas.auth import (
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
     ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-    ValidHumanWithOverride, MaybeFloat
+    ValidHumanWithOverride, MaybeFloat, EVEmail
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -112,10 +112,12 @@ class UserCreate(validators.Schema):
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
+        EVEmail(not_empty=True, strip=True),
     )
     verify_email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
+        EVEmail(not_empty=True, strip=True),
     )
     security_question = validators.UnicodeString(not_empty=True)
     security_answer = validators.UnicodeString(not_empty=True)
@@ -159,6 +161,7 @@ class UserSave(validators.Schema):
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
        NonFedoraEmail(not_empty=True, strip=True, max=128),
+       EVEmail(not_empty=True, strip=True, max=128),
     )
     locale = ValidLanguage(not_empty=True, strip=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
