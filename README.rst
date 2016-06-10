@@ -15,10 +15,12 @@ Setup virtualenvwrapper
 -----------------------
 ``sudo yum -y install python-virtualenvwrapper``
 
-Add the following to your `~/.zshrc`::
+Add the following to your `~/.zshrc` or `~/.bashrc`::
 
     export WORKON_HOME=$HOME/.virtualenvs
     source /usr/bin/virtualenvwrapper.sh
+
+Once finished run this command `source ~/.zshrc` or `source ~/.bashrc` for which ever shell you use.
 
 Bootstrap the virtualenv
 ------------------------
@@ -38,7 +40,7 @@ Fedora OS
 
 ::
 
-    sudo dnf install -y libffi-devel openssl-devel GeoIP-devel libyaml-devel
+    sudo dnf install -y libffi-devel openssl-devel GeoIP-devel libyaml-devel redhat-rpm-config libjpeg-turbo-devel
 
     sudo dnf install -y aajohan-comfortaa-fonts abattis-cantarell-fonts
     # if you want to use system fonts
@@ -70,4 +72,3 @@ Migrating FAS from release 2.x
 Run the web app
 ---------------
 ``pserve development.ini --reload``
-
