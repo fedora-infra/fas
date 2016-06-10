@@ -671,15 +671,29 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
                 onclause=PersonRolesTable.c.person_id==PeopleTable.c.id)\
                     .outerjoin(GroupsTable,
                     onclause=PersonRolesTable.c.group_id==GroupsTable.c.id)
+
         if str(by_email).lower() in ['1', 'true']:
-            stmt = select([joined_roles]).where(People.email.ilike(re_search))\
-                .order_by(People.username).limit(limit)
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.email.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.email==re_search)\
+                    .order_by(People.username).limit(limit)
         elif str(by_ircnick).lower() in ['1', 'true']:
-            stmt = select([joined_roles]).where(People.ircnick.ilike(re_search))\
-                .order_by(People.username).limit(limit)
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.ircnick.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.ircnick==re_search)\
+                    .order_by(People.username).limit(limit)
         else:
-            stmt = select([joined_roles]).where(People.username.ilike(re_search))\
-                .order_by(People.username).limit(limit)
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.username.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.username==re_search)\
+                    .order_by(People.username).limit(limit)
+
         if status is not None:
             stmt = stmt.where(People.status==status)
         stmt.use_labels = True
