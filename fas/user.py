@@ -600,7 +600,8 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
     #@validate(validators=UserList())
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search=u'a*', fields=None, limit=None, status=None):
+    def list(self, search=u'a*', fields=None, limit=None, status=None,
+            by_email=None):
         '''List users
 
         :kwarg search: Limit the users returned by the search string.  * is a
@@ -608,6 +609,8 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         :kwarg fields: Fields to return in the json request.  Default is
             to return everything.
         :kwargs status: if specified, only returns accounts with this status.
+        :kwargs status: if true or 1, the search is done by email instead of
+            nickname.
 
         This should be fixed up at some point.  Json data needs at least the
         following for fasClient to work::
@@ -666,7 +669,11 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
                 onclause=PersonRolesTable.c.person_id==PeopleTable.c.id)\
                     .outerjoin(GroupsTable,
                     onclause=PersonRolesTable.c.group_id==GroupsTable.c.id)
-        stmt = select([joined_roles]).where(People.username.ilike(re_search))\
+        if str(by_email).lower() in ['1', 'true']:
+            stmt = select([joined_roles]).where(People.email.ilike(re_search))\
+                .order_by(People.username).limit(limit)
+        else:
+            stmt = select([joined_roles]).where(People.username.ilike(re_search))\
                 .order_by(People.username).limit(limit)
         if status is not None:
             stmt = stmt.where(People.status==status)
