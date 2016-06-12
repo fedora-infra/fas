@@ -47,7 +47,7 @@ class Plugins(Base):
 class AccountPermissions(Base):
     __tablename__ = 'account_permissions'
     id = Column(Integer, primary_key=True)
-    people = Column(Integer, ForeignKey('people.id'), nullable=False)
+    person_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     token = Column(UnicodeText(), unique=True, nullable=False)
     application = Column(UnicodeText(), nullable=False)
     permissions = Column(Integer, nullable=False)

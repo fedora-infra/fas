@@ -445,7 +445,7 @@ class Admin(object):
                     'attachment; filename=%s-%s.cert' \
                     % (Config.get('project.name'), str(form.group_name.data))
 
-                client_cert = provider.get_client_certificate(
+                client_cert = provider.get_people_certificate(
                     form.cacert.data, person)
 
                 serial = 1

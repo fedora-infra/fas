@@ -217,12 +217,12 @@ class Groups(object):
         )
 
         license_signed_up = None
-        if self.request.authenticated_userid and self.request.get_user.license:
+        if self.request.authenticated_userid and self.request.get_user.licenses:
             license_signed_up = provider.is_license_signed(
                 self.request.get_user.id, group.id)
 
         # Assign some data we expect
-        cert_form.cacert.data = group.certificate
+        cert_form.cacert.data = group.certificate_id
         cert_form.group_id.data = group.id
         cert_form.group_name.data = group.name
 
@@ -474,7 +474,7 @@ class Groups(object):
                 if membership.status == MembershipStatus.PENDING:
                     topic = 'group.member.approve'
                     membership.status = MembershipStatus.APPROVED
-                    membership.approval_timestamp = datetime.datetime.now()
+                    membership.update_timestamp = datetime.datetime.now()
                     msg = _(u'User %s is now an approved member of %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(

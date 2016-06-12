@@ -162,11 +162,11 @@ class People(Base):
     )
     activities_log = relationship(
         'PeopleAccountActivitiesLog',
-        order_by='PeopleAccountActivitiesLog.timestamp'
+        order_by='PeopleAccountActivitiesLog.event_timestamp'
     )
     account_permissions = relationship(
         'AccountPermissions',
-        primaryjoin='and_(AccountPermissions.people==People.id)',
+        primaryjoin='and_(AccountPermissions.person_id==People.id)',
         order_by='AccountPermissions.id'
     )
 
@@ -224,7 +224,7 @@ class People(Base):
                             'group_id': groups.group_id,
                             'group_name': groups.group.name,
                             'group_type': groups.group.group_type,
-                            'sponsor_id': groups.sponsor,
+                            'sponsor_id': groups.sponsor_id,
                             'role': groups.role,
                             'status': groups.status,
                             'group_status': groups.group.status
@@ -272,7 +272,7 @@ class PeopleAccountActivitiesLog(Base):
     access_from = Column(UnicodeText(), nullable=False)
     event = Column(Integer, nullable=False)
     event_msg = Column(UnicodeText(), nullable=True)
-    timestamp = Column(DateTime, default=datetime.datetime.utcnow())
+    event_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
 
     person = relation('People', uselist=False)
 

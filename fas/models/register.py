@@ -24,7 +24,7 @@ from fas.models.configs import AccountPermissions, TrustedPermissions
 from fas.models.group import Groups, GroupType, MembershipStatus, MembershipRole
 from fas.models.group import GroupMembership
 from fas.models.la import LicenseAgreement, SignedLicenseAgreement
-from fas.models.certificates import Certificates, ClientsCertificates
+from fas.models.certificates import Certificates, PeopleCertificates
 
 from fas.util import _
 from fas.lib.passwordmanager import PasswordManager
@@ -123,7 +123,7 @@ def add_token(
         perm.secret = secret
     else:
         perm = AccountPermissions()
-        perm.people = person_id
+        perm.person_id = person_id
 
     perm.token = token
     perm.application = description
@@ -200,13 +200,26 @@ def add_group(form):
     return group
 
 
-def add_membership(group_id, person_id, status, role=None, sponsor=None):
-    """ Add given people to group"""
+def add_membership(group_id, person_id, status, role=None, sponsor_id=None):
+    """ Adds a registered person to a group.
+
+    :param group_id: the groupd ID to add the person into
+    :type group_id: int
+    :param person_id: The person ID to look up for adding
+    :type person_id: int
+    :param status: The membership status to apply
+    :type status: MembershipStatus
+    :param role: The membership role to apply
+    :type trole: MembershipRole, default value to standard member.
+    :param sponsor_id: The person ID who will apply as sponsor (optional)
+    :type sponsor_id: int
+
+    """
     membership = GroupMembership()
     membership.group_id = group_id
     membership.person_id = person_id
     membership.status = status
-    membership.sponsor = sponsor or person_id
+    membership.sponsor_id = sponsor_id or person_id
 
     if role:
         membership.role = role
@@ -327,9 +340,9 @@ def add_client_certificate(ca, people, cert, serial):
     :cert: client certificate to store.
     :serial: client certificate serial to store.
     """
-    ccert = ClientsCertificates()
+    ccert = PeopleCertificates()
     ccert.ca = ca.id
-    ccert.people = people.id
+    ccert.person_id = people.id
     ccert.serial = serial
     ccert.certificate = cert
 

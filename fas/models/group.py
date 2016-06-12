@@ -127,12 +127,12 @@ class Groups(Base):
         ForeignKey('license_agreement.id'),
         nullable=True
     )
-    certificate = Column(Integer, ForeignKey('certificates.id'), nullable=True)
+    certificate_id = Column(Integer, ForeignKey('certificates.id'), nullable=True)
     creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
     )
-    updated_timestamp = Column(
+    update_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp(),
         onupdate=func.current_timestamp()
@@ -220,7 +220,7 @@ class Groups(Base):
             info['members'] = []
             info['pending_requests'] = []
             for member in self.members:
-                if member.person is None:
+                if member.person_id is None:
                     log.error('Got an empty People object from '
                               'group membership: %s.' % self.name)
                 else:
@@ -229,12 +229,12 @@ class Groups(Base):
                         'person_id': member.person_id,
                         'person_name': member.person.username,
                         'role': MembershipRole(member.role).value,
-                        'sponsor': member.sponsor,
+                        'sponsor': member.sponsor_id,
                         'status': member.status,
                         'person_status': member.person.status,
                         'ircnick': member.person.ircnick,
                         'joined_datetime': utc_iso_format(
-                            member.approval_timestamp)
+                            member.update_timestamp)
                     }
                     if member.status == MembershipStatus.APPROVED:
                         info['members'].append(person)
@@ -253,14 +253,14 @@ class GroupMembership(Base):
     status = Column(Integer, default=MembershipStatus.UNAPPROVED.value)
     comment = Column(UnicodeText, nullable=True)
     person_id = Column(Integer, ForeignKey('people.id'), nullable=False)
-    sponsor = Column(Integer, ForeignKey('people.id'), nullable=True)
+    sponsor_id = Column(Integer, ForeignKey('people.id'), nullable=True)
     creation_timestamp = Column(DateTime, default=datetime.datetime.now)
-    approval_timestamp = Column(DateTime, default=datetime.datetime.now)
+    update_timestamp = Column(DateTime, default=datetime.datetime.now)
 
     sponsors = relation(
         'People',
         foreign_keys='People.id',
-        primaryjoin='and_(GroupMembership.sponsor==People.id)'
+        primaryjoin='and_(GroupMembership.sponsor_id==People.id)'
     )
 
     __table_args__ = (
@@ -281,6 +281,6 @@ class GroupMembership(Base):
 
     def get_approval_date(self, request):
         """ Return approval date in human readable format. """
-        date = self.approval_timestamp.date()
+        date = self.update_timestamp.date()
 
         return format_date(date, locale=request.locale_name)

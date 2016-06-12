@@ -37,7 +37,7 @@ from fas.models.people import (
     AccountStatus)
 from fas.models.certificates import (
     Certificates,
-    ClientsCertificates
+    PeopleCertificates
 )
 
 
@@ -521,7 +521,7 @@ def get_account_permissions_by_people_id(id):
     query = session.query(
         AccountPermissions
     ).filter(
-        AccountPermissions.people == id
+        AccountPermissions.person_id == id
     )
     return query.all()
 
@@ -556,27 +556,27 @@ def get_certificate(id):
 
 def get_clients_certificates():
     """ Retrieves client certificates. """
-    query = session.query(ClientsCertificates)
+    query = session.query(PeopleCertificates)
     return query.all()
 
 
-def get_client_certificate(cacert, person):
+def get_people_certificate(cacert, person):
     """
-    Retrieves client certificate from given person
+    Retrieves and provides client certificate from a given person
     and related group's certificate.
 
     :param cacert: certificate authority ID to retrieve client certificate from.
     :type cacert: `fas.models.certificates.Certificates.id`
     :param person: person to retrieve client certificate from
     :type person: `fas.models.people.People`
-    :return: `fas.models.certificates.ClientsCertificates` object
-    :rtype: ClientsCertificates
+    :return: `fas.models.certificates.PeopleCertificates` object
+    :rtype: PeopleCertificates
     """
     query = session.query(
-        ClientsCertificates
+        PeopleCertificates
     ).filter(
-        ClientsCertificates.ca == cacert,
-        ClientsCertificates.people == person.id
+        PeopleCertificates.ca == cacert,
+        PeopleCertificates.person_id == person.id
     )
 
     return query.first()

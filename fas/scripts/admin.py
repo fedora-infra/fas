@@ -119,10 +119,10 @@ def add_membership(
     ms.person_id = person_id
     if not sponsor:
         sponsor = person_id
-    ms.sponsor = sponsor
+    ms.sponsor_id = sponsor
     ms.role = role
     ms.status = status
-    ms.approval_timestamp = joined
+    ms.update_timestamp = joined
 
     return ms
 
@@ -130,7 +130,7 @@ def add_membership(
 def add_permission(person_id, token=None, application=None, perms=None):
     """ Add permissions to a given user. """
     perm = AccountPermissions()
-    perm.people = person_id
+    perm.person_id = person_id
     perm.token = token
     perm.application = application
     perm.permissions = perms

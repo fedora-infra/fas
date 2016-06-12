@@ -240,7 +240,7 @@ class GroupAPI(object):
 
             if membership.group:
                 if membership.group.requires_sponsorship:
-                    membership.sponsor = requester or -1
+                    membership.sponsor_id = requester or 0
             else:
                 self.data.set_status(RequestStatus.FAILED.value)
                 return self.data.get_metadata()

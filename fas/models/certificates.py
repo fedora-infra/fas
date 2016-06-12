@@ -16,8 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from . import Base
 
@@ -35,6 +34,7 @@ from sqlalchemy import (
 
 from sqlalchemy.orm import relation
 from fas.util import utc_iso_format
+
 
 class Certificates(Base):
 
@@ -72,26 +72,26 @@ class Certificates(Base):
         }
 
 
-class ClientsCertificates(Base):
+class PeopleCertificates(Base):
 
-    __tablename__ = 'clients_certificates'
+    __tablename__ = 'people_certificates'
     id = Column(Integer, primary_key=True)
     ca = Column(Integer, ForeignKey('certificates.id'))
-    people = Column(Integer, ForeignKey('people.id'))
+    person_id = Column(Integer, ForeignKey('people.id'))
     serial = Column(Integer, default=1)
     certificate = Column(UnicodeText, nullable=True)
 
     cacert = relation(
         'Certificates',
         foreign_keys='Certificates.id',
-        primaryjoin='and_(ClientsCertificates.ca==Certificates.id)',
+        primaryjoin='and_(PeopleCertificates.ca==Certificates.id)',
         uselist=False
         )
 
     person = relation(
         'People',
         foreign_keys='People.id',
-        primaryjoin='and_(ClientsCertificates.people==People.id)',
+        primaryjoin='and_(PeopleCertificates.person_id==People.id)',
         uselist=False
         )
 
