@@ -128,7 +128,7 @@ class LicenseRemovalRequested(object):
 
 class ApiRequest(object):
     """ EVent sent on API requests. """
-    def __init__(self, request, data, is_private=False):
+    def __init__(self, request, data, perm=None, is_private=False):
         self.is_private = is_private
         self.request = request
         self.data = data

@@ -49,8 +49,9 @@ def csrf_validity(event):
     request = event.request
     user = getattr(request, 'user', None)
     csrf = request.params.get('csrf_token')
-    if (request.method == 'POST' or (request.method != 'GET' and request.is_xhr)) and (
-                request.get_user) and (
+    if (request.method == 'POST' or (
+            request.method != 'GET' and request.is_xhr)) and (
+            request.get_user) and (
                 csrf != unicode(request.session.get_csrf_token())):
         raise HTTPUnauthorized
 

@@ -19,11 +19,13 @@
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import hashlib
+import json
 import os
+
+from cryptography.fernet import Fernet, InvalidToken
 
 from enum import IntEnum
 from pyramid.security import Allow, Everyone, remember
-from itsdangerous import JSONWebSignatureSerializer, BadSignature, BadData
 
 from fas import log
 from fas.events import LoginSucceeded, LoginFailed, LoginRequested
@@ -626,19 +628,22 @@ class ParamsValidator(Base):
         return int(self.limit)
 
     def get_pagenumber(self):
-        """ Get page index for pagination. """
+        """ Provides page index for pagination. """
         return int(self.pagenumber)
 
 
-class SignedDataValidator(Base):
+class PrivateDataValidator(Base):
     def __init__(self, data=None, secret=None):
         """
+        Initializes PrivateDataValidator object.
 
-        :param data: Signed data to validate
-        :param secret: The secret used to exchange given data
+        :param data: The ciphered data to validate
+        :type data: str
+        :param secret: The secret to look up the ciphered data
+        :type secret: str
         :return: None
         """
-        super(SignedDataValidator, self).__init__()
+        super(PrivateDataValidator, self).__init__()
 
         self.data = data
         self.valid_data = None
@@ -646,58 +651,44 @@ class SignedDataValidator(Base):
         if secret is None:
             secret = Config.get('project.api.data.secret')
 
-        self.signer = JSONWebSignatureSerializer(secret)
+        self.cipher = Fernet(bytes(secret))
 
     def validate(self):
         """
-        Validate signed data
+        Validates ciphered data
 
-        :return: true if data is a valid signed data, false otherwise
+        :return: True if data is a valid data, false otherwise
         :rtype: bool
         """
-        global result
+        result = False
 
-        # self.signer = JSONWebSignatureSerializer(Config.get(
-        # 'project.api.data.secret'))
         try:
-            self.valid_data = self.signer.loads(self.data)
+            self.valid_data = self.cipher.decrypt(bytes(self.data))
+            self.valid_data = json.loads(self.valid_data)
             result = True
-            log.debug('Get a Valid signed data')
-        except BadSignature, e:
-            self.set_msg('Access denied', 'Bad signature')
-            encoded_payload = e.payload
-            result = False
-
-            log.debug('Payload from bad signature: %s' % e.payload)
-
-            if encoded_payload is not None:
-                try:
-                    self.valid_data = self.signer.load_payload(encoded_payload)
-                    result = False
-                except BadData:
-                    self.set_msg('Invalid request', 'Unexpected signed data')
-                    log.debug('Signed data is not valid')
-                    result = False
+        except InvalidToken as e:
+            self.set_msg('Access denied', 'Received unexpected data')
+            log.debug('Invalid ciphered data: {0:s}'.format(e))
 
         return result
 
-    def get_data(self):
+    def get(self):
         """
-        Get validated data after being un-serialized
+        Provides deciphered data after being validated
 
-        :return: valid signed data
+        :return: The data deciphered.
         :rtype: dict
         """
         return self.valid_data
 
     # @classmethod
-    def sign_data(self, data):
+    def encipher_data(self, data):
         """
-        Sign given data for delivery
+        Enciphers given data
 
-        :param data: given data to sign
+        :param data: The data to encipher
         :type data: str
-        :return: A signed serialized data
-        :rtype
+        :return: The data once enciphered.
+        :rtype: str
         """
-        return self.signer.dumps(data)
+        return self.cipher.encrypt(bytes(data))

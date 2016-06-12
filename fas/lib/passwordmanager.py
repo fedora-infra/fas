@@ -16,18 +16,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from cryptacular.bcrypt import BCRYPTPasswordManager
 
 
-class PasswordManager():
+class PasswordManager(object):
 
     def __init__(self):
         self.manager = BCRYPTPasswordManager()
 
     def generate_password(self, password):
-        """ Generate a password and return it."""
+        """ Generates and returns a password."""
         return self.manager.encode(password)
 
     def is_valid_password(self, registered, current):

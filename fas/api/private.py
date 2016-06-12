@@ -25,7 +25,7 @@ from fas.api import MetaData
 from fas.security import ParamsValidator, get_auth_scopes
 from fas.security import process_login
 from fas.security import LoginStatus
-from fas.security import SignedDataValidator
+from fas.security import PrivateDataValidator
 from fas.events import ApiRequest
 from fas.models import provider, register
 
@@ -42,7 +42,7 @@ class PrivateRequest(object):
             self.request, self.data, self.perm, is_private=True)
         )
 
-        self.sdata = None
+        self.pdata = None
         # self.sdata = SignedDataValidator(
         #     self.request.json_body['credentials'],
         #     self.request.token_validator.get_obj().secret
@@ -53,26 +53,26 @@ class PrivateRequest(object):
     )
     def request_login(self):
         auth_response = {}
-        self.sdata = SignedDataValidator(
+        self.pdata = PrivateDataValidator(
             self.request.json_body['credentials'],
             self.request.token_validator.get_obj().secret
         )
 
-        if self.sdata.validate():
-            login = self.sdata.get_data()['login']
-            password = self.sdata.get_data()['password']
+        if self.pdata.validate():
+            login = self.pdata.get()['login']
+            password = self.pdata.get()['password']
 
             person = provider.get_people_by_username(login)
 
             result = process_login(self.request, person, password)
 
-            auth_response['LoginStatus'] = result.value
+            auth_response['login_status'] = result.value
 
             if result == LoginStatus.SUCCEED:
                 headers = remember(self.request, person.username)
-                auth_response['Scope'] = get_auth_scopes()
-                auth_response['Data'] = self.sdata.sign_data(
-                    {'auth_token': headers[0][1]}
+                auth_response['scope'] = get_auth_scopes()
+                auth_response['data'] = self.pdata.encipher_data(
+                    '{"auth_token": "%s"}' % headers[0][1]
                 )
                 self.data.set_data(auth_response)
             elif result == LoginStatus.FAILED_INACTIVE_ACCOUNT:
@@ -91,15 +91,15 @@ class PrivateRequest(object):
         permission='authenticated'
     )
     def request_permissions(self):
-        self.sdata = SignedDataValidator(
+        self.pdata = PrivateDataValidator(
             self.request.json_body['credentials'],
             self.request.token_validator.get_obj().secret
         )
         scope = self.request.matchdict.get('scope')
         auth_scope = [scp for scp in get_auth_scopes() if scp['name'] == scope]
 
-        if self.sdata.validate():
-            data = self.sdata.get_data()
+        if self.pdata.validate():
+            data = self.pdata.get()
             if 'token' in data and len(auth_scope) > 0:
                 auth_scope = auth_scope[0]
                 register.add_token(
@@ -113,8 +113,8 @@ class PrivateRequest(object):
                 self.data.set_error_msg('Invalid key', 'Unknown scope: %s' % scope)
         else:
             self.data.set_error_msg(
-                self.sdata.get_msg()[0],
-                self.sdata.get_msg()[1]
+                self.pdata.get_msg()[0],
+                self.pdata.get_msg()[1]
             )
 
         return self.data.get_metadata()

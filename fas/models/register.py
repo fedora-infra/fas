@@ -344,6 +344,7 @@ def add_trusted_token():
     """
     return None
 
+
 def remove_trusted_token(id):
     """
     Deletes a trusted token from the system.

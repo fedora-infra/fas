@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import datetime
 
@@ -25,7 +25,7 @@ from pyramid.httpexceptions import HTTPUnauthorized, HTTPBadRequest
 
 from fas import log
 from fas.events import ApiRequest, TokenUsed
-from fas.security import SignedDataValidator
+from fas.security import PrivateDataValidator
 
 
 @subscriber(ApiRequest)
@@ -67,13 +67,13 @@ def on_api_request(event):
 
     # Check private request
     if request.method == 'POST' and event.is_private:
-        log.debug('Parsing request for signed data:\n %s' % request.json_body)
-        sdata = SignedDataValidator(
+        log.debug('Parsing request for private data:\n %s' % request.json_body)
+        pdata = PrivateDataValidator(
             request.json_body['credentials'],
             secret=apikey.get_obj().secret
         )
-        if not sdata.validate():
-            data.set_error_msg(sdata.get_msg[0], sdata.get_msg[1])
+        if not pdata.validate():
+            data.set_error_msg(pdata.get_msg[0], pdata.get_msg[1])
             raise HTTPBadRequest(
                 body=unicode(data.get_metadata()),
                 content_type=ct_type

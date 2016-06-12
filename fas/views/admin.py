@@ -40,6 +40,7 @@ from fas.lib.captcha import Captcha
 from fas.util import Config, setup_group_form
 from fas.lib.certificatemanager import CertificateManager
 from fas.events import NewClientCertificateCreated
+from cryptography.fernet import Fernet
 
 import fas.models.provider as provider
 import fas.models.register as register
@@ -108,7 +109,7 @@ class Admin(object):
             if ('form.generate.key' in self.request.params) \
                     and token_form.validate():
                 token = generate_token()
-                secret = generate_token(128)
+                secret = Fernet.generate_key()
                 register.add_token(
                     description=token_form.desc.data,
                     permission=token_form.perm.data,
