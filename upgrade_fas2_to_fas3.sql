@@ -1,15 +1,16 @@
 -- Drop un-used tables
 
-DROP TABLE session;
-DROP TABLE migration_version;
-DROP TABLE visit;
-DROP TABLE vistit_identity;
-DROP TABLE configs;
-DROP TABLE requests;
-DROP TABLE samadhi_associations;
-DROP TABLE samadhi_nonces;
-DROP TABLE group_roles;
+DROP TABLE IF EXISTS session;
+DROP TABLE IF EXISTS migrate_version;
+DROP TABLE IF EXISTS visit_identity;
+DROP TABLE IF EXISTS visit;
+DROP TABLE IF EXISTS configs;
+DROP TABLE IF EXISTS requests;
+DROP TABLE IF EXISTS samadhi_associations;
+DROP TABLE IF EXISTS samadhi_nonces;
+DROP TABLE IF EXISTS group_roles;
 
+DROP VIEW IF EXISTS user_group;
 
 -- Create new tables, specific for FAS3
 
@@ -188,8 +189,7 @@ CREATE INDEX people_access_log_idx
 
 -- Insert statuses
 
-INSERT INTO group_type (name) VALUES (
-    SELECT DISTINCT group_type FROM groups);
+INSERT INTO group_type (name) SELECT DISTINCT group_type FROM groups;
 
 
 -- Adjust the people table for FAS3
@@ -215,7 +215,6 @@ ALTER TABLE people RENAME COLUMN blog_avatar to avatar;
 ALTER TABLE people RENAME COLUMN gpg_keyid to gpg_fingerprint;
 ALTER TABLE people RENAME COLUMN passwordtoken to password_token;
 ALTER TABLE people RENAME COLUMN emailtoken to email_token;
-ALTER TABLE people RENAME COLUMN last_seen to last_logged;
 ALTER TABLE people RENAME COLUMN creation to creation_timestamp;
 ALTER TABLE people RENAME COLUMN last_seen to login_timestamp;
 ALTER TABLE people RENAME COLUMN status_change to status_timestamp;
@@ -237,12 +236,9 @@ UPDATE people SET status2 = 11 where status = 'spamcheck_manual';
 ALTER TABLE people DROP COLUMN status;
 ALTER TABLE people RENAME COLUMN status2 to status;
 
-ALTER TABLE people ADD CONSTRAINT people_bugzilla_email_key UNIQUE (bugzilla_email),
-ALTER TABLE people ADD CONSTRAINT people_email_key UNIQUE (email),
-ALTER TABLE people ADD CONSTRAINT people_email_token_key UNIQUE (email_token),
-ALTER TABLE people ADD CONSTRAINT people_ircnick_key UNIQUE (ircnick),
-ALTER TABLE people ADD CONSTRAINT people_recovery_email_key UNIQUE (recovery_email),
-ALTER TABLE people ADD CONSTRAINT people_username_key UNIQUE (username)
+ALTER TABLE people ADD CONSTRAINT people_bugzilla_email_key UNIQUE (bugzilla_email);
+--ALTER TABLE people ADD CONSTRAINT people_ircnick_key UNIQUE (ircnick);
+ALTER TABLE people ADD CONSTRAINT people_recovery_email_key UNIQUE (recovery_email);
 
 CREATE INDEX people_username_idx
   ON people
@@ -261,12 +257,16 @@ ALTER TABLE groups ADD require_ssh boolean;
 ALTER TABLE groups ADD bound_to_github boolean;
 ALTER TABLE groups ADD license_id integer;
 ALTER TABLE groups ADD certificate_id integer;
-ALTER TABLE groups ADD update_timestamp timestamp without time zone NOT NULL;
+
+ALTER TABLE groups ADD update_timestamp timestamp without time zone;
+UPDATE groups SET update_timestamp = creation;
+ALTER TABLE groups ALTER COLUMN update_timestamp SET NOT NULL;
 
 ALTER TABLE groups ALTER COLUMN name TYPE varchar(40);
 
 ALTER TABLE groups ADD group_type_id integer;
-UPDATE groups SET group_type_id = group_type.id WHERE group_type.name = groupe_type;
+UPDATE groups SET group_type_id = group_type.id
+    FROM group_type WHERE group_type.name = groups.group_type;
 ALTER TABLE groups DROP COLUMN group_type;
 
 ALTER TABLE groups RENAME COLUMN needs_sponsor to requires_sponsorship;
@@ -278,20 +278,16 @@ ALTER TABLE groups RENAME COLUMN url to web_link;
 
 ALTER TABLE groups ADD CONSTRAINT groups_certificate_id_fkey FOREIGN KEY (certificate_id)
       REFERENCES certificates (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE groups ADD CONSTRAINT groups_group_type_id_fkey FOREIGN KEY (group_type_id)
       REFERENCES group_type (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE groups ADD CONSTRAINT groups_license_id_fkey FOREIGN KEY (license_id)
       REFERENCES license_agreement (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-ALTER TABLE groups ADD CONSTRAINT groups_owner_id_fkey FOREIGN KEY (owner_id)
-      REFERENCES people (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE groups ADD CONSTRAINT groups_parent_group_id_fkey FOREIGN KEY (parent_group_id)
       REFERENCES groups (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-ALTER TABLE groups ADD CONSTRAINT groups_name_key UNIQUE (name)
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
 -- Adjust the person_roles table for FAS3
@@ -301,12 +297,12 @@ ALTER TABLE group_membership ADD COLUMN role integer;
 UPDATE group_membership SET role = 1 where role_type = 'user';
 UPDATE group_membership SET role = 3 where role_type = 'sponsor';
 UPDATE group_membership SET role = 4 where role_type = 'administrator';
-ALTER TABLE people DROP COLUMN role_type;
+ALTER TABLE group_membership DROP COLUMN role_type;
 
 ALTER TABLE group_membership ADD COLUMN status integer;
 UPDATE group_membership SET status = 1 where role_status = 'approved';
 UPDATE group_membership SET status = 0 where role_status = 'unapproved';
-ALTER TABLE people DROP COLUMN role_status;
+ALTER TABLE group_membership DROP COLUMN role_status;
 
 ALTER TABLE group_membership RENAME COLUMN internal_comments to comment;
 ALTER TABLE group_membership RENAME COLUMN creation to creation_timestamp;
