@@ -50,11 +50,15 @@ class AccountStatus(IntEnum):
     """
     INACTIVE = 0
     ACTIVE = 1
+    BOT = 2
     PENDING = 3
     ON_VACATION = 4
     LOCKED = 5
     LOCKED_BY_ADMIN = 6
     DISABLED = 8
+    SPAMCHECK_AWAITING = 9
+    SPAMCHECK_DENIED = 10
+    SPAMCHECK_MANUAL = 11
 
 
 class AccountPermissionType(IntEnum):
