@@ -206,6 +206,10 @@ ALTER TABLE people ADD github_token text;
 ALTER TABLE people ADD fas_token text;
 ALTER TABLE people ADD twitter_token text;
 
+ALTER TABLE people ADD update_timestamp timestamp without time zone;
+UPDATE people SET update_timestamp = creation;
+ALTER TABLE people ALTER COLUMN update_timestamp SET NOT NULL;
+
 ALTER TABLE people DROP COLUMN comments;
 ALTER TABLE people DROP COLUMN internal_comments;
 ALTER TABLE people DROP COLUMN password_changed;
@@ -252,8 +256,8 @@ ALTER TABLE groups ADD description text;
 ALTER TABLE groups ADD status integer;
 ALTER TABLE groups ADD avatar text;
 ALTER TABLE groups ADD private boolean;
-ALTER TABLE groups ADD needs_approval boolean;
-ALTER TABLE groups ADD require_ssh boolean;
+ALTER TABLE groups ADD need_approval boolean;
+ALTER TABLE groups ADD requires_ssh boolean;
 ALTER TABLE groups ADD bound_to_github boolean;
 ALTER TABLE groups ADD license_id integer;
 ALTER TABLE groups ADD certificate_id integer;
@@ -292,6 +296,8 @@ ALTER TABLE groups ADD CONSTRAINT groups_parent_group_id_fkey FOREIGN KEY (paren
 
 -- Adjust the person_roles table for FAS3
 ALTER TABLE person_roles RENAME TO group_membership;
+
+ALTER TABLE group_membership ADD COLUMN id SERIAL NOT NULL;
 
 ALTER TABLE group_membership ADD COLUMN role integer;
 UPDATE group_membership SET role = 1 where role_type = 'user';
