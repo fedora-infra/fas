@@ -274,6 +274,25 @@ class ValidUsername(validators.FancyValidator):
             raise validators.Invalid(self.message('blacklist', state, username=value),
                     value, state)
 
+
+class NonBlockedEmail(validators.FancyValidator):
+    '''Make sure that a username isn't blacklisted'''
+    email_blacklist = config.get('email_domain_blacklist').split(',')
+
+    messages = {'blacklist': _("'%(email)s' is a blacklisted email.")}
+
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip()
+
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        for blocked in self.email_blacklist:
+            if value.endswith(blocked):
+                raise validators.Invalid(self.message('blacklist', state, email=value),
+                    value, state)
+
+
 class ValidLanguage(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''
     messages = {'not_available': _("The language '%(lang)s' is not available.")}
