@@ -36,6 +36,7 @@
 import re
 
 from turbogears import validators, config
+from turbomail.email_validator import EmailValidator
 from sqlalchemy.exc import InvalidRequestError
 from fas.util import available_languages
 
@@ -174,6 +175,22 @@ class NonFedoraEmail(validators.FancyValidator):
         # pylint: disable-msg=C0111
         if value.endswith('@fedoraproject.org'):
             raise validators.Invalid(self.message('no_loop', state), value, state)
+
+class EVEmail(validators.FancyValidator):
+    '''Verify that turbomail accepts this email address'''
+    messages = {'invalid': _('Your email address is invalid')}
+
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip()
+
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        ev = EmailValidator()
+        try:
+            ev.validate_or_raise(value)
+        except:
+            raise validators.Invalid(self.message('invalid', state), value, state)
 
 class MaybeFloat(validators.FancyValidator):
     ''' Make sure the float value is a valid float value (or None) '''
