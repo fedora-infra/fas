@@ -65,7 +65,7 @@ class Groups(object):
         # TODO: still, get limit from config file or let user choose in between
         # TODO: predifined one?
         groups = provider.get_groups(50, page)
-        groups_cnt = provider.get_groups(count=True)
+        groups_cnt = provider.get_groups(count=True) or 1
 
         pages = compute_list_pages_from(groups_cnt, 50)
 
