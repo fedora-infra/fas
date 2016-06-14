@@ -273,6 +273,8 @@ UPDATE groups SET group_type_id = group_type.id
     FROM group_type WHERE group_type.name = groups.group_type;
 ALTER TABLE groups DROP COLUMN group_type;
 
+UPDATE groups SET status = 1;
+
 ALTER TABLE groups RENAME COLUMN needs_sponsor to requires_sponsorship;
 ALTER TABLE groups RENAME COLUMN user_can_remove to self_removal;
 ALTER TABLE groups RENAME COLUMN prerequisite_id to parent_group_id;
