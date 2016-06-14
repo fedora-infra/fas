@@ -88,7 +88,7 @@ from fas.auth import (
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
     ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-    ValidHumanWithOverride, MaybeFloat, EVEmail
+    ValidHumanWithOverride, MaybeFloat, EVEmail, NonBlockedEmail
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -113,6 +113,7 @@ class UserCreate(validators.Schema):
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
         EVEmail(not_empty=True, strip=True),
+        NonBlockedEmail(not_empty=True, strip=True),
     )
     verify_email = validators.All(
         validators.Email(not_empty=True, strip=True),
