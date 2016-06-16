@@ -60,7 +60,7 @@ class Groups(object):
         try:
             page = int(self.request.matchdict.get('pagenb', 1))
         except ValueError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('The page provided is invalid')
 
         # TODO: still, get limit from config file or let user choose in between
         # TODO: predifined one?
@@ -70,7 +70,8 @@ class Groups(object):
         pages = compute_list_pages_from(groups_cnt, 50)
 
         if page > pages:
-            return HTTPBadRequest()
+            return HTTPBadRequest(
+                'The page is bigger than the maximum number of pages')
 
         return dict(
             groups=groups,
@@ -95,7 +96,7 @@ class Groups(object):
         try:
             _id = self.request.matchdict['pattern']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No pattern specified')
         page = int(self.request.matchdict.get('pagenb', 1))
 
         grpname = None
@@ -110,7 +111,8 @@ class Groups(object):
             else:
                 grpname = grpname + '%'
             groups = provider.get_groups(50, page, pattern=grpname)
-            groups_cnt = provider.get_groups(pattern=grpname, count=True)
+            groups_cnt = provider.get_groups(
+                pattern=grpname, count=True)
         else:
             groups = provider.get_group_by_id(_id)
             groups_cnt = 1
@@ -123,7 +125,8 @@ class Groups(object):
         pages = compute_list_pages_from(groups_cnt, 50)
 
         if page > pages:
-            return HTTPBadRequest()
+            return HTTPBadRequest(
+                'The page is bigger than the maximum number of pages')
 
         if grpname and len(groups) == 1 and page == 1:
             self.request.session.flash(
@@ -146,7 +149,7 @@ class Groups(object):
         try:
             _id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         limit = 50
 
@@ -277,7 +280,7 @@ class Groups(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         self.group = provider.get_group_by_id(self.id)
 
@@ -319,7 +322,7 @@ class Groups(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         form = PeopleForm(self.request.POST)
 
