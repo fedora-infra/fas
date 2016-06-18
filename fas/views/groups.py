@@ -217,7 +217,7 @@ class Groups(object):
         )
 
         license_signed_up = None
-        if self.request.authenticated_userid and self.request.get_user.license:
+        if self.request.authenticated_userid and self.request.get_user.licenses:
             license_signed_up = provider.is_license_signed(
                 self.request.get_user.id, group.id)
 
