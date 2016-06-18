@@ -37,7 +37,7 @@ def on_password_change_requested(event):
     """ Check that user is allowed to get through. """
     person = event.person
     curr_dtime = datetime.datetime.utcnow()
-    last_dtime = person.last_logged
+    last_dtime = person.login_timestamp
     delta = (curr_dtime - last_dtime).seconds
 
     log.debug('Checking current time %s against last login\'s time %s' %
