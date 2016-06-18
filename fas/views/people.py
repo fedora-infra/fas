@@ -74,7 +74,7 @@ class People(object):
         try:
             page = int(self.request.matchdict.get('pagenb', 1))
         except ValueError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No page number specified')
 
         # TODO: get limit from config file or let user choose in between
         # predefined one ?
@@ -84,7 +84,8 @@ class People(object):
         pages = compute_list_pages_from(peoples, 50)
 
         if page > pages:
-            return HTTPBadRequest()
+            return HTTPBadRequest(
+                'The page is bigger than the maximum number of pages')
 
         return dict(
             people=people,
@@ -109,7 +110,7 @@ class People(object):
         try:
             _id = self.request.matchdict['pattern']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No pattern specified')
         page = int(self.request.matchdict.get('pagenb', 1))
 
         username = None
@@ -137,7 +138,8 @@ class People(object):
         pages = compute_list_pages_from(peoples, 50)
 
         if page > pages:
-            return HTTPBadRequest()
+            return HTTPBadRequest(
+                'The page is bigger than the maximum number of pages')
 
         if username and len(people) == 1 and page == 1:
             self.request.session.flash(
@@ -159,7 +161,7 @@ class People(object):
         try:
             _id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         username = None
         try:
@@ -243,7 +245,7 @@ class People(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         activities = provider.get_account_activities_by_people_id(self.id)
 
@@ -267,7 +269,7 @@ class People(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         username = None
         try:
@@ -391,7 +393,7 @@ class People(object):
             username = self.request.matchdict['username']
             token = self.request.matchdict['token']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No username or token specified')
 
         self.person = provider.get_people_by_password_token(username, token)
 
@@ -421,7 +423,7 @@ class People(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         self.person = provider.get_people_by_id(self.id)
 
@@ -456,7 +458,7 @@ class People(object):
         try:
             self.id = self.request.matchdict['id']
         except KeyError:
-            return HTTPBadRequest()
+            return HTTPBadRequest('No id specified')
 
         form = AccountPermissionForm(self.request.POST)
 

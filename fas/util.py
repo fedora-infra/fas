@@ -87,9 +87,9 @@ def compute_list_pages_from(count, limit=50):
     :rtype: int
     """
     if limit <= 0:
-        return int(count)
+        return int(count) or 1
 
-    return int(ceil(float(count) / float(limit)))
+    return int(ceil(float(count) / float(limit))) or 1
 
 
 def locale_negotiator(request):
