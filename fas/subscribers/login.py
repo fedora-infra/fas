@@ -98,7 +98,7 @@ def onLoginSucceeded(event):
         person.login_attempt = 0
         register.add_people(person)
 
-    person.last_logged = datetime.datetime.utcnow()
+    person.login_timestamp = datetime.datetime.utcnow()
 
     register.save_account_activity(request, person.id,
                                    AccountLogType.LOGGED_IN.value)
