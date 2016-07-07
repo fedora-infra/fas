@@ -99,7 +99,8 @@ class Register(object):
                     # if peopleform.validate():
                     self.person.avatar = peopleform.avatar.data
                     self.person.introduction = peopleform.introduction.data
-                    self.person.ircnick = peopleform.ircnick.data
+                    self.person.ircnick = peopleform.ircnick.data.strip() \
+                        if peopleform.ircnick.data.strip() else None
                     self.person.postal_address = peopleform.postal_address.data
                     self.person.telephone = peopleform.telephone.data
 
