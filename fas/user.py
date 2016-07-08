@@ -41,6 +41,7 @@ from tgcaptcha2 import CaptchaField
 from tgcaptcha2.validator import CaptchaFieldValidator
 
 from fas.util import send_mail
+from fas.lib import submit_to_spamcheck
 from fas.lib.gpg import encrypt_text
 
 import os
@@ -50,7 +51,6 @@ import StringIO
 import crypt
 import string
 import subprocess
-import requests
 from OpenSSL import crypto
 
 if config.get('use_openssl_rand_bytes', False):
@@ -76,6 +76,7 @@ import fas.fedmsgshim
 import fas
 from fas.model import PeopleTable, PersonRolesTable, GroupsTable
 from fas.model import People, PersonRoles, Groups, Log, CaptchaNonce
+from fas.model import disabled_statuses
 from fas import openssl_fas
 from fas.auth import (
 	is_admin,
@@ -87,7 +88,7 @@ from fas.auth import (
 from fas.util import available_languages
 from fas.validators import KnownUser, PasswordStrength, ValidGPGKeyID, \
     ValidSSHKey, NonFedoraEmail, ValidLanguage, UnknownUser, ValidUsername, \
-    ValidHumanWithOverride, MaybeFloat
+    ValidHumanWithOverride, MaybeFloat, EVEmail, NonBlockedEmail
 from fas import _
 
 #ADMIN_GROUP = config.get('admingroup', 'accounts')
@@ -111,10 +112,13 @@ class UserCreate(validators.Schema):
     email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
+        EVEmail(not_empty=True, strip=True),
+        NonBlockedEmail(not_empty=True, strip=True),
     )
     verify_email = validators.All(
         validators.Email(not_empty=True, strip=True),
         NonFedoraEmail(not_empty=True, strip=True),
+        EVEmail(not_empty=True, strip=True),
     )
     security_question = validators.UnicodeString(not_empty=True)
     security_answer = validators.UnicodeString(not_empty=True)
@@ -151,13 +155,14 @@ class UserSave(validators.Schema):
     )
     ircnick = validators.UnicodeString(max=42)
     status = validators.OneOf([
-        'active', 'inactive', 'expired', 'admin_disabled'])
+        'active', 'inactive'] + disabled_statuses)
     ssh_key = ValidSSHKey(max=5000)
     gpg_keyid = ValidGPGKeyID
     telephone = validators.UnicodeString  # TODO - could use better validation
     email = validators.All(
        validators.Email(not_empty=True, strip=True, max=128),
        NonFedoraEmail(not_empty=True, strip=True, max=128),
+       EVEmail(not_empty=True, strip=True, max=128),
     )
     locale = ValidLanguage(not_empty=True, strip=True)
     #fedoraPersonBugzillaMail = validators.Email(strip=True, max=128)
@@ -345,19 +350,22 @@ class User(controllers.Controller):
         # Account being changed
         target = People.by_username(targetname)
 
+        # Make sure email is lowercase
+        email = email.lower()
+
         emailflash = ''
         changed = [] # record field names that changed for fedmsg
 
         if not can_edit_user(person, target):
             turbogears.flash(_("You do not have permission to edit '%s'") % \
                 target.username)
-            turbogears.redirect('/user/view/%s', target.username)
+            turbogears.redirect('/user/view/%s' % target.username)
             return dict()
 
         try:
             if target.status != status:
-                if (status in ('expired', 'admin_disabled') or target.status \
-                    in ('expired', 'admin_disabled')) and \
+                if (status in disabled_statuses or target.status \
+                    in disabled_statuses) and \
                     not is_admin(person):
                     turbogears.flash(_(
                         'Only admin can enable or disable an account.'))
@@ -521,7 +529,7 @@ If the above information is incorrect, please log in and fix it:
             turbogears.redirect("/user/view/%s" % target.username)
             return dict()
 
-        if is_admin(user) and status in ('expired', 'admin_disabled'):
+        if is_admin(user) and status in disabled_statuses:
             target.old_password = target.password
             target.password = '*'
             for group in target.unapproved_memberships:
@@ -542,7 +550,7 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         fas.fedmsgshim.send_message(topic="user.update", msg={
                 'agent': user,
                 'user': target.username,
-                'fields': 'status',
+                'fields': ['status'],
         })
         turbogears.redirect('/user/view/%s' % target.username)
         return dict()
@@ -599,13 +607,19 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
     #@validate(validators=UserList())
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.list", allow_json=True)
-    def list(self, search=u'a*', fields=None, limit=None):
+    def list(self, search=u'a*', fields=None, limit=None, status=None,
+            by_email=None, by_ircnick=None):
         '''List users
 
         :kwarg search: Limit the users returned by the search string.  * is a
             wildcard character.
         :kwarg fields: Fields to return in the json request.  Default is
             to return everything.
+        :kwargs status: if specified, only returns accounts with this status.
+        :kwargs by_email: if true or 1, the search is done by email instead of
+            nickname.
+        :kwargs by_ircnick: if true or 1, the search is done by ircnick instead
+            of nickname.
 
         This should be fixed up at some point.  Json data needs at least the
         following for fasClient to work::
@@ -664,8 +678,31 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
                 onclause=PersonRolesTable.c.person_id==PeopleTable.c.id)\
                     .outerjoin(GroupsTable,
                     onclause=PersonRolesTable.c.group_id==GroupsTable.c.id)
-        stmt = select([joined_roles]).where(People.username.ilike(re_search))\
-                .order_by(People.username).limit(limit)
+
+        if str(by_email).lower() in ['1', 'true']:
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.email.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.email==re_search)\
+                    .order_by(People.username).limit(limit)
+        elif str(by_ircnick).lower() in ['1', 'true']:
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.ircnick.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.ircnick==re_search)\
+                    .order_by(People.username).limit(limit)
+        else:
+            if ur'%' in re_search:
+                stmt = select([joined_roles]).where(People.username.ilike(
+                    re_search)).order_by(People.username).limit(limit)
+            else:
+                stmt = select([joined_roles]).where(People.username==re_search)\
+                    .order_by(People.username).limit(limit)
+
+        if status is not None:
+            stmt = stmt.where(People.status==status)
         stmt.use_labels = True
         people = stmt.execute()
 
@@ -945,6 +982,9 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
 
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
+        email = email.lower()
+        verify_email = verify_email.lower()
+
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern " +    \
             "for children's privacy, we do not knowingly accept online " +    \
@@ -1042,18 +1082,12 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
         person.old_password = generate_password()['hash']
         session.flush()
         if config.get('antispam.registration.autoaccept', True):
-            self.accept_user()
+            self.accept_user(person)
             return (person, True)
 
         else:  # Not autoaccepted, submit to spamcheck
-            r = requests.post(config.get('antispam.api.url'),
-                auth=(config.get('antispam.api.username'),
-                      config.get('antispam.api.password')),
-                data={'action': 'fedora.fas.registration',
-                      'time': int(time.time()),
-                      'data':{'request_headers': cherrypy.request.headers,
-                              'user': person.filter_private('systems', True)
-                             }})
+            r = submit_to_spamcheck('fedora.fas.registration',
+                                    {'user': person.filter_private('systems', True)})
             try:
                 log.info('Spam response: %s' % r.text)
                 response = r.json()
@@ -1132,6 +1166,32 @@ forward to working with you!
             'agent': person.username,
             'user': person.username,
         })
+
+    @identity.require(identity.not_anonymous())
+    @expose(allow_json=True)
+    def acceptuser(self, people, status):
+        ''' Accept account from antispam service. '''
+        target = People.by_username(people)
+        user = identity.current.user_name
+
+        # Prevent user from using url directly to update
+        # account if requested's status has been set already.
+        if target.status == status:
+            return {'result': 'nochange'}
+
+        (modo, can_update) = is_modo(user)
+        if (modo and can_update) or is_admin(user):
+            try:
+                target.status = status
+                target.status_change = datetime.now(pytz.utc)
+            except TypeError, error:
+                return {'result': 'error', 'error': str(error)}
+        else:
+            return {'result': 'unauthorized'}
+
+        self.accept_user(target)
+
+        return {'result': 'OK'}
 
     @identity.require(identity.not_anonymous())
     @expose(template="fas.templates.user.changequestion")
@@ -1271,7 +1331,7 @@ forward to working with you!
         if email != person.email.lower():
             turbogears.flash(_("username + email combo unknown."))
             return dict()
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \
@@ -1364,7 +1424,7 @@ To change your password (or to cancel the request), please visit
         '''
 
         person = People.by_username(username)
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % {'status': person.status,
@@ -1413,7 +1473,7 @@ To change your password (or to cancel the request), please visit
             turbogears.flash(_("Both passwords must match"))
             return dict()
 
-        if person.status in ('expired', 'admin_disabled'):
+        if person.status in disabled_statuses:
             turbogears.flash(_("Your account currently has status " + \
                 "%(status)s.  For more information, please contact " + \
                 "%(admin_email)s") % \

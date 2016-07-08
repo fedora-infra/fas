@@ -50,6 +50,7 @@ tgcaptcha2.audio = True
 
 # Usernames that are unavailable for fas allocation
 username_blacklist = "abuse,accounts,adm,admin,amanda,apache,askfedora,asterisk,bin,board,bodhi2,canna,chair,chairman,cvsdirsec,cvsdocs,cvseclipse,cvsextras,cvsfont,daemon,dbus,decode,desktop,dgilmore,directors,dovecot,dumper,fama,famsco,fax,fedora,fedorarewards,fesco,freemedia,ftbfs,ftp,ftpadm,ftpadmin,games,gdm,gopher,gregdek,halt,hostmaster,ident,info,ingres,jaboutboul,jan,keys,kojiadmin,ldap,legal,logo,lp,mail,mailnull,manager,marketing,mysql,nagios,named,netdump,news,newsadm,newsadmin,nfsnobody,nobody,noc,nrpe,nscd,ntp,nut,openvideo,operator,packager,pcap,pkgdb,pkgsigner,postfix,postgres,postmaster,press,privoxy,pvm,quagga,radiusd,radvd,relnotes,root,rpc,rpcuser,rpm,sales,scholarship,secalert,security,shutdown,smmsp,squid,sshd,support,sync,system,tickets,toor,updates,usenet,uucp,vcsa,vendors,voting,webalizer,webmaster,wikiadmin,wnn,www,xfs,zabbix"
+email_domain_blacklist = "@example.com,@evil.com"
 
 #Valid SSH Key
 valid_ssh_key = "rsa,ssh-rsa,ecdsa,ecdsa-sha2"

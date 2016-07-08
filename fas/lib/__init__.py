@@ -17,3 +17,36 @@
 #
 # Author(s): Patrick Uiterwijk <puiterwijk@fedoraproject.org>
 #
+
+import cherrypy
+import time
+from turbogears import config
+import requests
+
+
+def recursive_str(dct):
+    """ This function makes sure that dct is json serializable. """
+    if not hasattr(dct, '__iter__'):
+            return str(dct)
+    for key in dct:
+        if isinstance(dct[key], dict):
+            dct[key] = recursive_str(dct[key])
+        elif isinstance(dct[key], list):
+            dct[key] = map(recursive_str, dct[key])
+        elif isinstance(dct[key], unicode):
+            dct[key] = str(dct[key].encode('utf-8'))
+        else:
+            # If it's not a dict or list, just run an str() over it
+            dct[key] = str(dct[key])
+    return dct
+
+def submit_to_spamcheck(action, data):
+    """ This function submits to spamcheck. Caller is responsible for catching errors."""
+    submit_data = recursive_str(data)
+    submit_data['request_headers'] = cherrypy.request.headers
+    return requests.post(config.get('antispam.api.url'),
+        auth=(config.get('antispam.api.username'),
+              config.get('antispam.api.password')),
+        json={'action': action,
+              'time': int(time.time()),
+              'data': submit_data})
