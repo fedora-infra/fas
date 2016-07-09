@@ -350,6 +350,9 @@ class User(controllers.Controller):
         # Account being changed
         target = People.by_username(targetname)
 
+        # Make sure email is lowercase
+        email = email.lower()
+
         emailflash = ''
         changed = [] # record field names that changed for fedmsg
 
@@ -979,6 +982,9 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
 
         # Check that the user claims to be over 13 otherwise it puts us in a
         # legally sticky situation.
+        email = email.lower()
+        verify_email = verify_email.lower()
+
         if not age_check:
             turbogears.flash(_("We're sorry but out of special concern " +    \
             "for children's privacy, we do not knowingly accept online " +    \

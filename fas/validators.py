@@ -169,7 +169,7 @@ class NonFedoraEmail(validators.FancyValidator):
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
-        return value.strip()
+        return value.strip().lower()
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
@@ -182,7 +182,7 @@ class EVEmail(validators.FancyValidator):
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
-        return value.strip()
+        return value.strip().lower()
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
@@ -283,7 +283,7 @@ class NonBlockedEmail(validators.FancyValidator):
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
-        return value.strip()
+        return value.strip().lower()
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
