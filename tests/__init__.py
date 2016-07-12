@@ -116,7 +116,7 @@ def add_users():
 
     status = [AccountStatus.DISABLED,
               AccountStatus.ACTIVE,
-              AccountStatus.ACTIVE]
+              AccountStatus.PENDING]
 
     tokens = ['abcd', '1234', 'xyz']
     group_list = [300, 302, 304]  # avengers, fantastic_four, x-men
