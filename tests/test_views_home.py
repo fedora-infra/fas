@@ -88,6 +88,11 @@ class ViewsHomeFunctionalTests(BaseTest):
         exp_str = 'Login failed, your account has not been validated '
         self.assertTrue(exp_str in res.body)
 
+    def test_logout(self):
+        res = self.testapp.get('/logout', status=302)
+        exp_str = 'The resource was found at http://localhost/logout;'
+        self.assertTrue(exp_str in res.body)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(ViewsHomeFunctionalTests)
