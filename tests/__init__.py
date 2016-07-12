@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 
 import os
+import transaction
 from paste.deploy.loadwsgi import appconfig
 from sqlalchemy import engine_from_config
 
@@ -10,23 +11,37 @@ from fas.lib.avatar import gen_libravatar
 
 here = os.path.dirname(__file__)
 settings = appconfig('config:' + os.path.join(here, '../', 'test.ini'))
-from fas.scripts.admin import add_user, add_membership, add_permission, create_default_values
+from fas.scripts.admin import (add_user, add_membership, add_permission,
+                               create_default_values)
 from fas.models import DBSession, Base
-from fas.models.people import People, AccountStatus, AccountPermissionType
+from fas.models.people import People, AccountStatus, AccountPermissionType, \
+    PeopleAccountActivitiesLog
+from fas.models.configs import AccountPermissions
 from fas.models.group import (
     GroupType,
     Groups,
     GroupMembership,
     GroupStatus, MembershipStatus, MembershipRole)
+from fas.models.certificates import PeopleCertificates, Certificates
 
 engine = engine_from_config(settings, 'sqlalchemy.')
 DBSession.configure(bind=engine)
 Base.metadata.create_all(engine)
 
+from fas.lib.passwordmanager import PasswordManager
+
+pv = PasswordManager()
+
 
 def empty_db():
     DBSession.query(People).delete()
     DBSession.query(Groups).delete()
+    DBSession.query(GroupType).delete()
+    DBSession.query(GroupMembership).delete()
+    DBSession.query(AccountPermissions).delete()
+    DBSession.query(PeopleCertificates).delete()
+    DBSession.query(Certificates).delete()
+    DBSession.query(PeopleAccountActivitiesLog).delete()
 
 
 def create_groups():
@@ -81,7 +96,8 @@ def create_groups():
 def add_users():
     user_index = [0, 1, 2]
     username = ['bob', 'jerry', 'mike']
-    passwd = ['test12', 'test12', 'test12']
+    gen_pass = pv.generate_password('test12')
+    passwd = [gen_pass, gen_pass, gen_pass]
     fullname = username
     email = ['bob@email.com', 'jerbear@test.com', 'm@ike.com']
     postal_address = [u'783 Wiegand Lights Apt. 566\nNorth Marceloview, '
@@ -96,9 +112,12 @@ def add_users():
     longitude = [27, None, Decimal('74.295654')]
     joined = [datetime(2011, 11, 28, 14, 46, 44),
               datetime(2013, 8, 28, 14, 46, 44),
-              datetime(2016, 2, 28, 14, 46, 44)
-              ]
-    status = [8, 1, 1]
+              datetime(2016, 2, 28, 14, 46, 44)]
+
+    status = [AccountStatus.DISABLED,
+              AccountStatus.ACTIVE,
+              AccountStatus.ACTIVE]
+
     tokens = ['abcd', '1234', 'xyz']
     group_list = [300, 302, 304]  # avengers, fantastic_four, x-men
     membership_status = [MembershipStatus.APPROVED,
@@ -109,7 +128,6 @@ def add_users():
                        MembershipRole.EDITOR,
                        MembershipRole.USER]
     for i in range(3):
-
         people = add_user(
             id=user_index[i],
             login=username[i],
@@ -148,6 +166,11 @@ def add_users():
 
 
 class BaseTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with transaction.manager:
+            empty_db()
+
     def setUp(self):
         from fas import main
         app = main(None, **settings)
@@ -156,11 +179,16 @@ class BaseTest(unittest.TestCase):
         self.populate()
 
     def tearDown(self):
-        empty_db()
-        app = None
-        self.testapp = None
+        with transaction.manager:
+            empty_db()
+            app = None
+            self.testapp = None
 
     def populate(self):
-        create_default_values(u'$2a$10$BnkeY5347QHmuu31Y9')
-        create_groups()
-        add_users()
+        admin_pw = u'admin'
+        gen_pass = pv.generate_password(admin_pw)
+        with transaction.manager:
+            # add_default_group_type()
+            create_default_values(gen_pass)
+            create_groups()
+            add_users()
