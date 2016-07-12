@@ -4,13 +4,14 @@ from decimal import Decimal
 
 import os
 from paste.deploy.loadwsgi import appconfig
+from sqlalchemy import engine_from_config
 
 from fas.lib.avatar import gen_libravatar
 
 here = os.path.dirname(__file__)
 settings = appconfig('config:' + os.path.join(here, '../', 'test.ini'))
-from fas.scripts.admin import add_user
-from fas.models import DBSession
+from fas.scripts.admin import add_user, add_membership, add_permission, create_default_values
+from fas.models import DBSession, Base
 from fas.models.people import People, AccountStatus, AccountPermissionType
 from fas.models.group import (
     GroupType,
@@ -18,13 +19,19 @@ from fas.models.group import (
     GroupMembership,
     GroupStatus, MembershipStatus, MembershipRole)
 
+engine = engine_from_config(settings, 'sqlalchemy.')
+DBSession.configure(bind=engine)
+Base.metadata.create_all(engine)
+
+
 def empty_db():
     DBSession.query(People).delete()
     DBSession.query(Groups).delete()
 
+
 def create_groups():
     group_type = DBSession.query(GroupType).filter(
-        GroupType.name == 'shell').first()
+        GroupType.name == u'shell').first()
 
     DBSession.add(
         Groups(
@@ -71,7 +78,7 @@ def create_groups():
     groups = [300, 301, 302, 303, 304]
 
 
-def add_users(group_id):
+def add_users():
     user_index = [0, 1, 2]
     username = ['bob', 'jerry', 'mike']
     passwd = ['test12', 'test12', 'test12']
@@ -81,7 +88,7 @@ def add_users(group_id):
                       u'ND 52464-4628', None, u'487 Brown Greens Apt. '
                                               u'191\nSmithamton, AL 33044-3467']
     introduction = ['hello', 'intro', None]
-    avatar = [gen_libravatar(email[0]), gen_libravatar(email)[1], None]
+    avatar = [gen_libravatar(email[0]), gen_libravatar(email[1]), None]
     bio = [None, 'biography of a simple individual', 'i <3 oss']
     privacy = [1, 0, 1]
     country_code = ['US', 'FR', 'CA']
@@ -92,7 +99,15 @@ def add_users(group_id):
               datetime(2016, 2, 28, 14, 46, 44)
               ]
     status = [8, 1, 1]
+    tokens = ['abcd', '1234', 'xyz']
+    group_list = [300, 302, 304]  # avengers, fantastic_four, x-men
+    membership_status = [MembershipStatus.APPROVED,
+                         MembershipStatus.APPROVED,
+                         MembershipStatus.PENDING]
 
+    membership_role = [MembershipRole.ADMINISTRATOR,
+                       MembershipRole.EDITOR,
+                       MembershipRole.USER]
     for i in range(3):
 
         people = add_user(
@@ -115,32 +130,37 @@ def add_users(group_id):
 
         perm = add_permission(
             person_id=people.id,
-            token=generate_token(),
+            token=tokens[i],
             application=u'Fedora Mobile v0.9',
             perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
         )
         ms = add_membership(
-            group_id=random.choice(group_list),
+            group_id=group_list[i],
             person_id=people.id,
             sponsor=007,
-            joined=fake.date_time_between(start_date='-6y', end_date='now'),
-            status=random.choice(
-                [s.value for s in MembershipStatus]
-            ),
-            role=random.choice(
-                [r.value for r in MembershipRole]
-            )
+            joined=joined[i],
+            status=membership_status[i],
+            role=membership_role[i]
         )
+        people.account_permissions.append(perm)
+        people.group_membership.append(ms)
+        DBSession.add(people)
+
+
 class BaseTest(unittest.TestCase):
     def setUp(self):
         from fas import main
         app = main(None, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
+        self.populate()
+
+    def tearDown(self):
+        empty_db()
+        app = None
+        self.testapp = None
 
     def populate(self):
-        pass
-
-    def test_root(self):
-        res = self.testapp.get('/', status=200)
-        self.assertTrue(b'Pyramid' in res.body)
+        create_default_values(u'$2a$10$BnkeY5347QHmuu31Y9')
+        create_groups()
+        add_users()
