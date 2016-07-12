@@ -54,6 +54,10 @@ Run the test suite
 ------------------
 ``python setup.py test``
 
+::
+    pip install pytest-cov
+    py.test --cov=fas tests/
+
 Initialize the database
 -----------------------
 ``fas-admin -c development.ini --initdb [--default-value]``

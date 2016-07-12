@@ -1,7 +1,7 @@
 import unittest
-import transaction
-from pyramid import testing
-from fas.models import DBSession
+#import transaction
+#from pyramid import testing
+#from fas.models import DBSession
 from tests import BaseTest
 
 '''
