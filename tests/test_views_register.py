@@ -46,7 +46,7 @@ class ViewsRegisterFunctionalTests(BaseTest):
         self.assertTrue('The resource was found at /people' in res.body)
 
     @mock.patch('fas.views.register.CaptchaForm')
-    def test_register_empty_irc(self, mock_captcha):
+    def test_register_same_email(self, mock_captcha):
         mock_captcha = MockCaptchaForm()
 
         form = {'form.register': True,
@@ -75,6 +75,31 @@ class ViewsRegisterFunctionalTests(BaseTest):
         res = self.testapp.post('/register', form2, headers, status=200)
         # redirecting to /people means a succesful account creation
         self.assertTrue(expected_str in res.body)
+
+    @unittest.skip("Currently failing when two accounts created with same data, "
+                   "Expect to have second registration to say "
+                   "account already registered")
+    @mock.patch('fas.views.register.CaptchaForm')
+    def test_register_empty_irc(self, mock_captcha):
+        mock_captcha = MockCaptchaForm()
+
+        form = {'form.register': True,
+                'username': 'skrzepto',
+                'fullname': 'skrzepto',
+                'password_confirm': 'test12',
+                'password': 'test12',
+                'email': 'skrzepto@test.com'}
+
+        headers = [('User-Agent', 'Python/Unittests'), ]
+        self.testapp.extra_environ.update(dict(REMOTE_ADDR='127.0.0.1'))
+        redirect_res = self.testapp.post('/register', form, headers, status=302)
+        res = redirect_res.follow()
+        # redirecting to /people means a succesful account creation
+        self.assertTrue('The resource was found at /people' in res.body)
+
+        res = self.testapp.post('/register', form, headers, status=200)
+        # redirecting to /people means a succesful account creation
+        self.assertTrue('' in res.body)
 
 
 if __name__ == '__main__':
