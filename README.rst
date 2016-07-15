@@ -53,10 +53,22 @@ Fedora OS
 Run the test suite
 ------------------
 ``python setup.py test``
+In root of the project
 
 ::
+
+    workon fas-python2.7
     pip install pytest-cov
     py.test --cov=fas tests/
+
+or with html coverage
+
+::
+
+    workon fas-python2.7
+    py.test --cov=fas tests/ --cov-report html:cov_html
+
+open index.html from the cov_html
 
 Initialize the database
 -----------------------
