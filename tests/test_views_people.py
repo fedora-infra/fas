@@ -11,6 +11,10 @@ class ViewsPeopleFunctionalTests(BaseTest):
         self.assertTrue('<a href="http://localhost/people/profile/jerry">'
                         in res.body)
 
+    def test_people_get_jerry(self):
+        res = self.testapp.get('/people/profile/jerry', status=200)
+        self.assertTrue('<dd>jerry</dd>' in res.body)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
