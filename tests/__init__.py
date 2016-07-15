@@ -23,6 +23,7 @@ from fas.models.group import (
     GroupMembership,
     GroupStatus, MembershipStatus, MembershipRole)
 from fas.models.certificates import PeopleCertificates, Certificates
+from fas.models.la import LicenseAgreement, LicenseAgreementStatus
 
 engine = engine_from_config(settings, 'sqlalchemy.')
 DBSession.configure(bind=engine)
@@ -42,6 +43,8 @@ def empty_db():
     DBSession.query(PeopleCertificates).delete()
     DBSession.query(Certificates).delete()
     DBSession.query(PeopleAccountActivitiesLog).delete()
+    DBSession.query(LicenseAgreement).delete()
+
 
 
 def create_groups():
@@ -95,11 +98,11 @@ def create_groups():
 
 def add_users():
     user_index = [0, 1, 2]
-    username = ['bob', 'jerry', 'mike']
-    gen_pass = pv.generate_password('test12')
+    username = [u'bob', u'jerry', u'mike']
+    gen_pass = pv.generate_password(u'test12')
     passwd = [gen_pass, gen_pass, gen_pass]
     fullname = username
-    email = ['bob@email.com', 'jerbear@test.com', 'm@ike.com']
+    email = [u'bob@email.com', u'jerbear@test.com', u'm@ike.com']
     postal_address = [u'783 Wiegand Lights Apt. 566\nNorth Marceloview, '
                       u'ND 52464-4628', None, u'487 Brown Greens Apt. '
                                               u'191\nSmithamton, AL 33044-3467']
@@ -107,7 +110,7 @@ def add_users():
     avatar = [gen_libravatar(email[0]), gen_libravatar(email[1]), None]
     bio = [None, 'biography of a simple individual', 'i <3 oss']
     privacy = [1, 0, 1]
-    country_code = ['US', 'FR', 'CA']
+    country_code = [u'US', u'FR', u'CA']
     latitude = [43, None, Decimal('85.5335165')]
     longitude = [27, None, Decimal('74.295654')]
     joined = [datetime(2011, 11, 28, 14, 46, 44),
@@ -164,6 +167,12 @@ def add_users():
         people.group_membership.append(ms)
         DBSession.add(people)
 
+def add_license_agreement():
+    la = LicenseAgreement(name='Test License',
+                          status=LicenseAgreementStatus.ENABLED.value,
+                          content='You hear by agree to this license for this test',
+                          enabled_at_signup=True)
+    DBSession.add(la)
 
 class BaseTest(unittest.TestCase):
     @classmethod
