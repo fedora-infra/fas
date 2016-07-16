@@ -37,19 +37,18 @@
 
   <div class="page-title">
     <h1>
+        <span>
         %if group.avatar is None:
-        <span class="fas-icon-users fs-2x"> </span>
+            <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-group-titlebar-100.png')}" />
         %else:
-            <span>
-                    <img src="${request.status_url('fas:static/theme/fedoraproject/%s' % group.avatar)}/>
-            </span>
+            <img src="${request.status_url('fas:static/theme/fedoraproject/%s' % group.avatar)}/>
         %endif
+        </span>
          ${group.display_name or group.name}
     </h1>
     <p>
       %if group.display_name:
         ${group.description or _(u'No description provided')}
-## or group.name}
       %endif
     </p>
     %if group.parent_group_id > -1:

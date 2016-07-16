@@ -32,7 +32,7 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                 %if user.avatar:
                     <img src="${user.avatar + '?s=100&d=monsterid'}"/>
                 %else:
-                    <img src="http://cdn.libravatar.org/avatar/"/>
+                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user-100.png')}"/>
                 %endif
                 </a>
                 <div>

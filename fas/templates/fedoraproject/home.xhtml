@@ -23,10 +23,16 @@
     <div class="row">
         <div class="col-md-9">
             <h2>
-                <a href="${request.route_url('groups')}"><span class="fas-icon-users fs-2x"> </span>${_(u'Fedora groups')}</a>
+                <a href="${request.route_url('groups')}">
+                    <span>
+                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-group-100.png')}">
+                    </span>${_(u'Fedora groups')}
+                </a>
             </h2>
             <h2>
-                <a href="${request.route_url('people')}"><span class="fas-icon-user fs-2x"> </span>${_(u'Fedora people')}</a>
+                <a href="${request.route_url('people')}"><span>
+                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user_topmenu-100.png')}">
+                </span>${_(u'Fedora people')}</a>
             </h2>
         </div>
         <div class="sidebar col-md-3">

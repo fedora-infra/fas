@@ -1,262 +1,262 @@
 {
-  "name": "fas",
-  "css_prefix_text": "fas-icon-",
-  "css_use_suffix": false,
-  "hinting": true,
-  "units_per_em": 1000,
-  "ascent": 850,
   "glyphs": [
     {
-      "uid": "2a6740fc2f9d0edea54205963f662594",
-      "css": "spin3",
+      "src": "fontelico",
       "code": 59424,
-      "src": "fontelico"
+      "css": "spin3",
+      "uid": "2a6740fc2f9d0edea54205963f662594"
     },
     {
-      "uid": "f9c8ea86275ca16128235c6452b67b8e",
-      "css": "user-secret",
+      "src": "fontawesome",
       "code": 59412,
-      "src": "fontawesome"
+      "css": "user-secret",
+      "uid": "f9c8ea86275ca16128235c6452b67b8e"
     },
     {
-      "uid": "dc3f1d5b1d006f7f7b3b6295eccab9da",
-      "css": "camera",
+      "src": "fontawesome",
       "code": 59410,
-      "src": "fontawesome"
+      "css": "camera",
+      "uid": "dc3f1d5b1d006f7f7b3b6295eccab9da"
     },
     {
-      "uid": "12f4ece88e46abd864e40b35e05b11cd",
-      "css": "ok",
+      "src": "fontawesome",
       "code": 59423,
-      "src": "fontawesome"
+      "css": "ok",
+      "uid": "12f4ece88e46abd864e40b35e05b11cd"
     },
     {
-      "uid": "5211af474d3a9848f67f945e2ccaf143",
-      "css": "cancel",
+      "src": "fontawesome",
       "code": 59421,
-      "src": "fontawesome"
+      "css": "cancel",
+      "uid": "5211af474d3a9848f67f945e2ccaf143"
     },
     {
-      "uid": "44e04715aecbca7f266a17d5a7863c68",
-      "css": "plus",
+      "src": "fontawesome",
       "code": 59420,
-      "src": "fontawesome"
+      "css": "plus",
+      "uid": "44e04715aecbca7f266a17d5a7863c68"
     },
     {
-      "uid": "861ab06e455e2de3232ebef67d60d708",
-      "css": "minus",
+      "src": "fontawesome",
       "code": 59422,
-      "src": "fontawesome"
+      "css": "minus",
+      "uid": "861ab06e455e2de3232ebef67d60d708"
     },
     {
-      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
-      "css": "pencil",
+      "src": "fontawesome",
       "code": 59426,
-      "src": "fontawesome"
+      "css": "pencil",
+      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6"
     },
     {
-      "uid": "09feb4465d9bd1364f4e301c9ddbaa92",
-      "css": "retweet",
+      "src": "fontawesome",
       "code": 59415,
-      "src": "fontawesome"
+      "css": "retweet",
+      "uid": "09feb4465d9bd1364f4e301c9ddbaa92"
     },
     {
-      "uid": "cd21cbfb28ad4d903cede582157f65dc",
-      "css": "bell",
+      "src": "fontawesome",
       "code": 59428,
-      "src": "fontawesome"
+      "css": "bell",
+      "uid": "cd21cbfb28ad4d903cede582157f65dc"
     },
     {
-      "uid": "671f29fa10dda08074a4c6a341bb4f39",
-      "css": "bell-alt",
+      "src": "fontawesome",
       "code": 59429,
-      "src": "fontawesome"
+      "css": "bell-alt",
+      "uid": "671f29fa10dda08074a4c6a341bb4f39"
     },
     {
-      "uid": "0d08dbb1dd648a43bdea81b7e6c9e036",
-      "css": "location",
+      "src": "fontawesome",
       "code": 59398,
-      "src": "fontawesome"
+      "css": "location",
+      "uid": "0d08dbb1dd648a43bdea81b7e6c9e036"
     },
     {
-      "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
-      "css": "trash",
+      "src": "fontawesome",
       "code": 59414,
-      "src": "fontawesome"
+      "css": "trash",
+      "uid": "bbfb51903f40597f0b70fd75bc7b5cac"
     },
     {
-      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
-      "css": "trash-empty",
+      "src": "fontawesome",
       "code": 59413,
-      "src": "fontawesome"
+      "css": "trash-empty",
+      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10"
     },
     {
-      "uid": "e80ae555c1413a4ec18b33fb348b4049",
-      "css": "file-archive",
+      "src": "fontawesome",
       "code": 59430,
-      "src": "fontawesome"
+      "css": "file-archive",
+      "uid": "e80ae555c1413a4ec18b33fb348b4049"
     },
     {
-      "uid": "98687378abd1faf8f6af97c254eb6cd6",
-      "css": "cog-alt",
+      "src": "fontawesome",
       "code": 59397,
-      "src": "fontawesome"
+      "css": "cog-alt",
+      "uid": "98687378abd1faf8f6af97c254eb6cd6"
     },
     {
-      "uid": "dea706a9bd3144316ce37406ec10f469",
-      "css": "level-up",
+      "src": "fontawesome",
       "code": 59431,
-      "src": "fontawesome"
+      "css": "level-up",
+      "uid": "dea706a9bd3144316ce37406ec10f469"
     },
     {
-      "uid": "4684e690bad65fb618329dfe52017475",
-      "css": "level-down",
+      "src": "fontawesome",
       "code": 59432,
-      "src": "fontawesome"
+      "css": "level-down",
+      "uid": "4684e690bad65fb618329dfe52017475"
     },
     {
-      "uid": "6020aff067fc3c119cdd75daa5249220",
-      "css": "exchange",
+      "src": "fontawesome",
       "code": 59416,
-      "src": "fontawesome"
+      "css": "exchange",
+      "uid": "6020aff067fc3c119cdd75daa5249220"
     },
     {
-      "uid": "f2aa28a2548ed3d2be718d087b65ee21",
-      "css": "key",
+      "src": "fontawesome",
       "code": 59427,
-      "src": "fontawesome"
+      "css": "key",
+      "uid": "f2aa28a2548ed3d2be718d087b65ee21"
     },
     {
-      "uid": "d61be837c725a299b432dcbee2ecdae6",
-      "css": "certificate",
+      "src": "fontawesome",
       "code": 59417,
-      "src": "fontawesome"
+      "css": "certificate",
+      "uid": "d61be837c725a299b432dcbee2ecdae6"
     },
     {
-      "uid": "4a74a0f87d4089efe7aba1825bff4193",
-      "css": "copyright",
+      "src": "fontawesome",
       "code": 59408,
-      "src": "fontawesome"
+      "css": "copyright",
+      "uid": "4a74a0f87d4089efe7aba1825bff4193"
     },
     {
-      "uid": "0f6a2573a7b6df911ed199bb63717e27",
-      "css": "github-circled",
+      "src": "fontawesome",
       "code": 59394,
-      "src": "fontawesome"
+      "css": "github-circled",
+      "uid": "0f6a2573a7b6df911ed199bb63717e27"
     },
     {
-      "uid": "7222571caa5c15f83dcfd447c58d68d9",
-      "css": "search",
+      "src": "entypo",
       "code": 59393,
-      "src": "entypo"
+      "css": "search",
+      "uid": "7222571caa5c15f83dcfd447c58d68d9"
     },
     {
-      "uid": "6274e0601f2feef7eced89146e708de0",
-      "css": "user-add",
+      "src": "entypo",
       "code": 59407,
-      "src": "entypo"
+      "css": "user-add",
+      "uid": "6274e0601f2feef7eced89146e708de0"
     },
     {
-      "uid": "2cfb3f2b46b34a1790aec0aa846297b6",
-      "css": "menu",
+      "src": "entypo",
       "code": 59401,
-      "src": "entypo"
+      "css": "menu",
+      "uid": "2cfb3f2b46b34a1790aec0aa846297b6"
     },
     {
-      "uid": "da0fd38d651815e3a12f6c030ff1fe5b",
-      "css": "newspaper",
+      "src": "entypo",
       "code": 59402,
-      "src": "entypo"
+      "css": "newspaper",
+      "uid": "da0fd38d651815e3a12f6c030ff1fe5b"
     },
     {
-      "uid": "48b79f27e4798f23bafa07b55dbe5b73",
-      "css": "book",
+      "src": "entypo",
       "code": 59411,
-      "src": "entypo"
+      "css": "book",
+      "uid": "48b79f27e4798f23bafa07b55dbe5b73"
     },
     {
-      "uid": "xq9z5jujkqhrf97s70hjek6otohmhr1y",
-      "css": "down",
+      "src": "typicons",
       "code": 59419,
-      "src": "typicons"
+      "css": "down",
+      "uid": "xq9z5jujkqhrf97s70hjek6otohmhr1y"
     },
     {
-      "uid": "mj2pxhfj0eumtbzirpdokhtzk00480uo",
-      "css": "up",
+      "src": "typicons",
       "code": 59418,
-      "src": "typicons"
+      "css": "up",
+      "uid": "mj2pxhfj0eumtbzirpdokhtzk00480uo"
     },
     {
-      "uid": "11d74f891bce30f1bdf73d3259d59ed5",
-      "css": "user",
+      "src": "mfglabs",
       "code": 59396,
-      "src": "mfglabs"
+      "css": "user",
+      "uid": "11d74f891bce30f1bdf73d3259d59ed5"
     },
     {
-      "uid": "05ef9b5e8742971aa85b23cfcbe71594",
-      "css": "users",
+      "src": "mfglabs",
       "code": 59395,
-      "src": "mfglabs"
+      "css": "users",
+      "uid": "05ef9b5e8742971aa85b23cfcbe71594"
     },
     {
-      "uid": "a3d734a5b4bec33fc3aa459d82092b23",
-      "css": "help-circled",
+      "src": "mfglabs",
       "code": 59406,
-      "src": "mfglabs"
+      "css": "help-circled",
+      "uid": "a3d734a5b4bec33fc3aa459d82092b23"
     },
     {
-      "uid": "3e02a8849305ac80a0e36302f461f265",
-      "css": "help-circled-alt",
+      "src": "mfglabs",
       "code": 59405,
-      "src": "mfglabs"
+      "css": "help-circled-alt",
+      "uid": "3e02a8849305ac80a0e36302f461f265"
     },
     {
-      "uid": "8f25d96c5665c84e4403538eef14ec2c",
-      "css": "info-circled",
+      "src": "mfglabs",
       "code": 59400,
-      "src": "mfglabs"
+      "css": "info-circled",
+      "uid": "8f25d96c5665c84e4403538eef14ec2c"
     },
     {
-      "uid": "15ba51cbb4d05e6fb88f03a31a7c711c",
-      "css": "info-circled-alt",
+      "src": "mfglabs",
       "code": 59399,
-      "src": "mfglabs"
+      "css": "info-circled-alt",
+      "uid": "15ba51cbb4d05e6fb88f03a31a7c711c"
     },
     {
-      "uid": "7997220c4eb58edae98e04de570089c2",
-      "css": "lock",
+      "src": "mfglabs",
       "code": 59409,
-      "src": "mfglabs"
+      "css": "lock",
+      "uid": "7997220c4eb58edae98e04de570089c2"
     },
     {
-      "uid": "e67bcab050d99eb04d44027139ae05f5",
-      "css": "lock-open",
+      "src": "mfglabs",
       "code": 59433,
-      "src": "mfglabs"
+      "css": "lock-open",
+      "uid": "e67bcab050d99eb04d44027139ae05f5"
     },
     {
-      "uid": "189edfc41118cccbeb25788fcbb403da",
-      "css": "attention",
+      "src": "mfglabs",
       "code": 59403,
-      "src": "mfglabs"
+      "css": "attention",
+      "uid": "189edfc41118cccbeb25788fcbb403da"
     },
     {
-      "uid": "55389e7d75fe0458efcb909f78e7ad3f",
-      "css": "attention-alt",
+      "src": "mfglabs",
       "code": 59404,
-      "src": "mfglabs"
+      "css": "attention-alt",
+      "uid": "55389e7d75fe0458efcb909f78e7ad3f"
     },
     {
-      "uid": "37910a1398001a5ccb541cb2a253a2c7",
-      "css": "right",
+      "src": "mfglabs",
       "code": 59392,
-      "src": "mfglabs"
+      "css": "right",
+      "uid": "37910a1398001a5ccb541cb2a253a2c7"
     },
     {
-      "uid": "5e5a88921aa39b292bdd56c3b9c923d3",
-      "css": "gift",
+      "src": "elusive",
       "code": 59425,
-      "src": "elusive"
+      "css": "gift",
+      "uid": "5e5a88921aa39b292bdd56c3b9c923d3"
     }
-  ]
+  ],
+  "ascent": 850,
+  "units_per_em": 1000,
+  "hinting": true,
+  "css_use_suffix": false,
+  "css_prefix_text": "fas-icon-",
+  "name": "fas"
 }

@@ -24,9 +24,9 @@
       %endif
         <figure>
           %if person.avatar:
-              <img class="profile" src="${person.avatar + '?s=200&d=monsterid'}"/>
+              <img class="profile" src="${person.avatar + '?s=150&d=monsterid'}"/>
           %else:
-              <img src="http://cdn.libravatar.org/avatar?s=200"/>
+              <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user-150.png')}"/>
           %endif
         %if form:
         <figcaption>
