@@ -25,6 +25,30 @@ class ViewsPeopleFunctionalTests(BaseTest):
         res = res.follow()
         self.assertTrue('<dd>jerry</dd>' in res.body)
 
+    def test_people_edit_logged_out(self):
+        url = '/people/profile/jerry/edit'
+        res = self.testapp.get(url, status=200)
+        self.assertTrue('placeholder="Login" name="login" value=""/><br/>'
+                        in res.body)
+
+    def test_people_edit_logged_in(self):
+        # login user
+        form = {'login': 'jerry',
+                'password': 'test12',
+                'form.submitted': True,}
+
+        headers = [('User-Agent', 'Python/Unittests'), ]
+        self.testapp.extra_environ.update(dict(REMOTE_ADDR='127.0.0.1'))
+        resp = self.testapp.post('/login', form, headers, status=302)
+        url = '/people/profile/jerry/edit'
+        res = self.testapp.get(url, status=200)
+        self.assertFalse('placeholder="Login" name="login" value=""/><br/>'
+                        in res.body)
+
+        exp_str = '  <form method="POST" action="http://localhost/people/' \
+                  'profile/jerry/edit" class="form-horizontal" role="form">'
+        self.assertTrue(exp_str in res.body)
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
