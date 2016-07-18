@@ -22,6 +22,13 @@ class ViewsGroupsFunctionalTests(BaseTest):
         self.assertTrue('avengers' in res.body)
         self.assertTrue('all-star' in res.body)
 
+    def test_group_profile_search_one_result(self):
+        url = '/group/search/ave'  # should redirect to avengers
+        res = self.testapp.get(url, status=302)
+        # redirect to avengers profile
+        self.assertTrue('/group/details/300' in res.body)
+        res.follow()
+
 
 
 if __name__ == '__main__':
