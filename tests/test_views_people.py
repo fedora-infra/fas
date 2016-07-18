@@ -91,6 +91,26 @@ class ViewsPeopleFunctionalTests(BaseTest):
         exp_str = 'The resource was found at /people/profile/admin'
         self.assertTrue(exp_str in res.body)
 
+    def test_profile_edit_account_does_not_exist(self):
+        # to edit a profile we must be logged in
+        # login user
+        form = {'login': 'jerry',
+                'password': 'test12',
+                'form.submitted': True,}
+
+        headers = [('User-Agent', 'Python/Unittests'), ]
+        self.testapp.extra_environ.update(dict(REMOTE_ADDR='127.0.0.1'))
+        # Login
+        resp = self.testapp.post('/login', form, headers, status=302)
+        resp = resp.follow()
+        self.assertTrue('Log out' in resp.body)  # verify that we are logged in
+
+        url = '/people/profile/doesnotexist/edit'
+        res = self.testapp.get(url, status=404)
+        expected_str = 'No such user found'
+        self.assertTrue(expected_str in res.body)
+
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
