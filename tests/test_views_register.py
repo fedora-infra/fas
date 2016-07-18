@@ -1,5 +1,7 @@
 import unittest
 import mock
+
+from fas.models.people import People
 from tests import BaseTest
 from wtforms import (
     Form,
@@ -100,6 +102,37 @@ class ViewsRegisterFunctionalTests(BaseTest):
         res = self.testapp.post('/register', form, headers, status=200)
         # redirecting to /people means a succesful account creation
         self.assertTrue('' in res.body)
+
+    @mock.patch('fas.views.register.CaptchaForm')
+    def test_create_and_confirm_account(self, mock_captcha):
+        mock_captcha = MockCaptchaForm()
+
+        form = {'form.register': True,
+                'username': 'skrzepto',
+                'fullname': 'skrzepto',
+                'password_confirm': 'test12',
+                'password': 'test12',
+                'email': 'skrzepto@test.com'}
+
+        headers = [('User-Agent', 'Python/Unittests'), ]
+        self.testapp.extra_environ.update(dict(REMOTE_ADDR='127.0.0.1'))
+        redirect_res = self.testapp.post('/register', form, headers, status=302)
+        res = redirect_res.follow()
+        # redirecting to /people means a succesful account creation
+        self.assertTrue('The resource was found at /people' in res.body)
+
+        person = self.DBSession.query(
+            People
+        ).filter(
+            People.username == 'skrzepto'
+        ).first()
+
+        form = {'username': 'skrzepto',
+                'token': person.password_token}
+        url = '/register/confirm/{}/{}'.format(form['username'], form['token'])
+        res = self.testapp.post(url, form, headers, status=302)
+        # if succesfully confirmed account redirect to profile page
+        self.assertTrue('/people/profile/{}'.format(person.id) in res.body)
 
 
 if __name__ == '__main__':

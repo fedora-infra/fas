@@ -186,6 +186,7 @@ class BaseTest(unittest.TestCase):
         from webtest import TestApp
         self.testapp = TestApp(app)
         self.populate()
+        self.DBSession = DBSession
 
     def tearDown(self):
         with transaction.manager:
