@@ -111,7 +111,6 @@ class ViewsPeopleFunctionalTests(BaseTest):
         self.assertTrue(expected_str in res.body)
 
 
-
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
         ViewsPeopleFunctionalTests)
