@@ -30,7 +30,6 @@ class ViewsGroupsFunctionalTests(BaseTest):
         res.follow()
 
 
-
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
         ViewsGroupsFunctionalTests)
