@@ -18,21 +18,20 @@
 #
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
-from cryptacular.bcrypt import BCRYPTPasswordManager
+import crypt
 
 
 class PasswordManager(object):
 
     def __init__(self):
-        self.manager = BCRYPTPasswordManager()
+        pass
 
-    def generate_password(self, password):
+    @classmethod
+    def generate_password(cls, password):
         """ Generates and returns a password."""
-        return self.manager.encode(password)
+        return crypt.crypt(password, crypt.mksalt())
 
-    def is_valid_password(self, registered, current):
+    @classmethod
+    def is_valid_password(cls, registered, current):
         """ Check password against registered one"""
-        if self.manager.match(registered):
-            if self.manager.check(registered, current):
-                return True
-        return False
+        return crypt.crypt(current, registered) == registered

@@ -27,7 +27,6 @@ requires = [
     'pygeoip',
     'ua-parser',
     'pyyaml',
-    'cryptacular',
     'PyGithub',
     'pillow',
     'cryptography',
