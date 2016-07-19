@@ -1,3 +1,4 @@
+import json
 import unittest
 from tests import BaseTest
 
@@ -25,6 +26,17 @@ class ViewsAdminFunctionalTests(BaseTest):
         self.assertTrue('active groups' in res.body)
         self.assertTrue('licenses agreement' in res.body)
         self.assertTrue('trusted applications' in res.body)
+
+        # verify that 3 registered users exist
+        self.assertTrue('<h1 style="color: white">3</h1> <span class='
+                        '"fas-icon-user bg-icon"></span>' in res.body)
+
+    def test_admin_dump_people(self):
+        self.login_helper()
+        res = self.testapp.get('/settings/dump/people', status=200)
+        json_res = json.loads(res.body)
+        self.assertEqual(json_res['total'], 3)
+        self.assertEqual(json_res['rows'][0]['username'], 'admin')
 
 
 if __name__ == '__main__':
