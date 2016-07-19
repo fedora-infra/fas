@@ -45,6 +45,14 @@ class ViewsAdminFunctionalTests(BaseTest):
         self.assertEqual(json_res['total'], 7)
         self.assertEqual(json_res['rows'][0]['name'], 'avengers')
 
+    def test_admin_dump_grouptypes(self):
+        self.login_helper()
+        res = self.testapp.get('/settings/dump/grouptypes', status=200)
+        json_res = json.loads(res.body)
+        self.assertEqual(json_res['total'], 2)
+        self.assertEqual(json_res['rows'][0]['name'], 'shell')
+
+
 
 if __name__ == '__main__':
     SUITE = unittest.TestLoader().loadTestsFromTestCase(
