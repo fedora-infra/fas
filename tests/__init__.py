@@ -5,6 +5,7 @@ from decimal import Decimal
 import os
 import transaction
 from paste.deploy.loadwsgi import appconfig
+from pytz import UTC
 from sqlalchemy import engine_from_config
 
 from fas.lib.avatar import gen_libravatar
@@ -113,9 +114,10 @@ def add_users():
     country_code = [u'US', u'FR', u'CA']
     latitude = [43, None, Decimal('85.5335165')]
     longitude = [27, None, Decimal('74.295654')]
-    joined = [datetime(2011, 11, 28, 14, 46, 44),
-              datetime(2013, 8, 28, 14, 46, 44),
-              datetime(2016, 2, 28, 14, 46, 44)]
+
+    joined = [datetime(2011, 11, 28, 14, 46, 44, tzinfo=UTC),
+              datetime(2013, 8, 28, 14, 46, 44, tzinfo=UTC),
+              datetime(2016, 2, 28, 14, 46, 44, tzinfo=UTC)]
 
     status = [AccountStatus.DISABLED,
               AccountStatus.ACTIVE,
