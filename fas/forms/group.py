@@ -74,7 +74,7 @@ class EditGroupForm(Form):
         choices=[(-1, _(u'-- None --'))]
     )
     # We want group_type choices list to be dynamic so we won't add it here.
-    group_type = SelectField(
+    group_type_id = SelectField(
         _(u'Group type'),
         [validators.Required()],
         coerce=int,
@@ -97,7 +97,7 @@ class EditGroupForm(Form):
     apply_rules = TextAreaField(_(u'Apply rules message'))
     bound_to_github = BooleanField(
         _(u'Bind your group to our GitHub oraganization'))
-    certificate = SelectField(
+    certificate_id = SelectField(
         _(u'Attach a certificate to this group'),
         coerce=int,
         choices=[(-1, _(u'-- None --'))])

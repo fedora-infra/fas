@@ -296,12 +296,12 @@ class PeopleAccountActivitiesLog(Base):
             'location': self.location + ' (%s)' % self.remote_ip,
             'remote_client': self.access_from,
             'event': self.event,
-            'timestamp': utc_iso_format(self.timestamp)
+            'timestamp': utc_iso_format(self.event_timestamp)
         }
 
     def get_date(self, request):
         """ Return activity date in a translated human readable format. """
-        return format_datetime(request.locale_name, self.timestamp)
+        return format_datetime(request.locale_name, self.event_timestamp)
 
 
 # class PeopleVirtualAccount(Base):

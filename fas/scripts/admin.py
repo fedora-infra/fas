@@ -93,6 +93,7 @@ def add_group(id, name, display_name=None, owner_id=None, type=None):
     group.display_name = display_name
     group.owner_id = owner_id
     group.group_type = type
+    group.parent_group_id = None
 
     return group
 
@@ -384,6 +385,7 @@ def main(argv=sys.argv):
                     name=u'avengers',
                     status=GroupStatus.ACTIVE.value,
                     group_type_id=group_type.id,
+                    parent_group_id=None,
                     owner_id=007)
             )
             DBSession.add(
@@ -392,6 +394,7 @@ def main(argv=sys.argv):
                     name=u'justice_league',
                     status=GroupStatus.ACTIVE.value,
                     group_type_id=group_type.id,
+                    parent_group_id=None,
                     owner_id=007)
             )
             DBSession.add(
@@ -400,6 +403,7 @@ def main(argv=sys.argv):
                     name=u'fantastic_four',
                     status=GroupStatus.ACTIVE.value,
                     group_type_id=group_type.id,
+                    parent_group_id=None,
                     owner_id=007)
             )
             DBSession.add(
@@ -408,6 +412,7 @@ def main(argv=sys.argv):
                     name=u'all-star',
                     status=GroupStatus.ACTIVE.value,
                     group_type_id=group_type.id,
+                    parent_group_id=None,
                     owner_id=007)
             )
             DBSession.add(
@@ -416,6 +421,7 @@ def main(argv=sys.argv):
                     name=u'x-men',
                     status=GroupStatus.ACTIVE.value,
                     group_type_id=group_type.id,
+                    parent_group_id=None,
                     owner_id=007)
             )
             DBSession.flush()

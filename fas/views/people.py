@@ -490,7 +490,7 @@ class People(object):
                         person_id=self.id)
                     register.save_account_activity(
                         self.request, self.id,
-                        AccountLogType.REQUESTED_API_KEY)
+                        AccountLogType.REQUESTED_API_KEY.value)
                     self.request.session.flash(token, 'tokens')
                 else:
                     log.error('Invalid token: %s', form.perm.data)

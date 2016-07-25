@@ -156,13 +156,13 @@ class Groups(Base):
         primaryjoin='and_(GroupType.id==Groups.group_type_id)',
         uselist=False
     )
-    parent_group = relation(
+    parent_group = relationship(
         'Groups',
         foreign_keys='Groups.id',
         primaryjoin='and_(Groups.id==Groups.parent_group_id)',
         uselist=False
     )
-    license = relation(
+    license = relationship(
         'LicenseAgreement',
         foreign_keys='Groups.license_id',
         backref=backref('group', lazy='joined'),

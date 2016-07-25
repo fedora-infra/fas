@@ -63,7 +63,7 @@ def onLoginRequested(event):
     if person:
         if person.login_attempt >= int(Config.get('login.failed_attempt')):
             lock_timeout = int(Config.get('login.lock.timeout'))
-            unlock_time = person.date_updated + datetime.timedelta(
+            unlock_time = person.update_timestamp + datetime.timedelta(
                 0, (60 * lock_timeout))
 
             if datetime.datetime.utcnow() > unlock_time:

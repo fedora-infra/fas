@@ -246,12 +246,12 @@ def setup_group_form(request, group=None):
     form.parent_group_id.choices = [
         (group.id, group.name) for group in parent_groups]
     form.parent_group_id.choices.insert(0, (-1, _(u'-- None --')))
-    form.group_type.choices = [
+    form.group_type_id.choices = [
         (t.id, t.name) for t in provider.get_group_types()]
-    form.group_type.choices.insert(0, (-1, _(u'-- Select a group type --')))
-    form.certificate.choices = [
+    form.group_type_id.choices.insert(0, (-1, _(u'-- Select a group type --')))
+    form.certificate_id.choices = [
         (cert.id, cert.name) for cert in provider.get_certificates()]
-    form.certificate.choices.insert(0, (-1, _(u'-- None --')))
+    form.certificate_id.choices.insert(0, (-1, _(u'-- None --')))
 
     if request.method is not 'POST':
         form.license_id.choices.insert(0, (-1, _(u'-- None --')))

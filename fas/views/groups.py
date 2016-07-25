@@ -119,7 +119,7 @@ class Groups(object):
 
         if not groups:
             self.request.session.flash(
-                _('No group found for the query: %s') % _id, 'error')
+                _(u'No group found for the query %s ' % _id), 'error')
             return redirect_to('/groups')
 
         pages = compute_list_pages_from(groups_cnt, 50)
@@ -304,6 +304,17 @@ class Groups(object):
                     person=self.request.get_user,
                     group=self.group,
                     form=form))
+
+                # The following keys are using foreign keys for which
+                # the referenced key might not exist. We need to set them
+                # to Null to avoid to trigger a reliationship against
+                # a non-existing key -1 or 0.
+                if form.parent_group_id.data == -1:
+                    form.parent_group_id.data = None
+                if form.license_id.data == -1:
+                    form.license_id.data = None
+                if form.certificate_id.data == -1:
+                    form.certificate_id.data = None
 
                 if form.bound_to_github.data \
                         and self.group.bound_to_github is False:
