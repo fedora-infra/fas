@@ -154,8 +154,9 @@ ${Page.set_title(_(u'Profile Update'), _(u'Update your profile\'s informations')
         </div>
       </div>
       <div class="card-form-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
-        <button type="submit" class="btn btn-primary" name="form.save.person-infos">${_(u'Save changes')}</button>
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
+          <button type="submit" class="btn btn-primary" name="form.save.person-infos">${_(u'Save changes')}</button>
       </div>
   </form>
 </div>

@@ -57,8 +57,9 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">${_(u'I do not agree')}</button>
-              <button type="submit" class="btn btn-primary" name="form.sign.license" value="${request.url}">${_(u'I agree')}</button>
+                <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">${_(u'I do not agree')}</button>
+                <button type="submit" class="btn btn-primary" name="form.sign.license" value="${request.url}">${_(u'I agree')}</button>
             </div>
           </div>
         </div>

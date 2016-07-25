@@ -149,7 +149,8 @@
           %if request.authenticated_userid and not is_member:
               <dd>
                 <form action="${request.route_url('group-apply', id=group.id)}" method="POST">
-                <button class="btn btn-default" type="submit">${_(u'Join')}</button>
+                    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                    <button class="btn btn-default" type="submit">${_(u'Join')}</button>
                 </form>
               </dd>
           %endif
@@ -183,10 +184,11 @@
 
             %if group.certificate_id > 0:
             <form action="${request.route_url('get-client-cert')}" method="POST">
-              ${formcertificate.cacert(type='hidden', value=group.certificate_id)}
-              ${formcertificate.group_id(type='hidden', value=group.id)}
-              ${formcertificate.group_name(type='hidden', value=group.name)}
-              <button class="btn glow" type="submit" name="form.create.client_cert">
+                <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                ${formcertificate.cacert(type='hidden', value=group.certificate_id)}
+                ${formcertificate.group_id(type='hidden', value=group.id)}
+                ${formcertificate.group_name(type='hidden', value=group.name)}
+                <button class="btn glow" type="submit" name="form.create.client_cert">
                 ${_(u'Get client certificate')}
               </button>
             </form>
@@ -270,6 +272,7 @@
                           <h4>${membership.person.fullname}</h4>
                           %if request.authenticated_userid and user_is_group_manager:
                               <form action="${request.route_url('group-action')}" method="POST">
+                                  <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
                                   <input type="hidden" name="action" value="upgrade"/>
                                   <input type="hidden" name="group_id" value="${group.id}"/>
                                   <input type="hidden" name="user_id" value="${membership.person.id}"/>

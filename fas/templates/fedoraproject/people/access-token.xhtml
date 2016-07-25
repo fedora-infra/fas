@@ -104,8 +104,9 @@ ${profile.header()}
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" name="form.save.token">Generate</button>
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="form.save.token">Generate</button>
         </div>
       </div>
     </div>

@@ -23,12 +23,13 @@
   <div id="bottom" class="center container-fluid">
     <div class="bottom">
       <form action="${url}" method="post" class="center">
-        <input type="hidden" name="redirect" value="${came_from}"/>
-        <input type="text" class="form-control btn-sm" id="inputLogin"
-          placeholder="Login" name="login" value="${login}"/><br/>
-        <input type="password" class="form-control btn-sm" id="inputPassword"
-          placeholder="Password" name="password" value="${password}"/><br/>
-        <input type="submit" name="form.submitted" class="btn btn-sm" value="Log In"/>
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <input type="hidden" name="redirect" value="${came_from}"/>
+          <input type="text" class="form-control btn-sm" id="inputLogin"
+                 placeholder="Login" name="login" value="${login}"/><br/>
+          <input type="password" class="form-control btn-sm" id="inputPassword"
+                 placeholder="Password" name="password" value="${password}"/><br/>
+          <input type="submit" name="form.submitted" class="btn btn-sm" value="Log In"/>
       </form>
     </div>
   </div>

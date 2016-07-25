@@ -30,13 +30,14 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
                   %if request.authenticated_userid:
                       <form action="${request.route_url('group-action')}"
                         method="POST">
-                        <input type="hidden" name="action" value="upgrade" />
-                        <input type="hidden" name="group_id" value="${ms.group.id}" />
-                        <input type="hidden" name="user_id" value="${ms.person.id}" />
-                        <input type="hidden" name="role_id" value="${msLevel.module.MembershipRole.USER.value}" />
-                        <button class="btn btn-default" type="submit">
-                          ${_(u'Sponsor')}
-                        </button>
+                          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                          <input type="hidden" name="action" value="upgrade" />
+                          <input type="hidden" name="group_id" value="${ms.group.id}" />
+                          <input type="hidden" name="user_id" value="${ms.person.id}" />
+                          <input type="hidden" name="role_id" value="${msLevel.module.MembershipRole.USER.value}" />
+                          <button class="btn btn-default" type="submit">
+                              ${_(u'Sponsor')}
+                          </button>
                       </form>
                   %endif
                 </span>
