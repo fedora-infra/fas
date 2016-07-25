@@ -49,6 +49,20 @@
               %endif
               <dt>${_(u'Country')}</dt>
               <dd>${person.country_code}</dd>
+              <dt>${_(u'Status')}</dt>
+              <dd>
+                %if person.status == account_status.ACTIVE:
+                    <span class="label label-success">${_(u'active')}</span>
+                %elif person.status == account_status.ON_VACATION:
+                    <span class="label label-info">${_(u'on vacation')}</span>
+                %elif person.status in [account_status.INACTIVE, account_status.PENDING]:
+                    <span class="label label-warning">${_(u'inactive')}</span>
+                %elif person.status == account_status.DISABLED:
+                    <span class="label label-default">${_(u'archived')}</span>
+                %elif person.status in [account_status.BLOCKED, account_status.BLOCKED_BY_ADMIN]:
+                    <span class="label label-danger">${_(u'blocked')}</span>
+                %endif
+              </dd>
           </dl>
       </div>
       <div class="col-md-3">
