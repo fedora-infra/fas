@@ -20,6 +20,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import datetime
 import logging
+import pytz
 
 from pyramid.events import subscriber
 
@@ -36,7 +37,7 @@ log = logging.getLogger(__name__)
 def on_password_change_requested(event):
     """ Check that user is allowed to get through. """
     person = event.person
-    curr_dtime = datetime.datetime.utcnow()
+    curr_dtime = datetime.datetime.now(pytz.timezone('UTC'))
     last_dtime = person.login_timestamp
     delta = (curr_dtime - last_dtime).seconds
 
