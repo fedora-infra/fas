@@ -46,7 +46,7 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                       %endif
                       </a>
                     </div>
-                    <p>${user.introduction}</p>
+                    <p>${user.introduction if user.introduction else ''}</p>
                     %if user.status == account_status.ACTIVE:
                         <span class="label label-success">${_(u'active')}</span>
                     %elif user.status == account_status.ON_VACATION:
