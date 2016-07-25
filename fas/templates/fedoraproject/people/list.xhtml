@@ -38,7 +38,12 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                 <div>
                     <div>
                       <a href="${request.route_url('people-profile', id=user.username)}">
+                      %if user.fullname and user.fullname.strip() \
+                          and user.fullname not in ['.']:
                         ${user.fullname}
+                      %else:
+                        ${user.username}
+                      %endif
                       </a>
                     </div>
                     <p>${user.introduction}</p>
