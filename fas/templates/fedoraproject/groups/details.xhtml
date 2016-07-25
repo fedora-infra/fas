@@ -107,6 +107,18 @@
                           %endif
                       %endif
                   </dd>
+                  <dt>${_(u'Status')}</dt>
+                  <dd>
+                    %if group.status == group_status.ACTIVE:
+                        <span class="label label-success">${_(u'active')}</span>
+                    %elif group.status in [group_status.INACTIVE, group_status.PENDING]:
+                        <span class="label label-warning">${_(u'inactive')}</span>
+                    %elif group.status in[group_status.DISABLED. group_status.ARCHIVED]:
+                        <span class="label label-default">${_(u'archived')}</span>
+                    %elif group.status == group_status.LOCKED:
+                        <span class="label label-danger">${_(u'locked')}</span>
+                    %endif
+                  </dd>
               </dl>
           </div>
       </div>
