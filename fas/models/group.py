@@ -254,8 +254,8 @@ class GroupMembership(Base):
     comment = Column(UnicodeText, nullable=True)
     person_id = Column(Integer, ForeignKey('people.id'), nullable=False)
     sponsor_id = Column(Integer, ForeignKey('people.id'), nullable=True)
-    creation_timestamp = Column(DateTime, default=datetime.datetime.now)
-    update_timestamp = Column(DateTime, default=datetime.datetime.now)
+    creation_timestamp = Column(DateTime, default=func.current_timestamp())
+    update_timestamp = Column(DateTime, default=func.current_timestamp())
 
     sponsors = relation(
         'People',
