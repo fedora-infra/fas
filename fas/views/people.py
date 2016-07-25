@@ -19,7 +19,7 @@
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 
 import fas.models.provider as provider
@@ -173,6 +173,7 @@ class People(object):
             self.person = provider.get_people_by_username(username)
         else:
             self.person = provider.get_people_by_id(_id)
+
         if not self.person:
             raise HTTPNotFound('No such user found')
 
