@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+# __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import hashlib
 
@@ -25,4 +25,4 @@ def gen_libravatar(id):
     """ Get libravatar's URL based on given id. """
     base_url = 'https://seccdn.libravatar.org/avatar/'
 
-    return base_url + hashlib.md5(id.strip().lower()).hexdigest()
+    return unicode(base_url + hashlib.md5(id.strip().lower()).hexdigest())

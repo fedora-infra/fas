@@ -41,6 +41,7 @@ from fas.models.group import (
     GroupStatus, MembershipStatus, MembershipRole)
 from fas.models.people import People, AccountStatus, AccountPermissionType
 from fas.security import generate_token
+from fas.lib.avatar import gen_libravatar
 
 _ = TranslationStringFactory('fas')
 __admin_pw__ = u'admin'
@@ -49,8 +50,8 @@ __domain__ = u'fedoraproject.org'
 
 def add_default_group_type():
     """ Add standard group type into system."""
-    gtype = GroupType(name=u'tracking', comment='Tracking people')
-    gtype2 = GroupType(name=u'shell', comment='Shell access')
+    gtype = GroupType(name=u'tracking', comment=u'Tracking people')
+    gtype2 = GroupType(name=u'shell', comment=u'Shell access')
 
     DBSession.add(gtype)
     DBSession.add(gtype2)
@@ -71,7 +72,7 @@ def add_user(id, login, passwd, fullname,
         email = '%s@%s' % (login, __domain__)
     user.email = email
     user.postal_address = postal_address
-    introduction = introduction
+    user.introduction = introduction
     user.avatar = avatar
     user.avatar_id = avatar_id
     user.bio = bio
@@ -143,22 +144,26 @@ def create_default_values(passwd):
     """ Add a default admin into database. """
     pv = PasswordManager()
 
-    tracking_group = GroupType(name=u'tracking', comment='Tracking people')
-    shell_group = GroupType(name=u'shell', comment='Shell access')
+    tracking_group = GroupType(name=u'tracking', comment=u'Tracking people')
+    shell_group = GroupType(name=u'shell', comment=u'Shell access')
 
     admin = add_user(
         007,
-        u'admin',
+        u'fasadmin',
         passwd,
         u'FAS Administrator',
-        status=AccountStatus.ACTIVE.value
+        status=AccountStatus.ACTIVE.value,
+        introduction=u'The super admin'
     )
     fas_user = add_user(
         999,
         u'jbezorg',
         pv.generate_password(u'jbezorg'),
         u'Jean-Baptiste Emanuel Zorg',
-        status=AccountStatus.ACTIVE.value
+        email=u'88c144de@opayq.com',
+        status=AccountStatus.ACTIVE.value,
+        avatar=gen_libravatar(u'88c144de@opayq.com'),
+        introduction=u'Mr. Zorg The "Art Dealer"'
     )
 
     admin_group = add_group(id=2000, name=u'fas-admin',
@@ -214,7 +219,6 @@ def create_default_values(passwd):
 def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
     """ Create a fake user into fas DB. """
     from faker import Factory
-    from fas.lib.avatar import gen_libravatar
 
     fake = Factory.create()
 
@@ -353,7 +357,7 @@ def main(argv=sys.argv):
         if opts.add_default_value:
             DBSession.query(
                 People
-            ).filter(People.username == 'admin').delete()
+            ).filter(People.username == u'fasadmin').delete()
 
             create_default_values(pv.generate_password(__admin_pw__))
 
@@ -373,7 +377,7 @@ def main(argv=sys.argv):
                 admin = DBSession.query(
                     People
                 ).filter(
-                    People.username == 'admin'
+                    People.username == u'fasadmin'
                 ).first()
 
             group_type = DBSession.query(GroupType).filter(
@@ -439,7 +443,7 @@ def main(argv=sys.argv):
             "\nYour database has been created!\n"
             "-------------------------------\n"
             "Default access:\n"
-            "login: admin\tpassword: %s\n"
+            "login: fasadmin\tpassword: %s\n"
             "login: jbezorg\tpassword: jbezorg\n" % __admin_pw__
         )
         sys.stdout.flush()
