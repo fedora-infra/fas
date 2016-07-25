@@ -21,8 +21,8 @@ CREATE TABLE account_permissions
   token text NOT NULL,
   application text NOT NULL,
   permissions integer NOT NULL,
-  granted_timestamp timestamp without time zone NOT NULL,
-  last_used_timestamp timestamp without time zone,
+  granted_timestamp timestamp with time zone NOT NULL,
+  last_used_timestamp timestamp with time zone,
   CONSTRAINT account_permissions_pkey PRIMARY KEY (id),
   CONSTRAINT account_permissions_person_id_fkey FOREIGN KEY (person_id)
       REFERENCES people (id) MATCH SIMPLE
@@ -42,7 +42,7 @@ CREATE TABLE certificates
   cert_key text NOT NULL,
   client_cert_desc text NOT NULL,
   enabled boolean,
-  creation_timestamp timestamp without time zone NOT NULL,
+  creation_timestamp timestamp with time zone NOT NULL,
   CONSTRAINT certificates_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -88,8 +88,8 @@ CREATE TABLE license_agreement
   content text NOT NULL,
   comment text,
   enabled_at_signup boolean,
-  creation_timestamp timestamp without time zone NOT NULL,
-  update_timestamp timestamp without time zone NOT NULL,
+  creation_timestamp timestamp with time zone NOT NULL,
+  update_timestamp timestamp with time zone NOT NULL,
   CONSTRAINT license_agreement_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -105,7 +105,7 @@ CREATE TABLE people_activity_log
   access_from text NOT NULL,
   event integer NOT NULL,
   event_msg text,
-  event_timestamp timestamp without time zone,
+  event_timestamp timestamp with time zone,
   CONSTRAINT people_activity_log_pkey PRIMARY KEY (id),
   CONSTRAINT people_activity_log_person_id_fkey FOREIGN KEY (person_id)
       REFERENCES people (id) MATCH SIMPLE
@@ -151,8 +151,8 @@ CREATE TABLE trusted_perms
   token text NOT NULL,
   secret text NOT NULL,
   permissions text NOT NULL,
-  granted_timestamp timestamp without time zone NOT NULL,
-  last_used_timestamp timestamp without time zone,
+  granted_timestamp timestamp with time zone NOT NULL,
+  last_used_timestamp timestamp with time zone,
   CONSTRAINT trusted_perms_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -206,7 +206,7 @@ ALTER TABLE people ADD github_token text;
 ALTER TABLE people ADD fas_token text;
 ALTER TABLE people ADD twitter_token text;
 
-ALTER TABLE people ADD update_timestamp timestamp without time zone;
+ALTER TABLE people ADD update_timestamp timestamp with time zone;
 UPDATE people SET update_timestamp = creation;
 ALTER TABLE people ALTER COLUMN update_timestamp SET NOT NULL;
 
@@ -262,7 +262,7 @@ ALTER TABLE groups ADD bound_to_github boolean;
 ALTER TABLE groups ADD license_id integer;
 ALTER TABLE groups ADD certificate_id integer;
 
-ALTER TABLE groups ADD update_timestamp timestamp without time zone;
+ALTER TABLE groups ADD update_timestamp timestamp with time zone;
 UPDATE groups SET update_timestamp = creation;
 ALTER TABLE groups ALTER COLUMN update_timestamp SET NOT NULL;
 
@@ -315,3 +315,10 @@ ALTER TABLE group_membership DROP COLUMN role_status;
 ALTER TABLE group_membership RENAME COLUMN internal_comments to comment;
 ALTER TABLE group_membership RENAME COLUMN creation to creation_timestamp;
 ALTER TABLE group_membership RENAME COLUMN approval to update_timestamp;
+
+
+
+
+GRANT select,usage,update ON all sequences IN schema public to fedora;
+GRANT select,update,insert ON all tables IN schema public to fedora;
+GRANT usage ON schema public TO fedora;
