@@ -446,7 +446,8 @@ class People(object):
                 register.update_password(form, self.person)
                 register.save_account_activity(
                     self.request,
-                    self.person.id, AccountLogType.UPDATE_PASSWORD)
+                    self.person.id,
+                    AccountLogType.UPDATE_PASSWORD.value)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to('/people/profile/%s' % self.id)
 
