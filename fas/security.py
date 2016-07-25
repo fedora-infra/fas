@@ -486,13 +486,17 @@ class MembershipValidator(Base):
 
         :return: true if group membership is valid, false otherwise
         """
-        groups = provider.get_group_by_people_membership(self.username)
+        groups = set(
+            [grp.name for grp in
+             provider.get_group_by_people_membership(self.username)]
+        )
 
-        for group in groups:
-            log.debug('checking group membership %s against %s'
-                      % (group.name, self.group))
-            if group.name in self.group:
-                return True
+        log.debug('checking group membership %s against %s'
+                      % (groups, self.group))
+        log.debug(groups.intersection(set(self.group)))
+        if len(groups.intersection(set(self.group))) > 0:
+            log.debug('Granting access')
+            return True
 
         return False
 
