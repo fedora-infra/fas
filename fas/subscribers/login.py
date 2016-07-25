@@ -29,6 +29,7 @@ from fas.models import register
 from fas.views import redirect_to
 import logging
 import datetime
+import pytz
 
 log = logging.getLogger(__name__)
 
@@ -98,7 +99,7 @@ def onLoginSucceeded(event):
         person.login_attempt = 0
         register.add_people(person)
 
-    person.login_timestamp = datetime.datetime.utcnow()
+    person.login_timestamp = datetime.datetime.now(pytz.timezone('UTC'))
 
     register.save_account_activity(request, person.id,
                                    AccountLogType.LOGGED_IN.value)
