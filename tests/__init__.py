@@ -15,16 +15,16 @@ settings = appconfig('config:' + os.path.join(here, '../', 'test.ini'))
 FAITOUT_URL = 'http://faitout.cloud.fedoraproject.org/faitout/'
 DB_PATH = settings.get('sqlalchemy.url', None)
 
-pytest_params = pytest.config.getoption('testdb')
-
-if pytest_params == 'faitout':
-    try:
+try:
+    pytest_params = pytest.config.getoption('testdb')
+    if pytest_params == 'faitout':
         req = requests.get('%s/new' % FAITOUT_URL)
         if req.status_code == 200:
             DB_PATH = req.text
             print 'Using faitout at: %s' % DB_PATH
-    except:
-        pass
+except:
+    pass
+
 
 from fas.scripts.admin import (add_user, add_membership, add_permission,
                                create_default_values)
@@ -227,6 +227,6 @@ class BaseTest(unittest.TestCase):
         gen_pass = pv.generate_password(admin_pw)
         with transaction.manager:
             # add_default_group_type()
-            create_default_values(passwd=gen_pass, DBSession=DBSession)
+            create_default_values(passwd=gen_pass)
             create_groups(DBSession=DBSession)
             add_users(DBSession=DBSession)

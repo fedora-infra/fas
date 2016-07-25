@@ -7,7 +7,7 @@ class ViewsAdminFunctionalTests(BaseTest):
     def login_helper(self):
         # to edit a profile we must be logged in
         # login user
-        form = {'login': 'admin',
+        form = {'login': 'fasadmin',
                 'password': 'admin',
                 'form.submitted': True,}
 
@@ -36,7 +36,7 @@ class ViewsAdminFunctionalTests(BaseTest):
         res = self.testapp.get('/settings/dump/people', status=200)
         json_res = json.loads(res.body)
         self.assertEqual(json_res['total'], 3)
-        self.assertEqual(json_res['rows'][0]['username'], 'admin')
+        self.assertEqual(json_res['rows'][0]['username'], 'fasadmin')
 
     def test_admin_dump_groups(self):
         self.login_helper()
