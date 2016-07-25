@@ -236,7 +236,8 @@ class People(object):
             formsshkey=form_sshkey,
             form_gpgfp=form_gpgfp,
             membership=membership,
-            ssh_is_required=ssh_is_required
+            ssh_is_required=ssh_is_required,
+            account_status=AccountStatus,
         )
 
     @view_config(route_name='people-activities',
