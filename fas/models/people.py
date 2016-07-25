@@ -134,7 +134,7 @@ class People(Base):
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
     status = Column(Integer, default=AccountStatus.PENDING.value)
-    status_timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    status_timestamp = Column(DateTime, default=func.current_timestamp())
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)
     blog_rss = Column(UnicodeText(), nullable=True)
@@ -143,7 +143,7 @@ class People(Base):
     fas_token = Column(UnicodeText(), nullable=True)
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
-    login_timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    login_timestamp = Column(DateTime, default=func.current_timestamp())
     creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
@@ -276,7 +276,7 @@ class PeopleAccountActivitiesLog(Base):
     access_from = Column(UnicodeText(), nullable=False)
     event = Column(Integer, nullable=False)
     event_msg = Column(UnicodeText(), nullable=True)
-    event_timestamp = Column(DateTime, default=datetime.datetime.utcnow())
+    event_timestamp = Column(DateTime, default=func.current_timestamp())
 
     person = relation('People', uselist=False)
 
