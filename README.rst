@@ -59,14 +59,13 @@ In root of the project
 
     workon fas-python2.7
     pip install pytest-cov
-    py.test --cov=fas tests/
+    python tests/runner.py
 
-or with html coverage
+runner.py can take a cmd line argument `--db` which has options [local, faitout]::
 
-::
-
-    workon fas-python2.7
-    py.test --cov=fas tests/ --cov-report html:cov_html
+    python tests/runner.py --db local
+    ...
+    python tests/runner.py --db faitout
 
 open index.html from the cov_html
 

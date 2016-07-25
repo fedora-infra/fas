@@ -37,7 +37,7 @@ requires = [
     'lingua',
 
     # Test
-    'fake-factory',
+    'fake-factory', 'pytest',
 ]
 
 optional = {

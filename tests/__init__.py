@@ -1,17 +1,31 @@
 import unittest
 from datetime import datetime
 from decimal import Decimal
-
+import requests
 import os
+import pytest
 import transaction
 from paste.deploy.loadwsgi import appconfig
 from pytz import UTC
-from sqlalchemy import engine_from_config
-
+from sqlalchemy import engine_from_config, create_engine
 from fas.lib.avatar import gen_libravatar
 
 here = os.path.dirname(__file__)
 settings = appconfig('config:' + os.path.join(here, '../', 'test.ini'))
+FAITOUT_URL = 'http://faitout.cloud.fedoraproject.org/faitout/'
+DB_PATH = settings.get('sqlalchemy.url', None)
+
+pytest_params = pytest.config.getoption('testdb')
+
+if pytest_params == 'faitout':
+    try:
+        req = requests.get('%s/new' % FAITOUT_URL)
+        if req.status_code == 200:
+            DB_PATH = req.text
+            print 'Using faitout at: %s' % DB_PATH
+    except:
+        pass
+
 from fas.scripts.admin import (add_user, add_membership, add_permission,
                                create_default_values)
 from fas.models import DBSession, Base
@@ -25,17 +39,12 @@ from fas.models.group import (
     GroupStatus, MembershipStatus, MembershipRole)
 from fas.models.certificates import PeopleCertificates, Certificates
 from fas.models.la import LicenseAgreement, LicenseAgreementStatus
-
-engine = engine_from_config(settings, 'sqlalchemy.')
-DBSession.configure(bind=engine)
-Base.metadata.create_all(engine)
-
 from fas.lib.passwordmanager import PasswordManager
 
 pv = PasswordManager()
 
 
-def empty_db():
+def empty_db(DBSession):
     DBSession.query(People).delete()
     DBSession.query(Groups).delete()
     DBSession.query(GroupType).delete()
@@ -47,8 +56,7 @@ def empty_db():
     DBSession.query(LicenseAgreement).delete()
 
 
-
-def create_groups():
+def create_groups(DBSession):
     group_type = DBSession.query(GroupType).filter(
         GroupType.name == u'shell').first()
 
@@ -97,7 +105,7 @@ def create_groups():
     groups = [300, 301, 302, 303, 304]
 
 
-def add_users():
+def add_users(DBSession):
     user_index = [0, 1, 2]
     username = [u'bob', u'jerry', u'mike']
     gen_pass = pv.generate_password(u'test12')
@@ -169,38 +177,56 @@ def add_users():
         people.group_membership.append(ms)
         DBSession.add(people)
 
-def add_license_agreement():
+
+def add_license_agreement(DBSession):
     la = LicenseAgreement(name='Test License',
                           status=LicenseAgreementStatus.ENABLED.value,
                           content='You hear by agree to this license for this test',
                           enabled_at_signup=True)
     DBSession.add(la)
 
-class BaseTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        with transaction.manager:
-            empty_db()
 
+class BaseTest(unittest.TestCase):
     def setUp(self):
         from fas import main
         app = main(None, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
-        self.populate()
+        engine = None
+
+        if DB_PATH.startswith('postgres'):
+            if 'localhost' in DB_PATH:
+                pass
+            else:
+                engine = create_engine(DB_PATH)
+        else:
+            engine = engine_from_config(settings, 'sqlalchemy.')
+
+        DBSession.configure(bind=engine)
+        Base.metadata.create_all(engine)
+        self.populate(DBSession)
         self.DBSession = DBSession
 
     def tearDown(self):
-        with transaction.manager:
-            empty_db()
-            app = None
-            self.testapp = None
+        if DB_PATH.startswith('postgres'):
+            if 'localhost' in DB_PATH:
+                with transaction.manager:
+                    empty_db(DBSession=DBSession)
+                    self.testapp = None
+            else:
+                db_name = DB_PATH.rsplit('/', 1)[1]
+                requests.get('%s/clean/%s' % (FAITOUT_URL, db_name))
+        else:
+            with transaction.manager:
+                empty_db(DBSession=DBSession)
+                self.testapp = None
 
-    def populate(self):
+
+    def populate(self, DBSesssion):
         admin_pw = u'admin'
         gen_pass = pv.generate_password(admin_pw)
         with transaction.manager:
             # add_default_group_type()
-            create_default_values(gen_pass)
-            create_groups()
-            add_users()
+            create_default_values(passwd=gen_pass, DBSession=DBSession)
+            create_groups(DBSession=DBSession)
+            add_users(DBSession=DBSession)
