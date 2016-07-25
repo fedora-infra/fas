@@ -21,7 +21,7 @@
 import datetime
 import logging
 from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 import mistune
 from fas.models.people import AccountStatus, AccountLogType
@@ -161,9 +161,16 @@ class Groups(object):
         people_form = PeopleForm(self.request.POST)
         cert_form = CreateClientCertificateForm(self.request.POST)
 
-        g_memberships = provider.get_group_membership(int(_id))
+        if _id.isdigit():
+            group = provider.get_group_by_id(_id)
+        else:
+            group = provider.get_group_by_name(_id)
 
-        group = g_memberships[0][0]
+        if not group:
+            return HTTPNotFound('No group found with identifier: %s' % _id)
+
+        g_memberships = provider.get_group_membership(group.id)
+
         memberships = []
         members = []
         user_members = []
@@ -186,7 +193,7 @@ class Groups(object):
         authenticated_membership = None
         is_member = False
 
-        for group, membership, member in g_memberships:
+        for grp, membership, member in g_memberships:
             memberships.append(membership)
             if authenticated != member:
                 if membership.status == MembershipStatus.APPROVED \
@@ -194,7 +201,7 @@ class Groups(object):
                     if membership.role == MembershipRole.USER:
                         user_members.append(membership)
                     elif membership.role == MembershipRole.SPONSOR \
-                            and group.requires_sponsorship:
+                            and grp.requires_sponsorship:
                         sponsor_members.append(membership)
                     elif membership.role == MembershipRole.ADMINISTRATOR:
                         admin_members.append(membership)
