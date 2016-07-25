@@ -261,11 +261,10 @@
                           <span>
                               <a href="${request.route_url('people-profile', id=membership.person.username)}">
                                   %if membership.person.avatar:
-                                      <img src="${membership.person.avatar}?s=50&d=monsterid"
+                                      <img src="${membership.person.avatar}?s=90&d=monsterid"
                                            class="profile img-circle" />
                                   %else:
-                                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
-                                           class="img-thumbnail" />
+                                      <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user_topmenu-90.png')}"/>
                                   %endif
                               </a>
                           </span>
