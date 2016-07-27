@@ -85,10 +85,10 @@ class ViewsPeopleFunctionalTests(BaseTest):
         resp = resp.follow()
         self.assertTrue('Log out' in resp.body)  # verify that we are logged in
 
-        url = '/people/profile/admin/edit'
+        url = '/people/profile/fasadmin/edit'
         res = self.testapp.get(url, status=302)
         # we should be redirected to profile page of admin
-        exp_str = 'The resource was found at /people/profile/admin'
+        exp_str = 'The resource was found at /people/profile/fasadmin'
         self.assertTrue(exp_str in res.body)
 
     def test_profile_edit_account_does_not_exist(self):
