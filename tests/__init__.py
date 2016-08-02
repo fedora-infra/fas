@@ -12,7 +12,7 @@ from fas.lib.avatar import gen_libravatar
 
 here = os.path.dirname(__file__)
 settings = appconfig('config:' + os.path.join(here, '../', 'test.ini'))
-FAITOUT_URL = 'http://faitout.cloud.fedoraproject.org/faitout/'
+FAITOUT_URL = 'http://faitout.fedorainfracloud.org/new'
 DB_PATH = settings.get('sqlalchemy.url', None)
 
 try:
