@@ -1,0 +1,23 @@
+--- fas.wsgi.old        2016-07-25 12:23:32.000000000 +0000
++++ fas.wsgi    2016-07-31 00:57:19.237000000 +0000
+@@ -2,10 +2,11 @@
+ import __main__
+ if not hasattr(__main__, '__requires__'):
+     __main__.__requires__ = []
+-__main__.__requires__.append('SQLAlchemy >= 0.5, <= 0.6')
++__main__.__requires__.append('SQLAlchemy >= 0.5')
+ 
+ import sys
+ sys.stdout = sys.stderr
++sys.path.append('/usr/lib/python2.7/site-packages/WebOb-1.4.1-py2.7.egg')
+ 
+ import pkg_resources
+ pkg_resources.require('SQLAlchemy')
+@@ -14,7 +15,7 @@
+ os.environ['PYTHON_EGG_CACHE'] = '/var/www/.python-eggs'
+ 
+ from pyramid.paster import get_app, setup_logging
+-ini_path = '~/.python/modwsgi/env/fas/production.ini'
++ini_path = '/etc/fas/production.ini'
+ setup_logging(ini_path)
+ application = get_app(ini_path, 'main')
