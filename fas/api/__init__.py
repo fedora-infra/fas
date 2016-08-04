@@ -25,7 +25,7 @@ from fas.util import compute_list_pages_from, utc_iso_format
 import datetime
 import fas.release as fas_release
 
-VERSION = '0.1'
+VERSION = '0.2'
 
 
 class RequestStatus(IntEnum):
@@ -50,7 +50,7 @@ class MetaData(object):
         self.datetime = datetime.datetime
         self.timestamp = utc_iso_format(self.datetime.utcnow())
 
-        build = self.data['Build'] = {}
+        build = self.data['build'] = {}
         build['name'] = u'FAS-%s' % fas_release.__VERSION__
         build['api_version'] = VERSION
 
@@ -70,7 +70,7 @@ class MetaData(object):
         :param status: status code
         :type status: int
         """
-        self.data['Status'] = status
+        self.data['status'] = status
 
     def set_error_msg(self, name='', text=''):
         """
@@ -79,9 +79,9 @@ class MetaData(object):
         :param name: Error name
         :param text: Error message
         """
-        self.data['Error'] = {}
-        self.data['Error']['name'] = name
-        self.data['Error']['text'] = text
+        self.data['error'] = {}
+        self.data['error']['name'] = name
+        self.data['error']['text'] = text
 
     def set_pages(self, items_nb, current=1, limit=0):
         """ Set page items into metadata's dictionary.
@@ -95,9 +95,9 @@ class MetaData(object):
         """
         pages = compute_list_pages_from(items_nb, limit)
 
-        self.data['Pages'] = {}
-        self.data['Pages']['current'] = current
-        self.data['Pages']['total'] = pages
+        self.data['pages'] = {}
+        self.data['pages']['current'] = current
+        self.data['pages']['total'] = pages
 
     def set_data(self, data):
         """ Add data infos to metadata's dictionary.
@@ -108,13 +108,13 @@ class MetaData(object):
         self.data[self.name] = data
 
     def get_metadata(self):
-        """ Get structured metadata.
+        """ Provides structured metadata as a Dict/JSON readable.
 
         :returns: Dictionary of structured metadata from init object.
         :rtype: dict
         """
-        self.data['StartTimeStamp'] = self.timestamp
-        self.data['EndTimeStamp'] = utc_iso_format(self.datetime.utcnow())
+        self.data['start_timestamp'] = self.timestamp
+        self.data['end_timestamp'] = utc_iso_format(self.datetime.utcnow())
 
         return self.data
 
@@ -122,4 +122,13 @@ class MetaData(object):
 @view_config(route_name='api', renderer='/api_home.xhtml')
 def api_home(request):
     return {}
+
+
+@view_config(route_name='api-version', renderer='json', request_method='GET')
+def api_version(request):
+    """ Returns the API version number. """
+    data = MetaData()
+    data.set_status(RequestStatus.SUCCESS.value)
+
+    return data.get_metadata()
 
