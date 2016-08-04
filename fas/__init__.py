@@ -199,6 +199,7 @@ def main(global_config, **settings):
 
     # API requests
     config.add_route('api', '/api')
+    config.add_route('api-version', '/api/version')
     config.add_route('api-people-list', '/api/people')
     config.add_route('api-people-get', '/api/people/{key}/{value}')
     config.add_route('api-group-list', '/api/groups')
