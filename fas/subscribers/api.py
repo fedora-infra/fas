@@ -54,14 +54,14 @@ def on_api_request(event):
             log.debug('Given API key is invalid.')
             data.set_error_msg(apikey.get_msg()[0], apikey.get_msg()[1])
             raise HTTPUnauthorized(
-                body=unicode(data.get_metadata()),
+                body=unicode(data.get_metadata(format_json=True)),
                 content_type=ct_type
             )
     else:
         log.error('Missing parameters from this request.')
         data.set_error_msg(params.get_msg()[0], params.get_msg()[1])
         raise HTTPBadRequest(
-            body=unicode(data.get_metadata()),
+            body=unicode(data.get_metadata(format_json=True)),
             content_type=ct_type
         )
 
@@ -75,7 +75,7 @@ def on_api_request(event):
         if not pdata.validate():
             data.set_error_msg(pdata.get_msg[0], pdata.get_msg[1])
             raise HTTPBadRequest(
-                body=unicode(data.get_metadata()),
+                body=unicode(data.get_metadata(format_json=True)),
                 content_type=ct_type
             )
 

@@ -17,11 +17,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
 from enum import IntEnum
 from pyramid.view import view_config
 from fas.util import compute_list_pages_from, utc_iso_format
 
+import json
 import datetime
 import fas.release as fas_release
 
@@ -81,7 +81,7 @@ class MetaData(object):
         """
         self.data['error'] = {}
         self.data['error']['name'] = name
-        self.data['error']['text'] = text
+        self.data['error']['description'] = text
 
     def set_pages(self, items_nb, current=1, limit=0):
         """ Set page items into metadata's dictionary.
@@ -107,14 +107,19 @@ class MetaData(object):
         """
         self.data[self.name] = data
 
-    def get_metadata(self):
+    def get_metadata(self, format_json=False):
         """ Provides structured metadata as a Dict/JSON readable.
 
+        :param format_json: Enables JSON formatted string.
+        :type format_json: bool
         :returns: Dictionary of structured metadata from init object.
         :rtype: dict
         """
         self.data['start_timestamp'] = self.timestamp
         self.data['end_timestamp'] = utc_iso_format(self.datetime.utcnow())
+
+        if format_json:
+            return json.dumps(self.data)
 
         return self.data
 
