@@ -21,11 +21,14 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 from pyramid.httpexceptions import HTTPFound
 
 
-def redirect_to(url):
-    """ Reroute to given url.
+def redirect_to(request, route_name, **kwargs):
+    """ Helper/Wrapper method to reroute client to the given route location.
 
-    :param url: url to be redirected to.
-    :type url: str
+    :param request: url to be redirected to.
+    :type request: pyramid.request
+    :param route_name: The route name to redirect to
+    :type route_name: str
+    :param kwargs: Given route parameters (e.g. id=person.id)
     :rtype: HTTPFound
     """
-    return HTTPFound(location=url)
+    return HTTPFound(request.route_url(route_name, **kwargs))

@@ -24,7 +24,10 @@ from pyramid.security import NO_PERMISSION_REQUIRED
 
 import fas.models.provider as provider
 import fas.models.register as register
+
 from fas.security import generate_token
+from fas.security import PasswordValidator
+
 from fas.forms.people import EditPeopleForm
 from fas.forms.people import UpdateStatusForm
 from fas.forms.people import UpdatePasswordForm
@@ -35,18 +38,17 @@ from fas.forms.people import UpdateSshKeyForm
 from fas.forms.people import UpdateGpgFingerPrint
 from fas.forms.captcha import CaptchaForm
 from fas.forms.account import AccountPermissionForm
-from fas.security import PasswordValidator
-from fas.views import redirect_to
+
 from fas.util import compute_list_pages_from
 from fas.lib.avatar import gen_libravatar
 from fas.models.group import MembershipStatus
 from fas.models.people import AccountStatus, AccountPermissionType, AccountLogType
 from fas.events import PasswordChangeRequested, PeopleInfosUpdated, \
     NotificationRequest
+from fas.views import redirect_to
 
 
-# temp import, i'm gonna move that away
-from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound
 
 import GeoIP
 import logging
@@ -61,9 +63,6 @@ class People(object):
         self.id = -1
         self.person = None
         self.notify = self.request.registry.notify
-
-    def redirect_to_profile(self):
-        return redirect_to('/people/profile/%s' % self.id)
 
     @view_config(route_name='people', renderer='/people/list.xhtml',
                  permission=NO_PERMISSION_REQUIRED)
@@ -97,12 +96,12 @@ class People(object):
     @view_config(
         route_name='people-search-rd', renderer='/people/search.xhtml')
     def search_redirect(self):
-        """ Redirect the search to the proper url. """
-        _id = self.request.params.get('q', '*')
-        return redirect_to('/people/search/%s' % _id)
+        """ Redirects the search to the proper url. """
+        query = self.request.params.get('q', '*')
 
-    @view_config(
-        route_name='people-search', renderer='/people/search.xhtml')
+        return redirect_to(self.request, 'people-search', pattern=query)
+
+    @view_config(route_name='people-search', renderer='/people/search.xhtml')
     @view_config(
         route_name='people-search-paging', renderer='/people/search.xhtml')
     def search(self):
@@ -116,14 +115,14 @@ class People(object):
         username = None
         try:
             _id = int(_id)
-        except:
+        except ValueError:
             username = _id
 
         if username:
             if '*' in username:
                 username = username.replace('*', '%')
             else:
-                username = username + '%'
+                username += '%'
             people = provider.get_people(50, page, pattern=username)
             peoples = provider.get_people(pattern=username, count=True)
         else:
@@ -133,7 +132,7 @@ class People(object):
         if not people:
             self.request.session.flash(
                 _('No user found for the query: %s' % _id), 'error')
-            return redirect_to('/people')
+            return redirect_to(self.request, 'people')
 
         pages = compute_list_pages_from(peoples, 50)
 
@@ -145,7 +144,7 @@ class People(object):
             self.request.session.flash(
                 _("Only one user matching, redirecting to the user's page"),
                 'info')
-            return redirect_to('/people/profile/%s' % people[0].id)
+            return redirect_to(self.request, 'people-profile', id=people[0].id)
 
         return dict(
             people=people,
@@ -182,7 +181,7 @@ class People(object):
                 AccountStatus.ACTIVE,
                 AccountStatus.INACTIVE,
                 AccountStatus.ON_VACATION]:
-                return redirect_to('/people')
+                return redirect_to(self.request, 'people')
 
         form_avatar = UpdateAvatarForm(self.request.POST, self.person)
         form = UpdateStatusForm(self.request.POST, self.person)
@@ -255,12 +254,12 @@ class People(object):
         if len(activities) > 0:
             self.person = activities[0].person
             if self.request.authenticated_userid != self.person.username:
-                return self.redirect_to_profile()
+                return redirect_to(self.request, 'people-profile', id=self.id)
         else:
             if self.request.authenticated_userid != self.person.username \
                     or self.request.authenticated_userid == \
                             self.person.username:
-                return self.redirect_to_profile()
+                return redirect_to(self.request, 'people-profile', id=self.id)
 
         return dict(activities=activities, person=self.person)
 
@@ -289,7 +288,7 @@ class People(object):
 
         # TODO: move this to Auth provider?
         if self.request.authenticated_userid != self.person.username:
-            return redirect_to('/people/profile/%s' % self.id)
+            return redirect_to(self.request, 'people-profile', id=self.id)
 
         form = EditPeopleForm(self.request.POST, self.person)
 
@@ -318,7 +317,7 @@ class People(object):
                 form.populate_obj(self.person)
                 self.notify(PeopleInfosUpdated(self.request, form, self.person))
 
-                return redirect_to('/people/profile/%s' % self.id)
+                return redirect_to(self.request, 'people-profile', id=self.id)
 
         return dict(form=form, id=self.id)
 
@@ -352,7 +351,7 @@ class People(object):
                         AccountStatus.DISABLED]:
                         self.request.session.flash(
                             _('This account is blocked'), 'error')
-                        return redirect_to('/')
+                        return redirect_to(self.request, 'home')
 
                     self.person.password_token = generate_token()
                     self.person.status = AccountStatus.PENDING.value
@@ -382,7 +381,8 @@ class People(object):
                     ))
                     self.request.session.flash(
                         _('Check your email to finish the process'), 'info')
-                    return redirect_to('/people/profile/%s' % self.person.id)
+                    return redirect_to(
+                        self.request, 'people-profile', id=self.person.id)
 
         return dict(form=form, captchaform=captcha_form)
 
@@ -414,7 +414,8 @@ class People(object):
                     AccountLogType.RESET_PASSWORD.value)
                 register.flush()
                 self.request.session.flash(_('Password reset'), 'info')
-                return redirect_to('/people/profile/%s' % self.person.id)
+                return redirect_to(
+                    self.request, 'people-profile', id=self.person.id)
 
         return dict(form=form, username=username, token=token)
 
@@ -450,7 +451,7 @@ class People(object):
                     self.person.id,
                     AccountLogType.UPDATE_PASSWORD.value)
                 self.request.session.flash('Password updated', 'info')
-                return redirect_to('/people/profile/%s' % self.id)
+                return redirect_to(self.request, 'people-profile', id=self.id)
 
         return dict(form=form, _id=self.id)
 
@@ -502,8 +503,7 @@ class People(object):
                 perm = int(self.request.params['form.delete.token'])
                 register.remove_token(perm)
                 # prevent from printing out deleted token in url
-                return HTTPFound(
-                    self.request.route_path('people-token', id=self.id))
+                return redirect_to(self.request, 'people-token', id=self.id)
 
         perms = provider.get_account_permissions_by_people_id(self.id)
 
@@ -512,11 +512,11 @@ class People(object):
         if len(perms) > 0:
             self.person = perms[0].account
             if self.request.authenticated_userid != self.person.username:
-                return self.redirect_to_profile()
+                return redirect_to(self.request, 'people-profile', id=self.id)
         else:
             if self.person:
                 if self.request.authenticated_userid != self.person.username:
-                    return self.redirect_to_profile()
+                    return redirect_to(self.request, 'people-profile', id=self.id)
             else:
                 self.person = provider.get_people_by_id(self.id)
 
