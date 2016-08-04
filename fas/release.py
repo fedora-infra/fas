@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Xavier Lamien.
+# Copyright © 2014 - 2016 Xavier Lamien.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@ __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 Release information about software
 '''
 
-__VERSION__ = '3.0.0'
+__VERSION__ = '3.0.1'
 __NAME__ = 'fas'
 __DESC__ = 'The Fedora Account System'
 __LONG_DESC__ = u'''
@@ -31,7 +31,7 @@ to the Fedora Project.
 '''
 __AUTHOR__ = 'Xavier Lamien'
 __EMAIL__ = 'laxathom@fedoraproject.org'
-__COPYRIGHT__ = u'© 2014'
+__COPYRIGHT__ = u'© 2014 - 2016'
 
 __URL__ = 'https://github.com/fedora-infra/fas'
 __DOWNLOAD_URL__ = 'https://github.com/fedora-infra/fas/releases'
