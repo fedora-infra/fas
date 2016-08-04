@@ -84,8 +84,8 @@ class Groups(object):
         route_name='group-search-rd', renderer='/group/search.xhtml')
     def search_redirect(self):
         """ Redirect the search to the proper url. """
-        _id = self.request.params.get('q', '*')
-        return redirect_to('/group/search/%s' % _id)
+        query = self.request.params.get('q', '*')
+        return redirect_to(self.request, 'group-search', pattern=query)
 
     @view_config(
         route_name='group-search', renderer='/groups/search.xhtml')
@@ -109,7 +109,7 @@ class Groups(object):
             if '*' in grpname:
                 grpname = grpname.replace('*', '%')
             else:
-                grpname = grpname + '%'
+                grpname += '%'
             groups = provider.get_groups(50, page, pattern=grpname)
             groups_cnt = provider.get_groups(
                 pattern=grpname, count=True)
@@ -120,7 +120,7 @@ class Groups(object):
         if not groups:
             self.request.session.flash(
                 _(u'No group found for the query %s ' % _id), 'error')
-            return redirect_to('/groups')
+            return redirect_to(self.request, 'groups')
 
         pages = compute_list_pages_from(groups_cnt, 50)
 
@@ -132,7 +132,7 @@ class Groups(object):
             self.request.session.flash(
                 _("Only one group matching, redirecting to the group's page"),
                 'info')
-            return redirect_to('/group/details/%s' % groups[0].id)
+            return redirect_to(self.request, 'group-details', id=groups[0].id)
 
         return dict(
             groups=groups,
@@ -187,7 +187,7 @@ class Groups(object):
                 GroupStatus.ACTIVE,
                 GroupStatus.INACTIVE
             ]:
-                return redirect_to('/groups')
+                return redirect_to(self.request, 'groups')
 
         authenticated = self.request.get_user
         authenticated_membership = None
@@ -299,7 +299,7 @@ class Groups(object):
             if not self.request.authenticated_is_modo():
                 if not self.request.authenticated_is_group_admin(
                         self.group.name):
-                    return redirect_to('/group/details/%s' % self.id)
+                    return redirect_to(self.request, 'group-details', id=self.id)
 
         form = setup_group_form(self.request, self.group)
 
@@ -330,7 +330,7 @@ class Groups(object):
                 else:
                     form.populate_obj(self.group)
 
-                return redirect_to('/group/details/%s' % self.id)
+                return redirect_to(self.request, 'group-details', id=self.id)
 
         return dict(form=form, id=self.id)
 
@@ -406,7 +406,7 @@ class Groups(object):
                         _("Your membership application has been declined"),
                         'error')
 
-        return redirect_to('/group/details/%s' % self.group.id)
+        return redirect_to(self.request, 'group-details', id=self.group.id)
 
     @view_config(route_name='group-action', permission='authenticated')
     @view_config(route_name='group-action', permission='authenticated', xhr=True,
@@ -638,7 +638,7 @@ class Groups(object):
             if msg:
                 self.request.session.flash(msg, 'info')
 
-        return redirect_to('/group/details/%s' % self.group.id)
+        return redirect_to(self.request, 'group-details', id=self.group.id)
 
     @view_config(route_name='group-pending-request',
                  permission='authenticated',
