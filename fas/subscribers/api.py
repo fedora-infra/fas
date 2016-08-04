@@ -24,6 +24,7 @@ from pyramid.events import subscriber
 from pyramid.httpexceptions import HTTPUnauthorized, HTTPBadRequest
 
 from fas import log
+from fas.api import RequestStatus
 from fas.events import ApiRequest, TokenUsed
 from fas.security import PrivateDataValidator
 
@@ -53,6 +54,7 @@ def on_api_request(event):
         else:
             log.debug('Given API key is invalid.')
             data.set_error_msg(apikey.get_msg()[0], apikey.get_msg()[1])
+            data.set_status(RequestStatus.FAILED.value)
             raise HTTPUnauthorized(
                 body=unicode(data.get_metadata(format_json=True)),
                 content_type=ct_type
@@ -60,6 +62,7 @@ def on_api_request(event):
     else:
         log.error('Missing parameters from this request.')
         data.set_error_msg(params.get_msg()[0], params.get_msg()[1])
+        data.set_status(RequestStatus.FAILED.value)
         raise HTTPBadRequest(
             body=unicode(data.get_metadata(format_json=True)),
             content_type=ct_type
@@ -74,6 +77,7 @@ def on_api_request(event):
         )
         if not pdata.validate():
             data.set_error_msg(pdata.get_msg[0], pdata.get_msg[1])
+            data.set_status(RequestStatus.FAILED.value)
             raise HTTPBadRequest(
                 body=unicode(data.get_metadata(format_json=True)),
                 content_type=ct_type
