@@ -180,6 +180,7 @@ def main(global_config, **settings):
                      '/register/confirm/{username}/{token}')
     config.add_route('people-paging', '/people/page/{pagenb}')
     config.add_route('people-profile', '/people/profile/{id}')
+    config.add_route('people-profile-json', '/people/profile/{id}/json')
     config.add_route('people-activities', '/people/profile/{id}/activities')
     config.add_route('people-token', '/people/profile/{id}/accesstoken')
     config.add_route('people-edit', '/people/profile/{id}/edit')

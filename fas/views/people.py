@@ -154,6 +154,37 @@ class People(object):
             pattern=_id
         )
 
+    @view_config(route_name='people-profile-json', renderer='json')
+    def profile_json(self):
+        """ People profile page. """
+        try:
+            _id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest('No id specified')
+
+        username = None
+        try:
+            _id = int(_id)
+        except:
+            username = _id
+
+        if username:
+            person = provider.get_people_by_username(username)
+        else:
+            person = provider.get_people_by_id(_id)
+
+        if not person:
+            raise HTTPNotFound('No such user found')
+
+        membership = [
+            g.group.name for g in person.group_membership
+            if not g.status == MembershipStatus.PENDING
+            ]
+        person_js = person.to_json(AccountPermissionType.CAN_READ_PUBLIC_INFO)
+        person_js['membershiop'] = membership
+        return person_js
+
+
     @view_config(route_name='people-profile', renderer='/people/profile.xhtml')
     def profile(self):
         """ People profile page. """
