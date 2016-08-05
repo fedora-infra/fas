@@ -368,12 +368,6 @@ class SaFasIdentityProvider(object):
         cherrypy.request.fas_identity_failure_reason = None
         using_ssl = False
 
-        if not user_name:
-            if cherrypy.request.headers['X-Client-Verify'] == 'SUCCESS':
-                user_name = cherrypy.request.headers['X-Client-CN']
-                cherrypy.request.fas_provided_username = user_name
-                using_ssl = True
-
         email_domain = '@' + config.get('email_host', '')
         if email_domain != '@' and user_name.endswith(email_domain):
             user_name = user_name[:-len(email_domain)]
@@ -394,20 +388,19 @@ class SaFasIdentityProvider(object):
             cherrypy.request.fas_identity_failure_reason = 'status_%s'% user.status
             return None
 
-        if not using_ssl:
-            # Get extras args from request params to increase auth check
-            # then pop it out if found to don't mess with other object's method
-            if 'otp' in cherrypy.request.params:
-                otp = cherrypy.request.params.pop('otp')
+        # Get extras args from request params to increase auth check
+        # then pop it out if found to don't mess with other object's method
+        if 'otp' in cherrypy.request.params:
+            otp = cherrypy.request.params.pop('otp')
 
-            if not self.validate_password(user, user_name, password, otp):
-                log.info("Passwords don't match for user: %s", user_name)
-                cherrypy.request.fas_identity_failure_reason = 'bad_password'
-                return None
-            # user + password is sufficient to prove the user is in
-            # control
-            cherrypy.request.params['_csrf_token'] = hash_constructor(
-                    visit_key).hexdigest()
+        if not self.validate_password(user, user_name, password, otp):
+            log.info("Passwords don't match for user: %s", user_name)
+            cherrypy.request.fas_identity_failure_reason = 'bad_password'
+            return None
+        # user + password is sufficient to prove the user is in
+        # control
+        cherrypy.request.params['_csrf_token'] = hash_constructor(
+                visit_key).hexdigest()
 
         log.info("Associating user (%s) with visit (%s)",
             user_name, visit_key)

@@ -4,8 +4,19 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
-:Date: 08 May 2013
-:Version: 0.8.18
+:Date: 08 August 2016
+:Version: 0.13.0
+
+
+------
+0.13.0
+------
+* Fix authentication bypass due to client cert headers (CVE-2016-1000038)
+
+------
+0.12.0
+------
+*Add support for external antispam service
 
 ------
 0.11.0
