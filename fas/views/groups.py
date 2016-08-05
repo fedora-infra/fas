@@ -19,12 +19,14 @@
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
 
 import datetime
+import json
 import logging
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound
 from pyramid.security import NO_PERMISSION_REQUIRED
 import mistune
-from fas.models.people import AccountStatus, AccountLogType
+from fas.models.people import AccountStatus, AccountLogType, \
+    AccountPermissionType
 from fas.models.group import GroupStatus, MembershipStatus, MembershipRole
 from fas.views import redirect_to
 from fas.util import compute_list_pages_from, setup_group_form
@@ -141,6 +143,66 @@ class Groups(object):
             count=int(groups_cnt),
             pattern=_id
         )
+
+    @view_config(route_name='group-details-json', renderer='json',
+                 permission=NO_PERMISSION_REQUIRED)
+    def details_json(self):
+        """ Group's details json page. """
+        try:
+            _id = self.request.matchdict['id']
+        except KeyError:
+            return HTTPBadRequest('No id specified')
+
+        if _id.isdigit():
+            group = provider.get_group_by_id(_id)
+        else:
+            group = provider.get_group_by_name(_id)
+
+        if not group:
+            return HTTPNotFound('No group found with identifier: %s' % _id)
+
+        g_memberships = provider.get_group_membership(group.id)
+
+        memberships = []
+        members = []
+        user_members = []
+        sponsor_members = []
+        admin_members = []
+        valid_active_status = [
+            AccountStatus.ACTIVE,
+            AccountStatus.INACTIVE,
+            AccountStatus.ON_VACATION]
+
+        for grp, membership, member in g_memberships:
+            memberships.append(membership.person.username)
+
+        for grp, membership, member in g_memberships:
+            memberships.append(membership)
+            if membership.status == MembershipStatus.APPROVED \
+                    and member.status in valid_active_status:
+                if membership.role == MembershipRole.USER:
+                    user_members.append(membership.person.username)
+                elif membership.role == MembershipRole.SPONSOR \
+                        and grp.requires_sponsorship:
+                    sponsor_members.append(membership.person.username)
+                elif membership.role == MembershipRole.ADMINISTRATOR:
+                    admin_members.append(membership.person.username)
+                members.append(membership.person.username)
+
+        group_js = group.to_json(permissions=AccountPermissionType.CAN_READ_PUBLIC_INFO)
+
+        try:
+            del group_js['group_type']
+        except KeyError:
+            pass
+
+        return {'group': group_js,
+                'members': members,
+                'user_members': user_members,
+                'sponsor_members': sponsor_members,
+                'admin_members': admin_members}
+
+
 
     @view_config(route_name='group-details', renderer='/groups/details.xhtml',
                  permission=NO_PERMISSION_REQUIRED)

@@ -189,6 +189,7 @@ def main(global_config, **settings):
     config.add_route('groups', '/groups')
     config.add_route('groups-paging', '/groups/page/{pagenb}')
     config.add_route('group-details', '/group/details/{id}')
+    config.add_route('group-details-json', '/group/details/{id}/json')
     config.add_route('group-edit', '/group/details/{id}/edit')
     config.add_route('group-search-rd', '/group/search')
     config.add_route('group-search', '/group/search/{pattern}')
