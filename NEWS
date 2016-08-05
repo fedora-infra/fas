@@ -4,8 +4,14 @@ NEWS
 
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
-:Date: 11 March 2016
-:Version: 0.12.0
+:Date: 08 August 2016
+:Version: 0.13.0
+
+
+------
+0.13.0
+------
+* Fix authentication bypass due to client cert headers (CVE-2016-1000038)
 
 ------
 0.12.0
