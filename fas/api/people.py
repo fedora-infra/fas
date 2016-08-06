@@ -24,8 +24,8 @@ from pyramid.view import view_config
 from fas.api import (
     BadRequest,
     NotFound,
-    MetaData
-)
+    MetaData,
+    RequestStatus)
 from fas import log
 from fas.events import ApiRequest
 import fas.models.provider as provider
@@ -104,10 +104,12 @@ class PeopleAPI(object):
             except BadRequest as err:
                 log.debug('Having a bad request here!')
                 self.request.response.status = '400 bad request'
+                self.data.set_status(RequestStatus.FAILED.value)
                 self.data.set_error_msg('Bad request', err.message)
             except NotFound as err:
                 log.debug('Having a not found keyword here!')
                 self.request.response.status = '404 page not found'
+                self.data.set_status(RequestStatus.FAILED.value)
                 self.data.set_error_msg('Item not found', err.message)
 
         return self.data.get_metadata()
