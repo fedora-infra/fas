@@ -16,8 +16,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-__author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
-              'Pierre-Yves Chibon <pingou@fedoraproject.org>']
+# __author__ = ['Xavier Lamien <laxathom@fedoraproject.org>',
+#              'Pierre-Yves Chibon <pingou@fedoraproject.org>']
 
 from pyramid.view import view_config
 
@@ -30,7 +30,6 @@ from fas import log
 from fas.events import ApiRequest
 import fas.models.provider as provider
 from fas.forms.people import EditPeopleForm
-from fas.security import ParamsValidator
 
 
 class PeopleAPI(object):

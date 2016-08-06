@@ -100,7 +100,7 @@ def onLoginSucceeded(event):
         person.login_attempt = 0
         register.add_people(person)
 
-    person.login_timestamp = datetime.datetime.now(pytz.timezone('UTC'))
+    person.login_timestamp = datetime.datetime.now(pytz.utc)
 
     register.save_account_activity(request, person.id,
                                    AccountLogType.LOGGED_IN.value)

@@ -143,7 +143,7 @@ class People(Base):
     fas_token = Column(UnicodeText(), nullable=True)
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
-    login_timestamp = Column(DateTime, default=func.current_timestamp())
+    login_timestamp = Column(DateTime, nullable=True)
     creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()

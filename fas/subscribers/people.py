@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 def on_password_change_requested(event):
     """ Check that user is allowed to get through. """
     person = event.person
-    curr_dtime = datetime.datetime.now(pytz.timezone('UTC'))
+    curr_dtime = datetime.datetime.now(pytz.utc)
     last_dtime = person.login_timestamp
     delta = (curr_dtime - last_dtime).seconds
 
