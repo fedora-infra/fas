@@ -93,17 +93,15 @@ class People(object):
             pages=pages
         )
 
-    @view_config(
-        route_name='people-search-rd', renderer='/people/search.xhtml')
+    @view_config(route_name='people-search-rd')
     def search_redirect(self):
         """ Redirects the search to the proper url. """
         query = self.request.params.get('q', '*')
 
         return redirect_to(self.request, 'people-search', pattern=query)
 
-    @view_config(route_name='people-search', renderer='/people/search.xhtml')
-    @view_config(
-        route_name='people-search-paging', renderer='/people/search.xhtml')
+    @view_config(route_name='people-search', renderer='/people/list.xhtml')
+    @view_config(route_name='people-search-paging', renderer='/people/list.xhtml')
     def search(self):
         """ Search people page. """
         try:
@@ -151,7 +149,8 @@ class People(object):
             page=page,
             pages=pages,
             count=int(peoples),
-            pattern=_id
+            pattern=_id,
+            display_username=True
         )
 
     @view_config(route_name='people-profile', renderer='/people/profile.xhtml')
@@ -165,7 +164,7 @@ class People(object):
         username = None
         try:
             _id = int(_id)
-        except:
+        except ValueError:
             username = _id
 
         if username:

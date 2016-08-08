@@ -45,6 +45,9 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                         ${user.username}
                       %endif
                       </a>
+                        %if display_username:
+                        <p><strong>${user.username}</strong></p>
+                        %endif
                     </div>
                     <p>${user.introduction if user.introduction else ''}</p>
                     %if user.status == account_status.ACTIVE:
