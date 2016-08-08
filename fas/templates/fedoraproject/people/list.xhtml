@@ -40,6 +40,9 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                       <a href="${request.route_url('people-profile', id=user.username)}">
                         ${user.fullname}
                       </a>
+                        %if display_username:
+                        <p><strong>${user.username}</strong></p>
+                        %endif
                     </div>
                     <p>${user.introduction}</p>
                     %if user.status == account_status.ACTIVE:
