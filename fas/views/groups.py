@@ -80,17 +80,14 @@ class Groups(object):
             pages=pages
         )
 
-    @view_config(
-        route_name='group-search-rd', renderer='/group/search.xhtml')
+    @view_config(route_name='group-search-rd')
     def search_redirect(self):
         """ Redirect the search to the proper url. """
         query = self.request.params.get('q', '*')
         return redirect_to(self.request, 'group-search', pattern=query)
 
-    @view_config(
-        route_name='group-search', renderer='/groups/search.xhtml')
-    @view_config(
-        route_name='group-search-paging', renderer='/groups/search.xhtml')
+    @view_config(route_name='group-search', renderer='/groups/list.xhtml')
+    @view_config(route_name='group-search-paging', renderer='/groups/list.xhtml')
     def search(self):
         """ Search groups. """
         try:
@@ -102,7 +99,7 @@ class Groups(object):
         grpname = None
         try:
             _id = int(_id)
-        except:
+        except ValueError:
             grpname = _id
 
         if grpname:
