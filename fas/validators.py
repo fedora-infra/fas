@@ -141,7 +141,7 @@ class KnownUser(validators.FancyValidator):
 class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
     messages = {'create_error': _("Error: Could not create - '%(user)s'"),
-            'exists': _("'%(user)s' already exists.")}
+            'exists': _("The user '%(user)s' already exists.")}
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613

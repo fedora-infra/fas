@@ -51,7 +51,7 @@ from fas.auth import can_view_group, can_create_group, can_admin_group, \
         can_sponsor_user, can_downgrade_user, is_approved
 
 from fas.validators import UnknownGroup, KnownGroup, ValidGroupType, \
-        ValidRoleSort, KnownUser
+        ValidRoleSort, KnownUser, UnknownUser
 
 from fas.util import send_mail
 
@@ -66,6 +66,7 @@ class GroupCreate(validators.Schema):
 
     name = validators.All(
         UnknownGroup,
+        UnknownUser,
         validators.UnicodeString(max=32, min=3),
         validators.Regex(regex='^[a-z0-9\-_]+$'),
         )
