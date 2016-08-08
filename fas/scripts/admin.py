@@ -27,6 +27,7 @@ from pyramid.paster import (
     get_appsettings,
     setup_logging,
 )
+from pytz import utc
 from sqlalchemy import engine_from_config
 from fas.lib.passwordmanager import PasswordManager
 from fas.models import (
@@ -252,7 +253,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 country_code=fake.country_code(),
                 latitude=user['current_location'][0],
                 longitude=user['current_location'][1],
-                joined=fake.date_time_between(start_date='-7y', end_date='-1'),
+                joined=fake.date_time_between(start_date='-7y', end_date='-1').replace(tzinfo=utc),
                 status=random.choice([r.value for r in AccountStatus])
             )
             perm = add_permission(
@@ -265,7 +266,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 group_id=random.choice(group_list),
                 person_id=people.id,
                 sponsor=007,
-                joined=fake.date_time_between(start_date='-6y', end_date='now'),
+                joined=fake.date_time_between(start_date='-6y', end_date='now').replace(tzinfo=utc),
                 status=random.choice(
                     [s.value for s in MembershipStatus]
                 ),

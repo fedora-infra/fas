@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # __author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
-
+import pytz
 from sqlalchemy import (
     Column,
     Integer,
@@ -41,7 +41,23 @@ from collections import OrderedDict
 from fas.util import format_datetime, utc_iso_format
 from enum import IntEnum
 
-import datetime
+from sqlalchemy import types
+from dateutil.tz import tzutc
+from datetime import datetime
+
+
+class UTCDateTime(types.TypeDecorator):
+    impl = types.DateTime
+
+    def process_bind_param(self, value, engine):
+        if value is not None:
+            return value.astimezone(tzutc())
+
+    def process_result_value(self, value, engine):
+        if value is not None:
+            return datetime(value.year, value.month, value.day,
+                            value.hour, value.minute, value.second,
+                            tzinfo=tzutc())
 
 
 class AccountStatus(IntEnum):
@@ -134,7 +150,7 @@ class People(Base):
     old_password = Column(UnicodeText(), nullable=True)
     certificate_serial = Column(Integer, default=1)
     status = Column(Integer, default=AccountStatus.PENDING.value)
-    status_timestamp = Column(DateTime, default=func.current_timestamp())
+    status_timestamp = Column(UTCDateTime, default=func.current_timestamp())
     privacy = Column(Boolean, default=False)
     email_alias = Column(Boolean, default=True)
     blog_rss = Column(UnicodeText(), nullable=True)
@@ -143,13 +159,13 @@ class People(Base):
     fas_token = Column(UnicodeText(), nullable=True)
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
-    login_timestamp = Column(DateTime, default=func.current_timestamp())
+    login_timestamp = Column(UTCDateTime, nullable=True)
     creation_timestamp = Column(
-        DateTime, nullable=False,
+        UTCDateTime, nullable=False,
         default=func.current_timestamp()
     )
     update_timestamp = Column(
-        DateTime, nullable=False,
+        UTCDateTime, nullable=False,
         default=func.current_timestamp(),
         onupdate=func.current_timestamp()
     )
@@ -276,7 +292,7 @@ class PeopleAccountActivitiesLog(Base):
     access_from = Column(UnicodeText(), nullable=False)
     event = Column(Integer, nullable=False)
     event_msg = Column(UnicodeText(), nullable=True)
-    event_timestamp = Column(DateTime, default=func.current_timestamp())
+    event_timestamp = Column(UTCDateTime, default=func.current_timestamp())
 
     person = relation('People', uselist=False)
 
