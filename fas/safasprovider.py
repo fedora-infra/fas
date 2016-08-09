@@ -39,6 +39,8 @@ from turbogears.identity import set_login_attempted
 from fas.model import People, Configs, disabled_statuses, active_statuses
 
 import pytz
+import requests
+from requests_kerberos import HTTPKerberosAuth
 from datetime import datetime
 
 import sys, os, re
@@ -405,7 +407,43 @@ class SaFasIdentityProvider(object):
         log.info("Associating user (%s) with visit (%s)",
             user_name, visit_key)
         user.last_seen = datetime.now(pytz.utc)
+
+        if config.get('ipa_sync_enabled', False):
+            self.sync_user_to_ipa(user, user_name, password)
+
         return SaFasIdentity(visit_key, user, using_ssl)
+
+    def sync_user_to_ipa(self, user, user_name, password):
+        if user.ipa_sync_status is None:
+            os.system('kinit -k -t %s %s' % (config.get('ipa_sync_keytab'),
+                                             config.get('ipa_sync_principal')))
+            c = requests.post('https://%s/ipa/session/login_kerberos'
+                              % config.get('ipa_sync_server'),
+                              auth=HTTPKerberosAuth(),
+                              verify=config.get('ipa_sync_certfile'))
+            r = requests.post('https://%s/ipa/session/json'
+                              % config.get('ipa_sync_server'),
+                json={'method': 'user_add',
+                      'params':[
+                          [user_name],
+                          {'givenname': 'FAS',
+                           'sn': 'Synced',
+                           'cn': user_name,
+                           'userpassword': password
+                          }], 
+                      'id': 0},
+                verify=config.get('ipa_sync_certfile'),
+                cookies=c.cookies,
+                headers={'referer':
+                         'https://%s/ipa'
+                         % config.get('ipa_sync_server')}).json()
+            if r['error'] is None:
+                log.info('User %s synced to IPA' % user_name)
+                user.ipa_sync_status = 'success'
+            else:
+                user.ipa_sync_status = 'error:%s' % r['error']['message']
+                log.error('Error syncing %s: %s' % (user_name, 
+                                                    r['error']['message']))
 
     def validate_password(self, user, user_name, password, otp=None):
         '''

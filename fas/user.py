@@ -49,6 +49,8 @@ import re
 import gpgme
 import StringIO
 import crypt
+import requests
+from requests_kerberos import HTTPKerberosAuth
 import string
 import subprocess
 from OpenSSL import crypto
@@ -1280,9 +1282,12 @@ forward to working with you!
             person.password = newpass['hash']
             person.password_changed = datetime.now(pytz.utc)
             Log(author_id=person.id, description='Password changed')
+            if config.get('ipa_sync_enabled', False):
+                self.sync_pwd_change_to_ipa(person.username, password)
             session.flush()
         # TODO: Make this catch something specific.
         except:
+            session.rollback()
             Log(author_id=person.id, description='Password change failed!')
             turbogears.flash(_("Your password could not be changed."))
             return dict()
@@ -1295,6 +1300,31 @@ forward to working with you!
             })
             turbogears.redirect('/user/view/%s' % identity.current.user_name)
             return dict()
+
+    def sync_pwd_change_to_ipa(self, user_name, password):
+        os.system('kinit -k -t %s %s' % (config.get('ipa_sync_keytab'),
+                                         config.get('ipa_sync_principal')))
+        c = requests.post('https://%s/ipa/session/login_kerberos'
+                          % config.get('ipa_sync_server'),
+                          auth=HTTPKerberosAuth(),
+                          verify=config.get('ipa_sync_certfile'))
+        r = requests.post('https://%s/ipa/session/json'
+                          % config.get('ipa_sync_server'),
+            json={'method': 'user_mod',
+                  'params':[
+                      [user_name],
+                      {'userpassword': password}
+                  ],
+                  'id': 0},
+            verify=config.get('ipa_sync_certfile'),
+            cookies=c.cookies,
+            headers={'referer':
+                     'https://%s/ipa'
+                     % config.get('ipa_sync_server')}).json()
+        if r['error'] is not None:
+            log.error('Error syncing password for %s: %s' % (user_name,
+                                                             r['error']))
+            raise Exception('Error syncing password')
 
     @expose(template="fas.templates.user.resetpass")
     def resetpass(self):

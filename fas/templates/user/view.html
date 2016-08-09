@@ -146,6 +146,13 @@
         <span py:if="not person.privacy">${_('Account Information Public')}</span>
           <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
         </dd>
+        <py:if test="admin">
+          <dt>${_('IPA Sync status:')}</dt>
+          <dd>
+            <span py:if="person.ipa_sync_status is None">Not attempted</span>
+            <span py:if="person.ipa_sync_status is not None">${person.ipa_sync_status}</span>
+          </dd>
+        </py:if>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>
