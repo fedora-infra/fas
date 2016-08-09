@@ -8,7 +8,7 @@ Summary:        Fedora Account System
 Group:          Development/Languages
 License:        GPLv2
 URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.xz
+Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -65,7 +65,7 @@ Requires: libselinux-python
 Additional scripts that work as clients to the accounts system.
 
 %prep
-%setup -q -c -n %{name}-%{version}
+%setup -q -n %{name}-%{version}
 
 
 %build
@@ -123,7 +123,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
+%doc README.rst TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
 # Bad Toshio.  Next release aims to fix this by making the location ofthe cert
 # files  configurable at build time
