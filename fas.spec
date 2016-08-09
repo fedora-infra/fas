@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.13.1
+Version:        0.14.0
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -153,6 +153,13 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Tue Aug 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.14.0-1
+- Update YubiKey documentation
+- Update FPCA template
+- Word-wrap ssh keys
+- Allow ecdsa ssh keys
+- Add IPA sync code
+
 * Tue Aug 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.13.1-1
 - Add checks to make sure username and groupname overlaps dont happen
 

@@ -5,7 +5,16 @@ NEWS
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
 :Date: 08 August 2016
-:Version: 0.13.1
+:Version: 0.14.0
+
+------
+0.14.0
+------
+* Update YubiKey documentation
+* Update FPCA template
+* Word-wrap ssh keys
+* Allow ecdsa ssh keys
+* Add IPA sync code
 
 ------
 0.13.1
