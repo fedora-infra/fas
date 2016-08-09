@@ -2351,7 +2351,7 @@ msgstr ""
 
 #: fas/templates/user/view.html:7
 msgid "View Account"
-msgstr "Prohlážet účet"
+msgstr "Prohlížet účet"
 
 #: fas/templates/user/view.html:19
 msgid "Your Fedora Account"

@@ -1032,9 +1032,9 @@ If this is not expected, please contact admin@fedoraproject.org and let them kno
             return dict()
 
         try:
-            person, accepted = self.create_user(username,
-                human_name, email, security_question, security_answer,
-                telephone, postal_address, age_check)
+            person, accepted = self.create_user(username.strip(),
+                human_name.strip(), email, security_question, security_answer,
+                telephone, postal_address.strip(), age_check)
         except IntegrityError:
             turbogears.flash(_("Your account could not be created.  Please " + \
                 "contact %s for assistance.") % config.get('accounts_email'))

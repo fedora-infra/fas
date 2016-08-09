@@ -200,7 +200,12 @@ class MaybeFloat(validators.FancyValidator):
         if value is None:
             return None
         else:
-            return float(value)
+            try:
+                return float(value)
+            except:
+                raise validators.Invalid(self.message('no_float', state,
+                                                      value=value), value, state)
+
 
     def validate_python(self, value, state):
         if value is None:
@@ -232,6 +237,7 @@ class ValidGPGKeyID(validators.UnicodeString):
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
+    valid_ssh_key = config.get('valid_ssh_key').replace(',','|').strip()
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
@@ -245,7 +251,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            validline = re.match('^(rsa|ssh-rsa) [ \t]*[^ \t]+.*$', keyline)
+            validline = re.match('^({}) [ \t]*[^ \t]+.*$'.format(valid_ssh_key), keyline)
             if not validline:
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
@@ -373,7 +379,7 @@ class ValidHumanWithOverride(validators.FancyValidator):
 
     def __init__(self, name_field, override_field):
         super(validators.FancyValidator, self).__init__()
-        self.name_field = name_field
+        self.name_field = name_field.strip()
         self.override = override_field
 
     def validate_python(self, values, state):

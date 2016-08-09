@@ -42,7 +42,7 @@ a
 {
   background: url(../images/head.png) 0 0 repeat-x;
 }
-  
+
 
 #head h1
 {
@@ -557,6 +557,10 @@ fieldset
 legend
 {
   font-weight: bold;
+}
+
+.ssh_key {
+    word-wrap: break-word;
 }
 
 /* Button Styles */

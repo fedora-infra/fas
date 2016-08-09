@@ -123,7 +123,7 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc README TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
+%doc README.rst TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
 %{python_sitelib}/*
 # Bad Toshio.  Next release aims to fix this by making the location ofthe cert
 # files  configurable at build time

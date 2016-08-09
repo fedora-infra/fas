@@ -1,6 +1,8 @@
 The Fedora Project Contributor Agreement
 http://fedoraproject.org/wiki/Legal:Fedora_Project_Contributor_Agreement
 
+[Version 2015-02-03]
+
 
 Goal
 ----
@@ -37,7 +39,7 @@ Terms
 appropriate categorical sublist of the full list of acceptable
 licenses for Fedora, currently located at
 https://fedoraproject.org/wiki/Licensing, as that list may be revised
-from time to time by the Fedora Project Board.  "Acceptable Licenses
+from time to time by the Fedora Project Council.  "Acceptable Licenses
 For Fedora" means that full list.
 
 "CC-BY-SA" means the Creative Commons Attribution-ShareAlike 3.0
@@ -47,14 +49,14 @@ Unported license, as published at
 "Code" means (i) software code, (ii) any other functional material
 whose principal purpose is to control or facilitate the building of
 packages, such as an RPM spec file, (iii) font files, and (iv) other
-kinds of copyrightable material that the Fedora Project Board has
+kinds of copyrightable material that the Fedora Project Council has
 classified as "code" rather than "content".
 
 "Content" means any copyrightable material that is not Code, such as,
 without limitation, (i) non-functional data sets, (ii) documentation,
 (iii) wiki edits, (iv) music files, (v) graphic image files, (vi) help
 files, and (vii) other kinds of copyrightable material that the Fedora
-Project Board has classified as "content" rather than "code".
+Project Council has classified as "content" rather than "code".
 
 "Contribution" means a Work that You created, excluding any portion
 that was created by someone else.  (For example, if You Submit a
@@ -68,8 +70,8 @@ if the Contribution is Code, the MIT License, and (ii) if the
 Contribution is Content, CC-BY-SA supplemented by Moral Rights Clause
 Waiver and GPL Relicensing Permission.
 
-"Fedora" means the community project led by the Fedora Project Board
-<https://fedoraproject.org/wiki/Board>.
+"Fedora" means the community project led by the Fedora Project Council
+<https://fedoraproject.org/wiki/Council>.
 
 "Fedora Community" means (i) all Fedora participants, and (ii) all
 persons receiving Contributions directly or indirectly from or through
@@ -145,7 +147,7 @@ If You Submit an Unlicensed Contribution to Fedora, the license to the
 Fedora Community for that Contribution shall be the Current Default
 License.
 
-The Fedora Project Board may, by public announcement, subsequently
+The Fedora Project Council may, by public announcement, subsequently
 designate an additional or alternative default license for a given
 category of Contribution (a "Later Default License"). A Later Default
 License shall be chosen from the appropriate categorical sublist of
