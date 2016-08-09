@@ -101,11 +101,21 @@
           <dd>
             <div py:choose="person.status" py:strip="True">
               <span py:when="'active'" class="approved">${_('Active')}</span>
+              <span py:when="'bot'" class="approved">${_('Bot')}</span>
               <span py:when="'inactive'" class="unapproved">${_('Inactive')}</span>
-              <span py:when="'pinged'" class="approved">${_('Pinged')}</span>
+              <span py:when="'expired'" class="approved">${_('Expired')}</span>
               <span py:when="'admin_disabled'" class="unapproved">${_('Disabled')}</span>
+              <span py:when="'spamcheck_awaiting'" class="unapproved">${_('Awaiting spamcheck')}</span>
+              <span py:when="'spamcheck_manual'" class="unapproved">${_('Awaiting manual spamcheck')}</span>
+              <span py:when="'spamcheck_denied'" class="unapproved">${_('Denied by spamcheck')}</span>
               <py:if test="admin or (modo and can_update) and (person.status == 'active')">
                 <a href="${tg.url('/user/updatestatus/%s/%s' % (person.username, 'inactive'))}">${_('(set as inactive)')}</a>
+              </py:if>
+              <py:if test="(admin or (modo and can_update)) and (person.status == 'spamcheck_manual' or person.status == 'spamcheck_denied' or person.status == 'spamcheck_awaiting')">
+                <a href="${tg.url('/user/updatestatus/%s/%s' % (person.username, 'active'))}">${_('(enable)')}</a>
+              </py:if>
+              <py:if test="(admin or (modo and can_update)) and (person.status == 'spamcheck_manual' or person.status == 'spamcheck_awaiting' or person.status == 'active')">
+                <a href="${tg.url('/user/updatestatus/%s/%s' % (person.username, 'spamcheck_denied'))}">${_('(deny spamcheck)')}</a>
               </py:if>
             </div>
             <script type="text/javascript">var hb1 = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_account_status')}'});</script>
@@ -136,6 +146,13 @@
         <span py:if="not person.privacy">${_('Account Information Public')}</span>
           <script type="text/javascript">var hb_privacy = new HelpBalloon({dataURL: '${tg.url('/help/get_help/user_privacy')}'});</script>
         </dd>
+        <py:if test="admin">
+          <dt>${_('IPA Sync status:')}</dt>
+          <dd>
+            <span py:if="person.ipa_sync_status is None">Not attempted</span>
+            <span py:if="person.ipa_sync_status is not None">${person.ipa_sync_status}</span>
+          </dd>
+        </py:if>
       </dl>
     </div>
     <h3 py:if="personal">${_('Your Roles')}</h3>

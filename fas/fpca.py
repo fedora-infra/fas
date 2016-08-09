@@ -44,6 +44,7 @@ from fedora.tg.utils import request_format
 from fas.model import People, Groups, Log
 from fas.auth import is_admin, standard_cla_done, undeprecated_cla_done
 from fas.util import send_mail
+from fas.lib import submit_to_spamcheck
 import fas
 
 
@@ -358,18 +359,12 @@ Thanks!
             return dict()
 
         if config.get('antispam.cla.autoaccept', True):
-            self.accept_fpca()
+            self.accept_fpca(group, person)
             turbogears.redirect('/user/view/%s' % person.username)
             return dict()
         else:
-            r = requests.post(config.get('antispam.api.url'),
-                auth=(config.get('antispam.api.username'),
-                      config.get('antispam.api.password')),
-                data={'action': 'fedora.fas.cla_sign',
-                      'time': int(time.time()),
-                      'data': {'request_headers': cherrypy.request.headers,
-                               'user': person.filter_private('systems', True)}})
-
+            r = submit_to_spamcheck('fedora.fas.cla_sign',
+                                    {'user': person.filter_private('systems', True)})
             try:
                 log.info('Spam response: %s' % r.text)
                 response = r.json()
@@ -380,7 +375,7 @@ Thanks!
 
             # Result is either accepted or checking
             if result == 'accepted':
-                self.accept_fpca()
+                self.accept_fpca(group, person)
                 turbogears.redirect('/user/view/%s' % person.username)
                 return dict()
             else:
@@ -390,7 +385,7 @@ Thanks!
                 return dict()
 
 
-    def accept_fpca():
+    def accept_fpca(self, group, person):
         try:
             # Everything is correct.
             person.sponsor(group, person) # Sponsor!

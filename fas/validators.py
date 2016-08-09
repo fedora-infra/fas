@@ -36,6 +36,7 @@
 import re
 
 from turbogears import validators, config
+from turbomail.email_validator import EmailValidator
 from sqlalchemy.exc import InvalidRequestError
 from fas.util import available_languages
 
@@ -140,7 +141,7 @@ class KnownUser(validators.FancyValidator):
 class UnknownUser(validators.FancyValidator):
     '''Make sure that a user doesn't already exist'''
     messages = {'create_error': _("Error: Could not create - '%(user)s'"),
-            'exists': _("'%(user)s' already exists.")}
+            'exists': _("The user '%(user)s' already exists.")}
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
@@ -168,12 +169,28 @@ class NonFedoraEmail(validators.FancyValidator):
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
-        return value.strip()
+        return value.strip().lower()
 
     def validate_python(self, value, state):
         # pylint: disable-msg=C0111
         if value.endswith('@fedoraproject.org'):
             raise validators.Invalid(self.message('no_loop', state), value, state)
+
+class EVEmail(validators.FancyValidator):
+    '''Verify that turbomail accepts this email address'''
+    messages = {'invalid': _('Your email address is invalid')}
+
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip().lower()
+
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        ev = EmailValidator()
+        try:
+            ev.validate_or_raise(value)
+        except:
+            raise validators.Invalid(self.message('invalid', state), value, state)
 
 class MaybeFloat(validators.FancyValidator):
     ''' Make sure the float value is a valid float value (or None) '''
@@ -262,6 +279,25 @@ class ValidUsername(validators.FancyValidator):
         if value in self.username_blacklist:
             raise validators.Invalid(self.message('blacklist', state, username=value),
                     value, state)
+
+
+class NonBlockedEmail(validators.FancyValidator):
+    '''Make sure that a username isn't blacklisted'''
+    email_blacklist = config.get('email_domain_blacklist').split(',')
+
+    messages = {'blacklist': _("'%(email)s' is a blacklisted email.")}
+
+    def _to_python(self, value, state):
+        # pylint: disable-msg=C0111,W0613
+        return value.strip().lower()
+
+    def validate_python(self, value, state):
+        # pylint: disable-msg=C0111
+        for blocked in self.email_blacklist:
+            if value.endswith(blocked):
+                raise validators.Invalid(self.message('blacklist', state, email=value),
+                    value, state)
+
 
 class ValidLanguage(validators.FancyValidator):
     '''Make sure that a username isn't blacklisted'''

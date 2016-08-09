@@ -106,6 +106,13 @@ admin_group = config.get('admingroup', 'accounts')
 system_group = config.get('systemgroup', 'fas-system')
 thirdparty_group = config.get('thirdpartygroup', 'thirdparty')
 
+active_statuses = ['active', 'bot']
+disabled_statuses = ['expired',
+                     'admin_disabled',
+                     'spamcheck_awaiting',
+                     'spamcheck_manual',
+                     'spamcheck_denied']
+
 class People(SABase):
     '''Records for all the contributors to Fedora.'''
 
@@ -119,7 +126,7 @@ class People(SABase):
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
             'country_code', 'privacy', 'old_password', 'alias_enabled',
-            'security_question', 'security_answer'),
+            'security_question', 'security_answer', 'ipa_sync_status'),
         # Full disclosure to admins
         'admin': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
             'password', 'passwordtoken', 'password_changed', 'email',
@@ -128,7 +135,7 @@ class People(SABase):
             'creation', 'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude', 'longitude',
             'country_code', 'privacy', 'old_password', 'alias_enabled',
-            'security_question', 'security_answer'),
+            'security_question', 'security_answer', 'ipa_sync_status'),
         # Full disclosure to systems group
         'systems': ('id', 'username', 'human_name',
             'gpg_keyid', 'ssh_key', 'password', 'passwordtoken',
@@ -138,7 +145,8 @@ class People(SABase):
             'internal_comments', 'ircnick', 'last_seen', 'status',
             'status_change', 'locale', 'timezone', 'latitude',
             'longitude', 'country_code', 'privacy', 'old_password',
-            'alias_enabled', 'security_question', 'security_answer'),
+            'alias_enabled', 'security_question', 'security_answer',
+            'ipa_sync_status'),
         # thirdparty gets the results of privacy and ssh_key in addition
         'thirdparty': ('ssh_key',),
         'self': ('id', 'username', 'human_name', 'gpg_keyid', 'ssh_key',
@@ -363,7 +371,7 @@ class People(SABase):
         except:
             # Typically this exception means this was called by shell
             for field in self.allow_fields[user]:
-                person_data[field] = self.__dict__[field]
+                person_data[field] = self.__dict__.get(field, '')
 
         # Instead of None password fields, we set it to '*' for easier fasClient
         # parsing

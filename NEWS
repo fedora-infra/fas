@@ -5,8 +5,12 @@ NEWS
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
 :Date: 08 August 2016
-:Version: 0.13.0
+:Version: 0.13.1
 
+------
+0.13.1
+------
+* Add checks to prevent group- and usernames overlap
 
 ------
 0.13.0
