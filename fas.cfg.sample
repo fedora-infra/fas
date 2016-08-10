@@ -48,10 +48,10 @@ tgcaptcha2.audio = True
 ### IPA Sync settings
 ###
 ipa_sync_enabled = False
-ipa_sync_server = ipa01.example.com
-ipa_sync_principal = fas_sync@EXAMPLE.COM
-ipa_sync_keytab = /etc/fas_sync_keytab
-ipa_sync_certfile = /etc/fas_sync_cert.pem
+ipa_sync_server = "ipa01.example.com"
+ipa_sync_principal = "fas_sync@EXAMPLE.COM"
+ipa_sync_keytab = "/etc/fas_sync_keytab"
+ipa_sync_certfile = "/etc/fas_sync_cert.pem"
 
 ###
 ### Administrative settings
