@@ -237,7 +237,7 @@ class ValidGPGKeyID(validators.UnicodeString):
 class ValidSSHKey(validators.FancyValidator):
     ''' Make sure the ssh key uploaded is valid '''
     messages = {'invalid_key': _('Error - Not a valid RSA SSH key: %(key)s')}
-    valid_ssh_key = config.get('valid_ssh_key').replace(',','|').strip()
+    valid_ssh_key = config.get('valid_ssh_key', 'ssh-rsa').replace(',','|').strip()
 
     def _to_python(self, value, state):
         # pylint: disable-msg=C0111,W0613
