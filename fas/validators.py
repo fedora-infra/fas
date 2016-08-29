@@ -251,7 +251,7 @@ class ValidSSHKey(validators.FancyValidator):
             if not keyline:
                 continue
             keyline = keyline.strip()
-            validline = re.match('^({}) [ \t]*[^ \t]+.*$'.format(valid_ssh_key), keyline)
+            validline = re.match('^({0}) [ \t]*[^ \t]+.*$'.format(self.valid_ssh_key), keyline)
             if not validline:
                 raise validators.Invalid(self.message('invalid_key', state,
                         key=keyline), value, state)
