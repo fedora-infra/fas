@@ -327,8 +327,7 @@ def get_people(limit=None, page=None, pattern=None, count=False, status=-1,
         query = query.filter(
             People.status.in_([
                 AccountStatus.ACTIVE.value,
-                AccountStatus.ON_VACATION.value,
-                AccountStatus.INACTIVE.value]
+                AccountStatus.ON_VACATION.value]
             ))
 
     if pattern:
@@ -470,6 +469,8 @@ def get_account_activities_by_people_id(id):
         PeopleAccountActivitiesLog
     ).filter(
         PeopleAccountActivitiesLog.person_id == id
+    ).order_by(
+        PeopleAccountActivitiesLog.event_timestamp.desc()
     )
 
     return query.all()

@@ -234,7 +234,8 @@ class People(object):
             formsshkey=form_sshkey,
             form_gpgfp=form_gpgfp,
             membership=membership,
-            ssh_is_required=ssh_is_required
+            ssh_is_required=ssh_is_required,
+            account_status=AccountStatus,
         )
 
     @view_config(route_name='people-activities',
@@ -446,7 +447,8 @@ class People(object):
                 register.update_password(form, self.person)
                 register.save_account_activity(
                     self.request,
-                    self.person.id, AccountLogType.UPDATE_PASSWORD)
+                    self.person.id,
+                    AccountLogType.UPDATE_PASSWORD.value)
                 self.request.session.flash('Password updated', 'info')
                 return redirect_to(self.request, 'people-profile', id=self.id)
 

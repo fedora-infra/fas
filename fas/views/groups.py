@@ -274,7 +274,8 @@ class Groups(object):
             adminform=admin_form,
             peopleform=people_form,
             formcertificate=cert_form,
-            text=mistune
+            text=mistune,
+            group_status=GroupStatus,
         )
 
     @view_config(route_name='group-edit', permission='authenticated',
