@@ -53,6 +53,21 @@ Fedora OS
 Run the test suite
 ------------------
 ``python setup.py test``
+In root of the project
+
+::
+
+    workon fas-python2.7
+    pip install pytest-cov
+    python tests/runner.py
+
+runner.py can take a cmd line argument `--db` which has options [local, faitout]::
+
+    python tests/runner.py --db local
+    ...
+    python tests/runner.py --db faitout
+
+open index.html from the cov_html
 
 Initialize the database
 -----------------------
