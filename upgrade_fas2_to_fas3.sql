@@ -250,6 +250,14 @@ CREATE INDEX people_username_idx
   (username COLLATE pg_catalog."default");
 
 
+-- Adjust the group_membership table for FAS3
+
+ALTER TABLE group_membership
+  DROP CONSTRAINT person_roles_group_id_fkey,
+  ADD CONSTRAINT person_roles_group_id_fkey FOREIGN KEY (group_id)
+      REFERENCES groups (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE;
+
 -- Adjust the groups table for FAS3
 
 ALTER TABLE groups ADD description text;
@@ -284,16 +292,29 @@ ALTER TABLE groups RENAME COLUMN url to web_link;
 
 ALTER TABLE groups ADD CONSTRAINT groups_certificate_id_fkey FOREIGN KEY (certificate_id)
       REFERENCES certificates (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
+      ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE groups ADD CONSTRAINT groups_group_type_id_fkey FOREIGN KEY (group_type_id)
       REFERENCES group_type (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
+      ON UPDATE NO ACTION ON DELETE CASCADE
 ALTER TABLE groups ADD CONSTRAINT groups_license_id_fkey FOREIGN KEY (license_id)
       REFERENCES license_agreement (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
+      ON UPDATE NO ACTION ON DELETE CASCADE;
 ALTER TABLE groups ADD CONSTRAINT groups_parent_group_id_fkey FOREIGN KEY (parent_group_id)
       REFERENCES groups (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE groups
+  DROP CONSTRAINT groups_prerequisite_id_fkey,
+  ADD CONSTRAINT groups_prerequisite_id_fkey FOREIGN KEY (parent_group_id)
+      REFERENCES groups (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE groups
+  DROP CONSTRAINT groups_parent_group_id_fkey,
+  ADD CONSTRAINT groups_parent_group_id_fkey FOREIGN KEY (parent_group_id)
+      REFERENCES groups (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 
 
 -- Adjust the person_roles table for FAS3
