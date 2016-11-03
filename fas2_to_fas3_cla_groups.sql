@@ -25,6 +25,13 @@ AND people.id = group_membership.person_id
 AND license_agreement.name = 'cla_fpca';
 
 
+-- Delete the old CLA groups
+
+DELETE FROM groups WHERE name in (
+    'cla_dell', 'cla_done', 'cla_ibm', 'cla_fedora', 'cla_redhat',
+    'cla_click', 'cla_intel', 'cla_fpca'
+);
+
 --
 -- Here below are a set of queries that can be used to debug things
 --
