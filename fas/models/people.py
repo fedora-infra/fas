@@ -143,7 +143,7 @@ class People(Base):
     fas_token = Column(UnicodeText(), nullable=True)
     github_token = Column(UnicodeText(), nullable=True)
     twitter_token = Column(UnicodeText(), nullable=True)
-    login_timestamp = Column(DateTime, nullable=True)
+    login_timestamp = Column(DateTime(timezone=True), nullable=True)
     creation_timestamp = Column(
         DateTime, nullable=False,
         default=func.current_timestamp()
@@ -166,12 +166,16 @@ class People(Base):
     )
     activities_log = relationship(
         'PeopleAccountActivitiesLog',
-        order_by='PeopleAccountActivitiesLog.event_timestamp'
+        order_by='PeopleAccountActivitiesLog.event_timestamp',
+        cascade="all,delete",
+        backref="People"
     )
     account_permissions = relationship(
         'AccountPermissions',
         primaryjoin='and_(AccountPermissions.person_id==People.id)',
-        order_by='AccountPermissions.id'
+        order_by='AccountPermissions.id',
+        cascade="all,delete",
+        backref="People"
     )
 
     __table_args__ = (

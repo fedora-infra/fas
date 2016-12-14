@@ -68,7 +68,7 @@ def onLoginRequested(event):
             unlock_time = person.update_timestamp + datetime.timedelta(
                 0, (60 * lock_timeout))
 
-            if datetime.datetime.utcnow() > unlock_time:
+            if datetime.datetime.now(pytz.utc) > unlock_time:
                 log.debug(
                     'Lock time passed, unlocking account %s' % person.username)
                 person.status = AccountStatus.ACTIVE.value
