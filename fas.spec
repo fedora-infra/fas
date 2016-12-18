@@ -1,11 +1,11 @@
-%global commit0 22bc38b23d1a0def29645aba34e123a694f19689
+%global commit0 c798f4cba47c06f063d39d13d4907f861785557e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
 Version:        3.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Fedora Account System
 
 License:        GPLv2
@@ -30,13 +30,11 @@ Requires: python-GeoIP
 Requires: python-pygeoip
 Requires: python-ua-parser
 Requires: PyYAML
-#Requires: python-cryptacular
 Requires: python-PyGithub
 Requires: python-pillow
 Requires: python-cryptography
 Requires: fedmsg
 #Requires: python-fake-factory
-#Requires: python-rainbow-logging-handler
 Requires: python-alembic
 #Requires: GeoIP-GeoLite-data-extra
 Requires: GeoIP
@@ -48,6 +46,16 @@ Requires: python-webob1.4
 The Fedora Account System is a web application that manages the accounts of
 Fedora Project Contributors.  It's built in Pyramid and comes with a json
 API for querying against remotely.
+
+%package        theme-fedoraproject
+Summary:        Fedora Project's theme for fas
+
+Requires:       %{name} = %{version}-%{release}
+#TODO: Add node's deps below
+
+%description    theme-fedoraproject
+This package contains theme related assets for the Fedora Project.
+
 
 %prep
 %autosetup -n %{name}-%{commit0}
@@ -61,16 +69,21 @@ sed -i '/fake-factory/d' setup.py
 
 
 %install
-%{__mkdir_p} %{buildroot}%{_datadir}/%{name}
-%{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
+%{__mkdir_p} %{buildroot}%{python_sitelib}/%{name}/
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/themes
+
+%{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
+
 %{__install} fas.wsgi %{buildroot}%{_sbindir}
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/%{name}
 %{__install} development.ini %{buildroot}%{_sysconfdir}/%{name}/production.ini
-%{__mkdir_p} %{buildroot}%{python_sitelib}/%{name}/
 
+%{__cp} -r %{name}/static/theme/fedoraproject %{buildroot}%{_datadir}/%{name}/themes/
 %{__cp} -r %{name}/templates %{buildroot}%{python_sitelib}/%{name}/
+
 chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 
 #%find_lang %{name}
@@ -92,8 +105,16 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 %config(noreplace) %{_sysconfdir}/fas/production.ini
 %{_sbindir}/fas.wsgi
 %{_bindir}/fas-admin
+%exclude %{python_sitelib}/%{name}/static
+
+%files theme-fedoraproject
+%doc COPYING
+%{_datadir}/%{name}/themes/fedoraproject
 
 %changelog
+* Sun Dec 18 2016 Xavier Lamien <laxathom@fedoraproject.org> - 3.0.0-4
+- Move theme to a dedicated subpackage.
+
 * Tue Aug 2 2016 Ricky Elrod <relrod@redhat.com> - 3.0-3
 - Include templates.
 
