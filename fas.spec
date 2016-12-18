@@ -57,7 +57,6 @@ API for querying against remotely.
 # A few hacks to nuke unnecessary deps for now:
 sed -i '/lingua/d' setup.py
 sed -i '/fake-factory/d' setup.py
-sed -i '/pyramid_debugtoolbar/d' setup.py
 %{__python} setup.py build #--install-data='%{_datadir}'
 
 

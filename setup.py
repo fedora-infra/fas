@@ -15,7 +15,6 @@ requires = [
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
-    'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
     'mako',
@@ -41,8 +40,9 @@ requires = [
 ]
 
 optional = {
-    'rainbow': 'rainbow_logging_handler',
-    'alembic': 'alembic',
+    'debug': 'pyramid_debugtoolbar',
+    'fancy_log': 'rainbow_logging_handler',
+    'db_upgrade': 'alembic',
 }
 
 setup(
