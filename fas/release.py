@@ -26,8 +26,9 @@ __VERSION__ = '3.0.1'
 __NAME__ = 'fas'
 __DESC__ = 'The Fedora Account System'
 __LONG_DESC__ = u'''
-Manage contributors\' accounts and groups\'s involvements
-to the Fedora Project.
+The Fedora Account System is a community oriented accounts system which
+aims to provide a self-driven and self-controled management to 
+its registered users.
 '''
 __AUTHOR__ = 'Xavier Lamien'
 __EMAIL__ = 'laxathom@fedoraproject.org'

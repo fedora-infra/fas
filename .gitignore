@@ -68,3 +68,6 @@ fas.anjuta
 .anjuta
 .anjuta_*
 .ropeproject
+
+# Sphinx documentation
+docs/_build/
