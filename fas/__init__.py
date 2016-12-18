@@ -84,7 +84,8 @@ def main(global_config, **settings):
     config.add_mako_renderer('.xhtml', settings_prefix='mako.')
 
     config.add_static_view(
-        'static', 'fas:static/theme/%s' % settings['project.name'],
+        name='static',
+        path=settings['project.theme.path'],
         cache_max_age=int(settings['cache.max_age'])
     )
 
