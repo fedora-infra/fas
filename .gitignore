@@ -74,5 +74,5 @@ docs/_build/
 
 # Vagrant
 .vagrant/
-devel/ansible/playbook.retry
+devel-ansible/*.retry
 Vagrantfile
