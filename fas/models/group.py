@@ -248,7 +248,7 @@ class GroupMembership(Base):
     """ A mapping object to SQL GroupMembership table. """
     __tablename__ = 'group_membership'
     id = Column(Integer, primary_key=True)
-    group_id = Column(Integer, ForeignKey('groups.id', ondelete="CASCADE"))  # nullable=False???
+    group_id = Column(Integer, ForeignKey('groups.id', ondelete="CASCADE"), nullable=False)
     role = Column(Integer, default=MembershipRole.USER.value)
     status = Column(Integer, default=MembershipStatus.UNAPPROVED.value)
     comment = Column(UnicodeText, nullable=True)
