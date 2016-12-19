@@ -71,3 +71,8 @@ fas.anjuta
 
 # Sphinx documentation
 docs/_build/
+
+# Vagrant
+.vagrant/
+devel/ansible/playbook.retry
+Vagrantfile

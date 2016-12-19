@@ -21,6 +21,12 @@
       - abattis-cantarell-fonts
       - liberation-mono-fonts
 
+- name: Install PIP deps
+  pip:
+    name: "{{ item }}"
+  with_items:
+      - pyramid_debugtoolbar
+
 - name: Install FAS3
   command: pip install -e .
   args:
