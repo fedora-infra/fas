@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: "sudo dnf install -y libselinux-python python2-dnf"
 
   config.vm.provision "ansible" do |ansible|
-      ansible.playbook = "devel/ansible/playbook.yml"
+      ansible.playbook = "devel-ansible/playbook.yml"
   end
 
   config.vm.post_up_message = "Provisioning Complete. Start your FAS3 Server from your host with the command:\n vagrant ssh -c 'pushd /vagrant/; pserve /home/vagrant/development.ini --reload'\n Your FAS3 instance will be available at: http://localhost:5002/"
