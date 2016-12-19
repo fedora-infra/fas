@@ -1,0 +1,47 @@
+---
+- name: Install dev packages
+  dnf:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - python
+      - python-psycopg2
+      - redhat-rpm-config
+      - freetype-devel
+      - gcc
+      - gcc-c++
+      - libjpeg-turbo-devel
+      - python-devel
+      - python-pip
+      - libffi-devel
+      - openssl-devel
+      - GeoIP-devel
+      - libyaml-devel
+      - aajohan-comfortaa-fonts
+      - abattis-cantarell-fonts
+      - liberation-mono-fonts
+
+- name: Install FAS3
+  command: pip install -e .
+  args:
+      chdir: /vagrant
+
+- command: cp /vagrant/development.ini /home/vagrant/development.ini
+  args:
+      creates: /home/vagrant/development.ini
+
+- name: Switch the database connection to postgres
+  replace:
+    dest: /home/vagrant/development.ini
+    regexp: "^sqlalchemy.url = sqlite.*$"
+    replace: "sqlalchemy.url = postgresql://postgres:anypasswordworkslocally@localhost/fas3"
+
+- name: Initialize the database with default values
+  command: fas-admin -c /home/vagrant/development.ini --initdb --default-value
+  args:
+      chdir: /vagrant
+
+- name: Populate the database with sample data
+  command: fas-admin -c /home/vagrant/development.ini --generate-fake-data -n 1000
+  args:
+      chdir: /vagrant

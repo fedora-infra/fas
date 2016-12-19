@@ -164,3 +164,26 @@ Run the web app
 ---------------
 ``% pserve development.ini --reload``
 
+Hacking with vagrant
+--------------------
+Quickly start hacking on FAS3 using the vagrant setup that is included in the
+FAS3 repo is super simple.
+
+First, install Vagrant, the vagrant-sshfs plugin, and the vagrant-libvirt plugin
+from the official Fedora repos:
+
+    sudo dnf install vagrant vagrant-libvirt vagrant-sshfs
+
+Now, from within main directory (the one with the Vagrantfile in it) of your
+git checkout of FAS3, run the vagrant up command to provision your dev
+environment:
+
+    vagrant up
+
+When this command is completed (it may take a while) run the following command
+to start the FAS3 server on the vagrant virtual machine:
+
+    vagrant ssh -c 'pushd /vagrant/; pserve /home/vagrant/development.ini --reload'
+
+Once that is running, simply go to http://localhost:5002/ in your browser on
+your host to see your running FAS3 test instance.
