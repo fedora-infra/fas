@@ -36,7 +36,7 @@ requires = [
     'lingua',
 
     # Test
-    'fake-factory',
+    'Faker',
 ]
 
 optional = {
