@@ -367,6 +367,7 @@ def main(argv=sys.argv):
                 print 'Cleaning up People data.'
                 DBSession.query(People).delete()
                 DBSession.query(Groups).delete()
+                DBSession.query(GroupType).delete()
 
                 create_default_values(
                     pv.generate_password(__admin_pw__))

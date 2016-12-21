@@ -119,7 +119,7 @@ class Register(object):
                     self.request.session.flash(
                         _('Account created, please check your email to finish '
                           'the process'), 'info')
-                    return redirect_to('/people/profile/%s' % self.person.id)
+                    return redirect_to(self.request, 'people-profile', id=self.person.id)
 
         return dict(form=form, captchaform=captchaform, licensesform=[la_form],
                     peopleform=peopleform, licenses=licenses)
