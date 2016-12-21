@@ -288,6 +288,15 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 sys.stdout.flush()
 
 
+def authenticate_user(username):
+    user = DBSession.query(
+        People
+    ).filter(
+        People.username == username
+    ).first()
+    user.status = 1
+
+
 def main(argv=sys.argv):
     parser = argparse.ArgumentParser(
         description=u'FAS administrative command-line')
@@ -329,6 +338,11 @@ def main(argv=sys.argv):
                         nargs=1,
                         help=_(u'Define numbers of fake people to generate '
                                'and inject into database.'))
+    parser.add_argument('--authenticate-user',
+                        dest='authenticate_user',
+                        type=str,
+                        default='admin',
+                        help=_(u'Enter username to manually authenticate'))
 
     opts = parser.parse_args()
     config_uri = opts.config_file
@@ -350,6 +364,8 @@ def main(argv=sys.argv):
     pv = PasswordManager()
 
     with transaction.manager:
+        if opts.authenticate_user:
+            authenticate_user(opts.authenticate_user)
         # fill_account_status()
         # fill_role_levels()
 
