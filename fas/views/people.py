@@ -308,7 +308,7 @@ class People(object):
             if c[0] not in Config.get('blacklist.country')]
 
         form.locale.choices = [
-            (l, l) for l in list(Config.get('locale.available').split(','))]
+            (l, l) for l in list(Config.get('locale.available', '').split(','))]
 
         if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
