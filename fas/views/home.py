@@ -88,6 +88,9 @@ class Home:
             elif result == LoginStatus.FAILED_LOCKED_ACCOUNT:
                 self.request.session.flash(
                     _('Login blocked.'), 'login')
+            elif result == LoginStatus.PENDING_ACCOUNT:
+                self.request.session.flash(
+                    _('Login failed, your account has not been validated'), 'login')
             else:
                 self.request.session.flash(
                     _('Invalid login or password'), 'login')

@@ -35,8 +35,14 @@ requires = [
     'Babel',
     'lingua',
 
-    # Test
+    # Test Data
     'Faker',
+
+    # Test Suite
+    'pytest',
+    'psycopg2',
+    'WebTest',
+    'mock'
 ]
 
 optional = {

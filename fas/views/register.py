@@ -145,4 +145,4 @@ class Register(object):
         register.add_people(self.person)
         self.request.session.flash(_('Account activated'), 'info')
 
-        return redirect_to('/people/profile/%s' % self.person.id)
+        return redirect_to(self.request, 'people-profile', id=self.person.id)

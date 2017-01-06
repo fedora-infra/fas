@@ -153,8 +153,9 @@ Initialize the database
 
 Run the test suite
 ------------------
+Take a look at section "Hacking with Vagrant". Once Vagrant is setup just run
 
-``% python setup.py test``
+    vagrant ssh -c 'pushd /vagrant/; find . -name \*.pyc -delete ; pytest'
 
 Add fake data (People and group)
 --------------------------------
@@ -187,3 +188,7 @@ to start the FAS3 server on the vagrant virtual machine:
 
 Once that is running, simply go to http://localhost:5002/ in your browser on
 your host to see your running FAS3 test instance.
+
+Running test suite
+
+    vagrant ssh -c 'pushd /vagrant/; find . -name \*.pyc -delete ; pytest'

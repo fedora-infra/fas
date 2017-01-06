@@ -30,3 +30,8 @@
   shell: runuser -l postgres -c 'createdb fas3' && touch /home/vagrant/.db-created
   args:
       creates: /home/vagrant/.db-created
+
+- name: Create a database for FAS3 Test Suite
+  shell: runuser -l postgres -c 'createdb fas3test'
+  args:
+      creates: /home/vagrant/.db-created
