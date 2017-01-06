@@ -53,7 +53,7 @@ class Config(object):
         config = None
 
         try:
-            config = settings[configname] or default_config
+            config = settings.get(configname) or default_config
         except TypeError:
             # We might hit this if we call registry too soon when initializing
             pass
