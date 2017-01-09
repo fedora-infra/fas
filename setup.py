@@ -34,15 +34,13 @@ requires = [
     # i18n
     'Babel',
     'lingua',
-
-    # Test
-    'Faker',
 ]
 
 optional = {
     'debug': 'pyramid_debugtoolbar',
     'fancy_log': 'rainbow_logging_handler',
     'db_upgrade': 'alembic',
+    'fake-data': 'Faker',
 }
 
 setup(
