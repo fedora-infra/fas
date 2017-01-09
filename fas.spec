@@ -5,7 +5,7 @@
 
 Name:           fas
 Version:        3.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fedora Account System
 
 License:        GPLv2
@@ -112,6 +112,9 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 %{_datadir}/%{name}/themes/fedoraproject
 
 %changelog
+* Thu Jan 05 2017 Xavier Lamien <laxathon@fedoraproject.org> - 3.0.0-5
+- Bump package's release.
+
 * Sun Dec 18 2016 Xavier Lamien <laxathom@fedoraproject.org> - 3.0.0-4
 - Move theme to a dedicated subpackage.
 
