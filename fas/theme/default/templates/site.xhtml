@@ -7,7 +7,7 @@
     <meta name="keywords" content="python web application" />
     <meta name="description" content="Fedora Project web application" />
 
-    <link rel="shortcut icon" href="${request.static_url('fas:static/theme/fedoraproject/assets/favicon.ico')}" />
+    <link rel="shortcut icon" href="${request.static_url('%s/assets/favicon.ico' % theme_static)}" />
 
     <!-- custom fonts -->
     <link rel="stylesheet" media="screen" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" />
@@ -18,13 +18,13 @@
 
     <!-- theme -->
     <link rel="stylesheet" type="text/css" media="all"
-        href="${request.static_url('fas:static/theme/fedoraproject/style/fas.css')}" />
+        href="${request.static_url('fas:theme/default/static/style/fas.css')}" />
     <link rel="stylesheet" type="text/css" media="all"
-        href="${request.static_url('fas:static/theme/fedoraproject/style/component.css')}" />
+        href="${request.static_url('%s/style/component.css' % theme_static)}" />
     <link rel="stylesheet" type="text/css" media="all"
-        href="${request.static_url('fas:static/theme/fedoraproject/style/animations.css')}" />
-    <script src="${request.static_url('fas:static/theme/fedoraproject/js/theme.js')}"></script>
-    <script src="${request.static_url('fas:static/theme/fedoraproject/js/pwstrength.js')}"></script>
+        href="${request.static_url('%s/style/animations.css' % theme_static)}" />
+    <script src="${request.static_url('%s/js/theme.js' % theme_static)}"></script>
+    <script src="${request.static_url('%s/js/pwstrength.js' % theme_static)}"></script>
 </head>
 
   <body class="navbar-expanded">
@@ -113,7 +113,7 @@
         </div>
     </nav>
     %if request.session.peek_flash('error'):
-          <div class="alert alert-danger alert-dismissible" role="alert" 
+          <div class="alert alert-danger alert-dismissible" role="alert"
                style="max-width: 300px; margin: 20px; position: fixed; z-index: 20; box-shadow: 0px 0px 30px 3px rgba(159, 39, 39, 0.65);">
             <!-- Note that this style is temporary while validating the layout -->
             <button type="button" class="close" data-dismiss="alert">

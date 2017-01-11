@@ -25,13 +25,13 @@
             <h2>
                 <a href="${request.route_url('groups')}">
                     <span>
-                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-group-100.png')}">
+                    <img src="${request.static_url('%s/assets/fedora-default-group-100.png' % theme_static)}">
                     </span>${_(u'Fedora groups')}
                 </a>
             </h2>
             <h2>
                 <a href="${request.route_url('people')}"><span>
-                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user_topmenu-100.png')}">
+                    <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-100.png'  % theme_static)}">
                 </span>${_(u'Fedora people')}</a>
             </h2>
         </div>
