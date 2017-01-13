@@ -1,5 +1,5 @@
 BIN = ./node_modules/.bin
-FONT_DIR      ?= ./../../theme/fedoraproject/static/assets/fonts
+FONT_DIR      ?= ./../static/assets/fonts
 FONTELLO_HOST ?= http://fontello.com
 
 install:

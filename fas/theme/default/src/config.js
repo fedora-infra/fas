@@ -1,6 +1,6 @@
 var theme= 'default',
     srcPath = __dirname,
-    themePath = __dirname + '/../../theme/'+theme+'/static/';
+    themePath = __dirname + '/../static/';
 
 module.exports = {
     theme : theme,
