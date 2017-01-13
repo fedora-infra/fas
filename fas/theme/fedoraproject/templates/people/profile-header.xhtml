@@ -17,14 +17,15 @@
       %endif
   %endif
 
-  <div class="page-title">
+  <div class="page-title subheader">
+    <div class="container">
     <div class="profile-header">
       %if form and person.username == request.authenticated_userid:
       <a href="#updateAvatar" data-toggle="modal" data-target="#updateAvatar">
       %endif
         <figure>
           %if person.avatar:
-              <img class="profile" src="${person.avatar + '?s=150&d=monsterid'}"/>
+              <img class="profile" src="${person.avatar + '?s=150&d=retro'}"/>
           %else:
               <img src="${request.static_url('%s/assets/fedora-default-user-150.png' % theme_static)}"/>
           %endif
@@ -53,6 +54,7 @@
       %endif
     </div>
   </div>
+</div>
 
   %if formavatar:
     %if person.username == request.authenticated_userid:

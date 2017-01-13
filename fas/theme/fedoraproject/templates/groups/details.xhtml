@@ -36,12 +36,13 @@
   %endif
 
   <div class="page-title">
+    <div class="container">
     <h1>
         <span>
         %if group.avatar is None:
             <img src="${request.static_url('%s/assets/fedora-default-group-titlebar-100.png' % theme_static)}" />
         %else:
-            <img src="${request.status_url('%s/%s' % theme_static % group.avatar)}/>
+            <img src="${request.status_url('%s/%s' % theme_static % group.avatar)}"/>
         %endif
         </span>
          ${group.display_name or group.name}
@@ -71,7 +72,8 @@
       %endif
     %endif
   </div>
-
+  </div>
+  <div class="bodycontent pb-3">
   <div class="container group-card">
       <div class=row>
           <div class="centered text-center col-sm-7 col-md-6">
@@ -275,7 +277,7 @@
                           <span>
                               <a href="${request.route_url('people-profile', id=membership.person.username)}">
                                   %if membership.person.avatar:
-                                      <img src="${membership.person.avatar}?s=90&d=monsterid"
+                                      <img src="${membership.person.avatar}?s=90&d=retro"
                                            class="profile img-circle" />
                                   %else:
                                       <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-90.png' % theme_static)}"/>
@@ -308,7 +310,7 @@
   <hr />
 
 ##   Members list
-  <div class=members-list>
+  <div class="people-list">
       <h3>${_(u'Members')}</h3>
       %if len(members) > 0:
 
@@ -374,6 +376,7 @@
       %endif
   </div>
   </div>
+</div>
 
    <script type='text/javascript'>//<![CDATA[
     window.onload = function() {
@@ -465,4 +468,3 @@
         });
     });//]]>
     </script>
-

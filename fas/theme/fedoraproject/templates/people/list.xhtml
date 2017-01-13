@@ -5,15 +5,16 @@
 
 <% account_status = fasModel.module.AccountStatus %>
 
-${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
 
-<div class="searchform">
+<div class="bodycontent pb-3">
+  ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
+<div class="searchform container">
   <h2></h2>
   <form method="get" action="${request.route_url('people-search-rd')}">
-    <div class="input-group">
+    <div class="input-group py-1">
       <input type="text" name="q" class="form-control" placeholder="${_('search for people')}"/>
-      <span class="input-group-addon">
-        <button class="fas-icon-search"></button>
+      <span class="input-group-btn">
+        <button class="btn btn-primary"><i class="fa fa-search"></i></button>
       </span>
     </div>
   </form>
@@ -26,11 +27,11 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
 <div class="container people-list">
     <div class="row">
         %for user in people:
-        <div class="col-sm-6 col-md-4 col-lg-4">
+        <div class="col-sm-6 col-md-6 col-lg-4">
             <div class="usercard">
                 <a href="${request.route_url('people-profile', id=user.username)}">
                 %if user.avatar:
-                    <img src="${user.avatar + '?s=100&d=monsterid'}"/>
+                    <img src="${user.avatar + '?s=100&d=retro'}"/>
                 %else:
                     <img src="${request.static_url('%s/assets/fedora-default-user-100.png' % theme_static)}"/>
                 %endif
@@ -51,23 +52,18 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
                     </div>
                     <p>${user.introduction if user.introduction else ''}</p>
                     %if user.status == account_status.ACTIVE:
-                        <span class="label label-success">${_(u'active')}</span>
+                        <span class="tag tag-success more">${_(u'active')}</span>
                     %elif user.status == account_status.ON_VACATION:
-                        <span class="label label-info">${_(u'on vacation')}</span>
+                        <span class="tag tag-info">${_(u'on vacation')}</span>
                     %elif user.status == account_status.INACTIVE:
-                        <span class="label label-warning">${_(u'inactive')}</span>
+                        <span class="tag tag-warning">${_(u'inactive')}</span>
                     %elif user.status == account_status.PENDING:
-                        <span class="label label-warning">${_(u'inactive')}</span>
+                        <span class="tag tag-warning">${_(u'inactive')}</span>
                     %elif user.status == account_status.DISABLED:
-                        <span class="label label-default">${_(u'archived')}</span>
+                        <span class="tag tag-default">${_(u'archived')}</span>
                     %elif user.status == account_status.BLOCKED or user.status == account_status.BLOCKED_BY_ADMIN:
-                        <span class="label label-danger">${_(u'blocked')}</span>
+                        <span class="tag tag-danger">${_(u'blocked')}</span>
                     %endif
-                    <a class="more" href="${request.route_url(
-                        'people-profile', id=user.username)}">
-                      ${_(u'See full profile')}
-                      <i class="fas-icon-right"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -77,3 +73,4 @@ ${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
     ${paging.list(name="people", route='people-paging')}
 
 %endif
+</div>

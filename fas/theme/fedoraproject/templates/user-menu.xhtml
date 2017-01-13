@@ -3,37 +3,33 @@
   <%
       pending_ms_num = len(request.get_pending_ms_requests)
   %>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li role="presentation">
-        <a tabindex="-1" href="${request.route_url('people-profile', id=user.id)}">
-          %if user.avatar:
-            <img src="${user.avatar + '?s=90&d=monsterid'}"
-                 class="img-thumbnail img-responsive center-block" />
-          %else:
-            <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-90.png' % theme_static)}"
-                 class="img-responsive center-block" />
-          %endif
-          <span class="text-center">
-            <p><strong>${user.fullname}</strong></p>
-          </span>
-        </a>
-      <a role="menuitem" tabindex="-1" href="${request.route_url('people-edit', id=user.id)}">
-        <span class="fas-icon-pencil"></span> ${_(u'Edit profile')}
-      </a>
-    </li>
-    <li role="presentation">
-      <a role="menuitem" tabindex="-1" href="${request.route_url('people-password', id=user.id)}">
-        <span class="fas-icon-lock"></span> ${_(u'Change password')}
-     </a>
-    </li>
+  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
+    <div class="dropdown-header"><strong>${user.username}</strong></div>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="${request.route_url('people-profile', id=user.id)}">
+      ${_(u'My Public Profile')}
+    </a>
+    <a class="dropdown-item" href="${request.route_url('people-edit', id=user.id)}">
+      ${_(u'Edit Profile')}
+    </a>
+    <a class="dropdown-item" href="${request.application_url + '/logout'}?redirect=${request.url}">
+      ${_(u'Log out')}
+    </a>
+    <a class="dropdown-item" href="${request.route_url('people-password', id=user.id)}">
+      ${_(u'Change password')}
+    </a>
     %if pending_ms_num > 0:
-        <li class="divider"></li>
-    <li role="presentation">
-      <a role="menuitem" tabindex="-1" href="${request.route_url('group-pending-request')}">
-         <span class="fas-icon-bell text-warning"></span> ${_(u'Pending request')}
-        <span class="badge">${pending_ms_num}</span>
-     </a>
-    </li>
+    <a class="dropdown-item" href="${request.route_url('group-pending-request')}">
+      ${_(u'Pending request')}
+      <span class="tag tag-pill tag-info">${pending_ms_num}</span>
+    </a>
+    %endif
+    %if request.authenticated_is_admin() \
+            or request.authenticated_is_modo() \
+            or request.authenticated_is_group_editor():
+      <a class="dropdown-item" href="${request.route_url('settings')}">
+        ${_(u'FAS Admin Settings')}
+      </a>
     %endif
   </ul>
 </%def>

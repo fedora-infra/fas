@@ -33,109 +33,64 @@ ${Page.set_title(_(u'Create your Fedora Project Account'), _(u'Proceed to the fo
       %endif
     %endif
 
-    <div id="pt-main" class="pt-perspective">
+    <div id="pt-main" class="bodycontent">
+      <div class="container">
       <form method="POST" action="${request.route_url('people-new')}" class="form-horizontal" role="form">
-
-        <div class="pt-page">
-          <div class="container-fluid">
             <h2 class="text-center">${_('Account identity')}</h2>
             <div class="form-group">
               ${form.username.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
               ${form.username(class_='form-control', id='username', type='username', placeholder=_(u'Enter an username'))}
-              </div>
             </div>
             <div class="form-group">
               ${form.fullname.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${form.fullname(class_='form-control', type='fullname', placeholder=_(u'Enter your full name'))}
-              </div>
             </div>
             <div class="form-group">
               ${form.email.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${form.email(class_='form-control', type='email', placeholder=_(u'Enter a valid email'))}
-              </div>
             </div>
-          </div>
 
-          <div class="container-fluid" style="padding-top: 25px;">
             <div class="form-group">
               ${form.password.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${form.password(class_='form-control', id='password')}
                  <div class="col-sm-6 col-sm-offset-2" style="padding-top: 20px;">
                    <div class="pwstrength_viewport_progress"></div>
                  </div>
                  <div id="messages"></div>
-              </div>
             </div>
             <div class="form-group">
               ${form.password_confirm.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${form.password_confirm(class_='form-control', id='confirmpwd')}
-              </div>
             </div>
-            <div class="card-form-footer">
-              <button type="button" class="btn-next btn-transition btn btn-lg btn-info pull-right">
-                ${_(u'Next')}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-page">
-          <div class="container-fluid">
             <h2 class="text-center">${_(u'Add more information to your account')}</h2>
             <div class="form-group">
               ${peopleform.avatar.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${peopleform.avatar(class_='form-control', placeholder=_(u'Your avatar ID or email'))}
-              </div>
             </div>
             <div class="form-group">
               ${peopleform.introduction.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${peopleform.introduction(class_='form-control', placeholder=_(u'Intro or catch phrase'))}
-              </div>
             </div>
             <div class="form-group">
               ${peopleform.ircnick.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${peopleform.ircnick(class_='form-control', placeholder=_(u'Your IRC nickname'))}
-              </div>
             </div>
             <div class="form-group">
               <div class="row">
                   ${peopleform.birthday.label(class_='col-xs-4 control-label')}
-                <div class="col-xs-2">
                   ${peopleform.birthday(class_='form-control', type='day', placeholder=_(u'Enter your day of birth'))}
-                </div>
-                <div class="col-xs-2">
                   ${peopleform.birthday_month(class_='form-control', type='month')}
-                </div>
               </div>
             </div>
             <h3>${_('Contact information')}</h3>
             <div class="form-group">
               ${peopleform.postal_address.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${peopleform.postal_address(class_='form-control', placeholder=_(u'Your IRC nickname'))}
-              </div>
             </div>
             <div class="form-group">
               ${peopleform.telephone.label(class_='col-md-4 control-label')}
-              <div class="col-sm-4">
                 ${peopleform.telephone(class_='form-control', placeholder=_(u'Your IRC nickname'))}
-              </div>
             </div>
-            <div class="card-form-footer">
-            <button type="button" class="btn-transition btn btn-lg btn-info pull-right">
-              ${_(u'Next')}
-            </button>
-            </div>
-          </div>
-        </div>
 
         %if len(licensesform) > 0:
           <%
@@ -170,8 +125,6 @@ ${Page.set_title(_(u'Create your Fedora Project Account'), _(u'Proceed to the fo
           %endfor
         %endif
 
-        <div class="pt-page">
-          <div class="container-fluid">
             <h2 class="text-center">${_(u'Finalize your registration')}</h2>
             <div class="container center-block">
               <p>Add some final text here or inputs review</p>
@@ -186,8 +139,6 @@ ${Page.set_title(_(u'Create your Fedora Project Account'), _(u'Proceed to the fo
             </button>
             </div>
           </div>
-        </div>
-
       </form>
     </div>
 

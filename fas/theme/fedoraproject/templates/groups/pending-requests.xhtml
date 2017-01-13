@@ -17,10 +17,10 @@ ${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership request
                   <a href="${request.route_url(
                             'people-profile', id=ms.person.username)}">
                     %if ms.person.avatar:
-                      <img src="${ms.person.avatar}?s=50&d=monsterid"
+                      <img src="${ms.person.avatar}?s=50&d=retro"
                            class="profile img-circle" />
                     %else:
-                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=retro"
                            class="img-thumbnail" />
                     %endif
                     ${ms.person.fullname}
