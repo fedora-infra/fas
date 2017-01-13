@@ -39,6 +39,7 @@ requires = [
 optional = {
     'debug': 'pyramid_debugtoolbar',
     'fancy_log': 'rainbow_logging_handler',
+    'db-postgresql': 'psycopg2',
     'db_upgrade': 'alembic',
     'fake-data': 'Faker',
 }
