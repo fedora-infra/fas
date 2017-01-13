@@ -26,7 +26,7 @@
           %if person.avatar:
               <img class="profile" src="${person.avatar + '?s=150&d=monsterid'}"/>
           %else:
-              <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user-150.png')}"/>
+              <img src="${request.static_url('%s/assets/fedora-default-user-150.png' % theme_static)}"/>
           %endif
         %if form:
         <figcaption>

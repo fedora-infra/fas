@@ -16,7 +16,7 @@
     %if request.get_user and request.get_user.avatar:
     <img src="${request.get_user.avatar}" class="img-circle" />
     %else:
-    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user_topmenu-100.png')}"/>
+    <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-100.png' % theme_static)}"/>
     %endif
   </div>
 

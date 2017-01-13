@@ -22,12 +22,12 @@
                     <div id="${member.person_id}" class="member-item col-sm-6 col-md-3">
                         <span>
                             <a href="${request.route_url('people-profile', id=member.person_id)}">
-                                <img id="loader_img" src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}" style="display: none">
+                                <img id="loader_img" src="${request.static_url('%s/assets/fedora_35.png' % theme_static)}" style="display: none">
                                 %if member.person.avatar:
                                     <img  id="main_img" src="${member.person.avatar + '?s=90&d=monsterid'}"
                                           class="profile img-circle" />
                                 %else:
-                                    <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-user_topmenu-90.png')}"
+                                    <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-90.png' % theme_static)}"
                                           />
                                 %endif
                             </a>

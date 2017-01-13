@@ -23,7 +23,7 @@
             %else:
             <a href="${request.route_url('group-details', id=group.id)}">
                 %endif
-                <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora-default-group-100.png')}" />
+                <img src="${request.static_url('%s/assets/fedora-default-group-100.png' % theme_static)}" />
                 <h3>${group.display_name or group.name}</h3>
             </a>
         </div>
