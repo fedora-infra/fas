@@ -208,6 +208,7 @@ class Groups(object):
                 authenticated_membership = membership
                 if membership.status == MembershipStatus.APPROVED:
                     is_member = True
+                    members.append(membership)
 
         if authenticated:
             if authenticated.id == group.owner_id \
