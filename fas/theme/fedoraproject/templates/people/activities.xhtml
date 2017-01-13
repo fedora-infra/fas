@@ -1,0 +1,34 @@
+<%inherit file="/people/profile-header.xhtml" />
+  <%namespace name="account" module="fas.models.people" />
+  <%namespace name="profile" file="/people/profile-header.xhtml"/>
+    ${profile.header()}
+    <div class="container">
+      <h3>${_(u'Your account activities')}</h3>
+      <dl class="dl-horizontal">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>${_(u'Date')}</th>
+            <th>${_(u'Event')}</th>
+            <th>${_(u'Location')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          %for activity in activities:
+          <tr>
+            <td>${activity.get_date(request)}</td>
+            <td>
+              %if activity.event == account.module.AccountLogType.LOGGED_IN:
+                  ${_(u'Signed in from')} ${activity.access_from}
+              %else:
+                  ${account.module.AccountLogType(activity.event).name.lower().replace('_', ' ')}
+              %endif
+            </td>
+            <td><span class="fas-icon-location"></span> ${activity.location}</td>
+            <!-- We'll put this one into a popover info: (${activity.remote_ip})</td> -->
+          </tr>
+        %endfor
+        </tbody>
+      </table>
+      </dl>
+    </div>

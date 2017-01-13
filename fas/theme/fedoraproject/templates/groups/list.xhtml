@@ -1,0 +1,23 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="paging" file="/paging.xhtml"/>
+
+${Page.set_title(_(u'Fedora Groups\' List'), _(u'All involvement\'s groups'))}
+
+  <div class="searchform">
+      <h3></h3>
+      <form method="get" action="${request.route_url('group-search-rd')}">
+          <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="${_(u'search groups')}"/>
+              <span class="input-group-addon">
+                  <button class="fas-icon-search"></button>
+              </span>
+          </div>
+      </form>
+  </div>
+
+<h1></h1>
+<div class="container">
+${Page.set_group_list(groups=groups, enable_paging=True)}
+</div>
+

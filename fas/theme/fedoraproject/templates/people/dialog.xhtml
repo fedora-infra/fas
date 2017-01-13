@@ -1,0 +1,46 @@
+<%namespace name="PeopleDialog" />
+<%namespace name="Modal" file="/modal.xhtml" />
+
+<%def name="avatar(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateAvatar', _(u'Update avatar'))}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.avatar_id.label()}
+              <div class="col-lg-10">
+                ${form.avatar_id()}
+              </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Change avatar'), action='form.update.avatar')}
+</form>
+</%def>
+
+<%def name="sshkey(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateSshKey', _(u'Update your SSH key'), size='md')}
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-lg-10">
+              ${form.ssh_key(class_='form-control', rows='10', placheholder=_(u'Add a key'))}
+            </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Update key'), action='form.update.ssh')}
+</form>
+</%def>
+
+<%def name="gpg_fingerprint(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('updateGpgfp', _(u'Update your GPG Fingerprint'), size='md')}
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-lg-10">
+              ${form.gpg_fingerprint(class_='form-control', rows='5', placheholder=_(u'Add one or many fingerprint separated by a comma'))}
+            </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Update fingerprint'), action='form.update.gpgfp')}
+</form>
+</%def>
+

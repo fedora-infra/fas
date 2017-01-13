@@ -1,0 +1,296 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+${Page.set_title(_(u'Group Update'), _(u'Update group\'s informations'))}
+
+<div class="container">
+  %if form.name.data is None:
+    <form method="POST" action="${request.route_url('add-group')}" class="form-horizontal" role="form">
+  %else:
+    <form method="POST" action="${request.route_url('group-edit', id=id)}" class="form-horizontal" role="form">
+  %endif
+    %if form.errors:
+        <!-- Add error msg here for debug purpose. -->
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
+
+      <h4 class="section-title">${_('Main informations')}</h4>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">${_(u'Name')}</label>
+        %if form.name.data is not None:
+          <div class="col-sm-10">
+            <p class="form-control-static">${form.name.data}</p>
+          </div>
+        %else:
+          <div class="col-sm-10">
+            ${form.name(class_='form-control col-lg-10', placeholder=_(u'Enter your group name'))}
+          </div>
+        %endif
+      </div>
+      <div class="form-group">
+        ${form.display_name.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.display_name(class_='form-control col-lg-10', placeholder=_(u'Enter a full name to define your group'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.description.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.description(class_='form-control col-lg-10', placeholder=_(u'Add more description to your group'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.group_type_id.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.group_type_id(class_='form-control')}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.parent_group_id.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.parent_group_id(class_='form-control')}
+        </div>
+      </div>
+      <fieldset disabled> <!-- disabled for now -->
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="icon">Icon</label>
+          <div class="col-lg-10">
+            <input type="file" id="icon">
+          </div>
+        </div>
+      </fieldset>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.private} ${form.private.label}
+              <span>
+                <a data-toggle="collapse" href="#collapsePrivacy"> <span class="fas-icon-help-circled-alt"></span></a>
+              </span>
+                <div id="collapsePrivacy" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+##                         TODO: Make this actually happen.
+                      ${_(u'Set group as private. Only you and your members can see this group.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="section-title">${_('Contact informations')}</h4>
+      <div class="form-group">
+        ${form.mailing_list.label(class_='col-sm-2 control-label')}
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="input-group">
+              <div class="input-group-addon">@</div>
+                ${form.mailing_list(class_='form-control col-lg-20', placeholder=_(u'Enter your mailing list'))}
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="input-group">
+              <div class="input-group-addon">http://</div>
+                ${form.mailing_list_url(class_='form-control')}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.irc_channel.label(class_='col-sm-2 control-label')}
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="input-group">
+              <div class="input-group-addon">#</div>
+                ${form.irc_channel(class_='form-control', placeholder=_(u'Enter your group\'s channel'))}
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="input-group">
+              <div class="input-group-addon">irc://</div>
+                ${form.irc_network(class_='form-control', placeholder=_(u'Enter your group\'s irc network'))}
+            </div>
+          </div>
+        </div>
+      </div>
+<!--
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-3">
+          </div>
+          <div class="col-xs-4">
+          </div>
+        </div>
+      </div>
+-->
+      <div class="form-group">
+        ${form.owner_id.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.owner_id(class_='form-control')}
+        </div>
+      </div>
+
+      <h4 class="section-title">${_('Membership requirements')}</h4>
+<!--
+##       %if form.license_id.data < 0:
+##         <fieldset disabled>
+##       %endif
+-->
+      <div class="form-group">
+        ${form.license_id.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.license_id(class_='form-control')}
+        </div>
+      </div>
+<!--
+##       %if form.license_id.data < 0:
+##         </fieldset>
+##       %endif
+-->
+      <div class="form-group">
+        ${form.certificate_id.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.certificate_id(class_='form-control')}
+        </div>
+      </div>
+
+      <div class="form-group">
+        ${form.apply_rules.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.apply_rules(class_='form-control', placeholder=_(u'Enter a description for your group membership\'s requirement'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.join_msg.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.join_msg(class_='form-control', row='3', placheholder=_(u'Enter a welcome msg to your new members'))}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.need_approval} ${form.need_approval.label}
+              <span>
+                <a data-toggle="collapse" href="#collapseApproval">
+                  <span class="fas-icon-help-circled-alt"></span>
+                </a>
+              </span>
+                <div id="collapseApproval" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Users will need to be approved by an admin to be an approved member.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.requires_sponsorship} ${form.requires_sponsorship.label}
+              <span>
+                <a data-toggle="collapse" href="#collapseSponsorship">
+                  <span class="fas-icon-help-circled-alt"></span>
+                </a>
+              </span>
+                <div id="collapseSponsorship" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Users will need to be sponsored to be an approved member.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.requires_ssh} ${form.requires_ssh.label}
+              <span>
+                <a data-toggle="collapse" href="#collapseSsh">
+                  <span class="fas-icon-help-circled-alt"></span>
+                </a>
+              </span>
+                <div id="collapseSsh" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Requires from your members to have a valid SSH key within their account.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.self_removal} ${form.self_removal.label}
+              <span>
+                <a data-toggle="collapse" href="#collapseRemoval">
+                  <span class="fas-icon-help-circled-alt"></span>
+                </a>
+              </span>
+                <div id="collapseRemoval" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Your members can revoke their membership themselves.')}
+                    </i>
+                  </div>
+                </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.invite_only} ${form.invite_only.label}
+            </label>
+          </div>
+        </div>
+      </div>
+      <h4 class="section-title">${_('Group\'s Synchronization')}</h4>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.bound_to_github} ${form.bound_to_github.label}
+            </label>
+          </div>
+        </div>
+      </div>
+      <h4 class="section-title">${_('Miscellaneous')}</h4>
+      <div class="form-group">
+        ${form.web_link.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.web_link(class_='form-control', placeholder=_(u'Select your system locale'))}
+        </div>
+      </div>
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+      <div class="card-form-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
+        <button type="submit" class="btn btn-primary" name="form.save.group-details">${_(u'Save changes')}</button>
+      </div>
+  </form>
+</div>

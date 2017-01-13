@@ -1,0 +1,510 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="SettingsDialog" file="/admin/dialog.xhtml" />
+<%namespace name="peopleModel" module="fas.models.people" />
+<%namespace name="laModel" module="fas.models.la" />
+
+<%
+    account_status = peopleModel.module.AccountStatus
+    license_status = laModel.module.LicenseAgreementStatus
+%>
+
+${SettingsDialog.license(licenseform)}
+${SettingsDialog.trustedperms(tpermform)}
+${SettingsDialog.revoketrustedperms(trustedpermform)}
+
+${Page.set_title(_(u'Account settings'), _(u'Manage the account system'))}
+
+<div class="container" xmlns="http://www.w3.org/1999/html">
+
+    %if request.session.peek_flash('tokens'):
+    <div class="alert alert-info alert-dismissible center-block" role="alert" style="width: 600px;">
+        <button type="button" class="close" data-dismiss="alert">
+            <!--<span aria-hidden="true">&times;</span>-->
+            <span class="sr-only">Close</span>
+        </button>
+        <p class="text-center">
+            <strong>${_(u'Trusted API key:')}</strong> ${request.session.pop_flash('tokens')[0]}
+            <br/>
+            <strong>${_(u'Trusted secret:')}</strong> ${request.session.pop_flash('secret')[0]}
+        </p>
+        <br/>
+        <p>
+            ${_(u'Save this token with care and keep in mind this '\
+              'token provides you with access to whole Fedora account info.'\
+              'Do not share it or post it to the world.')}
+        </p>
+        <br/>
+        <button type="button" class="btn btn-info text-right" role="alert" data-dismiss="alert">
+            ${_(u'Got it!')}
+        </button>
+    </div>
+    %endif
+
+    <h2></h2>
+    <div class="row">
+        <div class="col-xs-6 col-sm-3">
+            <div class="panel panel-info">
+                <div class="panel-body bg-info">
+                    <h1 style="color: white">${people}</h1> <span class="fas-icon-user bg-icon"></span>
+                    ${_(u'registered members')}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="panel panel-info">
+                <div class="panel-body bg-info">
+                    <h1>${groups}</h1><span class="fas-icon-users bg-icon"></span>
+                    ${_(u'active groups')}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="panel panel-info">
+                <div class="panel-body bg-info">
+                    <h1>${licenses}</h1><span class="fas-icon-certificate bg-icon"></span>
+                    ${_(u'licenses agreement')}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="panel panel-info bg-info">
+                <div class="panel-body">
+                    <h1>${trusted_apps}</h1> <span class="fas-icon-key bg-icon"></span>
+                    ${_(u'trusted applications')}
+                </div>
+            </div>
+        </div>
+    </div>
+<!--
+      <h2><a href="#removeCertificate" data-toggle="modal" data-trigger="#removeCertificate">${_(u'Remove a certificate')}</a></h2>
+-->
+</div>
+<div class="container-fluid">
+
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><span class="fas-icon-user"></span> ${_(u'Users Management')}</div>
+      <!-- Table data-toggle="table"-->
+      <table id="people-table" data-toggle="table" class="table table-hover" data-id-field="id"
+             data-url="/settings/dump/people" data-height="545" data-side-pagination="server"
+             data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, ALL]"
+             data-search="true" data-show-refresh="true" data-response-handler="responseHandler">
+          <thead>
+          <tr>
+              <th data-field="state" data-checkbox="true"></th>
+              <th data-field="id" data-align="center">${_(u'Id')}</th>
+              <th data-field="username" data-align="center" data-sortable="true">${_(u'Username')}</th>
+              <th data-field="fullname" data-align="center">${_(u'Full Name')}</th>
+              <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusLabel">${_(u'Status')}</th>
+              <th data-field="creation_date" data-align="center">${_(u'Joined on')}</th>
+              <!--<th data-field="avatar">${_(u'Last activity')}</th>-->
+              <th data-align="center" data-events="actionEvents" data-formatter="peopleActions">${_(u'Actions')}</th>
+          </tr>
+          </thead>
+
+      </table>
+    </div>
+
+    <div class="panel panel-default">
+      <!-- Groups panel contents -->
+      <div class="panel-heading"><span class="fas-icon-users"></span> ${_(u'Groups Management')}</div>
+      <div class="panel-body">
+          <div class="row">
+              <div class="col-md-3">
+                  <h3><a href="${request.route_url('add-group')}">
+                      <span class="fas-icon-plus"></span> ${_(u'Add a group')}
+                  </a></h3>
+              </div>
+              <div class="col-md-3">
+                  <h3><a href="${request.route_url('add-grouptype')}">
+                      <span class="fas-icon-plus"></span> ${_(u'Add group type')}
+                  </a></h3>
+              </div>
+          </div>
+      </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#group" aria-controls="group" role="tab" data-toggle="tab">
+                    ${_(u'Groups')}
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#group-type" aria-controls="group-type" role="tab" data-toggle="tab">
+                    ${_(u'Type')}
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- Group's tab -->
+            <div role="tabpanel" class="tab-pane active" id="group">
+                <!-- Groups table -->
+                <table id="group-table" data-toggle="table" class="table table-hover"
+                       data-url="/settings/dump/groups" data-height="545" data-side-pagination="server"
+                       data-pagination="true" data-page-list="[5, 10, 20, 50, 100]"
+                       data-search="true" data-show-refresh="true">
+                    <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="id" data-align="center">${_(u'Id')}</th>
+                        <th data-field="name" data-align="center" data-sortable="true">${_(u'Name')}</th>
+                        <th data-field="display_name" data-align="center">${_(u'Display Name')}</th>
+                        <th data-field="owner_id" data-align="center">${_(u'Admin')}</th>
+                        <th data-field="group_type" data-align="center">${_(u'Type')}</th>
+                        <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusLabel">${_(u'Status')}</th>
+                        <th data-field="parent_group_id" data-align="center">${_(u'Parent')}</th>
+                        <th data-field="creationDate" data-align="center" data-sortable="true">${_(u'Created on')}</th>
+                        <th data-align="center" data-events="actionEvents" data-formatter="groupActions">${_(u'Actions')}</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!-- Group type's tab -->
+            <div role="tabpanel" class="tab-pane" id="group-type">
+                <!-- Group type's table -->
+                <table id="group-type-table" data-toggle="table" class="table table-hover"
+                        data-url="/settings/dump/grouptypes" data-height="300" data-side-pagination="server"
+                        data-pagination="true" data-page-list="[5, 10, 20]"
+                        data-search="true" data-show-refresh="true">
+                    <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="id" data-align="center">${_(u'Id')}</th>
+                        <th data-field="name" data-align="center" data-sortable="true">${_(u'Name')}</th>
+                        <th data-field="comment" data-align="center">${_(u'Description')}</th>
+                        <th data-align="center" data-events="actionEvents" data-formatter="grouptypeActions">${_(u'Actions')}</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="fas-icon-certificate"></span> ${_(u'Licenses Management')}
+                </div>
+                <div class="panel-body">
+                    <h3>
+                        <a href="${request.route_url('add-license')}">
+                            <span class="fas-icon-plus"></span> ${_(u'Add license agreement')}
+                        </a>
+                    </h3>
+                </div>
+
+                <!-- Table -->
+                <table data-toggle="table" class="table table-hover"
+                        data-url="/settings/dump/licenses" data-height="300" data-side-pagination="server"
+                        data-pagination="true" data-page-list="[5, 10, 20]"
+                        data-search="true" data-show-refresh="true">
+                    <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="id">${_(u'Id')}</th>
+                        <th data-field="name" data-sortable="true">${_(u'name')}</th>
+                        <th data-field="status" data-formatter="LicenseStatusLabel">${_(u'Status')}</th>
+                        <th data-field="enabled_at_signup">${_(u'Enabled at sign up')}</th>
+                        <th data-field="created_on" data-sortable="true">${_(u'Created on')}</th>
+                        <th data-align="center" data-events="actionEvents" data-formatter="licenseActions">${_(u'Actions')}</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="fas-icon-certificate"></span> ${_(u'Certificates Management')}
+                </div>
+                <div class="panel-body">
+                    <h3>
+                        <a href="${request.route_url('add-certificate')}">
+                            <span class="fas-icon-plus"></span> ${_(u'Add certificate authority or server')}
+                        </a>
+                    </h3>
+                </div>
+
+                <!-- Table -->
+                <table data-toggle="table" class="table table-hover"
+                        data-url="/settings/dump/certificates" data-height="300" data-side-pagination="server"
+                        data-pagination="true" data-page-list="[5, 10, 20]"
+                        data-search="true" data-show-refresh="true">
+                    <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="id">${_(u'Id')}</th>
+                        <th data-field="name" data-sortable="true">${_(u'Name')}</th>
+                        <th data-field="description">${_(u'Description')}</th>
+                        <th data-field="client_cert_desc">${_(u'Client Certificate desc')}</th>
+                        <th data-field="enabled">${_(u'Enabled')}</th>
+                        <th data-field="creation_timestamp" data-sortable="true">${_(u'Created on')}</th>
+                        <th data-align="center" data-events="actionEvents" data-formatter="certificateActions">${_(u'Actions')}</th>
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="fas-icon-key"></span> ${_(u'Trusted Applications Permissions')}
+                </div>
+                <div class="panel-body">
+                    <h3>
+                        <a href="#addTrustedPerm" data-toggle="modal" data-trigger="#addTrustedPerm">
+                            <span class="fas-icon-plus"></span> ${_(u'Add Trusted app')}
+                        </a>
+                    </h3>
+                    <!--
+                    <h2><a href="#revokeTrustedPerm" data-toggle="modal" data-trigger="#revokeTrustedPerm">${_(u'Revoke a trusted App')}</a></h2>
+                    -->
+                </div>
+
+                <!-- Table -->
+                <table data-toggle="table" class="table table-hover"
+                        data-url="/settings/dump/trustedapps" data-height="300" data-side-pagination="server"
+                        data-pagination="true" data-page-list="[5, 10, 20]"
+                        data-search="true" data-show-refresh="true">
+                    <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="application">${_(u'Application')}</th>
+                        <th data-field="permission">${_(u'Permission')}</th>
+                        <th data-field="granted_on">${_(u'Granted on')}</th>
+                        <th data-field="last_used">${_(u'Last used')}</th>
+                        <th data-align="center" data-events="actionEvents" data-formatter="appsActions">${_(u'Actions')}</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function fasNotify(msg, type) {
+##             TODO: Add a prefix icon to message based on msg\'s type.
+            var notification = new window.NotificationFx({
+                wrapper : document.body,
+                message : '<p>' + msg + '</p>',
+                layout : 'growl',
+                effect : 'genie',
+                type : type,
+                ttl : 3700,
+                onClose : function() { return false; },
+                onOpen : function() { return false; }
+
+            });
+            notification.show();
+        }
+
+        function peopleActions(value, row, index) {
+            var actions = [
+                '<a class="remove action-events" data-context="people" href="javascript:void(0)" title="Remove account">',
+                '<i class="fas-icon-trash text-danger"></i>',
+                '</a>',
+            ];
+            if(row.status != ${account_status.DISABLED.value}) {
+                actions.unshift(
+                        '<a class="archive action-events" data-context="people" href="javascript:void(0)" title="Disable and archive account">',
+                        '<i class="fas-icon-file-archive text-warning"></i>',
+                        '</a> '
+                )
+                if (row.status == ${account_status.LOCKED.value} || row.status == ${account_status.LOCKED_BY_ADMIN.value}) {
+                    actions.unshift('<a class="unlock action-events" data-context="people" href="javascript:void(0)" title="Unlock account">',
+                            '<i class="fas-icon-lock-open"></i>',
+                            '</a> ')
+                }
+                else {
+                    actions.unshift('<a class="lock action-events" data-context="people" href="javascript:void(0)" title="Lock account">',
+                            '<i class="fas-icon-lock"></i>',
+                            '</a> ');
+                }
+            }
+            else {
+                actions.unshift('<a class="enable" href="javascript:void(0)" title="Activate account">',
+                        '<i class="fas-icon-user"></i>',
+                        '</a> ');
+            }
+            return actions.join('');
+        }
+
+        function groupActions(value, row, index) {
+        return [
+            '<a class="edit" href="/group/details/' + row.id + '/edit" title="Edit">',
+            '<i class="fas-icon-pencil text-info"></i>',
+            '</a> ',
+            '<a class="archive" href="javascript:void(0)" title="Disable and archive">',
+            '<i class="fas-icon-lock text-warning"></i>',
+            '</a> ',
+            '<a class="remove action-events" data-context="group" href="javascript:void(0)" title="Remove">',
+            '<i class="fas-icon-trash text-danger"></i>',
+            '</a>'
+         ].join('');
+        }
+        function grouptypeActions(value, row, index) {
+            return [
+            '<a class="edit" href="javascript:void(0)" title="Edit type">',
+            '<i class="fas-icon-pencil text-info"></i>',
+            '</a> ',
+            '<a class="remove action-events" data-context="group/type" href="javascript:void(0)" title="Remove">',
+            '<i class="fas-icon-trash text-danger"></i>',
+            '</a>'
+         ].join('');
+        }
+        function licenseActions(value, row, index) {
+            return [
+            '<a class="edit" href="javascript:void(0)" title="${_(u'Edit license')}">',
+            '<i class="fas-icon-pencil text-info"></i>',
+            '</a> ',
+            '<a class="enable" href="javascript:void(0)" title="${_(u'Enable license')}">',
+            '<i class="fas-icon-lock test-warning"></i>',
+            '</a> ',
+            '<a class="remove action-events" data-context="license" href="javascript:void(0)" title="${_(u'Remove license')}">',
+            '<i class="fas-icon-trash text-danger"></i>',
+            '</a>'
+         ].join('');
+        }
+        function certificationActions(value, row, index) {
+            return [
+            '<a class="edit" href="javascript:void(0)" title="${_(u'Edit certificate')}">',
+            '<i class="fas-icon-pencil text-info"></i>',
+            '</a> ',
+            '<a class="enable" href="javascript:void(0)" title="${_(u'Enable certificate')}">',
+            '<i class="fas-icon-lock test-warning"></i>',
+            '</a> ',
+            '<a class="remove action-events" data-context="certificate" href="javascript:void(0)" title="${_(u'Remove certificate')}">',
+            '<i class="fas-icon-trash text-danger"></i>',
+            '</a>'
+         ].join('');
+        }
+        function appsActions(value, row, index) {
+            return [
+            '<a class="revoke" href="javascript:void(0)" title="${_(u'Revoke token')}">',
+            '<i class="fas-icon-trash text-danger"></i>',
+            '</a>'
+         ].join('');
+        }
+
+        function getFasContext(ctx) {
+            return ctx.attr('data-context');
+        }
+
+        function sendRequest(ctx, request, type) {
+            type = typeof type !== 'undefined' ? type : 'POST';
+
+##             group's type related to match route's url.
+            if( ctx.indexOf('/') > -1){
+                ctx = ctx.replace('/', '-');
+            }
+
+            var table = $('#' + ctx + '-table');
+            $.ajax({
+                        url: request,
+                        data: {
+                            csrf_token: "${request.session.get_csrf_token()}"
+                        },
+                        cache: false,
+                        type: type,
+                        statusCode: {
+                            304: function(xhr) {
+                                window.location.replace(xhr.url);
+                            },
+                            404: function (e, xhr) {
+                                fasNotify('Error ' + e.status + ': Could not get a valid response from backend.', 'error');
+                            }
+                        },
+                        success: function(xhr) {
+                            console.log(xhr);
+##                             table.bootstrapTable('refresh');
+                            fasNotify(xhr.msg, 'success');
+                        },
+                        error: function(xhr){
+                            if(typeof xhr.responseJSON !== "undefined") {
+                                fasNotify(xhr.responseJSON.msg, 'error');
+                            }
+
+                        }
+                    }
+            );
+        }
+
+    window.actionEvents = {
+        'click .lock': function (e, value, row, index) {
+            console.log(e);
+            sendRequest(getFasContext($(this)), '/settings/lock/' + getFasContext($(this)) + '/' + row.id);
+##             alert('Action not implemented');
+        },
+        'click .archive': function (e, value, row, index) {
+            sendRequest(getFasContext($(this)), '/settings/archive/' + getFasContext($(this)) + '/' + row.id);
+##             alert('Action not implemented');
+        },
+        'click .enable': function (e, value, row, index) {
+##             alert('Action not implemented');
+            sendRequest(getFasContext($(this)), '/settings/unlock/' + getFasContext($(this)) + '/' + row.id);
+        },
+        'click .remove': function (e, value, row, index) {
+##             console.log(e);
+            sendRequest(getFasContext($(this)), '/settings/remove/' + getFasContext($(this)) + '/' + row.id);
+        },
+        'click .revoke': function (e, value, row, index) {
+            console.log(e);
+            alert('Action not implemented');
+##             sendRequest(getFasContext($(this)), '/settings/revoke/' + getFasContext($(this)) + '/' + row.id);
+          },
+    };
+    var selections = [];
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function statusLabel(value, row, index) {
+        if(row.status == ${account_status.ACTIVE.value}) {
+            return '<span class="label label-success">${_(u'active')}</span>';
+        }
+        else if(row.status == ${account_status.ON_VACATION.value}) {
+            return '<span class="label label-info">${_(u'on vacation')}</span>';
+        }
+        else if(row.status == ${account_status.INACTIVE.value}) {
+            return '<span class="label label-warning">${_(u'inactive')}</span>';
+        }
+        else if(row.status == ${account_status.PENDING.value}) {
+            return '<span class="label label-info">${_(u'inactive')}</span>';
+        }
+        else if(row.status == ${account_status.DISABLED.value}) {
+            return '<span class="label label-default">${_(u'archived')}</span>';
+        }
+        else if(row.status == ${account_status.LOCKED.value} || row.status == "${account_status.LOCKED_BY_ADMIN.value}") {
+            return '<span class="label label-danger">${_(u'blocked')}</span>';
+        }
+        else {
+            return '<span class="label label-default">${_(u'Unknown')}</span>';
+        }
+    }
+
+    function LicenseStatusLabel(value, row, index) {
+        if(row.status == ${license_status.ENABLED.value}) {
+            return '<span class="label label-success">${_(u'On')}</span>';
+        }
+        else {
+            return '<span class="label label-danger">${_(u'Off')}</span>';
+        }
+    }
+    </script>
+</div>

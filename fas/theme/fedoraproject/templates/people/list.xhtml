@@ -1,0 +1,79 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="paging" file="/paging.xhtml"/>
+<%namespace name="fasModel" module="fas.models.people" />
+
+<% account_status = fasModel.module.AccountStatus %>
+
+${Page.set_title(_(u'Fedora Users List'), _(u'All Fedora\'s contributors'))}
+
+<div class="searchform">
+  <h2></h2>
+  <form method="get" action="${request.route_url('people-search-rd')}">
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="${_('search for people')}"/>
+      <span class="input-group-addon">
+        <button class="fas-icon-search"></button>
+      </span>
+    </div>
+  </form>
+</div>
+
+%if people:
+
+    ${paging.list(name='people', route='people-paging')}
+
+<div class="container people-list">
+    <div class="row">
+        %for user in people:
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="usercard">
+                <a href="${request.route_url('people-profile', id=user.username)}">
+                %if user.avatar:
+                    <img src="${user.avatar + '?s=100&d=monsterid'}"/>
+                %else:
+                    <img src="${request.static_url('%s/assets/fedora-default-user-100.png' % theme_static)}"/>
+                %endif
+                </a>
+                <div>
+                    <div>
+                      <a href="${request.route_url('people-profile', id=user.username)}">
+                      %if user.fullname and user.fullname.strip() \
+                          and user.fullname not in ['.']:
+                        ${user.fullname}
+                      %else:
+                        ${user.username}
+                      %endif
+                      </a>
+                        %if display_username:
+                        <p><strong>${user.username}</strong></p>
+                        %endif
+                    </div>
+                    <p>${user.introduction if user.introduction else ''}</p>
+                    %if user.status == account_status.ACTIVE:
+                        <span class="label label-success">${_(u'active')}</span>
+                    %elif user.status == account_status.ON_VACATION:
+                        <span class="label label-info">${_(u'on vacation')}</span>
+                    %elif user.status == account_status.INACTIVE:
+                        <span class="label label-warning">${_(u'inactive')}</span>
+                    %elif user.status == account_status.PENDING:
+                        <span class="label label-warning">${_(u'inactive')}</span>
+                    %elif user.status == account_status.DISABLED:
+                        <span class="label label-default">${_(u'archived')}</span>
+                    %elif user.status == account_status.BLOCKED or user.status == account_status.BLOCKED_BY_ADMIN:
+                        <span class="label label-danger">${_(u'blocked')}</span>
+                    %endif
+                    <a class="more" href="${request.route_url(
+                        'people-profile', id=user.username)}">
+                      ${_(u'See full profile')}
+                      <i class="fas-icon-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        %endfor
+    </div>
+</div>
+    ${paging.list(name="people", route='people-paging')}
+
+%endif

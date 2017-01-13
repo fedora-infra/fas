@@ -1,0 +1,68 @@
+<%namespace name="licenseAgreement"/>
+  <%def name="form(license, person)">
+    <form class="form-horizontal" role="form"
+          action="${request.application_url + '/settings/sign/license/%i' % license.id}" method="POST">
+      <div class="modal in" id="signLicense" tabindex="-1" role="dialog" aria-labelledby="SignLicense" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">
+                  Close
+                </span>
+              </button>
+              <h4 class="modal-title" id="SignLicense">${license.name}</h4>
+            </div>
+            <div class="modal-body">
+              ${text.markdown(license.content) | n}
+              <div class="form-group">
+                ${userform.fullname.label(class_='col-sm-2 control-label')}
+                <div class="col-sm-10">
+                  <p class="form-control-static">${userform.fullname.data}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                ${userform.email.label(class_='col-sm-2 control-label')}
+                <div class="col-sm-10">
+                  <p class="form-control-static">${userform.email.data}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                ${userform.telephone.label(class_='col-sm-2 control-label')}
+                <div class="col-sm-10">
+                  ${userform.telephone(class_='form-control col-lg-20', placeholder=_(u'Enter a valid phone number'))}
+                </div>
+              </div>
+              <div class="form-group">
+                ${userform.facsimile.label(class_='col-sm-2 control-label')}
+                <div class="col-sm-10">
+                  ${userform.facsimile(class_='form-control col-lg-20', placeholder=_(u'Enter your facsimile'))}
+                </div>
+              </div>
+              <div class="form-group">
+                ${userform.country_code.label(class_='col-sm-2 control-label')}
+                <div class="col-sm-10">
+                  ${userform.country_code(class_='form-control', placeholder=_(u'Enter your country\'s code'))}
+                </div>
+              </div>
+              <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                  <label>
+                    ${licenseform.signed} ${licenseform.signed.label}
+                  </label>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">${_(u'I do not agree')}</button>
+                <button type="submit" class="btn btn-primary" name="form.sign.license" value="${request.url}">${_(u'I agree')}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </%def>

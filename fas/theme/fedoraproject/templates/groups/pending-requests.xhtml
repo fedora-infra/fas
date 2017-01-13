@@ -1,0 +1,48 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="msLevel" module="fas.models" />
+
+${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership requests'))}
+
+  %if len(ms_requests) > 0:
+
+      <% groups = [g.group for g in ms_requests] %>
+      ${Page.set_group_list(groups=groups, data_toggle="collapse", toggle_target="#collapseRequests")}
+  %for ms in ms_requests:
+
+    <div class="members-list panel-collapse collapse" id="collapseRequests${ms.group.id}">
+      <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-4">
+                <span>
+                  <a href="${request.route_url(
+                            'people-profile', id=ms.person.username)}">
+                    %if ms.person.avatar:
+                      <img src="${ms.person.avatar}?s=50&d=monsterid"
+                           class="profile img-circle" />
+                    %else:
+                      <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                           class="img-thumbnail" />
+                    %endif
+                    ${ms.person.fullname}
+                  </a>
+                </span>
+                <span>
+                  %if request.authenticated_userid:
+                      <form action="${request.route_url('group-action')}"
+                        method="POST">
+                          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                          <input type="hidden" name="action" value="upgrade" />
+                          <input type="hidden" name="group_id" value="${ms.group.id}" />
+                          <input type="hidden" name="user_id" value="${ms.person.id}" />
+                          <input type="hidden" name="role_id" value="${msLevel.module.MembershipRole.USER.value}" />
+                          <button class="btn btn-default" type="submit">
+                              ${_(u'Sponsor')}
+                          </button>
+                      </form>
+                  %endif
+                </span>
+          </div>
+      </div>
+    </div>
+    %endfor
+  %endif

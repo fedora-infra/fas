@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xml:lang="en-EN">
+<head>
+    <title>The Fedora Project Account System</title>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="keywords" content="python web application" />
+    <meta name="description" content="Fedora Project web application" />
+
+    <link rel="shortcut icon" href="${request.static_url('%s/assets/favicon.ico' % theme_static)}" />
+
+    <!-- custom fonts -->
+    <link rel="stylesheet" media="screen" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" />
+    <link rel="stylesheet"  media="screen" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" />
+
+    <!-- rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- theme -->
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('fas:theme/default/static/style/fas.css')}" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('%s/style/component.css' % theme_static)}" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('%s/style/animations.css' % theme_static)}" />
+    <script src="${request.static_url('%s/js/theme.js' % theme_static)}"></script>
+    <script src="${request.static_url('%s/js/pwstrength.js' % theme_static)}"></script>
+</head>
+
+  <body class="navbar-expanded">
+
+    <!-- top navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">${_(u'Toggle navigation')}</span>
+                    <span class="fas-icon-bar"></span>
+                    <span class="fas-icon-bar"></span>
+                    <span class="fas-icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="${request.route_url('home')}"
+                   title="${_(u'Go back to Fedora Account System home')}">
+                    ${_(u'Fedora Account System')}
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                %if request.upath_info not in ['/', '/login']:
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="${request.route_url('groups')}">
+                                <span class="fas-icon-users"></span> ${_(u'Fedora groups')}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${request.route_url('people')}">
+                                <span class="fas-icon-user"></span> ${_(u'Fedora people')}
+                            </a>
+                        </li>
+                        %if request.authenticated_is_admin() \
+                                or request.authenticated_is_modo() \
+                                or request.authenticated_is_group_editor():
+                            <li>
+                                <a href="${request.route_url('settings')}">
+                                    <span class="fas-icon-cog-alt"></span> ${_(u'Settings')}
+                                </a>
+                            </li>
+                        %endif
+                    </ul>
+                %endif
+
+                %if request.upath_info not in ['/login']:
+                    %if request.authenticated_userid is None:
+                        <p class="navbar-text navbar-right">
+                            <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                               class="navbar-link">
+                                ${_(u'Log in')}
+                            </a>
+                        </p>
+                    %endif
+                %endif
+
+                %if request.authenticated_userid is not None:
+                    <%
+                        # we only have group's request as notifications to handle for now.
+##                         notifs_nb = len(request.get_pending_ms_requests)
+                        notifs_nb = 1
+                    %>
+                    <ul class="navbar-text navbar-right">
+                        <div id="fat-menu" class="dropdown">
+                            ${_(u'Logged in as')}
+                            <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                    ${request.authenticated_userid}
+                                    %if len(request.get_pending_ms_requests) > 0:
+                                        <i class="fas-icon-menu"></i>
+                                        <span class="label label-warning">${notifs_nb}</span>
+                                    %else:
+                                        <i class="fas-icon-menu"></i>
+                                    %endif
+                            </a> |
+                            <a href="${request.application_url + '/logout'}?redirect=${request.url}"
+                               class="navbar-link">
+                                ${_(u'Log out')}
+                            </a>
+                            <%namespace name="userMenu" file="/user-menu.xhtml" />
+                            ${userMenu.menu(request.get_user)}
+                        </div>
+                    </ul>
+                %endif
+            </div>
+        </div>
+    </nav>
+    %if request.session.peek_flash('error'):
+          <div class="alert alert-danger alert-dismissible" role="alert"
+               style="max-width: 300px; margin: 20px; position: fixed; z-index: 20; box-shadow: 0px 0px 30px 3px rgba(159, 39, 39, 0.65);">
+            <!-- Note that this style is temporary while validating the layout -->
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            <strong>Hey!</strong> ${request.session.pop_flash('error')[0]}
+          </div>
+    %endif
+    %if request.session.peek_flash('info'):
+        <script>
+            var notification = new window.NotificationFx({
+
+                wrapper : document.body,
+                // We assume here that we only have one msg to handle.
+                message : '<p>${request.session.pop_flash('info')[0]}</p>',
+                layout : 'growl',
+                effect : 'genie',
+                type : 'notice',
+                ttl : 3100,
+                onClose : function() { return false; },
+                onOpen : function() { return false; }
+
+            });
+          notification.show();
+        </script>
+<!-- Keep old code around for now.
+          <div class="alert alert-info alert-dismissible" role="info" style="max-width: 800px; margin: 10px auto 9px;">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            %for info in request.session.pop_flash('info'):
+            ${ info }
+            %endfor
+          </div>
+-->
+    %endif
+
+    ${self.body()}
+
+    <div class="footer-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="copyright">
+                        ${request.release['copyright']}, ${request.release['authors']}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    % if 'fedmenu.url' in request.registry.settings:
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedora-libravatar.js"></script>
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedmenu.js"></script>
+    <script>
+      fedmenu({
+          'url': '${request.registry.settings.get("fedmenu.data_url")}',
+          'mimeType': 'application/javascript',
+          'position': 'bottom-right',
+          % if person:
+            'user': '${person.username}',
+          % endif
+      });
+    </script>
+    % endif
+
+  </body>
+</html>
