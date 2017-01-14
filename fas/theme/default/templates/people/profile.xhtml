@@ -148,7 +148,7 @@
               %if g.group is not None:
               <div class="col-sm-6 col-sm-4 col-lg-4">
                   <a href="${request.route_url('group-details', id=g.group.id)}">
-                      <img src="${request.static_url('fas:static/theme/fedoraproject/assets/fedora_35.png')}">
+                      <img src="${request.static_url('%s/assets/fedora_35.png' % theme_static)}">
                       ${g.group.display_name}
                   </a> -
                   <span>${g.get_role().name.lower()}</span>

@@ -191,7 +191,7 @@ ${Page.set_title(_(u'Create your Fedora Project Account'), _(u'Proceed to the fo
       </form>
     </div>
 
-  <script src="${request.static_url('fas:static/theme/fedoraproject/js/pagetransitions.js')}"></script>
+  <script src="${request.static_url('%s/js/pagetransitions.js' % theme_static)}"></script>
 
   <!-- Added here for dev purpose -->
   <script type="text/javascript">

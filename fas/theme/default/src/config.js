@@ -1,6 +1,6 @@
-var theme= 'fedoraproject',
+var theme= 'default',
     srcPath = __dirname,
-    themePath = __dirname + '/../../static/theme/' + theme;
+    themePath = __dirname + '/../static/';
 
 module.exports = {
     theme : theme,
@@ -29,7 +29,7 @@ module.exports = {
             src: srcPath + '/js',
             tmp: srcPath + '/tmp',
             dist: themePath + '/js',
-            filename: 'fas.js',    
+            filename: 'fas.js',
         },
         compilation: {
             options: {

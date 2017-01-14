@@ -43,6 +43,12 @@ from fas.models.people import People, AccountStatus, AccountPermissionType
 from fas.security import generate_token
 from fas.lib.avatar import gen_libravatar
 
+try:
+    from faker import Factory
+    feature_fake_data = True
+except ImportError as e:
+    feature_fake_data = False
+
 _ = TranslationStringFactory('fas')
 __admin_pw__ = u'admin'
 __domain__ = u'fedoraproject.org'
@@ -315,20 +321,21 @@ def main(argv=sys.argv):
                         action='store_true',
                         help=_(u'Inject default value into database.'))
 
-    parser.add_argument('--generate-fake-data',
-                        dest='gen_fake_data',
-                        action='store_true',
-                        default=False,
-                        help=_(
-                            u'Generate fake data (people & groups) into '
-                            u'database.'))
-    parser.add_argument('-n', '--people-nb',
-                        dest='people_nb',
-                        type=int,
-                        default=[13811],
-                        nargs=1,
-                        help=_(u'Define numbers of fake people to generate '
-                               'and inject into database.'))
+    if feature_fake_data:
+        parser.add_argument('--generate-fake-data',
+                            dest='gen_fake_data',
+                            action='store_true',
+                            default=False,
+                            help=_(
+                                u'Generate fake data (people & groups) into '
+                                u'database.'))
+        parser.add_argument('-n', '--people-nb',
+                            dest='people_nb',
+                            type=int,
+                            default=[13811],
+                            nargs=1,
+                            help=_(u'Define numbers of fake people to generate '
+                                   'and inject into database.'))
 
     opts = parser.parse_args()
     config_uri = opts.config_file
