@@ -192,22 +192,20 @@ class Groups(object):
 
         for grp, membership, member in g_memberships:
             memberships.append(membership)
-            if authenticated != member:
-                if membership.status == MembershipStatus.APPROVED \
-                        and member.status in valid_active_status:
-                    if membership.role == MembershipRole.USER:
-                        user_members.append(membership)
-                    elif membership.role == MembershipRole.SPONSOR \
-                            and grp.requires_sponsorship:
-                        sponsor_members.append(membership)
-                    elif membership.role == MembershipRole.ADMINISTRATOR:
-                        admin_members.append(membership)
-                    members.append(membership)
-            else:
-                authenticated = member
+            if authenticated == member:
                 authenticated_membership = membership
-                if membership.status == MembershipStatus.APPROVED:
+            if membership.status == MembershipStatus.APPROVED \
+                    and member.status in valid_active_status:
+                if membership.role == MembershipRole.USER:
+                    user_members.append(membership)
+                elif membership.role == MembershipRole.SPONSOR \
+                        and grp.requires_sponsorship:
+                    sponsor_members.append(membership)
+                elif membership.role == MembershipRole.ADMINISTRATOR:
+                    admin_members.append(membership)
+                if authenticated == member:
                     is_member = True
+                members.append(membership)
 
         if authenticated:
             if authenticated.id == group.owner_id \
