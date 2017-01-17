@@ -472,11 +472,7 @@ class MembershipValidator(Base):
     """ Validate membership from given group and username"""
 
     def __init__(self, person_username, group):
-        if type(group) is str or unicode:
-            self.group = [group]
-            # self.group.append(group)
-        if type(group) is list:
-            self.group = group
+        self.group = group
         self.username = person_username
         super(MembershipValidator, self).__init__()
 
@@ -494,7 +490,13 @@ class MembershipValidator(Base):
         log.debug('checking group membership %s against %s'
                       % (groups, self.group))
         log.debug(groups.intersection(set(self.group)))
-        if len(groups.intersection(set(self.group))) > 0:
+
+        if isinstance(self.group, basestring):
+            groupset = set([self.group])
+        else:
+            groupset = set(self.group)
+
+        if len(groups.intersection(groupset)) > 0:
             log.debug('Granting access')
             return True
 
