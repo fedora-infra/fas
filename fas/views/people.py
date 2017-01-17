@@ -82,9 +82,9 @@ class People(object):
 
         pages = compute_list_pages_from(peoples, 50)
 
-        if page > pages:
+        if page > pages or page < 1:
             return HTTPBadRequest(
-                'The page is bigger than the maximum number of pages')
+                'The page is outside the valid number of pages')
 
         return dict(
             people=people,
