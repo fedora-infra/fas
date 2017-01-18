@@ -1,11 +1,11 @@
-%global commit0 c798f4cba47c06f063d39d13d4907f861785557e
+%global commit0 780fc52615b497155b411ce16351f3786e4a75b3
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
 Version:        3.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Fedora Account System
 
 License:        GPLv2
@@ -73,7 +73,8 @@ sed -i '/fake-factory/d' setup.py
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
 %{__mkdir_p} %{buildroot}%{python_sitelib}/%{name}/
-%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/themes
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/theme/default/
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/theme/fedoraproject/
 
 %{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 
@@ -81,8 +82,11 @@ sed -i '/fake-factory/d' setup.py
 %{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/%{name}
 %{__install} development.ini %{buildroot}%{_sysconfdir}/%{name}/production.ini
 
-%{__cp} -r %{name}/static/theme/fedoraproject %{buildroot}%{_datadir}/%{name}/themes/
-%{__cp} -r %{name}/templates %{buildroot}%{python_sitelib}/%{name}/
+%{__cp} -r %{name}/theme/default/static %{buildroot}%{_datadir}/%{name}/theme/default/static
+%{__cp} -r %{name}/theme/default/templates %{buildroot}%{python_sitelib}/%{name}/theme/default/templates
+
+%{__cp} -r %{name}/theme/fedoraproject/static %{buildroot}%{_datadir}/%{name}/theme/fedoraproject/static
+%{__cp} -r %{name}/theme/fedoraproject/templates %{buildroot}%{python_sitelib}/%{name}/theme/fedoraproject/templates
 
 chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 
@@ -100,18 +104,29 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 #%files -f %{name}.lang
 %files
 %doc README.rst COPYING fas.spec fas.wsgi
-%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/theme/default/*
 %{python_sitelib}/*
 %config(noreplace) %{_sysconfdir}/fas/production.ini
 %{_sbindir}/fas.wsgi
 %{_bindir}/fas-admin
-%exclude %{python_sitelib}/%{name}/static
+%exclude /%{python_sitelib}/%{name}/theme/default/static
+%exclude /%{python_sitelib}/%{name}/theme/fedoraproject/
+%exclude /%{datadir}/%{name}/theme/fedoraproject/
+
 
 %files theme-fedoraproject
 %doc COPYING
-%{_datadir}/%{name}/themes/fedoraproject
+%exclude %{python_sitelib}/%{name}/theme/fedoraproject/static
+%{_datadir}/%{name}/theme/fedoraproject
+%exclude %{python_sitelib}/%{name}/theme/fedoraproject/
+
 
 %changelog
+* Wed Jan 18 2017 Ryan Lerch <rlerch@redhat.com> - 3.0.0-6
+- Bump package's release.
+- using commit 780fc52615b497155b411ce16351f3786e4a75b3
+- updated spec to match new locations of themes (PR#227)
+
 * Thu Jan 05 2017 Xavier Lamien <laxathon@fedoraproject.org> - 3.0.0-5
 - Bump package's release.
 
