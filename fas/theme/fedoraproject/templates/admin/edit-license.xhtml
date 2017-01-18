@@ -1,0 +1,60 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+%if form.name.data is None:
+  ${Page.set_title(_(u'New Lisence Agreement'), _(u'Add a new license agreement'))}
+  <form method="POST" action="${request.route_url('add-license')}" class="form-horizontal" role="form">
+%else:
+  ${Page.set_title(_(u'License Agreement update'), _(u'Update license agreement'))}
+  <form method="POST" action="${request.route_url('edit-license', id=1)}" class="form-horizontal" role="form">
+%endif
+
+<div class="container">
+    <div class="card-form">
+    %if form.errors:
+        <!-- Add error msg here for debug purpose. -->
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
+
+    <h1> </h1>
+      <div class="form-group">
+            ${form.name.label(class_='col-sm-2 control-label')}
+          <div class="col-lg-10">
+            ${form.name(class_='form-control', placeholder=_(u'Enter a license name'))}
+          </div>
+      </div>
+      <div class="form-group">
+        ${form.content.label(class_='col-sm-2 control-label')}
+        <div class="col-lg-10">
+          ${form.content(class_='form-control', rows='10',  placeholder=_(u'Enter a license text'))}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-4">
+          <div class="checkbox">
+            <label>
+              ${form.enabled_at_signup} ${form.enabled_at_signup.label()}
+            <label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-form-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
+        <button type="submit" class="btn btn-primary" name="form.save.license">${_(u'Save changes')}</button>
+      </div>
+    </div>
+  </form>
+</div>

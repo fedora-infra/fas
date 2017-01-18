@@ -1,0 +1,70 @@
+.subheader, .page-title{
+  background: #f3f3f3;
+  border-bottom: 1px solid #DDD;
+}
+
+.people-list .usercard {
+	position:relative;
+	margin-bottom:15px;
+	height:102px;
+	background:#f8f8f8;
+	border:1px solid #dedede;
+	border-radius:2px;
+	-webkit-transition:background .3s,border .3s;
+	-o-transition:background .3s,border .3s;
+	transition:background .3s,border .3s
+}
+.people-list .usercard>div a,.people-list .usercard p {
+	-webkit-transition:color .2s;
+	-o-transition:color .2s;
+	transition:color .2s
+}
+.people-list .usercard>a {
+	display:block;
+	float:left;
+	background:#ccc;
+	box-shadow:0 0 30px 3px rgba(0,0,0,.3) inset;
+	width:100px;
+	height:100px;
+	position:relative;
+	overflow:hidden
+}
+.people-list .usercard>a img {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100px;
+	height:100px;
+	-webkit-transition:all .3s;
+	-o-transition:all .3s;
+	transition:all .3s
+}
+.people-list .usercard>div {
+	margin-left:100px;
+	padding:5px 10px
+}
+.people-list .usercard>div>div a {
+
+}
+.people-list .usercard>div p {
+	font-size:.85em
+}
+.people-list .usercard span.tag {
+	position:absolute;
+	bottom:5px;
+	right:5px
+}
+.people-list .usercard:hover {
+	border-color:#8c8c8c;
+	background:#3c6eb4;
+	box-shadow:0 0 5px 2px rgba(0,0,0,.1)
+}
+.people-list .usercard:hover>div div a,.people-list .usercard:hover p,.people-list .usercard:hover a.more {
+	color:#fff
+}
+.people-list .usercard:hover img {
+	top:-10%;
+	left:-10%;
+	width:120px;
+	height:120px
+}

@@ -1,0 +1,44 @@
+<%namespace name="Page" />
+<%namespace name="paging" file="/paging.xhtml"/>
+
+  <%def name="set_title(header, subtitle)">
+    <div class="page-title py-1">
+      <div class="container">
+      <h1>${header}</h1>
+      <p>${subtitle}</p>
+      </div>
+    </div>
+  </%def>
+
+  <%def name="set_group_list(groups, enable_paging=False, data_toggle=None, toggle_target=None)">
+    <div class="container">
+    %if enable_paging:
+    ${paging.list(name='groups', route='groups-paging')}
+    %endif
+
+    %if groups:
+    <div class="row">
+        %for group in groups:
+        <div class="col-sm-6 col-sm-4 col-lg-4">
+            %if data_toggle and toggle_target:
+            <a href="${toggle_target + str(group.id)}" data-toggle="${data_toggle}">
+            %else:
+            <a href="${request.route_url('group-details', id=group.id)}">
+                %endif
+                <img src="${request.static_url('%s/assets/fedora-default-group-100.png' % theme_static)}" />
+                <h3>${group.display_name or group.name}</h3>
+            </a>
+        </div>
+        %endfor
+        %else:
+        <div id="no-items-found">
+            <p>${_(u'Found no groups')}</p>
+        </div>
+        %endif
+    </div>
+
+    %if enable_paging:
+    ${paging.list(name='groups', route='groups-paging')}
+    %endif
+    </div>
+  </%def>

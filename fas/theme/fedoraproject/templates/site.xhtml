@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xml:lang="en-EN">
+<head>
+    <title>The Fedora Project Account System</title>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="keywords" content="python web application" />
+    <meta name="description" content="Fedora Project web application" />
+
+    <link rel="shortcut icon" href="${request.static_url('%s/assets/favicon.ico' % theme_static)}" />
+
+    <!-- custom fonts -->
+
+
+    <!-- rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- theme -->
+    <link href="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.2/fedora-bootstrap.css"
+      type="text/css" rel="stylesheet" />
+      <link href="https://apps.fedoraproject.org/global/fedora-bootstrap-fonts/open-sans.css"
+        type="text/css" rel="stylesheet" />
+      <!--<link href="https://apps.fedoraproject.org/global/fedora-bootstrap-fonts/font-awesome.css"
+          type="text/css" rel="stylesheet" />-->
+      <link href="https://ryanlerch.fedorapeople.org/font-awesome.css"
+              type="text/css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('%s/style/fas.css' % theme_static)}" />
+    <!--<link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('%s/style/component.css' % theme_static)}" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="${request.static_url('%s/style/animations.css' % theme_static)}" />-->
+    <script src="${request.static_url('%s/js/theme.js' % theme_static)}"></script>
+    <script src="${request.static_url('%s/js/pwstrength.js' % theme_static)}"></script>
+</head>
+
+  <body class="navbar-expanded">
+
+    <!-- HEADER -->
+    <div class="masthead">
+      <div class="container">
+        <div class="row">
+         <div class="col-sm-3">
+           <a href="${request.route_url('home')}" title="${_(u'Go back to Fedora Account System home')}">
+             <img src="${request.static_url('%s/assets/FAS3_logo.png' % theme_static)}"
+               alt="${_(u'Fedora Account System')}" height="40px"/>
+           </a>
+         </div>
+         <div class="col-sm-9">
+           <div class="row">
+           <!-- top navbar -->
+           <nav class="navbar navbar-light pt-0 pb-0" role="navigation">
+               <div class="container">
+                   <ul class="nav navbar-nav nav-underline float-xs-right">
+                       <li class="nav-item pl-1">
+                           <a class="nav-link" href="${request.route_url('groups')}">
+                               <span class="fas-icon-users"></span> ${_(u'Fedora groups')}
+                           </a>
+                       </li>
+                       <li class="nav-item pl-1">
+                           <a class="nav-link" href="${request.route_url('people')}">
+                               <span class="fas-icon-user"></span> ${_(u'Fedora people')}
+                           </a>
+                       </li>
+                       %if request.upath_info not in ['/login']:
+                           %if request.authenticated_userid is None:
+                              <li class="nav-item pl-1">
+                                <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                                   class="btn btn-primary">
+                                    ${_(u'Log in')}
+                                </a>
+                              </li>
+                           %endif
+                       %endif
+                       %if request.authenticated_userid is not None:
+                           <%
+                               # we only have group's request as notifications to handle for now.
+                               ## notifs_nb = len(request.get_pending_ms_requests)
+                               notifs_nb = 1
+                           %>
+                           <li class="nav-item dropdown pl-1">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                   href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                   %if request.get_user.avatar:
+                                     <img src="${request.get_user.avatar + '?s=24&d=retro'}" />
+                                   %else:
+                                     <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-24.png' % theme_static)}"
+                                          class="img-responsive center-block" />
+                                   %endif
+                                   %if len(request.get_pending_ms_requests) > 0:
+                                       <i class="fas-icon-menu"></i>
+                                       <span class="tag tag-pill tag-info">${notifs_nb}</span>
+                                   %else:
+                                       <i class="fas-icon-menu"></i>
+                                   %endif
+                                </a>
+                                <%namespace name="userMenu" file="/user-menu.xhtml" />
+                                ${userMenu.menu(request.get_user)}
+                          </li>
+                       %endif
+                   </ul>
+
+
+               </div>
+           </nav>
+           </div>
+         </div>
+       </div>
+
+     </div>
+    </div><!-- end header -->
+
+
+    %if request.session.peek_flash('error'):
+          <div class="alert alert-danger alert-dismissible" role="alert"
+               style="max-width: 300px; margin: 20px; position: fixed; z-index: 20; box-shadow: 0px 0px 30px 3px rgba(159, 39, 39, 0.65);">
+            <!-- Note that this style is temporary while validating the layout -->
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            <strong>Hey!</strong> ${request.session.pop_flash('error')[0]}
+          </div>
+    %endif
+    %if request.session.peek_flash('info'):
+        <script>
+            var notification = new window.NotificationFx({
+
+                wrapper : document.body,
+                // We assume here that we only have one msg to handle.
+                message : '<p>${request.session.pop_flash('info')[0]}</p>',
+                layout : 'growl',
+                effect : 'genie',
+                type : 'notice',
+                ttl : 3100,
+                onClose : function() { return false; },
+                onOpen : function() { return false; }
+
+            });
+          notification.show();
+        </script>
+<!-- Keep old code around for now.
+          <div class="alert alert-info alert-dismissible" role="info" style="max-width: 800px; margin: 10px auto 9px;">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            %for info in request.session.pop_flash('info'):
+            ${ info }
+            %endfor
+          </div>
+-->
+    %endif
+
+    ${self.body()}
+
+    <div class="footer-wrapper">
+        <div class="container text-muted py-3 text-xs-center">
+            <div class="row">
+                    <span class="copyright">
+                        ${request.release['copyright']}, ${request.release['authors']}
+                    </span>
+            </div>
+        </div>
+    </div>
+
+    % if 'fedmenu.url' in request.registry.settings:
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedora-libravatar.js"></script>
+    <script src="${request.registry.settings.get('fedmenu.url')}/js/fedmenu.js"></script>
+    <script>
+      fedmenu({
+          'url': '${request.registry.settings.get("fedmenu.data_url")}',
+          'mimeType': 'application/javascript',
+          'position': 'bottom-right',
+          % if person:
+            'user': '${person.username}',
+          % endif
+      });
+    </script>
+    % endif
+
+  </body>
+</html>
