@@ -417,11 +417,7 @@ class SaFasIdentityProvider(object):
         if user.ipa_sync_status is None:
             os.system('kinit -k -t %s %s' % (config.get('ipa_sync_keytab'),
                                              config.get('ipa_sync_principal')))
-            c = requests.post('https://%s/ipa/session/login_kerberos'
-                              % config.get('ipa_sync_server'),
-                              auth=HTTPKerberosAuth(),
-                              verify=config.get('ipa_sync_certfile'))
-            r = requests.post('https://%s/ipa/session/json'
+            r = requests.post('https://%s/ipa/json'
                               % config.get('ipa_sync_server'),
                 json={'method': 'user_add',
                       'params':[
@@ -433,7 +429,7 @@ class SaFasIdentityProvider(object):
                           }], 
                       'id': 0},
                 verify=config.get('ipa_sync_certfile'),
-                cookies=c.cookies,
+                auth=HTTPKerberosAuth(),
                 headers={'referer':
                          'https://%s/ipa'
                          % config.get('ipa_sync_server')}).json()
