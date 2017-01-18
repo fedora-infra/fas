@@ -5,7 +5,13 @@ NEWS
 :Authors: Ricky Zhou, Mike McGrath, Toshio Kuratomi, Patrick Uiterwijk,
           Ricky Elrod, Xavier Lamien
 :Date: 08 August 2016
-:Version: 0.14.0
+:Version: 0.14.1
+
+------
+0.14.1
+------
+* Add robustness on valid_ssh_key retrieval
+* Remove API's session
 
 ------
 0.14.0
