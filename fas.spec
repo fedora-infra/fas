@@ -4,8 +4,8 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        3.0
-Release:        6%{?dist}
+Version:        3.0.1
+Release:        1%{?dist}
 Summary:        Fedora Account System
 
 License:        GPLv2
@@ -121,7 +121,7 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 
 
 %changelog
-* Wed Jan 18 2017 Ryan Lerch <rlerch@redhat.com> - 3.0.0-6
+* Wed Jan 18 2017 Ryan Lerch <rlerch@redhat.com> - 3.0.1-1
 - Bump package's release.
 - using commit 780fc52615b497155b411ce16351f3786e4a75b3
 - updated spec to match new locations of themes (PR#227)
