@@ -104,6 +104,7 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 #%files -f %{name}.lang
 %files
 %doc README.rst COPYING fas.spec fas.wsgi
+%dir %{_datadir}/%{name}
 %{_datadir}/%{name}/theme/default/*
 %{python_sitelib}/*
 %config(noreplace) %{_sysconfdir}/fas/production.ini
@@ -116,9 +117,7 @@ chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 
 %files theme-fedoraproject
 %doc COPYING
-%exclude %{python_sitelib}/%{name}/theme/fedoraproject/static
 %{_datadir}/%{name}/theme/fedoraproject
-%exclude %{python_sitelib}/%{name}/theme/fedoraproject/
 
 
 %changelog
