@@ -124,7 +124,11 @@
           </dd>
           %endif
           <dt>
+              %if request.registry.settings.get('token.engine') == 'built-in':
               <a href="${request.route_url('people-token', id=person.id)}">
+              %else:
+              <a href="${request.registry.settings.get(request.registry.settings.get('token.engine') + '.tokenurl')}">
+              %endif
                   ${_(u'Access Token')}
               </a>
           </dt>

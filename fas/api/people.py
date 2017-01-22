@@ -37,8 +37,8 @@ class PeopleAPI(object):
     def __init__(self, request):
         self.request = request
         self.notify = self.request.registry.notify
-        # self.params = ParamsValidator(self.request, True)
         self.params = self.request.param_validator
+        """:type: fas.security.ParamsValidator"""
         self.data = MetaData('People')
         self.perm = None
 
@@ -48,6 +48,7 @@ class PeopleAPI(object):
 
         self.notify(ApiRequest(self.request, self.data, self.perm))
         self.apikey = self.request.token_validator
+        """:type: fas.security.TokenValidator"""
 
     def __get_user__(self, key, value):
         if key not in ['id', 'username', 'email', 'ircnick']:
@@ -70,21 +71,21 @@ class PeopleAPI(object):
         page = self.params.get_pagenumber()
         status = self.params.get_value_from_optional('status')
 
-        if self.apikey.validate():
-            people = provider.get_people(
-                limit=limit,
-                page=page,
-                status=status
-                )
+        # if self.apikey.validate():
+        people = provider.get_people(limit=limit, page=page, status=status)
 
         if people:
             users = []
             for user in people:
                 log.debug('Processing account %s' % user.username)
-                users.append(user.to_json(self.apikey.get_perm()))
+                users.append(user.to_json(self.apikey.permission))
 
             self.data.set_pages(provider.get_people(count=True), page, limit)
             self.data.set_data(users)
+        else:
+            self.request.response.status = '404'
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg(u"Items not found", u"No people found")
 
         return self.data.get_metadata()
 
@@ -93,23 +94,22 @@ class PeopleAPI(object):
     def get_person(self):
         user = None
 
-        if self.apikey.validate():
-            key = self.request.matchdict.get('key')
-            value = self.request.matchdict.get('value')
+        key = self.request.matchdict.get('key')
+        value = self.request.matchdict.get('value')
 
-            try:
-                user = self.__get_user__(key, value)
-                self.data.set_data(user.to_json(self.apikey.get_perm()))
-            except BadRequest as err:
-                log.debug('Having a bad request here!')
-                self.request.response.status = '400 bad request'
-                self.data.set_status(RequestStatus.FAILED.value)
-                self.data.set_error_msg('Bad request', err.message)
-            except NotFound as err:
-                log.debug('Having a not found keyword here!')
-                self.request.response.status = '404 page not found'
-                self.data.set_status(RequestStatus.FAILED.value)
-                self.data.set_error_msg('Item not found', err.message)
+        try:
+            user = self.__get_user__(key, value)
+            self.data.set_data(user.to_json(self.apikey.permission))
+        except BadRequest as err:
+            log.debug('Having a bad request here!')
+            self.request.response.status = '400 bad request'
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('Bad request', err.message)
+        except NotFound as err:
+            log.debug('Having a not found keyword here!')
+            self.request.response.status = '404 page not found'
+            self.data.set_status(RequestStatus.FAILED.value)
+            self.data.set_error_msg('Item not found', err.message)
 
         return self.data.get_metadata()
 
@@ -119,28 +119,27 @@ class PeopleAPI(object):
         key = self.request.matchdict.get('key')
         value = self.request.matchdict.get('value')
 
-        if self.apikey.validate():
-            try:
-                user = self.__get_user__(key, value)
-            except BadRequest as err:
-                self.request.response.status = '400 bad request'
-                self.data.set_error_msg('Bad request', err.message)
-            except NotFound as err:
-                self.request.response.status = '404 page not found'
-                self.data.set_error_msg('Item not found', err.message)
+        try:
+            user = self.__get_user__(key, value)
+        except BadRequest as err:
+            self.request.response.status = '400 bad request'
+            self.data.set_error_msg('Bad request', err.message)
+        except NotFound as err:
+            self.request.response.status = '404 page not found'
+            self.data.set_error_msg('Item not found', err.message)
 
-            form = EditPeopleForm(self.request.POST)
+        form = EditPeopleForm(self.request.POST)
 
-            if form.validate():
-                # Handle the latitude longitude that needs to be number or None
-                form.latitude.data = form.latitude.data or None
-                form.longitude.data = form.longitude.data or None
+        if form.validate():
+            # Handle the latitude longitude that needs to be number or None
+            form.latitude.data = form.latitude.data or None
+            form.longitude.data = form.longitude.data or None
 
-                form.populate_obj(user)
-                self.data.set_status('stored', 'User updated')
-                self.data.set_data(user.to_json(self.apikey.get_perm()))
-            else:
-                self.request.response.status = '400 bad request'
-                self.data.set_error_msg('Invalid request', form.errors)
+            form.populate_obj(user)
+            self.data.set_status('stored', 'User updated')
+            self.data.set_data(user.to_json(self.apikey.permission))
+        else:
+            self.request.response.status = '400 bad request'
+            self.data.set_error_msg('Invalid request', form.errors)
 
         return self.data.get_metadata()

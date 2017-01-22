@@ -134,6 +134,12 @@ class ApiRequest(object):
         self.data = data
 
 
+class TokenValidationRequest(object):
+    """ Event sent on Token validation requests. """
+    def __init__(self, request):
+        self.request = request
+
+
 class TokenUsed(object):
     """ Event sent on Token API activity. """
     def __init__(self, request, perm, person):

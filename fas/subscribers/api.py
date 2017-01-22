@@ -25,8 +25,9 @@ from pyramid.httpexceptions import HTTPUnauthorized, HTTPBadRequest
 
 from fas import log
 from fas.api import RequestStatus
-from fas.events import ApiRequest, TokenUsed
+from fas.events import ApiRequest, TokenUsed, TokenValidationRequest
 from fas.security import PrivateDataValidator
+from fas.util import Config
 
 
 @subscriber(ApiRequest)
@@ -46,11 +47,13 @@ def on_api_request(event):
     apikey = None
 
     if params.validate():
+        request.registry.notify(TokenValidationRequest(event.request))
         apikey = event.request.token_validator
         if apikey.validate():
-            event.perm = apikey.get_perm()
-            # Update token activity
-            apikey.get_obj().last_used = datetime.datetime.utcnow()
+            if Config.get("token.engine") == "built-in":
+                event.perm = apikey.get_perm()
+                # Update token activity
+                apikey.get_obj().last_used = datetime.datetime.utcnow()
         else:
             log.debug('Given API key is invalid.')
             data.set_error_msg(apikey.get_msg()[0], apikey.get_msg()[1])

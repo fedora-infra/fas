@@ -408,6 +408,16 @@ class TokenValidator(Base):
         self.perm = 0x00
         self.obj = None
         self.isTrusted = False
+        self.__perm__ = 0x00
+        self.__valid_token__ = False
+
+    @property
+    def valid_token(self):
+        return self.__valid_token__
+
+    @valid_token.setter
+    def valid_token(self, value):
+        self.__valid_token__ = value
 
     def validate(self):
         """
@@ -417,8 +427,13 @@ class TokenValidator(Base):
         :rtype: bool
         """
         log.debug('Looking for valid token: %r' % self.token)
+
+        if self.valid_token:
+            return self.valid_token
+
         key = provider.get_account_permissions_by_token(self.token) or \
               provider.get_trusted_perms_by_token(self.token)
+
         if key:
             self.obj = key
             self.perm = key.permissions
@@ -434,6 +449,14 @@ class TokenValidator(Base):
             self.set_msg('Access denied.', 'Unauthorized API key.')
 
         return False
+
+    @property
+    def permission(self):
+        return self.__perm__
+
+    @permission.setter
+    def permission(self, value):
+        self.__perm__ = value
 
     def set_token(self, token):
         """
@@ -452,13 +475,6 @@ class TokenValidator(Base):
         .TrustedPermissions`
         """
         return self.obj
-
-    def get_perm(self):
-        """
-        Return token related permissions.
-        :rtype: `fas.models.people.AccountPermissionType`
-        """
-        return int(self.perm)
 
     def get_owner(self):
         """

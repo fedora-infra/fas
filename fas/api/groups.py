@@ -44,6 +44,7 @@ class GroupAPI(object):
 
         self.notify(ApiRequest(self.request, self.data))
         self.apikey = self.request.token_validator
+        """:type: fas.security.TokenValidator"""
 
     def __get_group__(self, key, value):
         if key not in ['id', 'name']:
@@ -60,7 +61,7 @@ class GroupAPI(object):
         :return: True if request can edit a group, otherwise false.
         :rtype: bool
         """
-        if self.apikey.get_perm() >= AccountPermissionType.CAN_EDIT_GROUP_INFO:
+        if self.apikey.permission >= AccountPermissionType.CAN_EDIT_GROUP_INFO:
             return True
 
         self.data.set_error_msg(self.apikey.get_msg())
@@ -102,19 +103,20 @@ class GroupAPI(object):
         self.params.add_optional('limit')
         self.params.add_optional('page')
 
-        if self.apikey.validate():
-            limit = self.params.get_limit()
-            page = self.params.get_pagenumber()
-
-            group = provider.get_groups(limit=limit, page=page)
+        limit = self.params.get_limit()
+        page = self.params.get_pagenumber()
+        group = provider.get_groups(limit=limit, page=page)
 
         if group:
             groups = []
             for g in group:
-                groups.append(g.to_json(self.apikey.get_perm()))
+                groups.append(g.to_json(self.apikey.permission))
 
             self.data.set_pages(provider.get_groups(count=True), page, limit)
             self.data.set_data(groups)
+        else:
+            self.data.set_error_msg(u"Items not found", u"There is no group")
+            self.request.response.status = '404'
 
         return self.data.get_metadata()
 
@@ -122,21 +124,20 @@ class GroupAPI(object):
     def get_group(self):
         group = None
 
-        if self.apikey.validate():
-            key = self.request.matchdict.get('key')
-            value = self.request.matchdict.get('value')
+        key = self.request.matchdict.get('key')
+        value = self.request.matchdict.get('value')
 
-            try:
-                group = self.__get_group__(key, value)
-            except BadRequest as err:
-                self.request.response.status = '400 bad request'
-                self.data.set_error_msg('Bad request', err.message)
-            except NotFound as err:
-                self.data.set_error_msg('Item not found', err.message)
-                self.request.response.status = '404 page not found'
+        try:
+            group = self.__get_group__(key, value)
+        except BadRequest as err:
+            self.request.response.status = '400 bad request'
+            self.data.set_error_msg('Bad request', err.message)
+        except NotFound as err:
+            self.data.set_error_msg('Item not found', err.message)
+            self.request.response.status = '404 page not found'
 
         if group:
-            self.data.set_data(group.to_json(self.apikey.get_perm()))
+            self.data.set_data(group.to_json(self.apikey.permission))
 
         return self.data.get_metadata()
 
@@ -184,7 +185,7 @@ class GroupAPI(object):
             self.notify(GroupEdited(
                 self.request, self.apikey.get_owner(), group, form))
             self.data.set_status(RequestStatus.SUCCESS.value)
-            self.data.set_data(group.to_json(self.apikey.get_perm()))
+            self.data.set_data(group.to_json(self.apikey.permission))
         else:
             self.data.set_status(RequestStatus.FAILED.value)
             self.data.set_error_msg('Invalid request', form.errors)
@@ -267,7 +268,7 @@ class GroupAPI(object):
         membership_id = self.request.matchdict.get('mid')
         requester = self.__get_action_requester_id__('admin')
 
-        if self.apikey.get_perm() \
+        if self.apikey.permission \
                 >= AccountPermissionType.CAN_EDIT_GROUP_MEMBERSHIP:
             self.data.set_status(RequestStatus.FAILED)
             self.data.set_error_msg(self.apikey.get_msg())
@@ -288,7 +289,7 @@ class GroupAPI(object):
                             topic = 'upgrade'
 
                         self.data.set_data(
-                            membership.group.to_json(self.apikey.get_perm()))
+                            membership.group.to_json(self.apikey.permission))
                         self.data.set_status(RequestStatus.SUCCESS)
 
                         self.notify(NotificationRequest(
