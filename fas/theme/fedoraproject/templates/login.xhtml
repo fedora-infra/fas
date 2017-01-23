@@ -8,39 +8,50 @@
   </div>
   %endif
 
-<div class="card-view login-container">
-  <div class="head center">
-<!--
-    <b>Login</b>
--->
-    %if request.get_user and request.get_user.avatar:
-    <img src="${request.get_user.avatar}" class="img-circle" />
-    %else:
-    <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-100.png' % theme_static)}"/>
-    %endif
-  </div>
-
-  <div id="bottom" class="center container-fluid">
-    <div class="bottom">
-      <form action="${url}" method="post" class="center">
-          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
-          <input type="hidden" name="redirect" value="${came_from}"/>
-          <input type="text" class="form-control btn-sm" id="inputLogin"
-                 placeholder="Login" name="login" value="${login}"/><br/>
-          <input type="password" class="form-control btn-sm" id="inputPassword"
-                 placeholder="Password" name="password" value="${password}"/><br/>
-          <input type="submit" name="form.submitted" class="btn btn-sm" value="Log In"/>
-      </form>
+<div class="bodycontent">
+  <div class="container pt-3 pb-3">
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+      <div class="card">
+        <div class="card-header">
+          <strong>${_(u'Log in to Fedora Accounts')}</strong>
+        </div>
+        <div class="card-block">
+          <form action="${url}" method="post" class="center">
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+              <input type="hidden" name="redirect" value="${came_from}"/>
+              <div class="form-group row">
+                <div class="col-xs-12">
+                    <input type="text" class="form-control" id="inputLogin"
+                     placeholder="Username" name="login" value="${login}"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-12">
+                    <input type="password" class="form-control" id="inputPassword"
+                     placeholder="Password" name="password" value="${password}"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-6">
+                  <input type="submit" name="form.submitted" class="btn btn-primary" value="Log In"/>
+                </div>
+                <div class="col-xs-6 text-xs-right">
+                  <a href="${request.route_url('lost-password')}">
+                    <small>${_(u'Forgot password?')}</small>
+                  </a>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+      <div class="text-xs-center">
+        <small class="text-muted">
+          Don't have a FAS account?
+          <a href="${request.route_url('people-new')}">
+            ${_(u'Create an account')}
+          </a>.
+        </small>
+      </div>
     </div>
   </div>
-</div>
-
-<div style="text-align: center;">
-  <a href="${request.route_url('lost-password')}">
-    ${_(u'Lost password')}
-  </a>
-  |
-  <a href="${request.route_url('people-new')}">
-    ${_(u'Create an account')}
-  </a>
 </div>
