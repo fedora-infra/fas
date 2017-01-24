@@ -100,7 +100,7 @@ class Captcha(Config):
 
         img = Image.new('RGB', image_size)
 
-        img.paste(self.bg_color)
+        img.paste(self.bg_color, (0,0)+image_size)
 
         try:
             font = ImageFont.truetype(self.font_path, self.font_size)
