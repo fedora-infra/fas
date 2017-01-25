@@ -267,8 +267,26 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
                 application=u'Fedora Mobile v0.9',
                 perms=AccountPermissionType.CAN_READ_PUBLIC_INFO.value
             )
-            ms = add_membership(
-                group_id=random.choice(group_list),
+
+            usersgrouplist = random.sample(group_list, random.randint(1,10))
+            for groupname in usersgrouplist:
+                ms = add_membership(
+                    group_id=groupname,
+                    person_id=people.id,
+                    sponsor=007,
+                    joined=fake.date_time_between(start_date='-6y', end_date='now'),
+                    status=random.choice(
+                        [s.value for s in MembershipStatus]
+                    ),
+                    role=random.choice(
+                        [r.value for r in MembershipRole]
+                    )
+                )
+                people.group_membership.append(ms)
+
+
+            fasuserms = add_membership(
+                group_id=3000,
                 person_id=people.id,
                 sponsor=007,
                 joined=fake.date_time_between(start_date='-6y', end_date='now'),
@@ -281,7 +299,7 @@ def create_fake_user(session, upto=2000, user_index=1000, group_list=None):
             )
 
             people.account_permissions.append(perm)
-            people.group_membership.append(ms)
+            people.group_membership.append(fasuserms)
             DBSession.add(people)
 
             user_index += 1
@@ -391,54 +409,32 @@ def main(argv=sys.argv):
             group_type = DBSession.query(GroupType).filter(
                 GroupType.name == 'shell').first()
 
-            DBSession.add(
-                Groups(
-                    id=300,
-                    name=u'avengers',
-                    status=GroupStatus.ACTIVE.value,
-                    group_type_id=group_type.id,
-                    parent_group_id=None,
-                    owner_id=007)
-            )
-            DBSession.add(
-                Groups(
-                    id=301,
-                    name=u'justice_league',
-                    status=GroupStatus.ACTIVE.value,
-                    group_type_id=group_type.id,
-                    parent_group_id=None,
-                    owner_id=007)
-            )
-            DBSession.add(
-                Groups(
-                    id=302,
-                    name=u'fantastic_four',
-                    status=GroupStatus.ACTIVE.value,
-                    group_type_id=group_type.id,
-                    parent_group_id=None,
-                    owner_id=007)
-            )
-            DBSession.add(
-                Groups(
-                    id=303,
-                    name=u'all-star',
-                    status=GroupStatus.ACTIVE.value,
-                    group_type_id=group_type.id,
-                    parent_group_id=None,
-                    owner_id=007)
-            )
-            DBSession.add(
-                Groups(
-                    id=304,
-                    name=u'x-men',
-                    status=GroupStatus.ACTIVE.value,
-                    group_type_id=group_type.id,
-                    parent_group_id=None,
-                    owner_id=007)
-            )
-            DBSession.flush()
+            groupnames = []
 
-            groups = [300, 301, 302, 303, 304]
+            fake = Factory.create()
+            for i in range(0,60):
+                thegroupname = fake.job()[:37].replace(" ", "_")
+                if thegroupname in groupnames:
+                    groupnames.append(thegroupname+str(len(groupnames)))
+                else:
+                    groupnames.append(thegroupname)
+
+            groupid = 300
+            groups = []
+            for groupname in groupnames:
+                DBSession.add(
+                    Groups(
+                        id=groupid,
+                        name=groupname,
+                        status=GroupStatus.ACTIVE.value,
+                        group_type_id=group_type.id,
+                        parent_group_id=None,
+                        owner_id=007)
+                )
+                groups.append(groupid)
+                groupid += 1
+
+            DBSession.flush()
 
             create_fake_user(
                 DBSession,

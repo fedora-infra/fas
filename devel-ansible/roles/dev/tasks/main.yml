@@ -13,6 +13,7 @@
       - libjpeg-turbo-devel
       - python-devel
       - python-pip
+      - python-faker
       - libffi-devel
       - openssl-devel
       - GeoIP-devel
