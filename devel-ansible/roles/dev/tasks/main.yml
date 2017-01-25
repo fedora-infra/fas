@@ -33,15 +33,9 @@
   args:
       chdir: /vagrant
 
-- command: cp /vagrant/development.ini /home/vagrant/development.ini
+- command: cp /vagrant/devel-ansible/files/development.ini /home/vagrant/development.ini
   args:
       creates: /home/vagrant/development.ini
-
-- name: Switch the database connection to postgres
-  replace:
-    dest: /home/vagrant/development.ini
-    regexp: "^sqlalchemy.url = sqlite.*$"
-    replace: "sqlalchemy.url = postgresql://postgres:anypasswordworkslocally@localhost/fas3"
 
 - name: Initialize the database with default values
   command: fas-admin -c /home/vagrant/development.ini --initdb --default-value
