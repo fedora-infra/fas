@@ -84,7 +84,7 @@ def onLoginRequested(event):
                     _(u'Your account has been locked down due to '
                       u'too many login failure\'s attempt.Account locked for %smin'
                       % lock_timeout), 'error')
-                raise redirect_to('/login')
+                raise redirect_to(event.request, 'login')
 
 
 @subscriber(LoginSucceeded)

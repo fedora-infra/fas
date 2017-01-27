@@ -58,8 +58,8 @@ class Register(object):
     def account(self):
         """ Create a user account."""
         if self.request.authenticated_userid:
-            return redirect_to(
-                '/people/profile/%s' % self.request.authenticated_userid)
+            return redirect_to(self.request,
+                'people-profile', id=self.request.authenticated_userid)
 
         licenses = provider.get_licenses()
 
