@@ -313,6 +313,10 @@ class People(object):
 
         if self.request.method == 'POST' \
                 and ('form.save.person-infos' in self.request.params):
+            if not form.ircnick.data:
+                form.ircnick.data = None
+            if not form.bugzilla_email.data:
+                form.bugzilla_email.data = None
             if form.validate():
                 form.populate_obj(self.person)
                 self.notify(PeopleInfosUpdated(self.request, form, self.person))

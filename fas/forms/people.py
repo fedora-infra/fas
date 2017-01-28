@@ -64,10 +64,10 @@ def check_availibility(key):
     __data__ = getattr(provider, 'get_people_%s' % key)
 
     def __validate__(form, field):
-        """ Validata that field value is not stored already. """
+        """ Validates fields' value is not stored already. """
         avail_data = [value[0] for value in __data__(form.username.data)]
 
-        if field.data in avail_data:
+        if field.data is not None and field.data in avail_data:
             raise ValidationError(_(u'%s exists already!' % field.data))
 
     return __validate__
