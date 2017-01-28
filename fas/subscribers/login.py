@@ -36,7 +36,7 @@ log = logging.getLogger(__name__)
 
 
 @subscriber(LoginFailed)
-def onLoginFailed(event):
+def on_login_failed(event):
     """ Login failure listener. """
     person = event.person
 
@@ -58,7 +58,7 @@ def onLoginFailed(event):
 
 
 @subscriber(LoginRequested)
-def onLoginRequested(event):
+def on_login_requested(event):
     """ Login request listener. """
     person = event.person
 
@@ -82,13 +82,14 @@ def onLoginRequested(event):
                 )
                 event.request.session.flash(
                     _(u'Your account has been locked down due to '
-                      u'too many login failure\'s attempt.Account locked for %smin'
+                      u'too many login failure\'s attempt. '
+                      u'Account locked for %smin'
                       % lock_timeout), 'error')
-                raise redirect_to('/login')
+                raise redirect_to(event.request, 'login')
 
 
 @subscriber(LoginSucceeded)
-def onLoginSucceeded(event):
+def on_login_succeeded(event):
     """ Login success listener. """
     person = event.person
     request = event.request

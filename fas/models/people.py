@@ -145,11 +145,11 @@ class People(Base):
     twitter_token = Column(UnicodeText(), nullable=True)
     login_timestamp = Column(DateTime(timezone=True), nullable=True)
     creation_timestamp = Column(
-        DateTime, nullable=False,
+        DateTime(timezone=True), nullable=False,
         default=func.current_timestamp()
     )
     update_timestamp = Column(
-        DateTime, nullable=False,
+        DateTime(timezone=True), nullable=False,
         default=func.current_timestamp(),
         onupdate=func.current_timestamp()
     )
