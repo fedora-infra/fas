@@ -43,7 +43,17 @@ def flush():
 
 
 def save_account_activity(request, person_id, event, msg=None):
-    """ Register account activity. """
+    """ Register account activity.
+
+    :param request:
+    :type request: pyramid.request
+    :param person_id: User's ID
+    :type person_id: int
+    :param event: The kind of event to save
+    :type event: fas.models.people.AccountLogType
+    :param msg: Message related to the event
+    :type msg: basestring
+    """
     remote_ip = request.client_addr
 
     record = get_record_from(remote_ip)
@@ -61,7 +71,7 @@ def save_account_activity(request, person_id, event, msg=None):
     if client != 'Other':
         client = client
         if device != 'Other':
-            client = client + ' on %s' % device
+            client += ' on %s' % device
     else:
         client = user_agent['string']
         log.debug('Using user_agent as client: %s' % client)
@@ -87,7 +97,7 @@ def save_account_activity(request, person_id, event, msg=None):
         location=location,
         access_from=client,
         remote_ip=remote_ip,
-        event=event,
+        event=event.value,
         event_msg=msg
         )
 

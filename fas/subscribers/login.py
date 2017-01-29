@@ -103,5 +103,4 @@ def on_login_succeeded(event):
 
     person.login_timestamp = datetime.datetime.now(pytz.utc)
 
-    register.save_account_activity(request, person.id,
-                                   AccountLogType.LOGGED_IN.value)
+    register.save_account_activity(request, person.id, AccountLogType.LOGGED_IN)

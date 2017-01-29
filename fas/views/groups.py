@@ -490,7 +490,7 @@ class Groups(object):
                 role_id = int(role_id)
                 if membership.status == MembershipStatus.PENDING:
                     topic = 'group.member.approve'
-                    membership.status = MembershipStatus.APPROVED
+                    membership.status = MembershipStatus.APPROVED.value
                     membership.update_timestamp = datetime.datetime.now()
                     msg = _(u'User %s is now an approved member of %s' % (
                         self.user.username, self.group.name))
@@ -501,7 +501,7 @@ class Groups(object):
                         self.group.name)
                 elif membership.get_role(role_id - 1) == MembershipRole.USER:
                     topic = 'group.member.role.' + action
-                    membership.role = MembershipRole.EDITOR
+                    membership.role = MembershipRole.EDITOR.value
                     msg = _(u'User %s is now EDITOR of the group '
                             '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
@@ -511,7 +511,7 @@ class Groups(object):
                         'EDITOR: %s' % self.group.name)
                 elif membership.get_role(role_id - 1) == MembershipRole.EDITOR:
                     topic = 'group.member.role.' + action
-                    membership.role = MembershipRole.SPONSOR
+                    membership.role = MembershipRole.SPONSOR.value
                     msg = _(u'User %s is now SPONSOR of the group '
                             '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
@@ -521,7 +521,7 @@ class Groups(object):
                         'SPONSOR: %s' % self.group.name)
                 elif membership.get_role(role_id - 1) == MembershipRole.SPONSOR:
                     topic = 'group.member.role.' + action
-                    membership.role = MembershipRole.ADMINISTRATOR
+                    membership.role = MembershipRole.ADMINISTRATOR.value
                     msg = _(u'User %s is now ADMINISTRATOR of the '
                             'group %s' % (self.user.username, self.group.name))
                     register.save_account_activity(
@@ -536,7 +536,7 @@ class Groups(object):
                     people=self.user,
                     group=self.group,
                     sponsor=self.request.get_user,
-                    role=membership.role,
+                    role=MembershipRole(membership.role),
                     url=self.request.route_url(
                         'group-details', id=self.group.id),
                     template=tpl
@@ -545,7 +545,7 @@ class Groups(object):
             elif action == 'downgrade':
                 role_id = int(role_id)
                 if membership.get_role(role_id) == MembershipRole.USER:
-                    membership.status = MembershipStatus.UNAPPROVED
+                    membership.status = MembershipStatus.UNAPPROVED.value
                     msg = _(u'User %s is no longer in the group %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(
@@ -554,7 +554,7 @@ class Groups(object):
                         AccountLogType.REMOVED_GROUP_MEMBERSHIP,
                         self.group.name)
                 elif membership.get_role(role_id) == MembershipRole.EDITOR:
-                    membership.role = MembershipRole.USER
+                    membership.role = MembershipRole.USER.value
                     msg = _(u'User %s is now USER of the group '
                             '%s' % (self.user.username, self.group.name))
                     register.save_account_activity(
@@ -563,7 +563,7 @@ class Groups(object):
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'USER: %s' % self.group.name)
                 elif membership.get_role(role_id) == MembershipRole.SPONSOR:
-                    membership.role = MembershipRole.EDITOR
+                    membership.role = MembershipRole.EDITOR.value
                     msg = _(u'User %s is now EDITOR of the group %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(
@@ -572,7 +572,7 @@ class Groups(object):
                         AccountLogType.DOWNGRADED_GROUP_MEMBERSHIP,
                         'EDITOR: %s' % self.group.name)
                 elif membership.get_role(role_id) == MembershipRole.ADMINISTRATOR:
-                    membership.role = MembershipRole.SPONSOR
+                    membership.role = MembershipRole.SPONSOR.value
                     msg = _(u'User %s is now SPONSOR of the group %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(
@@ -585,14 +585,14 @@ class Groups(object):
                     topic='group.member.role.downgrade',
                     people=self.user,
                     group=self.group,
-                    role=membership.role,
+                    role=MembershipRole(membership.role),
                     template=tpl
                 ))
 
             elif action == 'revoke':
                 log_type = AccountLogType.REVOKED_GROUP_MEMBERSHIP_BY_ADMIN
-                membership.status = MembershipStatus.UNAPPROVED
-                membership.role = MembershipRole.USER
+                membership.status = MembershipStatus.UNAPPROVED.value
+                membership.role = MembershipRole.USER.value
                 msg = _(u'User %s is no longer in the group %s' % (
                     self.user.username, self.group.name))
                 status = "removed"
