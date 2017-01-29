@@ -491,7 +491,6 @@ class Groups(object):
                 if membership.status == MembershipStatus.PENDING:
                     topic = 'group.member.approve'
                     membership.status = MembershipStatus.APPROVED.value
-                    membership.update_timestamp = datetime.datetime.now()
                     msg = _(u'User %s is now an approved member of %s' % (
                         self.user.username, self.group.name))
                     register.save_account_activity(

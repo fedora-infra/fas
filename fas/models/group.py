@@ -249,14 +249,21 @@ class GroupMembership(Base):
     """ A mapping object to SQL GroupMembership table. """
     __tablename__ = 'group_membership'
     id = Column(Integer, primary_key=True)
-    group_id = Column(Integer, ForeignKey('groups.id', ondelete="CASCADE"), nullable=False)
+    group_id = Column(
+        Integer, ForeignKey('groups.id', ondelete="CASCADE"), nullable=False)
     role = Column(Integer, default=MembershipRole.USER.value)
     status = Column(Integer, default=MembershipStatus.UNAPPROVED.value)
     comment = Column(UnicodeText, nullable=True)
-    person_id = Column(Integer, ForeignKey('people.id', ondelete="CASCADE"), nullable=False)
-    sponsor_id = Column(Integer, ForeignKey('people.id',  ondelete="SET NULL"), nullable=True)
+    person_id = Column(
+        Integer, ForeignKey('people.id', ondelete="CASCADE"), nullable=False)
+    sponsor_id = Column(
+        Integer, ForeignKey('people.id',  ondelete="SET NULL"), nullable=True)
     creation_timestamp = Column(DateTime, default=func.current_timestamp())
-    update_timestamp = Column(DateTime, default=func.current_timestamp())
+    update_timestamp = Column(
+        DateTime,
+        default=func.current_timestamp(),
+        onupdate=func.current_timestamp()
+    )
 
     sponsors = relation(
         'People',
