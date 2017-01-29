@@ -158,7 +158,7 @@ class Admin(object):
                 self.notify(GroupCreated(
                     self.request, group, person=self.request.get_user)
                 )
-                return redirect_to('/group/details/%s' % group.id)
+                return redirect_to(self.request, 'group-details', id=group.id)
 
         return dict(form=form)
 

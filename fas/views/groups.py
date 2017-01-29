@@ -310,13 +310,13 @@ class Groups(object):
 
                 # The following keys are using foreign keys for which
                 # the referenced key might not exist. We need to set them
-                # to Null to avoid to trigger a reliationship against
+                # to Null to avoid to trigger a relationship against
                 # a non-existing key -1 or 0.
-                if form.parent_group_id.data == -1:
+                if form.parent_group_id.data <= 0:
                     form.parent_group_id.data = None
-                if form.license_id.data == -1:
+                if form.license_id.data <= 0:
                     form.license_id.data = None
-                if form.certificate_id.data == -1:
+                if form.certificate_id.data <= 0:
                     form.certificate_id.data = None
 
                 if form.bound_to_github.data \

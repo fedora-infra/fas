@@ -110,7 +110,8 @@ class Groups(Base):
     mailing_list_url = Column(UnicodeText, nullable=True)
     irc_channel = Column(UnicodeText, nullable=True)
     irc_network = Column(UnicodeText, nullable=True)
-    owner_id = Column(Integer, ForeignKey('people.id', ondelete="CASCADE"), nullable=False)
+    owner_id = Column(
+        Integer, ForeignKey('people.id', ondelete="CASCADE"), nullable=False)
     group_type_id = Column(Integer, ForeignKey('group_type.id'), nullable=True)
     parent_group_id = Column(Integer, ForeignKey('groups.id'), nullable=True)
     private = Column(Boolean, default=False)

@@ -170,8 +170,7 @@ def add_group(form):
     group.irc_channel = form.irc_channel.data
     group.irc_network = form.irc_network.data
     group.owner_id = form.owner_id.data
-    group.group_type = form.group_type.data
-    group.parent_group_id = form.parent_group_id.data
+    group.group_type_id = form.group_type_id.data
     group.private = form.private.data
     group.self_removal = form.self_removal.data
     group.need_approval = form.need_approval.data
@@ -179,9 +178,17 @@ def add_group(form):
     group.join_msg = form.join_msg.data
     group.apply_rules = form.apply_rules.data
     group.bound_to_github = form.bound_to_github.data
-    group.license_id = form.license_sign_up.data
     group.requires_sponsorship = form.requires_sponsorship.data
     group.requires_ssh = form.requires_ssh.data
+
+    if form.parent_group_id.data > 0:
+        group.parent_group_id = form.parent_group_id.data
+
+    if form.license_id.data > 0:
+        group.license_id = form.license_id.data
+
+    if form.certificate_id.data > 0:
+        group.certificate_id = form.certificate_id.data
 
     # Add default membership for group's owner
     group.members.append(
@@ -210,7 +217,7 @@ def add_membership(group_id, person_id, status, role=None, sponsor_id=None):
     :param status: The membership status to apply
     :type status: MembershipStatus
     :param role: The membership role to apply
-    :type trole: MembershipRole, default value to standard member.
+    :type role: MembershipRole, default value to standard member.
     :param sponsor_id: The person ID who will apply as sponsor (optional)
     :type sponsor_id: int
 
@@ -218,11 +225,11 @@ def add_membership(group_id, person_id, status, role=None, sponsor_id=None):
     membership = GroupMembership()
     membership.group_id = group_id
     membership.person_id = person_id
-    membership.status = status
+    membership.status = status.value
     membership.sponsor_id = sponsor_id or person_id
 
     if role:
-        membership.role = role
+        membership.role = role.value
 
     session.add(membership)
     session.flush()
