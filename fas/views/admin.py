@@ -273,9 +273,9 @@ class Admin(object):
         self.request.session.flash(msg, msg_type)
 
         if status == "failed":
-            return redirect_to('/group/details/%s' % group.id)
+            return redirect_to(self.request, 'group-details', id=group.id)
         else:
-            return redirect_to('/groups')
+            return redirect_to(self.request, 'groups')
 
     @view_config(route_name='add-license', permission='admin',
                  renderer='/admin/edit-license.xhtml')
@@ -289,7 +289,7 @@ class Admin(object):
                 la = register.add_license(form)
                 # return redirect_to('/settings/option#licenses%s' % la.id)
                 # Redirect to home as admin page not view-able now
-                return redirect_to('/')
+                return redirect_to(self.request, 'home')
 
         return dict(form=form)
 
@@ -311,7 +311,7 @@ class Admin(object):
             if form.validate():
                 form.populate_obj(la)
                 # Redirect to home as admin page not view-able now
-                return redirect_to('/')
+                return redirect_to(self.request, 'home')
 
         return dict(form=form)
 
@@ -326,7 +326,7 @@ class Admin(object):
         register.remove_license(self.id)
 
         # Redirect to home as admin page not view-able now
-        return redirect_to('/')
+        return redirect_to(self.request, 'home')
 
         return dict()
 
@@ -357,7 +357,7 @@ class Admin(object):
 
                 return redirect_to(self.request.params['form.sign.license'])
 
-        return redirect_to('/')
+        return redirect_to(self.request, 'home')
 
     @view_config(route_name='add-grouptype', permission='admin',
                  renderer='/admin/edit-grouptype.xhtml')
@@ -371,7 +371,7 @@ class Admin(object):
                 gt = register.add_grouptype(form)
                 # return redirect_to('/settings/option#GroupsType%s' % la.id)
                 # Redirect to home as admin page not view-able now
-                return redirect_to('/')
+                return redirect_to(self.request, 'home')
 
         return dict(form=form)
 
@@ -393,7 +393,7 @@ class Admin(object):
             if form.validate():
                 form.populate_obj(gt)
                 # Redirect to home as admin page not view-able now
-                return redirect_to('/')
+                return redirect_to(self.request, 'home')
 
         return dict(form=form)
 
@@ -414,7 +414,7 @@ class Admin(object):
                 and ('form.save.certificate' in self.request.params):
             if form.validate():
                 register.add_certificate(form)
-                return redirect_to('/settings')
+                return redirect_to(self.request, 'settings')
 
         return dict(form=form)
 
@@ -433,7 +433,7 @@ class Admin(object):
                           'cacert: %s, group_id: %s, group_name: %s' %
                           (form.cacert.data, form.group_id.data,
                            form.group_name.data))
-                raise redirect_to('/')
+                raise redirect_to(self.request, 'home')
             else:
                 # Setup headers
                 headers = response.headers
@@ -482,7 +482,7 @@ class Admin(object):
 
                 return response
 
-        raise redirect_to('/')
+        raise redirect_to(self.request, 'home')
 
     @view_config(route_name='lock', permission='authenticated', xhr=True,
                  renderer='json')
