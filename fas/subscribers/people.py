@@ -47,7 +47,7 @@ def on_password_change_requested(event):
     if delta >= int(Config.get('user.security_change.timeout')):
         log.debug('Too many time passed since last login, ask user to '
                   're-enter its password')
-        raise redirect_to('/login?redirect=%s' % event.request.url)
+        raise redirect_to(event.request, 'login', _query='redirect=%s' % event.request.url)
     else:
         log.debug('last login time still valid')
 
