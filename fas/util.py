@@ -234,6 +234,8 @@ def setup_group_form(request, group=None):
         if group in parent_groups:
             parent_groups.remove((group.id, group.name))
     else:
+        if not form.name.data:
+            form.name.data = None
         parent_groups = provider.get_groups()
 
     form.owner_id.choices = [(u.id, u.username + ' (' + u.fullname + ')')
