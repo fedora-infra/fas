@@ -287,8 +287,6 @@ class Groups(object):
 
         self.group = provider.get_group_by_id(self.id)
 
-        ms = MembershipValidator(self.request.authenticated_userid,
-                                 [self.group.name])
         # TODO: move this to Auth provider?
         # Prevent denied client from requesting direct url
         if not self.request.authenticated_is_admin():
