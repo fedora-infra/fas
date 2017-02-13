@@ -107,6 +107,8 @@ class People(Base):
     password = Column(UnicodeText(), nullable=False)
     fullname = Column(UnicodeText(), nullable=False)
     ircnick = Column(UnicodeText(), unique=True, nullable=True)
+    irc_enabled = Column(Boolean, default=False)
+    irc_password = Column(UnicodeText(), nullable=True)
     avatar = Column(UnicodeText(), nullable=True)
     avatar_id = Column(Unicode, nullable=True)
     introduction = Column(UnicodeText(), nullable=True)
