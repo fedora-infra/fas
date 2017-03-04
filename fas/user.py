@@ -1304,11 +1304,7 @@ forward to working with you!
     def sync_pwd_change_to_ipa(self, user_name, password):
         os.system('kinit -k -t %s %s' % (config.get('ipa_sync_keytab'),
                                          config.get('ipa_sync_principal')))
-        c = requests.post('https://%s/ipa/session/login_kerberos'
-                          % config.get('ipa_sync_server'),
-                          auth=HTTPKerberosAuth(),
-                          verify=config.get('ipa_sync_certfile'))
-        r = requests.post('https://%s/ipa/session/json'
+        r = requests.post('https://%s/ipa/json'
                           % config.get('ipa_sync_server'),
             json={'method': 'user_mod',
                   'params':[
@@ -1317,7 +1313,7 @@ forward to working with you!
                   ],
                   'id': 0},
             verify=config.get('ipa_sync_certfile'),
-            cookies=c.cookies,
+            auth=HTTPKerberosAuth(),
             headers={'referer':
                      'https://%s/ipa'
                      % config.get('ipa_sync_server')}).json()

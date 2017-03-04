@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.14.0
+Version:        0.14.1
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
@@ -153,6 +153,10 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 %attr(0700,root,root) %dir %{_localstatedir}/lib/fas
 
 %changelog
+* Wed Jan 18 2017 Xavier Lamien <laxathom@fedoraproject.org> - 0.14.1-1
+- Add robustness on valid_ssh_key retrieval.
+- Remove IPA's session.
+
 * Tue Aug 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.14.0-1
 - Update YubiKey documentation
 - Update FPCA template
