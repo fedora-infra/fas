@@ -37,5 +37,5 @@ COPYRIGHT = '2007-2016 Red Hat, Inc.'
 
 # if it's open source, you might want to specify these
 URL = 'https://admin.fedoraproject.org/accounts/'
-DOWNLOAD_URL = 'https://fas2.fedorahosted.org/'
+DOWNLOAD_URL = 'https://github.com/fedora-infra/fas'
 LICENSE = 'GPLv2'
