@@ -7,8 +7,8 @@ Summary:        Fedora Account System
 
 Group:          Development/Languages
 License:        GPLv2
-URL:            https://fedorahosted.org/fas/
-Source0:        https://fedorahosted.org/releases/f/a/fas/%{name}-%{version}.tar.gz
+URL:            https://github.com/fedora-infra/fas/
+Source0:        https://github.com/fedora-infra/fas/archive/%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
