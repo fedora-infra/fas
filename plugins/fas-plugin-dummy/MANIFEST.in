@@ -1,3 +1,0 @@
-include __init__.py
-include templates/*.html
-include templates/*.py

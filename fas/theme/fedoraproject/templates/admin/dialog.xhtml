@@ -1,0 +1,86 @@
+<%namespace name="SettingsDialog" />
+<%namespace name="Modal" file="/modal.xhtml" />
+
+<%def name="group(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('removeGroup', _(u'Group removal'))}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.id.label()}
+              <div class="col-md-10">
+                ${form.id()}
+              </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Delete group'), action='form.remove.group')}
+</form>
+</%def>
+
+<%def name="grouptype(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('removeGrouptype', _(u'Group type removal'))}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.id.label()}
+              <div class="col-md-10">
+                ${form.id()}
+              </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Delete group type'), action='form.remove.grouptype')}
+</form>
+</%def>
+
+<%def name="license(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('removeLicense', _(u'License Agreement removal'))}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.id.label()}
+              <div class="col-md-10">
+                ${form.id()}
+              </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Delete license'), action='form.remove.license')}
+</form>
+</%def>
+
+<%def name="trustedperms(form)">
+<form class="form-horizontal" role="form" method="POST">
+  ${Modal.header('addTrustedPerm', _(u'Add token for trusted app'), size='md')}
+        <div class="modal-body">
+          <div class="form-group">
+            ${form.desc.label(class_='col-sm-2 control-label')}
+              <div class="col-lg-10">
+                ${form.desc(class_='form-control', placeholder=_('Add a name or description'))}
+              </div>
+            <div class="col-sm-offset-2">
+              %for subfield in form.perm:
+                  <dt>
+                    <label>
+                      ${subfield} ${subfield.label}
+                    </label>
+                  </dt>
+              %endfor
+            </div>
+          </div>
+        </div>
+  ${Modal.footer(_(u'Cancel'), _(u'Generate'), action='form.generate.key')}
+</form>
+</%def>
+
+<%def name="revoketrustedperms(form)">
+<form class="form-horizontal" role="form" method="POST">
+    ${Modal.header('revokeTrustedPerm', _(u'Revoke a trusted app'), size='md')}
+    <div class="modal-body">
+        <div class="form-group">
+            ${form.id.label()}
+            <div class="col-md-10">
+                ${form.id()}
+            </div>
+        </div>
+    </div>
+    ${Modal.footer(_(u'Cancel'), _(u'Revoke token'), action='form.revoke.token')}
+</form>
+</%def>

@@ -1,0 +1,66 @@
+<%namespace name="groupMsg" />
+
+  <%def name="msg(title, msg_label)">
+    <!-- FIXME: move this to front once reviewed content and test pass -->
+    <script type='text/javascript'>
+    $(window).load(function(){
+    $(document).on("click", ".AddMsgBox", function (e) {
+
+        e.preventDefault();
+
+        var _self = $(this);
+
+        var peopleId = _self.data('people');
+        var groupId = _self.data('group');
+        var roleId = _set.data('roleid')
+        $("#peopleId").val(peopleId);
+        $("#groupId").val(groupId);
+        $("#roleID").val(roleId);
+
+        $(_self.attr('target')).modal('show');
+        });
+    });
+    </script>
+
+    <!-- TODO: Make this form configure-able -->
+    <form class="form-horizontal" role="form" method="POST"
+          action="${request.route_url('group-action')}">
+      <div class="modal in" id="AddOptionalMsg" tabindex="-1"
+           role="dialog" aria-labelledby="AddOptionalMsg"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">
+                  Close
+                </span>
+              </button>
+              <h4 class="modal-title" id="AddOptionalMsg">${title}</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">${msg_label}</label>
+                  <div class="col-lg-10">
+                      <textarea class="form-control" rows="5" name="msg_text"
+                              placeholder="${_(u'Add an optional reason')}"></textarea>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" id="groupId" name="group_id" />
+              <input type="hidden"  id="peopleId" name="user_id" />
+              <input type="hidden" id="roleId" name="role_id" />
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                  ${_(u'Cancel')}
+              </button>
+              <button type="submit" class="btn btn-primary" name="action" value="revoke">
+                  ${_('Revoke')}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </%def>

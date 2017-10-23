@@ -1,0 +1,104 @@
+<%namespace name="GroupForm" />
+
+  <%def name="header(id, title, dismissable=True)">
+    <div class="modal in" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${id}" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            %if dismissable:
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">
+                Close
+              </span>
+            </button>
+            %endif
+            <h3 class="modal-title" id="${id}">${title}</h3>
+          </div>
+  </%def>
+
+  <%def name="footer(button_1, button_2, action, value)">
+          <div class="modal-footer">
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">${button_1}</button>
+              <button type="submit" class="btn btn-primary" name="${action}" value="${value}">${button_2}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </%def>
+
+  <%def name="invite()">
+  <form class="form-horizontal" role="form" method="POST" action="${request.route_url('group-action')}">
+    ${header('invitePerson', _(u'Invite a person'))}
+          <div class="modal-body">
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <p>${_(u'Invite a person to fedora project')}</p>
+                    <input type="hidden" name="group_id" value="${group.id}">
+                    <input class="form-control col-lg-10" id="invitee" name="invitee" placeholder="${_(u'Add an email here')}" type="email" value="">
+                </div>
+            </div>
+          </div>
+    ${footer(_(u'Cancel'), _(u'Send invitation'), 'action', 'invite')}
+  </form>
+  </%def>
+
+  <%def name="addUser(_form)">
+  <form class="form-horizontal" role="form" method="POST" action="${request.route_url('group-action')}">
+    ${header('addPeople', _(u'Add a new member'))}
+          <div class="modal-body">
+                <p>${_(u'Add a community member to your group')}</p>
+            <div class="form-group">
+                <div class="col-lg-10">
+                  <input type="hidden" name="group_id" value="${group.id}">
+                  ${_form.people(class_="form-control col-lg-10")}
+                </div>
+            </div>
+          </div>
+      <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+    ${footer(_(u'Cancel'), _(u'Add this member'), 'action', 'add')}
+  </form>
+  </%def>
+
+<%def name="membershipRemoval(group, person)">
+    <form class="form-horizontal" role="form" method="POST"
+        action="${request.route_url('group-action')}">
+        ${header('membershipRemoval', _(u'Membership removal'))}
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <!-- You can use markdown syntax here -->
+                    <!-- TODO: review wording before release to prod -->
+                    <p>
+                        ${_(u'Removing yourself from this group will removed your account'
+                        'from any related system.'
+                        'Are you sure?')}
+                    </p>
+                    <input type="hidden" name="group_id" value="${group}">
+                    <input type="hidden" name="user_id" value="${person}">
+                    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                </div>
+            </div>
+          </div>
+    ${footer(_(u'No'), _(u'Yes'), 'action', 'removal')}
+  </form>
+  </%def>
+
+  <%def name="changeAdmin(form, group, person)">
+    <form class="form-horizontal" role="form" method="POST"
+          action="${request.route_url('group-action')}">
+      ${header('groupMainAdminChange', _(u'Group admin update'))}
+              <div class="modal-body">
+                <div class="form-group">
+                  ${form.owner_id.label(class_='col-sm-2 control-label')}
+                  <div class="col-lg-10">
+                    ${form.owner_id(class_='form-control')}
+                    <input type="hidden" name="group_id" value="${group}">
+                    <input type="hidden" name="user_id" value="${person}">
+                  </div>
+                </div>
+              </div>
+      ${footer(_(u'Cancel'), _(u'Change admin'), 'action', 'change_admin')}
+    </form>
+  </%def>

@@ -1,0 +1,96 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="profile"/>
+<%namespace name="PeopleDialog" file="dialog.xhtml" />
+<%block name="header">
+  %if form:
+      %if form.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+      %endif
+  %endif
+
+  <div class="page-title subheader">
+    <div class="container">
+    <div class="profile-header">
+      %if form and person.username == request.authenticated_userid:
+      <a href="#updateAvatar" data-toggle="modal" data-target="#updateAvatar">
+      %endif
+        <figure>
+          %if person.avatar:
+              <img class="profile" src="${person.avatar + '?s=150&d=retro'}"/>
+          %else:
+              <img src="${request.static_url('%s/assets/fedora-default-user-150.png' % theme_static)}"/>
+          %endif
+        %if form:
+        <figcaption>
+              %if person.username == request.authenticated_userid:
+                  <p><span class="fas-icon-camera"></span></p>
+<!--
+                  <p>${_(u'Change Avatar')}</p>
+-->
+              %endif
+        </figcaption>
+        %endif
+        </figure>
+      %if form and person.username == request.authenticated_userid:
+      </a>
+      <a href="#UpdateStatus" type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#updateStatus">
+        ${_(u'Update status')}
+      </a>
+      %endif
+      <h1>${person.fullname}</h1>
+      %if person.introduction:
+      <p>
+        ${person.introduction}
+      </p>
+      %endif
+    </div>
+  </div>
+</div>
+
+  %if formavatar:
+    %if person.username == request.authenticated_userid:
+      ${PeopleDialog.avatar(formavatar)}
+    %endif
+  %endif
+
+  %if form:
+      <form class="form-horizontal" role="form" method="POST">
+        <div class="modal in" id="updateStatus" tabindex="-1" role="dialog" aria-labelledby="UpdateStatus" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">
+                    Close
+                  </span>
+                </button>
+                <h4 class="modal-title" id="UpdateStatus">${_(u'Update your account\'s status')}</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-lg-10">
+                      ${form.status(class_='form-control')}
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" name="form.update.status">Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+  %endif
+</%block>

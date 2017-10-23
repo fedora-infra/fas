@@ -1,0 +1,75 @@
+.people-list{
+    .usercard{
+        position:relative;
+        margin-bottom:15px;
+        height:102px;
+        background:@gray-lighter;
+
+        border:1px solid @fedora-lightgrey;
+        border-radius: 2px;
+        .transition(background .3s, border .3s;);
+
+        > div a, p{
+            .transition(color .2s;);
+        }
+
+        // Avatar
+        > a{
+            display:block;
+            float:left;
+            background:#ccc;
+            box-shadow: 0 0 30px 3px rgba(0, 0, 0, .3) inset;
+            width:100px;
+            height:100px;
+            position:relative;
+            overflow:hidden;
+            img {
+                position:absolute;
+                top:0;
+                left:0;
+                width:100px;
+                height:100px;
+                .transition(all .3s);
+            }
+        }
+
+        // Content
+        > div {
+            margin-left:100px;
+            padding:5px 10px;
+
+            // Name
+            > div a{
+                font-size:1.5em;
+                font-family : @headings-font-family;
+            }
+            // Description
+            p{
+                font-size:.85em;
+            }
+            // see profile link
+            a.more{
+                font-size:.85em;
+                position:absolute;
+                bottom:5px;
+                right:5px;
+            }
+        }
+
+        &:hover{
+            border-color:@fedora-grey;
+            background:@fedora-blue;
+            > div div a, p, a.more{
+                color:#fff;
+            }
+            img{
+                top:-10%;
+                left:-10%;
+                width:120px;
+                height:120px;
+            }
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
+        }
+
+    }
+}

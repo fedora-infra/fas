@@ -1,0 +1,171 @@
+<%inherit file="/people/profile-header.xhtml" />
+<%namespace name="profile" file="/people/profile-header.xhtml"/>
+<%namespace name="PeopleDialog" file="dialog.xhtml" />
+<%block name="details">
+
+  %if person.username == request.authenticated_userid:
+      ${PeopleDialog.sshkey(formsshkey)}
+  %endif
+
+  %if person.username == request.authenticated_userid:
+      ${PeopleDialog.gpg_fingerprint(form_gpgfp)}
+  %endif
+
+  ${profile.header()}
+
+  <div class=profile-header>
+    %if person.bio:
+      <a data-toggle="collapse" href="#collapsePrivacy" title="${_(u'Read BIO')}"><span class="fas-icon-newspaper fs-2x"></span>
+      </a> <!-- Updpate this with an cool glyphicons -->
+      <div id="collapsePrivacy" class="panel-collapse collapse container">
+        <div class="center-block">
+            <p class="text-center">${person.bio | n}</p>
+        </div>
+    %endif
+      </div>
+  </div>
+
+  <div class="card-view container">
+  %if person.username == request.authenticated_userid:
+  <div class="popover-markup">
+      <a href="${request.route_url('people-edit', id=person.id)}">
+          <span class="profile-edit fas-icon-pencil"
+                data-toggle="popover" data-trigger="hover" data-placement="left auto"
+                title="${_(u'Profile update')}" data-content="${_(u'Update your profile information')}">
+          </span>
+      </a>
+  </div>
+  %endif
+  <div class="centered container-sd">
+  <div class="row">
+      <div class="col-md-7">
+          <h3>${_(u'Basic Information')}</h3>
+          <dl class="dl-horizontal">
+              <dt>${_(u'Account Name')}</dt>
+              <dd>${person.username}</dd>
+              %if person.ircnick:
+              <dt>${_(u'IRC Nick')}</dt>
+              <dd>${person.ircnick}</dd>
+              %endif
+              <dt>${_(u'Country')}</dt>
+              <dd>${person.country_code}</dd>
+              <dt>${_(u'Status')}</dt>
+              <dd>
+                %if person.status == account_status.ACTIVE:
+                    <span class="label label-success">${_(u'active')}</span>
+                %elif person.status == account_status.ON_VACATION:
+                    <span class="label label-info">${_(u'on vacation')}</span>
+                %elif person.status in [account_status.INACTIVE, account_status.PENDING]:
+                    <span class="label label-warning">${_(u'inactive')}</span>
+                %elif person.status == account_status.DISABLED:
+                    <span class="label label-default">${_(u'archived')}</span>
+                %elif person.status in [account_status.BLOCKED, account_status.BLOCKED_BY_ADMIN]:
+                    <span class="label label-danger">${_(u'blocked')}</span>
+                %endif
+              </dd>
+          </dl>
+      </div>
+      <div class="col-md-3">
+          <h3>${_(u'Contact Information')}</h3>
+          <dl class="dl-horizontal">
+              %if request.authenticated_userid:
+              <dt>${ _(u'Email')}</dt>
+              <dd>${person.email}</dd>
+              %if not person.privacy:
+              <dt>${_(u'Telephone')}</dt>
+              <dd>${person.telephone}</dd>
+              <dt>${_(u'Postal Address')}</dt>
+              <dd>${person.postal_address}</dd>
+              %endif
+              %endif
+              <!-- Wondering if this really is an contact information? -->
+              <dt>${_(u'GPG Fingerprint')}</dt>
+              <dd>${person.gpg_fingerprint}</dd>
+          </dl>
+      </div>
+  </div>
+      </div>
+  %if person.username == request.authenticated_userid:
+  <div class="centered row">
+      <h3>${_(u'Security')}</h3>
+      <dl class="dl-horizontal">
+          <dt>${_(u'Password')}</dt>
+          <dd>
+              <a href="${request.route_url('people-password', id=person.id)}">
+                  ${_(u'Change')}
+              </a>
+          </dd>
+          <dt>${_(u'Security Question')}</dt>
+          <dd></dd>
+          %if ssh_is_required:
+          <dt>${_(u'SSH key')}</dt>
+          <dd>
+              <a href="#updateSshKey" data-toggle="modal" data-target="#updateSshKey">
+                  %if person.ssh_key:
+                  ${_(u'Update')}
+                  %else:
+                  <span class="fas-icon-attention text-warning-alt" data-toggle="popover"
+                        title="${_(u'Your SSH key is required')}" data-placement="auto right"
+                        data-content="${_(u'One or more group you belong to requires you to add an SSH key.')}"
+                        data-trigger="hover"> ${_(u'Add a key')}
+                  </span>
+                  %endif
+              </a>
+          </dd>
+          <dt>${_(u'GPG Fingerprint')}</dt>
+          <dd>
+              <a href="#updateGpgfp" data-toggle="modal" data-target="#updateGpgfp">
+                  %if person.gpg_fingerprint:
+                  ${_(u'Update')}
+                  %else:
+                  ${_(u'Add a fingerprint')}
+                  %endif
+              </a>
+          </dd>
+          %endif
+          <dt>
+              %if request.registry.settings.get('token.engine') == 'built-in':
+              <a href="${request.route_url('people-token', id=person.id)}">
+              %else:
+              <a href="${request.registry.settings.get(request.registry.settings.get('token.engine') + '.tokenurl')}">
+              %endif
+                  ${_(u'Access Token')}
+              </a>
+          </dt>
+          <dt>
+              %if len(person.activities_log) > 0:
+              <a href="${request.route_url('people-activities', id=person.id)}">
+                  ${_(u'Account activities')}
+              </a>
+              %else:
+              ${_(u'Account activities')}
+              %endif
+          </dt>
+      </dl>
+  </div>
+  %endif
+  <div class="centered row">
+      <h3>${_(u'Involvement')}</h3>
+      <ul class="profile-list">
+          <div class="row">
+              %for g in membership:
+              %if g.group is not None:
+              <div class="col-sm-6 col-sm-4 col-lg-4">
+                  <a href="${request.route_url('group-details', id=g.group.id)}">
+                      <img src="${request.static_url('%s/assets/fedora_35.png' % theme_static)}">
+                      ${g.group.display_name or g.group.name}
+                  </a> -
+                  <span>${g.get_role().name.lower()}</span>
+              </div>
+              %endif
+              %endfor
+          </div>
+      </ul>
+  </div>
+  </div>
+  <script>
+      $(function () {
+          $('[data-toggle="popover"]').popover()
+      })
+  </script>
+</%block>

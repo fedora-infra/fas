@@ -1,0 +1,264 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="captcha" file="/admin/captcha.xhtml"/>
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+${Page.set_title(_(u'Create your Fedora Project Account'), _(u'Proceed to the following steps to register a new account'))}
+
+    <!-- Add error msg here for debug purpose. -->
+    %if form.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
+
+    %if captchaform:
+      %if captchaform.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in captchaform.errors.iteritems():
+                %for error in field_errors:
+                    <li>${captchaform[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+      %endif
+    %endif
+
+    <div id="pt-main" class="pt-perspective">
+      <form method="POST" action="${request.route_url('people-new')}" class="form-horizontal" role="form">
+
+        <div class="pt-page">
+          <div class="container-fluid">
+            <h2 class="text-center">${_('Account identity')}</h2>
+            <div class="form-group">
+              ${form.username.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+              ${form.username(class_='form-control', id='username', type='username', placeholder=_(u'Enter an username'))}
+              </div>
+            </div>
+            <div class="form-group">
+              ${form.fullname.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${form.fullname(class_='form-control', type='fullname', placeholder=_(u'Enter your full name'))}
+              </div>
+            </div>
+            <div class="form-group">
+              ${form.email.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${form.email(class_='form-control', type='email', placeholder=_(u'Enter a valid email'))}
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid" style="padding-top: 25px;">
+            <div class="form-group">
+              ${form.password.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${form.password(class_='form-control', id='password')}
+                 <div class="col-sm-6 col-sm-offset-2" style="padding-top: 20px;">
+                   <div class="pwstrength_viewport_progress"></div>
+                 </div>
+                 <div id="messages"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              ${form.password_confirm.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${form.password_confirm(class_='form-control', id='confirmpwd')}
+              </div>
+            </div>
+            <div class="card-form-footer">
+              <button type="button" class="btn-next btn-transition btn btn-lg btn-info pull-right">
+                ${_(u'Next')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-page">
+          <div class="container-fluid">
+            <h2 class="text-center">${_(u'Add more information to your account')}</h2>
+            <div class="form-group">
+              ${peopleform.avatar.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${peopleform.avatar(class_='form-control', placeholder=_(u'Your avatar ID or email'))}
+              </div>
+            </div>
+            <div class="form-group">
+              ${peopleform.introduction.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${peopleform.introduction(class_='form-control', placeholder=_(u'Intro or catch phrase'))}
+              </div>
+            </div>
+            <div class="form-group">
+              ${peopleform.ircnick.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${peopleform.ircnick(class_='form-control', placeholder=_(u'Your IRC nickname'))}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                  ${peopleform.birthday.label(class_='col-xs-4 control-label')}
+                <div class="col-xs-2">
+                  ${peopleform.birthday(class_='form-control', type='day', placeholder=_(u'Enter your day of birth'))}
+                </div>
+                <div class="col-xs-2">
+                  ${peopleform.birthday_month(class_='form-control', type='month')}
+                </div>
+              </div>
+            </div>
+            <h3>${_('Contact information')}</h3>
+            <div class="form-group">
+              ${peopleform.postal_address.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${peopleform.postal_address(class_='form-control', placeholder=_(u'Your IRC nickname'))}
+              </div>
+            </div>
+            <div class="form-group">
+              ${peopleform.telephone.label(class_='col-md-4 control-label')}
+              <div class="col-sm-4">
+                ${peopleform.telephone(class_='form-control', placeholder=_(u'Your IRC nickname'))}
+              </div>
+            </div>
+            <div class="card-form-footer">
+            <button type="button" class="btn-transition btn btn-lg btn-info pull-right">
+              ${_(u'Next')}
+            </button>
+            </div>
+          </div>
+        </div>
+
+        %if len(licensesform) > 0:
+          <%
+              import mistune
+          %>
+          %for licenseform in licensesform:
+            %if licenseform is not None:
+        <div class="pt-page">
+          <div class="container-fluid">
+            <h2 class="text-center">${licenses[0].name}</h2>
+            <div id="license-text" class="container center-block" style="height: 400px; overflow: auto;">
+              ${mistune.markdown(licenses[0].content) | n}
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox center-block">
+                  <p>
+                    ${_(u'signify Your assent to the terms of this FPCA through specific electronic means established by Fedora')}
+                  </p>
+                  <label>
+                    ${licenseform.signed(id='laAgreed', disabled='disabled')} ${licenseform.signed.label}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <button id="la-next" type="button" class="btn-transition btn btn-lg btn-info pull-right" disabled>
+              ${_(u'Next')}
+            </button>
+          </div>
+        </div>
+            %endif
+          %endfor
+        %endif
+
+        <div class="pt-page">
+          <div class="container-fluid">
+            <h2 class="text-center">${_(u'Finalize your registration')}</h2>
+            <div class="container center-block">
+              <p>Add some final text here or inputs review</p>
+            </div>
+            ${captcha.form(captchaform)}
+            <div class="text-center">
+            <button class="btn-next btn-transition-2 btn btn-danger btn-lg">
+              ${_(u'Start over')}
+            </button>
+            <button class="btn btn-info btn-lg" name="form.register">
+              ${_(u'Sign me up!')}
+            </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  <script src="${request.static_url('%s/js/pagetransitions.js' % theme_static)}"></script>
+
+  <!-- Added here for dev purpose -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var $button = $(".btn-next"),
+            $inputs = $('input[type=username], input[type=fullname], input[type=email]'),
+            $pwds = $('#confirmpwd');
+            //$licenseSigned = $('input[type=checkbox]');
+
+        function checkEmptyInput() {
+            return $inputs.filter(function() {
+                return !$.trim(this.value);
+            }).length === 0;
+        }
+
+        function checkEmptyPassword() {
+            return $pwds.filter(function() {
+                return !$.trim(this.value);
+            }).length === 0;
+        }
+
+        $inputs.on('keyup', function() {
+            $button.prop("disabled", !checkEmptyInput());
+        }).keyup();
+
+        $pwds.on('keyup', function() {
+            $button.prop("disabled", !checkEmptyPassword());
+        }).keyup();
+
+        $('#laAgreed').on( 'click', function() {
+            $("#la-next").prop("disabled", !this.checked);
+        });
+    });
+  </script>
+
+  <script type="text/javascript">
+       $(document).ready(function () {
+           "use strict";
+           var options = {};
+           options.ui = {
+               container: "#pwd-container",
+               showVerdictsInsideProgressBar: true,
+               showErrors: true,
+               viewports: {
+                   progress: ".pwstrength_viewport_progress"
+               }
+           };
+           options.common = {
+               debug: true,
+               onLoad: function () {
+                   $('#messages');
+               }
+           };
+           $(':password').pwstrength(options);
+       });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('#license-text').bind('scroll', function() {
+            if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
+                //alert('end reached');
+                $("#laAgreed").attr("disabled", false);
+            }
+            else {
+                $("#laAgreed").attr("disabled", true);
+            }
+        })
+    });
+  </script>

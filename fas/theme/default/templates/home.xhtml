@@ -1,0 +1,83 @@
+<%inherit file="/site.xhtml" />
+
+<div class="cover">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 titling-col">
+                <strong>The Fedora Project Account System</strong>
+            </div>
+            <div class="col-md-8 content-col">
+                <p>${_(u'The Fedora Account System - aka FAS - you can easily create and manager your account, find people or group informations.')}</p>
+                <p>
+                  ${_(u'Don\'t have an account yet? Join us and')}
+                  <a href="${request.route_url('people-new')}">
+                    ${_(u'sign up now')}!
+                  </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>
+                <a href="${request.route_url('groups')}">
+                    <span>
+                    <img src="${request.static_url('%s/assets/fedora-default-group-100.png' % theme_static)}">
+                    </span>${_(u'Fedora groups')}
+                </a>
+            </h2>
+            <h2>
+                <a href="${request.route_url('people')}"><span>
+                    <img src="${request.static_url('%s/assets/fedora-default-user_topmenu-100.png'  % theme_static)}">
+                </span>${_(u'Fedora people')}</a>
+            </h2>
+        </div>
+        <div class="sidebar col-md-3">
+
+            <div class="searchform">
+                <h3>${_(u'Search for people')}</h3>
+                <form method="get" action="${request.route_url('people-search-rd')}">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control"/>
+                        <span class="input-group-addon">
+                            <button class="fas-icon-search"></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+
+            %if request.authenticated_userid is None:
+            <div class="highlight-box">
+                <p>
+                  <a href="${request.route_url('people-new')}">
+                    ${_(u'Create an account')}
+                  </a>
+                  ${_(u'and join the Fedora community')}
+                </p>
+                <p>
+                  ${_(u'Already have an account?')}
+                  <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                     class="navbar-link">
+                    ${_(u'Log in')}
+                  </a>
+                </p>
+            </div>
+            %endif
+
+            <h3>${_(u'Fedora world')}</h3>
+            <ul>
+                <li><a href="http://fedoraproject.org/" targt="_blank">${_(u'Learn about Fedora')}</a></li>
+                <li><a href="http://get.fedoraproject.org/" target="_blank">${_(u'Download Fedora')}</a></li>
+                <li><a href="http://fedoraproject.org/wiki/" target="_blank">${_(u'Projects')}</a></li>
+                <li><a href="http://join.fedoraproject.org/" target="_blank">${_(u'Join Fedora')}</a></li>
+                <li><a href="http://fedoraproject.org/wiki/Communicate" target="_blank">${_(u'Communicate')}</a></li>
+                <li><a href="http://docs.fedoraproject.org/" target="_blank">${_(u'Help/Documentation')}</a></li>
+                <li><a href="https://fedoraproject.org/code-of-conduct" target="_blank">${_(u'Code of Conduct')}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

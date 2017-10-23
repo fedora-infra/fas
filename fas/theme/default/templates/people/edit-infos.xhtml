@@ -1,0 +1,162 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+${Page.set_title(_(u'Profile Update'), _(u'Update your profile\'s informations'))}
+
+<div class="container">
+  <form method="POST" action="${request.route_url('people-edit', id=id)}" class="form-horizontal" role="form">
+    <!-- Add error msg here for debug purpose. -->
+    %if form.errors:
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
+      <h4 class="section-title">${_('Main informations')}</h4>
+      <div class="form-group">
+        ${form.username.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          <p class="form-control-static">${form.username.data}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.fullname.label(class_='col-sm-2 control-label')}
+        %if form.fullname.errors:
+        <div class="col-sm-10 has-error">
+        %else:
+        <div class="col-sm-10">
+        %endif
+          ${form.fullname(class_='form-control col-lg-10', placeholder=_(u'Enter your full name'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.introduction.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.introduction(class_='form-control col-lg-20', placeholder=_(u'Enter an introduction or a catch phrase'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.email.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.email(class_='form-control col-lg-10', type='email', placeholder=_(u'Enter a valid email'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.bugzilla_email.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.bugzilla_email(class_='form-control col-lg-10', type='email', placeholder=_(u'Enter your registered bugzilla\'s email'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.ircnick.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.ircnick(class_='form-control col-lg-20', placeholder=_(u'Enter your registered IRC nick'))}
+        </div>
+      </div>
+      <h4 class="section-title">${_('Contact informations')}</h4>
+      <div class="form-group">
+        ${form.telephone.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.telephone(class_='form-control', placeholder=_(u'Enter your phone number with your country prefix'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.postal_address.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.postal_address(class_='form-control', placeholder=_(u'Enter your postal address'))}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+            ${form.gpg_fingerprint.label(class_='col-xs-2 control-label')}
+          <div class="col-xs-3">
+            ${form.gpg_fingerprint(class_='form-control', placeholder=_(u'Enter GPG fingerprint here'))}
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+            ${form.birthday.label(class_='col-xs-2 control-label')}
+          <div class="col-xs-3">
+            ${form.birthday(class_='form-control', type='day', placeholder=_(u'Enter your day of birth'))}
+          </div>
+          <div class="col-xs-4">
+            ${form.birthday_month(class_='form-control', type='month')}
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.country_code.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.country_code(class_='form-control', placeholder=_(u'Enter your country\'s code'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.latitude.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.latitude(class_='form-control', placeholder=_(u'Enter your latitude of your location'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.longitude.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.longitude(class_='form-control', placeholder=_(u'Enter your longitude of your location'))}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              ${form.privacy} ${form.privacy.label}
+              <span>
+                <a data-toggle="collapse" href="#collapsePrivacy">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                </a>
+              </span>
+            </label>
+          </div>
+                <div id="collapsePrivacy" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <i class="text-muted">
+                      ${_(u'Set your contact informations as private, only you can read them.')}
+                    </i>
+                  </div>
+                </div>
+        </div>
+      </div>
+      <h4 class="section-title">${_('Additional informations')}</h4>
+      <div class="form-group">
+        ${form.locale.label(class_='col-sm-2 control-label')}
+        %if form.locale.errors:
+        <div class="col-sm-10 has-error">
+        %else:
+        <div class="col-sm-10">
+        %endif
+          ${form.locale(class_='form-control', placeholder=_(u'Select your system locale'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.timezone.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.timezone(class_='form-control', placeholder=_(u'Select your local timezone'))}
+        </div>
+      </div>
+      <div class="form-group">
+        ${form.bio.label(class_='col-sm-2 control-label')}
+        <div class="col-sm-10">
+          ${form.bio(class_='form-control', row='3', placheholder=_(u'Enter a short introduction of yoursef or a catch phrase'))}
+        </div>
+      </div>
+      <div class="card-form-footer">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
+          <button type="submit" class="btn btn-primary" name="form.save.person-infos">${_(u'Save changes')}</button>
+      </div>
+  </form>
+</div>

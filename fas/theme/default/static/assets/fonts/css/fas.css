@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'fas';
+  src: url('../font/fas.eot?36682062');
+  src: url('../font/fas.eot?36682062#iefix') format('embedded-opentype'),
+       url('../font/fas.woff2?36682062') format('woff2'),
+       url('../font/fas.woff?36682062') format('woff'),
+       url('../font/fas.ttf?36682062') format('truetype'),
+       url('../font/fas.svg?36682062#fas') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fas';
+    src: url('../font/fas.svg?36682062#fas') format('svg');
+  }
+}
+*/
+ 
+ [class^="fas-icon-"]:before, [class*=" fas-icon-"]:before {
+  font-family: "fas";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.fas-icon-right:before { content: '\e800'; } /* '' */
+.fas-icon-search:before { content: '\e801'; } /* '' */
+.fas-icon-github-circled:before { content: '\e802'; } /* '' */
+.fas-icon-users:before { content: '\e803'; } /* '' */
+.fas-icon-user:before { content: '\e804'; } /* '' */
+.fas-icon-cog-alt:before { content: '\e805'; } /* '' */
+.fas-icon-location:before { content: '\e806'; } /* '' */
+.fas-icon-info-circled-alt:before { content: '\e807'; } /* '' */
+.fas-icon-info-circled:before { content: '\e808'; } /* '' */
+.fas-icon-menu:before { content: '\e809'; } /* '' */
+.fas-icon-newspaper:before { content: '\e80a'; } /* '' */
+.fas-icon-attention:before { content: '\e80b'; } /* '' */
+.fas-icon-attention-alt:before { content: '\e80c'; } /* '' */
+.fas-icon-help-circled-alt:before { content: '\e80d'; } /* '' */
+.fas-icon-help-circled:before { content: '\e80e'; } /* '' */
+.fas-icon-user-add:before { content: '\e80f'; } /* '' */
+.fas-icon-copyright:before { content: '\e810'; } /* '' */
+.fas-icon-lock:before { content: '\e811'; } /* '' */
+.fas-icon-camera:before { content: '\e812'; } /* '' */
+.fas-icon-book:before { content: '\e813'; } /* '' */
+.fas-icon-user-secret:before { content: '\e814'; } /* '' */
+.fas-icon-trash-empty:before { content: '\e815'; } /* '' */
+.fas-icon-trash:before { content: '\e816'; } /* '' */
+.fas-icon-retweet:before { content: '\e817'; } /* '' */
+.fas-icon-exchange:before { content: '\e818'; } /* '' */
+.fas-icon-certificate:before { content: '\e819'; } /* '' */
+.fas-icon-up:before { content: '\e81a'; } /* '' */
+.fas-icon-down:before { content: '\e81b'; } /* '' */
+.fas-icon-plus:before { content: '\e81c'; } /* '' */
+.fas-icon-cancel:before { content: '\e81d'; } /* '' */
+.fas-icon-minus:before { content: '\e81e'; } /* '' */
+.fas-icon-ok:before { content: '\e81f'; } /* '' */
+.fas-icon-spin3:before { content: '\e820'; } /* '' */
+.fas-icon-gift:before { content: '\e821'; } /* '' */
+.fas-icon-pencil:before { content: '\e822'; } /* '' */
+.fas-icon-key:before { content: '\e823'; } /* '' */
+.fas-icon-bell:before { content: '\e824'; } /* '' */
+.fas-icon-bell-alt:before { content: '\e825'; } /* '' */
+.fas-icon-file-archive:before { content: '\e826'; } /* '' */
+.fas-icon-level-up:before { content: '\e827'; } /* '' */
+.fas-icon-level-down:before { content: '\e828'; } /* '' */
+.fas-icon-lock-open:before { content: '\e829'; } /* '' */

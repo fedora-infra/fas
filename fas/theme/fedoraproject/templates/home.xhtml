@@ -1,0 +1,50 @@
+<%inherit file="/site.xhtml" />
+<div class="bodycontent pb-3">
+    <div class="jumbotron text-xs-center">
+        <div class="container">
+            <h1 class="display-3">
+                The Fedora Project Account System
+            </h1>
+            <p class="lead">
+                ${_(u'The Fedora Account System - aka FAS - you can easily create and manager your account, find people or group information')}
+            </p>
+            %if request.upath_info not in ['/login']:
+                %if request.authenticated_userid is None:
+                     <a href="${request.application_url + '/login'}?redirect=${request.url}"
+                        class="btn btn-primary btn-lg">
+                         <i class="fa fa-sign-in"></i> &nbsp; ${_(u'Log In')}
+                     </a>
+                     <a href="${request.route_url('people-new')}"
+                        class="btn btn-success btn-lg">
+                       <i class="fa fa-user-plus"></i> &nbsp;${_(u'Create Account')}
+                     </a>
+                %endif
+            %endif
+          </div>
+    </div>
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 text-xs-center">
+            <a href="${request.route_url('groups')}">
+                <div>
+                  <i class="fa fa-users fa-5x"></i>
+                </div>
+                <div>
+                  ${_(u'Browse Groups')}
+                </div>
+            </a>
+      </div>
+      <div class="col-md-6 text-xs-center">
+            <a href="${request.route_url('people')}">
+              <div>
+                <i class="fa fa-user fa-5x"></i>
+              </div>
+              <div>
+                ${_(u'Browse People')}
+              </div>
+          </a>
+      </div>
+  </div>
+</div>
+</div>

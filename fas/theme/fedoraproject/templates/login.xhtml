@@ -1,0 +1,57 @@
+<%inherit file="/site.xhtml" />
+  %if request.session.peek_flash('login'):
+  <div class="alert alert-danger alert-dismissible" role="alert" style="max-width: 500px; margin: 10px auto 9px;">
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    <strong>WOooops!</strong> ${request.session.pop_flash('login')[0]}
+  </div>
+  %endif
+
+<div class="bodycontent">
+  <div class="container pt-3 pb-3">
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+      <div class="card">
+        <div class="card-header">
+          <strong>${_(u'Log in to Fedora Accounts')}</strong>
+        </div>
+        <div class="card-block">
+          <form action="${url}" method="post" class="center">
+              <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+              <input type="hidden" name="redirect" value="${came_from}"/>
+              <div class="form-group row">
+                <div class="col-xs-12">
+                    <input type="text" class="form-control" id="inputLogin"
+                     placeholder="Username" name="login" value="${login}"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-12">
+                    <input type="password" class="form-control" id="inputPassword"
+                     placeholder="Password" name="password" value="${password}"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xs-6">
+                  <input type="submit" name="form.submitted" class="btn btn-primary" value="Log In"/>
+                </div>
+                <div class="col-xs-6 text-xs-right">
+                  <a href="${request.route_url('lost-password')}">
+                    <small>${_(u'Forgot password?')}</small>
+                  </a>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+      <div class="text-xs-center">
+        <small class="text-muted">
+          Don't have a FAS account?
+          <a href="${request.route_url('people-new')}">
+            ${_(u'Create an account')}
+          </a>.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

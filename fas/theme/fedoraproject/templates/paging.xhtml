@@ -1,0 +1,76 @@
+<%namespace name="paging" />
+  <%def name="list(name, route, param=None)">
+  %if pages > 1:
+        <nav class="text-xs-center">
+        <ul class="pagination">
+            %if page > 1:
+            <li class="page-item">
+            %else:
+            <li class="page-item disabled">
+            %endif
+              %if pattern:
+                <a class="page-link" href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+                    <i class="fa fa-angle-double-left"></i>
+                </a>
+              %else:
+                <a class="page-link" href="${request.route_url(route, _query=param, id=300, pagenb=1)}">
+                    <i class="fa fa-angle-double-left"></i>
+                </a>
+              %endif
+            </li>
+            %if page > 1:
+            <li class="page-item">
+            %else:
+            <li class="page-item disabled">
+            %endif
+              %if pattern:
+                <a class="page-link" href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page - 1))}">
+                   <i class="fa fa-angle-left"></i>
+                </a>
+              %else:
+                <a class="page-link" href="${request.route_url(route, _query=param, id=300, pagenb=(page - 1))}">
+                   <i class="fa fa-angle-left"></i>
+                </a>
+              %endif
+            </li>
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                ${_(u'page %i of %i (%i %s)') % (page, pages, count, name)}
+                </span>
+            </li>
+
+            %if page != pages:
+            <li class="page-item">
+            %else:
+            <li class="page-item disabled">
+            %endif
+              %if pattern:
+                <a class="page-link" href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+              %else:
+                <a class="page-link" href="${request.route_url(route, _query=param, id=300, pagenb=(page + 1))}">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+              %endif
+            </li>
+            %if page != pages:
+            <li class="page-item">
+            %else:
+            <li class="page-item disabled">
+            %endif
+              %if pattern:
+                <a class="page-link" href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+                   <i class="fa fa-angle-double-right"></i>
+                </a>
+              %else:
+                <a class="page-link" href="${request.route_url(route, _query=param, id=300, pagenb=pages)}">
+                   <i class="fa fa-angle-double-right"></i>
+                </a>
+              %endif
+            </li>
+        </ul>
+        </nav>
+  %endif
+  </%def>

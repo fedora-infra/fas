@@ -1,24 +1,78 @@
 *~
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+### FAS ###
 random_seed
 pubring.gpg
 secring.gpg
 trustdb.gpg
-fas.log
-*.pyc
-*.pyo
-*.swp
-*.mo 
-dist
-*.egg-info
-build
 gnupg
-locale
 ssl
+*.log
+*.dump
+*.swp
+*.mo
+
+
+### Pyramid ###
+*.xhtml.py
+*.xhtml.py[cod]
+*.sqlite
 manage.py
+
+
+### PyCharm ###
+*.iml
+.idea/
+*.ipr
+*.iws
+
+
+### Ninja-IDE ###
+*.nja
+
+### PyDev ###
 .project
 .pydevproject
-fas.cfg
+
+
+### Ajunta ###
 fas.anjuta
 .anjuta
 .anjuta_*
 .ropeproject
+
+# Sphinx documentation
+docs/_build/
+
+# Vagrant
+.vagrant/
+devel-ansible/*.retry
+Vagrantfile

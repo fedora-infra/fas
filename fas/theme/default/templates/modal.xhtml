@@ -1,0 +1,44 @@
+<%namespace name="Modal" />
+
+<%def name="header(id, title, dismissable=True, size='sm')">
+  <div class="modal in" id="${id}" tabindex="-1" role="dialog" aria-labelledby="${id}" aria-hidden="true">
+    <div class="modal-dialog modal-${size}">
+      <div class="modal-content">
+        <div class="modal-header">
+          %if dismissable:
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          %endif
+          <h4 class="modal-title" id="${id}">${title}</h4>
+        </div>
+</%def>
+
+<%def name="footer(button_1, button_2, action=None, value=None)">
+        <div class="modal-footer">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal">${button_1}</button>
+          <button type="submit" class="btn btn-primary" name="${action}" value="${value}">${button_2}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</%def>
+
+<%def name="avatar()">
+<form class="form-horizontal" role="form" method="POST" action="${request.route_url('group-action')}">
+  ${header('updateAvatar', _(u'Update avatar'))}
+        <div class="modal-body">
+          <div class="form-group">
+              <p>${_(u'')}</p>
+              <div class="col-lg-10">
+                <input class="form-control col-lg-10" id="" name="" placeholder="${_(u'Add you avatar ID')}" type="email" value="">
+              </div>
+          </div>
+        </div>
+  ${footer(_(u'Cancel'), _(u'Change avatar'), )}
+</form>
+</%def>

@@ -1,0 +1,17 @@
+<%namespace name="captcha" module="fas.lib.captcha"/>
+<%def name="form(form)">
+  <%
+      captcha_ = captcha.Captcha()
+      captcha_key = captcha_.generate_key()
+  %>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">${_(u'Prove you are not a robot')}</label>
+    <div class="col-sm-4">
+      ${form.key(value=captcha_key)}
+      <img class="image centered" src="${request.route_url('captcha-image', cipherkey=captcha_key)}"/>
+      <span>
+        ${form.captcha(class_='form-control col-lg-10')}
+      </span>
+    </div>
+  </div>
+</%def>

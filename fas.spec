@@ -1,161 +1,145 @@
+%global commit0 780fc52615b497155b411ce16351f3786e4a75b3
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           fas
-Version:        0.14.1
+Version:        3.0.1
 Release:        1%{?dist}
 Summary:        Fedora Account System
 
-Group:          Development/Languages
 License:        GPLv2
-URL:            https://github.com/fedora-infra/fas/
-Source0:        https://github.com/fedora-infra/fas/archive/%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+URL:            https://github.com/fedora-infra/fas
+Source0:        https://github.com/fedora-infra/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Patch0:         fas-wsgi.patch
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
-BuildRequires:  gettext
-%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
-BuildRequires:  TurboGears
-%endif
-Requires: TurboGears >= 1.0.4
+BuildRequires:  python-pyramid
 Requires: python-sqlalchemy
-# Note: python-fedora-turbogears will get rid of this dep someday so let's be
-# explicit here
-Requires: python-bugzilla
-Requires: python-TurboMail
-Requires: python-fedora-turbogears >= 0.3.25
-Requires: babel
-Requires: pygpgme
-Requires: python-babel
-Requires: python-genshi
-Requires: python-kitchen
-Requires: pytz
+Requires: python-pyramid-mako
+Requires: python-transaction
+Requires: python-pyramid-tm
+Requires: python-zope-sqlalchemy
+Requires: python-waitress
+Requires: python-mako
+Requires: python-wtforms
+Requires: python-mistune
 Requires: python-GeoIP
-Requires: pyOpenSSL
-Requires: python-memcached
-Requires: python-webob
-Requires: tulrich-tuffy-fonts
-Requires: python-requests
-# For the audio captcha
-Requires: espeak
-Requires: python-tgcaptcha2 >= 0.3.0
-# We really do want this, just optional for now.
-#Requires: fedmsg
+Requires: python-pygeoip
+Requires: python-ua-parser
+Requires: PyYAML
+Requires: python-PyGithub
+Requires: python-pillow
+Requires: python-cryptography
+Requires: fedmsg
+#Requires: python-fake-factory
+Requires: python-alembic
+#Requires: GeoIP-GeoLite-data-extra
+Requires: GeoIP
+
+# TODO: Conditionalize this for RHEL
+Requires: python-webob1.4
 
 %description
 The Fedora Account System is a web application that manages the accounts of
-Fedora Project Contributors.  It's built in TurboGears and comes with a json
+Fedora Project Contributors.  It's built in Pyramid and comes with a json
 API for querying against remotely.
 
-The python-fedora-infrastructure package has a TurboGears identity provider
-that works with the Account System.
+%package        theme-fedoraproject
+Summary:        Fedora Project's theme for fas
 
-%package clients
-Summary: Clients for the Fedora Account System
-Group: Applications/System
-Requires: python-fedora >= 0.3.12.1
-Requires: authconfig
-%if 0%{?rhel} && 0%{?rhel} < 7
-Requires: nss_db
-%endif
-Requires: libselinux-python
+Requires:       %{name} = %{version}-%{release}
+#TODO: Add node's deps below
 
-%description clients
-Additional scripts that work as clients to the accounts system.
+%description    theme-fedoraproject
+This package contains theme related assets for the Fedora Project.
+
 
 %prep
-%setup -q -n %{name}-%{version}
-
+%autosetup -n %{name}-%{commit0}
+#%patch0 -p0
 
 %build
-%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
-# Bit hacky.  On EPEL7 we only need the client (which doesn't get byte
-# compiled as everything's in a single script).  setup.py doesn't work
-# because it builds the server too (which needs TG1)
-%{__python} setup.py build --install-data='%{_datadir}'
-%endif
+# A few hacks to nuke unnecessary deps for now:
+sed -i '/lingua/d' setup.py
+sed -i '/fake-factory/d' setup.py
+%{__python} setup.py build #--install-data='%{_datadir}'
+
 
 %install
-%{__rm} -rf %{buildroot}
-
-%{__mkdir_p} %{buildroot}%{_sysconfdir}
-
-# fas-client stuff
-%{__install} -m 600 client/fas.conf %{buildroot}%{_sysconfdir}
-%{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/fas
-
-%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
-%{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
 %{__mkdir_p} %{buildroot}%{_sbindir}
-%{__mv} %{buildroot}%{_bindir}/start-fas %{buildroot}%{_sbindir}
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
+%{__mkdir_p} %{buildroot}%{python_sitelib}/%{name}/
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/theme/default/
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/theme/fedoraproject/
+
+%{__python} setup.py install --skip-build --install-data='%{_datadir}' --root %{buildroot}
+
 %{__install} fas.wsgi %{buildroot}%{_sbindir}
-# Unreadable by others because it's going to contain a database password.
-%{__install} -m 640 fas.cfg.sample %{buildroot}%{_sysconfdir}/fas.cfg
+%{__install} -m 700 -d %{buildroot}%{_localstatedir}/lib/%{name}
+%{__install} development.ini %{buildroot}%{_sysconfdir}/%{name}/production.ini
 
-%{__mv} %{buildroot}%{_bindir}/export-bugzilla.py %{buildroot}%{_sbindir}/export-bugzilla
-%{__install} -m 0600 scripts/export-bugzilla.cfg %{buildroot}%{_sysconfdir}/
+%{__cp} -r %{name}/theme/default/static %{buildroot}%{_datadir}/%{name}/theme/default/static
+%{__cp} -r %{name}/theme/default/templates %{buildroot}%{python_sitelib}/%{name}/theme/default/templates
 
-%{__mv} %{buildroot}%{_bindir}/account-expiry.py %{buildroot}%{_sbindir}/account-expiry
-%{__install} -m 0600 scripts/account-expiry.cfg %{buildroot}%{_sysconfdir}/
+%{__cp} -r %{name}/theme/fedoraproject/static %{buildroot}%{_datadir}/%{name}/theme/fedoraproject/static
+%{__cp} -r %{name}/theme/fedoraproject/templates %{buildroot}%{python_sitelib}/%{name}/theme/fedoraproject/templates
 
-cp -pr updates/ %{buildroot}%{_datadir}/fas
+chmod 755 %{buildroot}%{python_sitelib}/%{name}/
 
-%find_lang %{name}
-
-%else
-# Little hacky -- this is normally installed by setup.py but we can't run that
-# on epel7 due to not having TG which is only needed for the server portion
-%{__mkdir_p} %{buildroot}%{_bindir}
-%{__install} -m 0755 client/fasClient %{buildroot}%{_bindir}/fasClient
-%{__install} -m 0755 client/fasClient %{buildroot}%{_bindir}/restricted-shell
-%endif
-
-
-%clean
-%{__rm} -rf %{buildroot}
-
+#%find_lang %{name}
 
 %pre
 /usr/sbin/useradd -c 'Fedora Account System user' -s /sbin/nologin \
-    -r -M -d %{_datadir}/fas fas &> /dev/null || :
+    -r -M -d %{_datadir}/%{name} fas &> /dev/null || :
 
-%if 0%{?fedora} || 0%{?rhel} && 0%{?rhel} < 7
-%files -f %{name}.lang
-%defattr(-,root,root,-)
-%doc README.rst TODO COPYING NEWS fas2.sql fas.spec fas.conf.wsgi
+
+#%check
+#fas-admin --initdb --default-value
+#fas-admin --generate-fake-data -n 666
+
+#%files -f %{name}.lang
+%files
+%doc README.rst COPYING fas.spec fas.wsgi
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/theme/default/*
 %{python_sitelib}/*
-# Bad Toshio.  Next release aims to fix this by making the location ofthe cert
-# files  configurable at build time
-%config(noreplace) %{_datadir}/fas/static/fedora-server-ca.cert
-%config(noreplace) %{_datadir}/fas/static/fedora-upload-ca.cert
-%dir %{_datadir}/fas/
-%{_datadir}/fas/updates/
-%dir %{_datadir}/fas/static/
-%{_datadir}/fas/static/css/
-%{_datadir}/fas/static/images/
-%{_datadir}/fas/static/js/
-%{_datadir}/fas/static/theme/
-%{_datadir}/fas/static/robots.txt
-%{_sbindir}/start-fas
+%config(noreplace) %{_sysconfdir}/fas/production.ini
 %{_sbindir}/fas.wsgi
-%{_sbindir}/export-bugzilla
-%{_sbindir}/account-expiry
-%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/fas.cfg
-%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/export-bugzilla.cfg
-%attr(-,root,fas) %config(noreplace) %{_sysconfdir}/account-expiry.cfg
-%endif
+%{_bindir}/fas-admin
+%exclude /%{python_sitelib}/%{name}/theme/default/static
+%exclude /%{python_sitelib}/%{name}/theme/fedoraproject/
+%exclude /%{datadir}/%{name}/theme/fedoraproject/
 
-%files clients
-%defattr(-,root,root,-)
-%{_bindir}/*
-%config(noreplace) %{_sysconfdir}/fas.conf
-%attr(0700,root,root) %dir %{_localstatedir}/lib/fas
+
+%files theme-fedoraproject
+%doc COPYING
+%{_datadir}/%{name}/theme/fedoraproject
 
 %changelog
-* Wed Jan 18 2017 Xavier Lamien <laxathom@fedoraproject.org> - 0.14.1-1
-- Add robustness on valid_ssh_key retrieval.
-- Remove IPA's session.
+* Wed Jan 18 2017 Ryan Lerch <rlerch@redhat.com> - 3.0.1-1
+- Bump package's release.
+- using commit 780fc52615b497155b411ce16351f3786e4a75b3
+- updated spec to match new locations of themes (PR#227)
+
+* Thu Jan 05 2017 Xavier Lamien <laxathon@fedoraproject.org> - 3.0.0-5
+- Bump package's release.
+
+* Sun Dec 18 2016 Xavier Lamien <laxathom@fedoraproject.org> - 3.0.0-4
+- Move theme to a dedicated subpackage.
+
+* Tue Aug 2 2016 Ricky Elrod <relrod@redhat.com> - 3.0-3
+- Include templates.
+
+* Thu Jul 28 2016 Ricky Elrod <relrod@redhat.com> - 3.0-2
+- Latest commit
+- Install production.ini
+
+* Tue Jun 21 2016 Ricky Elrod <relrod@redhat.com> - 3.0-1
+- Inital build of FAS3.
 
 * Tue Aug 09 2016 Patrick Uiterwijk <puiterwijk@redhat.com> - 0.14.0-1
 - Update YubiKey documentation
@@ -357,4 +341,4 @@ cp -pr updates/ %{buildroot}%{_datadir}/fas
 - Beta new upstream release with CSRF fixes.
 
 * Thu Feb 12 2009 Ricky Zhou <ricky@fedoraproject.org> - 0.8.4.8-1
-- New upstream release that fixes some security issues.
+- New upstream release that fixes some security issues

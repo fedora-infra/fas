@@ -1,0 +1,48 @@
+<%namespace name="paging" />
+  <%def name="list(name, route, param=None)">
+  %if pages > 1:
+        <p align="center">
+        %if page > 1:
+            <span class="first-page">
+              %if pattern:
+                <a href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+              %else:
+                <a href="${request.route_url(route, _query=param, id=300, pagenb=1)}">
+              %endif
+                [${_(u'First')}]
+              </a>
+            </span>
+            <span class="previous-page">
+              %if pattern:
+                <a href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page - 1))}">
+              %else:
+                <a href="${request.route_url(route, _query=param, id=300, pagenb=(page - 1))}">
+              %endif
+                [${_(u'previous')}]
+              </a>
+            </span>
+        %endif
+        ${_(u'page %i of %i (%i %s)') % (page, pages, count, name)}
+        %if page != pages:
+            <span class="next-page">
+              %if pattern:
+                <a href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+              %else:
+                <a href="${request.route_url(route, _query=param, id=300, pagenb=(page + 1))}">
+              %endif
+                [${_(u'next')}]
+              </a>
+            </span>
+            <span class="last-page">
+              %if pattern:
+                <a href="${request.route_url(route, pattern=pattern, _query=param, id=300, pagenb=(page + 1))}">
+              %else:
+                <a href="${request.route_url(route, _query=param, id=300, pagenb=pages)}">
+              %endif
+                [${_(u'Last')}]
+              </a>
+            </span>
+        %endif
+        </p>
+  %endif
+  </%def>

@@ -1,41 +1,54 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2008  Ricky Zhou
-# Copyright © 2014 Red Hat, Inc.
+# Copyright © 2014 - 2016 Xavier Lamien.
 #
-# This copyrighted material is made available to anyone wishing to use, modify,
-# copy, or redistribute it subject to the terms and conditions of the GNU
-# General Public License v.2.  This program is distributed in the hope that it
-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.  You should have
-# received a copy of the GNU General Public License along with this program;
-# if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
-# Fifth Floor, Boston, MA 02110-1301, USA. Any Red Hat trademarks that are
-# incorporated in the source code or documentation are not subject to the GNU
-# General Public License and may only be used or replicated with the express
-# permission of Red Hat, Inc.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
-# Author(s): Ricky Zhou <ricky@fedoraproject.org>
-#            Mike McGrath <mmcgrath@redhat.com>
-#            Toshio Kuratomi <tkuratom@redhat.com>
-#            Patrick Uiterwijk <patrick@puiterwijk.org>
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+__author__ = 'Xavier Lamien <laxathom@fedoraproject.org>'
+
 '''
-Release information about the Fedora Accounts System
+Release information about software
 '''
 
-VERSION = '0.14.1'
-NAME = 'fas'
-DESCRIPTION = 'The Fedora Account System'
-LONG_DESCRIPTION = '''
-Manage the accounts of contributors to the Fedora Project.
+__VERSION__ = '3.0.1'
+__NAME__ = 'fas'
+__DESC__ = 'The Fedora Account System'
+__LONG_DESC__ = u'''
+The Fedora Account System is a community oriented accounts system which
+aims to provide a self-driven and self-controled management to 
+its registered users.
 '''
-AUTHOR = 'Ricky Zhou, Mike McGrath, Toshio Kuratomi Patrick Uiterwijk, and Yaakov Nemoy'
-EMAIL = 'fedora-infrastructure-list@fedoraproject.org'
-COPYRIGHT = '2007-2016 Red Hat, Inc.'
+__AUTHOR__ = 'Xavier Lamien'
+__EMAIL__ = 'laxathom@fedoraproject.org'
+__COPYRIGHT__ = u'© 2014 - 2016'
 
-# if it's open source, you might want to specify these
-URL = 'https://admin.fedoraproject.org/accounts/'
-DOWNLOAD_URL = 'https://github.com/fedora-infra/fas'
-LICENSE = 'GPLv2'
+__URL__ = 'https://github.com/fedora-infra/fas'
+__DOWNLOAD_URL__ = 'https://github.com/fedora-infra/fas/releases'
+__LICENSE__ = 'GPLv2'
+
+
+def get_release_info(request):
+    """ returns release information in dict() format."""
+    return {
+        'name': __NAME__,
+        'version': __VERSION__,
+        'description': __DESC__,
+        'long_description': __LONG_DESC__,
+        'authors': __AUTHOR__,
+        'copyright': __COPYRIGHT__,
+        'url': __URL__,
+        'download_url': __DOWNLOAD_URL__,
+        'license': __LICENSE__
+        }

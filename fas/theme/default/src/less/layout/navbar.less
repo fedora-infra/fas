@@ -1,0 +1,47 @@
+@navbar-collapsing-speed: .4s;
+@navbar-expand-padding: 30px;
+
+body{
+    padding-top: @navbar-height;
+    .transition(background .2s, padding @navbar-collapsing-speed;);
+}
+body.navbar-expanded {
+    padding-top: @navbar-height + @navbar-expand-padding;
+    .navbar.navbar-default{
+        border-color: white;
+        border-top:6px solid @fedora-blue;
+        padding-top: @navbar-expand-padding;
+    }
+}
+
+.navbar.navbar-default {
+    border-top:0;
+    border-color: @fedora-darkblue;
+
+    a {
+        font-family: @fedora-text-font-family;
+    }
+
+    .label {
+        position: absolute;
+        top: -4px;
+        right: 55px;
+        text-align: center;
+        font-size: 11px;
+        padding: 2px 3px;
+        line-height: 0.9;
+    }
+
+    .transition(
+        background .2s, 
+        padding @navbar-collapsing-speed,
+        border .2s;
+    );
+}
+
+.navbar-brand{
+    background: url(../assets/fedora-logo.png) center center no-repeat;
+    width:200px;
+    height:50px;
+    text-indent:-9999px;
+}

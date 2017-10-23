@@ -1,0 +1,114 @@
+<%inherit file="/people/profile-header.xhtml" />
+<%namespace name="profile" file="/people/profile-header.xhtml"/>
+
+${profile.header()}
+
+<h2></h2>
+<div class="container center-block" style="width: 900px;">
+
+%if request.session.peek_flash('tokens'):
+  <div class="alert alert-info alert-dismissible center-block" role="alert" style="width: 600px;">
+    <button type="button" class="close" data-dismiss="alert">
+      <span class="sr-only">Close</span>
+    </button>
+    <p class="text-center">
+      <strong>${_(u'Your API key:')}</strong> ${request.session.pop_flash('tokens')[0]}
+    </p>
+    <br/>
+    <p>
+      ${_(u'Save this token with care and keep in mind this '\
+        'token provide you with access to your Fedora account.'\
+        'Do not share it or post it to the world.')}
+    </p>
+    <br/>
+    <button type="button" class="btn btn-info text-right" role="alert" data-dismiss="alert">
+      ${_(u'Got it!')}
+    </button>
+  </div>
+%endif
+
+%if permissions and len(permissions) > 0:
+<h3>${_(u'Access Token')}</h3>
+<dl class="dl-horizontal">
+  <table class="table table-condensed table-hover" style="width: 800px;">
+    <thead>
+      <tr></tr>
+    </thead>
+    %for perm in permissions:
+    <tbody>
+      <tr>
+        <td><strong>${perm.application}</strong></td>
+        <td><em>${perm.get_perm_as_string()}</em>
+          <cite class="pull-right">
+          %if perm.last_used_timestamp:
+            ${_(u'Last used on %s' % perm.get_last_used_date(request))}
+          %else:
+            ${_(u'Not used')}
+          %endif
+          </cite>
+        </td>
+        <td>
+          <form method="POST" role="form">
+            <button class="btn btn-xs btn-danger" type="submit" name="form.delete.token" value="${perm.id}">
+              ${_('revoke')}
+            </button>
+          <form>
+        </td>
+     </tr>
+    </tbody>
+    %endfor
+  </table>
+</dl>
+%else:
+<h3 class="text-center">${_(u'No access token have been setup for now')}</h3>
+%endif
+
+<div class="well" style="max-width: 400px; margin: 0 auto 10px;">
+  <button  type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#generateToken">
+    ${_(u'Add token')}
+  </button>
+</div>
+
+</div>
+
+<!-- TODO: merge this form with form.xhtml -->
+<form class="form-horizontal" role="form"
+      action="${request.application_url + '/people/profile/%i/accesstoken' % person.id}" method="POST">
+  <div class="modal in" id="generateToken" tabindex="-1" role="dialog" aria-labelledby="GenerateToken" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          <h2 class="modal-title" id="GenerateToken">${_(u'Access token for %s' % person.username)}</h2>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            ${pform.desc.label(class_='col-sm-2 control-label')}
+              <div class="col-lg-10">
+                ${pform.desc(class_='form-control', placeholder=_('Add a description'))}
+              </div>
+            <div class="col-sm-offset-2">
+              %for subfield in pform.perm:
+                  <dt>
+                    <label>
+                      ${subfield} ${subfield.label}
+                    </label>
+                  </dt>
+              %endfor
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="form.save.token">Generate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

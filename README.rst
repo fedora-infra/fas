@@ -1,103 +1,190 @@
-=====================
-Fedora Account System
-=====================
+FAS (Fedora Account System) 3.0
+===============================
 
-:Authors: Ricky Zhou
-	  Mike McGrath
-	  Toshio Kuratomi
-	  Yaakov Nemoy
-          Patrick Uiterwijk
-:Contact: infrastructure@lists.fedoraproject.org
-:Date: Wed, 26 March, 2008
-:For FAS version: 0.8.x
+:Authors:   Xavier Lamien, Pierre-yves Chibon, Ricky Elrod
+:Contacts: infrastructure@lists.fedoraproject.org
 
-The Fedora Account System holds information on Fedora Contributors to give
-them access to the wonderful things that Fedora has.
+.. startdesc
+
+The Fedora Account System is a community oriented accounts system which
+aims to provide a self-driven and self-controled management to its registered users.
+
+.. enddesc
 
 .. contents::
 
-This is a TurboGears_ project. It can be started by running the start-fas
-script.
+.. startinstall
 
-.. _TurboGears: http://www.turbogears.org
+Requirements
+------------
 
----------
-Upgrading
----------
+Packages
+~~~~~~~~
 
-0.8.13 => 0.8.14
-================
+* `pyramid`_ (1.5.1 or newer)
+* `pyramid_mako`_
+* `SQLAlchemy`_ (1.0 or newer)
+* `transaction`_
+* `pyramid_tm`_
+* `zope.sqlalchemy`_
+* `waitress`_
+* `pytz`_
+* `enum34`_
+* `wtforms`_
+* `mistune`_
+* `GeoIP`_
+* `pygeoip`_
+* `ua-parser`_
+* `pyyaml`_
+* `pillow`_
+* `cryptography`_
+* `Babel`_
+* `lingua`_
+* `fedmsg`_
+* `PyGithub`_ (optional)
+* `fake-factory`_ (optional)
+* `pyramid_debugtoolbar`_ (optional)
 
-When upgrading to 0.8.14 the database schema changed slightly, and new
-configuration options got introduced, for the security questions system.
-The people table gets two new columns, for the question and answers, and
-the configuration gets a new option to specify the key used to encrypt the
-security answer. Apply the schema update like this:
+.. _`pyramid`: https://pypi.python.org/pypi/pyramid
+.. _`pyramid_mako`: https://pypi.python.org/pypi/pyramid_mako
+.. _`SQLAlchemy`: http://www.sqlalchemy.org/
+.. _`transaction`: https://pypi.python.org/pypi/transaction/
+.. _`pyramid_tm`: https://pypi.python.org/pypi/pyramid_tm/
+.. _`waitress`: https://pypi.python.org/pypi/waitress/
+.. _`wtforms`: https://pypi.python.org/pypi/wtforms/
+.. _`mistune`: https://pypi.python.org/pypi/mistune/
+.. _`GeoIP`: https://pypi.python.org/pypi/GeoIP/
+.. _`pygeoip`: https://pypi.python.org/pypi/pygeoip/
+.. _`ua-parser`: https://pypi.python.org/pypi/ua-parser/
+.. _`pyyaml`: https://pypi.python.org/pypi/pyyaml/
+.. _`pillow`: https://pypi.python.org/pypi/pillow/
+.. _`cryptography`: https://pypi.python.org/pypi/cryptography/
+.. _`Babel`: https://pypi.python.org/pypi/Babel/
+.. _`lingua`: https://pypi.python.org/pypi/lingua/
+.. _`fedmsg`: https://pypi.python.org/pypi/fedmsg/
+.. _`PyGithub`: https://pypi.python.org/pypi/PyGithub/
+.. _`zope.sqlalchemy`: https://pypi.python.org/pypi/zope.sqlalchemy
+.. _`enum34`: https://pypi.python.org/pypi/enum-compat/0.0.2
+.. _`pytz`: https://pypi.python.org/pypi/pytz
+.. _`fake-factory`: https://pypi.python.org/pypi/fake-factory/
+.. _`pyramid_debugtoolbar`: https://pypi.python.org/pypi/pyramid_debugtoolbar/
 
-sudo -u postgres psql fas2 < updates/fas2-0.8.13_to_0.8.14.sql
+Python Version
+~~~~~~~~~~~~~~
 
-Also, the new key_securityquestion configuration parameter should be set
-to the id of the key used to encrypt the answer to the security question.
+FAS has been tested on Python 2.6 and 2.7 only at this time.
 
-Also, you should not forget to set deployment_type to the type of deployment
-of this installation.
+Installation
+------------
 
-0.8.7 => 0.8.8
-==============
-We still haven't worked out using migrate scripts on our database servers so
-the changes here need to be done like this:
+FAS can be installed as follows::
 
-  sudo -u postgres psql fas2 < updates/fas2-0.8.7_to_0.8.8.sql
+    % python setup.py install
 
-0.8.5 => future
-===============
+If necessary, the ``--install-data`` option can be used to configure
+the location in which the resources (``res``) and example·
+files (``docs``) should be installed.
 
-From 0.8.5 and onward we will be using SQLAlchemy Migrate to handle database
-upgrades.  To use it, it assumes you have already installed fas2.sql into your
-posgresql database. The instructions for installing SQLAlchemy-Migrate on top
-can be found below in the installation instructions.  
+.. endinstall
 
-sqlalchemy-migrate will need to be installed.  To do so, run:
+Migrating FAS from release 2.x
+---------------------------------
+.. note:: work in progress
 
- sudo yum -y install python-migrate
+Getting involved
+----------------
+.. startdevsetup
 
-(Since I don't trust this yet,  the latest change will need to add:
-+    invite_only BOOLEAN DEFAULT FALSE,
-to the groups table.  There is a migrate script checked in.  Need to verify
-that it works and that we'll do that.)
 
-0.8.4 => 0.8.5
-==============
+Requirements
+~~~~~~~~~~~~
 
-When upgrading to 0.8.5 the database schema changed slightly.  The configs
-table now has a unique constraint to prevent duplicates being entered.  Use
-this to update your existing schema::
+* `virtualenvwrapper`_
+* `libffi`_
+* `openssl`_
+* `GeoIP`_
+* `libyaml`_
 
-  sudo -u postgres psql fas2 < updates/fas2-0.8.4_to_0.8.5.sql
+If you want to enable fonts that match with Fedora logo usage guideline:
 
-0.8.3 => 0.8.4
-==============
+* `comfortaa-fonts`_
+* `cantarell-fonts`_
 
-When upgrading from 0.8.3 to 0.8.4 there are some new database changes:
+If you are running a Fedora or RedHat/CentOs's OS, here are dependencies'
+packages to install::
 
-  :groups.url: URL where others can look for information about the group
-  :groups.mailing_list: Specify a mailing list address that others can use to
-  	contact the group
-  :groups.mailing_list_url: A url where others can look at list archives and
-  	sign up
-  :groups.irc_network: IRC network on which the IRC channel is
-  :groups.irc_channel: IRC channel where communication with the group occurs
-  :people.country_code: Two digit country code for where the user is from
-  :user_group: View that allows mod_auth_pgsql to work with the db
-  :session: Table for doing OpenID sessions.
+    % sudo dnf install -y python-virtualenvwrapper libffi-devel openssl-devel \
+            GeoIP-devel libyaml-devel redhat-rpm-config libjpeg-turbo-devel
 
-You can add these to your database by running the sql commands in
-``updates/fas2-0.8.3_to_0.8.4.sql`` like this::
+Configuration
+~~~~~~~~~~~~~
+Add the following to your `~/.zshrc` or `~/.bashrc`::
 
-  sudo -u postgres psql fas2 < updates/fas2-0.8.3_to_0.8.4.sql
+    % export WORKON_HOME=$HOME/.virtualenvs
+    % source /usr/bin/virtualenvwrapper.sh
 
-The country code functionality also makes use of python-GeoIP.  This should
-be installed as a dependency if you use the fas rpms.  Otherwise you need to
-install that manually::
+and reload your shell by sourcing its rc's file or closing and opening your terminal back up.
 
-  sudo yum -y install python-GeoIP
+
+And if you want to use system fonts::
+
+    % sudo dnf install -y aajohan-comfortaa-fonts abattis-cantarell-fonts
+
+Then run the boostrap helper script::
+
+    % ./bootstrap.py
+
+And finally, load the virtualenv created::
+
+    % workon fas-python2.7
+
+
+Initialize the database
+~~~~~~~~~~~~~~~~~~~~~~~
+``% fas-admin -c development.ini --initdb --default-value``
+
+.. _`virtualenvwrapper`: https://pypi.python.org/pypi/virtualenvwrapper
+.. _`libffi`: https://sourceware.org/libffi/
+.. _`openssl`: https://www.openssl.org/
+.. _`GeoIP`: http://www.maxmind.com/app/c
+.. _`libyaml`: http://pyyaml.org/wiki/LibYAML
+.. _`comfortaa-fonts`: http://www.dafont.com/comfortaa.font
+.. _`cantarell-fonts`: https://www.fontsquirrel.com/fonts/cantarell
+.. enddevsetup
+
+Run the test suite
+------------------
+
+``% python setup.py test``
+
+Add fake data (People and group)
+--------------------------------
+``% fas-admin -c development.ini --generate-fake-data -n 1200``
+
+Run the web app
+---------------
+``% pserve development.ini --reload``
+
+Hacking with vagrant
+--------------------
+Quickly start hacking on FAS3 using the vagrant setup that is included in the
+FAS3 repo is super simple.
+
+First, install Vagrant, the vagrant-sshfs plugin, and the vagrant-libvirt plugin
+from the official Fedora repos:
+
+    sudo dnf install vagrant vagrant-libvirt vagrant-sshfs
+
+Now, from within main directory (the one with the Vagrantfile in it) of your
+git checkout of FAS3, run the vagrant up command to provision your dev
+environment:
+
+    vagrant up
+
+When this command is completed (it may take a while) run the following command
+to start the FAS3 server on the vagrant virtual machine:
+
+    vagrant ssh -c 'pushd /vagrant/; pserve /home/vagrant/development.ini --reload'
+
+Once that is running, simply go to http://localhost:5002/ in your browser on
+your host to see your running FAS3 test instance.

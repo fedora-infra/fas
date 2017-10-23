@@ -1,0 +1,75 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+
+${Page.set_title(_(u'New Certificate'), _(u'Create a new certificate Authority or Server'))}
+
+<div class="container center-block">
+  %if form.name.data is None:
+    <form method="POST" action="${request.route_url('add-certificate')}" class="form-horizontal" role="form">
+  %else:
+    <form method="POST" action="${request.route_url('edit-certificate', id=id)}" class="form-horizontal" role="form">
+  %endif
+    %if form.errors:
+        <!-- Add error msg here for debug purpose. -->
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="errors">
+            %for (field_name, field_errors) in form.errors.iteritems():
+                %for error in field_errors:
+                    <li>${form[field_name].label}: ${error}</li>
+                %endfor
+            %endfor
+        </ul>
+        </div>
+    %endif
+
+      <h4></h4>
+      <div class="container">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">${_(u'Name')}</label>
+            <div class="col-sm-4">
+              ${form.name(class_='form-control', placeholder=_(u'Certificate name'))}
+            </div>
+        </div>
+        <div class="form-group">
+          ${form.description.label(class_='col-sm-2 control-label')}
+          <div class="col-sm-4">
+            ${form.description(class_='form-control', placeholder=_(u'Describe certificate usage'))}
+          </div>
+        </div>
+        <div class="form-group">
+          ${form.client_cert_desc.label(class_='col-sm-2 control-label')}
+          <div class="col-sm-4">
+            ${form.client_cert_desc(class_='form-control', placeholder=_(u'Add a OU infos for client that will be signed against'))}
+          </div>
+        </div>
+        <div class="form-group">
+          ${form.cert.label(class_='col-sm-2 control-label')}
+          <div class="col-sm-4">
+            ${form.cert(class_='form-control', rows=5)}
+          </div>
+        </div>
+        <div class="form-group">
+          ${form.cert_key.label(class_='col-sm-2 control-label')}
+          <div class="col-sm-4">
+            ${form.cert_key(class_='form-control', rows=5)}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+              <label>
+                ${form.enabled} ${form.enabled.label}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-form-footer">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onClick="history.go(-1);return true;">${_(u'Cancel')}</button>
+          <button type="submit" class="btn btn-primary" name="form.save.certificate">${_(u'Add certificate')}</button>
+      </div>
+  </form>
+</div>

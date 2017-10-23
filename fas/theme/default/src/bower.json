@@ -1,0 +1,7 @@
+{
+  "name": "fedoraproject",
+  "version": "0.0.1",
+  "dependencies": {
+    "bootstrap": "3.2.x"
+  }
+}

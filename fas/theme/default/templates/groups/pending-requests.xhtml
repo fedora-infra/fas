@@ -1,0 +1,55 @@
+<%inherit file="/site.xhtml" />
+<%namespace name="Page" file="/page-layout.xhtml" />
+<%namespace name="msLevel" module="fas.models.group" />
+
+${Page.set_title(_(u'Groups membership requests'), _(u'Manage membership requests'))}
+
+<div class="container">
+  <div class="row">
+
+%if len(ms_requests) > 0:
+    %for ms in ms_requests:
+
+    <div class="col-sm-6 col-md-4 col-lg-4">
+      <span>
+        <a href="${request.route_url(
+                  'people-profile', id=ms.person.username)}">
+          %if ms.person.avatar:
+            <img src="${ms.person.avatar}?s=50&d=monsterid"
+                 class="profile img-circle" />
+          %else:
+            <img src="http://cdn.libravatar.org/avatar/?s=50&d=monsterid"
+                 class="img-thumbnail" />
+          %endif
+        </a>
+      </span>
+      <p>
+        ${_(u"{0:s} would like to get involve in".format(ms.person.fullname))} 
+        <a href="${request.route_url('group-details', id=ms.group.id)}">
+          ${ms.group.display_name or ms.group.name}
+        </a>
+      </p>
+      %if request.authenticated_userid:
+      <form action="${request.route_url('group-action')}"
+        method="POST">
+          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+          <input type="hidden" name="action" value="upgrade" />
+          <input type="hidden" name="group_id" value="${ms.group.id}" />
+          <input type="hidden" name="user_id" value="${ms.person.id}" />
+          <input type="hidden" name="role_id" value="${msLevel.module.MembershipRole.USER.value}" />
+          <button class="btn btn-default" type="submit">
+            %if ms.group.requires_sponsorship:
+              ${_(u"Sponsor")}
+            %else:
+              ${_(u"Approve")}
+            %endif
+          </button>
+      </form>
+      %endif
+    </div>
+
+    %endfor
+%endif
+
+  </div>
+</div>
