@@ -406,11 +406,11 @@ class SaFasIdentityProvider(object):
         user.last_seen = datetime.now(pytz.utc)
 
         if config.get('ipa_sync_enabled', False):
-            self.sync_user_to_ipa(user, user_name, password)
+            self.sync_user_to_ipa(user, password)
 
         return SaFasIdentity(visit_key, user, using_ssl)
 
-    def sync_user_to_ipa(self, user, user_name, password):
+    def sync_user_to_ipa(self, user, password):
         if user.ipa_sync_status is None:
             os.system('kinit -k -t %s %s' % (config.get('ipa_sync_keytab'),
                                              config.get('ipa_sync_principal')))
@@ -418,12 +418,12 @@ class SaFasIdentityProvider(object):
                               % config.get('ipa_sync_server'),
                 json={'method': 'user_add',
                       'params':[
-                          [user_name],
+                          [user.username],
                           {'givenname': 'FAS',
                            'sn': 'Synced',
-                           'cn': user_name,
+                           'cn': user.username,
                            'userpassword': password
-                          }], 
+                          }],
                       'id': 0},
                 verify=config.get('ipa_sync_certfile'),
                 auth=HTTPKerberosAuth(),
@@ -431,11 +431,11 @@ class SaFasIdentityProvider(object):
                          'https://%s/ipa'
                          % config.get('ipa_sync_server')}).json()
             if r['error'] is None:
-                log.info('User %s synced to IPA' % user_name)
+                log.info('User %s synced to IPA' % user.username)
                 user.ipa_sync_status = 'success'
             else:
                 user.ipa_sync_status = 'error:%s' % r['error']['message']
-                log.error('Error syncing %s: %s' % (user_name, 
+                log.error('Error syncing %s: %s' % (user.username,
                                                     r['error']['message']))
 
     def validate_password(self, user, user_name, password, otp=None):
