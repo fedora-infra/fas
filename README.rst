@@ -7,7 +7,7 @@ FAS (Fedora Account System) 3.0
 .. startdesc
 
 The Fedora Account System is a community oriented accounts system which
-aims to provide a self-driven and self-controled management to its registered users.
+aims to provide a self-driven and self-controlled management to its registered users.
 
 .. enddesc
 
@@ -130,7 +130,7 @@ And if you want to use system fonts::
 
     % sudo dnf install -y aajohan-comfortaa-fonts abattis-cantarell-fonts
 
-Then run the boostrap helper script::
+Then run the bootstrap helper script::
 
     % ./bootstrap.py
 
