@@ -7,7 +7,7 @@ Summary:        bugzilla plugin for FAS2
 
 Group:          Development/Languages
 License:        GPLv2
-URL:            https://fedorahosted.org/fas/
+URL:            https://github.com/fedora-infra/fas/
 Source0:        fas-plugin-bugzilla-%{version}.tar.gz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 

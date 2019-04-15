@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Fedora Account System\n"
-"Report-Msgid-Bugs-To: https://fedorahosted.org/fas/report/3\n"
+"Report-Msgid-Bugs-To: https://github.com/fedora-infra/fas/issues\n"
 "POT-Creation-Date: 2013-02-18 16:33-0800\n"
 "PO-Revision-Date: 2013-02-19 05:55+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
@@ -1593,9 +1593,9 @@ msgstr "Вітаємо у FAS2"
 #: fas/templates/welcome.html:18
 msgid ""
 "Welcome to the Fedora Accounts System.  Please submit bugs to <a "
-"href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> or "
+"href=\"https://github.com/fedora-infra/fas/\">https://github.com/fedora-infra/fas/</a> or "
 "stop by #fedora-admin on irc.freenode.net."
-msgstr "Ласкаво просимо до системи облікових записів Fedora. Звіти про вади можна реєструвати на <a href=\"https://fedorahosted.org/fas/\">https://fedorahosted.org/fas/</a> або повідомляти про них на каналі #fedora-admin сервера irc.freenode.net."
+msgstr "Ласкаво просимо до системи облікових записів Fedora. Звіти про вади можна реєструвати на <a href=\"https://github.com/fedora-infra/fas/\">https://github.com/fedora-infra/fas/</a> або повідомляти про них на каналі #fedora-admin сервера irc.freenode.net."
 
 #: fas/templates/welcome.html:21
 msgid "Log In"
