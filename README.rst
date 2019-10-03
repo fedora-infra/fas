@@ -6,8 +6,8 @@ FAS (Fedora Account System) 3.0
 
 .. startdesc
 
-The Fedora Account System is a community oriented accounts system which
-aims to provide a self-driven and self-controled management to its registered users.
+The Fedora Account System is a community-oriented accounts system that
+aims to provide self-driven and self-controlled management to its registered users.
 
 .. enddesc
 
