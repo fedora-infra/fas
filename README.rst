@@ -1,3 +1,19 @@
+=====================================
+FAS no Longer developed or maintained
+=====================================
+
+The Fedora Account System (FAS2) is no longer developed or maintained. It was replaced in production in March 2021 by `Fedora Accounts <https://accounts.fedoraproject.org>`_. (which is actually comprised of many things, including `noggin <https://github.com/fedora-infra/noggin>`_, `freeipa-fas <https://github.com/fedora-infra/freeipa-fas>`_,  and `fasjson <https://github.com/fedora-infra/fasjson>`_).
+
+FAS2 was launched in 2008, and when it was decomissioned in 2021, the final version used in production was FAS2 0.14.1 and looked like the following screenshot:
+
+.. image:: https://docs.fedoraproject.org/en-US/fedora-accounts/_images/screenshots/fas2.png
+
+----
+FAS3
+----
+
+Around 2017, development was proceeding on FAS3, a complete re-write of FAS2. Ultimately, this project was not completed, and never reached production. This code is still availble in the FAS3 branch: https://github.com/fedora-infra/fas/tree/FAS3 
+
 =====================
 Fedora Account System
 =====================
